@@ -32,7 +32,7 @@ describe('ApiText', () => {
       getName.mockReturnValueOnce({
         data: mockPerson,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -59,7 +59,7 @@ describe('ApiText', () => {
         isSuccess: false,
         isUninitialized: true,
         status: 'uninitialized',
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -88,7 +88,7 @@ describe('ApiText', () => {
         isSuccess: false,
         isUninitialized: true,
         status: 'uninitialized',
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       }))

@@ -14,23 +14,26 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
-import ExploreHierarchy from '../common/ExploreHierarchy'
 import FeedbackButton from '../common/FeedbackButton'
 import Map from '../common/Map'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import { ErrorFallback } from '../error/ErrorFallback'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
-import EntityParser from '../../lib/parse/data/EntityParser'
 import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import PlaceParser from '../../lib/parse/data/PlaceParser'
+import IPlace from '../../types/data/IPlace'
+import ILinks from '../../types/data/ILinks'
 
 import AboutPanel from './AboutPanel'
+import HierarchyContainer from './HierarchyContainer'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PlacePage: React.FC<{ data: any }> = ({ data }) => {
-  const place = new EntityParser(data)
+const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
+  const place = new PlaceParser(data)
   const types = place.getTypes()
+  const partOf = place.getPartOf()
   const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
 
   const mapConfig = {
@@ -59,14 +62,20 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
         <Col xs={12} lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
-              links={data._links}
+              links={data._links as ILinks}
               relationships={relatedObjectsAndWorks}
               type="place"
             />
-            <ExploreHierarchy entity={data} />
-            {/* {Object.keys(data._links).includes(locations.searchTag) && (
+          </ErrorBoundary>
+          {partOf.length > 0 && (
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <HierarchyContainer parents={partOf} entity={data} />
+            </ErrorBoundary>
+          )}
+          {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <Row className="my-3">
               <Col xs={12}>
                 <AccordionContainer

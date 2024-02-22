@@ -29,7 +29,7 @@ describe('Images', () => {
       getSearchRelationship.mockReturnValueOnce({
         data: mockResults,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -62,7 +62,7 @@ describe('Images', () => {
         isSuccess: false,
         isUninitialized: true,
         status: 'uninitialized',
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })

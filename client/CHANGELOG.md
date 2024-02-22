@@ -56,6 +56,7 @@ All notable changes to this project will be documented in this file.
 - Added SI event for external links ([#167](https://github.com/project-lux/lux-frontend/issues/167)).
 - Added Groups Founded accordion config ([#74](https://github.com/project-lux/lux-frontend/issues/74)).
 - Removed public/ folder contents other than Universal Viewer, added index.html.template ([#77](https://github.com/project-lux/lux-frontend/issues/77)).
+- Added hierarchy visualization for places and concepts ([#25](https://github.com/project-lux/lux-frontend/issues/25)).
 
 ### Changed
 
