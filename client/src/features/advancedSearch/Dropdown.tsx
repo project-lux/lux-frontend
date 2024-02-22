@@ -1,4 +1,4 @@
-import React, { MouseEvent } from 'react'
+import React, { MouseEvent, ReactNode } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -71,7 +71,9 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
   }
 
   const selectedValue =
-    selected !== undefined ? options[selected] : dropdownHeaderText
+    selected !== undefined
+      ? options[selected]
+      : (dropdownHeaderText as ReactNode)
 
   return (
     <StyledDropdown id={id}>

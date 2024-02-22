@@ -4,6 +4,7 @@ import React from 'react'
 interface ITab {
   title: string
   currentTab?: string
+  children: JSX.Element
 }
 
 const Tab: React.FC<ITab> = ({ children }) => <div>{children}</div>

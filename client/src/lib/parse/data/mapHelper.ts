@@ -21,7 +21,7 @@ export interface IWktParseResult {
 
 export const parseWkt = (wktStr: string): IWktParseResult => {
   const s = cleanWkt(wktStr)
-  const geo: W.GeoJSONGeometry = W.parse(s)
+  const geo: W.GeoJSONGeometry = W.parse(s) as W.GeoJSONGeometry
   const res = {
     geoJson: geo,
     type: geo === null ? 'Point' : geo.type,
@@ -38,7 +38,8 @@ export const parseWkt = (wktStr: string): IWktParseResult => {
     return res
   }
 
-  const c = centroid(geo).geometry.coordinates
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const c = centroid(geo as any).geometry.coordinates
   res.center = [c[1], c[0]]
 
   const bb = bbox(geo)
