@@ -89,10 +89,11 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
           )}
         </dl>
         {planYourVisitLinks.length > 0 &&
-          planYourVisitLinks.map((link) => {
+          planYourVisitLinks.map((link, ind) => {
             if (link._content_html !== undefined) {
               return (
-                <Row>
+                // eslint-disable-next-line react/no-array-index-key
+                <Row key={`${link._content_html}-${ind}`}>
                   <Col>
                     <span className="d-flex" data-testid="plan-your-visit-link">
                       <p

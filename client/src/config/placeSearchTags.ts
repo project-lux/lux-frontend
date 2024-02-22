@@ -91,3 +91,10 @@ export const relatedAccordions: IHalLinks = {
   ...relatedTypes,
   locations,
 }
+
+// Used for rendering hierarchy children
+export const hierarchyChildren: IHalLink = {
+  title: '',
+  searchTag: 'lux:placeParts',
+  tab: 'places',
+}

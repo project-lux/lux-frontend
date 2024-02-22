@@ -8,6 +8,7 @@ import TextLabel from './TextLabel'
 interface IContainer {
   label?: string | undefined
   additionalClassName?: string
+  children: JSX.Element
 }
 
 const TextContainer: React.FC<IContainer> = ({

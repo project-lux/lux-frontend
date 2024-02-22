@@ -24,7 +24,7 @@ describe('RecordLink', () => {
       getName.mockReturnValueOnce({
         data: mockEntity,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -75,7 +75,7 @@ describe('RecordLink', () => {
         data: undefined,
         isSuccess: false,
         isError: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })

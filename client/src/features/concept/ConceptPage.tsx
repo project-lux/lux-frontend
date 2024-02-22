@@ -15,7 +15,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
-import ExploreHierarchy from '../common/ExploreHierarchy'
+// import ExploreHierarchy from '../common/ExploreHierarchy'
 import FeedbackButton from '../common/FeedbackButton'
 import { ErrorFallback } from '../error/ErrorFallback'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
@@ -52,7 +52,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
-            <ExploreHierarchy entity={data} />
+            {/* <ExploreHierarchy entity={data} /> */}
             <TimelineContainers
               searchTags={timeline}
               providedHalLinks={data._links}

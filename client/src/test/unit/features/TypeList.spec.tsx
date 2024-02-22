@@ -23,14 +23,14 @@ describe('TypeList', () => {
       .mockReturnValueOnce({
         data: mockTypeOne,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
       .mockReturnValueOnce({
         data: mockTypeTwo,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })

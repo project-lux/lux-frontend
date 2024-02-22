@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
 import ApiText from '../../../features/common/ApiText'
 import { useGetNameQuery } from '../../../redux/api/ml_api'
@@ -32,7 +33,7 @@ describe('ApiText', () => {
       getName.mockReturnValueOnce({
         data: mockPerson,
         isSuccess: true,
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -59,7 +60,7 @@ describe('ApiText', () => {
         isSuccess: false,
         isUninitialized: true,
         status: 'uninitialized',
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       })
@@ -88,7 +89,7 @@ describe('ApiText', () => {
         isSuccess: false,
         isUninitialized: true,
         status: 'uninitialized',
-        refetch(): void {
+        refetch(): any {
           throw new Error('Function not implemented.')
         },
       }))
