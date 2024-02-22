@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>UV</title>
+    <link
+      rel="stylesheet"
+      href="/uv/uv.css"
+    />
+    <script
+      src="/uv/umd/UV.js"
+    ></script>
+    <link rel="stylesheet" href="lux-custom/uv-custom.css" />
+    <style>
+body {
+  margin: 0;
+}
+#caption-span {
+  padding-left: 20px;
+}
+    </style>
+  </head>
+  <body>
+    <div class="uv" id="uv"></div>
+
+    <script>
+function createCaptionSpan(label) {
+  const elem = document.createElement('span');
+
+  elem.setAttribute('id', 'caption-span');
+  elem.innerText = typeof label === 'object' ? label.en || label.none : label
+
+  return elem
+}
+
+const urlAdaptor = new UV.IIIFURLAdaptor();
+
+const data = urlAdaptor.getInitialData({
+  embedded: true
+});
+
+uv = UV.init("uv", data);
+urlAdaptor.bindTo(uv);
+
+uv.on('configure', ({ config, cb }) => {
+  cb(
+    new Promise(function(resolve) {
+      fetch("/uv/uv-iiif-config.json").then(function(response) {
+        resolve(response.json());
+      });
+    })
+  )
+})
+
+// XXX
+// This is a hack to accommodate https://git.yale.edu/lux-its/lux-web/issues/1778
+// It has to be smoke tested whenever UniversalViewer is updated to another version.
+uv.on('canvasIndexChange', function (event) {
+  window.parent.postMessage(event, '*');
+  const mainTitleElement = document.getElementsByClassName("centerPanel")[0].getElementsByClassName("title")[0];
+  const nextElement = mainTitleElement.nextSibling;
+  if (nextElement.id != "content") {
+    nextElement.remove()  ;
+  }
+  const canvasJson = uv._assignedContentHandler.extension.helper.getCanvasByIndex(event).__jsonld
+  const labelObj = canvasJson.label
+  const captionSpan = createCaptionSpan(labelObj)
+  mainTitleElement.parentNode.insertBefore(captionSpan, mainTitleElement.nextSibling);
+})
+    </script>
+  </body>
+</html>

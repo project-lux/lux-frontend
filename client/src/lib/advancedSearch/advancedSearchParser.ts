@@ -1,0 +1,320 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable array-callback-return */
+/* eslint-disable consistent-return */
+import _ from 'lodash'
+
+import { conditionals } from '../../config/advancedSearch/conditionals'
+import { dimensions, text } from '../../config/advancedSearch/inputTypes'
+import { getDefaultSearchOptions } from '../../config/advancedSearch/options'
+// import config from '../../config/config'
+import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
+
+import { getFieldToEntityRelationship } from './stateManager'
+
+/**
+ * Returns the property that is a search term for the provided object
+ * @param obj IAdvancedSearchState; object for which to parse keys
+ * @returns string
+ */
+export const getProperty = (obj: IAdvancedSearchState): string => {
+  const objKeys = Object.keys(obj)
+  for (const key of objKeys) {
+    if (!key.startsWith('_')) {
+      return key
+    }
+  }
+
+  return ''
+}
+
+/**
+ * Determines if the properties given contains a property that requires user input
+ * @param properties Array<string>; array of properties
+ * @returns boolean
+ */
+export const containsInput = (properties: Array<string>): boolean => {
+  for (const prop of properties) {
+    const isInputValue = isInput(prop)
+    if (isInputValue) {
+      return isInputValue
+    }
+  }
+
+  return false
+}
+
+/**
+ * Determines if the property given requires user input
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isInput = (searchTerm: string): boolean =>
+  isRangeInput(searchTerm) ||
+  isTextInput(searchTerm) ||
+  isBooleanInput(searchTerm)
+// TODO: uncomment when ML estimates are fixed
+// || isDateInput(searchTerm)
+
+/**
+ * Determines if the property given requires text input
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isTextInput = (searchTerm: string): boolean =>
+  Object.keys(text).includes(searchTerm)
+
+/**
+ * Determines if the property given requires range input using a comparator
+ * TODO: remove date conditional when ML estimates are fixed
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isRangeInput = (searchTerm: string): boolean =>
+  searchTerm.toLowerCase().includes('date') || dimensions.includes(searchTerm)
+
+/**
+ * Determines if the property given requires date input using a comparator
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isDateInput = (searchTerm: string): boolean =>
+  searchTerm.toLowerCase().includes('date')
+
+/**
+ * Determines if the property is a conditional
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isGroup = (searchTerm: string): boolean =>
+  Object.keys(conditionals).includes(searchTerm)
+
+/**
+ * Determines if the property given requires boolean checkbox input
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isBooleanInput = (searchTerm: string): boolean =>
+  searchTerm === 'hasDigitalImage' || searchTerm === 'isOnline'
+
+/**
+ * Check if state contains valid data for submitting
+ * @param state IAdvancedSearchState; current state
+ * @returns boolean
+ */
+export const validateAdvancedSearch = (
+  state: IAdvancedSearchState,
+): boolean => {
+  const stateKeys = Object.keys(state)
+  const ind = stateKeys.indexOf('_stateId')
+  stateKeys.splice(ind, 1)
+
+  const property = getProperty(state)
+  const nested = state[property]
+
+  // If the nested property is text input and it is a string value that is not empty
+  if (isTextInput(property)) {
+    const nestedClone = nested as string
+    // Text input should not allow for strings containing only double quotes and/or spaces
+    if (nestedClone.replace(/"/g, '').trim() !== '') {
+      return true
+    }
+  }
+
+  // If the nested property is text input and it is a string value that is not empty
+  if (
+    isRangeInput(property) &&
+    nested !== '' &&
+    state.hasOwnProperty('_comp') &&
+    state._comp !== ''
+  ) {
+    return true
+  }
+
+  if (isBooleanInput(property) && typeof nested === 'number') {
+    return true
+  }
+
+  // TODO: uncomment when ML estimates are fixed
+  // if (isDateInput(property)) {
+  //   const values = nested as { start: string; end: string }
+  //   if (values.start !== '' || values.end !== '') {
+  //     return true
+  //   }
+  // }
+
+  if (!Array.isArray(nested) && typeof nested === 'object') {
+    return validateAdvancedSearch(nested)
+  }
+
+  if (Array.isArray(nested)) {
+    const vals: Array<boolean> = []
+    for (const obj of nested) {
+      vals.push(validateAdvancedSearch(obj))
+    }
+    return vals.includes(true)
+  }
+
+  return false
+}
+
+/**
+ * Check if state contains valid data for submitting
+ * @param scope string; scope of state
+ * @param state IAdvancedSearchState; current state
+ * @returns boolean
+ */
+export const filterAdvancedSearch = (scope: string, state: any): any => {
+  const currentState = _.cloneDeep(state)
+
+  if (currentState.hasOwnProperty('_stateId')) {
+    delete currentState._stateId
+  }
+
+  const stateKeys = Object.keys(currentState)
+  if (stateKeys.length === 0) {
+    return null
+  }
+
+  // _stateId is removed and there are more properties in the object
+  const propertyToCheck = getProperty(currentState)
+
+  // if (propertyToCheck === '') {
+  //   return null
+  // }
+  // Is null
+  if (currentState[propertyToCheck] === null) {
+    return null
+  }
+
+  // Is text
+  if (isTextInput(propertyToCheck)) {
+    if (currentState[propertyToCheck].replace(/"/g, '').trim() === '') {
+      return null
+    }
+  }
+
+  // is boolean
+  if (isBooleanInput(propertyToCheck)) {
+    if (currentState[propertyToCheck] === '') {
+      return null
+    }
+  }
+
+  // Is range
+  if (isRangeInput(propertyToCheck)) {
+    if (currentState[propertyToCheck] === '') {
+      return null
+    }
+  }
+
+  // Is range
+  if (currentState.hasOwnProperty('_comp')) {
+    if (currentState._comp === '') {
+      return null
+    }
+  }
+
+  // Is date
+  // TODO: uncomment when ML estimates are fixed
+  // if (isDateInput(propertyToCheck)) {
+  //   const { start, end } = currentState[propertyToCheck]
+  //   // if both are null or empty values
+  //   if (start === '' && end === '') {
+  //     return null
+  //   }
+  // }
+
+  // we want to shrink the _options param as small as possible, so that we don't make our request unnecessarily large
+  if (currentState.hasOwnProperty('_options')) {
+    let updatedOptions = currentState._options as string[]
+    // these 6 options together are equivalent to 'exact'
+    // if we have all of them, replace with 'exact'
+    if (
+      updatedOptions.length === 6 &&
+      updatedOptions.includes('case-sensitive') &&
+      updatedOptions.includes('diacritic-sensitive') &&
+      updatedOptions.includes('punctuation-sensitive') &&
+      updatedOptions.includes('whitespace-sensitive') &&
+      updatedOptions.includes('unstemmed') &&
+      updatedOptions.includes('unwildcarded')
+    ) {
+      updatedOptions = ['exact']
+    }
+    // if there are options selected that ML applies by default, let's not them in the request
+    const defaultOptions = getDefaultSearchOptions(scope, propertyToCheck)
+    if (defaultOptions !== null) {
+      for (const defaultOption of defaultOptions) {
+        updatedOptions = updatedOptions.filter(
+          (option) => option !== defaultOption,
+        )
+      }
+    }
+    // if the array is empty, delete it
+    if (updatedOptions.length === 0) {
+      delete currentState._options
+    } else {
+      currentState._options = updatedOptions
+    }
+  }
+
+  if (Array.isArray(currentState[propertyToCheck])) {
+    if (currentState[propertyToCheck].length === 0) {
+      return null
+    }
+
+    const newArray = currentState[propertyToCheck]
+      .map((nestedObj: any) => filterAdvancedSearch(scope, nestedObj))
+      .filter((newObj: any) => newObj !== null)
+    if (newArray.length === 0) {
+      return null
+    }
+    currentState[propertyToCheck] = newArray
+  }
+
+  if (
+    !Array.isArray(currentState[propertyToCheck]) &&
+    typeof currentState[propertyToCheck] === 'object'
+  ) {
+    // Return null if there is no valid property within the object
+    if (getProperty(currentState[propertyToCheck]) === '') {
+      return null
+    }
+    // typeof null is 'object', so return null if that is the case
+    if (currentState[propertyToCheck] === null) {
+      return null
+    }
+    // if the property is numeric (inside an array), simply pass down the scope
+    if (/[0-9]/.test(propertyToCheck)) {
+      currentState[propertyToCheck] = filterAdvancedSearch(
+        scope,
+        currentState[propertyToCheck],
+      )
+      // }
+      // since the property is none of the following: null, array, numeric string, it must be a valid search term. Recurse with the new target scope for this search term
+      // else if (!Object.keys(text).includes(propertyToCheck)) {
+      //   let parentScope = scope
+      //   Object.keys(config.advancedSearch).map((entity) => {
+      //     if (
+      //       Object.keys(config.advancedSearch[entity]).includes(propertyToCheck)
+      //     ) {
+      //       parentScope = entity
+      //     }
+      //     return null
+      //   })
+      //   currentState[propertyToCheck] = filterAdvancedSearch(
+      //     getFieldToEntityRelationship(parentScope, propertyToCheck) || '',
+      //     currentState[propertyToCheck],
+      //   )
+    } else {
+      currentState[propertyToCheck] = filterAdvancedSearch(
+        getFieldToEntityRelationship(scope, propertyToCheck) || '',
+        currentState[propertyToCheck],
+      )
+      if (currentState[propertyToCheck] === null) {
+        return null
+      }
+    }
+  }
+
+  return currentState
+}

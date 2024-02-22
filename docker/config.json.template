@@ -1,0 +1,26 @@
+[
+  {
+    "key": "APP_PORT",
+    "value": 8080
+  },
+  {
+    "key": "NUM_INSTANCES",
+    "value": 2
+  },
+  {
+    "key": "DATA_API_BASE_URL",
+    "value": "https://lux-front-dev.collections.yale.edu/"
+  },
+  {
+    "key": "CMS_API_BASE_URL",
+    "value": "https://dev-culturalheritage-sandbox-yale-edu.pantheonsite.io/jsonapi/"
+  },
+  {
+    "key": "MAINTENANCE_MODE",
+    "value": false
+  },
+  {
+    "key": "MAINTENANCE_MESSAGE",
+    "value": "LUX is down for maintenance. Please come back later."
+  }
+]

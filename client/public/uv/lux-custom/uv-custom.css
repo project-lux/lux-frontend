@@ -1,0 +1,65 @@
+/*
+ * Custom CSS to show zoom/rotate controls at any screen size.
+ * UV hides them by default for width < 1280px.
+ */
+
+#uv {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  margin: 0 auto;
+}
+
+#uv .zoomIn {
+  display: inline-block !important;
+  cursor: pointer !important;
+  background-image: url('img/zoom_in.png') !important;
+  width: 28px;
+  height: 28px;
+}
+
+#uv .zoomIn img {
+  display: none;
+}
+
+#uv .zoomIn:focus {
+  outline: auto 2px Highlight; /* Default */
+  outline: auto 5px -webkit-focus-ring-color; /* Webkit */
+  outline-offset: -2px;
+}
+
+#uv .zoomOut {
+  display: inline-block !important;
+  cursor: pointer !important;
+  background-image: url('img/zoom_out.png') !important;
+  width: 28px;
+  height: 28px;
+}
+
+#uv .zoomOut:focus {
+  outline: auto 2px Highlight; /* Default */
+  outline: auto 5px -webkit-focus-ring-color; /* Webkit */
+  outline-offset: -2px;
+}
+
+#uv .zoomOut img {
+  display: none;
+}
+
+#uv .rotate {
+  display: inline-block !important;
+  cursor: pointer !important;
+  background-image: url('img/rotate_right.png') !important;
+  width: 28px;
+  height: 28px;
+}
+
+#uv .rotate img {
+  display: none;
+}
+
+#uv .rotate:focus {
+  outline: auto 2px Highlight; /* Default */
+  outline: auto 5px -webkit-focus-ring-color; /* Webkit */
+  outline-offset: -2px;
+}

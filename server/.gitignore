@@ -1,0 +1,13 @@
+node_modules
+yarn-error.log
+
+# Keep only yarn.lock
+package-lock.json
+
+.env
+.env.*
+!.env.template
+.config*.json
+!.config.json.templates
+
+/build
