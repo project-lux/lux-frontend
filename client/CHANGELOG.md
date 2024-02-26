@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added help text for name field ([#50](https://github.com/project-lux/lux-frontend/issues/50)).
+
 ### Changed
 
 - Changed objects/works rights info ([#11](https://github.com/project-lux/lux-frontend/issues/11)).
