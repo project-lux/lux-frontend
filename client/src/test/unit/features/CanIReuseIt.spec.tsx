@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import CanIReuseIt from '../../../features/common/CanIReuseIt'
 import { linguisticObject as mockWork } from '../../data/linguisticObject'
+import { physicalObject as mockObject } from '../../data/object'
 
 describe('CanIReuseIt', () => {
   it('renders the subject to', () => {
@@ -14,6 +15,17 @@ describe('CanIReuseIt', () => {
     )
 
     const rights = screen.getByTestId('subject-to-external-link')
+    expect(rights).toBeInTheDocument()
+  })
+
+  it('renders the rights info statement for objects', () => {
+    render(
+      <BrowserRouter>
+        <CanIReuseIt entity={mockObject} entityType="object" />
+      </BrowserRouter>,
+    )
+
+    const rights = screen.getByTestId('rights-information-statement')
     expect(rights).toBeInTheDocument()
   })
 
