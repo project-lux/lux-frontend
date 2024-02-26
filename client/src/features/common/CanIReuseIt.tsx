@@ -3,10 +3,11 @@ import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 
 import { reuse } from '../../config/tooltips'
-import EntityParser from '../../lib/parse/data/EntityParser'
+import ObjectParser from '../../lib/parse/data/ObjectParser'
 import WorkParser from '../../lib/parse/data/WorkParser'
 import StyledDataRow from '../../styles/shared/DataRow'
 import IEntity from '../../types/data/IEntity'
+import { INoteContent } from '../../types/IContentWithLanguage'
 
 import ExternalLink from './ExternalLink'
 import TextNote from './TextNote'
@@ -18,13 +19,24 @@ interface IProps {
 }
 
 const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
+  // get work specific data
   let subjectTo: Array<{ url: string; text: string }> = []
   if (entityType === 'work') {
     const work = new WorkParser(entity)
     subjectTo = work.getSubjectTo()
   }
-  const record = new EntityParser(entity)
-  const copyright = record.getCopyrightLicensingStatement()
+
+  // get object specific data
+  let copyright: INoteContent | null = null
+  let carries: Array<string> = []
+  if (entityType === 'object') {
+    const object = new ObjectParser(entity)
+    copyright = object.getCopyrightLicensingStatement()
+    const works = object.getWorks()
+    const digitallyCarries = object.getDigitallyCarries()
+    const digitallyShows = object.getDigitallyShows()
+    carries = [...works, ...digitallyCarries, ...digitallyShows]
+  }
 
   return (
     <StyledDataRow className="row" data-testid="can-i-reuse-it">
@@ -32,7 +44,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         <h2 data-testid="can-i-reuse-it-header">Can I re-use it?</h2>
       </Col>
       <Col xs={12}>
-        {subjectTo.length > 0 ? (
+        {entityType === 'work' && subjectTo.length > 0 && (
           <Row>
             <dl className="mb-1">
               <Col xs={12}>
@@ -52,7 +64,13 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
               ))}
             </dl>
           </Row>
-        ) : (
+        )}
+        {entityType !== 'work' && carries.length > 0 && (
+          <p data-testid="rights-information-statement">
+            Rights information may be available on the associated Works page.
+          </p>
+        )}
+        {carries.length === 0 && subjectTo.length === 0 && (
           <p data-testid="under-certain-curcumstances">
             Under Certain Circumstances
             <Tooltip html={reuse} placement="bottom">
@@ -71,7 +89,8 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
       )}
       <Col xs={12}>
         <Link to="/content/rights-info">
-          For rights and re-use information, visit this page
+          For more information about Rights and Usage, visit the LUX Frequently
+          Asked Questions.
         </Link>
       </Col>
     </StyledDataRow>
