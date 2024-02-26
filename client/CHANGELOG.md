@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed spacing on person page ([#46](https://github.com/project-lux/lux-frontend/issues/46)).
+
 ## v1.20.0 - 2024-2-19
 
 ### Added
