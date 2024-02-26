@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed objects/works rights info ([#11](https://git.yale.edu/lux-its/lux-project/issues/11)).
+
 ### Removed
 
 ### Fixed
