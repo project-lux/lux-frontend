@@ -6,6 +6,16 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+## v1.20.0 - 2024-2-19
+
+### Added
+
 - Added license ([60](https://git.yale.edu/lux-its/lux-project/issues/60)).
 
 ### Changed
