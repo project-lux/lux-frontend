@@ -48,7 +48,7 @@ const TextLabel: React.FC<ITextLabelProps> = ({
   return (
     <div className={`${className} col-sm-12`} data-testid={testId}>
       {displayLabel ? (
-        <dt>
+        <dt className="mb-1">
           {displayLabel}
           {tooltip}
         </dt>

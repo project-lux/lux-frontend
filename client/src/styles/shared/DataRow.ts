@@ -3,7 +3,7 @@ import styled from 'styled-components'
 const DataRow = styled.div`
   margin-bottom: 0.5rem;
   margin-top: 0.5rem;
-  line-height: 24px;
+  line-height: 20px;
 
   hr {
     margin-top: 0.5rem;
