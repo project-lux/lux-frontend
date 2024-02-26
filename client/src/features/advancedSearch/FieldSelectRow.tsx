@@ -96,10 +96,12 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
           <p className="mx-2 mb-0">or Have Name</p>
         </div>
         <TextInput
+          key={state.name}
           label="Enter a name"
           currentValue={state.name}
           field="name"
           stateId={stateId}
+          scope={scope}
         />
         {childInd !== undefined &&
           (childInd > 0 || siblingHasData(siblings)) && (
