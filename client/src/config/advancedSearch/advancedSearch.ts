@@ -281,14 +281,6 @@ export function advancedSearch(): IAdvancedSearchConfig {
             'Search for Concept terms that describe the Gender of the specified People & Groups. This information comes from external sources, and gender information may not match expected results.',
           relation: 'agent',
         },
-        hasDigitalImage: {
-          label: 'Have Digital Image',
-          helpText:
-            'Search for Concept and Type terms for which digital images are available.',
-          relation: 'boolean',
-          allowedOptionsName: 'exact',
-          defaultOptionsName: 'exact',
-        },
         id: {
           label: 'LUX URI',
           helpText:
@@ -384,13 +376,6 @@ export function advancedSearch(): IAdvancedSearchConfig {
           label: 'End Date',
           helpText: 'Search for Events by the date on which they ended.',
           relation: 'date',
-        },
-        hasDigitalImage: {
-          label: 'Have Digital Image',
-          helpText: 'Search for Events for which digital images are available.',
-          relation: 'boolean',
-          allowedOptionsName: 'exact',
-          defaultOptionsName: 'exact',
         },
         id: {
           label: 'LUX URI',
@@ -607,13 +592,6 @@ export function advancedSearch(): IAdvancedSearchConfig {
           relation: 'concept',
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
-        },
-        hasDigitalImage: {
-          label: 'Have Digital Image',
-          helpText: 'Search for Places for which digital images are available.',
-          relation: 'boolean',
-          allowedOptionsName: 'exact',
-          defaultOptionsName: 'exact',
         },
         id: {
           label: 'LUX URI',
