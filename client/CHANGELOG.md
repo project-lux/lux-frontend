@@ -8,10 +8,12 @@ All notable changes to this project will be documented in this file.
 
 - Added help text for name field ([#50](https://github.com/project-lux/lux-frontend/issues/50)).
 - Added link to advanced search help page in the advanced search ([#65](https://github.com/project-lux/lux-frontend/issues/65)).
+- Added Search Tips link to the header ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
 
 ### Changed
 
 - Changed objects/works rights info ([#11](https://github.com/project-lux/lux-frontend/issues/11)).
+- Changed Search Tips link under search bar to be bolder ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
 
 ### Removed
 

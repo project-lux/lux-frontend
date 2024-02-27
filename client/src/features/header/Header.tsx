@@ -59,6 +59,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             <Nav id="nav-links">
               <Nav.Link href="/content/about-lux">About LUX</Nav.Link>
               <Nav.Link href="/content/open-access">Open Access</Nav.Link>
+              <Nav.Link href="/content/simple-search">Search Tips</Nav.Link>
               <Nav.Link href="/content/faq">Help</Nav.Link>
               {hideSearch ? null : (
                 <React.Fragment>
