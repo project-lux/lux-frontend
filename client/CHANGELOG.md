@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed Has Digital Image facet from Places and Concept results ([#55](https://github.com/project-lux/lux-frontend/issues/55)).
+
 ### Fixed
 
 - Fixed spacing on person page ([#46](https://github.com/project-lux/lux-frontend/issues/46)).

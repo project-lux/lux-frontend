@@ -10,7 +10,7 @@ import { ICriteria } from '../types/ISearchResults'
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'concept' | 'item' | 'place' | 'work'
+export type Scope = 'agent' | 'item' | 'work'
 
 export interface IFacet {
   sectionLabel: string
@@ -108,33 +108,6 @@ export const facets: IFacetConfig = {
       buildQuery: (value) => ({ hasDigitalImage: value }),
     },
   },
-  concept: {
-    conceptHasDigitalImage: {
-      sectionLabel: 'Has Digital Image',
-      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
-      selectedLabel: (value) =>
-        value === 1 ? 'Has Digital Image' : 'No Digital Image',
-      buildQuery: (value) => ({ hasDigitalImage: value }),
-    },
-  },
-  place: {
-    placeHasDigitalImage: {
-      sectionLabel: 'Has Digital Image',
-      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
-      selectedLabel: (value) =>
-        value === 1 ? 'Has Digital Image' : 'No Digital Image',
-      buildQuery: (value) => ({ hasDigitalImage: value }),
-    },
-  },
-  // event: {
-  //   eventHasDigitalImage: {
-  //     sectionLabel: 'Has Digital Image',
-  //     facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
-  //     selectedLabel: (value) =>
-  //       value === 1 ? 'Has Digital Image' : 'No Digital Image',
-  //     buildQuery: (value) => ({ hasDigitalImage: value }),
-  //   },
-  // },
 }
 
 export const facetNamesLists: IFacetNamesLists = {
@@ -182,14 +155,9 @@ export const facetNamesLists: IFacetNamesLists = {
     'agentMemberOfId',
     'agentRecordType',
   ],
-  places: ['placeHasDigitalImage', 'placeTypeId', 'placePartOfId'],
-  conceptsAndGroupings: [
-    'conceptHasDigitalImage',
-    'conceptTypeId',
-    'conceptPartOfId',
-  ],
+  places: ['placeTypeId', 'placePartOfId'],
+  conceptsAndGroupings: ['conceptTypeId', 'conceptPartOfId'],
   events: [
-    // 'eventHasDigitalImage',
     'eventTypeId',
     'eventPlaceId',
     'eventAgentId',
@@ -212,10 +180,8 @@ export const facetLabels: { [key: string]: string } = {
   agentMemberOfId: 'Member Of',
   agentRecordType: 'Person or Group',
   agentTypeId: 'Type',
-  conceptHasDigitalImage: 'Has Digital Image',
   conceptPartOfId: 'Part Of',
   conceptTypeId: 'Type',
-  // eventHasDigitalImage: 'Has Digital Image',
   eventAgentId: 'Carried Out By',
   eventEndDate: 'End Date',
   eventPlaceId: 'Took Place At',
@@ -231,7 +197,6 @@ export const facetLabels: { [key: string]: string } = {
   itemProductionDate: 'Creation Date',
   itemProductionPlaceId: 'Created At',
   itemProductionAgentId: 'Created By',
-  placeHasDigitalImage: 'Has Digital Image',
   placePartOfId: 'Part Of',
   placeTypeId: 'Type',
   responsibleCollections: 'Collection',
@@ -403,10 +368,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
   },
   place: {
-    placeHasDigitalImage: {
-      searchTermName: 'hasDigitalImage',
-      idFacet: false,
-    },
     placeTypeId: {
       searchTermName: 'classification',
       idFacet: true,
@@ -417,10 +378,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
   },
   concept: {
-    conceptHasDigitalImage: {
-      searchTermName: 'hasDigitalImage',
-      idFacet: false,
-    },
     conceptTypeId: {
       searchTermName: 'classification',
       idFacet: true,
@@ -439,10 +396,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'endDate',
       idFacet: false,
     },
-    // eventHasDigitalImage: {
-    //   searchTermName: 'hasDigitalImage',
-    //   idFacet: false,
-    // },
     eventTypeId: {
       searchTermName: 'classification',
       idFacet: true,
@@ -647,10 +600,6 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
   },
   concept: {
-    hasDigitalImage: {
-      facetName: 'conceptHasDigitalImage',
-      idFacet: false,
-    },
     classification: {
       facetName: 'conceptTypeId',
       idFacet: true,
@@ -661,10 +610,6 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
   },
   event: {
-    // hasDigitalImage: {
-    //   facetName: 'eventHasDigitalImage',
-    //   idFacet: false,
-    // },
     classification: {
       facetName: 'eventTypeId',
       idFacet: true,
@@ -686,7 +631,4 @@ export const booleanFacetNames = new Set([
   'itemHasDigitalImage',
   'workHasDigitalImage',
   'agentHasDigitalImage',
-  'placeHasDigitalImage',
-  'conceptHasDigitalImage',
-  // 'eventHasDigitalImage',
 ])
