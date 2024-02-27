@@ -1,12 +1,14 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 import { useAppSelector } from '../../app/hooks'
 import { IHelpTextKey } from '../../redux/slices/helpTextSlice'
 
 const StyledP = styled.p`
   text-wrap: initial;
+  word-wrap: break-word;
 `
 
 /**
@@ -38,11 +40,20 @@ const HelpText: React.FC = () => {
         </h3>
         <StyledP
           id="help-text"
-          style={{ wordWrap: 'break-word' }}
+          className="mb-4"
           data-testid="advanced-search-help-text"
         >
           {helpTextValue === undefined ? unknownHelpText : helpTextValue}
         </StyledP>
+        <div>
+          <StyledP className="mb-0">
+            Learn more about LUX&apos;s advanced search capabilities and common
+            search patterns.
+          </StyledP>
+          <Link to="/content/advanced-search#faq-header">
+            View Advanced Search Help
+          </Link>
+        </div>
       </Col>
     </Row>
   )

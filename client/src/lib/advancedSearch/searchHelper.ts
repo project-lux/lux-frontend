@@ -1,7 +1,7 @@
 import {
+  collectionsIcon,
   conceptsIcon,
   eventsIcon,
-  objectIcon,
   objectsIcon,
   peopleOrgsIcon,
   placesIcon,
@@ -15,6 +15,8 @@ export const getIcon = (scope: string): any => {
       return objectsIcon
     case 'work':
       return workIcon
+    case 'set':
+      return collectionsIcon
     case 'agent':
       return peopleOrgsIcon
     case 'place':
@@ -24,5 +26,5 @@ export const getIcon = (scope: string): any => {
     case 'event':
       return eventsIcon
   }
-  return objectIcon
+  return objectsIcon
 }
