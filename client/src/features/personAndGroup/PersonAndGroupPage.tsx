@@ -60,6 +60,7 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links}
               relationships={relatedObjectsAndWorks}
+              type={agent.json.id?.includes('person') ? 'Person' : 'Group'}
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>

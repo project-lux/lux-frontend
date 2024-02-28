@@ -50,6 +50,7 @@ const CollectionPage: React.FC<IProps> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links || {}}
               relationships={objectsIncluded}
+              type="collection"
             />
             <TimelineContainers
               searchTags={timeline}
