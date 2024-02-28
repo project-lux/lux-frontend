@@ -1,9 +1,8 @@
 import styled from 'styled-components'
 
 import theme from '../../theme'
-import { BorderedDiv } from '../../shared/BorderedDiv'
 
-const ExploreHierarchy = styled(BorderedDiv)`
+const ExploreHierarchy = styled.div`
   padding: 25px 28px;
   background-color: #fff;
   margin: 0 0 ${theme.spacing.sectionGap};
