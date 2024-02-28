@@ -38,6 +38,7 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links}
               relationships={relatedObjects}
+              type="event"
             />
           </ErrorBoundary>
         </Col>

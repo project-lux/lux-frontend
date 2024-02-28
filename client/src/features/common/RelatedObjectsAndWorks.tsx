@@ -1,6 +1,5 @@
 import React from 'react'
 import _ from 'lodash'
-import { useParams } from 'react-router-dom'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -12,6 +11,7 @@ import Tabs from './Tabs'
 interface IRelated {
   links: Record<string, { href: string; _estimate: number }>
   relationships: IHalLinks
+  type: string
 }
 
 const tabsChildren = (
@@ -44,9 +44,8 @@ const tabsChildren = (
 const RelatedObjectsAndWorks: React.FC<IRelated> = ({
   links,
   relationships,
+  type,
 }) => {
-  const { type } = useParams<{ type: string }>()
-
   const tabs = tabsChildren(links, relationships)
   if (tabs.length !== 0) {
     return <Tabs>{tabs}</Tabs>
@@ -54,10 +53,8 @@ const RelatedObjectsAndWorks: React.FC<IRelated> = ({
 
   return (
     <StyledEntityPageSection>
-      <p className="mb-0 fs-3 p-2">
-        {`Yale University does not have any objects or works directly related to this ${
-          type === 'activity' || type === 'period' ? 'event' : type
-        }.`}
+      <p className="mb-0 fs-3 p-2" data-testid="no-related-objects-works">
+        {`Yale University does not have any objects or works directly related to this ${type}.`}
       </p>
     </StyledEntityPageSection>
   )
