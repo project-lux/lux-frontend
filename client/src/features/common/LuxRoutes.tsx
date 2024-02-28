@@ -49,7 +49,7 @@ const LuxRoutes: React.FC = () => (
 
         {/* BEGIN data/search views */}
         <Route path="/view/results/:tab" element={<ResultsPage />} />
-        <Route path="/view/*" element={<RoutingComponent />} />
+        <Route path="/view/:type/*" element={<RoutingComponent />} />
         {/* END data/search views */}
 
         {/* BEGIN CMS pages */}
