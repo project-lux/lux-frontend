@@ -9,10 +9,10 @@ import {
   getParentEdges,
   getParentNodes,
 } from '../../lib/util/hierarchyHelpers'
-import RecordLink from '../common/RecordLink'
 import { ISearchResults } from '../../types/ISearchResults'
 
 import Hierarchy from './Hierarchy'
+import Node from './Node'
 
 interface IProps {
   currentUuid: string
@@ -39,7 +39,7 @@ const HierarchyChart: React.FC<IProps> = ({
   const edges = [...parentEdges, ...childEdges]
 
   nodes.map((node) => {
-    node.data.label = <RecordLink url={node.data.label} />
+    node.data.label = <Node entityId={node.data.label} />
     return null
   })
 

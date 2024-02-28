@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../../config/config'
 import ApiText from '../../../../features/common/ApiText'
 import { useGetNameQuery } from '../../../../redux/api/ml_api'
