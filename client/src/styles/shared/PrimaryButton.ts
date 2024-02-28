@@ -13,16 +13,11 @@ const PrimaryButton = styled(Button)`
   padding: 1rem;
   text-decoration: none;
 
-  &:disabled {
-    background-color: ${theme.color.primary.teal};
-    color: ${theme.color.white};
-    border-color: ${theme.color.primary.teal};
-  }
-
+  &:disabled,
   &:hover {
     background-color: ${theme.color.primary.teal};
-    border-color: ${theme.color.primary.teal};
     color: ${theme.color.white};
+    border-color: ${theme.color.primary.teal};
   }
 
   &.feedbackButton {
