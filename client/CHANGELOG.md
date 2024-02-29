@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 - Added Related Subjects to events pages ([#7](https://github.com/project-lux/lux-frontend/issues/7)).
 - Added Related Locations to events pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
 - Added Work Types to events pages ([#57](https://github.com/project-lux/lux-frontend/issues/57)).
+- Added Works About tab to events pages ([#19](https://github.com/project-lux/lux-frontend/issues/19)).
 
 ### Changed
 

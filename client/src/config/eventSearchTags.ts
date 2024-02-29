@@ -7,11 +7,16 @@ import { IHalLinks } from '../types/IHalLinks'
  */
 
 // Tab content for related objects
-export const relatedObjects: IHalLinks = {
+export const relatedObjectsAndWorks: IHalLinks = {
   objects: {
     title: 'Objects in Exhibition',
     searchTag: 'lux:eventIncludedItems',
     tab: 'objects',
+  },
+  works: {
+    title: 'Works About',
+    searchTag: 'lux:eventWorksAbout',
+    tab: 'works',
   },
 }
 
@@ -41,6 +46,12 @@ export const locations: IHalLink = {
 
 // Shows related accordions
 export const relatedAccordions: IHalLinks = {
+  peopleAndGroups: {
+    title: 'Related People and Groups',
+    searchTag: 'lux:eventRelatedAgents',
+    tab: 'objects',
+    jsonSearchTerm: [],
+  },
   subjects: {
     title: 'Related Subjects',
     searchTag: 'lux:eventRelatedSubjects',
@@ -49,7 +60,7 @@ export const relatedAccordions: IHalLinks = {
   },
   materials: {
     title: 'Related Materials',
-    searchTag: 'lux:eventRelatedMaterials',
+    searchTag: 'lux:eventItemMaterials',
     tab: 'concepts',
     jsonSearchTerm: 'material',
   },

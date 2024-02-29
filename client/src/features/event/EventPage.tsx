@@ -3,7 +3,10 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { relatedAccordions, relatedObjects } from '../../config/eventSearchTags'
+import {
+  relatedAccordions,
+  relatedObjectsAndWorks,
+} from '../../config/eventSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import DataSources from '../common/DataSources'
@@ -38,7 +41,7 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
               links={data._links}
-              relationships={relatedObjects}
+              relationships={relatedObjectsAndWorks}
               type="event"
             />
           </ErrorBoundary>
