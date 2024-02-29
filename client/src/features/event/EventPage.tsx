@@ -16,7 +16,6 @@ import StyledHr from '../../styles/shared/Hr'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 
 import AboutPanel from './AboutPanel'
-import HowDoISeeIt from './HowDoISeeIt'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const EventPage: React.FC<{ data: any }> = ({ data }) => {
@@ -54,9 +53,6 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
             <StyledEntityPageSection className="row">
               <AboutPanel entity={data} />
               <StyledHr />
-              <Col xs={12}>
-                <HowDoISeeIt entity={data} />
-              </Col>
             </StyledEntityPageSection>
             <Row>
               <Col xs={12}>

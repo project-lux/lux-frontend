@@ -13,6 +13,8 @@ import RecordLink from '../common/RecordLink'
 import StyledDataRow from '../../styles/shared/DataRow'
 import { IEventPart } from '../../types/derived-data/events'
 import IdentifiersList from '../common/IdentifiersList'
+import TextContainer from '../common/TextContainer'
+import ExternalLink from '../common/ExternalLink'
 
 interface IProps {
   entity: IEntity
@@ -35,6 +37,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     locations,
     identifiers,
     objects,
+    webPages,
     notes,
     part,
   } = aboutData as Record<
@@ -88,6 +91,24 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           expandColumns
           id="event-objects-link-container"
         />
+        {webPages.length > 0 && (
+          <TextContainer label="Web Pages">
+            <TextValue
+              values={webPages.map(
+                (webPage: { content: string; link: string }, ind: number) => (
+                  <ExternalLink
+                    key={webPage.link}
+                    url={webPage.link}
+                    name={
+                      webPage.content !== '' ? webPage.content : webPage.link
+                    }
+                    id={`event-web-page-${ind}`}
+                  />
+                ),
+              )}
+            />
+          </TextContainer>
+        )}
         {part.length > 0 &&
           part.map((p: IEventPart) =>
             Object.keys(p).map((key: string, ind: number) => (

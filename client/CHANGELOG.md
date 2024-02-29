@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 - Added Works About tab to events pages ([#19](https://github.com/project-lux/lux-frontend/issues/19)).
 - Added Related Events to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
 - Added Related Materials to events pages ([#6](https://github.com/project-lux/lux-frontend/issues/6)).
+- Added web pages to events pages ([#83](https://github.com/project-lux/lux-frontend/issues/83)).
 
 ### Changed
 
@@ -23,6 +24,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed Has Digital Image facet from Places and Concept results ([#55](https://github.com/project-lux/lux-frontend/issues/55)).
+- Removed How Do I See It section from events pages ([#83](https://github.com/project-lux/lux-frontend/issues/83)).
 
 ### Fixed
 
