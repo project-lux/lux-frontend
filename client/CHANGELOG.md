@@ -10,6 +10,11 @@ All notable changes to this project will be documented in this file.
 - Added link to advanced search help page in the advanced search ([#65](https://github.com/project-lux/lux-frontend/issues/65)).
 - Added Search Tips link to the header ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
 - Added a message to indicate there are no objects or works related ([#59](https://github.com/project-lux/lux-frontend/issues/59)).
+- Added Object Types to events pages ([#4](https://github.com/project-lux/lux-frontend/issues/4)).
+- Added Related Materials to events pages ([#6](https://github.com/project-lux/lux-frontend/issues/6)).
+- Added Related Subjects to events pages ([#7](https://github.com/project-lux/lux-frontend/issues/7)).
+- Added Related Locations to events pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
+- Added Work Types to events pages ([#57](https://github.com/project-lux/lux-frontend/issues/57)).
 
 ### Changed
 
