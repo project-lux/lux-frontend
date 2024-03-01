@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed objects/works rights info ([#11](https://github.com/project-lux/lux-frontend/issues/11)).
 - Changed Search Tips link under search bar to be bolder ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
+- Changed Works label to Occupations ([#105](https://github.com/project-lux/lux-frontend/issues/105)).
 
 ### Removed
 
