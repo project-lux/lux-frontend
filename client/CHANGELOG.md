@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Added a message to indicate there are no objects or works related ([#59](https://github.com/project-lux/lux-frontend/issues/59)).
 - Added Works About tab to events pages ([#19](https://github.com/project-lux/lux-frontend/issues/19)).
 - Added Related Events to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
+- Added Related Materials to events pages ([#6](https://github.com/project-lux/lux-frontend/issues/6)).
 
 ### Changed
 

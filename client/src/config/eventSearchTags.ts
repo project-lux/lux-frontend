@@ -18,3 +18,13 @@ export const relatedObjects: IHalLinks = {
     tab: 'works',
   },
 }
+
+// Shows related accordions
+export const relatedAccordions: IHalLinks = {
+  materials: {
+    title: 'Related Materials',
+    searchTag: 'lux:eventItemMaterials',
+    tab: 'concepts',
+    jsonSearchTerm: 'material',
+  },
+}
