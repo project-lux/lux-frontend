@@ -14,6 +14,9 @@ All notable changes to this project will be documented in this file.
 - Added Related Events to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
 - Added Related Materials to events pages ([#6](https://github.com/project-lux/lux-frontend/issues/6)).
 - Added web pages to events pages ([#83](https://github.com/project-lux/lux-frontend/issues/83)).
+- Added Object Types to events pages ([#4](https://github.com/project-lux/lux-frontend/issues/4)).
+- Added Work Types to events pages ([#57](https://github.com/project-lux/lux-frontend/issues/57)).
+- Added Related Subjects to events pages ([#7](https://github.com/project-lux/lux-frontend/issues/7)).
 
 ### Changed
 
