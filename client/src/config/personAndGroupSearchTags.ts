@@ -109,6 +109,16 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:agentInfluencedConcepts',
     tab: 'concepts',
   },
+  eventsCarriedOut: {
+    title: 'Events Carried Out',
+    searchTag: 'lux:agentEventsCarriedOut',
+    tab: 'events',
+  },
+  eventsContainingObjects: {
+    title: 'Events Containing Objects Created By',
+    searchTag: 'lux:agentEventsUsingProducedObjects',
+    tab: 'events',
+  },
   members: {
     title: 'Members',
     searchTag: 'lux:agentAgentMemberOf',
