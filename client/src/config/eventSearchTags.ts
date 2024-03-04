@@ -27,12 +27,12 @@ export const itemAndWorkTypes: IHalLinks = {
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
-  // workTypes: {
-  //   title: 'Work Types',
-  //   searchTag: 'lux:eventWorkTypesUsed',
-  //   tab: 'works',
-  //   jsonSearchTerm: 'classification',
-  // },
+  workTypes: {
+    title: 'Work Types',
+    searchTag: 'lux:eventWorkTypesUsed',
+    tab: 'works',
+    jsonSearchTerm: 'classification',
+  },
 }
 
 // Shows related accordions
