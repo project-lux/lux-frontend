@@ -24,7 +24,7 @@ const ActivityColumn: React.FC<{
         </p>
       )}
       {location !== '' && (
-        <p data-testid="professional-activity-location">
+        <p className="mb-0" data-testid="professional-activity-location">
           &nbsp; in <RecordLink url={location} />
         </p>
       )}

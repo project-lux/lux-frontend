@@ -77,7 +77,7 @@ const spacing = {
   sectionPaddingX: '25px',
 
   // Spacing between line items
-  verticalItemSingleSpacing: '0rem',
+  verticalItemSingleSpacing: '0.5rem',
   verticalItemDoubleSpacing: '1rem',
 }
 

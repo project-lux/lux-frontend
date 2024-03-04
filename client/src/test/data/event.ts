@@ -130,6 +130,19 @@ export const event: IEvent = {
               _label: 'Web Page',
             },
           ],
+          identified_by: [
+            {
+              type: 'Name',
+              content: 'Homepage for Exhibition Record',
+              classified_as: [
+                {
+                  id: config.dc.primaryName,
+                  type: 'Type',
+                  _label: 'Primary Name',
+                },
+              ],
+            },
+          ],
         },
       ],
     },

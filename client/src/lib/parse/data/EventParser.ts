@@ -11,7 +11,13 @@ import {
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
-import { forceArray, getClassifiedAs, getDateContent, hasData } from './helper'
+import {
+  forceArray,
+  getClassifiedAs,
+  getDateContent,
+  hasData,
+  validateClassifiedAsIdMatches,
+} from './helper'
 
 const emptyProductionEventInfo = (): IEventInfo => ({
   agents: [],
@@ -119,21 +125,37 @@ export default class EventParser extends EntityParser {
   }
 
   /**
-   * Returns data used for rendering the unit site's link to the event's page
-   * @returns {{ contentIdentifier: string; link: string; } | undefined}
+   * Returns data used for rendering the web pages with their text to be rendered
+   * @returns {Array<{ content: string; link: string }>}
    */
-  getLinkToUnitSite(): { contentIdentifier: string; link: string } | undefined {
-    let data
-    const siteLinks = this.getAllSiteLinks()
-    const carriedOutBy = this.getAgentMap()
-    if (siteLinks.length > 0) {
-      ;[data] = siteLinks
-      if (carriedOutBy.length > 0) {
-        data.contentIdentifier = carriedOutBy[0].id || ''
+  getLinkToUnitSite(): Array<{ content: string; link: string }> {
+    const subjectOf = forceArray(this.json.subject_of)
+    const links = []
+
+    for (const depicting of subjectOf) {
+      const digitallyCarriedBy = forceArray(depicting.digitally_carried_by)
+
+      for (const digital of digitallyCarriedBy) {
+        let content = ''
+        const accessPoint = forceArray(digital.access_point)
+        const classifiedAs = digital.classified_as
+        const identifiedBy = digital.identified_by
+        if (identifiedBy !== undefined) {
+          content = identifiedBy[0].content
+        }
+
+        if (
+          classifiedAs !== undefined &&
+          validateClassifiedAsIdMatches(classifiedAs[0], config.dc.webPage)
+        ) {
+          for (const p of accessPoint) {
+            links.push({ content, link: p.id })
+          }
+        }
       }
     }
 
-    return data
+    return links.filter((siteLink) => siteLink.link !== '')
   }
 
   /**
@@ -331,7 +353,11 @@ export default class EventParser extends EntityParser {
    */
   getAboutData(): Record<
     string,
-    null | string | Array<any> | IContentWithLanguage
+    | null
+    | string
+    | Array<any>
+    | IContentWithLanguage
+    | Array<{ content: string; link: string }>
   > | null {
     let agents: Array<string> = []
     const carriedOutBy = this.getCarriedOutBy()
@@ -340,7 +366,11 @@ export default class EventParser extends EntityParser {
     }
     const data: Record<
       string,
-      null | string | Array<any> | IContentWithLanguage
+      | null
+      | string
+      | Array<any>
+      | IContentWithLanguage
+      | Array<{ content: string; link: string }>
     > = {
       name: this.getPrimaryName(config.dc.langen),
       names: this.getNames(),
@@ -350,6 +380,7 @@ export default class EventParser extends EntityParser {
       locations: this.getLocations(),
       identifiers: this.getIdentifiers(),
       objects: this.getObjects(),
+      webPages: this.getLinkToUnitSite(),
       notes: this.getNotes(),
       part: this.getPart(),
     }

@@ -76,10 +76,12 @@ describe('EventParser', () => {
     it('returns link', () => {
       const event = new EventParser(mockEvent)
       const link = event.getLinkToUnitSite()
-      expect(link).toEqual({
-        contentIdentifier: `${config.env.dataApiBaseUrl}data/group/carried-out-by-1`,
-        link: 'https://artgallery.yale.edu/exhibitions/exhibition/test-unit-link',
-      })
+      expect(link).toEqual([
+        {
+          content: 'Homepage for Exhibition Record',
+          link: 'https://artgallery.yale.edu/exhibitions/exhibition/test-unit-link',
+        },
+      ])
     })
   })
 

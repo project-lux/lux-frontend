@@ -6,6 +6,37 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added help text for name field ([#50](https://github.com/project-lux/lux-frontend/issues/50)).
+- Added link to advanced search help page in the advanced search ([#65](https://github.com/project-lux/lux-frontend/issues/65)).
+- Added Search Tips link to the header ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
+- Added a message to indicate there are no objects or works related ([#59](https://github.com/project-lux/lux-frontend/issues/59)).
+- Added Works About tab to events pages ([#19](https://github.com/project-lux/lux-frontend/issues/19)).
+- Added Related Events to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
+- Added Related Materials to events pages ([#6](https://github.com/project-lux/lux-frontend/issues/6)).
+- Added web pages to events pages ([#83](https://github.com/project-lux/lux-frontend/issues/83)).
+- Added Object Types to events pages ([#4](https://github.com/project-lux/lux-frontend/issues/4)).
+- Added Work Types to events pages ([#57](https://github.com/project-lux/lux-frontend/issues/57)).
+- Added Related Subjects to events pages ([#7](https://github.com/project-lux/lux-frontend/issues/7)).
+
+### Changed
+
+- Changed objects/works rights info ([#11](https://github.com/project-lux/lux-frontend/issues/11)).
+- Changed Search Tips link under search bar to be bolder ([#67](https://github.com/project-lux/lux-frontend/issues/67)).
+- Changed Works label to Occupations ([#105](https://github.com/project-lux/lux-frontend/issues/105)).
+
+### Removed
+
+- Removed Has Digital Image facet from Places and Concept results ([#55](https://github.com/project-lux/lux-frontend/issues/55)).
+- Removed How Do I See It section from events pages ([#83](https://github.com/project-lux/lux-frontend/issues/83)).
+
+### Fixed
+
+- Fixed spacing on person page ([#46](https://github.com/project-lux/lux-frontend/issues/46)).
+
+## v1.20.0 - 2024-2-19
+
+### Added
+
 - Added license ([60](https://git.yale.edu/lux-its/lux-project/issues/60)).
 
 ### Changed

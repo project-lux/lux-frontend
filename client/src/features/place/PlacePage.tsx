@@ -54,6 +54,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links}
               relationships={relatedObjectsAndWorks}
+              type="place"
             />
             <ExploreHierarchy entity={data} />
             {/* {Object.keys(data._links).includes(locations.searchTag) && (

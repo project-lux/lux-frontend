@@ -50,6 +50,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links}
               relationships={relatedObjectsAndWorks}
+              type="concept"
             />
             <ExploreHierarchy entity={data} />
             <TimelineContainers

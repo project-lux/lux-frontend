@@ -92,33 +92,31 @@ describe('Events page', () => {
       expect(part).toBeInTheDocument()
     })
 
+    it('renders web pages', async () => {
+      const { findAllByText } = render(<AppRender route={page} />)
+
+      await findAllByText(/Web Pages/i)
+      const webPage = screen.getByTestId('event-web-page-0-external-link')
+      expect(webPage).toHaveTextContent('Homepage for Exhibition Record')
+    })
+
+    it('renders web pages content', async () => {
+      const { findAllByText } = render(<AppRender route={page} />)
+
+      await findAllByText(/Homepage for Exhibition Record/i)
+      const link = screen.getByTestId('event-web-page-0-external-link')
+      expect(link).toHaveAttribute(
+        'href',
+        'https://artgallery.yale.edu/exhibitions/exhibition/test-unit-link',
+      )
+    })
+
     it('renders the notes', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Notes Label/i)
       const note = screen.getByTestId('notes-container-0')
       expect(note).toBeInTheDocument()
-    })
-  })
-
-  describe('How Do I See It?', () => {
-    it('renders the link to the record on the unit site', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/View this item on the/i)
-      const link = screen.getByTestId('event-unit-external-link')
-      expect(link).toBeInTheDocument()
-    })
-
-    it('renders the link to the record on the unit site with correct href', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/View this item on the/i)
-      const link = screen.getByTestId('event-unit-external-link')
-      expect(link).toHaveAttribute(
-        'href',
-        'https://artgallery.yale.edu/exhibitions/exhibition/test-unit-link',
-      )
     })
   })
 

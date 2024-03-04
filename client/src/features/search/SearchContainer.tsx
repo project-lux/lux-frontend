@@ -25,7 +25,10 @@ const SearchContainer: React.FC<IProps> = ({
   className,
   id,
   bgColor,
-  searchTipsStyle = { color: theme.color.link, textDecoration: 'none' },
+  searchTipsStyle = {
+    color: theme.color.link,
+    textDecoration: 'none',
+  },
   isResultsPage = false,
 }) => {
   const [isError, setIsError] = useState<boolean>(false)
@@ -54,7 +57,14 @@ const SearchContainer: React.FC<IProps> = ({
               <AdvancedSearchButton setIsError={setIsError} id={id} />
             </Col>
             <Col xs={6} className="d-inline-flex justify-content-end">
-              <HashLink to="/content/simple-search" style={searchTipsStyle}>
+              <HashLink
+                to="/content/simple-search"
+                style={{
+                  ...searchTipsStyle,
+                  fontWeight: '400',
+                  fontSize: '1rem',
+                }}
+              >
                 Search Tips
               </HashLink>
             </Col>

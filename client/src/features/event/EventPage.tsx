@@ -3,7 +3,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { relatedObjects } from '../../config/eventSearchTags'
+import { relatedObjects, relatedAccordions } from '../../config/eventSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import DataSources from '../common/DataSources'
@@ -13,9 +13,9 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import { ErrorFallback } from '../error/ErrorFallback'
 import EventParser from '../../lib/parse/data/EventParser'
 import StyledHr from '../../styles/shared/Hr'
+import AccordionContainer from '../relatedLists/AccordionContainer'
 
 import AboutPanel from './AboutPanel'
-import HowDoISeeIt from './HowDoISeeIt'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const EventPage: React.FC<{ data: any }> = ({ data }) => {
@@ -38,6 +38,13 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
             <RelatedObjectsAndWorks
               links={data._links}
               relationships={relatedObjects}
+              type="event"
+            />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <AccordionContainer
+              searchTags={relatedAccordions}
+              providedHalLinks={event.json._links}
             />
           </ErrorBoundary>
         </Col>
@@ -46,9 +53,6 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
             <StyledEntityPageSection className="row">
               <AboutPanel entity={data} />
               <StyledHr />
-              <Col xs={12}>
-                <HowDoISeeIt entity={data} />
-              </Col>
             </StyledEntityPageSection>
             <Row>
               <Col xs={12}>

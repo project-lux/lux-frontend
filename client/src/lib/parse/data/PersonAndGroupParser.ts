@@ -254,6 +254,10 @@ export default class PersonAndGroupParser extends EntityParser {
         label = 'Gender'
       }
 
+      if (label === config.dc.occupation) {
+        label = 'Occupation'
+      }
+
       data.map((d) => {
         if (Object.keys(d).includes(label)) {
           d[label].push(el.id ?? '')
