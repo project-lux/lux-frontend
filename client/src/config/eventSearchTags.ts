@@ -19,6 +19,22 @@ export const relatedObjects: IHalLinks = {
   },
 }
 
+// Used for rendering related types accordions
+export const itemAndWorkTypes: IHalLinks = {
+  itemTypes: {
+    title: 'Object Types',
+    searchTag: 'lux:eventObjectTypesUsed',
+    tab: 'objects',
+    jsonSearchTerm: 'classification',
+  },
+  // workTypes: {
+  //   title: 'Work Types',
+  //   searchTag: 'lux:eventWorkTypesUsed',
+  //   tab: 'works',
+  //   jsonSearchTerm: 'classification',
+  // },
+}
+
 // Shows related accordions
 export const relatedAccordions: IHalLinks = {
   materials: {
@@ -27,4 +43,5 @@ export const relatedAccordions: IHalLinks = {
     tab: 'concepts',
     jsonSearchTerm: 'material',
   },
+  ...itemAndWorkTypes,
 }
