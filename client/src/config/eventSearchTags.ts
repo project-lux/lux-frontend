@@ -27,9 +27,21 @@ export const itemAndWorkTypes: IHalLinks = {
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
+  itemTypesPeriods: {
+    title: 'Object Types',
+    searchTag: 'lux:eventObjectTypesAbout',
+    tab: 'objects',
+    jsonSearchTerm: 'classification',
+  },
   workTypes: {
     title: 'Work Types',
     searchTag: 'lux:eventWorkTypesUsed',
+    tab: 'works',
+    jsonSearchTerm: 'classification',
+  },
+  workTypesPeriods: {
+    title: 'Work Types',
+    searchTag: 'lux:eventWorkTypesAbout',
     tab: 'works',
     jsonSearchTerm: 'classification',
   },
@@ -37,11 +49,21 @@ export const itemAndWorkTypes: IHalLinks = {
 
 // Shows related accordions
 export const relatedAccordions: IHalLinks = {
+  conceptInfluenced: {
+    title: 'Concepts Influenced',
+    searchTag: 'lux:eventConceptsInfluencedBy',
+    tab: 'concepts',
+  },
   materials: {
     title: 'Related Materials',
     searchTag: 'lux:eventItemMaterials',
     tab: 'concepts',
     jsonSearchTerm: 'material',
+  },
+  subjects: {
+    title: 'Related Subjects',
+    searchTag: 'lux:eventConceptsOfItems',
+    tab: 'concepts',
   },
   ...itemAndWorkTypes,
 }
