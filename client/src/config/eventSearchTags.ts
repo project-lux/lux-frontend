@@ -12,4 +12,9 @@ export const relatedObjects: IHalLinks = {
     searchTag: 'lux:eventIncludedItems',
     tab: 'objects',
   },
+  works: {
+    title: 'Works About',
+    searchTag: 'lux:eventWorksAbout',
+    tab: 'works',
+  },
 }
