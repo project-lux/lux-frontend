@@ -16,7 +16,7 @@ export default function setsMockApi(): void {
 
   // Mock the about
   nock(apiUrl)
-    .get('/data/concept/about-1?profile=name')
+    .get('/data/concept/about-1?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock About')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -24,7 +24,7 @@ export default function setsMockApi(): void {
 
   // Mock the represents call
   nock(apiUrl)
-    .get('/data/concept/represents?profile=name')
+    .get('/data/concept/represents?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Depicts')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
