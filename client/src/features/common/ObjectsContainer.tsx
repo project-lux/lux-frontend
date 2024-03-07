@@ -3,7 +3,6 @@ import React from 'react'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import StyledSearchLink from '../../styles/shared/SearchLink'
-import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import ObjectSnippet from '../results/ObjectSnippet'
 import WorksSnippet from '../results/WorksSnippet'
@@ -17,11 +16,7 @@ interface IObjectsBy {
   tab: string // scope - "objects", "works", etc
 }
 
-const getSnippet = (
-  uri: string,
-  tab: string,
-  index: number,
-): JSX.Element | null => {
+export const getSnippet = (uri: string, tab: string): JSX.Element | null => {
   if (tab === 'objects') {
     return <ObjectSnippet uri={uri} view="list" />
   }
@@ -33,16 +28,25 @@ const getSnippet = (
   return null
 }
 
-const resultsData = (orderedItems: Array<IOrderedItems>, tab: string): any =>
-  orderedItems.slice(0, 5).map((item, ind) => {
+export const resultsData = (
+  orderedItems: Array<IOrderedItems>,
+  tab: string,
+): any =>
+  orderedItems.slice(0, 5).map((item) => {
     const { id } = item
     return (
       <div key={id} className="row">
-        <div className="col-12">{getSnippet(id, tab, ind + 1)}</div>
+        <div className="col-12">{getSnippet(id, tab)}</div>
       </div>
     )
   })
 
+/**
+ * Returns list of results snippets showing related objects or works
+ * @param {string} uri the HAL link to retrieve the related data
+ * @param {string} tab the results tab to redirect to when a user selects Show all X results
+ * @returns {JSX.Element}
+ */
 const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab }) => {
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
@@ -62,32 +66,29 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab }) => {
     const { orderedItems } = data as ISearchResults
     const estimate = getEstimates(data)
 
-    return (
-      <StyledEntityPageSection style={{ paddingTop: 0 }}>
-        {estimate > 0 ? (
-          <React.Fragment>
-            {resultsData(orderedItems, tab)}
-            <StyledSearchLink className="row p-2">
-              <div className="col-12">
-                <PrimaryButton
-                  variant="link"
-                  href={`/view/results/${tab}${formatHalLink(
-                    uri,
-                    searchScope[tab],
-                  )}&openSearch=false`}
-                  data-testid="objects-container-show-all-button"
-                >
-                  Show all {estimate} result
-                  {estimate !== 1 && `s`}
-                </PrimaryButton>
-              </div>
-            </StyledSearchLink>
-          </React.Fragment>
-        ) : (
-          <p>There are no related entities to be displayed.</p>
-        )}
-      </StyledEntityPageSection>
-    )
+    if (estimate > 0) {
+      return (
+        <React.Fragment>
+          {resultsData(orderedItems, tab)}
+          <StyledSearchLink className="row p-2">
+            <div className="col-12">
+              <PrimaryButton
+                variant="link"
+                href={`/view/results/${tab}${formatHalLink(
+                  uri,
+                  searchScope[tab],
+                )}&openSearch=false`}
+                data-testid="objects-container-show-all-button"
+              >
+                Show all {estimate} result
+                {estimate !== 1 && `s`}
+              </PrimaryButton>
+            </div>
+          </StyledSearchLink>
+        </React.Fragment>
+      )
+    }
+    return <p>There are no related entities to be displayed.</p>
   }
 
   return <p>No results were returned with this entity.</p>

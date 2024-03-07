@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed works included and objects included layout ([#85](https://github.com/project-lux/lux-frontend/issues/85)).
+
 ### Removed
 
 ### Fixed
