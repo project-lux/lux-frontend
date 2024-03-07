@@ -13,6 +13,8 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import { IEventInfo } from '../../types/derived-data/events'
 
+import DetailedLinkContainer from './DetailedLinkContainer'
+
 interface IObject {
   entity: IEntity
 }
@@ -108,14 +110,14 @@ const About: React.FC<IObject> = ({ entity }) => {
           />
         )}
         {about.length > 0 && (
-          <LinkContainer
+          <DetailedLinkContainer
             content={about}
             label="About"
             id="works-about-link-container"
           />
         )}
         {represents.length > 0 && (
-          <LinkContainer
+          <DetailedLinkContainer
             content={represents}
             label="Depicts"
             id="works-represents-link-container"

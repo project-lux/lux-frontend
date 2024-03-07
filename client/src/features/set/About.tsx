@@ -12,6 +12,7 @@ import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { IEventInfo } from '../../types/derived-data/events'
 import IdentifiersContainer from '../common/IdentifiersContainer'
+import DetailedLinkContainer from '../works/DetailedLinkContainer'
 
 interface IObject {
   data: IEntity
@@ -86,7 +87,7 @@ const About: React.FC<IObject> = ({ data }) => {
         {notes !== null && <NotesContainer notes={notes} showBreakline />}
         {about.length > 0 && (
           <React.Fragment>
-            <LinkContainer
+            <DetailedLinkContainer
               content={about}
               label="About"
               id="set-about-link-container"
@@ -95,7 +96,7 @@ const About: React.FC<IObject> = ({ data }) => {
         )}
         {represents.length > 0 && (
           <React.Fragment>
-            <LinkContainer
+            <DetailedLinkContainer
               content={represents}
               label="Depicts"
               id="set-depicts-link-container"
