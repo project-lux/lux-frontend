@@ -63,7 +63,7 @@ const SearchBox: React.FC<{
   const dispatch = useAppDispatch()
 
   let simpleQuery: string | null = null
-  const { search } = useLocation()
+  const { pathname, search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
   const queryString = new URLSearchParams(search)
   simpleQuery = queryString.get('sq') || ''
@@ -117,12 +117,14 @@ const SearchBox: React.FC<{
           setIsLoading(false)
           navigate(
             {
-              pathname: `/view/results/${tab}/`,
+              pathname: `/view/results/${tab}`,
               search: `${newUrlParams.toString()}`,
             },
             {
               state: {
                 fromNonResultsPage: !isResults,
+                prevPath: `${pathname}${search}`,
+                targetName: `Results Page`,
               },
             },
           )

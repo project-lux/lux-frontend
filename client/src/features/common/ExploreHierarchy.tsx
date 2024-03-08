@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
@@ -47,6 +47,7 @@ const getSearchType = (docType: string): string => {
  * @returns {JSX.Element}
  */
 const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
+  const { pathname } = useLocation()
   const [currentItem, setCurrentItem] = useState(entity)
   const [maxParents, setMaxParents] = useState(LOWER_ITEM_LIMIT)
   const [maxChildren, setMaxChildren] = useState(LOWER_ITEM_LIMIT)
@@ -97,7 +98,14 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
               </React.Fragment>
             )
           } */}
-          <Link to={path} aria-label={`View ${name}`}>
+          <Link
+            to={path}
+            aria-label={`View ${name}`}
+            state={{
+              prevPath: pathname,
+              targetName: name,
+            }}
+          >
             [View]
           </Link>
         </li>
@@ -155,7 +163,17 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
     currentElem = (
       <div>
         <strong>{currentName}</strong>&nbsp;
-        {currentId !== original.id && <Link to={path}>[View]</Link>}
+        {currentId !== original.id && (
+          <Link
+            to={path}
+            state={{
+              prevPath: pathname,
+              targetName: currentName,
+            }}
+          >
+            [View]
+          </Link>
+        )}
       </div>
     )
 

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import SemanticSearchLink from '../../../../features/common/SemanticSearchLink'
+import SemanticSearchLink from '../../../../features/relatedLists/SemanticSearchLink'
 
 const mockId = 'test'
 const mockScope = 'item'
