@@ -112,6 +112,16 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:typeForAgent',
     tab: 'people',
   },
+  placeType: {
+    title: 'Places with Type',
+    searchTag: 'lux:typeForPlace',
+    tab: 'places',
+  },
+  eventType: {
+    title: 'Events with Type',
+    searchTag: 'lux:typeForEvent',
+    tab: 'events',
+  },
   ...relatedItems,
   locations,
 }
