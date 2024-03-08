@@ -29,10 +29,12 @@ const tabsChildren = (
           // Return a tab with content if the related search returns data
           return (
             <Tab key={tabSection.title} title={tabSection.title as string}>
-              <ObjectsContainer
-                uri={links[currentSearchTag].href}
-                tab={tabSection.tab as string}
-              />
+              <StyledEntityPageSection style={{ paddingTop: 0 }}>
+                <ObjectsContainer
+                  uri={links[currentSearchTag].href}
+                  tab={tabSection.tab as string}
+                />
+              </StyledEntityPageSection>
             </Tab>
           )
         }
