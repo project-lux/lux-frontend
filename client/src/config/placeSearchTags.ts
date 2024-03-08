@@ -72,6 +72,11 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:placeDiedAgent',
     tab: 'people',
   },
+  agentsActiveHere: {
+    title: 'People and Groups Active Here',
+    searchTag: 'lux:placeActiveAgent',
+    tab: 'people',
+  },
   concepts: {
     title: 'Related Concepts',
     searchTag: 'lux:placeRelatedConcepts',
