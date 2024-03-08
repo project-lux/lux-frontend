@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import styled from 'styled-components'
@@ -42,12 +42,14 @@ const ListItem: React.FC<IProps> = ({
   index,
   itemSpacing = 'single',
 }) => {
+  const { pathname } = useLocation()
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
 
   if (recordLinkHas404) {
     return null
   }
 
+  const searchQ = formatFacetedSearchJson(criteria, searchTerm, uri)
   return (
     <StyledRow
       key={uri}
@@ -68,11 +70,11 @@ const ListItem: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${formatFacetedSearchJson(
-                criteria,
-                searchTerm,
-                uri,
-              )}&openSearch=false`,
+              search: `q=${searchQ}&openSearch=false`,
+            }}
+            state={{
+              prevPath: pathname,
+              targetName: `/view/results/${tab}?q=${searchQ}&openSearch=false`,
             }}
             data-testid={`list-item-link-${index}`}
           >

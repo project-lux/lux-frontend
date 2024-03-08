@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { useAppSelector } from '../../app/hooks'
 import { IHelpTextKey } from '../../redux/slices/helpTextSlice'
@@ -17,6 +17,8 @@ const StyledP = styled.p`
  * @returns {JSX.Element}
  */
 const HelpText: React.FC = () => {
+  const { pathname, search } = useLocation()
+
   const helpTextState = useAppSelector(
     (state) => state.helpTextKey as IHelpTextKey,
   )
@@ -50,7 +52,13 @@ const HelpText: React.FC = () => {
             Learn more about LUX&apos;s advanced search capabilities and common
             search patterns.
           </StyledP>
-          <Link to="/content/advanced-search#faq-header">
+          <Link
+            to="/content/advanced-search#faq-header"
+            state={{
+              prevPath: `${pathname}${search}`,
+              targetName: 'Advanced Search Help',
+            }}
+          >
             View Advanced Search Help
           </Link>
         </div>

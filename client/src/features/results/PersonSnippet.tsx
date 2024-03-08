@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
 
 import config from '../../config/config'
@@ -23,6 +23,7 @@ interface ISearchData {
 }
 
 const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
+  const { pathname, search } = useLocation()
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -65,6 +66,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const occupations = person.getOccupations()
     const nationalities = person.getNationalities()
 
+    const linkState = {
+      prevPath: `${pathname}${search}`,
+      targetName: primaryName,
+    }
     if (view === 'list') {
       return (
         <React.Fragment>
@@ -81,6 +86,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  state={linkState}
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
@@ -145,6 +151,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  state={linkState}
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
