@@ -112,25 +112,10 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:typeForAgent',
     tab: 'people',
   },
-  objectType: {
-    title: 'Objects with Type',
-    searchTag: 'lux:typeForItem',
-    tab: 'objects',
-  },
-  workType: {
-    title: 'Works with Type',
-    searchTag: 'lux:typeForWork',
-    tab: 'works',
-  },
   placeType: {
     title: 'Places with Type',
     searchTag: 'lux:typeForPlace',
     tab: 'places',
-  },
-  conceptType: {
-    title: 'Concepts with Type',
-    searchTag: 'lux:typeForConcept',
-    tab: 'concepts',
   },
   eventType: {
     title: 'Events with Type',
