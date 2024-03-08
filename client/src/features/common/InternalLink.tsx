@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
@@ -26,22 +26,30 @@ const InternalLink: React.FC<ILinkParams> = ({
   className,
   linkCategory,
   children,
-}) => (
-  <StyledLink
-    to={uri}
-    className={className || ''}
-    onClick={() =>
-      pushSiteImproveEvent(
-        'Internal Link',
-        'Selected',
-        `Internal ${linkCategory !== undefined ? linkCategory : name}`,
-      )
-    }
-    data-testid="internal-link"
-  >
-    {name}
-    {children}
-  </StyledLink>
-)
+}) => {
+  const { pathname, search } = useLocation()
+  const eventText = linkCategory !== undefined ? linkCategory : name
+  return (
+    <StyledLink
+      to={uri}
+      state={{
+        prevPath: `${pathname}${search}`,
+        targetName: eventText,
+      }}
+      className={className || ''}
+      onClick={() =>
+        pushSiteImproveEvent(
+          'Internal Link',
+          'Selected',
+          `Internal ${eventText}`,
+        )
+      }
+      data-testid="internal-link"
+    >
+      {name}
+      {children}
+    </StyledLink>
+  )
+}
 
 export default InternalLink

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
@@ -48,6 +48,7 @@ const getSearchType = (docType: string): string => {
  * @returns {JSX.Element}
  */
 const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
+  const { pathname } = useLocation()
   const [currentItem, setCurrentItem] = useState(entity)
   const [maxParents, setMaxParents] = useState(LOWER_ITEM_LIMIT)
   const [maxChildren, setMaxChildren] = useState(LOWER_ITEM_LIMIT)
@@ -104,6 +105,10 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
             onClick={() =>
               pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
             }
+            state={{
+              prevPath: pathname,
+              targetName: name,
+            }}
           >
             [View]
           </Link>
@@ -168,6 +173,10 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
             onClick={() =>
               pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
             }
+            state={{
+              prevPath: pathname,
+              targetName: currentName,
+            }}
           >
             [View]
           </Link>

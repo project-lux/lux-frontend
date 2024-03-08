@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledSearchLink from '../../styles/shared/SearchLink'
@@ -51,6 +51,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   data,
   title,
 }) => {
+  const { pathname } = useLocation()
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
@@ -66,6 +67,10 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   const sort = new URLSearchParams(params).get('sort')
 
   const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
+  const searchQ = formatHalLink(url, searchScope[newScope])
+  const searchString = `${searchQ}&openSearch=false${
+    sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
+  }`
 
   return (
     <React.Fragment>
@@ -75,9 +80,11 @@ const SearchResultRelatedList: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${newScope}`,
-              search: `${formatHalLink(url, resultsEndpoint)}&openSearch=false${
-                sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-              }`,
+              search: searchString,
+            }}
+            state={{
+              prevPath: pathname,
+              targetName: `/view/results/${newScope}${searchString}`,
             }}
             onClick={() =>
               pushSiteImproveEvent(
