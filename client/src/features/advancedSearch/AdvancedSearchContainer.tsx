@@ -37,7 +37,7 @@ const AdvancedSearchContainer: React.FC = () => {
   const navigate = useNavigate()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
-  const { search } = useLocation()
+  const { pathname, search } = useLocation()
   const urlParams = new URLSearchParams(search)
   const query = urlParams.has('q') ? (urlParams.get('q') as string) : undefined
   const queryTab = urlParams.get('qt') || tab
@@ -54,10 +54,20 @@ const AdvancedSearchContainer: React.FC = () => {
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     const resultsTab = tab !== undefined ? tab : 'objects'
     pushSiteImproveEvent('Search Button', 'Submit', 'Advanced Search')
-    navigate({
-      pathname: `/view/results/${resultsTab}`,
-      search: `?${newUrlParams.toString()}`,
-    })
+    navigate(
+      {
+        pathname: `/view/results/${resultsTab}`,
+        search: `?${newUrlParams.toString()}`,
+      },
+      {
+        state: {
+          prevPath: `${pathname}${search}`,
+          targetName: `Advanced search for: /view/results/${
+            tab !== undefined ? tab : 'objects'
+          }?${newUrlParams.toString()}`,
+        },
+      },
+    )
   }
 
   const handleCloseModal = (): void => {

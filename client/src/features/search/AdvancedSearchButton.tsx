@@ -2,7 +2,7 @@
 
 import React, { useEffect } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
 
 import { useAppSelector } from '../../app/hooks'
@@ -21,6 +21,7 @@ interface IProps {
 }
 
 const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
+  const { pathname, search } = useLocation()
   const simpleSearchState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -38,6 +39,8 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
       navigate(`/view/results/${entityType}?q=`, {
         state: {
           fromLandingPage: true,
+          prevPath: `${pathname}${search}`,
+          targetName: 'Switch to advanced search from landing page',
         },
       })
       return
@@ -49,7 +52,12 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         const urlParams = new URLSearchParams()
         urlParams.set('q', translatedString)
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
-        navigate(`/view/results/${entityType}?${urlParams.toString()}`)
+        navigate(`/view/results/${entityType}?${urlParams.toString()}`, {
+          state: {
+            prevPath: `${pathname}${search}`,
+            targetName: `Advanced search for: /view/results/${entityType}?${urlParams.toString()}`,
+          },
+        })
       },
       onError: () => setIsError(true),
       onLoading: () => null,
