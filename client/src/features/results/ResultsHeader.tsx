@@ -123,11 +123,16 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       queryString.set('rnd', String(seq))
       seq += 1
     }
+    const searchQ = queryString.toString()
     return (
       <Navigate
         to={{
           pathname,
-          search: `${queryString.toString()}`,
+          search: searchQ,
+        }}
+        state={{
+          prevPath: `${pathname}${search}`,
+          targetName: `${pathname}${searchQ}`,
         }}
       />
     )

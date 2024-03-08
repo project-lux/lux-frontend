@@ -3,6 +3,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
+import { Link, useLocation } from 'react-router-dom'
 
 import { UnitCode } from '../../config/cms'
 import {
@@ -18,6 +19,7 @@ interface IProps {
 }
 
 const FeaturedCollectionsSection: React.FC<IProps> = ({ data, units }) => {
+  const { pathname } = useLocation()
   const featuredCollectionParser = new FeaturedCollectionParser(data)
   const collections = featuredCollectionParser.getCollections(units)
 
@@ -31,19 +33,32 @@ const FeaturedCollectionsSection: React.FC<IProps> = ({ data, units }) => {
     >
       <Card>
         <div className="image-container">
-          <a href={coll.searchUrl}>
+          <Link
+            to={coll.searchUrl}
+            state={{ prevPath: pathname, targetName: coll.title }}
+          >
             <img alt={coll.imageAlt} src={coll.imageUrl} />
-          </a>
+          </Link>
         </div>
         <Card.Body>
           <h2>
-            <a href={coll.searchUrl}>{coll.title}</a>
+            <Link
+              to={coll.searchUrl}
+              state={{ prevPath: pathname, targetName: coll.title }}
+            >
+              {coll.title}
+            </Link>
           </h2>
           <div
             dangerouslySetInnerHTML={{ __html: sanitizeHtml(coll.bodyHtml) }}
           />
           <div className="search-url">
-            <a href={coll.searchUrl}>View {coll.title}</a>
+            <Link
+              to={coll.searchUrl}
+              state={{ prevPath: pathname, targetName: `View ${coll.title}` }}
+            >
+              View {coll.title}
+            </Link>
           </div>
         </Card.Body>
       </Card>

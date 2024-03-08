@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
@@ -35,8 +36,12 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
+  const { pathname, search } = useLocation()
+  const prevPath = `${pathname}${search}`
+
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
+
   return (
     <StyledHeader>
       <Navbar
@@ -47,7 +52,13 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         className="w-auto px-4 py-3"
       >
         <Container fluid className="mx-0">
-          <Navbar.Brand href="/">LUX: Yale Collections Discovery</Navbar.Brand>
+          <NavLink
+            to="/"
+            state={{ prevPath, targetName: 'LUX: Yale Collections Discovery' }}
+            className="navbar-brand"
+          >
+            LUX: Yale Collections Discovery
+          </NavLink>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
             className="show-menu"
@@ -57,10 +68,34 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             className="justify-content-end"
           >
             <Nav id="nav-links">
-              <Nav.Link href="/content/about-lux">About LUX</Nav.Link>
-              <Nav.Link href="/content/open-access">Open Access</Nav.Link>
-              <Nav.Link href="/content/simple-search">Search Tips</Nav.Link>
-              <Nav.Link href="/content/faq">Help</Nav.Link>
+              <NavLink
+                to="/content/about-lux"
+                state={{ prevPath, targetName: 'About LUX' }}
+                className="nav-link"
+              >
+                About LUX
+              </NavLink>
+              <NavLink
+                to="/content/open-access"
+                state={{ prevPath, targetName: 'Open Access' }}
+                className="nav-link"
+              >
+                Open Access
+              </NavLink>
+              <NavLink
+                to="/content/simple-search"
+                state={{ prevPath, targetName: 'Search Tips' }}
+                className="nav-link"
+              >
+                Search Tips
+              </NavLink>
+              <NavLink
+                to="/content/faq"
+                state={{ prevPath, targetName: 'Help' }}
+                className="nav-link"
+              >
+                Help
+              </NavLink>
               {hideSearch ? null : (
                 <React.Fragment>
                   <SeparatingLine />

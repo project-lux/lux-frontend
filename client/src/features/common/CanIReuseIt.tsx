@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { reuse } from '../../config/tooltips'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
@@ -19,6 +19,8 @@ interface IProps {
 }
 
 const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
+  const { pathname } = useLocation()
+
   // get work specific data
   let subjectTo: Array<{ url: string; text: string }> = []
   if (entityType === 'work') {
@@ -88,7 +90,13 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         </Col>
       )}
       <Col xs={12}>
-        <Link to="/content/rights-info">
+        <Link
+          to="/content/rights-info"
+          state={{
+            prevPath: pathname,
+            targetName: 'Rights Info',
+          }}
+        >
           For more information about Rights and Usage, visit the LUX Frequently
           Asked Questions.
         </Link>

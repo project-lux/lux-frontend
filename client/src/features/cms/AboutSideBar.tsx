@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useLocation } from 'react-router-dom'
 
 import { aboutPages } from '../../config/cms'
 import StyledAboutSideBar from '../../styles/features/cms/AboutSideBar'
@@ -8,18 +8,22 @@ import StyledAboutSideBar from '../../styles/features/cms/AboutSideBar'
  * Navigation menu on the about page.
  * @returns {JSX.Element}
  */
-const AboutSideBar: React.FC = () => (
-  <StyledAboutSideBar className="sidebar" data-testid="about-page-side-bar">
-    {aboutPages.map((item) => (
-      <NavLink
-        to={item.route}
-        className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-        key={item.key}
-      >
-        {item.label}
-      </NavLink>
-    ))}
-  </StyledAboutSideBar>
-)
+const AboutSideBar: React.FC = () => {
+  const { pathname } = useLocation()
+  return (
+    <StyledAboutSideBar className="sidebar" data-testid="about-page-side-bar">
+      {aboutPages.map((item) => (
+        <NavLink
+          to={item.route}
+          state={{ prevPath: pathname, targetName: item.label }}
+          className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
+          key={item.key}
+        >
+          {item.label}
+        </NavLink>
+      ))}
+    </StyledAboutSideBar>
+  )
+}
 
 export default AboutSideBar
