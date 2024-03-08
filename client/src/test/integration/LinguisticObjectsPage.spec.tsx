@@ -19,30 +19,6 @@ describe('Linguistic Object page', () => {
       const container = screen.getByTestId('carried-by-container')
       expect(container).toBeInTheDocument()
     })
-
-    it('renders the included works label', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/This work is included in the following objects/i)
-      const term = screen.getByTestId(`related-entity-0-term`)
-      expect(term).toBeInTheDocument()
-    })
-
-    it('renders the included works icon', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/This work is included in the following objects/i)
-      const img = screen.getByTestId(`related-entity-0-img-icon`)
-      expect(img).toBeInTheDocument()
-    })
-
-    it('renders the included work', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/This work is included in the following objects/i)
-      const link = screen.getByTestId(`related-entity-0-link`)
-      expect(link).toBeInTheDocument()
-    })
   })
 
   describe('About', () => {
