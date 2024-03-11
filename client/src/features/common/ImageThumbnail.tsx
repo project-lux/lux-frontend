@@ -1,6 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import Button from 'react-bootstrap/Button'
 import Overlay from 'react-bootstrap/Overlay'
@@ -27,6 +27,7 @@ const popperConfig = {
 }
 
 const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
+  const { pathname } = useLocation()
   const [show, setShow] = useState(false)
   const attribRef = useRef(null)
 
@@ -39,6 +40,10 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
       {linkUrl !== undefined ? (
         <Link
           to={`/view/${stripYaleIdPrefix(linkUrl)}`}
+          state={{
+            prevPath: pathname,
+            targetName: linkUrl,
+          }}
           data-testid="image-link"
         >
           <img

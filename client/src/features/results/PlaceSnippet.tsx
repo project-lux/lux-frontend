@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import Map from '../common/Map'
@@ -15,12 +15,14 @@ import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import config from '../../config/config'
 
 interface IProps {
   uri: string
 }
 
 const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
+  const { pathname, search } = useLocation()
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -28,6 +30,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
 
   if (isSuccess && data) {
     const place = new EntityParser(data)
+    const primaryName = place.getPrimaryName(config.dc.langen)
     const types = place.getTypes()
 
     const mapConfig = {
@@ -41,7 +44,13 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
           <div className="flex-shrink-0">
             {mapConfig.wkt !== '' ? (
               <StyledImageContainer className="p-0">
-                <Link to={`/view/${stripYaleIdPrefix(place.json.id!)}`}>
+                <Link
+                  to={`/view/${stripYaleIdPrefix(place.json.id!)}`}
+                  state={{
+                    prevPath: `${pathname}${search}`,
+                    targetName: primaryName,
+                  }}
+                >
                   <Map config={mapConfig} className="sm" />
                 </Link>
               </StyledImageContainer>

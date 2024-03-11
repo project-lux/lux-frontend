@@ -12,8 +12,9 @@ import { capitalizeLabels } from '../../lib/parse/data/helper'
 import { transformRelatedListResults } from '../../lib/parse/search/relatedListsParser'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import RecordLink from '../common/RecordLink'
-import SemanticSearchLink from '../common/SemanticSearchLink'
 import PageLoading from '../common/PageLoading'
+
+import SemanticSearchLink from './SemanticSearchLink'
 
 interface IProps {
   results: IRelatedListResults

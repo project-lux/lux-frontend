@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 
 import { ICmsResponse, CmsResponseParser } from '../../lib/parse/cms/Parser'
 import {
@@ -17,6 +17,7 @@ interface IProps {
 }
 
 const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
+  const { pathname } = useLocation()
   const [imageData, setImageData] = useState<IImageData | null>(null)
 
   useEffect(() => {
@@ -27,6 +28,10 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
     setImageData(landingPageImageParser.getHeroImage(unit))
   }, [data, unit])
 
+  const linkState = {
+    prevPath: pathname,
+    targetName: imageData !== null ? imageData.caption : 'Hero Image',
+  }
   return (
     <StyledHeroImageSection className="hero">
       {imageData && (
@@ -36,7 +41,7 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
             className="hero-image-container"
             data-testid="hero-image-container"
           >
-            <Link to={imageData.recordUrl}>
+            <Link to={imageData.recordUrl} state={linkState}>
               <img alt={imageData.altText} src={imageData.url} />
             </Link>
           </div>
@@ -45,6 +50,7 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
               <div className="caption">
                 <Link
                   to={imageData.recordUrl}
+                  state={linkState}
                   data-testid="hero-image-caption-link"
                 >
                   {imageData.caption.length > 30
