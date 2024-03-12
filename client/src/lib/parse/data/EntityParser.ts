@@ -529,7 +529,6 @@ export default class EntityParser {
 
   /**
    * Returns array of transformed link data from /subject_of that are not web pages or IIIF manifests
-   * Per https://git.yale.edu/lux-its/lux-web/issues/970#issuecomment-19015
    * @returns {Array<{ contentIdentifier: string; link: string }>}
    */
   getHowDoISeeItLinks(): Array<{ contentIdentifier: string; link: string }> {
