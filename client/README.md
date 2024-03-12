@@ -3,7 +3,7 @@
 ## Requirements
 
 1. Server (local or hosted)
-    - For more details on local server setup, view the configuration in the [server folder](https://git.yale.edu/lux-its/lux-web#running-server-locally).
+    - For more details on local server setup, view the configuration in the [server folder](https://github.com/project-lux/lux-frontend#running-server-locally).
 2. Content mangament service (CMS) server (the application can run without this step)
 2. IDE
 3. [Node](https://nodejs.org/en)
@@ -12,15 +12,21 @@
 
 ## Steps
 
-1. Clone [https://git.yale.edu/lux-its/lux-web](https://git.yale.edu/lux-its/lux-web) repo.
+1. Clone [https://github.com/project-lux/lux-frontend](https://github.com/project-lux/lux-frontend) repo.
 2. Run `yarn install`
 3. [Configure your environment](#configuration)
 4. Run `yarn start` and navigate in a browser to https://localhost:3000
 
 ## Configuration
 
+### Configure .env file
+
 1. Create a .env file
-2. Copy the contents of [.env.template](https://git.yale.edu/lux-its/lux-web/blob/main/client/.env.template) and add the appropriate environment variable values based on the documentation in .env.template.
+2. Copy the contents of [.env.template](https://github.com/project-lux/lux-frontend/blob/main/client/.env.template) and add the appropriate environment variable values based on the documentation in .env.template.
+
+### Configure index.html file
+1. Create an index.html file in the [/public](https://github.com/project-lux/lux-frontend/tree/main/client/public) folder
+2. Copy the contents of [index.html.template](https://github.com/project-lux/lux-frontend/blob/main/client/public/index.html.template) and add any additional tags deemed necessary.
 
 ## Available Scripts
 
