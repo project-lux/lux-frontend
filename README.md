@@ -13,6 +13,9 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 ## Running client (React app) locally without Docker nor server
 
 Before completing these steps, ensure that all steps in the [client folder README](https://github.com/project-lux/lux-frontend/blob/main/client/README.md) have been completed.
+## Running client (React app) locally
+
+(without Docker nor server)
 
 Make sure the file `client/.env` defines required environment variables -- see `client/.env.template`.
 
