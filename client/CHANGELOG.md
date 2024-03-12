@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Added SI event for internal links ([#169](https://github.com/project-lux/lux-frontend/issues/169)).
 - Added SI event for external links ([#167](https://github.com/project-lux/lux-frontend/issues/167)).
 - Added Groups Founded accordion config ([#74](https://github.com/project-lux/lux-frontend/issues/74)).
+- Added index.html.template and updated docs ([#77](https://github.com/project-lux/lux-frontend/issues/77)).
 
 ### Changed
 
