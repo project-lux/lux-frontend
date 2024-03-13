@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed show all links to include sorting params ([#123](https://github.com/project-lux/lux-frontend/issues/123)).
+- Fixed show all links on faceted search lists ([#135](https://github.com/project-lux/lux-frontend/issues/135)).
 
 ## v1.21.0 - 2024-3-4
 
