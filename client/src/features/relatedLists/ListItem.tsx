@@ -11,6 +11,7 @@ import DescriptionTerm from '../../styles/shared/DescriptionTerm'
 import DescriptionDetail from '../../styles/shared/DescriptionDetail'
 import theme from '../../styles/theme'
 import RecordLink from '../common/RecordLink'
+import { formatFacetedSearchJson } from '../../lib/parse/search/halLinkHelper'
 
 interface IProps {
   uri: string
@@ -31,39 +32,6 @@ const StyledRow = styled(Row)`
     background-color: ${theme.color.lightGray};
   }
 `
-
-const formatSearchJson = (
-  criteria: any,
-  searchTerm: string | Array<string>,
-  uri: string,
-): string => {
-  if (Array.isArray(searchTerm)) {
-    const children = searchTerm.map((term) => ({
-      [term]: {
-        id: uri,
-      },
-    }))
-    return JSON.stringify({
-      AND: [
-        criteria,
-        {
-          OR: children,
-        },
-      ],
-    })
-  }
-
-  return JSON.stringify({
-    AND: [
-      criteria,
-      {
-        [searchTerm]: {
-          id: uri,
-        },
-      },
-    ],
-  })
-}
 
 const ListItem: React.FC<IProps> = ({
   uri,
@@ -100,7 +68,7 @@ const ListItem: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${formatSearchJson(
+              search: `q=${formatFacetedSearchJson(
                 criteria,
                 searchTerm,
                 uri,

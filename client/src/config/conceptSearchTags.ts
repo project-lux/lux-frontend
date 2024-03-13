@@ -80,6 +80,7 @@ export const relatedAccordions: IHalLinks = {
     title: 'Works About or Depicting People and Groups',
     searchTag: 'lux:conceptDepictedAgentFromRelatedWorks',
     tab: 'works',
+    jsonSearchTerm: 'aboutAgent',
   },
   concepts: {
     title: 'Related Concepts',
