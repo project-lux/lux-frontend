@@ -29,6 +29,10 @@
 1. Create an index.html file in the [/public](https://github.com/project-lux/lux-frontend/tree/main/client/public) folder
 2. Copy the contents of [index.html.template](https://github.com/project-lux/lux-frontend/blob/main/client/public/index.html.template) and add any additional tags deemed necessary.
 
+### Configure pushClientEvent.ts file
+1. Create an pushClientEvent.ts file in the [/src/lib](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts) folder
+2. Copy the contents of [pushClientEvent.ts.template](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts.template) and add any functions required for site analytics.
+
 ## Available Scripts
 
 In the project directory, you can run:

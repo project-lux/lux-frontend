@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
 
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetRelatedListsQuery } from '../../redux/api/ml_api'
 import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
@@ -81,7 +81,7 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
             aria-expanded="false"
             aria-controls={`#collapse-${index}-${searchTerm}`}
             onClick={() => {
-              pushSiteImproveEvent(
+              pushClientEvent(
                 'Accordion Item',
                 activeAccordion ? 'Close' : 'Open',
                 `Accordion ${title}`,
