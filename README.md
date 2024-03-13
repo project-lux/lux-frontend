@@ -1,22 +1,14 @@
 # LUX Frontend
 
-The lux-web repo is used to develop and maintain the frontend code for Yale LUX. The frontend contains custom components and interfaces that allow users to interact with linked data in a meaningful way.
+The lux-frontend repo is used to develop and maintain the frontend code for Yale LUX. The frontend contains custom components and interfaces that allow users to interact with linked data in a meaningful way.
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
 ## Code structure
 
-- `client/`contains React/Redux/TypeScript code for the Frontend single page application.
+- `client/` contains React/Redux/TypeScript code for the Frontend single page application.
 - `server/` contains code for the nodejs app that serves LUX frontend.
 - `docker/` contains code to build the docker image
-
-## Deployment
-
-Jenkins jobs
-
-- build: https://cicd.internal.yale.edu/job/DAM/job/builds/job/LUX%20Frontend%20-%20docker%20build/
-- dev deploy: https://cicd.internal.yale.edu/job/DAM/job/dev_test_installs/job/LUX%20Frontend%20-%20dev%20deploy%20new/
-- tst deploy: https://cicd.internal.yale.edu/job/DAM/job/dev_test_installs/job/LUX%20Frontend%20-%20test%20deploy%20new/
 
 ## Running client (React app) locally
 
