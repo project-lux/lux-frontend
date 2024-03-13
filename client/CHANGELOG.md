@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed show all links to include sorting params ([#123](https://github.com/project-lux/lux-frontend/issues/123)).
+
 ## v1.21.0 - 2024-3-4
 
 ### Added

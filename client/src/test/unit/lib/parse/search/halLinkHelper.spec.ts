@@ -1,5 +1,6 @@
 import config, { getDataApiBaseUrl } from '../../../../../config/config'
 import {
+  getAllParamsFromHalLink,
   getCriteriaFromHalLink,
   getResultTabFromHalLink,
   getScopeFromHalLink,
@@ -17,6 +18,15 @@ describe('halLinkHelper', () => {
           id: 'https://endpoint.yale.edu/data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba',
         },
       })
+    })
+  })
+
+  describe('getAllParamsFromHalLink', () => {
+    it('returns formatted HAL link', () => {
+      const mockParams = `q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D&name=itemProductionDate`
+      const mockHalLink = `${config.env.dataApiBaseUrl}api/facets/item?${mockParams}`
+
+      expect(getAllParamsFromHalLink(mockHalLink, 'facets')).toEqual(mockParams)
     })
   })
 
