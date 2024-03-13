@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 import StyledResultsHeader from '../../styles/features/results/ResultsHeader'
 import StyledHr from '../../styles/shared/Hr'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { OverlayKey } from '../../config/cms'
 import { sortBy, sortDirection } from '../../config/sortingOptions'
 import { getParamPrefix } from '../../lib/util/params'
@@ -80,7 +80,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const changeView = (selectedView: string): void => {
     const formattedView =
       selectedView.substring(0, 1).toUpperCase() + selectedView.substring(1)
-    pushSiteImproveEvent('Results View', formattedView, label)
+    pushClientEvent('Results View', formattedView, label)
 
     queryString.set('view', selectedView)
     navigate({
@@ -90,7 +90,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   }
 
   const handleSortDirectionSelection = (value: string): void => {
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Results',
       'Change Sort Direction',
       `${sortBySelection}:${value}`,
@@ -103,7 +103,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   }
 
   const handleSortSelection = (value: string): void => {
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Results',
       'Change Sort Field',
       `${value}:${selectedSortDirection}`,
