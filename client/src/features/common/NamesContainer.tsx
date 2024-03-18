@@ -63,7 +63,7 @@ const NamesContainer: React.FC<INames> = ({
               className={textLabelWidth}
               label={nameLabel === '' ? 'Additional Names' : nameLabel}
             />
-            <ExpandableList className={textLabelWidth} length={length}>
+            <ExpandableList className={textValueWidth} length={length}>
               <TextValue
                 values={name(names[nameLabel])}
                 itemSpacing={showBreakline ? 'double' : 'single'}
