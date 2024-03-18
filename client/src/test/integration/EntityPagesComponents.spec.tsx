@@ -4,7 +4,7 @@ import React from 'react'
 import config from '../../config/config'
 import { getTimelines } from '../../lib/util/timelineHelper'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
-import * as siteImprove from '../../lib/siteImprove'
+import * as siteImprove from '../../lib/pushClientEvent'
 
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
@@ -36,7 +36,7 @@ describe('Entity pages relationship components', () => {
   describe('Related Objects and Works', () => {
     beforeEach(() => {
       jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
+        .spyOn(siteImprove, 'pushClientEvent')
         .mockImplementation(() => null)
     })
 
@@ -156,7 +156,7 @@ describe('Entity pages relationship components', () => {
   describe('Related Facets list when open', () => {
     beforeEach(() => {
       jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
+        .spyOn(siteImprove, 'pushClientEvent')
         .mockImplementation(() => null)
     })
 
@@ -229,7 +229,7 @@ describe('Entity pages relationship components', () => {
   describe('Related search results list when open', () => {
     beforeEach(() => {
       jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
+        .spyOn(siteImprove, 'pushClientEvent')
         .mockImplementation(() => null)
     })
 
@@ -281,7 +281,7 @@ describe('Entity pages relationship components', () => {
   describe('Semantic search results list when open', () => {
     beforeEach(() => {
       jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
+        .spyOn(siteImprove, 'pushClientEvent')
         .mockImplementation(() => null)
     })
 

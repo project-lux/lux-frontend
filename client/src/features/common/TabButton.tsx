@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { StyledTabButton } from '../../styles/features/common/TabButton'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
 
@@ -31,7 +31,7 @@ const TabButton: React.FC<ITabButton> = ({
         type="button"
         className={buttonClasses}
         onClick={() => {
-          pushSiteImproveEvent('Entity Tab', 'Selected', title)
+          pushClientEvent('Entity Tab', 'Selected', title)
           setSelectedTab(index)
         }}
         data-testid={`${testId}-button`}
