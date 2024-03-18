@@ -9,6 +9,7 @@ import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
 import { searchScope } from '../../config/searchTypes'
+import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
 
 interface IProps {
   url: string
@@ -48,6 +49,10 @@ const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
   const { orderedItems } = data
   const estimate = getEstimates(data)
   const newScope = scope !== undefined ? scope : 'objects'
+  const resultsEndpoint = searchScope[newScope]
+
+  const params = getAllParamsFromHalLink(url, 'search')
+  const sort = new URLSearchParams(params).get('sort')
 
   return (
     <React.Fragment>
@@ -57,10 +62,9 @@ const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
           <Link
             to={{
               pathname: `/view/results/${newScope}`,
-              search: `${formatHalLink(
-                url,
-                searchScope[newScope],
-              )}&openSearch=false`,
+              search: `${formatHalLink(url, resultsEndpoint)}&openSearch=false${
+                sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
+              }`,
             }}
             data-testid="search-related-list-link"
           >

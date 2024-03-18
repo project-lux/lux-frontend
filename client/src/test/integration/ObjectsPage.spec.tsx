@@ -36,36 +36,12 @@ describe('Objects page', () => {
   })
 
   describe('Works included', () => {
-    it('renders the included works', async () => {
+    it('renders the component', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/includes the following works/i)
-      const container = screen.getByTestId('included-works-container')
+      const container = screen.getByTestId('carries-container')
       expect(container).toBeInTheDocument()
-    })
-
-    it('renders the included works label', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/includes the following works/i)
-      const term = screen.getByTestId(`related-entity-1-term`)
-      expect(term).toBeInTheDocument()
-    })
-
-    it('renders the included works icon', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/includes the following works/i)
-      const img = screen.getByTestId(`related-entity-1-img-icon`)
-      expect(img).toBeInTheDocument()
-    })
-
-    it('renders the included work', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/includes the following works/i)
-      const link = screen.getByTestId(`related-entity-1-link`)
-      expect(link).toBeInTheDocument()
     })
   })
 

@@ -43,7 +43,7 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the about call
   nock(apiUrl)
-    .get('/data/concept/about-1?profile=name')
+    .get('/data/concept/about-1?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock About')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -51,7 +51,7 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the imprint statement label call
   nock(apiUrl)
-    .get('/data/concept/about-2?profile=name')
+    .get('/data/concept/about-2?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock About 2')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -59,7 +59,7 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the represents call
   nock(apiUrl)
-    .get('/data/concept/represents?profile=name')
+    .get('/data/concept/represents?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Represents')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

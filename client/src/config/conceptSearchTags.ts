@@ -80,6 +80,7 @@ export const relatedAccordions: IHalLinks = {
     title: 'Works About or Depicting People and Groups',
     searchTag: 'lux:conceptDepictedAgentFromRelatedWorks',
     tab: 'works',
+    jsonSearchTerm: 'aboutAgent',
   },
   concepts: {
     title: 'Related Concepts',
@@ -111,6 +112,16 @@ export const relatedAccordions: IHalLinks = {
     title: 'People and Groups with Type',
     searchTag: 'lux:typeForAgent',
     tab: 'people',
+  },
+  placeType: {
+    title: 'Places with Type',
+    searchTag: 'lux:typeForPlace',
+    tab: 'places',
+  },
+  eventType: {
+    title: 'Events with Type',
+    searchTag: 'lux:typeForEvent',
+    tab: 'events',
   },
   ...relatedItems,
   locations,

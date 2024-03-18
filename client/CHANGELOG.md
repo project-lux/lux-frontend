@@ -6,6 +6,26 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added People Active Here accordion to place pages ([#34](https://github.com/project-lux/lux-frontend/issues/34)).
+- Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
+- Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
+- Added entity icon to About/Depicts ([#84](https://github.com/project-lux/lux-frontend/issues/84)).
+
+### Changed
+
+- Changed works included and objects included layout ([#85](https://github.com/project-lux/lux-frontend/issues/85)).
+
+### Removed
+
+### Fixed
+
+- Fixed show all links to include sorting params ([#123](https://github.com/project-lux/lux-frontend/issues/123)).
+- Fixed show all links on faceted search lists ([#135](https://github.com/project-lux/lux-frontend/issues/135)).
+
+## v1.21.0 - 2024-3-4
+
+### Added
+
 - Added help text for name field ([#50](https://github.com/project-lux/lux-frontend/issues/50)).
 - Added link to advanced search help page in the advanced search ([#65](https://github.com/project-lux/lux-frontend/issues/65)).
 - Added Search Tips link to the header ([#67](https://github.com/project-lux/lux-frontend/issues/67)).

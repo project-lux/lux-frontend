@@ -33,7 +33,7 @@ const ExpandableList: React.FC<IList> = ({
   const numChildren = children.props.values.length
 
   if (children.props.values.length < length || length === 0) {
-    return <React.Fragment>{children}</React.Fragment>
+    return <div className={`${className} col-sm-12`}>{children}</div>
   }
 
   const rowStyle = {
