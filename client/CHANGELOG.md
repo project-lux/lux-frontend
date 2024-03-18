@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## v1.22.0 - 2024-3-18
 
 ### Added
 
@@ -21,6 +21,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed show all links to include sorting params ([#123](https://github.com/project-lux/lux-frontend/issues/123)).
 - Fixed show all links on faceted search lists ([#135](https://github.com/project-lux/lux-frontend/issues/135)).
+- Fixed names spacing ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
 
 ## v1.21.0 - 2024-3-4
 
