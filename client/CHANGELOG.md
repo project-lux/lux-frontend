@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed sorting of archival material ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+
 ## v1.22.0 - 2024-3-18
 
 ### Added

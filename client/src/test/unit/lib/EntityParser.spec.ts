@@ -101,7 +101,7 @@ describe('EntityParser', () => {
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.dc.invertedTerms,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -113,7 +113,7 @@ describe('EntityParser', () => {
             content: 'This should NOT be returned 1',
             classified_as: [
               {
-                id: config.dc.sortName,
+                id: config.dc.invertedTerms,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -130,7 +130,7 @@ describe('EntityParser', () => {
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.dc.invertedTerms,
                 type: 'Type',
                 _label: 'Sort Name',
               },

@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
-import { useGetMultipleRelationshipsQuery } from '../../redux/api/ml_api'
+import { useGetHierarchyChildrenQuery } from '../../redux/api/ml_api'
 import {
   currentUriInHierarchy,
   extractHalLinks,
@@ -39,7 +39,7 @@ const HierarchyChildrenContainer: React.FC<{
   const links = ancestor._links ? extractHalLinks(ancestor._links) : []
   const skip = links.length === 0
   const { data, isSuccess, isLoading, isFetching } =
-    useGetMultipleRelationshipsQuery(
+    useGetHierarchyChildrenQuery(
       {
         halLinks: links,
         page,
@@ -110,6 +110,8 @@ const HierarchyChildrenContainer: React.FC<{
       value.map((v) => children.push(v)),
     )
 
+    // Right here, get every child
+    console.log('children: ', children)
     return (
       <React.Fragment>
         {children.map((child: string, ind: number) => (

@@ -105,7 +105,7 @@ export const mlApi = createApi({
         return getTimelines(hrefs)
       },
     }),
-    getMultipleRelationships: builder.query<
+    getHierarchyChildren: builder.query<
       any,
       { halLinks: Array<string>; page: number }
     >({
@@ -216,7 +216,7 @@ export const {
   useGetSearchRelationshipQuery,
   useGetFacetedRelationshipQuery,
   useGetTimelineQuery,
-  useGetMultipleRelationshipsQuery,
+  useGetHierarchyChildrenQuery,
   useGetCollectionQuery,
   useGetDataConstantsQuery,
   useGetAdvancedSearchConfigQuery,

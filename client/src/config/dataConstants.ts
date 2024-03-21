@@ -38,6 +38,7 @@ export function defaultConstants(prefix: string): IDataConstants {
     heightConcept: `${prefix}data/concept/32c99593-6526-4cd4-98c7-71e5ccfcafc8`,
     imprintStatement: `${prefix}data/concept/e29bcdc8-e35d-4a6d-a7ae-fd3702611fb8`,
     intersexual: `${prefix}data/concept/3e2f0b8f-e5c0-4b24-805c-2dde5cca71ee`,
+    invertedTerms: `${prefix}data/concept/31497b4e-24ad-47fe-88ad-af2007d7fb5a`, // This will be removed in the data eventually
     langaa: `${prefix}data/concept/a92f7b18-48d4-4fdc-8b65-6413a0fc8d10`,
     langaar: `${prefix}data/concept/4bcc6612-75c7-4628-9019-9a44d3017c01`,
     langab: `${prefix}data/concept/9a86fed4-4c4d-4a10-9699-db274502081c`,
@@ -778,7 +779,8 @@ export function defaultConstants(prefix: string): IDataConstants {
     plantSpecimens: `${prefix}data/concept/47ab8e09-e39c-46f1-b140-bdcabfbf2e1e`,
     primaryName: `${prefix}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`,
     provenanceStatement: `${prefix}data/concept/dd8b8c75-3f4b-4071-a231-161ae556e572`,
-    sortName: `${prefix}data/concept/31497b4e-24ad-47fe-88ad-af2007d7fb5a`,
+    sortName: `${prefix}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`,
+    sortIdentifier: `${prefix}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`,
     statementType: `${prefix}data/concept/b079998d-bb47-470a-ad7d-d938bd091f8a`,
     style: `${prefix}data/concept/532cd8db-d99f-4013-9980-26ddc156d5ad`,
     translatedTitle: `${prefix}data/concept/42e23e1e-c630-4ebd-aab0-f36a42f63170`,

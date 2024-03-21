@@ -134,7 +134,7 @@ export default class EntityParser {
           // check if there are multiple classifications for a name
           if (ids.length > 1) {
             // remove the sort label if there are more than one classifications
-            ids = ids.filter((id) => id !== config.dc.sortName)
+            ids = ids.filter((id) => id !== config.dc.invertedTerms)
             // eslint-disable-next-line prefer-destructuring
             label = ids[0]
           } else if (ids.length === 1) {
@@ -148,7 +148,10 @@ export default class EntityParser {
         }
 
         // Only add the data to the returned object if there is content and the label is not a sort name
-        if (identifier.content !== undefined && label !== config.dc.sortName) {
+        if (
+          identifier.content !== undefined &&
+          label !== config.dc.invertedTerms
+        ) {
           if (data.hasOwnProperty(label)) {
             data[label].push({ content: identifier.content, language })
           } else {
