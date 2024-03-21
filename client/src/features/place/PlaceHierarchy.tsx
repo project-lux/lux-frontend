@@ -2,7 +2,7 @@ import React from 'react'
 
 import IEntity from '../../types/data/IEntity'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
-import { getNextPlaceUri } from '../../lib/util/hierarchyHelpers'
+import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 
 interface IProps {
   entity: IEntity
@@ -14,7 +14,7 @@ const PlaceHierarchy: React.FC<IProps> = ({ entity, columnClassName }) => (
     entity={entity}
     columnClassName={columnClassName}
     maxLength={8}
-    getNextEntityUri={getNextPlaceUri}
+    getNextEntityUri={getNextPlaceUris}
   />
 )
 

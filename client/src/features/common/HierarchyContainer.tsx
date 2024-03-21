@@ -5,19 +5,16 @@ import { skipToken } from '@reduxjs/toolkit/query/react'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
-import { useGetItemQuery } from '../../redux/api/ml_api'
-import SetParser from '../../lib/parse/data/SetParser'
-import { getPath } from '../../lib/util/uri'
+import { useGetItemsQuery } from '../../redux/api/ml_api'
+import {
+  extractHalLinks,
+  getNextSetUris,
+  getParentData,
+  isEntityAnArchive,
+  removeViewFromPathname,
+} from '../../lib/util/hierarchyHelpers'
 
 import HierarchyChild from './HierarchyChild'
-
-function getNextSetUri(entity: IEntity): string | null {
-  const memberOf = entity.member_of
-  if (Array.isArray(memberOf) && memberOf.length > 0 && memberOf[0].id) {
-    return getPath(memberOf[0].id)
-  }
-  return null
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const HierarchyContainer: React.FC<{
@@ -28,7 +25,7 @@ const HierarchyContainer: React.FC<{
   const { pathname } = useLocation()
 
   const [done, setDone] = useState(false)
-  const [archives, setArchives] = useState([entity])
+  const [archives, setArchives] = useState<Array<IEntity>>([entity])
   const [topLevelAncestor, setTopLevelAncestor] = useState<string>(entity.id!)
 
   useEffect(() => {
@@ -36,40 +33,51 @@ const HierarchyContainer: React.FC<{
     setArchives([entity])
   }, [entity])
 
-  const uri = getNextSetUri(archives[0])
-  const queryInput =
-    uri !== null
-      ? {
-          uri,
-        }
-      : skipToken
-  const { data, isSuccess, isError, isLoading, isFetching } =
-    useGetItemQuery(queryInput)
+  const uris = getNextSetUris(archives[0])
+  const queryInput = uris.length > 0 ? uris : skipToken
+
+  const { data, isSuccess, isError, isFetching, isLoading } =
+    useGetItemsQuery(queryInput)
 
   if (isSuccess && !done) {
-    if (getNextSetUri(data) === null || archives.length > 8) {
+    const parent = getParentData(data, isEntityAnArchive)
+
+    if (
+      parent === null ||
+      getNextSetUris(parent).length === 0 ||
+      archives.length > 8
+    ) {
       setDone(true)
     }
 
-    const archiveRecord = new SetParser(data)
-    const isArchive = archiveRecord.isArchive()
-    if (isArchive) {
-      setArchives([data, ...archives])
-      setTopLevelAncestor(data.id)
+    if (parent !== null && isEntityAnArchive(parent)) {
+      setArchives([parent, ...archives])
+      setTopLevelAncestor(parent.id as string)
     }
   }
 
-  if (isSuccess || isError || done || uri === null) {
+  if (isSuccess || isError || done || uris.length === 0) {
     const ancestorIds: Array<string> = archives
       .map((archive) => archive.id!)
       .filter((id) => id !== undefined)
 
-    // if there is only one ancestor and it is an object, do not display hierarchy
-    if (
-      ancestorIds.length === 1 &&
-      (ancestorIds[0].includes('digital') || ancestorIds[0].includes('object'))
-    ) {
-      return null
+    if (ancestorIds.length === 1) {
+      // if there is only one ancestor and it is an object, do not display hierarchy
+      if (
+        ancestorIds[0].includes('digital') ||
+        ancestorIds[0].includes('object')
+      ) {
+        return null
+      }
+      // If there is only one element in the archive and it is the current entity and that entity
+      // does not have children, do not render the hierarchy.
+      if (
+        ancestorIds[0].includes(removeViewFromPathname(pathname)) &&
+        entity._links !== undefined &&
+        extractHalLinks(entity._links).length === 0
+      ) {
+        return null
+      }
     }
 
     return (
@@ -94,7 +102,7 @@ const HierarchyContainer: React.FC<{
     )
   }
 
-  // No part_of exists
+  // No ancestors exist
   return null
 }
 

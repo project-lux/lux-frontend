@@ -18,6 +18,7 @@ import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { IEstimateItems } from '../../types/ISearchEstimates'
 import { getSearchEstimates } from '../../lib/util/fetchSearchEstimates'
+import { getItems } from '../../lib/util/fetchItems'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -62,6 +63,11 @@ export const mlApi = createApi({
           url: `data/${uri}${profileParam}`,
           method: 'GET',
         }
+      },
+    }),
+    getItems: builder.query<any, Array<string>>({
+      queryFn(uris) {
+        return getItems(uris)
       },
     }),
     getName: builder.query<IEntity, IItemParams>({
@@ -212,6 +218,7 @@ export const mlApi = createApi({
 
 export const {
   useGetItemQuery,
+  useGetItemsQuery,
   useGetNameQuery,
   useGetSearchRelationshipQuery,
   useGetFacetedRelationshipQuery,
