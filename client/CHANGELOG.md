@@ -27,6 +27,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Deleted Google site verificatio file ([112](https://github.com/project-lux/lux-frontend/issues/112)).
+
 ### Fixed
 
 - Fixed show all links to include sorting params ([#123](https://github.com/project-lux/lux-frontend/issues/123)).

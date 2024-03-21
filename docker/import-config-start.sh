@@ -29,9 +29,6 @@ if [ "${USE_LOCAL_CONFIG_JSON}" != "yes" ]; then
   rm -f config.json config.encrypted
 fi
 
-echo 'env env'
-cat env
-
 echo "/app:"
 ls -lrt /app
 echo "df:"
