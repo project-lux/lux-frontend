@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed hierarchy on object pages ([#94](https://github.com/project-lux/lux-frontend/issues/94)).
+- Fixed the hierarchy rendering when there is only the current entity ([#79](https://github.com/project-lux/lux-frontend/issues/79)).
 
 ## v1.22.0 - 2024-3-18
 
