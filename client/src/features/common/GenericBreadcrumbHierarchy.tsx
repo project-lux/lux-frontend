@@ -4,8 +4,9 @@ import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
-import { useGetItemQuery } from '../../redux/api/ml_api'
+import { useGetItemsQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
+import { getParentData } from '../../lib/util/hierarchyHelpers'
 
 import RecordLink from './RecordLink'
 
@@ -13,7 +14,7 @@ interface IProps {
   // the entity to display a hierarchy for (Object, Set, Concept, or Place)
   entity: IEntity
   // a function to get the next (parent) entity in the hierarchy
-  getNextEntityUri: (entity: IEntity) => string | null
+  getNextEntityUri: (entity: IEntity) => Array<string>
   // an optional function to filter out unwanted results from the hierarchy list, after all of the next entities have been added
   linkFilter?: (entity: IEntity) => boolean
   // the maximum number of hierarchy results to display
@@ -41,24 +42,29 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
     setEntities([entity])
   }, [entity])
 
-  const uri = getNextEntityUri(entities[0])
-  const queryInput =
-    uri !== null
-      ? {
-          uri,
-          profile: 'results',
-        }
-      : skipToken
+  const uris = getNextEntityUri(entities[0])
+  const queryInput = uris.length > 0 ? uris : skipToken
 
-  const { data, isSuccess, isError, isLoading } = useGetItemQuery(queryInput)
+  const { data, isSuccess, isError, isLoading } = useGetItemsQuery(queryInput)
 
+  // Add the returned data to the current list of parents/entities and set done to true to stop retrieving items
   if (isSuccess && !done) {
-    if (getNextEntityUri(data) === null || entities.length > maxLength) {
+    const entityAsParent = getParentData(data, linkFilter)
+    // Determine if the parent has ancestors
+    if (
+      entityAsParent === null ||
+      getNextEntityUri(entityAsParent).length === 0 ||
+      entities.length > maxLength
+    ) {
       setDone(true)
     }
-    setEntities([data, ...entities])
+
+    if (entityAsParent !== null) {
+      setEntities([entityAsParent, ...entities])
+    }
   }
 
+  // All ancestors have been retrieved
   if (isSuccess || isError || done) {
     const record = new EntityParser(entity)
     const entityName = record.getPrimaryName(config.dc.langen)

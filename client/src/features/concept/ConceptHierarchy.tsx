@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { getNextConceptUri } from '../../lib/util/hierarchyHelpers'
+import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
 import IEntity from '../../types/data/IEntity'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 
@@ -12,7 +12,7 @@ interface IProps {
 const ConceptHierarchy: React.FC<IProps> = ({ entity, columnClassName }) => (
   <GenericBreadcrumbHierarchy
     entity={entity}
-    getNextEntityUri={getNextConceptUri}
+    getNextEntityUri={getNextConceptUris}
     maxLength={10}
     columnClassName={columnClassName}
   />

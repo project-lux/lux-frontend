@@ -1,8 +1,7 @@
 import IEntity from '../../types/data/IEntity'
 import ILinks from '../../types/data/ILinks'
 import ConceptParser from '../parse/data/ConceptParser'
-
-import { getPath } from './uri'
+import SetParser from '../parse/data/SetParser'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
@@ -33,10 +32,10 @@ export const extractHalLinks = (providedLinks: ILinks): Array<string> => {
  * @param {IEntity} concept the current entity to parse
  * @returns {string | null}
  */
-export const getNextConceptUri = (concept: IEntity): string | null => {
+export const getNextConceptUris = (concept: IEntity): Array<string> => {
   const parser = new ConceptParser(concept)
   const broaderId = parser.getBroaderId()
-  const uri = broaderId === null ? null : getPath(broaderId)
+  const uri = broaderId === null ? [] : [broaderId]
   return uri
 }
 
@@ -46,12 +45,12 @@ export const getNextConceptUri = (concept: IEntity): string | null => {
  * @param {IEntity} entity the current entity to parse
  * @returns {string | null}
  */
-export const getNextPlaceUri = (entity: IEntity): string | null => {
+export const getNextPlaceUris = (entity: IEntity): Array<string> => {
   const partOf = entity.part_of
   if (Array.isArray(partOf) && partOf.length > 0 && partOf[0].id) {
-    return getPath(partOf[0].id)
+    return [partOf[0].id]
   }
-  return null
+  return []
 }
 
 /**
@@ -60,10 +59,51 @@ export const getNextPlaceUri = (entity: IEntity): string | null => {
  * @param {IEntity} entity the current entity to parse
  * @returns {string | null}
  */
-export const getNextSetUri = (entity: IEntity): string | null => {
+export const getNextSetUris = (entity: IEntity): Array<string> => {
   const memberOf = entity.member_of
-  if (Array.isArray(memberOf) && memberOf.length > 0 && memberOf[0].id) {
-    return getPath(memberOf[0].id)
+  if (Array.isArray(memberOf) && memberOf.length > 0) {
+    return memberOf
+      .map((member) => {
+        if (member.id !== undefined) {
+          return member.id
+        }
+        return ''
+      })
+      .filter((m) => m !== '')
   }
-  return null
+  return []
+}
+
+/**
+ * Used exclusively in objects breadcrumb hierarchies and in all Explore hierarchies on sets, objects, and works pages
+ * @param {IEntity} entity the current entity to parse
+ * @returns {boolean}
+ */
+export const isEntityAnArchive = (entity: IEntity): boolean => {
+  const setParser = new SetParser(entity)
+  return setParser.isArchive()
+}
+
+/**
+ * returns the parent entity for a given element in the breadcrumb hierarchy
+ * @param {Array<IEntity>} data the current entity to parse
+ * @param {(entity: IEntity) => boolean} filterFunction the callback function to filter out unwanted parents
+ * @returns {IEntity}
+ */
+export const getParentData = (
+  data: Array<IEntity>,
+  filterFunction?: (entity: IEntity) => boolean,
+): IEntity | null => {
+  if (data.length === 0) {
+    return null
+  }
+
+  if (filterFunction !== undefined) {
+    for (const d of data) {
+      if (filterFunction(d)) {
+        return d
+      }
+    }
+  }
+  return data[0]
 }
