@@ -86,7 +86,7 @@ describe('Results page shared components', () => {
       it('renders the navigation component', async () => {
         const { findAllByText } = render(<AppRender route={page} />)
 
-        await findAllByText(/Objects results/i)
+        await findAllByText(/Files results/i)
         const navbar = screen.getByTestId('results-page-navbar')
         expect(navbar).toBeInTheDocument()
       })
@@ -94,9 +94,9 @@ describe('Results page shared components', () => {
       it('renders the correct estimate for the current tab', async () => {
         const { findByText } = render(<AppRender route={page} />)
 
-        await findByText(/801 Objects results/i)
+        await findByText(/801 Files results/i)
         const tabButton = screen.getByTestId('objects-results-tab-button')
-        expect(tabButton).toHaveTextContent('Objects (801)')
+        expect(tabButton).toHaveTextContent('Files (801)')
       })
     })
 
@@ -123,7 +123,7 @@ describe('Results page shared components', () => {
       it('renders the simple search', async () => {
         const { findAllByText } = render(<AppRender route={page} />)
 
-        await findAllByText(/Objects results/i)
+        await findAllByText(/Files results/i)
         const simpleSearch = screen.getByTestId(
           'results-search-container-simple-search-form',
         )
@@ -145,7 +145,7 @@ describe('Results page shared components', () => {
       it('renders the no results message if there are no results', async () => {
         const { findAllByText } = render(<AppRender route={errorPage} />)
 
-        await findAllByText(/Objects results/i)
+        await findAllByText(/Files results/i)
         const header = screen.getByTestId('results-error-alert')
         expect(header).toHaveTextContent(
           'Error message that should display in the alert.',

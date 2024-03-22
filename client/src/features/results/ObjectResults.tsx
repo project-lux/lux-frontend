@@ -75,7 +75,7 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse }) => {
             <ResultsHeader
               key={sort}
               total={data ? estimate : 0}
-              label="Objects"
+              label="Files"
               overlay="objects"
               toggleView
             />

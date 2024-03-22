@@ -37,7 +37,7 @@ describe('Advanced Search', () => {
     render(<AppRender route={page} />)
 
     const header = screen.getByTestId('advanced-search-header')
-    expect(header).toHaveTextContent('Search for Objects that...')
+    expect(header).toHaveTextContent('Search for Files that...')
   })
 
   describe('Form', () => {

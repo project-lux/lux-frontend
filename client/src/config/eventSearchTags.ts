@@ -8,13 +8,18 @@ import { IHalLinks } from '../types/IHalLinks'
 // Tab content for related objects
 export const relatedObjects: IHalLinks = {
   objects: {
-    title: 'Objects in Exhibition',
+    title: 'Files in Exhibition',
     searchTag: 'lux:eventIncludedItems',
     tab: 'objects',
   },
   works: {
-    title: 'Works About',
+    title: 'Datasets About',
     searchTag: 'lux:eventWorksAbout',
+    tab: 'works',
+  },
+  worksCausedBy: {
+    title: 'Generated Datasets',
+    searchTag: 'lux:eventWorksCausedBy',
     tab: 'works',
   },
 }
@@ -22,25 +27,25 @@ export const relatedObjects: IHalLinks = {
 // Used for rendering related types accordions
 export const itemAndWorkTypes: IHalLinks = {
   itemTypes: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:eventObjectTypesUsed',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   itemTypesPeriods: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:eventObjectTypesAbout',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
-    title: 'Work Types',
+    title: 'Dataset Types',
     searchTag: 'lux:eventWorkTypesUsed',
     tab: 'works',
     jsonSearchTerm: 'classification',
   },
   workTypesPeriods: {
-    title: 'Work Types',
+    title: 'Dataset Types',
     searchTag: 'lux:eventWorkTypesAbout',
     tab: 'works',
     jsonSearchTerm: 'classification',

@@ -13,7 +13,7 @@ describe('Linguistic Object page', () => {
     siteImproveMock()
   })
 
-  describe('Objects containing work', () => {
+  describe('Files containing work', () => {
     it('renders the included works', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 

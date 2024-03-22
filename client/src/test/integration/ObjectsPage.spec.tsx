@@ -9,7 +9,7 @@ import siteImproveMock from './utils/mockSiteImprove'
 
 jest.mock('leaflet')
 
-describe('Objects page', () => {
+describe('Files page', () => {
   const page = '/view/object/mock-object'
 
   beforeEach(async () => {

@@ -29,12 +29,12 @@ import { pushSiteImproveEvent } from '../../lib/siteImprove'
 import { ResultsTab } from '../../types/ResultsTab'
 
 const tabToLinkLabel: Record<string, string> = {
-  objects: 'Objects',
-  works: 'Works',
+  objects: 'Files',
+  works: 'Datasets',
   people: 'People & Groups',
   places: 'Places',
   concepts: 'Concepts',
-  events: 'Events',
+  events: 'Projects',
 }
 
 interface INavigation {
