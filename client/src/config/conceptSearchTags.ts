@@ -9,13 +9,13 @@ import { IHalLinks } from '../types/IHalLinks'
 // Used for rendering related types accordions
 export const relatedItems: IHalLinks = {
   itemTypes: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:conceptItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
-    title: 'Work Types',
+    title: 'Dataset Types',
     searchTag: 'lux:conceptWorkTypes',
     tab: 'works',
     jsonSearchTerm: 'classification',
@@ -25,12 +25,12 @@ export const relatedItems: IHalLinks = {
 // Tab content for related objects and works
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsRelated: {
-    title: 'Objects Related',
+    title: 'Files Related',
     searchTag: 'lux:conceptRelatedItems',
     tab: 'objects',
   },
   worksRelated: {
-    title: 'Works Related',
+    title: 'Datasets Related',
     searchTag: 'lux:conceptRelatedWorks',
     tab: 'works',
   },
@@ -77,7 +77,7 @@ export const relatedAccordions: IHalLinks = {
     isSemantic: true,
   },
   worksAboutAgent: {
-    title: 'Works About or Depicting People and Groups',
+    title: 'Datasets About or Depicting People and Groups',
     searchTag: 'lux:conceptDepictedAgentFromRelatedWorks',
     tab: 'works',
     jsonSearchTerm: 'aboutAgent',
@@ -119,7 +119,7 @@ export const relatedAccordions: IHalLinks = {
     tab: 'places',
   },
   eventType: {
-    title: 'Events with Type',
+    title: 'Projects with Type',
     searchTag: 'lux:typeForEvent',
     tab: 'events',
   },

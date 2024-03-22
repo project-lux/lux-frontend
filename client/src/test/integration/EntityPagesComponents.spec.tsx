@@ -33,7 +33,7 @@ describe('Entity pages relationship components', () => {
     )
   })
 
-  describe('Related Objects and Works', () => {
+  describe('Related Files and Works', () => {
     beforeEach(() => {
       jest
         .spyOn(siteImprove, 'pushSiteImproveEvent')
@@ -43,7 +43,7 @@ describe('Entity pages relationship components', () => {
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Objects Created or Encountered By/i)
+      await findAllByText(/Files Created or Encountered By/i)
       const names = screen.getByTestId('names-container')
       expect(names).toBeInTheDocument()
     })
@@ -120,7 +120,7 @@ describe('Entity pages relationship components', () => {
       const relation = screen.getByTestId(
         '1983-itemProductionDate-relationship',
       )
-      expect(relation).toHaveTextContent('Objects Produced')
+      expect(relation).toHaveTextContent('Files Produced')
     })
 
     it('renders the year search link', async () => {

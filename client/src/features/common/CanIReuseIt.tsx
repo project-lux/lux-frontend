@@ -67,7 +67,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         )}
         {entityType !== 'work' && carries.length > 0 && (
           <p data-testid="rights-information-statement">
-            Rights information may be available on the associated Works page.
+            Rights information may be available on the associated Datasets page.
           </p>
         )}
         {carries.length === 0 && subjectTo.length === 0 && (

@@ -1,4 +1,5 @@
 import IAgent from './IAgent'
+import IConcept from './IConcept'
 import IEntity from './IEntity'
 import IPlace from './IPlace'
 import ITimeSpan from './ITimeSpan'
@@ -9,6 +10,7 @@ export default interface IEvent extends IEntity {
   assigned_by?: IEntity[]
   attributed_by?: IEvent[]
   carried_out_by?: IAgent[]
+  caused_by?: IConcept[]
   influenced_by?: IEntity[]
   occurred_during?: IEntity[]
   part?: IEvent[]

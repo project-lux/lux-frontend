@@ -12,6 +12,7 @@ import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
 import TextContainer from '../common/TextContainer'
 import { personLabels } from '../../config/personLabels'
+import IdentifiersList from '../common/IdentifiersList'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -44,6 +45,7 @@ const About: React.FC<IProps> = ({ data }) => {
     residence,
     // shared
     classifiedAs,
+    identifiers,
     names,
     memberOf,
     professionalActivity,
@@ -145,6 +147,9 @@ const About: React.FC<IProps> = ({ data }) => {
               ))}
             />
           </TextContainer>
+        )}
+        {identifiers.length > 0 && (
+          <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>

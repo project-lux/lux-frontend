@@ -448,6 +448,7 @@ export default class PersonAndGroupParser extends EntityParser {
     const webPages = this.getWebPages()
     const notes = this.getNotes()
     const classifiedAs = this.getAllClassifiedAs()
+    const identifiers = this.getIdentifiers()
 
     // Values only used by Person
     const birthDate = this.getBirthDate()
@@ -470,6 +471,7 @@ export default class PersonAndGroupParser extends EntityParser {
       names,
       memberOf,
       classifiedAs,
+      identifiers,
       residence,
       professionalActivity,
       webPages,

@@ -121,8 +121,15 @@ const ProductionEventBody: React.FC<IProps> = ({
   id,
   stackKeyValuePairs = false,
 }) => {
-  const { agents, dates, locations, references, techniques, timePeriods } =
-    event
+  const {
+    agents,
+    dates,
+    locations,
+    causes,
+    references,
+    techniques,
+    timePeriods,
+  } = event
   const keyClassName = stackKeyValuePairs ? rightPanelKeyClass : keyClass
   const valueClassName = stackKeyValuePairs ? rightPanelValueClass : valueClass
 
@@ -147,6 +154,18 @@ const ProductionEventBody: React.FC<IProps> = ({
           <div className={valueClassName}>
             <dd data-testid={`${id}-event-location`}>
               {RecordLinksList(locations)}
+            </dd>
+          </div>
+        </div>
+      )}
+      {causes.length > 0 && (
+        <div className="row">
+          <div className={keyClassName}>
+            <dt>Caused By</dt>
+          </div>
+          <div className={valueClassName}>
+            <dd data-testid={`${id}-event-location`}>
+              {RecordLinksList(causes)}
             </dd>
           </div>
         </div>

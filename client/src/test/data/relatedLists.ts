@@ -25,7 +25,7 @@ export const mockRelatedListsResults = {
         type: 'test',
       },
       value: `${config.env.dataApiBaseUrl}data/concept/mock-concept-1`,
-      name: 'Is the Category of Objects Created By',
+      name: 'Is the Category of Files Created By',
     },
     {
       id: 'id',
@@ -84,7 +84,7 @@ export const mockTranslatedRelatedListsResults = {
     },
     item: {
       relations: {
-        'Is the Category of Objects Created By': {
+        'Is the Category of Files Created By': {
           totalItems: 217,
           criteria: {
             AND: [
