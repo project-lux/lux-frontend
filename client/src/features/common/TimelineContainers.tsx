@@ -60,10 +60,10 @@ const Relations: React.FC<{
   searchTag: string
 }> = ({ searchTags, data, year, searchTag }) => {
   const facetNameMap: Map<string, string> = new Map([
-    ['itemProductionDate', 'Objects Produced'],
-    ['itemEncounteredDate', 'Objects Encountered'],
-    ['workCreationDate', 'Works Created'],
-    ['workPublicationDate', 'Works Published'],
+    ['itemProductionDate', 'Files Produced'],
+    ['itemEncounteredDate', 'Files Encountered'],
+    ['workCreationDate', 'Datasets Created'],
+    ['workPublicationDate', 'Datasets Published'],
   ])
 
   const { tab, jsonSearchTerm } = searchTags[searchTag]
@@ -123,7 +123,7 @@ const TimelineContainers: React.FC<{
             data-testid="timeline-container"
           >
             <Col xs={12}>
-              <h2>Timeline of Related Objects/Works</h2>
+              <h2>Timeline of Related Files/Datasets</h2>
             </Col>
             <Col xs={12}>
               <dl>

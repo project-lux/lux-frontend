@@ -45,6 +45,7 @@ const About: React.FC<IProps> = ({ data }) => {
     residence,
     // shared
     classifiedAs,
+    identifiers,
     names,
     memberOf,
     professionalActivity,
@@ -149,6 +150,9 @@ const About: React.FC<IProps> = ({ data }) => {
               ))}
             />
           </TextContainer>
+        )}
+        {identifiers.length > 0 && (
+          <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>

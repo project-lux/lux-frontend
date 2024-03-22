@@ -3,7 +3,7 @@ import { ICmsPage } from '../../redux/api/returnTypes'
 export const cmsObjectsResponse: ICmsPage = {
   data: {
     attributes: {
-      title: 'Objects Description',
+      title: 'Files Description',
       body: 'Description of the objects results.',
     },
   },
@@ -12,7 +12,7 @@ export const cmsObjectsResponse: ICmsPage = {
 export const cmsWorksResponse: ICmsPage = {
   data: {
     attributes: {
-      title: 'Works Description',
+      title: 'Datasets Description',
       body: 'Description of the works results.',
     },
   },

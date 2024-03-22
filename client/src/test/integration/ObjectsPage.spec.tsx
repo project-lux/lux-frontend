@@ -18,7 +18,7 @@ jest.mock('../../lib/util/collectionHelper', () => ({
   })),
 }))
 
-describe('Objects page', () => {
+describe('Files page', () => {
   const page = '/view/object/mock-object'
 
   beforeEach(async () => {

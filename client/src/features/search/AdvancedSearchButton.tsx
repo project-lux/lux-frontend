@@ -84,7 +84,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
               eventKey="objects"
               data-testid={`${id}-objects-dropdown-item`}
             >
-              Objects
+              Files
               <Tooltip
                 html={EntityResultsDescription('objects') || ''}
                 placement="bottom"
@@ -101,7 +101,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
               eventKey="works"
               data-testid={`${id}-works-dropdown-item`}
             >
-              Works
+              Datasets
               <Tooltip
                 html={EntityResultsDescription('works') || ''}
                 placement="bottom"
@@ -169,7 +169,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
               eventKey="events"
               data-testid={`${id}-events-dropdown-item`}
             >
-              Events
+              Projects
               <Tooltip
                 html={EntityResultsDescription('events') || ''}
                 placement="bottom"

@@ -23,6 +23,7 @@ const emptyProductionEventInfo = (): IEventInfo => ({
   agents: [],
   dates: [],
   locations: [],
+  causes: [],
   techniques: [],
   timePeriods: [],
   references: [],
@@ -97,6 +98,15 @@ export default class EventParser extends EntityParser {
   }
 
   /**
+   * Returns data from /caused_by
+   * @returns {Array<string>}
+   */
+  getCausedBy(): Array<string> {
+    const causedBy = forceArray(this.event.caused_by)
+    return getClassifiedAs(causedBy)
+  }
+
+  /**
    * Returns data from /part
    * @returns {Array<IEventPart>}
    */
@@ -160,6 +170,7 @@ export default class EventParser extends EntityParser {
     info.techniques = this.getTechniques()
     info.dates = this.getDates()
     info.locations = this.getLocations()
+    info.causes = this.getCausedBy()
     info.timePeriods = this.getTimePeriods()
     info.references = this.getReferences()
     info.influences = this.getInfluences()
