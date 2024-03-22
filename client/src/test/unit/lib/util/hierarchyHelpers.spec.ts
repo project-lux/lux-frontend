@@ -1,9 +1,19 @@
+import config from '../../../../config/config'
 import {
   currentUriInHierarchy,
   extractHalLinks,
+  getNextConceptUris,
+  getNextPlaceUris,
+  getNextSetUris,
+  getParentData,
+  isEntityAnArchive,
   isInHierarchy,
   removeViewFromPathname,
 } from '../../../../lib/util/hierarchyHelpers'
+import { concept as mockConcept } from '../../../data/concept'
+import { place as mockPlace } from '../../../data/place'
+import { physicalObject as mockObject } from '../../../data/object'
+import { reusableMinimalEntity as mockEntity } from '../../../data/reusableMinimalEntity'
 
 describe('hierarchyHelpers', () => {
   const mockAncestors = [
@@ -71,6 +81,60 @@ describe('hierarchyHelpers', () => {
 
     it('returns array of strings', () => {
       expect(links).toStrictEqual(comparativeLinks)
+    })
+  })
+
+  describe('getNextConceptUris', () => {
+    it('returns array', () => {
+      expect(getNextConceptUris(mockConcept)).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/concept/broader-1`,
+      ])
+    })
+
+    it('returns empty array', () => {
+      expect(getNextConceptUris(mockEntity('Mock Concept'))).toStrictEqual([])
+    })
+  })
+
+  describe('getNextPlaceUris', () => {
+    it('returns array', () => {
+      expect(getNextPlaceUris(mockPlace)).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/place/mock-place-parent-entity`,
+      ])
+    })
+
+    it('returns empty array', () => {
+      expect(getNextPlaceUris(mockEntity('Mock Place'))).toStrictEqual([])
+    })
+  })
+
+  describe('getNextSetUris', () => {
+    it('returns array', () => {
+      expect(getNextSetUris(mockObject)).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
+        `${config.env.dataApiBaseUrl}data/set/member-of-unit-1`,
+      ])
+    })
+
+    it('returns empty array', () => {
+      expect(getNextSetUris(mockEntity('Mock Object'))).toStrictEqual([])
+    })
+  })
+
+  describe('getParentData', () => {
+    it('returns null', () => {
+      expect(getParentData([])).toBeNull()
+    })
+
+    it('returns filtered entity', () => {
+      expect(getParentData([mockObject], isEntityAnArchive)).toStrictEqual(
+        mockObject,
+      )
+    })
+
+    it('returns data', () => {
+      expect(getParentData([mockObject, mockPlace])).toStrictEqual(mockObject)
     })
   })
 })
