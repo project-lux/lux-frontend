@@ -76,7 +76,7 @@ const WorksResults: React.FC<IProps> = ({ searchResponse }) => {
               <ResultsHeader
                 key={sort}
                 total={estimate}
-                label="Works"
+                label="Datasets"
                 overlay="works"
                 toggleView
               />

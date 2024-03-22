@@ -72,7 +72,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
               <ResultsHeader
                 key={sort}
                 total={estimate}
-                label="Events"
+                label="Projects"
                 overlay="events"
               />
               {resultsList(data.orderedItems)}

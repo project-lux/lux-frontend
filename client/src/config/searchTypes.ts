@@ -21,8 +21,8 @@ export const searchTypes: Record<string, string> = {
  * Several functions depend on the values of this object to all be strings with unique first characters
  */
 export const searchScope: Record<string, string> = {
-  objects: 'item',
   works: 'work',
+  objects: 'item',
   people: 'agent',
   places: 'place',
   concepts: 'concept',
@@ -46,12 +46,12 @@ export const scopeToTabTranslation: Record<string, string> = {
  * Maps the results tab type to the appropriate Advanced Search header text.
  */
 export const advancedSearchTitles: Record<string, string> = {
-  objects: 'Objects',
-  works: 'Works',
+  objects: 'Files',
+  works: 'Datasets',
   people: 'People & Groups',
   places: 'Places',
   concepts: 'Concepts',
-  events: 'Events',
+  events: 'Projects',
 }
 
 /**

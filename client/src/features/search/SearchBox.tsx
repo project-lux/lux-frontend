@@ -64,7 +64,7 @@ const SearchBox: React.FC<{
 
   let simpleQuery: string | null = null
   const { search } = useLocation()
-  const tab = useParams<{ tab: string }>().tab || 'objects'
+  const tab = useParams<{ tab: string }>().tab || 'works'
   const queryString = new URLSearchParams(search)
   simpleQuery = queryString.get('sq') || ''
 

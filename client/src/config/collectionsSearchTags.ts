@@ -8,7 +8,7 @@ import { IHalLinks } from '../types/IHalLinks'
 // Tab content for related objects
 export const objectsIncluded: IHalLinks = {
   objects: {
-    title: 'Objects Included',
+    title: 'Files Included',
     searchTag: 'lux:setIncludedItems',
     tab: 'objects',
   },
@@ -30,7 +30,7 @@ export const timeline: IHalLinks = {
 
 export const relatedTypes: IHalLinks = {
   types: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:setItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
