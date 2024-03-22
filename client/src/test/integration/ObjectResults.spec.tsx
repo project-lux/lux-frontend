@@ -45,15 +45,15 @@ describe('Object results page', () => {
     it('renders the correct title', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Objects results/i)
+      await findAllByText(/Files results/i)
       const title = screen.getByTestId('results-header-title')
-      expect(title).toHaveTextContent('801 Objects results')
+      expect(title).toHaveTextContent('801 Files results')
     })
 
     it('renders the correct results descriptor', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Objects results/i)
+      await findAllByText(/Files results/i)
       const descriptor = screen.getByTestId('results-page-cms-descriptor')
       expect(descriptor).toHaveTextContent(
         'Description of the objects results.',
@@ -63,7 +63,7 @@ describe('Object results page', () => {
     it('renders the grid view button', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Objects results/i)
+      await findAllByText(/Files results/i)
       const button = screen.getByTestId('switch-to-grid-view-button')
       expect(button).toBeInTheDocument()
     })
@@ -76,7 +76,7 @@ describe('Object results page', () => {
     it('renders the list view button', async () => {
       const { findAllByText } = render(<AppRender route={gridViewPage} />)
 
-      await findAllByText(/Objects results/i)
+      await findAllByText(/Files results/i)
       const button = screen.getByTestId('switch-to-list-view-button')
       expect(button).toBeInTheDocument()
     })

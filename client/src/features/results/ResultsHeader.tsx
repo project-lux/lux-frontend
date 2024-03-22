@@ -69,7 +69,23 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     ? (queryString.get(sortName)?.split(':')[1] as string)
     : undefined
   const sortByOptions = sortBy[tab]
-  const descriptiveText = EntityResultsDescription(overlay) || ''
+  let descriptiveText = EntityResultsDescription(overlay) || ''
+  // For datasets
+  if (tab === 'works') {
+    descriptiveText = 'Records about datasets that match your search.'
+  }
+
+  // For files
+  if (tab === 'objects') {
+    descriptiveText =
+      'Records about data files, such as CSVs, that match your search.'
+  }
+
+  // For projects
+  if (tab === 'events') {
+    descriptiveText =
+      'Records about projects and grants related to datasets that match your search.'
+  }
 
   const [sortBySelection, setSortBySelection] = useState<string>(sort || '')
   const [selectedSortDirection, setSelectedSortDirection] = useState<string>(

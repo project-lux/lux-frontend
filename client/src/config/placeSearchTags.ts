@@ -9,22 +9,22 @@ import { IHalLinks } from '../types/IHalLinks'
 // Tab content for related objects and works
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsRelated: {
-    title: 'Objects Made or Encountered At',
+    title: 'Files Made or Encountered At',
     searchTag: 'lux:placeMadeDiscoveredItem',
     tab: 'objects',
   },
   worksCreatedAt: {
-    title: 'Works Created At',
+    title: 'Datasets Created At',
     searchTag: 'lux:placeCreatedWork',
     tab: 'works',
   },
   worksPublishedAt: {
-    title: 'Works Published At',
+    title: 'Datasets Published At',
     searchTag: 'lux:placePublishedWork',
     tab: 'objects',
   },
   worksAboutPlace: {
-    title: 'Works About',
+    title: 'Datasets About',
     searchTag: 'lux:placeWorkAbout',
     tab: 'works',
   },
@@ -33,13 +33,13 @@ export const relatedObjectsAndWorks: IHalLinks = {
 // Related item and work types
 export const relatedTypes: IHalLinks = {
   itemTypes: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:placeItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
-    title: 'Work Types',
+    title: 'Dataset Types',
     searchTag: 'lux:placeWorkTypes',
     tab: 'works',
     jsonSearchTerm: 'classification',
@@ -89,7 +89,7 @@ export const relatedAccordions: IHalLinks = {
     tab: 'concepts',
   },
   events: {
-    title: 'Events that Took Place Here',
+    title: 'Projects that Took Place Here',
     searchTag: 'lux:placeEvents',
     tab: 'events',
   },

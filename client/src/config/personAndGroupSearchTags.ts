@@ -9,22 +9,22 @@ import { IHalLinks } from '../types/IHalLinks'
 // Shown in people and group page tab content
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsCreated: {
-    title: 'Objects Created or Encountered By',
+    title: 'Files Created or Encountered By',
     searchTag: 'lux:agentMadeDiscoveredItem',
     tab: 'objects',
   },
   objectsInDepartment: {
-    title: 'Objects in Collection',
+    title: 'Files in Collection',
     searchTag: 'lux:departmentItems',
     tab: 'objects',
   },
   worksCreated: {
-    title: 'Works Created or Published',
+    title: 'Datasets Created or Published',
     searchTag: 'lux:agentCreatedPublishedWork',
     tab: 'works',
   },
   worksAbout: {
-    title: 'Works About',
+    title: 'Datasets About',
     searchTag: 'lux:agentWorkAbout',
     tab: 'works',
   },
@@ -33,13 +33,13 @@ export const relatedObjectsAndWorks: IHalLinks = {
 // Used for rendering related types accordions
 export const itemAndWorkTypes: IHalLinks = {
   itemTypes: {
-    title: 'Object Types',
+    title: 'File Types',
     searchTag: 'lux:agentRelatedItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
-    title: 'Work Types',
+    title: 'Dataset Types',
     searchTag: 'lux:agentRelatedWorkTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
@@ -110,12 +110,12 @@ export const relatedAccordions: IHalLinks = {
     tab: 'concepts',
   },
   eventsCarriedOut: {
-    title: 'Events Carried Out',
+    title: 'Projects Carried Out',
     searchTag: 'lux:agentEventsCarriedOut',
     tab: 'events',
   },
   eventsContainingObjects: {
-    title: 'Events Containing Objects Created By',
+    title: 'Projects Containing Objects Created By',
     searchTag: 'lux:agentEventsUsingProducedObjects',
     tab: 'events',
   },

@@ -14,11 +14,23 @@ interface IApiText {
 const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
   const [displayLength, setDisplayLength] = useState<number>(defaultLength)
 
-  const object = new ObjectParser(entity)
-  const works = object.getWorks()
-  const digitallyCarries = object.getDigitallyCarries()
-  const digitallyShows = object.getDigitallyShows()
-  const carries = [...works, ...digitallyCarries, ...digitallyShows]
+  let headerText = 'This file includes the following datasets'
+  let carries: Array<string> = []
+  if (entity.type === 'HumanMadeObject') {
+    const object = new ObjectParser(entity)
+    const works = object.getWorks()
+    const digitallyCarries = object.getDigitallyCarries()
+    const digitallyShows = object.getDigitallyShows()
+    carries = [...works, ...digitallyCarries, ...digitallyShows]
+  }
+
+  if (entity.type === 'DigitalObject') {
+    const object = new ObjectParser(entity)
+    const memberOf = object.getMemberOf()
+    carries = [...memberOf]
+    headerText = 'This file is part of the following datasets'
+  }
+
   const carriesLength = carries.length
 
   if (carriesLength === 0) {
@@ -27,7 +39,7 @@ const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
 
   return (
     <StyledEntityPageSection data-testid="carries-container">
-      <h2>This object includes the following works</h2>
+      <h2>{headerText}</h2>
       {/* uri is not needed in this case */}
       {carries.slice(0, displayLength).map((work) => (
         <div key={work} className="row">

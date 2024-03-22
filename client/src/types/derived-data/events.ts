@@ -14,6 +14,7 @@ export interface IEventInfo {
   agents: IEventAgent[]
   dates: string[] // timespan
   locations: string[] // took_place_at
+  causes: string[] // caused_by
   techniques: string[] // technique
   timePeriods: string[] // occurred_during
   references: IEventReference[] // referred_to_by

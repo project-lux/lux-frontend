@@ -19,7 +19,7 @@ const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
   // if (isSuccess && data && data.orderedItems.length > 0) {
   return (
     <StyledEntityPageSection data-testid="carried-by-container">
-      <h2>This work is included in the following objects</h2>
+      <h2>This dataset is included in the following files</h2>
       <ObjectsContainer uri={workCarriedByQuery} tab="objects" />
     </StyledEntityPageSection>
   )
