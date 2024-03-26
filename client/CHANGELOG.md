@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Added Related Locations to event pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
 - Added SI event for simple search ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 - Added SI event for facet events ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
+- Added SI event for search links ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 
 ### Changed
 
