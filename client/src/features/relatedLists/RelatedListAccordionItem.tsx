@@ -110,6 +110,7 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
                 results={data.results}
                 halLink={halLink}
                 next={data.next}
+                title={title || ''}
               />
             )}
           </div>
