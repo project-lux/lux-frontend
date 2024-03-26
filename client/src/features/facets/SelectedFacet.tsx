@@ -13,6 +13,7 @@ import { ICriteria } from '../../types/ISearchResults'
 import { useAppDispatch } from '../../app/hooks'
 import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 const StyledSelectedFacetContainer = styled.div`
   background: #ffffff;
@@ -49,6 +50,16 @@ const SelectedFacet: React.FC<ISelected> = ({
   const navigate = useNavigate()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
 
+  let label = getSelectedLabel(scope, searchTag, option)
+
+  const nameResult = useGetNameQuery(
+    label.match('https://') ? { uri: stripYaleIdPrefix(option) } : skipToken,
+  )
+
+  if (nameResult.isSuccess && nameResult.data) {
+    label = new EntityParser(nameResult.data).getPrimaryName(config.dc.langen)
+  }
+
   const handleRemoveFacet = (): void => {
     if (facetQuery != null) {
       const newSearchParams = removeFacet(
@@ -60,18 +71,9 @@ const SelectedFacet: React.FC<ISelected> = ({
         tab,
       )
       dispatch(reset())
+      pushSiteImproveEvent('Facets', `Remove ${label}`, 'Selected Filters')
       navigate(`${pathname}?${newSearchParams}`)
     }
-  }
-
-  let label = getSelectedLabel(scope, searchTag, option)
-
-  const nameResult = useGetNameQuery(
-    label.match('https://') ? { uri: stripYaleIdPrefix(option) } : skipToken,
-  )
-
-  if (nameResult.isSuccess && nameResult.data) {
-    label = new EntityParser(nameResult.data).getPrimaryName(config.dc.langen)
   }
 
   return (

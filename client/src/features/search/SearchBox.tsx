@@ -13,6 +13,7 @@ import {
 } from '../../redux/slices/simpleSearchSlice'
 import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 const StyledSearchBox = styled.div`
   display: flex;
@@ -115,6 +116,7 @@ const SearchBox: React.FC<{
           inputRef.current!.value = ''
           setIsError(false)
           setIsLoading(false)
+          pushSiteImproveEvent('Search', 'submit', `from ${pathname}`)
           navigate(
             {
               pathname: `/view/results/${tab}/`,
