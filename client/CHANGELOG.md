@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added SI event for simple search ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
+
 ### Changed
 
 ### Removed
@@ -20,7 +22,6 @@ All notable changes to this project will be documented in this file.
 - Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
 - Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
 - Added entity icon to About/Depicts ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
-- Added entity icon to About/Depicts ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
 
 ### Changed
 
