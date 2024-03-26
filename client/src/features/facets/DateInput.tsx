@@ -6,13 +6,14 @@ import styled from 'styled-components'
 
 import { addFacets } from '../../redux/slices/facetsSlice'
 import { useAppDispatch } from '../../app/hooks'
-import { facetSearchTerms } from '../../config/facets'
+import { facetLabels, facetSearchTerms } from '../../config/facets'
 import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
 import { removeFacetFromQuery } from '../../lib/facets/removeFacet'
 import theme from '../../styles/theme'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { searchScope } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import DateSlider from './DateSlider'
 
@@ -84,6 +85,11 @@ const DateInput: React.FC<IFacets> = ({
     }
 
     dispatch(addFacets({ facetName: facetSection, facetUri: '' }))
+    pushSiteImproveEvent(
+      'Facets',
+      `Update Date Value to ${earliest}-${latest}`,
+      facetLabels[facetSection],
+    )
     setRedirect(true)
   }
 
