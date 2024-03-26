@@ -6,6 +6,7 @@ import SemanticSearchLink from '../../../../features/relatedLists/SemanticSearch
 
 const mockId = 'test'
 const mockScope = 'item'
+const mockTitle = 'test title'
 const mockCriteria = {
   AND: [
     {
@@ -25,6 +26,7 @@ describe('SemanticSearchLink', () => {
           criteria={mockCriteria}
           id={mockId}
           total={10}
+          title={mockTitle}
         />
       </BrowserRouter>,
     )
@@ -41,6 +43,7 @@ describe('SemanticSearchLink', () => {
           criteria={mockCriteria}
           id={mockId}
           total={10}
+          title={mockTitle}
         />
       </BrowserRouter>,
     )
@@ -61,6 +64,7 @@ describe('SemanticSearchLink', () => {
           id={mockId}
           total={10}
           label="item"
+          title={mockTitle}
         />
       </BrowserRouter>,
     )
@@ -76,6 +80,7 @@ describe('SemanticSearchLink', () => {
           scope={mockScope}
           criteria={mockCriteria}
           id={mockId}
+          title={mockTitle}
         />
       </BrowserRouter>,
     )

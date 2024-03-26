@@ -5,11 +5,13 @@ import { useLocation } from 'react-router-dom'
 
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ILinkParams {
   scope: string
   criteria: IAdvancedSearchState
   id: string
+  title: string
   total?: number
   label?: string
 }
@@ -18,6 +20,7 @@ const SemanticSearchLink: React.FC<ILinkParams> = ({
   scope,
   criteria,
   id,
+  title,
   total,
   label,
 }) => {
@@ -25,6 +28,10 @@ const SemanticSearchLink: React.FC<ILinkParams> = ({
   const tab = scopeToTabTranslation[scope]
 
   const searchQ = JSON.stringify(criteria)
+  const linkLabel = `Show all ${total || ''} ${label || ''} result${
+    total !== 1 ? 's' : ''
+  }`
+
   return (
     <Link
       to={{
@@ -35,10 +42,12 @@ const SemanticSearchLink: React.FC<ILinkParams> = ({
         prevPath: pathname,
         targetName: `/view/results/${tab}?q=${searchQ}&openSearch=false`,
       }}
+      onClick={() =>
+        pushSiteImproveEvent(`${title} Show All Link`, 'Selected', linkLabel)
+      }
       data-testid={`semantic-search-link-${id}`}
     >
-      Show all {total} {label} result
-      {total !== 1 && `s`}
+      {linkLabel}
     </Link>
   )
 }

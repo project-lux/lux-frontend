@@ -19,6 +19,7 @@ import SemanticSearchLink from './SemanticSearchLink'
 interface IProps {
   results: IRelatedListResults
   halLink: string
+  title: string
   next?: {
     id: string
     type: string
@@ -54,7 +55,8 @@ const SemanticRelatedListRow: React.FC<{
   uri: string
   results: IRelatedListResults
   index: number
-}> = ({ uri, results, index }) => {
+  title: string
+}> = ({ uri, results, index, title }) => {
   const { pathname } = useLocation()
   const pageScope = pathname.replace('/view/', '').split('/')
   const isDevEnvironment = pathname.includes('lux-front-dev')
@@ -82,6 +84,7 @@ const SemanticRelatedListRow: React.FC<{
                     criteria={results[uri][scope].criteria}
                     label={scope === 'item' ? 'object' : scope}
                     id={`${scope}-${ind}`}
+                    title={title}
                   />
                 </dd>
                 {Object.keys(results[uri]).length - 1 !== ind && (
@@ -128,6 +131,7 @@ const SemanticRelatedListRow: React.FC<{
                           criteria={
                             results[uri][scope].relations[name].criteria
                           }
+                          title={title}
                         />
                       </dd>
                     </StyledResponsiveCol>
@@ -142,7 +146,12 @@ const SemanticRelatedListRow: React.FC<{
   )
 }
 
-const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
+const SemanticRelatedList: React.FC<IProps> = ({
+  results,
+  halLink,
+  title,
+  next,
+}) => {
   const [currentResults, setCurrentResults] =
     useState<IRelatedListResults>(results)
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -191,6 +200,7 @@ const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
               uri={uri}
               results={currentResults}
               index={ind}
+              title={title}
             />
           ))}
         </dl>
