@@ -33,6 +33,7 @@ const tabsChildren = (
                 <ObjectsContainer
                   uri={links[currentSearchTag].href}
                   tab={tabSection.tab as string}
+                  title={tabSection.title as string}
                 />
               </StyledEntityPageSection>
             </Tab>

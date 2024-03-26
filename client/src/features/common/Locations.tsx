@@ -3,7 +3,7 @@ import React from 'react'
 
 import { useGetRelatedListsQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import SemanticRelationsList from '../relatedLists/SemanticRelatedList'
+import SemanticRelatedList from '../relatedLists/SemanticRelatedList'
 
 interface ILocationsProps {
   halLink: {
@@ -67,10 +67,11 @@ const Locations: React.FC<ILocationsProps> = ({ halLink }) => {
           <div className="row">
             <div className="col-12">
               {data !== null && (
-                <SemanticRelationsList
+                <SemanticRelatedList
                   results={data}
                   halLink={href}
                   next={undefined}
+                  title="Related Locations"
                 />
               )}
             </div>

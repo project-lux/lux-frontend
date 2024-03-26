@@ -12,6 +12,7 @@ import DescriptionDetail from '../../styles/shared/DescriptionDetail'
 import theme from '../../styles/theme'
 import RecordLink from '../common/RecordLink'
 import { formatFacetedSearchJson } from '../../lib/parse/search/halLinkHelper'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   uri: string
@@ -48,6 +49,8 @@ const ListItem: React.FC<IProps> = ({
     return null
   }
 
+  const linkLabel = `Show all ${count} result${count !== 1 ? 's' : ''}`
+
   return (
     <StyledRow
       key={uri}
@@ -74,10 +77,16 @@ const ListItem: React.FC<IProps> = ({
                 uri,
               )}&openSearch=false`,
             }}
+            onClick={() =>
+              pushSiteImproveEvent(
+                `${uri} Faceted Results Search Link`,
+                'Selected',
+                linkLabel,
+              )
+            }
             data-testid={`list-item-link-${index}`}
           >
-            Show all {count} result
-            {count !== 1 && `s`}
+            {linkLabel}
           </Link>
         </DescriptionDetail>
       </Col>

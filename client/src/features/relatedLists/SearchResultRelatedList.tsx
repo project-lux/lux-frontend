@@ -10,6 +10,7 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
 import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   url: string
@@ -54,6 +55,8 @@ const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
   const params = getAllParamsFromHalLink(url, 'search')
   const sort = new URLSearchParams(params).get('sort')
 
+  const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
+
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
@@ -66,10 +69,12 @@ const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
                 sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
               }`,
             }}
+            onClick={() =>
+              pushSiteImproveEvent('Search Results Link', 'Selected', linkLabel)
+            }
             data-testid="search-related-list-link"
           >
-            Show all {estimate} result
-            {estimate !== 1 && `s`}
+            {linkLabel}
           </Link>
         </div>
       </StyledSearchLink>
