@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added option for person/group in advanced search ([#141](https://github.com/project-lux/lux-frontend/issues/141)).
 - Added Related People and Groups to event pages ([#8](https://github.com/project-lux/lux-frontend/issues/8)).
 - Added Related Locations to event pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
+- Added SI event for simple search ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 
 ### Changed
 
@@ -41,7 +42,7 @@ All notable changes to this project will be documented in this file.
 - Added People Active Here accordion to place pages ([#34](https://github.com/project-lux/lux-frontend/issues/34)).
 - Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
 - Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
-- Added entity icon to About/Depicts ([#84](https://github.com/project-lux/lux-frontend/issues/84)).
+- Added entity icon to About/Depicts ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
 
 ### Changed
 
