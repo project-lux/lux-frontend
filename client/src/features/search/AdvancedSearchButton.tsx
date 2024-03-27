@@ -13,6 +13,7 @@ import { searchScope } from '../../config/searchTypes'
 import { getParamPrefix } from '../../lib/util/params'
 import Tooltip from '../common/Tooltip'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   setIsError: (x: boolean) => void
@@ -29,6 +30,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
   const handleSelect = (entityType: string): void => {
     const searchString = value || ''
     if (searchString === '') {
+      pushSiteImproveEvent('Advanced Search', 'new empty search', entityType)
       navigate(`/view/results/${entityType}?q=`, {
         state: {
           fromLandingPage: true,
@@ -43,6 +45,11 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         const urlParams = new URLSearchParams()
         urlParams.set('q', translatedString)
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
+        pushSiteImproveEvent(
+          'Advanced Search',
+          `new search for ${urlParams.toString()}`,
+          entityType,
+        )
         navigate(`/view/results/${entityType}?${urlParams.toString()}`)
       },
       onError: () => setIsError(true),

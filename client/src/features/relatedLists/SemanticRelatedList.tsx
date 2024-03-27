@@ -14,6 +14,7 @@ import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import RecordLink from '../common/RecordLink'
 import SemanticSearchLink from '../common/SemanticSearchLink'
 import PageLoading from '../common/PageLoading'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   results: IRelatedListResults
@@ -158,7 +159,12 @@ const SemanticRelatedList: React.FC<IProps> = ({
   const [isError, setIsError] = useState<boolean>(false)
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
-  const handleClick = (page: number): void => {
+  const handleClick = (page: number, buttonSelected: string): void => {
+    pushSiteImproveEvent(
+      'Paginate Related List',
+      `${buttonSelected} Selected`,
+      `Go To ${page} Page`,
+    )
     fetchRelatedLists({
       halLink,
       page,
@@ -213,14 +219,14 @@ const SemanticRelatedList: React.FC<IProps> = ({
           <PrimaryButton
             className="m-1"
             disabled={currentPage === 1}
-            onClick={() => handleClick(currentPage - 1)}
+            onClick={() => handleClick(currentPage - 1, 'Previous')}
           >
             Previous
           </PrimaryButton>
           <PrimaryButton
             className="m-1"
             disabled={!hasMore}
-            onClick={() => handleClick(currentPage + 1)}
+            onClick={() => handleClick(currentPage + 1, 'Next')}
           >
             Next
           </PrimaryButton>

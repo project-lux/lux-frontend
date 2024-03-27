@@ -13,6 +13,7 @@ import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
@@ -69,6 +70,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
       ? scopeToAriaLabel[scopeToPassToNestedForm]
       : 'nested group'
 
+  console.log(labelForAria)
   return (
     <div
       className="mb-3"
@@ -103,7 +105,14 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
       </AlignedDiv>
       <VerticalLine className="pe-2">
         <CollapseButton
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            pushSiteImproveEvent(
+              'Advanced Search',
+              `Click ${open ? 'Collapse' : 'Expand'} Single Field Button`,
+              `for ${labelForAria}`,
+            )
+            setOpen(!open)
+          }}
           aria-controls="group-collapse-text"
           aria-expanded={open}
           className="collapseNestedAdvancedSearch"

@@ -18,6 +18,7 @@ import StyledHr from '../../styles/shared/Hr'
 import ErrorMessage from '../search/ErrorMessage'
 import { ErrorFallback } from '../error/ErrorFallback'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -51,8 +52,14 @@ const AdvancedSearchContainer: React.FC = () => {
     const filteredSearch = filterAdvancedSearch(scope, currentState)
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
+    const resultsTab = tab !== undefined ? tab : 'objects'
+    pushSiteImproveEvent(
+      'Advanced Search',
+      `submit search`,
+      `on ${resultsTab} tab`,
+    )
     navigate({
-      pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
+      pathname: `/view/results/${resultsTab}`,
       search: `?${newUrlParams.toString()}`,
     })
   }

@@ -9,6 +9,7 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { DOTS } from '../../lib/util/paginationHelper'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import { Paginator } from './Paginator'
 
@@ -90,6 +91,7 @@ const Paginate: React.FC<IPagination> = ({
   // Go to the specified page
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    pushSiteImproveEvent('Paginate', 'Page Input', `Go To ${pageValue} Page`)
     navigate({
       pathname: `${pathname}`,
       search: `?${newURL}&${pageParam}=${pageValue}`,
@@ -129,12 +131,26 @@ const Paginate: React.FC<IPagination> = ({
               <Pagination.Prev
                 href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
                 disabled={currentPage === 1}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Paginate',
+                    'Button Click',
+                    'Go To Previous Page',
+                  )
+                }
               >
                 Previous
               </Pagination.Prev>
               <Pagination.Next
                 href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
                 disabled={currentPage === lastPage}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Paginate',
+                    'Button Click',
+                    'Go To Next Page',
+                  )
+                }
               >
                 Next
               </Pagination.Next>
@@ -144,12 +160,26 @@ const Paginate: React.FC<IPagination> = ({
               <Pagination.First
                 href={`${pathname}?${newURL}&${pageParam}=1`}
                 active={currentPage === 1}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Paginate',
+                    'Button Click',
+                    'Go To First Page',
+                  )
+                }
               >
                 First
               </Pagination.First>
               {currentPage !== 1 && (
                 <Pagination.Prev
                   href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Paginate',
+                      'Button Click',
+                      'Go To < Page',
+                    )
+                  }
                 />
               )}
               {paginationRange.length > 0 &&
@@ -162,6 +192,13 @@ const Paginate: React.FC<IPagination> = ({
                       key={pageNumber}
                       href={`${pathname}?${newURL}&${pageParam}=${pageNumber}`}
                       active={currentPage === pageNumber}
+                      onClick={() =>
+                        pushSiteImproveEvent(
+                          'Paginate',
+                          'Button Click',
+                          `Go To ${pageNumber} Page`,
+                        )
+                      }
                     >
                       {pageNumber}
                     </Pagination.Item>
@@ -170,11 +207,25 @@ const Paginate: React.FC<IPagination> = ({
               {currentPage !== lastPage && (
                 <Pagination.Next
                   href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Paginate',
+                      'Button Click',
+                      `Go To > Page`,
+                    )
+                  }
                 />
               )}
               <Pagination.Last
                 href={`${pathname}?${newURL}&${pageParam}=${lastPage}`}
                 active={currentPage === lastPage}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Paginate',
+                    'Button Click',
+                    `Go To Last Page`,
+                  )
+                }
               >
                 Last
               </Pagination.Last>

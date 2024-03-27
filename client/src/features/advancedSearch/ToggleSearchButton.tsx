@@ -12,6 +12,7 @@ import {
   updateCurrentSearchState,
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IToggleSearchButton {
   setIsError: (x: boolean) => void
@@ -89,11 +90,17 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       id="search-toggle"
       value="searchToggle"
       aria-label={`Switch to ${buttonText}`}
-      onClick={() =>
-        currentSearchState.searchType === 'simple'
+      onClick={() => {
+        pushSiteImproveEvent(
+          'Search Switch',
+          `To ${
+            currentSearchState.searchType === 'simple' ? 'Advanced' : 'Simple'
+          } Search`,
+        )
+        return currentSearchState.searchType === 'simple'
           ? handleSwitchToAdvancedSearch()
           : handleSwitchToSimpleSearch()
-      }
+      }}
       data-testid="search-toggle-button"
     >
       Switch to {buttonText}
