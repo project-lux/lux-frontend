@@ -15,7 +15,7 @@ import HowDoISeeIt from '../works/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 import UV from '../common/UV'
 import ObjectSetHierarchy from '../common/ObjectSetHierarchy'
-import HierarchyContainer from '../common/HierarchyContainer'
+import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
 import { reset } from '../../redux/slices/hierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
 
@@ -66,7 +66,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
               <About data={data} />
             </ErrorBoundary>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <HierarchyContainer
+              <ArchiveHierarchyContainer
                 key={data.id}
                 entity={data}
                 parentsOfCurrentEntity={memberOf}

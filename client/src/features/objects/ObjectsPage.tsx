@@ -13,7 +13,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import { ErrorFallback } from '../error/ErrorFallback'
 import ObjectSetHierarchy from '../common/ObjectSetHierarchy'
-import HierarchyContainer from '../common/HierarchyContainer'
+import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
 import CanIReuseIt from '../common/CanIReuseIt'
 
 import Carries from './Carries'
@@ -54,7 +54,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
                 <Carries entity={data} />
                 <About data={data} />
                 {memberOf.length > 0 && (
-                  <HierarchyContainer
+                  <ArchiveHierarchyContainer
                     key={data.id}
                     entity={data}
                     parentsOfCurrentEntity={memberOf}
