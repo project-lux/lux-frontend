@@ -4,6 +4,7 @@ import { useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import ExternalLink from './ExternalLink'
 
@@ -39,6 +40,13 @@ const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
         className="feedbackButton w-100"
         target="_blank"
         data-testid="submit-feedback-button"
+        onClick={() =>
+          pushSiteImproveEvent(
+            'Submit Feedback',
+            'Button Clicked',
+            'Submit feedback about this record',
+          )
+        }
       >
         Submit feedback about this record
         <i className="bi bi-box-arrow-up-right ms-1" />
