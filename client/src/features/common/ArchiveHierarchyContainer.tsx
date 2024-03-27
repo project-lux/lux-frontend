@@ -14,10 +14,10 @@ import {
   removeViewFromPathname,
 } from '../../lib/util/hierarchyHelpers'
 
-import HierarchyChild from './HierarchyChild'
+import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HierarchyContainer: React.FC<{
+const ArchiveHierarchyContainer: React.FC<{
   entity: IEntity
   parentsOfCurrentEntity: Array<string>
   currentEntityIsArchive?: boolean
@@ -83,7 +83,7 @@ const HierarchyContainer: React.FC<{
     return (
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
-        <HierarchyChild
+        <ArchiveHierarchyChild
           child={topLevelAncestor as string}
           skipApiCalls={false}
           key={pathname}
@@ -106,4 +106,4 @@ const HierarchyContainer: React.FC<{
   return null
 }
 
-export default HierarchyContainer
+export default ArchiveHierarchyContainer
