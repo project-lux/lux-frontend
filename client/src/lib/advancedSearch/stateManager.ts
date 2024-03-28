@@ -164,17 +164,6 @@ export const addChildHelper = (
       objectToUpdate[propertyName].push({
         _stateId: getStateId(),
       })
-    } else {
-      const tempObj = objectToUpdate[propertyName]
-      objectToUpdate[propertyName] = {
-        _stateId: getStateId(),
-        AND: [
-          tempObj,
-          {
-            _stateId: getStateId(),
-          },
-        ],
-      }
     }
   }
   return objectToUpdate
