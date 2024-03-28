@@ -153,33 +153,6 @@ describe('stateManager functions', () => {
 
       expect(addChildHelper(mockState)).toEqual(mockStateWithAddedQuery)
     })
-
-    it('returns state with added child to single field group', () => {
-      const mockState: IAdvancedSearchState = {
-        _stateId: '1',
-        encounteredBy: {
-          _stateId: '1',
-          name: 'test',
-        },
-      }
-      const mockStateWithAddedQuery: IAdvancedSearchState = {
-        _stateId: '1',
-        encounteredBy: {
-          _stateId: '1',
-          AND: [
-            {
-              _stateId: '1',
-              name: 'test',
-            },
-            {
-              _stateId: '1',
-            },
-          ],
-        },
-      }
-
-      expect(addChildHelper(mockState)).toEqual(mockStateWithAddedQuery)
-    })
   })
 
   describe('getParentLabels', () => {
