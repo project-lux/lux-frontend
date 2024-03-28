@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed the Add Row button from single field options in advanced search ([#149](https://github.com/project-lux/lux-frontend/issues/149)).
+- Removed Works About or Depicting People and Groups on concept pages ([#155](https://github.com/project-lux/lux-frontend/issues/155)).
 
 ### Fixed
 
