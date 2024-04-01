@@ -17,7 +17,7 @@ import {
   isInHierarchy,
 } from '../../lib/util/hierarchyHelpers'
 
-import HierarchyChildrenContainer from './HierarchyChildrenContainer'
+import ArchiveHierarchyChildrenContainer from './ArchiveHierarchyChildrenContainer'
 import InternalLink from './InternalLink'
 
 const StyledCol = styled(Col)`
@@ -30,7 +30,7 @@ const StyledCol = styled(Col)`
   }
 `
 
-const HierarchyChild: React.FC<{
+const ArchiveHierarchyChild: React.FC<{
   child: string
   skipApiCalls: boolean
   parentsOfCurrentEntity: Array<string>
@@ -87,7 +87,7 @@ const HierarchyChild: React.FC<{
           </StyledCol>
           <Col xs={12} className="ps-4">
             <CollapseContainer open={open} id={entity.json.id || primaryName}>
-              <HierarchyChildrenContainer
+              <ArchiveHierarchyChildrenContainer
                 ancestor={data}
                 skipApiCalls={!open}
                 key={pathname}
@@ -126,4 +126,4 @@ const HierarchyChild: React.FC<{
   return null
 }
 
-export default HierarchyChild
+export default ArchiveHierarchyChild

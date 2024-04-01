@@ -19,9 +19,9 @@ import {
 } from '../../redux/slices/hierarchySlice'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
-import HierarchyChild from './HierarchyChild'
+import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
-const HierarchyChildrenContainer: React.FC<{
+const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestor: IEntity
   skipApiCalls?: boolean
   parentsOfCurrentEntity: Array<string>
@@ -113,7 +113,7 @@ const HierarchyChildrenContainer: React.FC<{
     return (
       <React.Fragment>
         {children.map((child: string, ind: number) => (
-          <HierarchyChild
+          <ArchiveHierarchyChild
             // eslint-disable-next-line react/no-array-index-key
             key={`${child}-${ind}`}
             child={child}
@@ -153,4 +153,4 @@ const HierarchyChildrenContainer: React.FC<{
   return null
 }
 
-export default HierarchyChildrenContainer
+export default ArchiveHierarchyChildrenContainer

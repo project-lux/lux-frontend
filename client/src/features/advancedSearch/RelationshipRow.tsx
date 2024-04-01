@@ -14,7 +14,6 @@ import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
 
-import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
 import AdvancedSearchDropdown from './Dropdown'
 import AdvancedSearchForm from './Form'
@@ -138,9 +137,6 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 </div>
               </fieldset>
             </Col>
-          </Row>
-          <Row className="ms-0 mt-2">
-            <AddButton stateId={stateId} ariaLabel={labelForAria} />
           </Row>
         </CollapseContainer>
       </VerticalLine>

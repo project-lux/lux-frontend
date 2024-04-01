@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.23.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+- Removed the Add Row button from single field options in advanced search ([#149](https://github.com/project-lux/lux-frontend/issues/149)).
+- Removed Works About or Depicting People and Groups on concept pages ([#155](https://github.com/project-lux/lux-frontend/issues/155)).
+
+### Fixed
+
+- Fixed hierarchy on object pages ([#94](https://github.com/project-lux/lux-frontend/issues/94)).
+- Fixed the hierarchy rendering when there is only the current entity ([#79](https://github.com/project-lux/lux-frontend/issues/79)).
+
 ## v1.22.0 - 2024-3-18
 
 ### Added
@@ -16,6 +32,8 @@ All notable changes to this project will be documented in this file.
 - Changed works included and objects included layout ([#85](https://github.com/project-lux/lux-frontend/issues/85)).
 
 ### Removed
+
+- Deleted Google site verificatio file ([112](https://github.com/project-lux/lux-frontend/issues/112)).
 
 ### Fixed
 
