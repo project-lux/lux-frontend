@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added option for person/group in advanced search ([#141](https://github.com/project-lux/lux-frontend/issues/141)).
 - Added Related People and Groups to event pages ([#8](https://github.com/project-lux/lux-frontend/issues/8)).
 - Added Related Locations to event pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
-- Added SI event for simple search ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
+- Added SI event for simple search ([#160](https://github.com/project-lux/lux-frontend/issues/160)).
 - Added SI event for facet events ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 - Added SI event for search links ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 
