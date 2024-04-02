@@ -64,7 +64,7 @@ const SearchBox: React.FC<{
   const dispatch = useAppDispatch()
 
   let simpleQuery: string | null = null
-  const { pathname, search } = useLocation()
+  const { search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
   const queryString = new URLSearchParams(search)
   simpleQuery = queryString.get('sq') || ''
@@ -116,7 +116,7 @@ const SearchBox: React.FC<{
           inputRef.current!.value = ''
           setIsError(false)
           setIsLoading(false)
-          pushSiteImproveEvent('Search', 'submit', `from ${pathname}`)
+          pushSiteImproveEvent('Search Button', 'Submit', 'Simple Search')
           navigate(
             {
               pathname: `/view/results/${tab}/`,
