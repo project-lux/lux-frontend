@@ -53,11 +53,7 @@ const AdvancedSearchContainer: React.FC = () => {
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     const resultsTab = tab !== undefined ? tab : 'objects'
-    pushSiteImproveEvent(
-      'Advanced Search',
-      `submit search`,
-      `on ${resultsTab} tab`,
-    )
+    pushSiteImproveEvent('Search Button', 'Submit', 'Advanced Search')
     navigate({
       pathname: `/view/results/${resultsTab}`,
       search: `?${newUrlParams.toString()}`,
