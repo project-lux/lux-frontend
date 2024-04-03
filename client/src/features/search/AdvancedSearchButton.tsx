@@ -29,8 +29,12 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
 
   const handleSelect = (entityType: string): void => {
     const searchString = value || ''
+    pushSiteImproveEvent(
+      'Search Switch',
+      'Selected',
+      `To Advanced Search ${entityType}`,
+    )
     if (searchString === '') {
-      pushSiteImproveEvent('Advanced Search', 'new empty search', entityType)
       navigate(`/view/results/${entityType}?q=`, {
         state: {
           fromLandingPage: true,
@@ -45,11 +49,6 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         const urlParams = new URLSearchParams()
         urlParams.set('q', translatedString)
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
-        pushSiteImproveEvent(
-          'Search Switch',
-          'Selected',
-          `To Advanced Search ${entityType}`,
-        )
         navigate(`/view/results/${entityType}?${urlParams.toString()}`)
       },
       onError: () => setIsError(true),
