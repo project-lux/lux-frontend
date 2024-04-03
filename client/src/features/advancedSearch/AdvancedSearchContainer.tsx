@@ -60,6 +60,15 @@ const AdvancedSearchContainer: React.FC = () => {
     })
   }
 
+  const handleCloseModal = (): void => {
+    setShowModal(false)
+    pushSiteImproveEvent(
+      'Search Switch',
+      'Clicked',
+      'Cancel Switch to Simple Search',
+    )
+  }
+
   useEffect(() => {
     if (query !== undefined && tab === queryTab) {
       if (query === '') {
@@ -81,7 +90,7 @@ const AdvancedSearchContainer: React.FC = () => {
       <Row className="mx-0">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           {showModal && (
-            <AlertModal showModal={showModal} onClose={setShowModal} />
+            <AlertModal showModal={showModal} onClose={handleCloseModal} />
           )}
           {isError && (
             <Col xs={12} className="mt-2 w-75">

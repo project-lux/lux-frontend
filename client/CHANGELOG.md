@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 - Added SI event for pagination on results page ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
 - Added SI event for pagination on related lists ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
 - Added SI event for feedback button on entity pages ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
+- Added SI event for search switch ([#162](https://github.com/project-lux/lux-frontend/issues/162)).
 
 ### Changed
 
