@@ -46,9 +46,9 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         urlParams.set('q', translatedString)
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
         pushSiteImproveEvent(
-          'Advanced Search',
-          `new search for ${urlParams.toString()}`,
-          entityType,
+          'Search Switch',
+          'Selected',
+          `To Advanced Search ${entityType}`,
         )
         navigate(`/view/results/${entityType}?${urlParams.toString()}`)
       },
