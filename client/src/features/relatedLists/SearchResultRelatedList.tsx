@@ -34,7 +34,11 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
       data-testid={`query-relations-list-row-${index}`}
     >
       <Col xs={12} className="justify-content-start">
-        <RecordLink url={uri} returns404={setRecordLinkHas404} />
+        <RecordLink
+          url={uri}
+          returns404={setRecordLinkHas404}
+          linkCategory="Accordion"
+        />
       </Col>
     </Row>
   )

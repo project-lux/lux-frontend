@@ -63,7 +63,11 @@ const ListItem: React.FC<IProps> = ({
     >
       <Col md={9} lg={8} xl={9}>
         <DescriptionTerm>
-          <RecordLink url={uri} returns404={setRecordLinkHas404} />
+          <RecordLink
+            url={uri}
+            returns404={setRecordLinkHas404}
+            linkCategory="Accordion"
+          />
         </DescriptionTerm>
       </Col>
       <Col md={3} lg={4} xl={3}>
