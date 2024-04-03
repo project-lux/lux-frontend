@@ -93,7 +93,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   <React.Fragment>
                     <StyledDt>Occupations</StyledDt>
                     <StyledDd data-testid="person-group-result-snippet-occupation">
-                      <RecordLink url={occupations[0]} />
+                      <RecordLink
+                        url={occupations[0]}
+                        linkCategory="Results Snippet"
+                      />
                     </StyledDd>
                   </React.Fragment>
                 )}
@@ -101,7 +104,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   <React.Fragment>
                     <StyledDt>Nationalities</StyledDt>
                     <StyledDd data-testid="person-group-result-snippet-nationality">
-                      <RecordLink url={nationalities[0]} />
+                      <RecordLink
+                        url={nationalities[0]}
+                        linkCategory="Results Snippet"
+                      />
                     </StyledDd>
                   </React.Fragment>
                 )}
@@ -158,7 +164,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                     <React.Fragment>
                       <StyledDt hidden>Occupations</StyledDt>
                       <StyledDd>
-                        <RecordLink url={occupations[0]} />
+                        <RecordLink
+                          url={occupations[0]}
+                          linkCategory="Results Snippet"
+                        />
                       </StyledDd>
                     </React.Fragment>
                   )}
@@ -166,7 +175,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                     <React.Fragment>
                       <StyledDt hidden>Nationalities</StyledDt>
                       <StyledDd>
-                        <RecordLink url={nationalities[0]} />
+                        <RecordLink
+                          url={nationalities[0]}
+                          linkCategory="Results Snippet"
+                        />
                       </StyledDd>
                     </React.Fragment>
                   )}

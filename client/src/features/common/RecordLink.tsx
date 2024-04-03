@@ -6,14 +6,21 @@ import { useGetNameQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ISearchData {
   url: string
+  linkCategory?: string
   returns404?: (x: boolean) => void
   className?: string
 }
 
-const RecordLink: React.FC<ISearchData> = ({ url, returns404, className }) => {
+const RecordLink: React.FC<ISearchData> = ({
+  url,
+  linkCategory,
+  returns404,
+  className,
+}) => {
   const skip = url === undefined
   const strippedUrl = !skip ? stripYaleIdPrefix(url) : ''
   const { data, isSuccess, isLoading, isError } = useGetNameQuery(
@@ -33,6 +40,13 @@ const RecordLink: React.FC<ISearchData> = ({ url, returns404, className }) => {
           }}
           aria-label={name}
           className={className || ''}
+          onClick={() =>
+            pushSiteImproveEvent(
+              'Entity Link',
+              'Clicked',
+              `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
+            )
+          }
           data-testid="record-link"
         >
           {name.length > 200 ? `${name.slice(0, 200)}...` : name}
