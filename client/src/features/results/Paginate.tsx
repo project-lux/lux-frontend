@@ -88,10 +88,15 @@ const Paginate: React.FC<IPagination> = ({
   URL.delete(pageParam)
   const newURL = URL.toString()
 
+  // Push analytics
+  const handleAnalytics = (): void => {
+    pushSiteImproveEvent('Pagination', 'Selected', 'Results Page')
+  }
+
   // Go to the specified page
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
-    pushSiteImproveEvent('Paginate', 'Page Input', `Go To ${pageValue} Page`)
+    handleAnalytics()
     navigate({
       pathname: `${pathname}`,
       search: `?${newURL}&${pageParam}=${pageValue}`,
@@ -131,26 +136,14 @@ const Paginate: React.FC<IPagination> = ({
               <Pagination.Prev
                 href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
                 disabled={currentPage === 1}
-                onClick={() =>
-                  pushSiteImproveEvent(
-                    'Paginate',
-                    'Button Click',
-                    'Go To Previous Page',
-                  )
-                }
+                onClick={() => handleAnalytics()}
               >
                 Previous
               </Pagination.Prev>
               <Pagination.Next
                 href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
                 disabled={currentPage === lastPage}
-                onClick={() =>
-                  pushSiteImproveEvent(
-                    'Paginate',
-                    'Button Click',
-                    'Go To Next Page',
-                  )
-                }
+                onClick={() => handleAnalytics()}
               >
                 Next
               </Pagination.Next>
@@ -160,26 +153,14 @@ const Paginate: React.FC<IPagination> = ({
               <Pagination.First
                 href={`${pathname}?${newURL}&${pageParam}=1`}
                 active={currentPage === 1}
-                onClick={() =>
-                  pushSiteImproveEvent(
-                    'Paginate',
-                    'Button Click',
-                    'Go To First Page',
-                  )
-                }
+                onClick={() => handleAnalytics()}
               >
                 First
               </Pagination.First>
               {currentPage !== 1 && (
                 <Pagination.Prev
                   href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
-                  onClick={() =>
-                    pushSiteImproveEvent(
-                      'Paginate',
-                      'Button Click',
-                      'Go To < Page',
-                    )
-                  }
+                  onClick={() => handleAnalytics()}
                 />
               )}
               {paginationRange.length > 0 &&
@@ -192,13 +173,7 @@ const Paginate: React.FC<IPagination> = ({
                       key={pageNumber}
                       href={`${pathname}?${newURL}&${pageParam}=${pageNumber}`}
                       active={currentPage === pageNumber}
-                      onClick={() =>
-                        pushSiteImproveEvent(
-                          'Paginate',
-                          'Button Click',
-                          `Go To ${pageNumber} Page`,
-                        )
-                      }
+                      onClick={() => handleAnalytics()}
                     >
                       {pageNumber}
                     </Pagination.Item>
@@ -207,25 +182,13 @@ const Paginate: React.FC<IPagination> = ({
               {currentPage !== lastPage && (
                 <Pagination.Next
                   href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
-                  onClick={() =>
-                    pushSiteImproveEvent(
-                      'Paginate',
-                      'Button Click',
-                      `Go To > Page`,
-                    )
-                  }
+                  onClick={() => handleAnalytics()}
                 />
               )}
               <Pagination.Last
                 href={`${pathname}?${newURL}&${pageParam}=${lastPage}`}
                 active={currentPage === lastPage}
-                onClick={() =>
-                  pushSiteImproveEvent(
-                    'Paginate',
-                    'Button Click',
-                    `Go To Last Page`,
-                  )
-                }
+                onClick={() => handleAnalytics()}
               >
                 Last
               </Pagination.Last>
