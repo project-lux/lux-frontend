@@ -48,6 +48,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
 
   const handleSwitchToAdvancedSearch = (): void => {
     const searchString = value || ''
+    pushSiteImproveEvent('Search Switch', 'Clicked', 'To Advanced Search')
     if (searchString === '') {
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
       dispatch(updateCurrentSearchState({ value: 'advanced' }))
@@ -90,17 +91,11 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       id="search-toggle"
       value="searchToggle"
       aria-label={`Switch to ${buttonText}`}
-      onClick={() => {
-        pushSiteImproveEvent(
-          'Search Switch',
-          `To ${
-            currentSearchState.searchType === 'simple' ? 'Advanced' : 'Simple'
-          } Search`,
-        )
-        return currentSearchState.searchType === 'simple'
+      onClick={() =>
+        currentSearchState.searchType === 'simple'
           ? handleSwitchToAdvancedSearch()
           : handleSwitchToSimpleSearch()
-      }}
+      }
       data-testid="search-toggle-button"
     >
       Switch to {buttonText}
