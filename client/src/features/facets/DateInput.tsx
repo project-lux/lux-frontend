@@ -86,9 +86,9 @@ const DateInput: React.FC<IFacets> = ({
 
     dispatch(addFacets({ facetName: facetSection, facetUri: '' }))
     pushSiteImproveEvent(
-      'Facets',
-      `Update Date Value to ${earliest}-${latest}`,
-      facetLabels[facetSection],
+      'Facets Date Input',
+      'Selected',
+      `Facet ${facetLabels[facetSection]}`,
     )
     setRedirect(true)
   }

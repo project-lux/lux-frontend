@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added SI event for simple search ([#160](https://github.com/project-lux/lux-frontend/issues/160)).
-- Added SI event for facet events ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
+- Added SI event for facet events ([#163](https://github.com/project-lux/lux-frontend/issues/163)).
 - Added SI event for search links ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 - Added SI event for advanced search ([#161](https://github.com/project-lux/lux-frontend/issues/161)).
 - Added SI event for pagination on results page ([#91](https://github.com/project-lux/lux-frontend/issues/91)).

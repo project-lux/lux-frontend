@@ -84,7 +84,11 @@ const FacetAccordionItem: React.FC<IProps> = ({
               onClick={() => {
                 const action = isFacetOpen ? 'Close' : 'Open'
                 isFacetOpen = !isFacetOpen
-                pushSiteImproveEvent('Facets', action, facetLabels[facetName])
+                pushSiteImproveEvent(
+                  'Facets Accordion Item',
+                  action,
+                  `Facet ${facetLabels[facetName]}`,
+                )
               }}
               className={`accordion-button ${isFacetOpen ? '' : 'collapsed'}`}
               type="button"

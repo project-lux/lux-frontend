@@ -71,7 +71,11 @@ const SelectionContainer: React.FC<IProps> = ({
     params.delete(`${paramPrefix}f`)
     const updatedQuery = params.toString()
     dispatch(reset())
-    pushSiteImproveEvent('Facets', 'Clear All')
+    pushSiteImproveEvent(
+      'Facets Selected Filters',
+      'Selected',
+      'Facet Clear All',
+    )
     navigate(`${location.pathname}?${updatedQuery}`)
   }
 
