@@ -106,9 +106,9 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
         <CollapseButton
           onClick={() => {
             pushSiteImproveEvent(
+              'Collapse Button',
+              open ? 'Open' : 'Close',
               'Advanced Search',
-              `Click ${open ? 'Collapse' : 'Expand'} Single Field Button`,
-              `for ${labelForAria}`,
             )
             setOpen(!open)
           }}

@@ -92,9 +92,9 @@ const Group: React.FC<IGroup> = ({
         <CollapseButton
           onClick={() => {
             pushSiteImproveEvent(
+              'Collapse Button',
+              open ? 'Open' : 'Close',
               'Advanced Search',
-              `Click ${open ? 'Collapse' : 'Expand'} Group Button`,
-              `for ${labelForAria}`,
             )
             setOpen(!open)
           }}
