@@ -11,13 +11,12 @@ All notable changes to this project will be documented in this file.
 - Added Related Locations to event pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
 - Added SI event for simple search ([#160](https://github.com/project-lux/lux-frontend/issues/160)).
 - Added SI event for facet events ([#163](https://github.com/project-lux/lux-frontend/issues/163)).
-- Added SI event for search links ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 - Added SI event for advanced search ([#161](https://github.com/project-lux/lux-frontend/issues/161)).
-- Added SI event for pagination on results page ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
-- Added SI event for pagination on related lists ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
-- Added SI event for feedback button on entity pages ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
+- Added SI event for pagination ([#168](https://github.com/project-lux/lux-frontend/issues/168)).
 - Added SI event for search switch ([#162](https://github.com/project-lux/lux-frontend/issues/162)).
 - Added SI event for entity links ([#164](https://github.com/project-lux/lux-frontend/issues/164)).
+- Added SI event for feedback button on entity pages ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
+- Added SI event for search links ([#90](https://github.com/project-lux/lux-frontend/issues/90)).
 
 ### Changed
 
