@@ -79,7 +79,11 @@ const Checkbox: React.FC<IProps> = ({
     dispatch(
       addFacets({ facetName: facetSection, facetUri: event.target.value }),
     )
-    pushSiteImproveEvent('Facets', `Remove ${label}`, facetLabels[facetSection])
+    pushSiteImproveEvent(
+      'Facets Checkbox',
+      'Unchecked',
+      `Facet ${facetLabels[facetSection]}`,
+    )
     navigate(`${pathname}?${newSearchParams}`)
   }
 
@@ -96,7 +100,11 @@ const Checkbox: React.FC<IProps> = ({
     params.set('facetRequest', 'true')
 
     dispatch(addFacets({ facetName: facetSection, facetUri: strValue }))
-    pushSiteImproveEvent('Facets', `Select ${label}`, facetLabels[facetSection])
+    pushSiteImproveEvent(
+      'Facets Checkbox',
+      'Checked',
+      `Facet ${facetLabels[facetSection]}`,
+    )
     navigate(`${pathname}?${params.toString()}`)
   }
 

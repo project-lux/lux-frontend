@@ -71,7 +71,11 @@ const SelectedFacet: React.FC<ISelected> = ({
         tab,
       )
       dispatch(reset())
-      pushSiteImproveEvent('Facets', `Remove ${label}`, 'Selected Filters')
+      pushSiteImproveEvent(
+        'Facets Selected Filters',
+        'Selected',
+        `Facet ${label}`,
+      )
       navigate(`${pathname}?${newSearchParams}`)
     }
   }
