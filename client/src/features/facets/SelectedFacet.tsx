@@ -73,7 +73,7 @@ const SelectedFacet: React.FC<ISelected> = ({
       dispatch(reset())
       pushSiteImproveEvent(
         'Facets Selected Filters',
-        'Selected',
+        'Removed',
         `Facet ${label}`,
       )
       navigate(`${pathname}?${newSearchParams}`)
