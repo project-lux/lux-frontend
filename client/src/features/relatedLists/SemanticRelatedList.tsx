@@ -164,11 +164,7 @@ const SemanticRelatedList: React.FC<IProps> = ({
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleClick = (page: number, buttonSelected: string): void => {
-    pushSiteImproveEvent(
-      'Paginate Related List',
-      `${buttonSelected} Selected`,
-      `Go To ${page} Page`,
-    )
+    pushSiteImproveEvent('Pagination', 'Selected', 'Related List Accordion')
     fetchRelatedLists({
       halLink,
       page,
