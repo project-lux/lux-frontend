@@ -42,7 +42,7 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
               className="d-flex"
               data-testid="event-results-snippet-title"
             >
-              <RecordLink url={data.id} />
+              <RecordLink url={data.id} linkCategory="Results Snippet" />
             </StyledSnippetTitle>
             <StyledDl>
               {types.length > 0 && <TypeList types={types} />}
@@ -50,7 +50,10 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
                 <React.Fragment>
                   <StyledDt>Carried Out By</StyledDt>
                   <StyledDd data-testid="event-snippet-carried-out-by">
-                    <RecordLink url={agents[0].id} />
+                    <RecordLink
+                      url={agents[0].id}
+                      linkCategory="Results Snippet"
+                    />
                   </StyledDd>
                 </React.Fragment>
               )}
@@ -66,7 +69,10 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
                 <React.Fragment>
                   <StyledDt>Took Place At</StyledDt>
                   <StyledDd data-testid="event-snippet-took-place-at">
-                    <RecordLink url={locations[0]} />
+                    <RecordLink
+                      url={locations[0]}
+                      linkCategory="Results Snippet"
+                    />
                   </StyledDd>
                 </React.Fragment>
               )}

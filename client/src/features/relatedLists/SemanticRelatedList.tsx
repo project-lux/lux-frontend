@@ -72,7 +72,11 @@ const SemanticRelatedListRow: React.FC<{
         <StyledRow>
           <Col xs={12} sm={12} md={6} lg={12} xl={6}>
             <dt data-testid={`semantic-related-list-entity-${index}`}>
-              <RecordLink url={uri} returns404={setRecordLinkHas404} />
+              <RecordLink
+                url={uri}
+                returns404={setRecordLinkHas404}
+                linkCategory="Accordion"
+              />
             </dt>
           </Col>
           <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>

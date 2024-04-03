@@ -15,6 +15,7 @@ import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   uri: string
@@ -41,7 +42,16 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
           <div className="flex-shrink-0">
             {mapConfig.wkt !== '' ? (
               <StyledImageContainer className="p-0">
-                <Link to={`/view/${stripYaleIdPrefix(place.json.id!)}`}>
+                <Link
+                  to={`/view/${stripYaleIdPrefix(place.json.id!)}`}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Clicked',
+                      'Results Snippet Link',
+                    )
+                  }
+                >
                   <Map config={mapConfig} className="sm" />
                 </Link>
               </StyledImageContainer>
@@ -54,7 +64,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
               className="d-flex"
               data-testid="place-results-snippet-title"
             >
-              <RecordLink url={data.id} />
+              <RecordLink url={data.id} linkCategory="Results Snippet" />
             </StyledSnippetTitle>
             <StyledDl>
               {types.length > 0 && <TypeList types={types} />}

@@ -45,7 +45,7 @@ const DetailedLink: React.FC<ILinkData> = ({ uri }) => {
           className="mx-2"
           data-testid="entity-icon-img"
         />
-        <InternalLink uri={uri} name={primaryName} />
+        <InternalLink uri={uri} name={primaryName} linkCategory="Entity" />
       </span>
     )
   }

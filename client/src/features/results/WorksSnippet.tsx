@@ -50,7 +50,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 className="d-flex"
                 data-testid="work-results-snippet-title"
               >
-                <RecordLink url={data.id} />
+                <RecordLink url={data.id} linkCategory="Results Snippet" />
               </StyledSnippetTitle>
               <ProductionSnippet agent={agent} date={date} label="Creator" />
               {types.length > 0 && <TypeList types={types} label="Work" />}
@@ -66,7 +66,10 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 <React.Fragment>
                   <StyledDt>Languages</StyledDt>
                   <StyledDd data-testid="work-snippet-language">
-                    <RecordLink url={languages[0]} />
+                    <RecordLink
+                      url={languages[0]}
+                      linkCategory="Results Snippet"
+                    />
                   </StyledDd>
                 </React.Fragment>
               )}
@@ -119,7 +122,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
             )}
             <Card.Body data-testid="grid-view-work-results-snippet-title">
               <StyledSnippetTitle className="card-title d-flex">
-                <RecordLink url={data.id} />
+                <RecordLink url={data.id} linkCategory="Results Snippet" />
               </StyledSnippetTitle>
               <Card.Text>
                 <StyledDl>

@@ -41,7 +41,7 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
               className="d-flex"
               data-testid="concept-results-snippet-title"
             >
-              <RecordLink url={data.id} />
+              <RecordLink url={data.id} linkCategory="Results Snippet" />
             </StyledSnippetTitle>
             <StyledDl>
               {descriptions.length > 0 && (
