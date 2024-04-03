@@ -350,7 +350,7 @@ describe('stateManager functions', () => {
       })
     })
 
-    it('returns object with input property', () => {
+    it('returns object with text input property', () => {
       const objectInState = {
         _stateId: '1',
       }
@@ -366,6 +366,55 @@ describe('stateManager functions', () => {
           'stemmed',
           'wildcarded',
         ],
+      })
+    })
+
+    it('returns object with boolean input property', () => {
+      const objectInState = {
+        _stateId: '1',
+      }
+
+      expect(
+        addFieldSelectionHelper(objectInState, 'item', 'hasDigitalImage'),
+      ).toEqual({
+        _stateId: '1',
+        hasDigitalImage: '',
+        _options: [
+          'case-sensitive',
+          'diacritic-sensitive',
+          'punctuation-sensitive',
+          'whitespace-sensitive',
+          'unstemmed',
+          'unwildcarded',
+        ],
+      })
+    })
+
+    it('returns object with range input property', () => {
+      const objectInState = {
+        _stateId: '1',
+      }
+
+      expect(
+        addFieldSelectionHelper(objectInState, 'item', 'producedDate'),
+      ).toEqual({
+        _stateId: '1',
+        producedDate: '',
+        _options: [],
+      })
+    })
+
+    it('returns object with record type input property', () => {
+      const objectInState = {
+        _stateId: '1',
+      }
+
+      expect(
+        addFieldSelectionHelper(objectInState, 'agent', 'recordType'),
+      ).toEqual({
+        _stateId: '1',
+        recordType: '',
+        _options: [],
       })
     })
 
