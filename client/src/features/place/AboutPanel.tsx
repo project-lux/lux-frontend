@@ -7,6 +7,7 @@ import TextValue from '../common/TextValue'
 import TextContainer from '../common/TextContainer'
 import PlaceParser from '../../lib/parse/data/PlaceParser'
 import IPlace from '../../types/data/IPlace'
+import ExternalLink from '../common/ExternalLink'
 
 interface IProps {
   entity: IPlace
@@ -46,14 +47,12 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           <TextContainer label="Web Pages">
             <TextValue
               values={webPages.map((url: string, ind: number) => (
-                <a
-                  target="_new"
+                <ExternalLink
                   key={url}
-                  href={url}
-                  data-testid={`place-web-pages-${ind}`}
-                >
-                  {url}
-                </a>
+                  url={url}
+                  name={url}
+                  id={`place-web-pages-${ind}`}
+                />
               ))}
             />
           </TextContainer>

@@ -12,6 +12,7 @@ import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
 import TextContainer from '../common/TextContainer'
 import { personLabels } from '../../config/personLabels'
+import ExternalLink from '../common/ExternalLink'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -138,10 +139,13 @@ const About: React.FC<IProps> = ({ data }) => {
         {webPages.length > 0 && (
           <TextContainer label="Web Pages">
             <TextValue
-              values={webPages.map((url: string) => (
-                <a target="_new" key={url} href={url}>
-                  {url}
-                </a>
+              values={webPages.map((url: string, ind: number) => (
+                <ExternalLink
+                  key={url}
+                  url={url}
+                  name={url}
+                  id={`person-group-web-page-${ind}`}
+                />
               ))}
             />
           </TextContainer>
