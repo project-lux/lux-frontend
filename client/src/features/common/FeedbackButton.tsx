@@ -42,9 +42,9 @@ const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
         data-testid="submit-feedback-button"
         onClick={() =>
           pushSiteImproveEvent(
-            'Submit Feedback',
-            'Button Clicked',
-            'Submit feedback about this record',
+            'External Link',
+            'Selected',
+            'External Submit feedback about this record',
           )
         }
       >

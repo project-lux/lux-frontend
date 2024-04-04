@@ -42,7 +42,7 @@ describe('Place page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/testing.com/i)
-      const links = screen.getByTestId('place-web-pages-0')
+      const links = screen.getByTestId('place-web-pages-0-external-link')
       expect(links).toBeInTheDocument()
     })
 
