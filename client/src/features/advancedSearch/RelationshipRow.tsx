@@ -69,7 +69,6 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
       ? scopeToAriaLabel[scopeToPassToNestedForm]
       : 'nested group'
 
-  console.log(labelForAria)
   return (
     <div
       className="mb-3"
