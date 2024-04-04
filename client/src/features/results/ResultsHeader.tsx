@@ -78,9 +78,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // toggle view between list and image view
   const changeView = (selectedView: string): void => {
-    const formattedView =
-      selectedView.substring(0, 1).toUpperCase() + selectedView.substring(1)
-    pushSiteImproveEvent('Results View', formattedView, label)
+    pushSiteImproveEvent(
+      'Results View Toggle',
+      'Selected',
+      `To ${selectedView} View`,
+    )
 
     queryString.set('view', selectedView)
     navigate({
@@ -91,9 +93,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   const handleSortDirectionSelection = (value: string): void => {
     pushSiteImproveEvent(
-      'Results',
-      'Change Sort Direction',
-      `${sortBySelection}:${value}`,
+      'Results Sort',
+      'Selected',
+      `Sort By ${sortBySelection}:${value}`,
     )
     setSelectedSortDirection(value)
     if (sort !== undefined) {
@@ -104,9 +106,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   const handleSortSelection = (value: string): void => {
     pushSiteImproveEvent(
-      'Results',
-      'Change Sort Field',
-      `${value}:${selectedSortDirection}`,
+      'Results Sort',
+      'Selected',
+      `Sort By ${value}:${selectedSortDirection}`,
     )
     setSortBySelection(value)
     setRedirect(true)
