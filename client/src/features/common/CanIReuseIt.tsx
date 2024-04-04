@@ -8,6 +8,7 @@ import WorkParser from '../../lib/parse/data/WorkParser'
 import StyledDataRow from '../../styles/shared/DataRow'
 import IEntity from '../../types/data/IEntity'
 import { INoteContent } from '../../types/IContentWithLanguage'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import ExternalLink from './ExternalLink'
 import TextNote from './TextNote'
@@ -88,7 +89,16 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         </Col>
       )}
       <Col xs={12}>
-        <Link to="/content/rights-info">
+        <Link
+          to="/content/rights-info"
+          onClick={() =>
+            pushSiteImproveEvent(
+              'Internal Link',
+              'Selected',
+              'Internal FAQ Rights Info',
+            )
+          }
+        >
           For more information about Rights and Usage, visit the LUX Frequently
           Asked Questions.
         </Link>
