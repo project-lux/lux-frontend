@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Added SI event for entity links ([#164](https://github.com/project-lux/lux-frontend/issues/164)).
 - Added SI event for accordions ([#166](https://github.com/project-lux/lux-frontend/issues/166)).
 - Added SI event for search links ([#171](https://github.com/project-lux/lux-frontend/issues/171)).
+- Added SI event for errors ([#172](https://github.com/project-lux/lux-frontend/issues/172)).
 - Added SI event for feedback button on entity pages ([#91](https://github.com/project-lux/lux-frontend/issues/91)).
 
 ### Changed
