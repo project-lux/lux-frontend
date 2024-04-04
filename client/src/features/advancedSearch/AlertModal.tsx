@@ -6,16 +6,17 @@ import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { updateCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IAlertModal {
   showModal: boolean
-  onClose: (x: boolean) => void
+  onClose: () => void
 }
 
 /**
  * Modal used for alerting a user when they are switching from advanced search to simple search.
  * @param {boolean} showModal sets whether or not the modal is visible on the page
- * @param {(x: boolean) => void} onClose function to close the modal
+ * @param {() => void} onClose function to close the modal
  * @returns
  */
 const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
@@ -28,16 +29,21 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
   const handleContinueToSimpleSearch = (): void => {
     dispatch(updateCurrentSearchState({ value: 'simple' }))
     dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
-    onClose(false)
+    onClose()
     dispatch(resetState())
     urlParams.set('sq', '')
+    pushSiteImproveEvent(
+      'Search Switch',
+      'Clicked',
+      'Continue To Simple Search',
+    )
     navigate(`${pathname}?${urlParams.toString()}`)
   }
 
   return (
     <Modal
       show={showModal}
-      onHide={() => onClose(false)}
+      onHide={() => onClose()}
       backdrop="static"
       keyboard={false}
       animation={false}
@@ -54,7 +60,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
           lost. Do you wish to continue?
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={() => onClose(false)}>
+          <Button variant="secondary" onClick={() => onClose()}>
             Close
           </Button>
           <Button variant="primary" onClick={handleContinueToSimpleSearch}>

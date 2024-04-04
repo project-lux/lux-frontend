@@ -17,7 +17,7 @@ const TypeList: React.FC<IProps> = ({ types, label = '' }) => (
       {types.map((type, index) => (
         // eslint-disable-next-line react/no-array-index-key
         <React.Fragment key={`${type}_${index}`}>
-          <RecordLink url={type} />
+          <RecordLink url={type} linkCategory="Results Snippet" />
           {index === types.length - 1 ? '' : ', '}
         </React.Fragment>
       ))}

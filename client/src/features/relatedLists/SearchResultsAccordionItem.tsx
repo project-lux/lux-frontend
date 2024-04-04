@@ -79,7 +79,7 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
               pushSiteImproveEvent(
                 'Accordion Item',
                 activeAccordion ? 'Close' : 'Open',
-                title,
+                `Accordion ${title}`,
               )
               setActiveAccordion(!activeAccordion)
             }}
@@ -97,7 +97,12 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
           <div className="accordion-body">
             {/* Render list based on results list */}
             {activeAccordion && isSuccess && data && (
-              <SearchResultRelatedList url={halLink} scope={tab} data={data} />
+              <SearchResultRelatedList
+                url={halLink}
+                scope={tab}
+                data={data}
+                title={title as string}
+              />
             )}
           </div>
         </div>

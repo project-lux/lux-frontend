@@ -10,6 +10,7 @@ import {
 } from '../../redux/api/ml_api'
 import IEntity from '../../types/data/IEntity'
 import StyledExploreHierarchy from '../../styles/features/common/ExploreHierarchy'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   entity: IEntity
@@ -97,7 +98,13 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
               </React.Fragment>
             )
           } */}
-          <Link to={path} aria-label={`View ${name}`}>
+          <Link
+            to={path}
+            aria-label={`View ${name}`}
+            onClick={() =>
+              pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
+            }
+          >
             [View]
           </Link>
         </li>
@@ -155,7 +162,16 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
     currentElem = (
       <div>
         <strong>{currentName}</strong>&nbsp;
-        {currentId !== original.id && <Link to={path}>[View]</Link>}
+        {currentId !== original.id && (
+          <Link
+            to={path}
+            onClick={() =>
+              pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
+            }
+          >
+            [View]
+          </Link>
+        )}
       </div>
     )
 

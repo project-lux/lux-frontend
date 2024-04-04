@@ -14,7 +14,7 @@ const mockRelationships = {
   },
 }
 
-describe('SemanticSearchLink', () => {
+describe('RelatedObjectsAndWorks', () => {
   it('renders the error message', async () => {
     render(
       <BrowserRouter>

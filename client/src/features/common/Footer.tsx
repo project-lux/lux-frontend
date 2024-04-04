@@ -1,9 +1,10 @@
 import React from 'react'
 import { Col, Container } from 'react-bootstrap'
-import { NavLink } from 'react-router-dom'
+import { NavLink, Link } from 'react-router-dom'
 
 import StyledFooter from '../../styles/features/common/Footer'
 import theme from '../../styles/theme'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import ExternalLink from './ExternalLink'
 import FeedbackButton from './FeedbackButton'
@@ -17,9 +18,15 @@ const Footer: React.FC = () => (
         data-testid="lux-footer"
       >
         <Col xs={12} sm={6} className="lux-footer-yale-col d-flex">
-          <a id="lux-footer-yale" href="https://www.yale.edu">
+          <Link
+            id="lux-footer-yale"
+            to="https://www.yale.edu"
+            onClick={() =>
+              pushSiteImproveEvent('External Link', 'Selected', 'External Yale')
+            }
+          >
             Yale
-          </a>
+          </Link>
         </Col>
         <Col xs={12} sm={6} className="d-flex" id="lux-footer-nav-items-col">
           <ul className="nav" id="lux-footer-nav-items">
@@ -27,7 +34,18 @@ const Footer: React.FC = () => (
               <FeedbackButton linkName="Contact" />
             </li>
             <li className="nav-item">
-              <NavLink to="/content/terms-of-use">Terms of Use</NavLink>
+              <NavLink
+                to="/content/terms-of-use"
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Internal Link',
+                    'Selected',
+                    'Internal Terms of Use',
+                  )
+                }
+              >
+                Terms of Use
+              </NavLink>
             </li>
             <li className="nav-item">
               <ExternalLink

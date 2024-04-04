@@ -81,7 +81,11 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                   searchScope[tab],
                 )}&openSearch=false`}
                 onClick={() =>
-                  pushSiteImproveEvent(`${title} Show All Link`, 'Selected')
+                  pushSiteImproveEvent(
+                    'Search Link',
+                    'Selected',
+                    `Tab ${title}`,
+                  )
                 }
                 data-testid="objects-container-show-all-button"
               >

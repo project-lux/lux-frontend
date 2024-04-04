@@ -82,6 +82,7 @@ const ArchiveHierarchyChild: React.FC<{
               uri={entity.json.id!}
               name={primaryName}
               className={`ms-2 ${activeClassName}`}
+              linkCategory="Hierarchy"
             />
             {iiifImages !== '' && <i className="bi bi-camera-fill" />}
           </StyledCol>
