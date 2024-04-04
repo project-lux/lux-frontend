@@ -21,6 +21,7 @@ interface IProps {
   searchTerm: string | Array<string>
   tab: string
   index: number
+  title: string
   itemSpacing?: string
 }
 
@@ -41,6 +42,7 @@ const ListItem: React.FC<IProps> = ({
   searchTerm,
   tab,
   index,
+  title,
   itemSpacing = 'single',
 }) => {
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
@@ -83,9 +85,9 @@ const ListItem: React.FC<IProps> = ({
             }}
             onClick={() =>
               pushSiteImproveEvent(
-                `${uri} Faceted Results Search Link`,
+                'Search Link',
                 'Selected',
-                linkLabel,
+                `Accordion ${title}`,
               )
             }
             data-testid={`list-item-link-${index}`}

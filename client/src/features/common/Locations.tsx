@@ -3,7 +3,7 @@ import React from 'react'
 
 import { useGetRelatedListsQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import SemanticRelatedList from '../relatedLists/SemanticRelatedList'
+import SemanticRelatedList from '../relatedLists/RelatedList'
 
 interface ILocationsProps {
   halLink: {

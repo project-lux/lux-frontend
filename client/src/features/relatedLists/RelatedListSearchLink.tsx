@@ -15,7 +15,7 @@ interface ILinkParams {
   label?: string
 }
 
-const SemanticSearchLink: React.FC<ILinkParams> = ({
+const RelatedListSearchLink: React.FC<ILinkParams> = ({
   scope,
   criteria,
   id,
@@ -36,13 +36,13 @@ const SemanticSearchLink: React.FC<ILinkParams> = ({
         search: `q=${JSON.stringify(criteria)}&openSearch=false`,
       }}
       onClick={() =>
-        pushSiteImproveEvent(`${title} Show All Link`, 'Selected', linkLabel)
+        pushSiteImproveEvent('Search Link', 'Selected', `Accordion ${title}`)
       }
-      data-testid={`semantic-search-link-${id}`}
+      data-testid={`related-list-search-link-${id}`}
     >
       {linkLabel}
     </Link>
   )
 }
 
-export default SemanticSearchLink
+export default RelatedListSearchLink
