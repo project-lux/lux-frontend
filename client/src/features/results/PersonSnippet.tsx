@@ -16,6 +16,7 @@ import StyledDd from '../../styles/shared/DescriptionDetail'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ISearchData {
   uri: string
@@ -81,6 +82,13 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Selected',
+                      'Results Snippet Link',
+                    )
+                  }
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
@@ -151,6 +159,13 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Selected',
+                      'Results Snippet Link',
+                    )
+                  }
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
