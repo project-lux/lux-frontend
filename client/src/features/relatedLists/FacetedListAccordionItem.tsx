@@ -100,6 +100,7 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
                 url={halLink}
                 searchTerm={jsonSearchTerm || ''}
                 data={data}
+                title={title || ''}
               />
             )}
           </div>

@@ -278,35 +278,35 @@ describe('Entity pages relationship components', () => {
     })
   })
 
-  describe('Semantic search results list when open', () => {
+  describe('Related list when open', () => {
     beforeEach(() => {
       jest
         .spyOn(siteImprove, 'pushSiteImproveEvent')
         .mockImplementation(() => null)
     })
 
-    it('renders the semantic accordion item', async () => {
+    it('renders the related list accordion item', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Related People and Groups/i)
       const accordion = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents',
+        'related-list-accordion-item-agentRelatedAgents',
       )
       expect(accordion).toBeInTheDocument()
     })
 
-    it('renders the semantic related entity name', async () => {
+    it('renders the related list related entity name', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Related People and Groups/i)
       // click the accordion
       const button = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents-button',
+        'related-list-accordion-item-agentRelatedAgents-button',
       )
       fireEvent.click(button)
 
       await findAllByText(/Mock Semantic Group/i)
-      const name = screen.getByTestId('semantic-related-list-entity-0')
+      const name = screen.getByTestId('related-list-entity-0')
       expect(name).toBeInTheDocument()
     })
 
@@ -316,12 +316,12 @@ describe('Entity pages relationship components', () => {
       await findAllByText(/Related People and Groups/i)
       // click the accordion
       const button = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents-button',
+        'related-list-accordion-item-agentRelatedAgents-button',
       )
       fireEvent.click(button)
 
       await findAllByText(/Mock Semantic Group/i)
-      const worksLink = screen.getByTestId('semantic-search-link-work-0')
+      const worksLink = screen.getByTestId('related-list-search-link-work-0')
       expect(worksLink).toHaveAttribute(
         'href',
         `/view/results/works?q={"OR":[{"AND":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-2"}}]}]}&openSearch=false`,
@@ -334,12 +334,12 @@ describe('Entity pages relationship components', () => {
       await findAllByText(/Related People and Groups/i)
       // click the accordion
       const button = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents-button',
+        'related-list-accordion-item-agentRelatedAgents-button',
       )
       fireEvent.click(button)
 
       await findAllByText(/Mock Semantic Group/i)
-      const objectsLink = screen.getByTestId('semantic-search-link-item-1')
+      const objectsLink = screen.getByTestId('related-list-search-link-item-1')
       expect(objectsLink).toHaveAttribute(
         'href',
         `/view/results/objects?q={"OR":[{"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/group/mock-group"}}]}]}&openSearch=false`,
@@ -352,11 +352,11 @@ describe('Entity pages relationship components', () => {
       await findAllByText(/Related People and Groups/i)
       // click the accordion
       const button = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents-button',
+        'related-list-accordion-item-agentRelatedAgents-button',
       )
       fireEvent.click(button)
 
-      const label = screen.getByTestId('work-semantic-related-list-label-0')
+      const label = screen.getByTestId('work-related-list-label-0')
       expect(label).toHaveTextContent(/Co-created works with/i)
     })
 
@@ -366,11 +366,11 @@ describe('Entity pages relationship components', () => {
       await findAllByText(/Related People and Groups/i)
       // click the accordion
       const button = screen.getByTestId(
-        'semantic-list-accordion-item-agentRelatedAgents-button',
+        'related-list-accordion-item-agentRelatedAgents-button',
       )
       fireEvent.click(button)
 
-      const pagination = screen.getByTestId('semantic-related-list-pagination')
+      const pagination = screen.getByTestId('related-list-pagination')
       expect(pagination).toBeInTheDocument()
     })
   })

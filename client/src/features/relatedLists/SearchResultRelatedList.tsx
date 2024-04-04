@@ -15,6 +15,7 @@ import { pushSiteImproveEvent } from '../../lib/siteImprove'
 interface IProps {
   url: string
   data: ISearchResults
+  title: string
   scope?: string
 }
 
@@ -44,7 +45,12 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
   )
 }
 
-const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
+const SearchResultRelatedList: React.FC<IProps> = ({
+  url,
+  scope,
+  data,
+  title,
+}) => {
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
@@ -74,7 +80,11 @@ const SearchResultRelatedList: React.FC<IProps> = ({ url, scope, data }) => {
               }`,
             }}
             onClick={() =>
-              pushSiteImproveEvent('Search Results Link', 'Selected', linkLabel)
+              pushSiteImproveEvent(
+                'Search Link',
+                'Selected',
+                `Accordion ${title}`,
+              )
             }
             data-testid="search-related-list-link"
           >
