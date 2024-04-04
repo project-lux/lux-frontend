@@ -31,7 +31,7 @@ const TabButton: React.FC<ITabButton> = ({
         type="button"
         className={buttonClasses}
         onClick={() => {
-          pushSiteImproveEvent('Entity Tab', 'Selected', title)
+          pushSiteImproveEvent('Tabs', 'Selected', `Tab ${title}`)
           setSelectedTab(index)
         }}
         data-testid={`${testId}-button`}

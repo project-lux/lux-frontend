@@ -29,6 +29,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed SI events with incorrect categories, actions, and labels ([#174](https://github.com/project-lux/lux-frontend/issues/174)).
+
 ## v1.23.0 - 2024-4-1
 
 ### Added
