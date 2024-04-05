@@ -51,7 +51,8 @@ export const containsInput = (properties: Array<string>): boolean => {
 export const isInput = (searchTerm: string): boolean =>
   isRangeInput(searchTerm) ||
   isTextInput(searchTerm) ||
-  isBooleanInput(searchTerm)
+  isBooleanInput(searchTerm) ||
+  isRecordTypeInput(searchTerm)
 // TODO: uncomment when ML estimates are fixed
 // || isDateInput(searchTerm)
 
@@ -71,6 +72,14 @@ export const isTextInput = (searchTerm: string): boolean =>
  */
 export const isRangeInput = (searchTerm: string): boolean =>
   searchTerm.toLowerCase().includes('date') || dimensions.includes(searchTerm)
+
+/**
+ * Determines if the property given requires selector input
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isRecordTypeInput = (searchTerm: string): boolean =>
+  searchTerm.includes('recordType')
 
 /**
  * Determines if the property given requires date input using a comparator
@@ -112,7 +121,7 @@ export const validateAdvancedSearch = (
   const nested = state[property]
 
   // If the nested property is text input and it is a string value that is not empty
-  if (isTextInput(property)) {
+  if (isTextInput(property) || isRecordTypeInput(property)) {
     const nestedClone = nested as string
     // Text input should not allow for strings containing only double quotes and/or spaces
     if (nestedClone.replace(/"/g, '').trim() !== '') {

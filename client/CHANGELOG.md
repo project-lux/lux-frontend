@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added option for person/group in advanced search ([#141](https://github.com/project-lux/lux-frontend/issues/141)).
+
 ### Changed
 
 ### Removed
