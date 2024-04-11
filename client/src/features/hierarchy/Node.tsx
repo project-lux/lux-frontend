@@ -1,27 +1,38 @@
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
 import styled from 'styled-components'
+import { useLocation } from 'react-router-dom'
 
-import ApiText from '../common/ApiText'
 import theme from '../../styles/theme'
 import InternalLink from '../common/InternalLink'
+import { useGetItemQuery } from '../../redux/api/ml_api'
+import EntityParser from '../../lib/parse/data/EntityParser'
+import config from '../../config/config'
+import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 
 interface IProps {
   entityId: string
 }
 
+const StyledSpan = styled.span`
+  color: ${theme.color.button};
+  background-color: ${theme.color.white};
+  border: 1px solid ${theme.color.button};
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  font-weight: 400;
+`
+
 const StyledDropdown = styled(Dropdown)`
   .dropdown-toggle {
     color: ${theme.color.button};
     background-color: ${theme.color.white};
-    border: none;
+    border: 1px solid ${theme.color.button};
     border-radius: 5px;
-    padding: 0px;
-    margin: 0px;
 
-    &:after {
-      display: none;
-    }
+    // &:after {
+    //   display: none;
+    // }
   }
 
   .dropdown-toggle.show {
@@ -44,11 +55,31 @@ const StyledDropdown = styled(Dropdown)`
 `
 
 const Node: React.FC<IProps> = ({ entityId }) => {
-  const name = ApiText(entityId)
+  const { pathname } = useLocation()
+  const uriToRetrieve = stripYaleIdPrefix(entityId)
+  const isCurrentEntity = pathname.includes(uriToRetrieve)
+
+  const { data, isSuccess } = useGetItemQuery({
+    uri: uriToRetrieve,
+    profile: 'results',
+  })
+
+  let name = ''
+  if (data && isSuccess) {
+    const entity = new EntityParser(data)
+    name = entity.getPrimaryName(config.dc.langen)
+  }
+
+  if (isCurrentEntity) {
+    return (
+      <StyledSpan className="d-flex display-inline align-items-center">
+        {name}
+      </StyledSpan>
+    )
+  }
 
   return (
     <span className="d-flex display-inline align-items-center">
-      <p className="mb-0">{name}</p>
       <StyledDropdown
         drop="end"
         id="advanced-search-switch"
@@ -58,7 +89,8 @@ const Node: React.FC<IProps> = ({ entityId }) => {
           id="advanced-search-dropdown-toggle"
           data-testid="hierarchy-dropdown-toggle"
         >
-          <i className="bi bi-three-dots-vertical" />
+          {name}
+          {/* <i className="bi bi-three-dots-vertical" /> */}
         </Dropdown.Toggle>
 
         <Dropdown.Menu>

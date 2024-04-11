@@ -15,7 +15,7 @@ export interface IArchiveHierarchy {
 
 const initialState: IArchiveHierarchy = {}
 
-export const hierarchySlice = createSlice({
+export const archiveHierarchySlice = createSlice({
   name: 'archiveHierarchy',
   initialState,
   reducers: {
@@ -60,6 +60,6 @@ export const hierarchySlice = createSlice({
   },
 })
 
-export const { addData, removeData, reset } = hierarchySlice.actions
+export const { addData, removeData, reset } = archiveHierarchySlice.actions
 
-export default hierarchySlice.reducer
+export default archiveHierarchySlice.reducer

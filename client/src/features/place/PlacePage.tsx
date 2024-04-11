@@ -25,9 +25,9 @@ import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import PlaceParser from '../../lib/parse/data/PlaceParser'
 import IPlace from '../../types/data/IPlace'
 import ILinks from '../../types/data/ILinks'
+import HierarchyContainer from '../hierarchy/HierarchyContainer'
 
 import AboutPanel from './AboutPanel'
-import HierarchyContainer from './HierarchyContainer'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {

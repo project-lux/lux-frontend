@@ -122,7 +122,7 @@ const DEFAULT_POSITION = { x: 0, y: 0 }
 export const getParentNodes = (data: Array<string>): Array<Node> =>
   data.map((id) => ({
     id,
-    type: 'hierarchyNode',
+    type: 'parentNode',
     data: {
       label: id, // this will be a RecordLink
     },
@@ -145,7 +145,7 @@ export const getChildNodes = (data: ISearchResults): Array<Node> => {
 
   return orderedItems.map((obj) => ({
     id: obj.id,
-    type: 'hierarchyNode',
+    type: 'childNode',
     data: {
       label: obj.id, // this will be a RecordLink
     },
@@ -196,7 +196,7 @@ export const getChildEdges = (
  */
 export const getDefaultNode = (currentUuid: string): Node => ({
   id: currentUuid,
-  type: 'hierarchyNode',
+  type: 'originNode',
   data: {
     label: currentUuid, // this will be a RecordLink
   },
