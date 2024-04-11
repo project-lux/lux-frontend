@@ -82,7 +82,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </Nav.Link>
               <Nav.Link
                 href="/content/simple-search"
-                onClick={() => handlePushEvent('Simple Search')}
+                onClick={() => handlePushEvent('Search Tips')}
               >
                 Search Tips
               </Nav.Link>

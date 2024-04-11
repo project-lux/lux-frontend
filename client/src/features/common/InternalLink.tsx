@@ -32,7 +32,7 @@ const InternalLink: React.FC<ILinkParams> = ({
     }}
     className={className || ''}
     onClick={() =>
-      pushSiteImproveEvent('Entity Link', 'Clicked', `${linkCategory} Link`)
+      pushSiteImproveEvent('Entity Link', 'Selected', `${linkCategory} Link`)
     }
     data-testid="internal-link"
   >

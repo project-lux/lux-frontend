@@ -64,7 +64,7 @@ const AdvancedSearchContainer: React.FC = () => {
     setShowModal(false)
     pushSiteImproveEvent(
       'Search Switch',
-      'Clicked',
+      'Selected',
       'Cancel Switch to Simple Search',
     )
   }

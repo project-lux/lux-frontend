@@ -47,7 +47,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                   onClick={() =>
                     pushSiteImproveEvent(
                       'Entity Link',
-                      'Clicked',
+                      'Selected',
                       'Results Snippet Link',
                     )
                   }

@@ -43,7 +43,7 @@ const RecordLink: React.FC<ISearchData> = ({
           onClick={() =>
             pushSiteImproveEvent(
               'Entity Link',
-              'Clicked',
+              'Selected',
               `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
             )
           }

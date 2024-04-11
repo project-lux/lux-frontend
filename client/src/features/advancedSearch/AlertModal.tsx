@@ -34,7 +34,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
     urlParams.set('sq', '')
     pushSiteImproveEvent(
       'Search Switch',
-      'Clicked',
+      'Selected',
       'Continue To Simple Search',
     )
     navigate(`${pathname}?${urlParams.toString()}`)
