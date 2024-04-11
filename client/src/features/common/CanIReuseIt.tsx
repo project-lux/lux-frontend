@@ -1,6 +1,5 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 import { reuse } from '../../config/tooltips'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
@@ -8,11 +7,11 @@ import WorkParser from '../../lib/parse/data/WorkParser'
 import StyledDataRow from '../../styles/shared/DataRow'
 import IEntity from '../../types/data/IEntity'
 import { INoteContent } from '../../types/IContentWithLanguage'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import ExternalLink from './ExternalLink'
 import TextNote from './TextNote'
 import Tooltip from './Tooltip'
+import InternalLink from './InternalLink'
 
 interface IProps {
   entity: IEntity
@@ -89,19 +88,12 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         </Col>
       )}
       <Col xs={12}>
-        <Link
-          to="/content/rights-info"
-          onClick={() =>
-            pushSiteImproveEvent(
-              'Internal Link',
-              'Selected',
-              'Internal FAQ Rights Info',
-            )
-          }
-        >
-          For more information about Rights and Usage, visit the LUX Frequently
-          Asked Questions.
-        </Link>
+        <InternalLink
+          uri="/content/rights-info"
+          name="For more information about Rights and Usage, visit the LUX Frequently
+          Asked Questions."
+          linkCategory="FAQ Rights Info"
+        />
       </Col>
     </StyledDataRow>
   )

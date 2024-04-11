@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Container } from 'react-bootstrap'
-import { NavLink, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import StyledFooter from '../../styles/features/common/Footer'
 import theme from '../../styles/theme'
@@ -8,6 +8,7 @@ import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import ExternalLink from './ExternalLink'
 import FeedbackButton from './FeedbackButton'
+import InternalLink from './InternalLink'
 
 const Footer: React.FC = () => (
   <StyledFooter>
@@ -34,18 +35,11 @@ const Footer: React.FC = () => (
               <FeedbackButton linkName="Contact" />
             </li>
             <li className="nav-item">
-              <NavLink
-                to="/content/terms-of-use"
-                onClick={() =>
-                  pushSiteImproveEvent(
-                    'Internal Link',
-                    'Selected',
-                    'Internal Terms of Use',
-                  )
-                }
-              >
-                Terms of Use
-              </NavLink>
+              <InternalLink
+                uri="/content/terms-of-use"
+                name="Terms of Use"
+                linkCategory="Terms of Use"
+              />
             </li>
             <li className="nav-item">
               <ExternalLink

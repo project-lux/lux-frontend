@@ -68,7 +68,7 @@ const SearchContainer: React.FC<IProps> = ({
                 onClick={() =>
                   pushSiteImproveEvent(
                     'Internal Link',
-                    'Triggered',
+                    'Selected',
                     'Internal Search Tips',
                   )
                 }

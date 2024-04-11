@@ -13,6 +13,7 @@ interface ISearchData {
   linkCategory?: string
   returns404?: (x: boolean) => void
   className?: string
+  name?: string
 }
 
 const RecordLink: React.FC<ISearchData> = ({
@@ -20,38 +21,43 @@ const RecordLink: React.FC<ISearchData> = ({
   linkCategory,
   returns404,
   className,
+  name,
 }) => {
-  const skip = url === undefined
-  const strippedUrl = !skip ? stripYaleIdPrefix(url) : ''
+  const skip = url === undefined || name !== undefined
+  const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
   const { data, isSuccess, isLoading, isError } = useGetNameQuery(
     { uri: strippedUrl },
     { skip },
   )
 
-  if (isSuccess && data) {
+  let entityName = name !== undefined ? name : ''
+  // Get the name of the entity if the name query was called
+  if (isSuccess && data && entityName === '') {
     const entity = new EntityParser(data)
-    const name = entity.getPrimaryName(config.dc.langen)
+    entityName = entity.getPrimaryName(config.dc.langen)
+  }
 
+  if ((isSuccess && data) || entityName !== undefined) {
     return (
-      <React.Fragment>
-        <Link
-          to={{
-            pathname: `/view/${strippedUrl}`,
-          }}
-          aria-label={name}
-          className={className || ''}
-          onClick={() =>
-            pushSiteImproveEvent(
-              'Entity Link',
-              'Selected',
-              `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
-            )
-          }
-          data-testid="record-link"
-        >
-          {name.length > 200 ? `${name.slice(0, 200)}...` : name}
-        </Link>
-      </React.Fragment>
+      <Link
+        to={{
+          pathname: `/view/${strippedUrl}`,
+        }}
+        aria-label={entityName}
+        className={className || ''}
+        onClick={() =>
+          pushSiteImproveEvent(
+            'Entity Link',
+            'Selected',
+            `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
+          )
+        }
+        data-testid="record-link"
+      >
+        {entityName.length > 200
+          ? `${entityName.slice(0, 200)}...`
+          : entityName}
+      </Link>
     )
   }
 
