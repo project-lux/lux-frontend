@@ -26,8 +26,8 @@ const HierarchyChart: React.FC<IProps> = ({
   descendants,
 }) => {
   // get nodes
-  const parentNodes = getParentNodes(parents)
-  const childNodes = getChildNodes(descendants)
+  const parentNodes = getParentNodes(parents).slice(0, 5)
+  const childNodes = getChildNodes(descendants).slice(0, 5)
   const currentNode = getDefaultNode(currentUuid)
 
   // get edges

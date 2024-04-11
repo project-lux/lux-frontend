@@ -14,7 +14,9 @@ import dagre from '@dagrejs/dagre'
 
 import theme from '../../styles/theme'
 
-import HierarchyNode from './HierarchyNode'
+import OriginNode from './OriginNode'
+import ParentNode from './ParentNode'
+import ChildNode from './ChildNode'
 // import HierarchyEdge from './HierarchyEdge'
 
 interface IProps {
@@ -65,7 +67,11 @@ const getLayoutedElements = (
   return { nodes, edges }
 }
 
-const nodeTypes = { hierarchyNode: HierarchyNode }
+const nodeTypes = {
+  originNode: OriginNode,
+  parentNode: ParentNode,
+  childNode: ChildNode,
+}
 // const edgeTypes = { hierarchyEdge: HierarchyEdge }
 
 const Hierarchy: React.FC<IProps> = ({ luxNodes, luxEdges, currentUuid }) => {

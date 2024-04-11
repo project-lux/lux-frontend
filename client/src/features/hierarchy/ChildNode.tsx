@@ -3,14 +3,17 @@ import { Handle, Position } from 'reactflow'
 
 import StyledNode from '../../styles/features/visualizations/Node'
 
+import Toolbar from './Toolbar'
+
 interface IProps {
   data: {
     label: string
   }
 }
 
-const HierarchyNode: React.FC<IProps> = ({ data }) => (
+const ChildNode: React.FC<IProps> = ({ data }) => (
   <StyledNode>
+    <Toolbar />
     <Handle
       type="target"
       className="targetHandle"
@@ -29,4 +32,4 @@ const HierarchyNode: React.FC<IProps> = ({ data }) => (
   </StyledNode>
 )
 
-export default HierarchyNode
+export default ChildNode

@@ -11,10 +11,11 @@ import { hierarchyChildren } from '../../config/placeSearchTags'
 import ILinks from '../../types/data/ILinks'
 import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
-import HierarchyChart from '../hierarchy/HierarchyChart'
 import PageLoading from '../common/PageLoading'
 import ExploreHierarchy from '../common/ExploreHierarchy'
 import theme from '../../styles/theme'
+
+import HierarchyChart from './HierarchyChart'
 
 interface IProps {
   parents: Array<string>
@@ -57,7 +58,8 @@ const StyledSwitchButton = styled(Button)`
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
-  const [view, setView] = useState<'graph' | 'list'>('list')
+  const [view, setView] = useState<'graph' | 'list'>('graph')
+  const [parentIds] = useState<Array<string>>(parents)
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const defaultHierarchyHeight = '600px'
   const hierarchyRef = useRef<HTMLDivElement>(null)
@@ -148,14 +150,14 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
             }}
           >
             <HierarchyChart
-              parents={parents}
+              parents={parentIds}
               descendants={data!}
               currentUuid={currentUuid}
             />
           </div>
         ) : (
           <ExploreHierarchy
-            parents={parents}
+            parents={parentIds}
             descendents={data!}
             currentUuid={currentUuid}
           />
