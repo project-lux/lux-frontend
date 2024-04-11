@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added option for person/group in advanced search ([#141](https://github.com/project-lux/lux-frontend/issues/141)).
+- Added Related People and Groups to event pages ([#8](https://github.com/project-lux/lux-frontend/issues/8)).
 
 ### Changed
 
