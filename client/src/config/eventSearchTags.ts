@@ -59,6 +59,11 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:eventRelatedAgents',
     tab: 'people',
   },
+  places: {
+    title: 'Related Locations',
+    searchTag: 'lux:eventRelatedPlaces',
+    tab: 'places',
+  },
   materials: {
     title: 'Related Materials',
     searchTag: 'lux:eventItemMaterials',
