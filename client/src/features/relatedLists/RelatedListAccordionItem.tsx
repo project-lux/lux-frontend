@@ -38,17 +38,12 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
   index,
 }) => {
   const [activeAccordion, setActiveAccordion] = useState(false)
-  const { title, searchTag, isSemantic } = searchTermConfig
+  const { title, searchTag } = searchTermConfig
   const searchTerm = searchTag.replace('lux:', '')
 
-  const { data, isSuccess, isLoading, isError } = useGetRelatedListsQuery(
-    {
-      url: halLink,
-    },
-    {
-      skip: isSemantic === undefined,
-    },
-  )
+  const { data, isSuccess, isLoading, isError } = useGetRelatedListsQuery({
+    url: halLink,
+  })
 
   if (isSuccess) {
     if (isNull(data)) {

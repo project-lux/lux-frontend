@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed isSemantic boolean field from IHalLink ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
+
 ### Fixed
 
 ## v1.23.0 - 2024-4-1
