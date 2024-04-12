@@ -2,11 +2,15 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import { person as mockPerson } from '../../data/person'
-import DetailedLink from '../../../features/works/DetailedLink'
+import { person as mockPerson } from '../../../data/person'
+import DetailedLink from '../../../../features/works/DetailedLink'
 
-jest.mock('../../../redux/api/ml_api', () => ({
+jest.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
+    data: mockPerson,
+    isSuccess: true,
+  }),
+  useGetNameQuery: () => ({
     data: mockPerson,
     isSuccess: true,
   }),
@@ -22,7 +26,7 @@ describe('DetailedLink', () => {
       </BrowserRouter>,
     )
 
-    const link = screen.getByTestId('internal-link')
+    const link = screen.getByTestId('record-link')
     expect(link).toHaveTextContent('Mock Person')
   })
 

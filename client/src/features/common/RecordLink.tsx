@@ -30,6 +30,7 @@ const RecordLink: React.FC<ISearchData> = ({
     { skip },
   )
 
+  console.log(data, isError, isSuccess)
   let entityName = name !== undefined ? name : ''
   // Get the name of the entity if the name query was called
   if (isSuccess && data && entityName === '') {
@@ -37,7 +38,7 @@ const RecordLink: React.FC<ISearchData> = ({
     entityName = entity.getPrimaryName(config.dc.langen)
   }
 
-  if ((isSuccess && data) || entityName !== undefined) {
+  if ((isSuccess && data) || entityName !== '') {
     return (
       <Link
         to={{
