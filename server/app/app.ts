@@ -15,7 +15,6 @@ Disallow:
 
 User-agent: Googlebot
 Disallow: /view/results/
-Allow /
 
 User-agent: *
 Disallow: /
