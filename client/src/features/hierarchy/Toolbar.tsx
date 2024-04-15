@@ -11,7 +11,7 @@ const Toolbar: React.FC = () => (
       'https://lux-front-dev.collections.yale.edu/data/place/7bdc8ba9-acd8-4584-9a5f-33731def15a0',
     ]}
   >
-    <p>test</p>
+    <p />
   </NodeToolbar>
 )
 
