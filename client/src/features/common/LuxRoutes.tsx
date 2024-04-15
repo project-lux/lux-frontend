@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 
@@ -31,15 +31,18 @@ const RedirectOldProd: React.FC = () => {
 
 const LuxRoutes: React.FC = () => {
   const { pathname, search, state } = useLocation()
+  const [prevUrl, setPrevUrl] = useState('')
 
   useEffect(() => {
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
     // Push a SiteImprove event for a page change
     pushSiteImprovePageEvent(
-      `${pathname}${search}`,
-      state !== null ? state.prevPath : 'unknown previous page',
+      currentUrl,
+      prevUrl,
       state !== null ? state.targetName : 'unknown page name',
     )
-  }, [pathname, search, state])
+    setPrevUrl(currentUrl)
+  }, [pathname, prevUrl, search, state])
 
   return (
     <React.Fragment>

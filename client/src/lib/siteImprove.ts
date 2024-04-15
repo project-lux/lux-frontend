@@ -13,6 +13,13 @@ declare global {
   }
 }
 
+/**
+ * Pushes event tracking
+ * @param {string} category; the Site Improve event category
+ * @param {string} action; the action the user took to trigger the event
+ * @param {string} label optional; the label of the event which is a subcategory
+ * @returns {void}
+ */
 export const pushSiteImproveEvent = (
   category: string,
   action: string,
@@ -24,6 +31,13 @@ export const pushSiteImproveEvent = (
   window._sz.push(args)
 }
 
+/**
+ * Pushes page tracking
+ * @param {string} targetUrl; the URL the user is navigating to
+ * @param {string} currentUrl; the URL the user is navigating from
+ * @param {string} targetTitle; the name of the page passed via state props
+ * @returns {void}
+ */
 export const pushSiteImprovePageEvent = (
   targetUrl: string,
   currentUrl: string,

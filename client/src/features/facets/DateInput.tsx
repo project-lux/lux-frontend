@@ -145,7 +145,6 @@ const DateInput: React.FC<IFacets> = ({
           search: searchQ,
         }}
         state={{
-          prevPath: `${pathname}${search}`,
           targetName: `${pathname}${searchQ}`,
         }}
       />

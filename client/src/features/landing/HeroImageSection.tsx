@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { ICmsResponse, CmsResponseParser } from '../../lib/parse/cms/Parser'
 import {
@@ -18,7 +18,6 @@ interface IProps {
 }
 
 const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
-  const { pathname } = useLocation()
   const [imageData, setImageData] = useState<IImageData | null>(null)
 
   useEffect(() => {
@@ -30,7 +29,6 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
   }, [data, unit])
 
   const linkState = {
-    prevPath: pathname,
     targetName: imageData !== null ? imageData.caption : 'Hero Image',
   }
   return (

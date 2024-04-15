@@ -133,7 +133,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           search: searchQ,
         }}
         state={{
-          prevPath: `${pathname}${search}`,
           targetName: `${pathname}${searchQ}`,
         }}
       />

@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import styled from 'styled-components'
@@ -45,7 +45,6 @@ const ListItem: React.FC<IProps> = ({
   title,
   itemSpacing = 'single',
 }) => {
-  const { pathname } = useLocation()
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
 
   if (recordLinkHas404) {
@@ -82,7 +81,6 @@ const ListItem: React.FC<IProps> = ({
               search: `q=${searchQ}&openSearch=false`,
             }}
             state={{
-              prevPath: pathname,
               targetName: `/view/results/${tab}?q=${searchQ}&openSearch=false`,
             }}
             onClick={() =>

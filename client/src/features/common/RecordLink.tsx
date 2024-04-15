@@ -1,6 +1,6 @@
 /* eslint-disable react/require-default-props */
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { useGetNameQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -23,8 +23,6 @@ const RecordLink: React.FC<ISearchData> = ({
   className,
   name,
 }) => {
-  const { pathname, search } = useLocation()
-
   const skip = url === undefined || name !== undefined
   const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
   const { data, isSuccess, isLoading, isError } = useGetNameQuery(
@@ -45,7 +43,7 @@ const RecordLink: React.FC<ISearchData> = ({
         to={{
           pathname: `/view/${strippedUrl}`,
         }}
-        state={{ prevPath: `${pathname}${search}`, targetName: name }}
+        state={{ targetName: name }}
         aria-label={entityName}
         className={className || ''}
         onClick={() =>

@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import theme from '../../styles/theme'
 import { IHalLinks } from '../../types/IHalLinks'
@@ -60,7 +60,6 @@ const Relations: React.FC<{
   year: string
   searchTag: string
 }> = ({ searchTags, data, year, searchTag }) => {
-  const { pathname } = useLocation()
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
     ['itemEncounteredDate', 'Objects Encountered'],
@@ -86,7 +85,6 @@ const Relations: React.FC<{
               search: `q=${searchQ}&collapseSearch=true`,
             }}
             state={{
-              prevPath: pathname,
               targetName: `/view/results/${tab}q=${searchQ}&collapseSearch=true`,
             }}
             onClick={() =>

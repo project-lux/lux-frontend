@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import Map from '../common/Map'
@@ -24,7 +24,6 @@ interface IProps {
 }
 
 const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
-  const { pathname, search } = useLocation()
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -56,7 +55,6 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                     )
                   }
                   state={{
-                    prevPath: `${pathname}${search}`,
                     targetName: primaryName,
                   }}
                 >
