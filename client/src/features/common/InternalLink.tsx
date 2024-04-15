@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
@@ -27,13 +27,12 @@ const InternalLink: React.FC<ILinkParams> = ({
   linkCategory,
   children,
 }) => {
-  const { pathname, search } = useLocation()
   const eventText = linkCategory !== undefined ? linkCategory : name
+
   return (
     <StyledLink
       to={uri}
       state={{
-        prevPath: `${pathname}${search}`,
         targetName: eventText,
       }}
       className={className || ''}

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
 
 import config from '../../config/config'
@@ -24,7 +24,6 @@ interface ISearchData {
 }
 
 const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
-  const { pathname, search } = useLocation()
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -68,7 +67,6 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const nationalities = person.getNationalities()
 
     const linkState = {
-      prevPath: `${pathname}${search}`,
       targetName: primaryName,
     }
     if (view === 'list') {

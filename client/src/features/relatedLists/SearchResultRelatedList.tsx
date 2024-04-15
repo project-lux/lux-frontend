@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledSearchLink from '../../styles/shared/SearchLink'
@@ -51,7 +51,6 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   data,
   title,
 }) => {
-  const { pathname } = useLocation()
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
@@ -83,7 +82,6 @@ const SearchResultRelatedList: React.FC<IProps> = ({
               search: searchString,
             }}
             state={{
-              prevPath: pathname,
               targetName: `/view/results/${newScope}${searchString}`,
             }}
             onClick={() =>

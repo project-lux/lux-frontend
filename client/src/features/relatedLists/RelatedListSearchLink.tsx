@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { HashLink as Link } from 'react-router-hash-link'
-import { useLocation } from 'react-router-dom'
 
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
@@ -24,7 +23,6 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
   total,
   label,
 }) => {
-  const { pathname } = useLocation()
   const tab = scopeToTabTranslation[scope]
 
   const linkLabel = `Show all ${total || ''} ${label || ''} result${
@@ -39,7 +37,6 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
         search: `q=${searchQ}&openSearch=false`,
       }}
       state={{
-        prevPath: pathname,
         targetName: `/view/results/${tab}?q=${searchQ}&openSearch=false`,
       }}
       onClick={() =>

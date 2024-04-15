@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
-import { NavLink, useLocation } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
@@ -37,9 +37,6 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
-  const { pathname, search } = useLocation()
-  const prevPath = `${pathname}${search}`
-
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
@@ -59,7 +56,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         <Container fluid className="mx-0">
           <NavLink
             to="/"
-            state={{ prevPath, targetName: 'LUX: Yale Collections Discovery' }}
+            state={{ targetName: 'LUX: Yale Collections Discovery' }}
             className="navbar-brand"
             onClick={() => handlePushEvent('Landing Page')}
           >
@@ -76,7 +73,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             <Nav id="nav-links">
               <NavLink
                 to="/content/about-lux"
-                state={{ prevPath, targetName: 'About LUX' }}
+                state={{ targetName: 'About LUX' }}
                 className="nav-link"
                 onClick={() => handlePushEvent('About LUX')}
               >
@@ -84,7 +81,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/open-access"
-                state={{ prevPath, targetName: 'Open Access' }}
+                state={{ targetName: 'Open Access' }}
                 className="nav-link"
                 onClick={() => handlePushEvent('Open Access')}
               >
@@ -92,7 +89,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/simple-search"
-                state={{ prevPath, targetName: 'Search Tips' }}
+                state={{ targetName: 'Search Tips' }}
                 className="nav-link"
                 onClick={() => handlePushEvent('Search Tips')}
               >
@@ -100,7 +97,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/faq"
-                state={{ prevPath, targetName: 'Help' }}
+                state={{ targetName: 'Help' }}
                 className="nav-link"
                 onClick={() => handlePushEvent('Help')}
               >

@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { HashLink } from 'react-router-hash-link'
-import { useLocation } from 'react-router-dom'
 
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
@@ -33,7 +32,6 @@ const SearchContainer: React.FC<IProps> = ({
   },
   isResultsPage = false,
 }) => {
-  const { pathname, search } = useLocation()
   const [isError, setIsError] = useState<boolean>(false)
 
   return (
@@ -63,7 +61,6 @@ const SearchContainer: React.FC<IProps> = ({
               <HashLink
                 to="/content/simple-search"
                 state={{
-                  prevPath: `${pathname}${search}`,
                   targetName: 'SearchTips',
                 }}
                 style={{
