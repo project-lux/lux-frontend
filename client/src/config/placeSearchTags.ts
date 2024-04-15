@@ -51,7 +51,6 @@ export const locations: IHalLink = {
   title: 'Related Locations',
   searchTag: 'lux:placeRelatedPlaces',
   tab: 'places',
-  isSemantic: true,
 }
 
 // Shows related accordions
@@ -60,7 +59,6 @@ export const relatedAccordions: IHalLinks = {
     title: 'Related People and Groups',
     searchTag: 'lux:placeRelatedAgents',
     tab: 'objects',
-    isSemantic: true,
   },
   agentsBornHere: {
     title: 'People Born and Groups Formed Here',
@@ -81,7 +79,6 @@ export const relatedAccordions: IHalLinks = {
     title: 'Related Concepts',
     searchTag: 'lux:placeRelatedConcepts',
     tab: 'objects',
-    isSemantic: true,
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',

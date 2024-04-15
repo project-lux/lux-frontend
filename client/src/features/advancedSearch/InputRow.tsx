@@ -7,6 +7,7 @@ import {
   isBooleanInput,
   // isDateInput,
   isRangeInput,
+  isRecordTypeInput,
   isTextInput,
 } from '../../lib/advancedSearch/advancedSearchParser'
 import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
@@ -20,6 +21,7 @@ import BooleanInput from './BooleanInput'
 import TextInput from './TextInput'
 import OptionsButton, { INPUT_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
+import RecordTypeInput from './RecordTypeInput'
 // import DateInput from './DateInput'
 
 interface IFieldSelectRow {
@@ -100,6 +102,15 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               comp={state._comp}
               stateId={stateId}
               ariaLabel={labelForAria}
+            />
+          )}
+          {isRecordTypeInput(selectedKey) && (
+            <RecordTypeInput
+              label={`Select options for ${labelForAria}`}
+              scope={scope}
+              currentValue={state[selectedKey]}
+              field={selectedKey}
+              stateId={stateId}
             />
           )}
           {/* {isDateInput(selectedKey) && (

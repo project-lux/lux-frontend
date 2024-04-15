@@ -8,6 +8,7 @@ import {
 } from '../../lib/parse/cms/LandingPageImageParser'
 import { UnitCode } from '../../config/cms'
 import StyledHeroImageSection from '../../styles/features/landing/HeroImageSection'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import WhatIsLux from './WhatIsLux'
 
@@ -36,7 +37,16 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
             className="hero-image-container"
             data-testid="hero-image-container"
           >
-            <Link to={imageData.recordUrl}>
+            <Link
+              to={imageData.recordUrl}
+              onClick={() =>
+                pushSiteImproveEvent(
+                  'Entity Link',
+                  'Selected',
+                  'Hero Image Link',
+                )
+              }
+            >
               <img alt={imageData.altText} src={imageData.url} />
             </Link>
           </div>
@@ -45,6 +55,13 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
               <div className="caption">
                 <Link
                   to={imageData.recordUrl}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Selected',
+                      'Hero Image Link',
+                    )
+                  }
                   data-testid="hero-image-caption-link"
                 >
                   {imageData.caption.length > 30

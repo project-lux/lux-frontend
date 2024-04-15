@@ -1,6 +1,5 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
 
 import { reuse } from '../../config/tooltips'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
@@ -12,6 +11,7 @@ import { INoteContent } from '../../types/IContentWithLanguage'
 import ExternalLink from './ExternalLink'
 import TextNote from './TextNote'
 import Tooltip from './Tooltip'
+import InternalLink from './InternalLink'
 
 interface IProps {
   entity: IEntity
@@ -88,10 +88,12 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         </Col>
       )}
       <Col xs={12}>
-        <Link to="/content/rights-info">
-          For more information about Rights and Usage, visit the LUX Frequently
-          Asked Questions.
-        </Link>
+        <InternalLink
+          uri="/content/rights-info"
+          name="For more information about Rights and Usage, visit the LUX Frequently
+          Asked Questions."
+          linkCategory="FAQ Rights Info"
+        />
       </Col>
     </StyledDataRow>
   )

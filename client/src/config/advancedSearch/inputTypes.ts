@@ -26,6 +26,22 @@ export const dimensions: Array<string> = [
   'width',
 ]
 
+export const recordTypes: Record<
+  string,
+  Array<{ label: string; value: string }>
+> = {
+  agent: [
+    {
+      label: 'Person',
+      value: 'Person',
+    },
+    {
+      label: 'Group',
+      value: 'Group',
+    },
+  ],
+}
+
 export const comparators: Record<string, string> = {
   '<': 'less than',
   '<=': 'less than or equal to',

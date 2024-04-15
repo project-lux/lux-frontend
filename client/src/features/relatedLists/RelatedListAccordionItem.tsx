@@ -8,7 +8,7 @@ import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 
-import SemanticRelatedList from './SemanticRelatedList'
+import RelatedList from './RelatedList'
 
 interface IProps {
   searchTermConfig: IHalLink
@@ -38,17 +38,12 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
   index,
 }) => {
   const [activeAccordion, setActiveAccordion] = useState(false)
-  const { title, searchTag, isSemantic } = searchTermConfig
+  const { title, searchTag } = searchTermConfig
   const searchTerm = searchTag.replace('lux:', '')
 
-  const { data, isSuccess, isLoading, isError } = useGetRelatedListsQuery(
-    {
-      url: halLink,
-    },
-    {
-      skip: isSemantic === undefined,
-    },
-  )
+  const { data, isSuccess, isLoading, isError } = useGetRelatedListsQuery({
+    url: halLink,
+  })
 
   if (isSuccess) {
     if (isNull(data)) {
@@ -72,7 +67,7 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
     <React.Fragment>
       <div
         className="accordion-item"
-        data-testid={`semantic-list-accordion-item-${searchTerm}`}
+        data-testid={`related-list-accordion-item-${searchTerm}`}
       >
         <h2
           className="accordion-header"
@@ -89,11 +84,11 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
               pushSiteImproveEvent(
                 'Accordion Item',
                 activeAccordion ? 'Close' : 'Open',
-                title,
+                `Accordion ${title}`,
               )
               setActiveAccordion(!activeAccordion)
             }}
-            data-testid={`semantic-list-accordion-item-${searchTerm}-button`}
+            data-testid={`related-list-accordion-item-${searchTerm}-button`}
           >
             {isLoading ? 'Loading...' : title}
           </StyledAccordionButton>
@@ -106,10 +101,11 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
           <div className="accordion-body">
             {/* Render list of results against facets API endpoint */}
             {activeAccordion && isSuccess && data && data.results !== null && (
-              <SemanticRelatedList
+              <RelatedList
                 results={data.results}
                 halLink={halLink}
                 next={data.next}
+                title={title || ''}
               />
             )}
           </div>

@@ -15,9 +15,15 @@ interface IProps {
   url: string
   searchTerm: string | Array<string>
   data: ISearchResults
+  title: string
 }
 
-const FacetsRelatedList: React.FC<IProps> = ({ url, searchTerm, data }) => {
+const FacetsRelatedList: React.FC<IProps> = ({
+  url,
+  searchTerm,
+  data,
+  title,
+}) => {
   const criteria = getCriteriaFromHalLink(url, 'facets')
   const scope = getResultTabFromHalLink(url)
 
@@ -52,6 +58,7 @@ const FacetsRelatedList: React.FC<IProps> = ({ url, searchTerm, data }) => {
                 key={facet.id}
                 uri={value as string}
                 count={totalItems || 0}
+                title={title}
                 tab={scope}
                 criteria={criteria}
                 searchTerm={searchTerm}

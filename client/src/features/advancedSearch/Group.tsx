@@ -10,6 +10,7 @@ import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
@@ -89,7 +90,14 @@ const Group: React.FC<IGroup> = ({
       </AlignedDiv>
       <VerticalLine>
         <CollapseButton
-          onClick={() => setOpen(!open)}
+          onClick={() => {
+            pushSiteImproveEvent(
+              'Collapse Button',
+              open ? 'Open' : 'Close',
+              'Advanced Search',
+            )
+            setOpen(!open)
+          }}
           aria-controls="group-collapse-text"
           aria-expanded={open}
           aria-label={

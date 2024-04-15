@@ -2,7 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.23.0 - Unreleased
+## v1.24.0 - Unreleased
+
+### Added
+
+- Added option for person/group in advanced search ([#141](https://github.com/project-lux/lux-frontend/issues/141)).
+- Added Related People and Groups to event pages ([#8](https://github.com/project-lux/lux-frontend/issues/8)).
+- Added Related Locations to event pages ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
+- Added SI event for simple search ([#160](https://github.com/project-lux/lux-frontend/issues/160)).
+- Added SI event for facet events ([#163](https://github.com/project-lux/lux-frontend/issues/163)).
+- Added SI event for advanced search ([#161](https://github.com/project-lux/lux-frontend/issues/161)).
+- Added SI event for pagination ([#168](https://github.com/project-lux/lux-frontend/issues/168)).
+- Added SI event for search switch ([#162](https://github.com/project-lux/lux-frontend/issues/162)).
+- Added SI event for entity links ([#164](https://github.com/project-lux/lux-frontend/issues/164)).
+- Added SI event for accordions ([#166](https://github.com/project-lux/lux-frontend/issues/166)).
+- Added SI event for search links ([#171](https://github.com/project-lux/lux-frontend/issues/171)).
+- Added SI event for errors ([#172](https://github.com/project-lux/lux-frontend/issues/172)).
+- Added SI event for internal links ([#169](https://github.com/project-lux/lux-frontend/issues/169)).
+- Added SI event for external links ([#167](https://github.com/project-lux/lux-frontend/issues/167)).
+- Added Groups Founded accordion config ([#74](https://github.com/project-lux/lux-frontend/issues/74)).
+- Removed public/ folder contents other than Universal Viewer, added index.html.template ([#77](https://github.com/project-lux/lux-frontend/issues/77)).
+
+### Changed
+
+### Removed
+
+- Removed isSemantic boolean field from IHalLink ([#9](https://github.com/project-lux/lux-frontend/issues/9)).
+
+### Fixed
+
+- Fixed SI events with incorrect categories, actions, and labels ([#174](https://github.com/project-lux/lux-frontend/issues/174)).
+
+## v1.23.0 - 2024-4-1
 
 ### Added
 
@@ -25,7 +56,7 @@ All notable changes to this project will be documented in this file.
 - Added People Active Here accordion to place pages ([#34](https://github.com/project-lux/lux-frontend/issues/34)).
 - Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
 - Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
-- Added entity icon to About/Depicts ([#84](https://github.com/project-lux/lux-frontend/issues/84)).
+- Added entity icon to About/Depicts ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
 
 ### Changed
 

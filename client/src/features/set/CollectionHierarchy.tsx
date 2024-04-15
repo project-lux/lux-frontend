@@ -62,7 +62,7 @@ const CollectionHierarchy: React.FC<IProps> = ({ entity }) => {
       return (
         <span key={key} data-testid={`collections-hierarchy-${ix}`}>
           {ix !== 0 && ' > '}
-          <RecordLink url={p.id ?? ''} />
+          <RecordLink url={p.id ?? ''} linkCategory="Breadcrumb" />
         </span>
       )
     })

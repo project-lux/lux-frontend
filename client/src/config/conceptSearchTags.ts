@@ -65,7 +65,6 @@ export const locations: IHalLink = {
   title: 'Related Locations',
   searchTag: 'lux:conceptRelatedPlaces',
   tab: 'places',
-  isSemantic: true,
 }
 
 // Used for rendering accordions
@@ -74,13 +73,11 @@ export const relatedAccordions: IHalLinks = {
     title: 'Related People and Groups',
     searchTag: 'lux:conceptRelatedAgents',
     tab: 'objects',
-    isSemantic: true,
   },
   concepts: {
     title: 'Related Concepts',
     searchTag: 'lux:conceptRelatedConcepts',
     tab: 'objects',
-    isSemantic: true,
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',

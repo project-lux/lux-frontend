@@ -2,12 +2,14 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ILinkParams {
   uri: string
   name: string
   className?: string
+  linkCategory?: string
+  children?: JSX.Element
 }
 
 const StyledLink = styled(Link)`
@@ -18,15 +20,27 @@ const StyledLink = styled(Link)`
 `
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
-const InternalLink: React.FC<ILinkParams> = ({ uri, name, className }) => (
+const InternalLink: React.FC<ILinkParams> = ({
+  uri,
+  name,
+  className,
+  linkCategory,
+  children,
+}) => (
   <StyledLink
-    to={{
-      pathname: `/view/${stripYaleIdPrefix(uri)}`,
-    }}
+    to={uri}
     className={className || ''}
+    onClick={() =>
+      pushSiteImproveEvent(
+        'Internal Link',
+        'Selected',
+        `Internal ${linkCategory !== undefined ? linkCategory : name}`,
+      )
+    }
     data-testid="internal-link"
   >
     {name}
+    {children}
   </StyledLink>
 )
 

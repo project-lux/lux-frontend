@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import SearchButton from './SearchButton'
 
@@ -37,6 +38,11 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
+
+  const handlePushEvent = (link: string): void => {
+    pushSiteImproveEvent('Internal Link', 'Selected', `Internal ${link}`)
+  }
+
   return (
     <StyledHeader>
       <Navbar
@@ -47,7 +53,12 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         className="w-auto px-4 py-3"
       >
         <Container fluid className="mx-0">
-          <Navbar.Brand href="/">LUX: Yale Collections Discovery</Navbar.Brand>
+          <Navbar.Brand
+            href="/"
+            onClick={() => handlePushEvent('Landing Page')}
+          >
+            LUX: Yale Collections Discovery
+          </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
             className="show-menu"
@@ -57,10 +68,30 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             className="justify-content-end"
           >
             <Nav id="nav-links">
-              <Nav.Link href="/content/about-lux">About LUX</Nav.Link>
-              <Nav.Link href="/content/open-access">Open Access</Nav.Link>
-              <Nav.Link href="/content/simple-search">Search Tips</Nav.Link>
-              <Nav.Link href="/content/faq">Help</Nav.Link>
+              <Nav.Link
+                href="/content/about-lux"
+                onClick={() => handlePushEvent('About LUX')}
+              >
+                About LUX
+              </Nav.Link>
+              <Nav.Link
+                href="/content/open-access"
+                onClick={() => handlePushEvent('Open Access')}
+              >
+                Open Access
+              </Nav.Link>
+              <Nav.Link
+                href="/content/simple-search"
+                onClick={() => handlePushEvent('Search Tips')}
+              >
+                Search Tips
+              </Nav.Link>
+              <Nav.Link
+                href="/content/faq"
+                onClick={() => handlePushEvent('Help')}
+              >
+                Help
+              </Nav.Link>
               {hideSearch ? null : (
                 <React.Fragment>
                   <SeparatingLine />

@@ -16,6 +16,7 @@ import {
   isGroup,
   isInput,
   isRangeInput,
+  isRecordTypeInput,
 } from './advancedSearchParser'
 import { getStateId } from './stateId'
 
@@ -106,9 +107,10 @@ export const addFieldSelectionHelper = (
     } else if (isInput(selected)) {
       // Text input
       if (
-        typeof existingValue !== 'string' ||
-        isRangeInput(selected) ||
-        isBooleanInput(selected)
+        !isRecordTypeInput(selected) &&
+        (typeof existingValue !== 'string' ||
+          isRangeInput(selected) ||
+          isBooleanInput(selected))
       ) {
         objectToUpdate[selected] = ''
         delete objectToUpdate._comp

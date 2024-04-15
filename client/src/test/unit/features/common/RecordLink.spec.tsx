@@ -62,6 +62,18 @@ describe('RecordLink', () => {
       const link = screen.getByTestId('record-link')
       expect(link).toHaveAttribute('href', '/view/object/test')
     })
+
+    it('renders the link name when passed as a prop', async () => {
+      const mockLinkName = 'mock link name'
+      render(
+        <BrowserRouter>
+          <RecordLink url={mockUrl} name={mockLinkName} />
+        </BrowserRouter>,
+      )
+
+      const link = screen.getByTestId('record-link')
+      expect(link).toHaveTextContent(mockLinkName)
+    })
   })
 
   describe('failed calls', () => {

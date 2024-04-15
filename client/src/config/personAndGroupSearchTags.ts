@@ -51,7 +51,6 @@ export const locations: IHalLink = {
   title: 'Related Locations',
   searchTag: 'lux:agentRelatedPlaces',
   tab: 'places',
-  isSemantic: true,
 }
 
 // Used for rendering timelines
@@ -84,7 +83,11 @@ export const relatedAccordions: IHalLinks = {
     title: 'Related People and Groups',
     searchTag: 'lux:agentRelatedAgents',
     tab: 'objects',
-    isSemantic: true,
+  },
+  founded: {
+    title: 'Groups Founded',
+    searchTag: 'lux:agentFoundedByAgent',
+    tab: 'people',
   },
   subjects: {
     title: 'Related Subjects',
@@ -102,7 +105,6 @@ export const relatedAccordions: IHalLinks = {
     title: 'Related Concepts',
     searchTag: 'lux:agentRelatedConcepts',
     tab: 'concepts',
-    isSemantic: true,
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',

@@ -18,6 +18,7 @@ import StyledHr from '../../styles/shared/Hr'
 import ErrorMessage from '../search/ErrorMessage'
 import { ErrorFallback } from '../error/ErrorFallback'
 import { ResultsTab } from '../../types/ResultsTab'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -51,10 +52,21 @@ const AdvancedSearchContainer: React.FC = () => {
     const filteredSearch = filterAdvancedSearch(scope, currentState)
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
+    const resultsTab = tab !== undefined ? tab : 'objects'
+    pushSiteImproveEvent('Search Button', 'Submit', 'Advanced Search')
     navigate({
-      pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
+      pathname: `/view/results/${resultsTab}`,
       search: `?${newUrlParams.toString()}`,
     })
+  }
+
+  const handleCloseModal = (): void => {
+    setShowModal(false)
+    pushSiteImproveEvent(
+      'Search Switch',
+      'Selected',
+      'Cancel Switch to Simple Search',
+    )
   }
 
   useEffect(() => {
@@ -78,7 +90,7 @@ const AdvancedSearchContainer: React.FC = () => {
       <Row className="mx-0">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           {showModal && (
-            <AlertModal showModal={showModal} onClose={setShowModal} />
+            <AlertModal showModal={showModal} onClose={handleCloseModal} />
           )}
           {isError && (
             <Col xs={12} className="mt-2 w-75">

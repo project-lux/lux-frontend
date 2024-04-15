@@ -95,7 +95,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 className="d-flex"
                 data-testid="object-results-snippet-title"
               >
-                <RecordLink url={data.id} />
+                <RecordLink url={data.id} linkCategory="Results Snippet" />
               </StyledSnippetTitle>
               <StyledDl>
                 <ProductionSnippet
@@ -111,7 +111,10 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   <React.Fragment>
                     <StyledDt>Collection</StyledDt>
                     <StyledDd data-testid="object-snippet-collections">
-                      <RecordLink url={collectionData[0]} />
+                      <RecordLink
+                        url={collectionData[0]}
+                        linkCategory="Results Snippet"
+                      />
                       {collectionData.length > 1 && '...'}
                     </StyledDd>
                   </React.Fragment>
@@ -180,7 +183,11 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 className="card-title d-flex"
                 data-testid="grid-view-object-results-snippet-title"
               >
-                <RecordLink url={data.id} className="overflow-auto" />
+                <RecordLink
+                  url={data.id}
+                  className="overflow-auto"
+                  linkCategory="Results Snippet"
+                />
               </StyledSnippetTitle>
               <Card.Text>
                 <StyledDl>
@@ -188,7 +195,10 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                     <React.Fragment>
                       <StyledDt hidden>People and Groups</StyledDt>
                       <StyledDd data-testid="grid-view-object-event-agent">
-                        <RecordLink url={agents[0].id} />
+                        <RecordLink
+                          url={agents[0].id}
+                          linkCategory="Results Snippet"
+                        />
                       </StyledDd>
                     </React.Fragment>
                   )}
