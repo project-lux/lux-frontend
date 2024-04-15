@@ -84,6 +84,11 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:agentRelatedAgents',
     tab: 'objects',
   },
+  founded: {
+    title: 'Groups Founded',
+    searchTag: 'lux:agentFoundedByAgent',
+    tab: 'people',
+  },
   subjects: {
     title: 'Related Subjects',
     searchTag: 'lux:agentRelatedSubjects',
