@@ -16,6 +16,7 @@ import StyledDd from '../../styles/shared/DescriptionDetail'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ISearchData {
   uri: string
@@ -81,6 +82,13 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Selected',
+                      'Results Snippet Link',
+                    )
+                  }
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
@@ -93,7 +101,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   <React.Fragment>
                     <StyledDt>Occupations</StyledDt>
                     <StyledDd data-testid="person-group-result-snippet-occupation">
-                      <RecordLink url={occupations[0]} />
+                      <RecordLink
+                        url={occupations[0]}
+                        linkCategory="Results Snippet"
+                      />
                     </StyledDd>
                   </React.Fragment>
                 )}
@@ -101,7 +112,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   <React.Fragment>
                     <StyledDt>Nationalities</StyledDt>
                     <StyledDd data-testid="person-group-result-snippet-nationality">
-                      <RecordLink url={nationalities[0]} />
+                      <RecordLink
+                        url={nationalities[0]}
+                        linkCategory="Results Snippet"
+                      />
                     </StyledDd>
                   </React.Fragment>
                 )}
@@ -145,6 +159,13 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   to={{
                     pathname: `/view/${stripYaleIdPrefix(data.id)}`,
                   }}
+                  onClick={() =>
+                    pushSiteImproveEvent(
+                      'Entity Link',
+                      'Selected',
+                      'Results Snippet Link',
+                    )
+                  }
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
@@ -158,7 +179,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                     <React.Fragment>
                       <StyledDt hidden>Occupations</StyledDt>
                       <StyledDd>
-                        <RecordLink url={occupations[0]} />
+                        <RecordLink
+                          url={occupations[0]}
+                          linkCategory="Results Snippet"
+                        />
                       </StyledDd>
                     </React.Fragment>
                   )}
@@ -166,7 +190,10 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                     <React.Fragment>
                       <StyledDt hidden>Nationalities</StyledDt>
                       <StyledDd>
-                        <RecordLink url={nationalities[0]} />
+                        <RecordLink
+                          url={nationalities[0]}
+                          linkCategory="Results Snippet"
+                        />
                       </StyledDd>
                     </React.Fragment>
                   )}

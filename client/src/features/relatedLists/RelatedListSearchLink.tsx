@@ -4,23 +4,30 @@ import { HashLink as Link } from 'react-router-hash-link'
 
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ILinkParams {
   scope: string
   criteria: IAdvancedSearchState
   id: string
+  title: string
   total?: number
   label?: string
 }
 
-const SemanticSearchLink: React.FC<ILinkParams> = ({
+const RelatedListSearchLink: React.FC<ILinkParams> = ({
   scope,
   criteria,
   id,
+  title,
   total,
   label,
 }) => {
   const tab = scopeToTabTranslation[scope]
+
+  const linkLabel = `Show all ${total || ''} ${label || ''} result${
+    total !== 1 ? 's' : ''
+  }`
 
   return (
     <Link
@@ -28,12 +35,14 @@ const SemanticSearchLink: React.FC<ILinkParams> = ({
         pathname: `/view/results/${tab}`,
         search: `q=${JSON.stringify(criteria)}&openSearch=false`,
       }}
-      data-testid={`semantic-search-link-${id}`}
+      onClick={() =>
+        pushSiteImproveEvent('Search Link', 'Selected', `Accordion ${title}`)
+      }
+      data-testid={`related-list-search-link-${id}`}
     >
-      Show all {total} {label} result
-      {total !== 1 && `s`}
+      {linkLabel}
     </Link>
   )
 }
 
-export default SemanticSearchLink
+export default RelatedListSearchLink

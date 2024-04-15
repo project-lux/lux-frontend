@@ -12,12 +12,15 @@ import { capitalizeLabels } from '../../lib/parse/data/helper'
 import { transformRelatedListResults } from '../../lib/parse/search/relatedListsParser'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import RecordLink from '../common/RecordLink'
-import SemanticSearchLink from '../common/SemanticSearchLink'
 import PageLoading from '../common/PageLoading'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
+
+import RelatedListSearchLink from './RelatedListSearchLink'
 
 interface IProps {
   results: IRelatedListResults
   halLink: string
+  title: string
   next?: {
     id: string
     type: string
@@ -49,11 +52,12 @@ const StyledDiv = styled.div`
 `
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SemanticRelatedListRow: React.FC<{
+const RelatedListRow: React.FC<{
   uri: string
   results: IRelatedListResults
   index: number
-}> = ({ uri, results, index }) => {
+  title: string
+}> = ({ uri, results, index, title }) => {
   const { pathname } = useLocation()
   const pageScope = pathname.replace('/view/', '').split('/')
   const isDevEnvironment = pathname.includes('lux-front-dev')
@@ -64,23 +68,28 @@ const SemanticRelatedListRow: React.FC<{
   }
 
   return (
-    <Row data-testid="testing">
+    <Row>
       <Col xs={12}>
         <StyledRow>
           <Col xs={12} sm={12} md={6} lg={12} xl={6}>
-            <dt data-testid={`semantic-related-list-entity-${index}`}>
-              <RecordLink url={uri} returns404={setRecordLinkHas404} />
+            <dt data-testid={`related-list-entity-${index}`}>
+              <RecordLink
+                url={uri}
+                returns404={setRecordLinkHas404}
+                linkCategory="Accordion"
+              />
             </dt>
           </Col>
           <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
             {Object.keys(results[uri]).map((scope, ind) => (
               <React.Fragment key={`${uri}-${scope}-link`}>
                 <dd className="mb-0">
-                  <SemanticSearchLink
+                  <RelatedListSearchLink
                     scope={scope}
                     criteria={results[uri][scope].criteria}
                     label={scope === 'item' ? 'object' : scope}
                     id={`${scope}-${ind}`}
+                    title={title}
                   />
                 </dd>
                 {Object.keys(results[uri]).length - 1 !== ind && (
@@ -112,21 +121,20 @@ const SemanticRelatedListRow: React.FC<{
                 return (
                   <StyledRow key={`${scope}-${name}`}>
                     <Col xs={12} sm={12} md={9} lg={12} xl={9}>
-                      <dt
-                        data-testid={`${scope}-semantic-related-list-label-${ind}`}
-                      >
+                      <dt data-testid={`${scope}-related-list-label-${ind}`}>
                         {label}
                       </dt>
                     </Col>
                     <StyledResponsiveCol xs={12} sm={12} md={3} lg={12} xl={3}>
                       <dd className="mb-0">
-                        <SemanticSearchLink
+                        <RelatedListSearchLink
                           scope={scope}
                           id={`show-all-${ind}`}
                           total={results[uri][scope].relations[name].totalItems}
                           criteria={
                             results[uri][scope].relations[name].criteria
                           }
+                          title={title}
                         />
                       </dd>
                     </StyledResponsiveCol>
@@ -141,7 +149,7 @@ const SemanticRelatedListRow: React.FC<{
   )
 }
 
-const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
+const RelatedList: React.FC<IProps> = ({ results, halLink, title, next }) => {
   const [currentResults, setCurrentResults] =
     useState<IRelatedListResults>(results)
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -150,6 +158,7 @@ const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleClick = (page: number): void => {
+    pushSiteImproveEvent('Pagination', 'Selected', 'Related List Accordion')
     fetchRelatedLists({
       halLink,
       page,
@@ -185,11 +194,12 @@ const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
       <Col xs={12}>
         <dl>
           {Object.keys(currentResults).map((uri, ind: number) => (
-            <SemanticRelatedListRow
+            <RelatedListRow
               key={uri}
               uri={uri}
               results={currentResults}
               index={ind}
+              title={title}
             />
           ))}
         </dl>
@@ -198,7 +208,7 @@ const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
         <Col
           xs={12}
           className="d-flex justify-content-center"
-          data-testid="semantic-related-list-pagination"
+          data-testid="related-list-pagination"
         >
           <PrimaryButton
             className="m-1"
@@ -220,4 +230,4 @@ const SemanticRelatedList: React.FC<IProps> = ({ results, halLink, next }) => {
   )
 }
 
-export default SemanticRelatedList
+export default RelatedList

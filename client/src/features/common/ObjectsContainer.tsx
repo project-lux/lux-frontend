@@ -10,10 +10,12 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IObjectsBy {
   uri: string // URI which is the argument of the search tag
   tab: string // scope - "objects", "works", etc
+  title: string // the title of the current tab
 }
 
 export const getSnippet = (uri: string, tab: string): JSX.Element | null => {
@@ -47,7 +49,7 @@ export const resultsData = (
  * @param {string} tab the results tab to redirect to when a user selects Show all X results
  * @returns {JSX.Element}
  */
-const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab }) => {
+const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
       uri,
@@ -78,6 +80,13 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab }) => {
                   uri,
                   searchScope[tab],
                 )}&openSearch=false`}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Search Link',
+                    'Selected',
+                    `Tab ${title}`,
+                  )
+                }
                 data-testid="objects-container-show-all-button"
               >
                 Show all {estimate} result

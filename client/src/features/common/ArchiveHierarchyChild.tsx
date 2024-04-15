@@ -18,7 +18,7 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 
 import ArchiveHierarchyChildrenContainer from './ArchiveHierarchyChildrenContainer'
-import InternalLink from './InternalLink'
+import RecordLink from './RecordLink'
 
 const StyledCol = styled(Col)`
   &:hover {
@@ -78,10 +78,11 @@ const ArchiveHierarchyChild: React.FC<{
             >
               {open ? '-' : '+'}
             </CollapseButton>
-            <InternalLink
-              uri={entity.json.id!}
+            <RecordLink
+              url={entity.json.id!}
               name={primaryName}
               className={`ms-2 ${activeClassName}`}
+              linkCategory="Hierarchy"
             />
             {iiifImages !== '' && <i className="bi bi-camera-fill" />}
           </StyledCol>
@@ -103,10 +104,11 @@ const ArchiveHierarchyChild: React.FC<{
     return (
       <Row key={pathname} className="my-1">
         <StyledCol xs={12} className="lh-sm my-1">
-          <InternalLink
-            uri={entity.json.id!}
+          <RecordLink
+            url={entity.json.id!}
             name={primaryName}
             className={`${activeClassName}`}
+            linkCategory="Hierarchy"
           />
           {iiifImages !== '' && (
             <React.Fragment>

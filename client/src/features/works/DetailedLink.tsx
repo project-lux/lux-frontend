@@ -7,7 +7,7 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
-import InternalLink from '../common/InternalLink'
+import RecordLink from '../common/RecordLink'
 
 interface ILinkData {
   uri: string
@@ -45,7 +45,7 @@ const DetailedLink: React.FC<ILinkData> = ({ uri }) => {
           className="mx-2"
           data-testid="entity-icon-img"
         />
-        <InternalLink uri={uri} name={primaryName} />
+        <RecordLink url={uri} name={primaryName} linkCategory="Entity" />
       </span>
     )
   }

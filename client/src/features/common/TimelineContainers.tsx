@@ -20,6 +20,7 @@ import {
   ITimelineCriteria,
   ITimelinesTransformed,
 } from '../../types/ITimelines'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 const HoverableRow = styled(Row)`
   &:hover {
@@ -85,6 +86,9 @@ const Relations: React.FC<{
                 criteria,
               )}&collapseSearch=true`,
             }}
+            onClick={() =>
+              pushSiteImproveEvent('Search Link', 'Selected', 'Timeline')
+            }
             data-testid={`${year}-${searchTag}-search-link`}
           >
             Show all {totalItems} result

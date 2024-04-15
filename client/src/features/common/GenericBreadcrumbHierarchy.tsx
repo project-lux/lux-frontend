@@ -78,7 +78,10 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
           linkArr.push(
             <React.Fragment key={key}>
               {linkArr.length !== 0 && ' > '}
-              <RecordLink url={currentEntity.id ?? ''} />
+              <RecordLink
+                url={currentEntity.id ?? ''}
+                linkCategory="Breadcrumb"
+              />
             </React.Fragment>,
           )
         }

@@ -13,6 +13,7 @@ import { searchScope } from '../../config/searchTypes'
 import { getParamPrefix } from '../../lib/util/params'
 import Tooltip from '../common/Tooltip'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   setIsError: (x: boolean) => void
@@ -28,6 +29,11 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
 
   const handleSelect = (entityType: string): void => {
     const searchString = value || ''
+    pushSiteImproveEvent(
+      'Search Switch',
+      'Selected',
+      `To Advanced Search ${entityType}`,
+    )
     if (searchString === '') {
       navigate(`/view/results/${entityType}?q=`, {
         state: {

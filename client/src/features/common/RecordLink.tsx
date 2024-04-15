@@ -6,38 +6,59 @@ import { useGetNameQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ISearchData {
   url: string
+  linkCategory?: string
   returns404?: (x: boolean) => void
   className?: string
+  name?: string
 }
 
-const RecordLink: React.FC<ISearchData> = ({ url, returns404, className }) => {
-  const skip = url === undefined
-  const strippedUrl = !skip ? stripYaleIdPrefix(url) : ''
+const RecordLink: React.FC<ISearchData> = ({
+  url,
+  linkCategory,
+  returns404,
+  className,
+  name,
+}) => {
+  const skip = url === undefined || name !== undefined
+  const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
   const { data, isSuccess, isLoading, isError } = useGetNameQuery(
     { uri: strippedUrl },
     { skip },
   )
 
-  if (isSuccess && data) {
+  console.log(data, isError, isSuccess)
+  let entityName = name !== undefined ? name : ''
+  // Get the name of the entity if the name query was called
+  if (isSuccess && data && entityName === '') {
     const entity = new EntityParser(data)
-    const name = entity.getPrimaryName(config.dc.langen)
+    entityName = entity.getPrimaryName(config.dc.langen)
+  }
 
+  if ((isSuccess && data) || entityName !== '') {
     return (
-      <React.Fragment>
-        <Link
-          to={{
-            pathname: `/view/${strippedUrl}`,
-          }}
-          aria-label={name}
-          className={className || ''}
-          data-testid="record-link"
-        >
-          {name.length > 200 ? `${name.slice(0, 200)}...` : name}
-        </Link>
-      </React.Fragment>
+      <Link
+        to={{
+          pathname: `/view/${strippedUrl}`,
+        }}
+        aria-label={entityName}
+        className={className || ''}
+        onClick={() =>
+          pushSiteImproveEvent(
+            'Entity Link',
+            'Selected',
+            `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
+          )
+        }
+        data-testid="record-link"
+      >
+        {entityName.length > 200
+          ? `${entityName.slice(0, 200)}...`
+          : entityName}
+      </Link>
     )
   }
 

@@ -12,6 +12,7 @@ import DescriptionDetail from '../../styles/shared/DescriptionDetail'
 import theme from '../../styles/theme'
 import RecordLink from '../common/RecordLink'
 import { formatFacetedSearchJson } from '../../lib/parse/search/halLinkHelper'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   uri: string
@@ -20,6 +21,7 @@ interface IProps {
   searchTerm: string | Array<string>
   tab: string
   index: number
+  title: string
   itemSpacing?: string
 }
 
@@ -40,6 +42,7 @@ const ListItem: React.FC<IProps> = ({
   searchTerm,
   tab,
   index,
+  title,
   itemSpacing = 'single',
 }) => {
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
@@ -47,6 +50,8 @@ const ListItem: React.FC<IProps> = ({
   if (recordLinkHas404) {
     return null
   }
+
+  const linkLabel = `Show all ${count} result${count !== 1 ? 's' : ''}`
 
   return (
     <StyledRow
@@ -60,7 +65,11 @@ const ListItem: React.FC<IProps> = ({
     >
       <Col md={9} lg={8} xl={9}>
         <DescriptionTerm>
-          <RecordLink url={uri} returns404={setRecordLinkHas404} />
+          <RecordLink
+            url={uri}
+            returns404={setRecordLinkHas404}
+            linkCategory="Accordion"
+          />
         </DescriptionTerm>
       </Col>
       <Col md={3} lg={4} xl={3}>
@@ -74,10 +83,16 @@ const ListItem: React.FC<IProps> = ({
                 uri,
               )}&openSearch=false`,
             }}
+            onClick={() =>
+              pushSiteImproveEvent(
+                'Search Link',
+                'Selected',
+                `Accordion ${title}`,
+              )
+            }
             data-testid={`list-item-link-${index}`}
           >
-            Show all {count} result
-            {count !== 1 && `s`}
+            {linkLabel}
           </Link>
         </DescriptionDetail>
       </Col>

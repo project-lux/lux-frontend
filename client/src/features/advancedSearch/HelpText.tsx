@@ -1,10 +1,10 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
 
 import { useAppSelector } from '../../app/hooks'
 import { IHelpTextKey } from '../../redux/slices/helpTextSlice'
+import InternalLink from '../common/InternalLink'
 
 const StyledP = styled.p`
   text-wrap: initial;
@@ -50,9 +50,11 @@ const HelpText: React.FC = () => {
             Learn more about LUX&apos;s advanced search capabilities and common
             search patterns.
           </StyledP>
-          <Link to="/content/advanced-search#faq-header">
-            View Advanced Search Help
-          </Link>
+          <InternalLink
+            uri="/content/advanced-search#faq-header"
+            name="View Advanced Search Help"
+            linkCategory="View Advanced Search Help"
+          />
         </div>
       </Col>
     </Row>

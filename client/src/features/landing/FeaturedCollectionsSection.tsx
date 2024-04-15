@@ -11,6 +11,7 @@ import {
 } from '../../lib/parse/cms/FeaturedCollectionParser'
 import StyledFeaturedCollection from '../../styles/features/landing/FeaturedCollection'
 import StyledFeaturedCollectionsSection from '../../styles/features/landing/FeaturedCollectionsSection'
+import InternalLink from '../common/InternalLink'
 
 interface IProps {
   data: ICmsResponse
@@ -21,34 +22,48 @@ const FeaturedCollectionsSection: React.FC<IProps> = ({ data, units }) => {
   const featuredCollectionParser = new FeaturedCollectionParser(data)
   const collections = featuredCollectionParser.getCollections(units)
 
-  const blockElems = collections.map((coll, ind) => (
-    <StyledFeaturedCollection
-      key={coll.searchUrl}
-      xs={12}
-      sm={12}
-      md={4}
-      data-testid={`featured-collection-${ind}`}
-    >
-      <Card>
-        <div className="image-container">
-          <a href={coll.searchUrl}>
-            <img alt={coll.imageAlt} src={coll.imageUrl} />
-          </a>
-        </div>
-        <Card.Body>
-          <h2>
-            <a href={coll.searchUrl}>{coll.title}</a>
-          </h2>
-          <div
-            dangerouslySetInnerHTML={{ __html: sanitizeHtml(coll.bodyHtml) }}
-          />
-          <div className="search-url">
-            <a href={coll.searchUrl}>View {coll.title}</a>
+  const blockElems = collections.map((coll, ind) => {
+    const { searchUrl, imageAlt, imageUrl, bodyHtml, title } = coll
+
+    return (
+      <StyledFeaturedCollection
+        key={searchUrl}
+        xs={12}
+        sm={12}
+        md={4}
+        data-testid={`featured-collection-${ind}`}
+      >
+        <Card>
+          <div className="image-container">
+            <InternalLink
+              uri={searchUrl}
+              name=""
+              linkCategory="Featured Collection"
+            >
+              <img alt={imageAlt} src={imageUrl} />
+            </InternalLink>
           </div>
-        </Card.Body>
-      </Card>
-    </StyledFeaturedCollection>
-  ))
+          <Card.Body>
+            <h2>
+              <InternalLink
+                uri={searchUrl}
+                name={title}
+                linkCategory="Featured Collection"
+              />
+            </h2>
+            <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(bodyHtml) }} />
+            <div className="search-url">
+              <InternalLink
+                uri={searchUrl}
+                name={`View ${title}`}
+                linkCategory="Featured Collection"
+              />
+            </div>
+          </Card.Body>
+        </Card>
+      </StyledFeaturedCollection>
+    )
+  })
 
   return (
     <StyledFeaturedCollectionsSection

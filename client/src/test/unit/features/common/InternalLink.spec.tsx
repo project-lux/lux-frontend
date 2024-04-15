@@ -5,7 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import config from '../../../../config/config'
 import InternalLink from '../../../../features/common/InternalLink'
 
-const mockUri = `${config.env.dataApiBaseUrl}data/test`
+const mockUri = `${config.env.dataApiBaseUrl}content/open-access`
 const mockName = 'Mock Link Name'
 
 describe('InternalLink', () => {
@@ -28,6 +28,6 @@ describe('InternalLink', () => {
     )
 
     const link = screen.getByTestId('internal-link')
-    expect(link).toHaveAttribute('href', `/view/test`)
+    expect(link).toHaveAttribute('href', mockUri)
   })
 })
