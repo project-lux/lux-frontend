@@ -34,7 +34,13 @@ const StyledInput = styled.input`
 const StyledSubmit = styled.button`
   margin-top: 5px;
   background: ${theme.color.primary.darkBlue};
-  color: white;
+  color: ${theme.color.white};
+
+  &:hover {
+    background-color: ${theme.color.white};
+    color: ${theme.color.primary.darkBlue};
+    border-color: ${theme.color.primary.darkBlue};
+  }
 `
 
 const DateInput: React.FC<IFacets> = ({
