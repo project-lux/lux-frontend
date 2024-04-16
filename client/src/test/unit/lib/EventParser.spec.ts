@@ -47,14 +47,6 @@ describe('EventParser', () => {
     })
   })
 
-  describe('getObjects', () => {
-    it('returns objects', () => {
-      const event = new EventParser(mockEvent)
-      const objects = event.getObjects()
-      expect(objects).toEqual([`${config.env.dataApiBaseUrl}data/set/mock-set`])
-    })
-  })
-
   describe('getPart', () => {
     it('returns parts', () => {
       const event = new EventParser(mockEvent)

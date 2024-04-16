@@ -97,15 +97,6 @@ export default class EventParser extends EntityParser {
   }
 
   /**
-   * Returns data from /used_specific_object
-   * @returns {Array<string>}
-   */
-  getObjects(): Array<string> {
-    const usedSpecificObject = forceArray(this.event.used_specific_object)
-    return getClassifiedAs(usedSpecificObject)
-  }
-
-  /**
    * Returns data from /part
    * @returns {Array<IEventPart>}
    */
@@ -379,7 +370,6 @@ export default class EventParser extends EntityParser {
       types: this.getTypes(),
       locations: this.getLocations(),
       identifiers: this.getIdentifiers(),
-      objects: this.getObjects(),
       webPages: this.getLinkToUnitSite(),
       notes: this.getNotes(),
       part: this.getPart(),

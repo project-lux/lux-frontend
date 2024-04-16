@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.25.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+- Removed objects from events pages ([#142](https://github.com/project-lux/lux-frontend/issues/142)).
+
+### Fixed
+
 ## v1.24.0 - 2024-4-15
 
 ### Added

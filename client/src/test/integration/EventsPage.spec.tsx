@@ -68,14 +68,6 @@ describe('Events page', () => {
       expect(identifiers).toBeInTheDocument()
     })
 
-    it('renders the objects', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Mock Objects/i)
-      const objects = screen.getByTestId('event-objects-link-container')
-      expect(objects).toBeInTheDocument()
-    })
-
     it('renders the part container', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 

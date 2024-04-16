@@ -36,7 +36,6 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     types,
     locations,
     identifiers,
-    objects,
     webPages,
     notes,
     part,
@@ -85,12 +84,6 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {identifiers.length > 0 && (
           <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
         )}
-        <LinkContainer
-          label="Objects"
-          content={objects}
-          expandColumns
-          id="event-objects-link-container"
-        />
         {webPages.length > 0 && (
           <TextContainer label="Web Pages">
             <TextValue
