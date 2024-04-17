@@ -130,7 +130,9 @@ describe('Set page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Archive/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'sets-page-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
   })

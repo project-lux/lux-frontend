@@ -18,6 +18,8 @@ jest.mock('../../lib/util/collectionHelper', () => ({
   })),
 }))
 
+jest.mock('leaflet')
+
 describe('Objects page', () => {
   const page = '/view/object/mock-object'
 
@@ -143,7 +145,9 @@ describe('Objects page', () => {
         const { findAllByText } = render(<AppRender route={page} />)
 
         await findAllByText(/Pittsburgh/i)
-        const location = screen.getByTestId('object-production-event-location')
+        const location = screen.getByTestId(
+          'object-production-0-event-location',
+        )
         expect(location).toBeInTheDocument()
       })
 
@@ -196,7 +200,9 @@ describe('Objects page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Archive/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'object-page-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
   })

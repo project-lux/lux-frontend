@@ -13,6 +13,7 @@ import RecordLink from './RecordLink'
 interface IProps {
   // the entity to display a hierarchy for (Object, Set, Concept, or Place)
   entity: IEntity
+  id: string
   // a function to get the next (parent) entity in the hierarchy
   getNextEntityUri: (entity: IEntity) => Array<string>
   // an optional function to filter out unwanted results from the hierarchy list, after all of the next entities have been added
@@ -26,6 +27,7 @@ interface IProps {
 // This component is used to display breadcrumb hierarchies. Currently used in result snippets and entity headers for Objects (when part of archives), Sets (when an archive), Concepts, and Places
 const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   entity,
+  id,
   getNextEntityUri,
   linkFilter,
   maxLength,
@@ -97,7 +99,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
       <Row>
         <Col
           className={columnClassName || ''}
-          data-testid="generic-breadcrumb-hierarchy"
+          data-testid={`${id}-generic-breadcrumb-hierarchy`}
         >
           {links} {'>'} {entityName}
         </Col>

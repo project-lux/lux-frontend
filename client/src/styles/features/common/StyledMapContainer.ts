@@ -26,7 +26,22 @@ const StyledMapContainer = styled.div`
     }
   }
 
-  &.md .leaflet-container {
+  &.md {
+    width: 70%;
+    min-height: 16rem;
+    max-height: 600px;
+
+    @media (min-width: ${theme.breakpoints.md}px) and (max-width: ${theme
+        .breakpoints.lg}px) {
+      width: 50%;
+    }
+
+    @media (min-width: ${theme.breakpoints.xl}px) {
+      width: 50%;
+    }
+  }
+
+  &.lg .leaflet-container {
     width: 100%;
     min-height: 20rem;
     max-height: 600px;

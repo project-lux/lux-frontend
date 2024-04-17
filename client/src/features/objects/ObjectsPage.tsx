@@ -12,9 +12,13 @@ import DataSources from '../common/DataSources'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import { ErrorFallback } from '../error/ErrorFallback'
-import ObjectSetHierarchy from '../common/ObjectSetHierarchy'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
 import CanIReuseIt from '../common/CanIReuseIt'
+import {
+  getNextSetUris,
+  isEntityAnArchive,
+} from '../../lib/util/hierarchyHelpers'
 
 import Carries from './Carries'
 import About from './About'
@@ -39,7 +43,14 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
           primaryAgent={personUri}
         >
           {element.json.member_of && (
-            <ObjectSetHierarchy entity={data} columnClassName="px-0" />
+            <GenericBreadcrumbHierarchy
+              entity={data}
+              columnClassName="px-0"
+              id="object-page"
+              getNextEntityUri={getNextSetUris}
+              linkFilter={isEntityAnArchive}
+              maxLength={8}
+            />
           )}
         </EntityHeader>
       </ErrorBoundary>

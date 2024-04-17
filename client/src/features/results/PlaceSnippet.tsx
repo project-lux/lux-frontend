@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import Map from '../common/Map'
-import PlaceHierarchy from '../place/PlaceHierarchy'
 import RecordLink from '../common/RecordLink'
 import StyledHr from '../../styles/shared/Hr'
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
@@ -16,6 +15,8 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 
 interface IProps {
   uri: string
@@ -69,7 +70,13 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
             <StyledDl>
               {types.length > 0 && <TypeList types={types} />}
             </StyledDl>
-            <PlaceHierarchy entity={data} />
+            <GenericBreadcrumbHierarchy
+              entity={data}
+              columnClassName="px-0"
+              maxLength={8}
+              getNextEntityUri={getNextPlaceUris}
+              id="place-snippet"
+            />
           </div>
         </div>
         <StyledHr />

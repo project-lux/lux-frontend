@@ -6,8 +6,10 @@ import RecordLink from '../../../../features/common/RecordLink'
 import config from '../../../../config/config'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 import { useGetNameQuery } from '../../../../redux/api/ml_api'
+import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
 const mockUrl = `${config.env.dataApiBaseUrl}data/object/test`
+const strippedMockUrl = stripYaleIdPrefix(mockUrl)
 const mockName = 'Mock Object'
 const mockEntity = reusableMinimalEntity(mockName)
 
@@ -37,7 +39,7 @@ describe('RecordLink', () => {
         </BrowserRouter>,
       )
 
-      const link = screen.getByTestId('record-link')
+      const link = screen.getByTestId(`${strippedMockUrl}-record-link`)
       expect(link).toBeInTheDocument()
     })
 
@@ -48,7 +50,7 @@ describe('RecordLink', () => {
         </BrowserRouter>,
       )
 
-      const link = screen.getByTestId('record-link')
+      const link = screen.getByTestId(`${strippedMockUrl}-record-link`)
       expect(link).toHaveTextContent(mockName)
     })
 
@@ -59,7 +61,7 @@ describe('RecordLink', () => {
         </BrowserRouter>,
       )
 
-      const link = screen.getByTestId('record-link')
+      const link = screen.getByTestId(`${strippedMockUrl}-record-link`)
       expect(link).toHaveAttribute('href', '/view/object/test')
     })
 
@@ -71,7 +73,7 @@ describe('RecordLink', () => {
         </BrowserRouter>,
       )
 
-      const link = screen.getByTestId('record-link')
+      const link = screen.getByTestId(`${strippedMockUrl}-record-link`)
       expect(link).toHaveTextContent(mockLinkName)
     })
   })
