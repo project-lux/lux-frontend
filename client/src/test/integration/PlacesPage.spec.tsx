@@ -58,7 +58,9 @@ describe('Place page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Pennsylvania/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'place-page-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
 

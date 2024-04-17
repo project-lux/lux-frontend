@@ -23,9 +23,10 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import TimelineContainers from '../common/TimelineContainers'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
 
 import AboutPanel from './AboutPanel'
-import ConceptHierarchy from './ConceptHierarchy'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
@@ -41,7 +42,13 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
           icon={supertypeIcon}
           entityTypeForIcon={helperText}
         >
-          <ConceptHierarchy entity={data} columnClassName="px-0" />
+          <GenericBreadcrumbHierarchy
+            entity={data}
+            id="concept-page"
+            getNextEntityUri={getNextConceptUris}
+            maxLength={10}
+            columnClassName="px-0"
+          />
         </EntityHeader>
       </ErrorBoundary>
       <StyledEntityBody>

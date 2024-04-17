@@ -173,7 +173,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for production location
   nock(apiUrl)
-    .get('/data/place/production-took-place-at?profile=name')
+    .get('/data/place/production-took-place-at?profile=results')
     .reply(200, JSON.stringify(mockPlace), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -205,7 +205,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for encounter location
   nock(apiUrl)
-    .get('/data/place/encounter-took-place-at?profile=name')
+    .get('/data/place/encounter-took-place-at?profile=results')
     .reply(200, JSON.stringify(mockPlace), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

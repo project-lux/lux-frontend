@@ -77,7 +77,9 @@ describe('Concept results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Concept/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'concept-snippet-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
   })

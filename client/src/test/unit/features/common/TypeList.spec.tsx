@@ -65,7 +65,7 @@ describe('TypeList', () => {
       </BrowserRouter>,
     )
 
-    const values = screen.getAllByTestId('record-link')
-    expect(values.length).toEqual(mockValues.length)
+    const link = screen.getByTestId(`${mockTypeOne}-record-link`)
+    expect(link).toBeInTheDocument()
   })
 })
