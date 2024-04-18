@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added on hover styling to date facets Apply button for accessibility ([#181](https://github.com/project-lux/lux-frontend/issues/181)).
 - Added additional geographical information to the locations in object events ([#89](https://github.com/project-lux/lux-frontend/issues/89)).
+- Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
 
 ### Changed
 
