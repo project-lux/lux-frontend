@@ -132,7 +132,9 @@ const TimelineContainers: React.FC<{
                     <HoverableRow>
                       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                         <StyledDt data-testid={`${year}-label`}>
-                          {year}
+                          {year.includes('-')
+                            ? `${year.substring(1)} B.C.E.`
+                            : `${year} C.E.`}
                         </StyledDt>
                       </Col>
                       <StyledResponsiveCol
