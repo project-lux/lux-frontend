@@ -80,7 +80,7 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
           )}
           {unitUris.length > 0 && (
             <LinkContainer
-              label="Campus Division"
+              label="Responsible Unit"
               content={unitUris}
               expandColumns
               itemSpacing="single"

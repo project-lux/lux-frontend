@@ -61,7 +61,7 @@ export const facets: IFacetConfig = {
       }),
     },
     responsibleUnits: {
-      sectionLabel: 'Campus Division',
+      sectionLabel: 'Responsible Unit',
       buildQuery: (value) => ({
         OR: [
           {
@@ -200,7 +200,7 @@ export const facetLabels: { [key: string]: string } = {
   placePartOfId: 'Part Of',
   placeTypeId: 'Type',
   responsibleCollections: 'Collection',
-  responsibleUnits: 'Campus Division',
+  responsibleUnits: 'Responsible Unit',
   workHasDigitalImage: 'Has Digital Image',
   workIsOnline: 'Is Online',
   workTypeId: 'Work Type',
