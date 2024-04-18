@@ -8,6 +8,7 @@ import theme from '../../styles/theme'
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import {
+  getYearWithLabel,
   sortTimelineData,
   transformTimelineData,
 } from '../../lib/parse/search/timelineParser'
@@ -132,9 +133,7 @@ const TimelineContainers: React.FC<{
                     <HoverableRow>
                       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                         <StyledDt data-testid={`${year}-label`}>
-                          {year.includes('-')
-                            ? `${year.substring(1)} B.C.E.`
-                            : `${year} C.E.`}
+                          {getYearWithLabel(year)}
                         </StyledDt>
                       </Col>
                       <StyledResponsiveCol
