@@ -47,8 +47,8 @@ const HelpText: React.FC = () => {
         </StyledP>
         <div>
           <StyledP className="mb-0">
-            Learn more about LUX&apos;s advanced search capabilities and common
-            search patterns.
+            Learn more about the advanced search capabilities and common
+            patterns.
           </StyledP>
           <InternalLink
             uri="/content/advanced-search#faq-header"
