@@ -7,7 +7,7 @@ import { pickRandomUnits } from '../../lib/cms/util'
 import { ErrorFallback } from '../error/ErrorFallback'
 import {
   useGetFeaturedCollectionsQuery,
-  useGetLandingPageQuery,
+  // useGetLandingPageQuery,
   useGetLandingPageImagesQuery,
 } from '../../redux/api/cmsApi'
 import { useGetStatsQuery } from '../../redux/api/ml_api'
@@ -18,16 +18,16 @@ import {
 import StyledHeadingOne from '../../styles/features/landing/HeadingOne'
 import StickySearchContainer from '../search/StickySearchContainer'
 
-import FeaturedCollectionsSection from './FeaturedCollectionsSection'
-import FooterBlocks from './FooterBlocksSection'
-import HeroImageSection from './HeroImageSection'
+// import FeaturedCollectionsSection from './FeaturedCollectionsSection'
+// import FooterBlocks from './FooterBlocksSection'
+// import HeroImageSection from './HeroImageSection'
 import Infographics from './InfographicsSection'
-import MoreAboutLux from './MoreAboutLuxSection'
+// import MoreAboutLux from './MoreAboutLuxSection'
 
 const Landing: React.FC = () => {
   const [units, setUnits] = useState([] as UnitCode[])
 
-  const landingPageResult = useGetLandingPageQuery()
+  // const landingPageResult = useGetLandingPageQuery()
   const imagesResult = useGetLandingPageImagesQuery()
   const featuredResult = useGetFeaturedCollectionsQuery()
   const statsResult = useGetStatsQuery()
@@ -49,7 +49,7 @@ const Landing: React.FC = () => {
           </HeaderContainerCol>
         </Row>
         <StickySearchContainer className="sticky-top" />
-        <Row id="srch-hero-container" className="mx-0">
+        {/* <Row id="srch-hero-container" className="mx-0">
           {imagesResult.isSuccess && units.length > 0 && (
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <Row className="d-flex row mx-0 px-0 pt-4">
@@ -59,8 +59,8 @@ const Landing: React.FC = () => {
               </Row>
             </ErrorBoundary>
           )}
-        </Row>
-        {featuredResult.isSuccess && units.length > 0 && (
+        </Row> */}
+        {/* {featuredResult.isSuccess && units.length > 0 && (
           <Row className="mx-0">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -71,8 +71,8 @@ const Landing: React.FC = () => {
               </ErrorBoundary>
             </Col>
           </Row>
-        )}
-        {landingPageResult.isSuccess && landingPageResult.data && (
+        )} */}
+        {/* {landingPageResult.isSuccess && landingPageResult.data && (
           <Row className="mx-0">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -80,7 +80,7 @@ const Landing: React.FC = () => {
               </ErrorBoundary>
             </Col>
           </Row>
-        )}
+        )} */}
         {statsResult.isSuccess && statsResult.data && (
           <Row className="mx-0">
             <Col xs={12}>
@@ -90,7 +90,7 @@ const Landing: React.FC = () => {
             </Col>
           </Row>
         )}
-        {landingPageResult.isSuccess && landingPageResult.data && (
+        {/* {landingPageResult.isSuccess && landingPageResult.data && (
           <Row className="mx-0">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
@@ -98,7 +98,7 @@ const Landing: React.FC = () => {
               </ErrorBoundary>
             </Col>
           </Row>
-        )}
+        )} */}
       </Col>
     </StyledLandingPage>
   )

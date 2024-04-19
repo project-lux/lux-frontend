@@ -9,7 +9,7 @@ const About: React.FC = () => (
       data-bs-toggle="dropdown"
       aria-expanded="false"
     >
-      About LUX
+      About
     </button>
     <ul
       className="dropdown-menu dropdown-menu-end"
@@ -23,12 +23,12 @@ const About: React.FC = () => (
       </li>
       <li>
         <NavLink to="/content/technology" className="dropdown-item">
-          LUX Technology
+          Technology
         </NavLink>
       </li>
       <li>
         <NavLink to="/content/sharable-outcomes" className="dropdown-item">
-          Sharable Outcomes from LUX
+          Sharable Outcomes from the Research Data Demonstrator
         </NavLink>
       </li>
       <li>

@@ -39,8 +39,8 @@ const LuxRoutes: React.FC = () => (
     <div className="container-fluid px-0" id="route-container">
       {window.innerWidth < theme.breakpoints.md && (
         <Alert variant="info" className="d-flex justify-content-center">
-          LUX is optimized for desktop use. Some features are not available on
-          mobile devices.
+          The site is optimized for desktop use. Some features are not available
+          on on mobile devices.
         </Alert>
       )}
       <Routes>

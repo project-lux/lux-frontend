@@ -29,7 +29,7 @@ const SubmitButton: React.FC<ISubmitButton> = ({ state }) => {
           aria-label="search LUX"
           data-testid="advanced-search-submit-button"
         >
-          Search LUX
+          Search
         </PrimaryButton>
       </Col>
     </Row>

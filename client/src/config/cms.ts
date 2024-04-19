@@ -88,7 +88,7 @@ export const contentPageRouteToKey: { [key: string]: PageKey } = {
 export const aboutPages = [
   {
     key: 'aboutLux',
-    label: 'About LUX',
+    label: 'About',
     route: '/content/about-lux',
   },
   {
@@ -99,12 +99,12 @@ export const aboutPages = [
   },
   {
     key: 'technology',
-    label: 'LUX Technology',
+    label: 'Technology',
     route: '/content/technology',
   },
   {
     key: 'sharableOutcomes',
-    label: 'Sharable Outcomes from LUX',
+    label: 'Sharable Outcomes',
     route: '/content/sharable-outcomes',
   },
   {

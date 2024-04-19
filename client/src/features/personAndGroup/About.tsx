@@ -13,6 +13,7 @@ import NamesContainer from '../common/NamesContainer'
 import TextContainer from '../common/TextContainer'
 import { personLabels } from '../../config/personLabels'
 import ExternalLink from '../common/ExternalLink'
+import IdentifiersList from '../common/IdentifiersList'
 
 import Dates from './Dates'
 import Activity from './Activity'

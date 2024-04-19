@@ -166,7 +166,7 @@ const SearchBox: React.FC<{
                 id={id}
                 type="text"
                 className="form-control"
-                placeholder="Search LUX"
+                placeholder="Search"
                 onChange={handleInputChange}
                 ref={inputRef}
                 tabIndex={isUnselectable ? -1 : 0}

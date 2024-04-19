@@ -23,7 +23,7 @@ const InfographicsSection: React.FC<IProps> = ({ data }) => {
 
   return (
     <StyledInfographicsSection data-testid="whats-in-lux-container">
-      <h2>What&apos;s in LUX?</h2>
+      <h2>What&apos;s in the Research Data Demonstrator?</h2>
       <Row className="d-flex justify-content-around">
         <InfographicsCard
           icon={objectsIcon}
