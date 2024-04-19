@@ -12,9 +12,9 @@ import ILinks from '../../types/data/ILinks'
 import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import PageLoading from '../common/PageLoading'
-import ExploreHierarchy from '../common/ExploreHierarchy'
 import theme from '../../styles/theme'
 
+import ExploreHierarchy from './ExploreHierarchy'
 import HierarchyChart from './HierarchyChart'
 
 interface IProps {
