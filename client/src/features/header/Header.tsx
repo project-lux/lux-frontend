@@ -57,7 +57,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             href="/"
             onClick={() => handlePushEvent('Landing Page')}
           >
-            LUX: Yale Collections Discovery
+            Research Data Demonstrator
           </Navbar.Brand>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
@@ -72,7 +72,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 href="/content/about-lux"
                 onClick={() => handlePushEvent('About LUX')}
               >
-                About LUX
+                About
               </Nav.Link>
               <Nav.Link
                 href="/content/open-access"
