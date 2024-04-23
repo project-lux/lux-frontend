@@ -61,7 +61,7 @@ const SearchContainer: React.FC<IProps> = ({
               <HashLink
                 to="/content/simple-search"
                 state={{
-                  targetName: 'SearchTips',
+                  targetName: 'Search Tips',
                 }}
                 style={{
                   ...searchTipsStyle,

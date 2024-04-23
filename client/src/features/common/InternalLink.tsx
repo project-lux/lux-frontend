@@ -33,7 +33,7 @@ const InternalLink: React.FC<ILinkParams> = ({
     <StyledLink
       to={uri}
       state={{
-        targetName: eventText,
+        targetName: name,
       }}
       className={className || ''}
       onClick={() =>

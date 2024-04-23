@@ -82,7 +82,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
               search: searchString,
             }}
             state={{
-              targetName: `/view/results/${newScope}${searchString}`,
+              targetName: linkLabel,
             }}
             onClick={() =>
               pushSiteImproveEvent(

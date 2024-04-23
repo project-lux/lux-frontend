@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added on hover styling to date facets Apply button for accessibility ([#181](https://github.com/project-lux/lux-frontend/issues/181)).
 - Added additional geographical information to the locations in object events ([#89](https://github.com/project-lux/lux-frontend/issues/89)).
 - Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
+- Added SI page tracking events ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
 
 ### Changed
 
@@ -73,10 +74,6 @@ All notable changes to this project will be documented in this file.
 - Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
 - Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
 - Added entity icon to About/Depicts ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
-<<<<<<< HEAD
-=======
-- Added entity icon to About/Depicts ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
->>>>>>> 2eaec93 (124 added SiteImprove page tracking)
 
 ### Changed
 
