@@ -86,6 +86,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
     },
   )
 
+  console.log(simpleSearchData)
   // Advanced search estimate request
   const {
     data: advancedSearchData,

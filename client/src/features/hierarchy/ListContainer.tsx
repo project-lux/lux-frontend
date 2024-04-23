@@ -12,7 +12,7 @@ interface IProps {
   descendents: ISearchResults
 }
 
-const ExploreHierarchy: React.FC<IProps> = ({
+const ListContainer: React.FC<IProps> = ({
   currentUuid,
   parents,
   descendents,
@@ -43,4 +43,4 @@ const ExploreHierarchy: React.FC<IProps> = ({
   )
 }
 
-export default ExploreHierarchy
+export default ListContainer
