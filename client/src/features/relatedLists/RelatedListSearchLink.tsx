@@ -37,7 +37,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
         search: `q=${searchQ}&openSearch=false`,
       }}
       state={{
-        targetName: `/view/results/${tab}?q=${searchQ}&openSearch=false`,
+        targetName: linkLabel,
       }}
       onClick={() =>
         pushSiteImproveEvent('Search Link', 'Selected', `Accordion ${title}`)
