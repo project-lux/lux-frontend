@@ -22,7 +22,7 @@ interface IProps {
   descendants: ISearchResults
 }
 
-const HierarchyChart: React.FC<IProps> = ({
+const ChartContainer: React.FC<IProps> = ({
   currentUuid,
   parents,
   descendants,
@@ -68,4 +68,4 @@ const HierarchyChart: React.FC<IProps> = ({
   )
 }
 
-export default HierarchyChart
+export default ChartContainer

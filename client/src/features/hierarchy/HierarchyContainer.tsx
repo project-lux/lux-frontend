@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -13,9 +13,14 @@ import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import PageLoading from '../common/PageLoading'
 import theme from '../../styles/theme'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import {
+  IHierarchyVisualization,
+  addInitialState,
+} from '../../redux/slices/hierarchyVisualizationSlice'
 
-import ExploreHierarchy from './ExploreHierarchy'
-import HierarchyChart from './HierarchyChart'
+import ListContainer from './ListContainer'
+import ChartContainer from './ChartContainer'
 
 interface IProps {
   parents: Array<string>
@@ -59,10 +64,22 @@ const StyledSwitchButton = styled(Button)`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
   const [view, setView] = useState<'graph' | 'list'>('graph')
-  const [parentIds] = useState<Array<string>>(parents)
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const defaultHierarchyHeight = '600px'
   const hierarchyRef = useRef<HTMLDivElement>(null)
+  const dispatch = useAppDispatch()
+
+  const currentState = useAppSelector(
+    (state) => state.hierarchyVisualization as IHierarchyVisualization,
+  )
+
+  useEffect(() => {
+    if (currentState.origin === '') {
+      dispatch(
+        addInitialState({ origin: entity.id as string, parents, children: [] }),
+      )
+    }
+  })
 
   const setFullscreen = (): void => {
     setIsFullscreen(!isFullscreen)
@@ -98,7 +115,8 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
     )
   }
 
-  const currentUuid = entity.id!
+  console.log(currentState)
+
   if ((isSuccess && data) || skip) {
     return (
       <StyledEntityPageSection
@@ -149,17 +167,17 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
                   : defaultHierarchyHeight,
             }}
           >
-            <HierarchyChart
-              parents={parentIds}
+            <ChartContainer
+              parents={currentState.parents}
               descendants={data!}
-              currentUuid={currentUuid}
+              currentUuid={currentState.origin}
             />
           </div>
         ) : (
-          <ExploreHierarchy
-            parents={parentIds}
+          <ListContainer
+            parents={currentState.parents}
             descendents={data!}
-            currentUuid={currentUuid}
+            currentUuid={currentState.origin}
           />
         )}
       </StyledEntityPageSection>

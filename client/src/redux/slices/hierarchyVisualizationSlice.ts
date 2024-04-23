@@ -18,12 +18,17 @@ export const hierarchyVisualizationSlice = createSlice({
   name: 'hierarchyVisualization',
   initialState,
   reducers: {
-    addInitalState: (state, action: PayloadAction<IHierarchyVisualization>) =>
+    addInitialState: (state, action: PayloadAction<IHierarchyVisualization>) =>
       action.payload,
+    addOrigin: (state, action: PayloadAction<{ value: string }>) => {
+      const { value } = action.payload
+      state.origin = value
+    },
     reset: () => initialState,
   },
 })
 
-export const { addInitalState, reset } = hierarchyVisualizationSlice.actions
+export const { addInitialState, addOrigin, reset } =
+  hierarchyVisualizationSlice.actions
 
 export default hierarchyVisualizationSlice.reducer
