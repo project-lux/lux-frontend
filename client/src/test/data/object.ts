@@ -544,6 +544,10 @@ export const physicalObject: IObject = {
       href: `${config.env.dataApiBaseUrl}api/facets/item?q=responsibleUnits`,
       _estimate: 1,
     },
+    'lux:itemDepartment': {
+      href: `${config.env.dataApiBaseUrl}api/search/item?q=itemDepartment`,
+      _estimate: 1,
+    },
   },
 }
 
