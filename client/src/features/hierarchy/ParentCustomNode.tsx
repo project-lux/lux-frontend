@@ -7,7 +7,8 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import RecordLink from '../common/RecordLink'
 import StyledHierarchyButton from '../../styles/features/hierarchy/HierarchyButton'
 import { useAppDispatch } from '../../app/hooks'
-import { addInitialState } from '../../redux/slices/hierarchyVisualizationSlice'
+import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import IEntity from '../../types/data/IEntity'
 
 interface IProps {
   entityId: string
@@ -17,21 +18,18 @@ const ParentCustomNode: React.FC<IProps> = ({ entityId }) => {
   const dispatch = useAppDispatch()
   const uriToRetrieve = stripYaleIdPrefix(entityId)
 
-  const handleHierarchyChange = (p: Array<string>): void => {
-    dispatch(addInitialState({ origin: entityId, parents: p, children: [] }))
+  const handleHierarchyChange = (entity: IEntity): void => {
+    dispatch(addOrigin({ value: entity }))
   }
 
   const { data, isSuccess } = useGetItemQuery({
     uri: uriToRetrieve,
-    profile: 'results',
   })
 
   let name = ''
-  let parents: Array<string> = []
   if (data && isSuccess) {
     const entity = new EntityParser(data)
     name = entity.getPrimaryName(config.dc.langen)
-    parents = entity.getPartOf()
   }
 
   return (
@@ -39,7 +37,7 @@ const ParentCustomNode: React.FC<IProps> = ({ entityId }) => {
       <StyledHierarchyButton
         type="button"
         rotate="90"
-        onClick={handleHierarchyChange(parents)}
+        onClick={() => handleHierarchyChange(data)}
         className="parentButton"
         aria-label={`View the hierarchy for ${name}`}
       >

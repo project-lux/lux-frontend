@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useEffect, useRef, useState } from 'react'
+import 'reactflow/dist/style.css'
+import React, { useRef, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
+import { isNull } from 'lodash'
 
 import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -11,20 +13,26 @@ import { hierarchyChildren } from '../../config/placeSearchTags'
 import ILinks from '../../types/data/ILinks'
 import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
-import PageLoading from '../common/PageLoading'
 import theme from '../../styles/theme'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { useAppSelector } from '../../app/hooks'
 import {
-  IHierarchyVisualization,
-  addInitialState,
-} from '../../redux/slices/hierarchyVisualizationSlice'
+  getChildEdges,
+  getChildNodes,
+  getDefaultNode,
+  getParentEdges,
+  getParentNodes,
+} from '../../lib/util/hierarchyHelpers'
+import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
 
+import Hierarchy from './Hierarchy'
+import Node from './Node'
+import ParentCustomNode from './ParentCustomNode'
+import ChildCustomNode from './ChildCustomNode'
 import ListContainer from './ListContainer'
-import ChartContainer from './ChartContainer'
 
 interface IProps {
-  parents: Array<string>
   entity: IEntity
+  getParentUris: (entity: IEntity) => Array<string>
 }
 
 const getHalLink = (
@@ -62,24 +70,15 @@ const StyledSwitchButton = styled(Button)`
 `
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
+const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
   const [view, setView] = useState<'graph' | 'list'>('graph')
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const defaultHierarchyHeight = '600px'
   const hierarchyRef = useRef<HTMLDivElement>(null)
-  const dispatch = useAppDispatch()
 
   const currentState = useAppSelector(
     (state) => state.hierarchyVisualization as IHierarchyVisualization,
   )
-
-  useEffect(() => {
-    if (currentState.origin === '') {
-      dispatch(
-        addInitialState({ origin: entity.id as string, parents, children: [] }),
-      )
-    }
-  })
 
   const setFullscreen = (): void => {
     setIsFullscreen(!isFullscreen)
@@ -93,9 +92,14 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
     }
   }
 
-  const uri = getHalLink(entity._links, hierarchyChildren)
+  const currentEntity = isNull(currentState.origin)
+    ? entity
+    : currentState.origin
+  const uri = getHalLink(currentEntity._links, hierarchyChildren)
+  const parents = getParentUris(currentEntity)
+
   const skip = uri === null
-  const { data, isSuccess, isError, isLoading } = useGetSearchRelationshipQuery(
+  const { data, isSuccess, isError } = useGetSearchRelationshipQuery(
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       uri: uri!,
@@ -105,19 +109,42 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
     },
   )
 
-  if (isLoading) {
-    return <PageLoading />
-  }
-
   if (isError) {
     console.log(
       'An error occurred retrieving the children of the current entity.',
     )
   }
 
-  console.log(currentState)
-
   if ((isSuccess && data) || skip) {
+    // get nodes
+    const currentUuid: string = currentState.origin
+      ? currentState.origin.id!
+      : (entity.id as string)
+    const parentNodes = getParentNodes(parents).slice(0, 5)
+    const childNodes = data ? getChildNodes(data).slice(0, 5) : []
+    const currentNode = getDefaultNode(currentUuid)
+
+    // get edges
+    const parentEdges = getParentEdges(parentNodes, currentUuid)
+    const childEdges = getChildEdges(childNodes, currentUuid)
+
+    parentNodes.map((parentNode) => {
+      parentNode.data.label = (
+        <ParentCustomNode entityId={parentNode.data.label} />
+      )
+      return null
+    })
+
+    childNodes.map((childNode) => {
+      childNode.data.label = <ChildCustomNode entityId={childNode.data.label} />
+      return null
+    })
+
+    currentNode.data.label = <Node entityId={currentNode.data.label} />
+    // combine nodes and edges
+    const nodes = [currentNode, ...parentNodes, ...childNodes]
+    const edges = [...parentEdges, ...childEdges]
+
     return (
       <StyledEntityPageSection
         className="hierarchyContainer"
@@ -167,17 +194,19 @@ const HierarchyContainer: React.FC<IProps> = ({ parents, entity }) => {
                   : defaultHierarchyHeight,
             }}
           >
-            <ChartContainer
-              parents={currentState.parents}
-              descendants={data!}
-              currentUuid={currentState.origin}
+            <Hierarchy
+              luxNodes={nodes}
+              luxEdges={edges}
+              currentUuid={currentUuid}
             />
           </div>
         ) : (
           <ListContainer
-            parents={currentState.parents}
+            parents={parents}
             descendents={data!}
-            currentUuid={currentState.origin}
+            currentEntity={
+              currentState.origin === null ? entity : currentState.origin
+            }
           />
         )}
       </StyledEntityPageSection>

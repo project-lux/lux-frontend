@@ -1,17 +1,13 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-// import IEntity from '../../types/data/IEntity'
+import IEntity from '../../types/data/IEntity'
 
 export interface IHierarchyVisualization {
-  origin: string
-  parents: Array<string>
-  children: Array<string>
+  origin: IEntity | null
 }
 
 const initialState: IHierarchyVisualization = {
-  origin: '',
-  parents: [],
-  children: [],
+  origin: null,
 }
 
 export const hierarchyVisualizationSlice = createSlice({
@@ -20,7 +16,7 @@ export const hierarchyVisualizationSlice = createSlice({
   reducers: {
     addInitialState: (state, action: PayloadAction<IHierarchyVisualization>) =>
       action.payload,
-    addOrigin: (state, action: PayloadAction<{ value: string }>) => {
+    addOrigin: (state, action: PayloadAction<{ value: IEntity }>) => {
       const { value } = action.payload
       state.origin = value
     },

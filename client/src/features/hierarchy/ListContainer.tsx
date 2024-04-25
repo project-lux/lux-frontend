@@ -1,26 +1,37 @@
 import React from 'react'
+// import { isNull } from 'lodash'
 
 import StyledExploreHierarchy from '../../styles/features/common/ExploreHierarchy'
 import { ISearchResults } from '../../types/ISearchResults'
-import ApiText from '../common/ApiText'
+// import { useAppSelector } from '../../app/hooks'
+// import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
+import EntityParser from '../../lib/parse/data/EntityParser'
+import config from '../../config/config'
+import IEntity from '../../types/data/IEntity'
 
 import Li from './Li'
 
 interface IProps {
-  currentUuid: string
   parents: Array<string>
   descendents: ISearchResults
+  currentEntity: IEntity
 }
 
 const ListContainer: React.FC<IProps> = ({
-  currentUuid,
   parents,
   descendents,
+  currentEntity,
 }) => {
-  const entityName = ApiText(currentUuid)
+  // const currentState = useAppSelector(
+  //   (state) => state.hierarchyVisualization as IHierarchyVisualization,
+  // )
+
+  const parser = new EntityParser(currentEntity)
+  const primaryName = parser.getPrimaryName(config.dc.langen)
+
   return (
     <StyledExploreHierarchy>
-      {entityName}
+      {primaryName}
       <ul>
         <li>
           Parents
