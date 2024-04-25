@@ -20,7 +20,10 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import { ErrorFallback } from '../error/ErrorFallback'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
-import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
+import {
+  getNextPlaceUris,
+  getAllNextPlaceUris,
+} from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import PlaceParser from '../../lib/parse/data/PlaceParser'
 import IPlace from '../../types/data/IPlace'
@@ -33,7 +36,6 @@ import AboutPanel from './AboutPanel'
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
   const place = new PlaceParser(data)
   const types = place.getTypes()
-  const partOf = place.getPartOf()
   const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
 
   const mapConfig = {
@@ -67,11 +69,12 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
               type="place"
             />
           </ErrorBoundary>
-          {partOf.length > 0 && (
-            <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <HierarchyContainer parents={partOf} entity={data} />
-            </ErrorBoundary>
-          )}
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <HierarchyContainer
+              entity={data}
+              getParentUris={getAllNextPlaceUris}
+            />
+          </ErrorBoundary>
           {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}

@@ -5,6 +5,7 @@ import ILinks from '../../types/data/ILinks'
 import ConceptParser from '../parse/data/ConceptParser'
 import SetParser from '../parse/data/SetParser'
 import { ISearchResults } from '../../types/ISearchResults'
+import EntityParser from '../parse/data/EntityParser'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
@@ -54,6 +55,17 @@ export const getNextPlaceUris = (entity: IEntity): Array<string> => {
     return [partOf[0].id]
   }
   return []
+}
+
+/**
+ * Parses the place entity to determine if the /part_of property exists
+ * Used for the breadcrumb hierarchy component on place pages
+ * @param {IPlace} entity the current entity to parse
+ * @returns {string | null}
+ */
+export const getAllNextPlaceUris = (entity: IEntity): Array<string> => {
+  const parser = new EntityParser(entity)
+  return parser.getPartOf()
 }
 
 /**
