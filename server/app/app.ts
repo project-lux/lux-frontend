@@ -10,6 +10,20 @@ export type AppConfig = {
   port: number
 }
 
+const robotsProd = `User-agent: Twitterbot
+Disallow:
+
+User-agent: Googlebot
+Disallow: /view/results/
+
+User-agent: *
+Disallow: /
+`
+
+const robotsNonProd = `User-agent: *
+Disallow: /
+`
+
 class App {
   port: number
 
@@ -45,10 +59,10 @@ class App {
     })
 
     exp.get('/robots.txt', (req: express.Request, res: express.Response) => {
-      let text = `User-agent: Twitterbot\nDisallow: \nUser-agent: *\nDisallow: /\n`
+      let text = robotsNonProd
 
-      if (env.luxEnv !== 'production') {
-        text = `User-agent: *\nDisallow: /\n`
+      if (env.luxEnv === 'production') {
+        text = robotsProd
       }
       res.type('text/plain').send(text)
     })

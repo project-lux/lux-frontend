@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Allowed Google crawl the production site ([#24](https://github.com/project-lux/lux-frontend/issues/24)).
+
 ### Removed
 
 - Removed objects from events pages ([#142](https://github.com/project-lux/lux-frontend/issues/142)).
