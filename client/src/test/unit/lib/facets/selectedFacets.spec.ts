@@ -19,24 +19,23 @@ describe('selectedFacets functions', () => {
             _comp: '<=',
           },
           {
-            OR: [
-              {
-                memberOf: {
-                  curatedBy: {
+            memberOf: { id: 'https://endpoint.yale.edu/data/test-id-3' },
+          },
+          {
+            memberOf: {
+              curatedBy: {
+                OR: [
+                  {
                     memberOf: {
                       id: 'https://endpoint.yale.edu/data/test-id-3',
                     },
                   },
-                },
-              },
-              {
-                memberOf: {
-                  curatedBy: {
+                  {
                     id: 'https://endpoint.yale.edu/data/test-id-3',
                   },
-                },
+                ],
               },
-            ],
+            },
           },
           {
             hasDigitalImage: 1,

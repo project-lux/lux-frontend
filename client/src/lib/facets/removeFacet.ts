@@ -2,8 +2,6 @@ import { facetSearchTerms } from '../../config/facets'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../util/params'
 
-import { buildQuery } from './helper'
-
 export const removeFacet = (
   targetFacet: string,
   targetValue: string | number,
@@ -54,35 +52,30 @@ export const removeFacetFromQuery = (
       const searchObj = AND[i]
 
       for (const searchTerm of Object.keys(searchObj)) {
-        if (
-          targetFacet === 'responsibleCollections' ||
-          targetFacet === 'responsibleUnits'
-        ) {
-          // right now all where at yale objects return an OR array
-          // if this changes, the logic below will have to change
-          const targetQueryObj = buildQuery(scope, targetFacet, targetValue)
-          const targetObj = targetQueryObj as ICriteria
-          const sourceObj = searchObj
-          let innerTargetObj = targetObj.memberOf
-          let innerSourceObj = sourceObj.memberOf
-          let searchingForMatch = true
-
-          while (searchingForMatch) {
-            for (const sourceKey of Object.keys(innerSourceObj)) {
-              for (const targetKey of Object.keys(innerTargetObj)) {
-                if (sourceKey === targetKey) {
-                  if (
-                    sourceKey === 'id' &&
-                    innerSourceObj[sourceKey] === targetValue
-                  ) {
-                    AND.splice(i, 1)
-                    searchingForMatch = false
-                  } else {
-                    innerTargetObj = innerTargetObj[targetKey]
-                    innerSourceObj = innerSourceObj[sourceKey]
+        if (targetFacet === 'responsibleCollections') {
+          const searchObjKeys = Object.keys(searchObj)
+          if (
+            searchObjKeys.includes('memberOf') &&
+            searchObj.memberOf.id === targetValue
+          ) {
+            AND.splice(i, 1)
+          }
+        } else if (targetFacet === 'responsibleUnits') {
+          if (searchObj.memberOf) {
+            const { memberOf } = searchObj
+            const memberOfKeys = Object.keys(memberOf)
+            if (memberOfKeys.includes('curatedBy')) {
+              const { curatedBy } = memberOf
+              const curatedByKeys = Object.keys(curatedBy)
+              if (curatedByKeys.includes('OR')) {
+                const { OR } = curatedBy
+                if (Array.isArray(OR) && OR.length > 0) {
+                  for (const obj of OR) {
+                    const keys = Object.keys(obj)
+                    if (keys.includes('id') && obj.id === targetValue) {
+                      AND.splice(i, 1)
+                    }
                   }
-                } else {
-                  searchingForMatch = false
                 }
               }
             }

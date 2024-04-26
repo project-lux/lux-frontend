@@ -11,6 +11,7 @@ import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import objectsResultsMockApi from './utils/objectResultsMockAPI'
 import resultsErrorsMockApi from './utils/resultsErrorsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -31,6 +32,10 @@ jest.mock('../../lib/util/fetchSearchEstimates', () => ({
 
 describe('Results page shared components', () => {
   config.advancedSearch = advancedSearch()
+
+  beforeEach(async () => {
+    siteImproveMock()
+  })
 
   describe('Passing results requests', () => {
     const page =

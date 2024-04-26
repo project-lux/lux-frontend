@@ -5,6 +5,7 @@ import config from '../../config/config'
 
 import AppRender from './utils/AppRender'
 import physicalObjectsMockApi from './utils/physicalObjectsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 jest.mock('leaflet')
 
@@ -13,6 +14,7 @@ describe('Objects page', () => {
 
   beforeEach(async () => {
     physicalObjectsMockApi()
+    siteImproveMock()
   })
 
   describe('Works included', () => {

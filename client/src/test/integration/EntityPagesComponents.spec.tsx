@@ -4,10 +4,10 @@ import React from 'react'
 import config from '../../config/config'
 import { getTimelines } from '../../lib/util/timelineHelper'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
-import * as siteImprove from '../../lib/siteImprove'
 
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 // Mock the request for timelines
 jest.mock('../../lib/util/timelineHelper', () => ({
@@ -31,15 +31,11 @@ describe('Entity pages relationship components', () => {
         data: mockTimeline,
       })),
     )
+
+    siteImproveMock()
   })
 
   describe('Related Objects and Works', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -154,12 +150,6 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related Facets list when open', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the faceted lists accordion container', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -227,12 +217,6 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related search results list when open', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the search results accordion container', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -279,12 +263,6 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related list when open', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the related list accordion item', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
