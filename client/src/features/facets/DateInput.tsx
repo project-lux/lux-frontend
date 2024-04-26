@@ -137,11 +137,15 @@ const DateInput: React.FC<IFacets> = ({
     searchParams.set('facetRequest', 'true')
     searchParams.set(`${paramPrefix}p`, '1')
 
+    const searchQ = searchParams.toString()
     return (
       <Navigate
         to={{
           pathname,
-          search: `${searchParams.toString()}`,
+          search: searchQ,
+        }}
+        state={{
+          targetName: `${pathname}${searchQ}`,
         }}
       />
     )

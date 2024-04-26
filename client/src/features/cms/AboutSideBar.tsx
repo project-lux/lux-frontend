@@ -13,6 +13,7 @@ const AboutSideBar: React.FC = () => (
     {aboutPages.map((item) => (
       <NavLink
         to={item.route}
+        state={{ targetName: item.label }}
         className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
         key={item.key}
       >

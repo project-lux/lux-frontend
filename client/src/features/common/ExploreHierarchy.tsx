@@ -104,6 +104,9 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
             onClick={() =>
               pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
             }
+            state={{
+              targetName: name,
+            }}
           >
             [View]
           </Link>
@@ -168,6 +171,9 @@ const ExploreHierarchy: React.FC<IProps> = ({ entity, expandType }) => {
             onClick={() =>
               pushSiteImproveEvent('Entity Link', 'Selected', 'Hierarchy Link')
             }
+            state={{
+              targetName: currentName,
+            }}
           >
             [View]
           </Link>

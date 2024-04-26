@@ -1,5 +1,5 @@
-import React from 'react'
-import { Route, Routes } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 
 import theme from '../../styles/theme'
@@ -9,6 +9,7 @@ import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import Header from '../header/Header'
 import CmsRoutingComponent from '../cms/CmsRoutingComponent'
+import { pushSiteImprovePageEvent } from '../../lib/siteImprove'
 
 import Footer from './Footer'
 
@@ -28,39 +29,55 @@ const RedirectOldProd: React.FC = () => {
   return null
 }
 
-const LuxRoutes: React.FC = () => (
-  <React.Fragment>
-    <RedirectOldProd />
-    <Routes>
-      <Route path="/view/results/*" element={<Header hideSearch />} />
-      <Route path="/" element={<Header hideSearch />} />
-      <Route path="/*" element={<Header />} />
-    </Routes>
-    <div className="container-fluid px-0" id="route-container">
-      {window.innerWidth < theme.breakpoints.md && (
-        <Alert variant="info" className="d-flex justify-content-center">
-          LUX is optimized for desktop use. Some features are not available on
-          mobile devices.
-        </Alert>
-      )}
+const LuxRoutes: React.FC = () => {
+  const { pathname, search, state } = useLocation()
+  const [prevUrl, setPrevUrl] = useState('')
+
+  useEffect(() => {
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
+    // Push a SiteImprove event for a page change
+    pushSiteImprovePageEvent(
+      currentUrl,
+      prevUrl,
+      state !== null ? state.targetName : 'unknown page name',
+    )
+    setPrevUrl(currentUrl)
+  }, [pathname, prevUrl, search, state])
+
+  return (
+    <React.Fragment>
+      <RedirectOldProd />
       <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/index.html" element={<Landing />} />
-
-        {/* BEGIN data/search views */}
-        <Route path="/view/results/:tab" element={<ResultsPage />} />
-        <Route path="/view/*" element={<RoutingComponent />} />
-        {/* END data/search views */}
-
-        {/* BEGIN CMS pages */}
-        <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
-        {/* END CMS pages */}
-
-        <Route element={<ErrorPage code={404} />} />
+        <Route path="/view/results/*" element={<Header hideSearch />} />
+        <Route path="/" element={<Header hideSearch />} />
+        <Route path="/*" element={<Header />} />
       </Routes>
-    </div>
-    <Footer />
-  </React.Fragment>
-)
+      <div className="container-fluid px-0" id="route-container">
+        {window.innerWidth < theme.breakpoints.md && (
+          <Alert variant="info" className="d-flex justify-content-center">
+            LUX is optimized for desktop use. Some features are not available on
+            mobile devices.
+          </Alert>
+        )}
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/index.html" element={<Landing />} />
+
+          {/* BEGIN data/search views */}
+          <Route path="/view/results/:tab" element={<ResultsPage />} />
+          <Route path="/view/*" element={<RoutingComponent />} />
+          {/* END data/search views */}
+
+          {/* BEGIN CMS pages */}
+          <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
+          {/* END CMS pages */}
+
+          <Route element={<ErrorPage code={404} />} />
+        </Routes>
+      </div>
+      <Footer />
+    </React.Fragment>
+  )
+}
 
 export default LuxRoutes

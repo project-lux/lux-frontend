@@ -66,6 +66,9 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const occupations = person.getOccupations()
     const nationalities = person.getNationalities()
 
+    const linkState = {
+      targetName: primaryName,
+    }
     if (view === 'list') {
       return (
         <React.Fragment>
@@ -89,6 +92,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                       'Results Snippet Link',
                     )
                   }
+                  state={linkState}
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
@@ -166,6 +170,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                       'Results Snippet Link',
                     )
                   }
+                  state={linkState}
                 >
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`

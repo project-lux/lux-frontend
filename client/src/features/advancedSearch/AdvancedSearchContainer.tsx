@@ -54,10 +54,19 @@ const AdvancedSearchContainer: React.FC = () => {
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     const resultsTab = tab !== undefined ? tab : 'objects'
     pushSiteImproveEvent('Search Button', 'Submit', 'Advanced Search')
-    navigate({
-      pathname: `/view/results/${resultsTab}`,
-      search: `?${newUrlParams.toString()}`,
-    })
+    navigate(
+      {
+        pathname: `/view/results/${resultsTab}`,
+        search: `?${newUrlParams.toString()}`,
+      },
+      {
+        state: {
+          targetName: `Advanced search for: /view/results/${
+            tab !== undefined ? tab : 'objects'
+          }?${newUrlParams.toString()}`,
+        },
+      },
+    )
   }
 
   const handleCloseModal = (): void => {

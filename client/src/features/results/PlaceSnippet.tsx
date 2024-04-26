@@ -17,6 +17,7 @@ import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
 import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import config from '../../config/config'
 
 interface IProps {
   uri: string
@@ -30,6 +31,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
 
   if (isSuccess && data) {
     const place = new EntityParser(data)
+    const primaryName = place.getPrimaryName(config.dc.langen)
     const types = place.getTypes()
 
     const mapConfig = {
@@ -52,6 +54,9 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                       'Results Snippet Link',
                     )
                   }
+                  state={{
+                    targetName: primaryName,
+                  }}
                 >
                   <Map config={mapConfig} className="sm" />
                 </Link>

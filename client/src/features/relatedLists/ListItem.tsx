@@ -52,6 +52,7 @@ const ListItem: React.FC<IProps> = ({
   }
 
   const linkLabel = `Show all ${count} result${count !== 1 ? 's' : ''}`
+  const searchQ = formatFacetedSearchJson(criteria, searchTerm, uri)
 
   return (
     <StyledRow
@@ -77,11 +78,10 @@ const ListItem: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${formatFacetedSearchJson(
-                criteria,
-                searchTerm,
-                uri,
-              )}&openSearch=false`,
+              search: `q=${searchQ}&openSearch=false`,
+            }}
+            state={{
+              targetName: linkLabel,
             }}
             onClick={() =>
               pushSiteImproveEvent(
