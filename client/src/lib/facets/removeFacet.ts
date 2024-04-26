@@ -55,17 +55,16 @@ export const removeFacetFromQuery = (
 
       for (const searchTerm of Object.keys(searchObj)) {
         if (
-          (targetFacet === 'responsibleCollections' ||
-            targetFacet === 'responsibleUnits') &&
-          searchObj.OR !== undefined
+          targetFacet === 'responsibleCollections' ||
+          targetFacet === 'responsibleUnits'
         ) {
           // right now all where at yale objects return an OR array
           // if this changes, the logic below will have to change
           const targetQueryObj = buildQuery(scope, targetFacet, targetValue)
           const targetObj = targetQueryObj as ICriteria
           const sourceObj = searchObj
-          let innerTargetObj = targetObj.OR[0]
-          let innerSourceObj = sourceObj.OR[0]
+          let innerTargetObj = targetObj.memberOf
+          let innerSourceObj = sourceObj.memberOf
           let searchingForMatch = true
 
           while (searchingForMatch) {

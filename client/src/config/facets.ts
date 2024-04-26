@@ -39,48 +39,25 @@ export const facets: IFacetConfig = {
     },
     responsibleCollections: {
       sectionLabel: 'Collection',
-      buildQuery: (value) => ({
-        OR: [
-          {
-            memberOf: {
-              curatedBy: {
-                memberOf: {
-                  id: value,
-                },
-              },
-            },
-          },
-          {
-            memberOf: {
-              curatedBy: {
-                id: value,
-              },
-            },
-          },
-        ],
-      }),
+      buildQuery: (value) => ({ memberOf: { id: value } }),
     },
     responsibleUnits: {
       sectionLabel: 'Responsible Unit',
       buildQuery: (value) => ({
-        OR: [
-          {
-            memberOf: {
-              curatedBy: {
+        memberOf: {
+          curatedBy: {
+            OR: [
+              {
                 memberOf: {
                   id: value,
                 },
               },
-            },
-          },
-          {
-            memberOf: {
-              curatedBy: {
+              {
                 id: value,
               },
-            },
+            ],
           },
-        ],
+        },
       }),
     },
   },
@@ -413,23 +390,27 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
 
 export const whereAtYaleSearchTermFacets = {
   item: {
-    OR: (searchObj: ICriteria) => {
+    memberOf: (searchObj: ICriteria) => {
       // due to YUL workaround, this method now returns an array with both types of where at yale facet values in it
       let returnValue: Array<ICriteria> | null = []
-      if (searchObj.OR) {
-        for (const obj of searchObj.OR) {
-          if (obj.memberOf?.curatedBy?.memberOf?.id) {
-            returnValue.push({
-              facetName: 'responsibleUnits',
-              value: obj.memberOf.curatedBy.memberOf.id,
-            })
+      if (searchObj.memberOf) {
+        if (searchObj.memberOf?.curatedBy) {
+          if (searchObj.memberOf?.curatedBy.OR) {
+            for (const obj of searchObj.memberOf.curatedBy.OR) {
+              if (obj.id) {
+                returnValue.push({
+                  facetName: 'responsibleUnits',
+                  value: obj.id,
+                })
+              }
+            }
           }
-          if (obj.memberOf?.curatedBy?.id) {
-            returnValue.push({
-              facetName: 'responsibleCollections',
-              value: obj.memberOf.curatedBy.id,
-            })
-          }
+        }
+        if (searchObj.memberOf.id) {
+          returnValue.push({
+            facetName: 'responsibleCollections',
+            value: searchObj.memberOf.id,
+          })
         }
       }
       returnValue = returnValue.length === 0 ? null : returnValue

@@ -88,10 +88,7 @@ const SelectionContainer: React.FC<IProps> = ({
       entityIds.forEach((entityId) => {
         // due to the YUL workaround, responsibleUnits and responsibleCollections create a duplicate selected facet. Only display one of them in the list of selected facets.
         // If the entityId is of type number, it should be rendered as we need to accept string and numerical values
-        if (
-          (entityId || typeof entityId === 'number') &&
-          searchTag !== 'responsibleUnits'
-        ) {
+        if (entityId || typeof entityId === 'number') {
           selectedFacetComponents.push(
             <SelectedFacet
               key={`${searchTag}_${entityId}`}
