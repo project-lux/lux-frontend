@@ -46,7 +46,6 @@ export const getSelectedFacets = (
             searchTerm as keyof typeof whereAtYaleSearchTermToFacetName
           ](searchObj)
         if (facetInfo != null) {
-          // due to YUL workaround, we now get an array with 2 selected facet values in it
           for (const { facetName, value } of facetInfo) {
             updateMap(facetName, value)
           }

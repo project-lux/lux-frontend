@@ -391,7 +391,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
 export const whereAtYaleSearchTermFacets = {
   item: {
     memberOf: (searchObj: ICriteria) => {
-      // due to YUL workaround, this method now returns an array with both types of where at yale facet values in it
       let returnValue: Array<ICriteria> | null = []
       if (searchObj.memberOf) {
         if (searchObj.memberOf?.curatedBy) {
