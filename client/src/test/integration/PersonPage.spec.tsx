@@ -3,12 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import personMockApi from './utils/personMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Person page', () => {
   const page = '/view/person/mock-person'
 
   beforeEach(async () => {
     personMockApi()
+    siteImproveMock()
   })
 
   describe('About', () => {

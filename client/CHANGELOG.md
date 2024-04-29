@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed objects from events pages ([#142](https://github.com/project-lux/lux-frontend/issues/142)).
+- Removed Campus Division label and replaced it with Responsible Unit ([#132](https://github.com/project-lux/lux-frontend/issues/132)).
 
 ### Fixed
 

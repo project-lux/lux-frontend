@@ -7,6 +7,7 @@ import { getCollections } from '../../lib/util/collectionHelper'
 import AppRender from './utils/AppRender'
 import productionEventMockApi from './utils/productionEventMockApi'
 import setsMockApi from './utils/setsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -25,6 +26,7 @@ describe('Set page', () => {
   beforeEach(async () => {
     setsMockApi()
     productionEventMockApi()
+    siteImproveMock()
 
     const collection = getCollections as jest.MockedFunction<
       typeof getCollections

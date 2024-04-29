@@ -129,7 +129,7 @@ describe('removeFacet exported functions', () => {
       })
     })
 
-    it('returns a new object when removing a collection or unit', () => {
+    it('returns a new object when removing a collection', () => {
       const targetFacet = 'responsibleCollections'
       const targetValue = 'https://endpoint.yale.edu/data/test-id-2'
       const facetQuery = {
@@ -140,24 +140,25 @@ describe('removeFacet exported functions', () => {
             },
           },
           {
-            OR: [
-              {
-                memberOf: {
-                  curatedBy: {
+            memberOf: {
+              id: targetValue,
+            },
+          },
+          {
+            memberOf: {
+              curatedBy: {
+                OR: [
+                  {
                     memberOf: {
-                      id: 'https://endpoint.yale.edu/data/test-id-2',
+                      id: 'https://endpoint.yale.edu/data/test-id-3',
                     },
                   },
-                },
-              },
-              {
-                memberOf: {
-                  curatedBy: {
-                    id: 'https://endpoint.yale.edu/data/test-id-2',
+                  {
+                    id: 'https://endpoint.yale.edu/data/test-id-3',
                   },
-                },
+                ],
               },
-            ],
+            },
           },
         ],
       }
@@ -173,6 +174,78 @@ describe('removeFacet exported functions', () => {
           {
             classification: {
               id: 'https://endpoint.yale.edu/data/test-id-1',
+            },
+          },
+          {
+            memberOf: {
+              curatedBy: {
+                OR: [
+                  {
+                    memberOf: {
+                      id: 'https://endpoint.yale.edu/data/test-id-3',
+                    },
+                  },
+                  {
+                    id: 'https://endpoint.yale.edu/data/test-id-3',
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      })
+    })
+
+    it('returns a new object when removing a unit', () => {
+      const targetFacet = 'responsibleUnits'
+      const targetValue = 'https://endpoint.yale.edu/data/test-id-3'
+      const facetQuery = {
+        AND: [
+          {
+            classification: {
+              id: 'https://endpoint.yale.edu/data/test-id-1',
+            },
+          },
+          {
+            memberOf: {
+              id: 'https://endpoint.yale.edu/data/test-id-2',
+            },
+          },
+          {
+            memberOf: {
+              curatedBy: {
+                OR: [
+                  {
+                    memberOf: {
+                      id: targetValue,
+                    },
+                  },
+                  {
+                    id: targetValue,
+                  },
+                ],
+              },
+            },
+          },
+        ],
+      }
+      const scope = 'item'
+      const removeFromQuery = removeFacetFromQuery(
+        targetFacet,
+        targetValue,
+        facetQuery,
+        scope,
+      )
+      expect(removeFromQuery).toEqual({
+        AND: [
+          {
+            classification: {
+              id: 'https://endpoint.yale.edu/data/test-id-1',
+            },
+          },
+          {
+            memberOf: {
+              id: 'https://endpoint.yale.edu/data/test-id-2',
             },
           },
         ],
