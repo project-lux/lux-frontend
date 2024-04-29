@@ -11,10 +11,6 @@ All notable changes to this project will be documented in this file.
 - Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
 - Added SI page tracking events ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
 
-### Changed
-
-- Allowed Google crawl the production site ([#24](https://github.com/project-lux/lux-frontend/issues/24)).
-
 ### Removed
 
 - Removed objects from events pages ([#142](https://github.com/project-lux/lux-frontend/issues/142)).
