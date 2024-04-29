@@ -2,7 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.24.0 - Unreleased
+## v1.25.0 - Unreleased
+
+### Added
+
+- Added on hover styling to date facets Apply button for accessibility ([#181](https://github.com/project-lux/lux-frontend/issues/181)).
+- Added additional geographical information to the locations in object events ([#89](https://github.com/project-lux/lux-frontend/issues/89)).
+- Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
+- Added SI page tracking events ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
+
+### Removed
+
+- Removed objects from events pages ([#142](https://github.com/project-lux/lux-frontend/issues/142)).
+- Removed Campus Division label and replaced it with Responsible Unit ([#132](https://github.com/project-lux/lux-frontend/issues/132)).
+
+### Fixed
+
+- Fixed Related Subjects config for Event pages ([#180](https://github.com/project-lux/lux-frontend/issues/180)).
+
+## v1.24.0 - 2024-4-15
 
 ### Added
 

@@ -1,4 +1,5 @@
 import { IFacet, LabelFunc, Scope, facets } from '../../config/facets'
+import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 
 export const getLabel = (
   scope: string,
@@ -44,4 +45,16 @@ export const buildQuery = (
     return facetConfig.buildQuery(value)
   }
   return null
+}
+
+export const getFacetValues = (data: ISearchResults): Array<string> => {
+  if (data !== null) {
+    const { orderedItems } = data
+    return orderedItems === null || orderedItems.length === 0
+      ? []
+      : orderedItems.map(
+          (facetValue: IOrderedItems) => facetValue.value as string,
+        )
+  }
+  return []
 }

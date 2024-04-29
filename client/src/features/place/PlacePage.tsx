@@ -22,9 +22,10 @@ import { ErrorFallback } from '../error/ErrorFallback'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
 import EntityParser from '../../lib/parse/data/EntityParser'
+import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 
 import AboutPanel from './AboutPanel'
-import PlaceHierarchy from './PlaceHierarchy'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PlacePage: React.FC<{ data: any }> = ({ data }) => {
@@ -45,7 +46,13 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           icon={supertypeIcon}
           entityTypeForIcon={helperText}
         >
-          <PlaceHierarchy entity={data} columnClassName="px-0" />
+          <GenericBreadcrumbHierarchy
+            entity={data}
+            columnClassName="px-0"
+            maxLength={8}
+            getNextEntityUri={getNextPlaceUris}
+            id="place-page"
+          />
         </EntityHeader>
       </ErrorBoundary>
       <StyledEntityBody>
@@ -74,7 +81,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           <StyledEntityPageSection className="row">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Map config={mapConfig} className="col md" />
+                <Map config={mapConfig} className="col lg" />
               </ErrorBoundary>
             </Col>
             <ErrorBoundary FallbackComponent={ErrorFallback}>

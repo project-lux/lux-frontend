@@ -14,8 +14,12 @@ import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import TypeList from '../common/TypeList'
-import ObjectSetHierarchy from '../common/ObjectSetHierarchy'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { IEventAgent } from '../../types/derived-data/events'
+import {
+  getNextSetUris,
+  isEntityAnArchive,
+} from '../../lib/util/hierarchyHelpers'
 
 import ProductionSnippet from './ProductionSnippet'
 
@@ -129,7 +133,15 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   </React.Fragment>
                 )}
               </StyledDl>
-              {object.json.member_of && <ObjectSetHierarchy entity={data} />}
+              {object.json.member_of && (
+                <GenericBreadcrumbHierarchy
+                  entity={data}
+                  id="object-snippet"
+                  getNextEntityUri={getNextSetUris}
+                  linkFilter={isEntityAnArchive}
+                  maxLength={8}
+                />
+              )}
             </div>
           </div>
           <StyledHr />

@@ -4,6 +4,7 @@ import {
   transformTimelineData,
   sortTimelineData,
   getSearchTagFromFacetedSearch,
+  getYearWithLabel,
 } from '../../../../../lib/parse/search/timelineParser'
 import {
   timelineResults as mockTimelineResults,
@@ -54,6 +55,20 @@ describe('timelineParser', () => {
 
       const mockSortedData = ['-40', '-20', '0', '1', '4', '1000']
       expect(sortTimelineData(mockData)).toStrictEqual(mockSortedData)
+    })
+  })
+
+  describe('getYearWithLabel', () => {
+    it('returns the negative year with label', () => {
+      const mockYear = '-2024'
+
+      expect(getYearWithLabel(mockYear)).toEqual('2024 B.C.E.')
+    })
+
+    it('returns the positive year with label', () => {
+      const mockYear = '2024'
+
+      expect(getYearWithLabel(mockYear)).toEqual('2024 C.E.')
     })
   })
 })

@@ -3,12 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import conceptMockApi from './utils/conceptMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Concept page', () => {
   const page = '/view/concept/mock-concept'
 
   beforeEach(async () => {
     conceptMockApi()
+    siteImproveMock()
   })
 
   describe('About', () => {
@@ -56,7 +58,9 @@ describe('Concept page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Concept Parent/i)
-      const notes = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const notes = screen.getByTestId(
+        'concept-page-generic-breadcrumb-hierarchy',
+      )
       expect(notes).toBeInTheDocument()
     })
   })

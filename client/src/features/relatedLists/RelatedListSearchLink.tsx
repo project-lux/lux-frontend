@@ -29,11 +29,15 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
     total !== 1 ? 's' : ''
   }`
 
+  const searchQ = JSON.stringify(criteria)
   return (
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `q=${JSON.stringify(criteria)}&openSearch=false`,
+        search: `q=${searchQ}&openSearch=false`,
+      }}
+      state={{
+        targetName: linkLabel,
       }}
       onClick={() =>
         pushSiteImproveEvent('Search Link', 'Selected', `Accordion ${title}`)

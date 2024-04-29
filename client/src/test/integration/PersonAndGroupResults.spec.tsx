@@ -7,6 +7,7 @@ import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
 import personAndGroupResultsMockApi from './utils/personAndGroupMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Person and Group results page', () => {
   const page =
@@ -16,6 +17,7 @@ describe('Person and Group results page', () => {
     personAndGroupResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
+    siteImproveMock()
   })
 
   describe('Results header', () => {

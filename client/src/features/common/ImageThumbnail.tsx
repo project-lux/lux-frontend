@@ -47,6 +47,9 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
               'Results Snippet Link',
             )
           }
+          state={{
+            targetName: linkUrl,
+          }}
           data-testid="image-link"
         >
           <img

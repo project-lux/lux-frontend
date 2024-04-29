@@ -66,6 +66,10 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   const sort = new URLSearchParams(params).get('sort')
 
   const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
+  const searchQ = formatHalLink(url, searchScope[newScope])
+  const searchString = `${searchQ}&openSearch=false${
+    sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
+  }`
 
   return (
     <React.Fragment>
@@ -75,9 +79,10 @@ const SearchResultRelatedList: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${newScope}`,
-              search: `${formatHalLink(url, resultsEndpoint)}&openSearch=false${
-                sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-              }`,
+              search: searchString,
+            }}
+            state={{
+              targetName: linkLabel,
             }}
             onClick={() =>
               pushSiteImproveEvent(

@@ -2,37 +2,19 @@ import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
 
 import AppRender from './utils/AppRender'
 import physicalObjectsMockApi from './utils/physicalObjectsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
-// Mock the request for collections
-jest.mock('../../lib/util/collectionHelper', () => ({
-  __esModule: true,
-  getCollections: jest.fn(() => ({
-    data: [
-      'https://endpoint.yale.edu/data/set/member-of-collection-1',
-      'https://endpoint.yale.edu/data/set/member-of-collection-2',
-    ],
-  })),
-}))
+jest.mock('leaflet')
 
 describe('Objects page', () => {
   const page = '/view/object/mock-object'
 
   beforeEach(async () => {
     physicalObjectsMockApi()
-
-    const collection = getCollections as jest.MockedFunction<
-      typeof getCollections
-    >
-    collection.mockImplementation(() => ({
-      data: [
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-      ],
-    }))
+    siteImproveMock()
   })
 
   describe('Works included', () => {
@@ -143,7 +125,9 @@ describe('Objects page', () => {
         const { findAllByText } = render(<AppRender route={page} />)
 
         await findAllByText(/Pittsburgh/i)
-        const location = screen.getByTestId('object-production-event-location')
+        const location = screen.getByTestId(
+          'object-production-0-event-location',
+        )
         expect(location).toBeInTheDocument()
       })
 
@@ -196,7 +180,9 @@ describe('Objects page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Archive/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'object-page-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
   })

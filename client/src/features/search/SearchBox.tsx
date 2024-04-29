@@ -119,12 +119,13 @@ const SearchBox: React.FC<{
           pushSiteImproveEvent('Search Button', 'Submit', 'Simple Search')
           navigate(
             {
-              pathname: `/view/results/${tab}/`,
+              pathname: `/view/results/${tab}`,
               search: `${newUrlParams.toString()}`,
             },
             {
               state: {
                 fromNonResultsPage: !isResults,
+                targetName: `Results Page`,
               },
             },
           )

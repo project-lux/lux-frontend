@@ -7,6 +7,7 @@ import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import conceptResultsMockApi from './utils/conceptResultsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Concept results page', () => {
   const page =
@@ -16,6 +17,7 @@ describe('Concept results page', () => {
     conceptResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
+    siteImproveMock()
   })
 
   describe('Results header', () => {
@@ -77,7 +79,9 @@ describe('Concept results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Concept/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'concept-snippet-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
   })

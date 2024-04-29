@@ -8,6 +8,7 @@ import theme from '../../styles/theme'
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import {
+  getYearWithLabel,
   sortTimelineData,
   transformTimelineData,
 } from '../../lib/parse/search/timelineParser'
@@ -68,6 +69,7 @@ const Relations: React.FC<{
 
   const { tab, jsonSearchTerm } = searchTags[searchTag]
   const { criteria, totalItems } = data[year][searchTag] as ITimelineCriteria
+  const searchQ = formatDateJsonSearch(year, jsonSearchTerm as string, criteria)
   return (
     <HoverableRow key={`${searchTag}-${year}`}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -80,11 +82,10 @@ const Relations: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${formatDateJsonSearch(
-                year,
-                jsonSearchTerm as string,
-                criteria,
-              )}&collapseSearch=true`,
+              search: `q=${searchQ}&collapseSearch=true`,
+            }}
+            state={{
+              targetName: `/view/results/${tab}q=${searchQ}&collapseSearch=true`,
             }}
             onClick={() =>
               pushSiteImproveEvent('Search Link', 'Selected', 'Timeline')
@@ -132,7 +133,7 @@ const TimelineContainers: React.FC<{
                     <HoverableRow>
                       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                         <StyledDt data-testid={`${year}-label`}>
-                          {year}
+                          {getYearWithLabel(year)}
                         </StyledDt>
                       </Col>
                       <StyledResponsiveCol

@@ -3,12 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('FAQ page', () => {
   const page = '/content/faq'
 
   beforeEach(async () => {
     cmsMockApi()
+    siteImproveMock()
   })
 
   it('renders', async () => {

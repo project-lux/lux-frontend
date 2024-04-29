@@ -43,6 +43,7 @@ const RecordLink: React.FC<ISearchData> = ({
         to={{
           pathname: `/view/${strippedUrl}`,
         }}
+        state={{ targetName: entityName }}
         aria-label={entityName}
         className={className || ''}
         onClick={() =>
@@ -52,7 +53,7 @@ const RecordLink: React.FC<ISearchData> = ({
             `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
           )
         }
-        data-testid="record-link"
+        data-testid={`${strippedUrl}-record-link`}
       >
         {entityName.length > 200
           ? `${entityName.slice(0, 200)}...`

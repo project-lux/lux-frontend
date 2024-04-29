@@ -57,6 +57,11 @@ export const getSearchTagFromFacetedSearch = (halLink: string): string => {
   return searchTag
 }
 
+/**
+ * Returns the transformed timeline data for rendering
+ * @param {Array<{[key: string]: ISearchResults}>} data; the data from the HAL link requests
+ * @returns {ITimelinesTransformed}
+ */
 export const transformTimelineData = (
   data: Array<{
     [key: string]: ISearchResults
@@ -108,9 +113,22 @@ export const transformTimelineData = (
   return dateCounts
 }
 
+/**
+ * Returns sorted object of timeline data based on the keys/years
+ * @param {ITimelinesTransformed} timeline; the transformed timeline data
+ * @returns {Array<string>}
+ */
 export const sortTimelineData = (
   timeline: Record<string, any>,
 ): Array<string> =>
   Object.keys(timeline).sort(
     (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
   )
+
+/**
+ * Adds the correct year label to the string year
+ * @param {string} year; the year to add the label
+ * @returns {string}
+ */
+export const getYearWithLabel = (year: string): string =>
+  year.includes('-') ? `${year.substring(1)} B.C.E.` : `${year} C.E.`

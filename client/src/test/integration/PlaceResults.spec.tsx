@@ -7,6 +7,7 @@ import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
 import placeResultsMockApi from './utils/placeResultsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Place results page', () => {
   const page =
@@ -16,6 +17,7 @@ describe('Place results page', () => {
     placeResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
+    siteImproveMock()
   })
 
   describe('Results header', () => {
@@ -74,7 +76,9 @@ describe('Place results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Pittsburgh/i)
-      const hierarchy = screen.getByTestId('generic-breadcrumb-hierarchy')
+      const hierarchy = screen.getByTestId(
+        'place-snippet-generic-breadcrumb-hierarchy',
+      )
       expect(hierarchy).toBeInTheDocument()
     })
 

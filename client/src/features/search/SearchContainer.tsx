@@ -60,6 +60,9 @@ const SearchContainer: React.FC<IProps> = ({
             <Col xs={6} className="d-inline-flex justify-content-end">
               <HashLink
                 to="/content/simple-search"
+                state={{
+                  targetName: 'Search Tips',
+                }}
                 style={{
                   ...searchTipsStyle,
                   fontWeight: '400',

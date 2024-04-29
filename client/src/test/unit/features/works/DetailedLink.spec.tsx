@@ -4,6 +4,7 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { person as mockPerson } from '../../../data/person'
 import DetailedLink from '../../../../features/works/DetailedLink'
+import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
 jest.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
@@ -17,6 +18,7 @@ jest.mock('../../../../redux/api/ml_api', () => ({
 }))
 
 const mockUri = mockPerson.id as string
+const strippedMockUri = stripYaleIdPrefix(mockUri)
 
 describe('DetailedLink', () => {
   it('renders the link with name', () => {
@@ -26,7 +28,7 @@ describe('DetailedLink', () => {
       </BrowserRouter>,
     )
 
-    const link = screen.getByTestId('record-link')
+    const link = screen.getByTestId(`${strippedMockUri}-record-link`)
     expect(link).toHaveTextContent('Mock Person')
   })
 

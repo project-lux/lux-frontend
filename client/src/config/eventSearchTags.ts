@@ -71,8 +71,8 @@ export const relatedAccordions: IHalLinks = {
     jsonSearchTerm: 'material',
   },
   subjects: {
-    title: 'Related Subjects',
-    searchTag: 'lux:eventConceptsOfItems',
+    title: 'Related Concepts',
+    searchTag: 'lux:eventRelatedConcepts',
     tab: 'concepts',
   },
   ...itemAndWorkTypes,

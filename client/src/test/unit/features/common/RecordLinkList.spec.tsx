@@ -5,6 +5,7 @@ import { BrowserRouter } from 'react-router-dom'
 import config from '../../../../config/config'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 import RecordLinksList from '../../../../features/common/RecordLinkList'
+import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
 const mockUrls = [`${config.env.dataApiBaseUrl}data/object/test`]
 const mockName = 'Mock Object'
@@ -21,7 +22,9 @@ describe('RecordLinkList', () => {
   it('renders RecordLink', async () => {
     render(<BrowserRouter>{RecordLinksList(mockUrls)}</BrowserRouter>)
 
-    const link = screen.getByTestId('record-link')
+    const link = screen.getByTestId(
+      `${stripYaleIdPrefix(mockUrls[0])}-record-link`,
+    )
     expect(link).toBeInTheDocument()
   })
 })

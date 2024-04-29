@@ -26,22 +26,29 @@ const InternalLink: React.FC<ILinkParams> = ({
   className,
   linkCategory,
   children,
-}) => (
-  <StyledLink
-    to={uri}
-    className={className || ''}
-    onClick={() =>
-      pushSiteImproveEvent(
-        'Internal Link',
-        'Selected',
-        `Internal ${linkCategory !== undefined ? linkCategory : name}`,
-      )
-    }
-    data-testid="internal-link"
-  >
-    {name}
-    {children}
-  </StyledLink>
-)
+}) => {
+  const eventText = linkCategory !== undefined ? linkCategory : name
+
+  return (
+    <StyledLink
+      to={uri}
+      state={{
+        targetName: name,
+      }}
+      className={className || ''}
+      onClick={() =>
+        pushSiteImproveEvent(
+          'Internal Link',
+          'Selected',
+          `Internal ${eventText}`,
+        )
+      }
+      data-testid="internal-link"
+    >
+      {name}
+      {children}
+    </StyledLink>
+  )
+}
 
 export default InternalLink

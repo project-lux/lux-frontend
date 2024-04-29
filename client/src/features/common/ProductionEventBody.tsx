@@ -16,6 +16,7 @@ import theme from '../../styles/theme'
 import ApiText from './ApiText'
 import LinkContainer from './LinkContainer'
 import RecordLinksList from './RecordLinkList'
+import ProductionLocation from './ProductionLocation'
 
 interface IProps {
   event: IEventInfo
@@ -145,9 +146,11 @@ const ProductionEventBody: React.FC<IProps> = ({
             <dt>Where</dt>
           </div>
           <div className={valueClassName}>
-            <dd data-testid={`${id}-event-location`}>
-              {RecordLinksList(locations)}
-            </dd>
+            {locations.map((location, ind) => (
+              <dd key={location} data-testid={`${id}-${ind}-event-location`}>
+                <ProductionLocation location={location} />
+              </dd>
+            ))}
           </div>
         </div>
       )}

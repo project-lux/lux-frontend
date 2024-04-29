@@ -15,6 +15,7 @@ import { event as mockEvent } from '../../data/event'
 import { archive as mockArchive } from '../../data/archive'
 import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
 import { facets } from '../../data/facets'
+import { activityStreams } from '../../data/results'
 
 export default function physicalObjectsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
@@ -173,7 +174,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for production location
   nock(apiUrl)
-    .get('/data/place/production-took-place-at?profile=name')
+    .get('/data/place/production-took-place-at?profile=results')
     .reply(200, JSON.stringify(mockPlace), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -205,7 +206,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for encounter location
   nock(apiUrl)
-    .get('/data/place/encounter-took-place-at?profile=name')
+    .get('/data/place/encounter-took-place-at?profile=results')
     .reply(200, JSON.stringify(mockPlace), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -293,6 +294,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the itemUnit HAL link
   nock(apiUrl)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     .get('/api/facets/item?q=responsibleUnits')
     .reply(200, JSON.stringify(facets), {
       'Access-Control-Allow-Origin': '*',
@@ -303,6 +305,27 @@ export default function physicalObjectsMockApi(): void {
   nock(apiUrl)
     .get('/data/group/d07b9b86-0a1e-4026-aa4c-8ecba8bbd9c9?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Unit')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the itemDepartment HAL link
+  nock(apiUrl)
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    .get('/api/search/item?q=itemDepartment')
+    .reply(
+      200,
+      JSON.stringify(activityStreams('data/set/member-of-collection-1', 1)),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
+
+  // mock the itemDepartment name
+  nock(apiUrl)
+    .get('/data/set/member-of-collection-1?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Collection')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

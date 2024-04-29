@@ -13,7 +13,8 @@ import RecordLink from '../common/RecordLink'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
-import ConceptHierarchy from '../concept/ConceptHierarchy'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
 
 interface IProps {
   uri: string
@@ -54,7 +55,12 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
                 </React.Fragment>
               )}
             </StyledDl>
-            <ConceptHierarchy entity={data} />
+            <GenericBreadcrumbHierarchy
+              entity={data}
+              id="concept-snippet"
+              getNextEntityUri={getNextConceptUris}
+              maxLength={10}
+            />
           </div>
         </div>
         <StyledHr />

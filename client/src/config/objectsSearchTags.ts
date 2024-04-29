@@ -14,6 +14,6 @@ export const collection: IHalLink = {
 
 // Used to request and display unit data
 export const unit: IHalLink = {
-  title: 'Campus Division',
+  title: 'Responsible Unit',
   searchTag: 'lux:itemUnit',
 }

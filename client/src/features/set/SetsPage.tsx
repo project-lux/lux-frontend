@@ -14,10 +14,14 @@ import WhereAtYale from '../common/WhereAtYale'
 import HowDoISeeIt from '../works/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 import UV from '../common/UV'
-import ObjectSetHierarchy from '../common/ObjectSetHierarchy'
+import {
+  getNextSetUris,
+  isEntityAnArchive,
+} from '../../lib/util/hierarchyHelpers'
 import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
 import { reset } from '../../redux/slices/hierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
+import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
@@ -53,7 +57,14 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
             entityTypeForIcon={helperText}
           >
             {isArchive && (
-              <ObjectSetHierarchy entity={data} columnClassName="px-0" />
+              <GenericBreadcrumbHierarchy
+                entity={data}
+                columnClassName="px-0"
+                id="sets-page"
+                getNextEntityUri={getNextSetUris}
+                linkFilter={isEntityAnArchive}
+                maxLength={8}
+              />
             )}
           </EntityHeader>
         </ErrorBoundary>

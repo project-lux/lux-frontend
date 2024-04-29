@@ -3,12 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import eventsMockApi from './utils/eventsMockApi'
+import siteImproveMock from './utils/mockSiteImprove'
 
 describe('Events page', () => {
   const page = '/view/activity/mock-event'
 
   beforeEach(async () => {
     eventsMockApi()
+    siteImproveMock()
   })
 
   describe('About', () => {
@@ -66,14 +68,6 @@ describe('Events page', () => {
       await findAllByText(/Mock Identifier Label/i)
       const identifiers = screen.getByText(/407-1988-05-29/i)
       expect(identifiers).toBeInTheDocument()
-    })
-
-    it('renders the objects', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Mock Objects/i)
-      const objects = screen.getByTestId('event-objects-link-container')
-      expect(objects).toBeInTheDocument()
     })
 
     it('renders the part container', async () => {
