@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledSearchLink from '../../styles/shared/SearchLink'
-import { formatHalLink } from '../../lib/parse/search/queryParser'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
-import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
-import { searchScope } from '../../config/searchTypes'
-import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+
+import SearchResultsLink from './SearchResultsLink'
 
 interface IProps {
   url: string
@@ -58,43 +54,18 @@ const SearchResultRelatedList: React.FC<IProps> = ({
     })
 
   const { orderedItems } = data
-  const estimate = getEstimates(data)
-  const newScope = scope !== undefined ? scope : 'objects'
-  const resultsEndpoint = searchScope[newScope]
-
-  const params = getAllParamsFromHalLink(url, 'search')
-  const sort = new URLSearchParams(params).get('sort')
-
-  const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
-  const searchQ = formatHalLink(url, searchScope[newScope])
-  const searchString = `${searchQ}&openSearch=false${
-    sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-  }`
 
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
       <StyledSearchLink className="row py-2 text-start">
         <div className="col-12">
-          <Link
-            to={{
-              pathname: `/view/results/${newScope}`,
-              search: searchString,
-            }}
-            state={{
-              targetName: linkLabel,
-            }}
-            onClick={() =>
-              pushSiteImproveEvent(
-                'Search Link',
-                'Selected',
-                `Accordion ${title}`,
-              )
-            }
-            data-testid="search-related-list-link"
-          >
-            {linkLabel}
-          </Link>
+          <SearchResultsLink
+            data={data}
+            eventTitle={`Accordion ${title}`}
+            url={url}
+            scope={scope}
+          />
         </div>
       </StyledSearchLink>
     </React.Fragment>
