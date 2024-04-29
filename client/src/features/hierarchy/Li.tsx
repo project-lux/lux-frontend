@@ -21,9 +21,13 @@ const Li: React.FC<IProps> = ({ id }) => {
     dispatch(addOrigin({ value: entity }))
   }
 
-  const { data, isSuccess } = useGetItemQuery({
+  const { data, isSuccess, isLoading, isFetching } = useGetItemQuery({
     uri: stripYaleIdPrefix(id),
   })
+
+  if (isLoading || isFetching) {
+    return <p>Loading...</p>
+  }
 
   let name = ''
   if (data && isSuccess) {
