@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.26.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
 ## v1.25.0 - 2024-4-29
 
 ### Added
@@ -10,6 +20,8 @@ All notable changes to this project will be documented in this file.
 - Added additional geographical information to the locations in object events ([#89](https://github.com/project-lux/lux-frontend/issues/89)).
 - Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
 - Added SI page tracking events ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
+
+### Changed
 
 ### Removed
 
