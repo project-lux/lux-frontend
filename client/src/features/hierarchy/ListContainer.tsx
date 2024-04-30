@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 // import { isNull } from 'lodash'
 import { useLocation } from 'react-router-dom'
 
@@ -17,15 +17,17 @@ interface IProps {
   parents: Array<string>
   descendents: ISearchResults
   currentEntity: IEntity
+  displayLength: number
+  children: JSX.Element
 }
 
 const ListContainer: React.FC<IProps> = ({
   parents,
   descendents,
   currentEntity,
+  displayLength,
+  children,
 }) => {
-  const [displayLength, setDisplayLength] = useState(5)
-
   const defaultLength = 5
   const { pathname } = useLocation()
   let scope: null | string = null
@@ -51,28 +53,7 @@ const ListContainer: React.FC<IProps> = ({
               <Li key={parent} id={parent} />
             ))}
           </ul>
-          {displayLength <= parents.length && (
-            <button
-              type="button"
-              className="btn btn-link show-more"
-              onClick={() => setDisplayLength(displayLength + defaultLength)}
-            >
-              Show More
-            </button>
-          )}
-          {displayLength > parents.length && (
-            <button
-              type="button"
-              className="btn btn-link show-less"
-              onClick={() =>
-                setDisplayLength(
-                  Math.max(displayLength - defaultLength, defaultLength),
-                )
-              }
-            >
-              Show Less
-            </button>
-          )}
+          {children}
         </li>
         <li>
           Children
@@ -86,6 +67,7 @@ const ListContainer: React.FC<IProps> = ({
             eventTitle="Hierarchy Children"
             url={descendents.id}
             scope={scope !== null ? scope : 'places'}
+            additionalLinkText="children"
           />
         </li>
       </ul>

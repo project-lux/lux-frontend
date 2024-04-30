@@ -14,6 +14,7 @@ interface IProps {
   eventTitle: string
   url: string
   scope?: string
+  additionalLinkText?: string
 }
 
 const SearchResultsLink: React.FC<IProps> = ({
@@ -21,6 +22,7 @@ const SearchResultsLink: React.FC<IProps> = ({
   url,
   eventTitle,
   scope,
+  additionalLinkText = '',
 }) => {
   const estimate = getEstimates(data)
   const newScope = scope !== undefined ? scope : 'objects'
@@ -29,7 +31,9 @@ const SearchResultsLink: React.FC<IProps> = ({
   const params = getAllParamsFromHalLink(url, 'search')
   const sort = new URLSearchParams(params).get('sort')
 
-  const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
+  const linkLabel = `Show all ${estimate} ${additionalLinkText} result${
+    estimate !== 1 ? 's' : ''
+  }`
   const searchQ = formatHalLink(url, searchScope[newScope])
   const searchString = `${searchQ}&openSearch=false${
     sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
