@@ -29,6 +29,7 @@
     "react-router-dom": "6.28.0",
     "react-router-hash-link": "2.4.3",
     "reactflow": "11.11.4",
+    "recharts": "2.13.3",
     "sanitize-html": "2.13.1",
     "universalviewer": "4.0.25",
     "vite": "5.4.11",
