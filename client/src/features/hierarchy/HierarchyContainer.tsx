@@ -4,6 +4,7 @@ import React, { useRef, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
+import { useLocation } from 'react-router-dom'
 
 import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -23,12 +24,16 @@ import {
   getParentNodes,
 } from '../../lib/util/hierarchyHelpers'
 import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
+import SearchResultsLink from '../relatedLists/SearchResultsLink'
 
 import Hierarchy from './Hierarchy'
 import Node from './Node'
 import ParentCustomNode from './ParentCustomNode'
 import ChildCustomNode from './ChildCustomNode'
 import ListContainer from './ListContainer'
+import Toolbar from './Toolbar'
+import MoreLessButton from './MoreLessButton'
+import { ISearchResults } from '../../types/ISearchResults'
 
 interface IProps {
   entity: IEntity
@@ -76,6 +81,19 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
   const defaultHierarchyHeight = '600px'
   const hierarchyRef = useRef<HTMLDivElement>(null)
 
+  const [displayLength, setDisplayLength] = useState(5)
+
+  const defaultLength = 5
+  const { pathname } = useLocation()
+  let scope: null | string = null
+  if (pathname.includes('concept')) {
+    scope = 'concepts'
+  }
+
+  if (pathname.includes('place')) {
+    scope = 'places'
+  }
+
   const currentState = useAppSelector(
     (state) => state.hierarchyVisualization as IHierarchyVisualization,
   )
@@ -120,7 +138,7 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
     const currentUuid: string = currentState.origin
       ? currentState.origin.id!
       : (entity.id as string)
-    const parentNodes = getParentNodes(parents).slice(0, 5)
+    const parentNodes = getParentNodes(parents).slice(0, displayLength)
     const childNodes = data ? getChildNodes(data).slice(0, 5) : []
     const currentNode = getDefaultNode(currentUuid)
 
@@ -198,16 +216,47 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
               luxNodes={nodes}
               luxEdges={edges}
               currentUuid={currentUuid}
-            />
+            >
+              {/* Toolbar associated with parent nodes */}
+              <Toolbar nodeIds={parentNodes.map((node) => node.id)}>
+                <MoreLessButton
+                  parentsLength={parents.length}
+                  defaultDisplayLength={defaultLength}
+                  displayLength={displayLength}
+                  setParentDisplayLength={setDisplayLength}
+                />
+              </Toolbar>
+              {!skip ? (
+                <Toolbar nodeIds={childNodes.map((node) => node.id)}>
+                  <SearchResultsLink
+                    data={(data as ISearchResults) || {}}
+                    eventTitle="Hierarchy Children"
+                    url={data ? data.id : ''}
+                    scope={scope !== null ? scope : 'places'}
+                    additionalLinkText="children"
+                  />
+                </Toolbar>
+              ) : (
+                <React.Fragment />
+              )}
+            </Hierarchy>
           </div>
         ) : (
           <ListContainer
+            displayLength={displayLength}
             parents={parents}
-            descendents={data!}
+            descendents={(data as ISearchResults) || {}}
             currentEntity={
               currentState.origin === null ? entity : currentState.origin
             }
-          />
+          >
+            <MoreLessButton
+              parentsLength={parents.length}
+              defaultDisplayLength={defaultLength}
+              displayLength={displayLength}
+              setParentDisplayLength={setDisplayLength}
+            />
+          </ListContainer>
         )}
       </StyledEntityPageSection>
     )

@@ -3,8 +3,6 @@ import { Handle, Position } from 'reactflow'
 
 import StyledNode from '../../styles/features/visualizations/Node'
 
-import Toolbar from './Toolbar'
-
 interface IProps {
   data: {
     label: string
@@ -13,7 +11,6 @@ interface IProps {
 
 const ChildNode: React.FC<IProps> = ({ data }) => (
   <StyledNode>
-    <Toolbar />
     <Handle
       type="target"
       className="targetHandle"

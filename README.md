@@ -23,7 +23,7 @@ yarn start
 
 The AJAX call to /env will fail, but the application will work because it will use the values from the local .env (or .env.development.local) file instead.
 
-For further instructions on client setup, go to the [client folder README](https://git.yale.edu/lux-its/lux-web/blob/main/client/README.md).
+For further instructions on client setup, go to the [client folder README](https://github.com/project-lux/lux-frontend/blob/main/client/README.md).
 
 ## Running server locally
 

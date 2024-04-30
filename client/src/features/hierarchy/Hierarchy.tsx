@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reactflow/dist/style.css'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -17,12 +17,12 @@ import theme from '../../styles/theme'
 import OriginNode from './OriginNode'
 import ParentNode from './ParentNode'
 import ChildNode from './ChildNode'
-// import HierarchyEdge from './HierarchyEdge'
 
 interface IProps {
   luxNodes: Array<Node>
   luxEdges: Array<Edge>
   currentUuid: string
+  children: JSX.Element[]
 }
 
 const dagreGraph = new dagre.graphlib.Graph()
@@ -74,7 +74,12 @@ const nodeTypes = {
 }
 // const edgeTypes = { hierarchyEdge: HierarchyEdge }
 
-const Hierarchy: React.FC<IProps> = ({ luxNodes, luxEdges, currentUuid }) => {
+const Hierarchy: React.FC<IProps> = ({
+  luxNodes,
+  luxEdges,
+  currentUuid,
+  children,
+}) => {
   const { nodes: newNodes, edges: newEdges } = getLayoutedElements(
     luxNodes,
     luxEdges,
@@ -83,6 +88,11 @@ const Hierarchy: React.FC<IProps> = ({ luxNodes, luxEdges, currentUuid }) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [nodes, setNodes, onNodesChange] = useNodesState(newNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(newEdges)
+
+  useEffect(() => {
+    setNodes(newNodes)
+    setEdges(newEdges)
+  }, [newEdges, newNodes, setEdges, setNodes])
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>
@@ -97,7 +107,7 @@ const Hierarchy: React.FC<IProps> = ({ luxNodes, luxEdges, currentUuid }) => {
 
   return (
     <ReactFlow
-      key={currentUuid}
+      key={`${currentUuid}-${luxNodes.length}`}
       style={{
         background: theme.color.white,
         width: '100%',
@@ -111,7 +121,9 @@ const Hierarchy: React.FC<IProps> = ({ luxNodes, luxEdges, currentUuid }) => {
       nodeTypes={nodeTypes}
       // edgeTypes={edgeTypes}
       fitView
-    />
+    >
+      {children}
+    </ReactFlow>
   )
 }
 
