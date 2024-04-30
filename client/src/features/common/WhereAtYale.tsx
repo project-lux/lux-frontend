@@ -3,17 +3,16 @@ import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
 
-import { unit, collection } from '../../config/objectsSearchTags'
+import { unit } from '../../config/objectsSearchTags'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import StyledDataRow from '../../styles/shared/DataRow'
 import StyledHr from '../../styles/shared/Hr'
 import IEntity from '../../types/data/IEntity'
 import { setUnit } from '../../config/worksSearchTags'
 import {
+  useGetCollectionQuery,
   useGetFacetedRelationshipQuery,
-  useGetSearchRelationshipQuery,
 } from '../../redux/api/ml_api'
-import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import { getFacetValues } from '../../lib/facets/helper'
 
 import LinkContainer from './LinkContainer'
@@ -23,10 +22,21 @@ interface IObject {
 }
 
 const WhereAtYale: React.FC<IObject> = ({ data }) => {
+  // get the collection but skip request if data does not have a member_of property
+  const {
+    data: collections,
+    isSuccess: collectionsIsSuccess,
+    isLoading: collectionsIsLoading,
+  } = useGetCollectionQuery(data, {
+    skip: data === undefined || data.member_of === undefined,
+  })
+  const collectionData = collections
+    ? collections.filter((collection: string) => collection !== null)
+    : []
+
   // Parse the entity to get the appropriate HAL links for rendering the unit(s)
   const entity = new EntityParser(data)
   const planYourVisitLinks = entity.getPlanYourVisitLink()
-  const collectionHalLink = entity.getHalLink(collection.searchTag)
   const unitHalLink =
     entity.getHalLink(unit.searchTag) || entity.getHalLink(setUnit.searchTag)
 
@@ -39,21 +49,6 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
     )
   const unitUris = unitsIsSuccess && units ? getFacetValues(units) : []
 
-  // Get collections via HAL link
-  const {
-    data: collectionData,
-    isSuccess: collectionIsSuccess,
-    isLoading: collectionIsLoading,
-  } = useGetSearchRelationshipQuery(
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    { uri: collectionHalLink! },
-    { skip: collectionHalLink === null },
-  )
-  const collections =
-    collectionIsSuccess && collectionData
-      ? getOrderedItemsIds(collectionData)
-      : []
-
   return (
     <StyledDataRow
       className="row"
@@ -63,11 +58,11 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
       <h2>Where is it at Yale?</h2>
       <div className="mb-2">
         <dl className="mb-0">
-          {collectionIsLoading && <p>Loading...</p>}
-          {collectionIsSuccess && collections.length > 0 && (
+          {collectionsIsLoading && <p>Loading...</p>}
+          {collectionsIsSuccess && collectionData.length > 0 && (
             <LinkContainer
               label="Collection"
-              content={collections}
+              content={collectionData}
               expandColumns
               itemSpacing="single"
               id="collection-container"
