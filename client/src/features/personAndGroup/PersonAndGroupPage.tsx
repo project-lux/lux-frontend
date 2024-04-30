@@ -20,6 +20,9 @@ import ImageThumbnail from '../common/ImageThumbnail'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IAgent from '../../types/data/IAgent'
+// import Locations from '../common/Locations'
+// import WhatWeHave from '../common/WhatWeHave'
+import Chart from '../timeline/Container'
 
 import About from './About'
 
@@ -43,6 +46,7 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
+          <Chart />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
               links={data._links}
