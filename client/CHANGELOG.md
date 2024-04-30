@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.25.0 - Unreleased
+## v1.25.0 - 2024-4-29
 
 ### Added
 
@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed Related Subjects config for Event pages ([#180](https://github.com/project-lux/lux-frontend/issues/180)).
+- Fixed Collections on entity pages ([#132](https://github.com/project-lux/lux-frontend/issues/132)).
 
 ## v1.24.0 - 2024-4-15
 
