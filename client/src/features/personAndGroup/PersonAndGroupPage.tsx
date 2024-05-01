@@ -23,8 +23,7 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 // import Locations from '../common/Locations'
 // import TimelineContainers from '../common/TimelineContainers'
 // import WhatWeHave from '../common/WhatWeHave'
-import TimelineContainers from '../timeline/TimelineContainers'
-import Chart from '../timeline/Container'
+import TimelineContainer from '../timeline/TimelineContainer'
 
 import About from './About'
 
@@ -57,7 +56,6 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
-          <Chart />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
               links={data._links}
@@ -66,7 +64,7 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timelines}
               providedHalLinks={agent.json._links}
             />
