@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef } from 'react'
+import React, { useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -10,9 +10,10 @@ import {
   sortTimelineData,
   transformTimelineData,
 } from '../../lib/util/timelineHelper'
+import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
 
 import List from './List'
-// import Graph from './Graph'
+import Graph from './Graph'
 
 const getHalLinks = (
   searchTags: IHalLinks,
@@ -44,6 +45,8 @@ const TimelineContainer: React.FC<{
 
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
+  const [display, setDisplay] = useState<'list' | 'graph'>('list')
+
   if (isSuccess && data) {
     const transformedData = transformTimelineData(data)
     const sortedKeys = sortTimelineData(transformedData)
@@ -58,14 +61,34 @@ const TimelineContainer: React.FC<{
             <Col xs={8}>
               <h2>Timeline of Related Objects/Works</h2>
             </Col>
-          </Row>
-          <Row>
+            <Col xs={4} className="d-flex justify-content-end">
+              <StyledDisplaySwitchButton
+                onClick={() =>
+                  setDisplay(display === 'graph' ? 'list' : 'graph')
+                }
+                role="button"
+                aria-label={`View the hierarchy ${
+                  display === 'graph' ? 'list' : 'graph'
+                }`}
+              >
+                <i
+                  className={`bi ${
+                    display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+                  }`}
+                  style={{ fontSize: '1.5rem' }}
+                />
+              </StyledDisplaySwitchButton>
+            </Col>
             <Col xs={12}>
-              <List
-                sortedKeys={sortedKeys}
-                transformedData={transformedData}
-                searchTags={searchTags}
-              />
+              {display === 'list' ? (
+                <List
+                  sortedKeys={sortedKeys}
+                  transformedData={transformedData}
+                  searchTags={searchTags}
+                />
+              ) : (
+                <Graph data={transformedData} />
+              )}
             </Col>
           </Row>
         </StyledEntityPageSection>
