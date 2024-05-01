@@ -43,7 +43,6 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
-          <Chart />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
               links={data._links}
