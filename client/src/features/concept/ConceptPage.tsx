@@ -20,7 +20,7 @@ import FeedbackButton from '../common/FeedbackButton'
 import { ErrorFallback } from '../error/ErrorFallback'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 // import Locations from '../common/Locations'
-import TimelineContainers from '../timeline/TimelineContainers'
+import TimelineContainer from '../timeline/TimelineContainer'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
@@ -60,7 +60,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               type="concept"
             />
             <ExploreHierarchy entity={data} />
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
