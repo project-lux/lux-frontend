@@ -21,7 +21,6 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import TimelineContainer from '../timeline/TimelineContainer'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
-import Chart from '../timeline/Container'
 
 import About from './About'
 
@@ -53,7 +52,6 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
-          <Chart />
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <RelatedObjectsAndWorks
               links={data._links}
