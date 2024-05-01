@@ -20,3 +20,9 @@ export interface ITransformedData {
   searchTag: string
   criteria: IAdvancedSearchState
 }
+
+export interface IGraphTimelineData {
+  year: string
+  total: number
+  [key: string]: ITimelineCriteria | string | number
+}
