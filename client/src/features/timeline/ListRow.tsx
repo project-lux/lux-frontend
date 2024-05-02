@@ -38,6 +38,7 @@ const ListRow: React.FC<{
     ['workPublicationDate', 'Works Published'],
   ])
 
+  console.log(searchTag)
   const { tab, jsonSearchTerm } = searchTags[searchTag]
   const { criteria, totalItems } = data[year][searchTag] as ITimelineCriteria
   const searchQ = formatDateJsonSearch(year, jsonSearchTerm as string, criteria)
