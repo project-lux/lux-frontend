@@ -83,6 +83,30 @@ export const entity: IEntity = {
         },
       ],
     },
+    {
+      id: '',
+      type: 'Identifier',
+      content: 'hello',
+      attributed_by: [
+        {
+          type: 'AttributeAssignment',
+          carried_out_by: [
+            {
+              id: `${config.env.dataApiBaseUrl}data/group/1234`,
+              type: 'Group',
+              _label: 'Library',
+            },
+          ],
+        },
+      ],
+      classified_as: [
+        {
+          id: config.dc.sortValue,
+          type: 'Type',
+          _label: 'Sort value',
+        },
+      ],
+    },
   ],
   part_of: [
     {

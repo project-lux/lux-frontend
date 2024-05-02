@@ -578,6 +578,7 @@ export default class EntityParser {
           carriedOutBy,
         }
       })
+      .filter((id) => id.label !== config.dc.sortValue)
 
     const identifierData: Array<{
       label: string
