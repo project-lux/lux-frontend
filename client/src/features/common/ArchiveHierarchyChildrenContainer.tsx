@@ -41,7 +41,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   const { data, isSuccess, isLoading, isFetching } =
     useGetMultipleRelationshipsQuery(
       {
-        halLinks: links,
+        halLinks: links.sort(),
         page,
       },
       {
