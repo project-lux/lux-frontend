@@ -9,24 +9,44 @@ import {
   Legend,
   ResponsiveContainer,
 } from 'recharts'
+import { useNavigate } from 'react-router-dom'
 
 import theme from '../../styles/theme'
 import {
   IGraphTimelineData,
+  ITimelineCriteria,
   ITimelinesTransformed,
 } from '../../types/ITimelines'
+import { IHalLinks } from '../../types/IHalLinks'
+import { formatDateJsonSearch } from '../../lib/facets/dateParser'
 
 interface IProps {
   data: ITimelinesTransformed
+  searchTags: IHalLinks
 }
 
-const Graph: React.FC<IProps> = ({ data }) => {
+const Graph: React.FC<IProps> = ({ data, searchTags }) => {
+  const navigate = useNavigate()
+
   const graphData: Array<IGraphTimelineData> = Object.entries(data).map(
     ([key, value]) => ({
       year: key,
       ...value,
     }),
   )
+  const handleClick = (year: string, searchTag: string): void => {
+    const { tab, jsonSearchTerm } = searchTags[searchTag]
+    const { criteria } = data[year][searchTag] as ITimelineCriteria
+    const searchQ = formatDateJsonSearch(
+      year,
+      jsonSearchTerm as string,
+      criteria,
+    )
+    navigate({
+      pathname: `/view/results/${tab}`,
+      search: `q=${searchQ}&collapseSearch=true`,
+    })
+  }
 
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
@@ -56,6 +76,7 @@ const Graph: React.FC<IProps> = ({ data }) => {
           stackId="a"
           fill={theme.color.primary.blue}
           name={facetNameMap.get('itemProductionDate') || 'itemProductionDate'}
+          onClick={(d) => handleClick(d.year, 'itemProductionDate')}
         />
         <Bar
           dataKey="itemEncounteredDate.totalItems"
@@ -64,12 +85,14 @@ const Graph: React.FC<IProps> = ({ data }) => {
           name={
             facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
           }
+          onClick={(d) => handleClick(d.year, 'itemEncounteredDate')}
         />
         <Bar
           dataKey="workCreationDate.totalItems"
           stackId="a"
           fill={theme.color.secondary.lightBlue}
           name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
+          onClick={(d) => handleClick(d.year, 'workCreationDate')}
         />
         <Bar
           dataKey="workPublicationDate.totalItems"
@@ -78,6 +101,7 @@ const Graph: React.FC<IProps> = ({ data }) => {
           name={
             facetNameMap.get('workPublicationDate') || 'workPublicationDate'
           }
+          onClick={(d) => handleClick(d.year, 'workPublicationDate')}
         />
       </BarChart>
     </ResponsiveContainer>

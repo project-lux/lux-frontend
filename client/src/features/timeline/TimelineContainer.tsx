@@ -41,7 +41,7 @@ const TimelineContainer: React.FC<{
 
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
-  const [display, setDisplay] = useState<'list' | 'graph'>('list')
+  const [display, setDisplay] = useState<'list' | 'graph'>('graph')
 
   if (isSuccess && data) {
     const timeline = new TimelineParser(data)
