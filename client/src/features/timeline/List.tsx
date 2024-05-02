@@ -13,6 +13,12 @@ import { IHalLinks } from '../../types/IHalLinks'
 
 import ListRow from './ListRow'
 
+interface IProps {
+  sortedKeys: Array<string>
+  transformedData: ITimelinesTransformed
+  searchTags: IHalLinks
+}
+
 const HoverableRow = styled(Row)`
   &:hover {
     background-color: ${theme.color.lightGray};
@@ -23,11 +29,11 @@ const HoverableRow = styled(Row)`
   }
 `
 
-const List: React.FC<{
-  sortedKeys: Array<string>
-  transformedData: ITimelinesTransformed
-  searchTags: IHalLinks
-}> = ({ sortedKeys, transformedData, searchTags }) => {
+const List: React.FC<IProps> = ({
+  sortedKeys,
+  transformedData,
+  searchTags,
+}) => {
   const unitLength = 20
   const [displayLength, setDisplayLength] = useState<number>(unitLength)
   return (
