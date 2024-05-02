@@ -5,7 +5,6 @@ export const place: IPlace = {
   id: `${config.env.dataApiBaseUrl}data/place/mock-place`,
   type: 'Place',
   _label: 'Pittsburg',
-
   '@context': 'https://linked.art/ns/v1/linked-art.json',
   classified_as: [
     {

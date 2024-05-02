@@ -2,10 +2,22 @@ import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import config from '../../config/config'
+import { getCollections } from '../../lib/util/collectionHelper'
 
 import AppRender from './utils/AppRender'
 import physicalObjectsMockApi from './utils/physicalObjectsMockApi'
 import siteImproveMock from './utils/mockSiteImprove'
+
+// Mock the request for collections
+jest.mock('../../lib/util/collectionHelper', () => ({
+  __esModule: true,
+  getCollections: jest.fn(() => ({
+    data: [
+      'https://endpoint.yale.edu/data/set/member-of-collection-1',
+      'https://endpoint.yale.edu/data/set/member-of-collection-2',
+    ],
+  })),
+}))
 
 jest.mock('leaflet')
 
@@ -15,6 +27,16 @@ describe('Objects page', () => {
   beforeEach(async () => {
     physicalObjectsMockApi()
     siteImproveMock()
+
+    const collection = getCollections as jest.MockedFunction<
+      typeof getCollections
+    >
+    collection.mockImplementation(() => ({
+      data: [
+        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
+      ],
+    }))
   })
 
   describe('Works included', () => {
