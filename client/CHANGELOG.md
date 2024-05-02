@@ -171,6 +171,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed Sort Numbers from being returned by getIdentifiers function ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+
 ### Fixed
 
 - Fixed spacing of links in search results lists on entity pages ([#199](https://github.com/project-lux/lux-frontend/issues/199)).
