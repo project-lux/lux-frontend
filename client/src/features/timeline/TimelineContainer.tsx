@@ -42,7 +42,7 @@ const TimelineContainer: React.FC<{
   const links = getHalLinks(searchTags, providedHalLinks)
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
-  const [display, setDisplay] = useState<'list' | 'graph'>('list')
+  const [display, setDisplay] = useState<'list' | 'graph'>('graph')
 
   if (isSuccess && data) {
     const transformedData = transformTimelineData(data)
@@ -81,7 +81,7 @@ const TimelineContainer: React.FC<{
                 searchTags={searchTags}
               />
             ) : (
-              <Graph data={transformedData} />
+              <Graph data={transformedData} searchTags={searchTags} />
             )}
           </Col>
         </StyledEntityPageSection>
