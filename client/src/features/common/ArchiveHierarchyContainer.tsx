@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Link } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -13,15 +13,25 @@ import {
   isEntityAnArchive,
   removeViewFromPathname,
 } from '../../lib/util/hierarchyHelpers'
+import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { formatHalLink } from '../../lib/parse/search/queryParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ArchiveHierarchyContainer: React.FC<{
+interface IProps {
   entity: IEntity
   parentsOfCurrentEntity: Array<string>
+  objectsWithImagesHalLink: string | null
   currentEntityIsArchive?: boolean
-}> = ({ entity, parentsOfCurrentEntity, currentEntityIsArchive = false }) => {
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const ArchiveHierarchyContainer: React.FC<IProps> = ({
+  entity,
+  parentsOfCurrentEntity,
+  objectsWithImagesHalLink,
+  currentEntityIsArchive = false,
+}) => {
   const { pathname } = useLocation()
 
   const [done, setDone] = useState(false)
@@ -80,6 +90,13 @@ const ArchiveHierarchyContainer: React.FC<{
       }
     }
 
+    // format search link for objects in the archive with images
+    let searchString = ''
+    if (objectsWithImagesHalLink !== null) {
+      const searchQ = formatHalLink(objectsWithImagesHalLink, 'item')
+      searchString = `${searchQ}&openSearch=false`
+    }
+
     return (
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
@@ -90,6 +107,28 @@ const ArchiveHierarchyContainer: React.FC<{
           parentsOfCurrentEntity={parentsOfCurrentEntity}
           ancestors={ancestorIds}
         />
+        {objectsWithImagesHalLink !== null && (
+          <Link
+            to={{
+              pathname: `/view/results/objects`,
+              search: searchString,
+            }}
+            onClick={() =>
+              pushSiteImproveEvent(
+                'Search Link',
+                'Selected',
+                'View records from this archive with images',
+              )
+            }
+            state={{
+              targetName: 'View records from this archive with images',
+            }}
+            data-testid="image-link"
+          >
+            View records from this archive with images
+            <i className="bi bi-camera-fill ms-2" />
+          </Link>
+        )}
       </StyledEntityPageSection>
     )
   }
