@@ -22,6 +22,7 @@ import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
 import { reset } from '../../redux/slices/hierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import { archive } from '../../config/setsSearchTags'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
@@ -46,6 +47,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
   const types = setParser.getTypes()
   const [supertypeIcon, helperText] = setParser.getSupertypeIcon(types)
   const memberOf = setParser.getMemberOf()
+  const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
 
   return (
     <React.Fragment>
@@ -82,6 +84,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
                 entity={data}
                 parentsOfCurrentEntity={memberOf}
                 currentEntityIsArchive={isArchive}
+                objectsWithImagesHalLink={objectsWithImagesHalLink}
               />
             </ErrorBoundary>
           </Col>
