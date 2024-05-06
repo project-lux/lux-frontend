@@ -47,6 +47,17 @@ export const getNextConceptUris = (concept: IEntity): Array<string> => {
  * Parses the place entity to determine if the /part_of property exists
  * Used for the breadcrumb hierarchy component on place pages
  * @param {IEntity} entity the current entity to parse
+ * @returns {Array<string>}
+ */
+export const getAllNextConceptUris = (entity: IEntity): Array<string> => {
+  const parser = new ConceptParser(entity)
+  return parser.getBroaderIds()
+}
+
+/**
+ * Parses the place entity to determine if the /part_of property exists
+ * Used for the breadcrumb hierarchy component on place pages
+ * @param {IEntity} entity the current entity to parse
  * @returns {string | null}
  */
 export const getNextPlaceUris = (entity: IEntity): Array<string> => {
@@ -60,7 +71,7 @@ export const getNextPlaceUris = (entity: IEntity): Array<string> => {
 /**
  * Parses the place entity to determine if the /part_of property exists
  * Used for the breadcrumb hierarchy component on place pages
- * @param {IPlace} entity the current entity to parse
+ * @param {IEntity} entity the current entity to parse
  * @returns {string | null}
  */
 export const getAllNextPlaceUris = (entity: IEntity): Array<string> => {

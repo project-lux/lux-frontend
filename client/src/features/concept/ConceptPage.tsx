@@ -24,7 +24,11 @@ import TimelineContainer from '../timeline/TimelineContainer'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
-import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
+import {
+  getAllNextConceptUris,
+  getNextConceptUris,
+} from '../../lib/util/hierarchyHelpers'
+import HierarchyContainer from '../hierarchy/HierarchyContainer'
 
 import AboutPanel from './AboutPanel'
 
@@ -59,7 +63,10 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
-            <ExploreHierarchy entity={data} />
+            <HierarchyContainer
+              entity={data}
+              getParentUris={getAllNextConceptUris}
+            />
             <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
