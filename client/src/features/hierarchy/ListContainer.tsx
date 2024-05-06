@@ -55,21 +55,26 @@ const ListContainer: React.FC<IProps> = ({
           </ul>
           {children}
         </li>
-        <li>
-          Children
-          <ul>
-            {descendents.orderedItems.slice(0, defaultLength).map((item) => (
-              <Li key={item.id} id={item.id} />
-            ))}
-          </ul>
-          <SearchResultsLink
-            data={descendents}
-            eventTitle="Hierarchy Children"
-            url={descendents.id}
-            scope={scope !== null ? scope : 'places'}
-            additionalLinkText="children"
-          />
-        </li>
+        {descendents.hasOwnProperty('orderedItems') &&
+          descendents.orderedItems.length > 0 && (
+            <li>
+              Children
+              <ul>
+                {descendents.orderedItems
+                  .slice(0, defaultLength)
+                  .map((item) => (
+                    <Li key={item.id} id={item.id} />
+                  ))}
+              </ul>
+              <SearchResultsLink
+                data={descendents}
+                eventTitle="Hierarchy Children"
+                url={descendents.id}
+                scope={scope !== null ? scope : 'places'}
+                additionalLinkText="children"
+              />
+            </li>
+          )}
       </ul>
     </StyledExploreHierarchy>
   )

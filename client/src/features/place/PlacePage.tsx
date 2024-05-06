@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import {
+  hierarchyChildren,
   relatedAccordions,
   // relatedTypes,
   // locations,
@@ -72,6 +73,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               entity={data}
+              halLink={hierarchyChildren}
               getParentUris={getAllNextPlaceUris}
             />
           </ErrorBoundary>
