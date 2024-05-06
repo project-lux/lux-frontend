@@ -19,21 +19,22 @@ import {
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
 import { formatDateJsonSearch } from '../../lib/facets/dateParser'
+import { getYearWithLabel } from '../../lib/parse/search/timelineParser'
 
 interface IProps {
   data: ITimelinesTransformed
   searchTags: IHalLinks
+  sortedKeys: Array<string>
 }
 
-const Graph: React.FC<IProps> = ({ data, searchTags }) => {
+const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
   const navigate = useNavigate()
 
-  const graphData: Array<IGraphTimelineData> = Object.entries(data).map(
-    ([key, value]) => ({
-      year: key,
-      ...value,
-    }),
-  )
+  const graphData: Array<IGraphTimelineData> = sortedKeys.map((key) => ({
+    year: getYearWithLabel(key),
+    ...data[key],
+  }))
+
   const handleClick = (year: string, searchTag: string): void => {
     const { tab, jsonSearchTerm } = searchTags[searchTag]
     const { criteria } = data[year][searchTag] as ITimelineCriteria
