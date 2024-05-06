@@ -9,6 +9,7 @@ import {
   // relatedItems,
   // locations,
   relatedObjectsAndWorks,
+  hierarchyChildren,
 } from '../../config/conceptSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -63,17 +64,24 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               entity={data}
+              halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
-            {/* {Object.keys(data._links).includes(locations.searchTag) && (
+          </ErrorBoundary>
+          {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <Row className="my-3">
               <Col xs={12}>
                 <AccordionContainer

@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom'
 
 import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import { hierarchyChildren } from '../../config/placeSearchTags'
 // import ExploreHierarchy from '../common/ExploreHierarchy'
 // import PrimaryButton from '../../styles/shared/PrimaryButton'
 import ILinks from '../../types/data/ILinks'
@@ -37,6 +36,7 @@ import MoreLessButton from './MoreLessButton'
 
 interface IProps {
   entity: IEntity
+  halLink: IHalLink
   getParentUris: (entity: IEntity) => Array<string>
 }
 
@@ -75,7 +75,11 @@ const StyledSwitchButton = styled(Button)`
 `
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
+const HierarchyContainer: React.FC<IProps> = ({
+  entity,
+  halLink,
+  getParentUris,
+}) => {
   const [view, setView] = useState<'graph' | 'list'>('graph')
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const defaultHierarchyHeight = '600px'
@@ -113,7 +117,7 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
   const currentEntity = isNull(currentState.origin)
     ? entity
     : currentState.origin
-  const uri = getHalLink(currentEntity._links, hierarchyChildren)
+  const uri = getHalLink(currentEntity._links, halLink)
   const parents = getParentUris(currentEntity)
 
   const skip = uri === null
@@ -138,7 +142,7 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
     const currentUuid: string = currentState.origin
       ? currentState.origin.id!
       : (entity.id as string)
-    console.log(parents)
+
     const parentNodes = getParentNodes(parents).slice(0, displayLength)
     const childNodes = data ? getChildNodes(data).slice(0, 5) : []
     const currentNode = getDefaultNode(currentUuid)
