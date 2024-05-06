@@ -33,6 +33,7 @@ import ChildCustomNode from './ChildCustomNode'
 import ListContainer from './ListContainer'
 import Toolbar from './Toolbar'
 import MoreLessButton from './MoreLessButton'
+import BackButton from './BackButton'
 
 interface IProps {
   entity: IEntity
@@ -178,6 +179,7 @@ const HierarchyContainer: React.FC<IProps> = ({
             <h2 className="mb-0">Explore</h2>
           </Col>
           <Col xs={4} className="d-flex justify-content-end">
+            {currentUuid !== entity.id && <BackButton currentEntity={entity} />}
             <StyledSwitchButton
               onClick={() => setView(view === 'graph' ? 'list' : 'graph')}
               role="button"
