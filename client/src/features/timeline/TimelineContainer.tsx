@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Col } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -40,9 +40,23 @@ const TimelineContainer: React.FC<{
   providedHalLinks: any
 }> = ({ searchTags, providedHalLinks }) => {
   const links = getHalLinks(searchTags, providedHalLinks)
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
+  const timelineRef = useRef<HTMLDivElement>(null)
+  const [display, setDisplay] = useState<'list' | 'graph'>('graph')
+
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
-  const [display, setDisplay] = useState<'list' | 'graph'>('graph')
+  const setFullscreen = (): void => {
+    setIsFullscreen(!isFullscreen)
+    const elem = timelineRef.current
+    if (isFullscreen) {
+      document.exitFullscreen()
+    } else if (!isFullscreen) {
+      if (elem !== null && elem.requestFullscreen) {
+        elem.requestFullscreen()
+      }
+    }
+  }
 
   if (isSuccess && data) {
     const transformedData = transformTimelineData(data)
@@ -53,6 +67,7 @@ const TimelineContainer: React.FC<{
         <StyledEntityPageSection
           className="row"
           data-testid="timeline-container"
+          ref={timelineRef}
         >
           <Col xs={8}>
             <h2>Timeline of Related Objects/Works</h2>
@@ -72,6 +87,20 @@ const TimelineContainer: React.FC<{
                 style={{ fontSize: '1.5rem' }}
               />
             </StyledDisplaySwitchButton>
+            <StyledDisplaySwitchButton
+              onClick={() => setFullscreen()}
+              role="button"
+              aria-label={
+                isFullscreen ? 'Minimize the viewport' : 'Expand to fullscreen'
+              }
+            >
+              <i
+                className={`bi ${
+                  isFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
+                }`}
+                style={{ fontSize: '1.5rem' }}
+              />
+            </StyledDisplaySwitchButton>
           </Col>
           <Col xs={12}>
             {display === 'list' ? (
@@ -81,7 +110,11 @@ const TimelineContainer: React.FC<{
                 searchTags={searchTags}
               />
             ) : (
-              <Graph data={transformedData} searchTags={searchTags} />
+              <Graph
+                data={transformedData}
+                searchTags={searchTags}
+                sortedKeys={sortedKeys}
+              />
             )}
           </Col>
         </StyledEntityPageSection>
