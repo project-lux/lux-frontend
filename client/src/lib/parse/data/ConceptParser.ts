@@ -4,7 +4,7 @@ import IConcept from '../../../types/data/IConcept'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
-import { forceArray, hasData } from './helper'
+import { forceArray, getClassifiedAs, hasData } from './helper'
 
 export default class ConceptParser extends EntityParser {
   concept: IConcept
@@ -15,13 +15,23 @@ export default class ConceptParser extends EntityParser {
   }
 
   /**
-   * Returns data from /broader
+   * Returns a single id from /broader
    * @returns {string}
    */
   getBroaderId(): string {
     const broader = forceArray(this.concept.broader)
 
     return broader.length > 0 ? broader[0].id || null : null
+  }
+
+  /**
+   * Returns all data from /broader
+   * @returns {Array<string>}
+   */
+  getBroaderIds(): Array<string> {
+    const broader = forceArray(this.concept.broader)
+
+    return getClassifiedAs(broader)
   }
 
   /**

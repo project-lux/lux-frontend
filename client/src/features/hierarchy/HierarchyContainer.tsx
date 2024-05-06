@@ -25,6 +25,7 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
 import SearchResultsLink from '../relatedLists/SearchResultsLink'
+import { ISearchResults } from '../../types/ISearchResults'
 
 import Hierarchy from './Hierarchy'
 import Node from './Node'
@@ -33,7 +34,6 @@ import ChildCustomNode from './ChildCustomNode'
 import ListContainer from './ListContainer'
 import Toolbar from './Toolbar'
 import MoreLessButton from './MoreLessButton'
-import { ISearchResults } from '../../types/ISearchResults'
 
 interface IProps {
   entity: IEntity
@@ -138,6 +138,7 @@ const HierarchyContainer: React.FC<IProps> = ({ entity, getParentUris }) => {
     const currentUuid: string = currentState.origin
       ? currentState.origin.id!
       : (entity.id as string)
+    console.log(parents)
     const parentNodes = getParentNodes(parents).slice(0, displayLength)
     const childNodes = data ? getChildNodes(data).slice(0, 5) : []
     const currentNode = getDefaultNode(currentUuid)
