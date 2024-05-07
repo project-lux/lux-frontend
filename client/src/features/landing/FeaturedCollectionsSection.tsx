@@ -35,11 +35,7 @@ const FeaturedCollectionsSection: React.FC<IProps> = ({ data, units }) => {
       >
         <Card>
           <div className="image-container">
-            <InternalLink
-              uri={searchUrl}
-              name={title}
-              linkCategory="Featured Collection"
-            >
+            <InternalLink uri={searchUrl} linkCategory="Featured Collection">
               <img alt={imageAlt} src={imageUrl} />
             </InternalLink>
           </div>
