@@ -13,7 +13,7 @@ const MoreLessButton: React.FC<IProps> = ({
   displayLength,
   setParentDisplayLength,
 }) => (
-  <div className="ms-4">
+  <React.Fragment>
     {displayLength <= parentsLength && (
       <button
         type="button"
@@ -43,7 +43,7 @@ const MoreLessButton: React.FC<IProps> = ({
         <strong>[Show Less]</strong>
       </button>
     )}
-  </div>
+  </React.Fragment>
 )
 
 export default MoreLessButton

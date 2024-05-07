@@ -1,33 +1,30 @@
 import React from 'react'
 
-import RecordLink from '../common/RecordLink'
-import StyledHierarchyButton from '../../styles/features/hierarchy/HierarchyButton'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
-import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import config from '../../config/config'
-import IEntity from '../../types/data/IEntity'
+import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
+import RecordLink from '../common/RecordLink'
+import StyledHierarchyButton from '../../styles/features/hierarchy/HierarchyButton'
 import { useAppDispatch } from '../../app/hooks'
 import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import IEntity from '../../types/data/IEntity'
 
 interface IProps {
-  id: string
+  entityId: string
 }
 
-const Li: React.FC<IProps> = ({ id }) => {
+const ParentCustomNode: React.FC<IProps> = ({ entityId }) => {
   const dispatch = useAppDispatch()
+  const uriToRetrieve = stripYaleIdPrefix(entityId)
 
   const handleHierarchyChange = (entity: IEntity): void => {
     dispatch(addOrigin({ value: entity }))
   }
 
-  const { data, isSuccess, isLoading, isFetching } = useGetItemQuery({
-    uri: stripYaleIdPrefix(id),
+  const { data, isSuccess } = useGetItemQuery({
+    uri: uriToRetrieve,
   })
-
-  if (isLoading || isFetching) {
-    return <p>Loading...</p>
-  }
 
   let name = ''
   if (data && isSuccess) {
@@ -36,19 +33,19 @@ const Li: React.FC<IProps> = ({ id }) => {
   }
 
   return (
-    <li>
-      <RecordLink url={id} name={name} />
+    <span className="d-flex display-inline align-items-center">
       <StyledHierarchyButton
         type="button"
-        rotate="-90"
-        className="childButton"
+        rotate="90"
         onClick={() => handleHierarchyChange(data)}
+        className="parentButton"
         aria-label={`View the hierarchy for ${name}`}
       >
         <i className="bi bi-diagram-2 fs-5" />
       </StyledHierarchyButton>
-    </li>
+      <RecordLink url={entityId} name={name} />
+    </span>
   )
 }
 
-export default Li
+export default ParentCustomNode
