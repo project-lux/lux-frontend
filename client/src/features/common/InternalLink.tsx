@@ -6,7 +6,7 @@ import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface ILinkParams {
   uri: string
-  name: string
+  name?: string
   className?: string
   linkCategory?: string
   children?: JSX.Element
