@@ -6,6 +6,7 @@ import helpTextReducer from '../redux/slices/helpTextSlice'
 import hierarchyReducer from '../redux/slices/hierarchySlice'
 import facetsReducer from '../redux/slices/facetsSlice'
 import currentSearchReducer from '../redux/slices/currentSearchSlice'
+import hierarchyVisualizationReducer from '../redux/slices/hierarchyVisualizationSlice'
 import { configApi } from '../redux/api/configApi'
 import { cmsApi } from '../redux/api/cmsApi'
 import { mlApi } from '../redux/api/ml_api'
@@ -19,6 +20,7 @@ export const store = configureStore({
     archiveHierarchy: hierarchyReducer,
     facetSelection: facetsReducer,
     currentSearch: currentSearchReducer,
+    hierarchyVisualization: hierarchyVisualizationReducer,
     [configApi.reducerPath]: configApi.reducer,
     [cmsApi.reducerPath]: cmsApi.reducer,
     [mlApi.reducerPath]: mlApi.reducer,
