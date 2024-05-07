@@ -34,6 +34,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed Related Subjects config for Event pages ([#180](https://github.com/project-lux/lux-frontend/issues/180)).
 - Fixed Collections on entity pages ([#132](https://github.com/project-lux/lux-frontend/issues/132)).
+- Fixed InternalLink in FeaturedCollections ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
 
 ## v1.24.0 - 2024-4-15
 
