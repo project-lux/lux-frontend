@@ -239,6 +239,15 @@ export default class EntityParser {
   }
 
   /**
+   * Returns array of uuids from /part_of
+   * @returns {Array<string>}
+   */
+  getPartOf(): Array<string> {
+    const partOf = forceArray(this.json.part_of)
+    return getClassifiedAs(partOf)
+  }
+
+  /**
    * Returns object with label as the key and array of urls as the value
    * Extract the record id, IIIF manifest, and /equivalent data
    * @returns {Record<string, Array<string>>}
