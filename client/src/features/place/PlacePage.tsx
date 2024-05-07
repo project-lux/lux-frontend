@@ -32,7 +32,6 @@ import HierarchyContainer from '../hierarchy/FullscreenContainer'
 import { useAppDispatch } from '../../app/hooks'
 import { addOrigin } from '../../redux/slices/hierarchySlice'
 import IPlace from '../../types/data/IPlace'
-import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
@@ -78,11 +77,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
               key={place.json.id}
               entity={data}
               halLink={hierarchyChildren}
-              getParentUris={
-                getAllNextPlaceUris as (
-                  entity: IPlace | IConcept,
-                ) => Array<string>
-              }
+              getParentUris={getAllNextPlaceUris}
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
