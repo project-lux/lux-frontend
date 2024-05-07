@@ -62,15 +62,21 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}

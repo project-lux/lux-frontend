@@ -29,8 +29,6 @@ import {
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ImageThumbnail from '../common/ImageThumbnail'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
-import IPlace from '../../types/data/IPlace'
-import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
@@ -70,15 +68,15 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="place"
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               entity={data}
               halLink={hierarchyChildren}
-              getParentUris={
-                getAllNextPlaceUris as (
-                  entity: IPlace | IConcept,
-                ) => Array<string>
-              }
+              getParentUris={getAllNextPlaceUris}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}
