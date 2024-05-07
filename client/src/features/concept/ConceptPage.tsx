@@ -9,13 +9,13 @@ import {
   // relatedItems,
   // locations,
   relatedObjectsAndWorks,
+  hierarchyChildren,
 } from '../../config/conceptSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
-import ExploreHierarchy from '../common/ExploreHierarchy'
 import FeedbackButton from '../common/FeedbackButton'
 import { ErrorFallback } from '../error/ErrorFallback'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
@@ -24,7 +24,11 @@ import TimelineContainer from '../timeline/TimelineContainer'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
-import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
+import {
+  getAllNextConceptUris,
+  getNextConceptUris,
+} from '../../lib/util/hierarchyHelpers'
+import HierarchyContainer from '../hierarchy/HierarchyContainer'
 
 import AboutPanel from './AboutPanel'
 
@@ -59,11 +63,21 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
-            <ExploreHierarchy entity={data} />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <HierarchyContainer
+              entity={data}
+              halLink={hierarchyChildren}
+              getParentUris={getAllNextConceptUris}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}
