@@ -1,16 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledSearchLink from '../../styles/shared/SearchLink'
-import { formatHalLink } from '../../lib/parse/search/queryParser'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
-import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
-import { searchScope } from '../../config/searchTypes'
-import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
-import { pushClientEvent } from '../../lib/pushClientEvent'
+
+import SearchResultsLink from './SearchResultsLink'
 
 interface IProps {
   url: string
@@ -78,19 +74,13 @@ const SearchResultRelatedList: React.FC<IProps> = ({
     <React.Fragment>
       {recordLinks(orderedItems)}
       <StyledSearchLink className="row py-2 text-start">
-        <Col xs={12} className="mt-1">
-          <Link
-            to={{
-              pathname: `/view/results/${newScope}`,
-              search: searchString,
-            }}
-            onClick={() =>
-              pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
-            }
-            data-testid="search-related-list-link"
-          >
-            {linkLabel}
-          </Link>
+        <Col xs={12}>
+          <SearchResultsLink
+            data={data}
+            eventTitle={`Accordion ${title}`}
+            url={url}
+            scope={scope}
+          />
         </Col>
       </StyledSearchLink>
     </React.Fragment>
