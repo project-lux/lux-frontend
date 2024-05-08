@@ -451,7 +451,7 @@ describe('EntityParser', () => {
       const element = new EntityParser(mockEntity)
       const notes = element.getNotes()
       expect(notes).toEqual({
-        'https://endpoint.yale.edu/data/concept/classified-as-1': [
+        Attributed: [
           {
             content: '',
             language: '',

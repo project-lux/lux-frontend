@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed notes labels to be from identified_by data point ([#195](https://github.com/project-lux/lux-frontend/issues/195)).
+
 ### Removed
 
 ### Fixed

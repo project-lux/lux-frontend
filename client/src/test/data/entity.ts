@@ -142,7 +142,7 @@ export const entity: IEntity = {
       ],
       identified_by: [
         {
-          id: `${config.env.dataApiBaseUrl}data/concept/03f4eb19-0611-4f31-8e09-fc111c52f898`,
+          id: `${config.env.dataApiBaseUrl}data/concept/identified-by-1`,
           type: 'Type',
           content: 'Attributed',
           classified_as: [
