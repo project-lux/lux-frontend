@@ -34,7 +34,10 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
       className="row d-flex w-100"
       data-testid={`query-relations-list-row-${index}`}
     >
-      <Col xs={12} className="justify-content-start">
+      <Col
+        xs={12}
+        className={`justify-content-start lh-sm ${index === 0 ? '' : 'mt-3'}`}
+      >
         <RecordLink
           url={uri}
           returns404={setRecordLinkHas404}
@@ -75,7 +78,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
     <React.Fragment>
       {recordLinks(orderedItems)}
       <StyledSearchLink className="row py-2 text-start">
-        <div className="col-12">
+        <Col xs={12} className="mt-1">
           <Link
             to={{
               pathname: `/view/results/${newScope}`,
@@ -95,7 +98,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
           >
             {linkLabel}
           </Link>
-        </div>
+        </Col>
       </StyledSearchLink>
     </React.Fragment>
   )

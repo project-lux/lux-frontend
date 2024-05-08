@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed spacing of links in search results lists on entity pages ([#199](https://github.com/project-lux/lux-frontend/issues/199)).
+
 ## v1.25.0 - 2024-4-29
 
 ### Added
