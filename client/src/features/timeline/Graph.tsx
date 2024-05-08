@@ -32,6 +32,7 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
 
   const graphData: Array<IGraphTimelineData> = sortedKeys.map((key) => ({
     year: getYearWithLabel(key),
+    yearKey: key,
     ...data[key],
   }))
 
@@ -77,7 +78,7 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
           stackId="a"
           fill={theme.color.primary.blue}
           name={facetNameMap.get('itemProductionDate') || 'itemProductionDate'}
-          onClick={(d) => handleClick(d.year, 'itemProductionDate')}
+          onClick={(d) => handleClick(d.yearKey, 'itemProductionDate')}
         />
         <Bar
           dataKey="itemEncounteredDate.totalItems"
@@ -86,14 +87,14 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
           name={
             facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
           }
-          onClick={(d) => handleClick(d.year, 'itemEncounteredDate')}
+          onClick={(d) => handleClick(d.yearKey, 'itemEncounteredDate')}
         />
         <Bar
           dataKey="workCreationDate.totalItems"
           stackId="a"
           fill={theme.color.secondary.lightBlue}
           name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
-          onClick={(d) => handleClick(d.year, 'workCreationDate')}
+          onClick={(d) => handleClick(d.yearKey, 'workCreationDate')}
         />
         <Bar
           dataKey="workPublicationDate.totalItems"
@@ -102,7 +103,7 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
           name={
             facetNameMap.get('workPublicationDate') || 'workPublicationDate'
           }
-          onClick={(d) => handleClick(d.year, 'workPublicationDate')}
+          onClick={(d) => handleClick(d.yearKey, 'workPublicationDate')}
         />
       </BarChart>
     </ResponsiveContainer>
