@@ -39,15 +39,7 @@ export default function visualItemsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // Mock the notes label call
-  nock(apiUrl)
-    .get('/data/concept/mock-concept?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Notes Label')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // Mock the notes label call
+  // Mock the production call
   nock(apiUrl)
     .get('/data/concept/production?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Publication')), {
