@@ -61,7 +61,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             onClick={() => handlePushEvent('Landing Page')}
           >
             Research Data Demonstrator
-          </Navbar.Brand>
+          </NavLink>
           <Navbar.Toggle
             aria-controls="responsive-navbar-nav"
             className="show-menu"
@@ -78,9 +78,11 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 onClick={() => handlePushEvent('About LUX')}
               >
                 About
-              </Nav.Link>
-              <Nav.Link
-                href="/content/open-access"
+              </NavLink>
+              <NavLink
+                to="/content/open-access"
+                state={{ targetName: 'Open Access' }}
+                className="nav-link"
                 onClick={() => handlePushEvent('Open Access')}
               >
                 Open Access
