@@ -112,7 +112,7 @@ const TimelineContainer: React.FC<{
                 />
               ) : (
                 <Graph
-                  data={transformedData}
+                  timelineData={transformedData}
                   searchTags={searchTags}
                   sortedKeys={sortedKeys}
                 />
