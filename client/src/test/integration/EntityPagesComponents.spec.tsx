@@ -36,12 +36,6 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related Files and Works', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(siteImprove, 'pushSiteImproveEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 

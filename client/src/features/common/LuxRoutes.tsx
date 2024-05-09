@@ -29,21 +29,24 @@ const RedirectOldProd: React.FC = () => {
   return null
 }
 
-const LuxRoutes: React.FC = () => (
-  <React.Fragment>
-    <RedirectOldProd />
-    <Routes>
-      <Route path="/view/results/*" element={<Header hideSearch />} />
-      <Route path="/" element={<Header hideSearch />} />
-      <Route path="/*" element={<Header />} />
-    </Routes>
-    <div className="container-fluid px-0" id="route-container">
-      {window.innerWidth < theme.breakpoints.md && (
-        <Alert variant="info" className="d-flex justify-content-center">
-          The site is optimized for desktop use. Some features are not available
-          on on mobile devices.
-        </Alert>
-      )}
+const LuxRoutes: React.FC = () => {
+  const { pathname, search, state } = useLocation()
+  const [prevUrl, setPrevUrl] = useState('')
+
+  useEffect(() => {
+    const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
+    // Push a SiteImprove event for a page change
+    pushSiteImprovePageEvent(
+      currentUrl,
+      prevUrl,
+      state !== null ? state.targetName : 'unknown page name',
+    )
+    setPrevUrl(currentUrl)
+  }, [pathname, prevUrl, search, state])
+
+  return (
+    <React.Fragment>
+      <RedirectOldProd />
       <Routes>
         <Route path="/view/results/*" element={<Header hideSearch />} />
         <Route path="/" element={<Header hideSearch />} />
