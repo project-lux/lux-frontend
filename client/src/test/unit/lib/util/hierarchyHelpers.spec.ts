@@ -1,7 +1,7 @@
 import config from '../../../../config/config'
 import {
   currentUriInHierarchy,
-  extractHalLinks,
+  hasHierarchyHalLinks,
   getNextConceptUris,
   getNextPlaceUris,
   getNextSetUris,
@@ -51,7 +51,7 @@ describe('hierarchyHelpers', () => {
     })
   })
 
-  describe('extractHalLinks', () => {
+  describe('hasHierarchyHalLinks', () => {
     const mockLinks = {
       self: {
         href: 'current uri',
@@ -73,7 +73,7 @@ describe('hierarchyHelpers', () => {
       },
     }
 
-    const links = extractHalLinks(mockLinks).sort()
+    const links = hasHierarchyHalLinks(mockLinks).sort()
     const comparativeLinks = [
       'https://endpoint.yale.edu/api/facets/work?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
       'https://endpoint.yale.edu/api/search/item?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
