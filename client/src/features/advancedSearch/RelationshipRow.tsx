@@ -121,7 +121,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
           {open ? '-' : '+'}
         </CollapseButton>
         <CollapseContainer open={open} id={`relationship-${stateId}`}>
-          <Row className="row ps-3">
+          <Row className="row ps-4">
             <Col xs={12}>
               <fieldset className="d-flex px-0">
                 <legend className="flex-shrink-0 w-auto">
