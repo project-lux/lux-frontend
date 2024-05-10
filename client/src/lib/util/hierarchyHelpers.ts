@@ -12,7 +12,7 @@ export const removeViewFromPathname = (pathname: string): string =>
 export const currentUriInHierarchy = (uri: string, pathname: string): boolean =>
   uri.includes(removeViewFromPathname(pathname))
 
-export const extractHalLinks = (providedLinks: ILinks): Array<string> => {
+export const hasHierarchyHalLinks = (providedLinks: ILinks): Array<string> => {
   const halLinks = []
 
   if (providedLinks.hasOwnProperty('lux:setIncludedItems')) {
@@ -24,6 +24,34 @@ export const extractHalLinks = (providedLinks: ILinks): Array<string> => {
   }
 
   return halLinks
+}
+
+export const getItemChildren = (
+  providedLinks: ILinks | undefined,
+): string | null => {
+  if (providedLinks === undefined) {
+    return null
+  }
+
+  if (providedLinks.hasOwnProperty('lux:setIncludedItems')) {
+    return providedLinks['lux:setIncludedItems'].href
+  }
+
+  return null
+}
+
+export const getWorkChildren = (
+  providedLinks: ILinks | undefined,
+): string | null => {
+  if (providedLinks === undefined) {
+    return null
+  }
+
+  if (providedLinks.hasOwnProperty('lux:setIncludedWorks')) {
+    return providedLinks['lux:setIncludedWorks'].href
+  }
+
+  return null
 }
 
 /**

@@ -3,13 +3,15 @@
 import React, { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
+import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
-import { useGetMultipleRelationshipsQuery } from '../../redux/api/ml_api'
+import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import {
   currentUriInHierarchy,
-  extractHalLinks,
+  getItemChildren,
+  getWorkChildren,
 } from '../../lib/util/hierarchyHelpers'
 import { getDataApiBaseUrl } from '../../config/config'
 import {
@@ -33,15 +35,23 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestors,
 }) => {
   const dispatch = useAppDispatch()
+  const currentState = useAppSelector(
+    (state) => state.archiveHierarchy as IArchiveHierarchy,
+  )
 
+  const workLink = getWorkChildren(ancestor._links)
+  const itemLink = getItemChildren(ancestor._links)
   const { pathname } = useLocation()
   const [page, setPage] = useState<number>(1)
-  const links = ancestor._links ? extractHalLinks(ancestor._links) : []
-  const skip = links.length === 0
+  const [searchLink, setSearchLink] = useState<string | null>(
+    workLink || itemLink,
+  )
+
+  const skip = isNull(searchLink) || isNull(currentState.next)
   const { data, isSuccess, isLoading, isFetching } =
-    useGetMultipleRelationshipsQuery(
+    useGetSearchRelationshipQuery(
       {
-        halLinks: links.sort(),
+        uri: searchLink,
         page,
       },
       {
@@ -59,18 +69,29 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     )
   }
 
+  const handleShowMore = (paginate: number, next: string | null): void => {
+    if (!isNull(next)) {
+      setPage(paginate)
+    } else if (isNull(next) && searchLink?.includes('works')) {
+      setSearchLink(itemLink)
+    }
+  }
+
   useEffect(() => {
     if (isSuccess && data) {
       let totalResults = 0
       const children: Array<string> = []
-      for (const result of data) {
-        totalResults += getEstimates(result)
-        for (const item of result.orderedItems) {
-          const { id } = item
-          const pathnameInResults = currentUriInHierarchy(id, pathname)
-          if (!pathnameInResults) {
-            children.push(id)
-          }
+      let next = null
+      totalResults += getEstimates(data)
+      next = data.next !== undefined ? data.next.id : null
+      if (isNull(next) && searchLink === workLink) {
+        next = itemLink
+      }
+      for (const item of data.orderedItems) {
+        const { id } = item
+        const pathnameInResults = currentUriInHierarchy(id, pathname)
+        if (!pathnameInResults) {
+          children.push(id)
         }
       }
       // Only add the current entity to the top of the results if it is included in the
@@ -80,12 +101,16 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           pathname.replace('/view', `${getDataApiBaseUrl()}data`),
         )
       }
+      if (ancestor.id?.includes('set/9e7a1c79-8fa0-4eaf-9570-a3cbce09fac2')) {
+        console.log(next)
+      }
       dispatch(
         addData({
           id: ancestor.id!,
           values: children,
           total: totalResults,
           page,
+          next,
         }),
       )
     }
@@ -94,14 +119,13 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     data,
     dispatch,
     isSuccess,
+    itemLink,
     page,
     parentsOfCurrentEntity,
     pathname,
+    searchLink,
+    workLink,
   ])
-
-  const currentState = useAppSelector(
-    (state) => state.archiveHierarchy as IArchiveHierarchy,
-  )
 
   if (isSuccess && data && currentState.hasOwnProperty(ancestor.id!)) {
     const state = currentState[ancestor.id!]
@@ -109,6 +133,9 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     Object.values(state.requests).map((value) =>
       value.map((v) => children.push(v)),
     )
+    if (ancestor.id?.includes('set/9e7a1c79-8fa0-4eaf-9570-a3cbce09fac2')) {
+      console.log('here')
+    }
 
     return (
       <React.Fragment>
@@ -123,11 +150,11 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           />
         ))}
         <Col xs={12} className="d-flex justify-content-start">
-          {state.total >= 20 && state.total !== children.length && (
+          {state.next !== null && (
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => setPage(page + 1)}
+              onClick={() => handleShowMore(page + 1, state.next)}
             >
               Show More
             </button>
