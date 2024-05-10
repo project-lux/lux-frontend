@@ -19,7 +19,7 @@ const CollapseContainer: React.FC<ICollapseContainer> = ({
   id,
   children,
 }) => (
-  <Collapse in={open} className="ps-3 float-left">
+  <Collapse in={open} className="float-left">
     <div
       id={`${id}-collapse-component`}
       className="w-100"
