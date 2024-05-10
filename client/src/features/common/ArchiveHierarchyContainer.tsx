@@ -9,7 +9,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
 import { useGetItemsQuery } from '../../redux/api/ml_api'
 import {
-  extractHalLinks,
+  hasHierarchyHalLinks,
   getNextSetUris,
   getParentData,
   isEntityAnArchive,
@@ -88,7 +88,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       if (
         ancestorIds[0].includes(removeViewFromPathname(pathname)) &&
         entity._links !== undefined &&
-        extractHalLinks(entity._links).length === 0
+        hasHierarchyHalLinks(entity._links).length === 0
       ) {
         return null
       }

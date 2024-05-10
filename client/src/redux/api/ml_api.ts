@@ -14,7 +14,7 @@ import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/timelineHelper'
-import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
+// import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { IEstimateItems } from '../../types/ISearchEstimates'
 import { getSearchEstimates } from '../../lib/util/fetchSearchEstimates'
@@ -23,7 +23,7 @@ import { getItems } from '../../lib/util/fetchItems'
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
 
-export const mlApi = createApi({
+export const mlApi: any = createApi({
   reducerPath: 'mlApi',
   baseQuery: baseQuery(getDataApiBaseUrl),
   endpoints: (builder) => ({
@@ -81,12 +81,18 @@ export const mlApi = createApi({
       ISearchResults,
       {
         uri: string
+        page?: string
       }
     >({
       query: (queryParams) => {
-        const halLink = replaceBaseUrl(queryParams.uri)
+        const { uri, page } = queryParams
+        const halLink = replaceBaseUrl(uri)
+        let pageParam = ''
+        if (page !== undefined) {
+          pageParam = `&page=${page}`
+        }
         return {
-          url: halLink,
+          url: `${halLink}${pageParam}`,
           method: 'GET',
         }
       },
@@ -111,17 +117,17 @@ export const mlApi = createApi({
         return getTimelines(hrefs)
       },
     }),
-    getMultipleRelationships: builder.query<
-      any,
-      { halLinks: Array<string>; page: number }
-    >({
-      queryFn({ halLinks, page }) {
-        const promises = halLinks.map((link) =>
-          fetchHalLinkSearchRequest(link, page),
-        )
-        return Promise.all(promises).then((result) => ({ data: result }))
-      },
-    }),
+    // getMultipleRelationships: builder.query<
+    //   any,
+    //   { halLinks: Array<string>; page: number }
+    // >({
+    //   queryFn({ halLinks, page }) {
+    //     const promises = halLinks.map((link) =>
+    //       fetchHalLinkSearchRequest(link, page),
+    //     )
+    //     return Promise.all(promises).then((result) => ({ data: result }))
+    //   },
+    // }),
     getCollection: builder.query<any, IEntity>({
       queryFn(entity) {
         return getCollections(entity)
@@ -223,7 +229,7 @@ export const {
   useGetSearchRelationshipQuery,
   useGetFacetedRelationshipQuery,
   useGetTimelineQuery,
-  useGetMultipleRelationshipsQuery,
+  // useGetMultipleRelationshipsQuery,
   useGetCollectionQuery,
   useGetDataConstantsQuery,
   useGetAdvancedSearchConfigQuery,
