@@ -10,7 +10,6 @@ export interface IArchiveHierarchy {
     }
     total: number
     page: number
-    next: string | null
   }
 }
 
@@ -27,34 +26,25 @@ export const hierarchySlice = createSlice({
         values: Array<string>
         total: number
         page: number
-        next: string
       }>,
     ) => {
-      const { id, values, total, page, next } = action.payload
+      const { id, values, total, page } = action.payload
       if (!state.hasOwnProperty(id)) {
         state[id] = {
           requests: {},
           total: 0,
           page,
-          next,
         }
       }
       if (state[id].total === 0) {
         state[id].total += total
       }
-      state[id].requests[`call${page}`] = values
+      if (state[id].requests.hasOwnProperty(`call${page}`)) {
+        state[id].requests[`calls${page}`] = values
+      } else {
+        state[id].requests[`call${page}`] = values
+      }
       state[id].page = page
-      state[id].next = next
-    },
-    addNext: (
-      state,
-      action: PayloadAction<{
-        id: string
-        next: string
-      }>,
-    ) => {
-      const { id, next } = action.payload
-      state[id].next = next
     },
     removeData: (
       state,
@@ -74,6 +64,6 @@ export const hierarchySlice = createSlice({
   },
 })
 
-export const { addData, addNext, removeData, reset } = hierarchySlice.actions
+export const { addData, removeData, reset } = hierarchySlice.actions
 
 export default hierarchySlice.reducer
