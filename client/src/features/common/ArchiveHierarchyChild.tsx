@@ -13,6 +13,8 @@ import CollapseContainer from '../advancedSearch/CollapseContainer'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import {
   currentUriInHierarchy,
+  getItemChildren,
+  getWorkChildren,
   hasHierarchyHalLinks,
   isInHierarchy,
 } from '../../lib/util/hierarchyHelpers'
@@ -96,6 +98,8 @@ const ArchiveHierarchyChild: React.FC<{
                 key={pathname}
                 parentsOfCurrentEntity={parentsOfCurrentEntity}
                 ancestors={ancestors}
+                setIncludedItems={getItemChildren(data._links)}
+                setIncludedWorks={getWorkChildren(data._links)}
               />
             </CollapseContainer>
           </Col>
