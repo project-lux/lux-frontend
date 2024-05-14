@@ -26,9 +26,10 @@ export const hierarchySlice = createSlice({
         values: Array<string>
         total: number
         page: number
+        halLinkType: string
       }>,
     ) => {
-      const { id, values, total, page } = action.payload
+      const { id, values, total, page, halLinkType } = action.payload
       if (!state.hasOwnProperty(id)) {
         state[id] = {
           requests: {},
@@ -39,10 +40,12 @@ export const hierarchySlice = createSlice({
       if (state[id].total === 0) {
         state[id].total += total
       }
-      if (state[id].requests.hasOwnProperty(`call${page}`)) {
-        state[id].requests[`calls${page}`] = values
+      const requestProperty = `${halLinkType}Call${page}`
+      // have the call type, work or item, passed to this function and set [type]Call[page] set to values
+      if (state[id].requests.hasOwnProperty(requestProperty)) {
+        state[id].requests[requestProperty] = values
       } else {
-        state[id].requests[`call${page}`] = values
+        state[id].requests[requestProperty] = values
       }
       state[id].page = page
     },
@@ -51,10 +54,12 @@ export const hierarchySlice = createSlice({
       action: PayloadAction<{
         id: string
         page: number
+        halLinkType: string
       }>,
     ) => {
-      const { id, page } = action.payload
-      const currentRequest = `call${page}`
+      const { id, page, halLinkType } = action.payload
+      console.log(id, page, halLinkType)
+      const currentRequest = `${halLinkType}Call${page}`
       if (state[id].requests[currentRequest]) {
         delete state[id].requests[currentRequest]
       }
