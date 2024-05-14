@@ -11,8 +11,12 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the getIdentifiers function to return assigned_by agents ([#198](https://github.com/project-lux/lux-frontend/issues/198)).
+- Changed archives to request works first then objects ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
 
 ### Removed
+
+- Removed Sort Numbers from being returned by getIdentifiers function ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+- Removed functionality to push current entity to top of archive ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
 
 ### Fixed
 
@@ -31,8 +35,6 @@ All notable changes to this project will be documented in this file.
 - Allowed Google bots in robots.txt ([#24](https://github.com/project-lux/lux-frontend/issues/24)).
 
 ### Removed
-
-- Removed Sort Numbers from being returned by getIdentifiers function ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
 
 ### Fixed
 
