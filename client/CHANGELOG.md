@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added search link for showing objects in archive with images ([#28](https://github.com/project-lux/lux-frontend/issues/28)).
+- Added ErrorBoundary around facet accordions ([#225](https://github.com/project-lux/lux-frontend/issues/225)).
 
 ### Changed
 
