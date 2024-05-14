@@ -12,6 +12,8 @@ import {
   ReferenceArea,
 } from 'recharts'
 import { useNavigate } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 import {
@@ -22,6 +24,19 @@ import {
 import { IHalLinks } from '../../types/IHalLinks'
 import { formatDateJsonSearch } from '../../lib/facets/dateParser'
 import { getYearWithLabel } from '../../lib/parse/search/timelineParser'
+
+import ZoomInput from './ZoomInput'
+
+const StyledBtn = styled.button`
+  background: ${theme.color.gray};
+  color: ${theme.color.white};
+
+  &:hover {
+    background-color: ${theme.color.white};
+    color: ${theme.color.primary.darkBlue};
+    border-color: ${theme.color.primary.darkBlue};
+  }
+`
 
 interface IProps {
   timelineData: ITimelinesTransformed
@@ -63,10 +78,11 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     let fromIndex: number | undefined
     let toIndex: number | undefined
     graphData.map((obj) => {
-      if (obj.year === from) {
+      // change to obj.year if using the highlight zoom method
+      if (obj.yearKey === from) {
         fromIndex = graphData.indexOf(obj)
       }
-      if (obj.year === to) {
+      if (obj.yearKey === to) {
         toIndex = graphData.indexOf(obj)
       }
       return null
@@ -98,8 +114,43 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     return []
   }
 
-  const zoom = (): void => {
-    let { refAreaLeft, refAreaRight } = zoomState
+  // const zoom = (): void => {
+  //   let { refAreaLeft, refAreaRight } = zoomState
+
+  //   if (refAreaLeft === refAreaRight || refAreaRight === '') {
+  //     setZoomState(() => ({
+  //       refAreaLeft: '',
+  //       refAreaRight: '',
+  //     }))
+  //     return
+  //   }
+
+  //   // xAxis domain
+  //   if (refAreaLeft > refAreaRight)
+  //     [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
+
+  //   // yAxis domain
+  //   const [bottom, top, slicedData] = getAxisYDomain(
+  //     refAreaLeft,
+  //     refAreaRight,
+  //     'yearKey',
+  //     1,
+  //   )
+
+  //   setZoomState(() => ({
+  //     refAreaLeft: '',
+  //     refAreaRight: '',
+  //     data: slicedData,
+  //     left: refAreaLeft,
+  //     right: refAreaRight,
+  //     bottom,
+  //     top,
+  //   }))
+  // }
+
+  const zoomInput = (earliest: string, latest: string): void => {
+    let refAreaLeft = earliest
+    let refAreaRight = latest
 
     if (refAreaLeft === refAreaRight || refAreaRight === '') {
       setZoomState(() => ({
@@ -131,13 +182,11 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
       top,
     }))
   }
-
   const zoomOut = (): void => {
     setZoomState(getInitialState(graphData))
   }
 
   const handleClick = (year: string, searchTag: string): void => {
-    console.log('clicked')
     const { tab, jsonSearchTerm } = searchTags[searchTag]
     const { criteria } = timelineData[year][searchTag] as ITimelineCriteria
     const searchQ = formatDateJsonSearch(
@@ -163,11 +212,23 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
       className="highlight-bar-charts"
       style={{ userSelect: 'none', width: '100%' }}
     >
-      {zoomState.data.length !== graphData.length && (
-        <button type="button" className="btn update" onClick={() => zoomOut()}>
-          Zoom Out
-        </button>
-      )}
+      <Row className="d-flex">
+        <Col className="d-flex justify-content-end">
+          <ZoomInput
+            earliestYear={sortedKeys[0]}
+            latestYear={sortedKeys[sortedKeys.length - 1]}
+            setZoomRange={zoomInput}
+          />
+          <StyledBtn
+            type="button"
+            className="btn update"
+            onClick={() => zoomOut()}
+            disabled={zoomState.data.length === graphData.length}
+          >
+            Zoom Out
+          </StyledBtn>
+        </Col>
+      </Row>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
           data={zoomState.data}
@@ -177,18 +238,18 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
             left: 0,
             bottom: 5,
           }}
-          onMouseDown={(e) =>
-            setZoomState({ ...zoomState, refAreaLeft: e.activeLabel })
-          }
-          onMouseMove={(e) =>
-            setZoomState({
-              ...zoomState,
-              refAreaLeft: zoomState.refAreaLeft,
-              refAreaRight: e.activeLabel,
-            })
-          }
-          // eslint-disable-next-line react/jsx-no-bind
-          onMouseUp={() => zoom()}
+          // onMouseDown={(e) =>
+          //   setZoomState({ ...zoomState, refAreaLeft: e.activeLabel })
+          // }
+          // onMouseMove={(e) =>
+          //   setZoomState({
+          //     ...zoomState,
+          //     refAreaLeft: zoomState.refAreaLeft,
+          //     refAreaRight: e.activeLabel,
+          //   })
+          // }
+          // // eslint-disable-next-line react/jsx-no-bind
+          // onMouseUp={() => zoom()}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
