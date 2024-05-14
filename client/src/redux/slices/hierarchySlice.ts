@@ -9,7 +9,6 @@ export interface IArchiveHierarchy {
       [key: string]: Array<string>
     }
     total: number
-    page: number
   }
 }
 
@@ -34,7 +33,6 @@ export const hierarchySlice = createSlice({
         state[id] = {
           requests: {},
           total: 0,
-          page,
         }
       }
       if (state[id].total === 0) {
@@ -47,7 +45,6 @@ export const hierarchySlice = createSlice({
       } else {
         state[id].requests[requestProperty] = values
       }
-      state[id].page = page
     },
     removeData: (
       state,
@@ -58,12 +55,10 @@ export const hierarchySlice = createSlice({
       }>,
     ) => {
       const { id, page, halLinkType } = action.payload
-      console.log(id, page, halLinkType)
       const currentRequest = `${halLinkType}Call${page}`
       if (state[id].requests[currentRequest]) {
         delete state[id].requests[currentRequest]
       }
-      state[id].page = page - 1
     },
     reset: () => initialState,
   },

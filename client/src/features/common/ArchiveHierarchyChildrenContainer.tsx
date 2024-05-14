@@ -17,6 +17,9 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
+const isHalLinkForWorks = (link: string | null): boolean =>
+  !isNull(link) && link.includes('/works')
+
 const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestor: IEntity
   skipApiCalls?: boolean
@@ -46,15 +49,23 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     useGetSearchRelationshipQuery(
       {
         uri: halLink,
-        page,
+        page: isHalLinkForWorks(halLink) ? workPage : itemPage,
       },
       {
         skip,
       },
     )
 
-  const handleShowLess = (paginate: number): void => {
-    setPage(paginate)
+  const handleShowLess = (): void => {
+    const page = isHalLinkForWorks(halLink) ? workPage : itemPage
+    if (isHalLinkForWorks(halLink)) {
+      setWorkPage(workPage - 1)
+    } else {
+      if (itemPage === 1 && !isUndefined(setIncludedWorks)) {
+        setHalLink(setIncludedWorks)
+      }
+      setItemPage(itemPage > 1 ? itemPage - 1 : 1)
+    }
     dispatch(
       removeData({
         id: ancestor.id!,
@@ -64,16 +75,21 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     )
   }
 
-  const handleShowMore = (paginate: number, next: string | null): void => {
+  const handleShowMore = (next: string | null): void => {
+    // If there are no more work results
     if (
       !data.hasOwnProperty('next') &&
       halLink?.includes('/work') &&
       !isNull(setIncludedItems)
     ) {
       setHalLink(setIncludedItems)
-      setPage(1)
     } else if (!isNull(next) && !isUndefined(next)) {
-      setPage(paginate)
+      // If the results returned contains more data
+      if (isHalLinkForWorks(halLink)) {
+        setWorkPage(workPage + 1)
+      } else {
+        setItemPage(itemPage + 1)
+      }
     } else {
       setHalLink(null)
     }
@@ -94,6 +110,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
         const { id } = item
         children.push(id)
       }
+      const page = isHalLinkForWorks(halLink) ? workPage : itemPage
       dispatch(
         addData({
           id: ancestor.id!,
@@ -110,10 +127,11 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     dispatch,
     halLink,
     isSuccess,
-    page,
+    itemPage,
     parentsOfCurrentEntity,
     pathname,
     skip,
+    workPage,
   ])
 
   const currentState = useAppSelector(
@@ -140,11 +158,6 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           />
         ))}
         <Col xs={12} className="d-flex justify-content-start">
-          {ancestor.id?.includes('9e7a1c79-8fa0-4eaf-9570-a3cbce09fac2') && (
-            <p style={{ wordBreak: 'break-word' }}>
-              {halLink}, {page}
-            </p>
-          )}
           {(data.hasOwnProperty('next') ||
             (!data.hasOwnProperty('next') &&
               halLink?.includes('/work') &&
@@ -152,7 +165,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => handleShowMore(page + 1, data.next)}
+              onClick={() => handleShowMore(data.next)}
             >
               Show More
             </button>
@@ -161,7 +174,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => handleShowLess(page - 1)}
+              onClick={() => handleShowLess()}
             >
               Show Less
             </button>
