@@ -35,7 +35,8 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
-  const [page, setPage] = useState<number>(1)
+  const [workPage, setWorkPage] = useState<number>(1)
+  const [itemPage, setItemPage] = useState<number>(1)
   const [halLink, setHalLink] = useState<string | null>(
     setIncludedWorks || setIncludedItems,
   )
@@ -58,6 +59,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
       removeData({
         id: ancestor.id!,
         page,
+        halLinkType: halLink?.includes('/work') ? 'works' : 'items',
       }),
     )
   }
@@ -98,6 +100,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           values: children,
           total: totalResults,
           page,
+          halLinkType: halLink?.includes('/work') ? 'works' : 'items',
         }),
       )
     }
@@ -105,6 +108,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     ancestor.id,
     data,
     dispatch,
+    halLink,
     isSuccess,
     page,
     parentsOfCurrentEntity,
@@ -123,7 +127,6 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
       value.map((v) => children.push(v)),
     )
 
-    console.log(state)
     return (
       <React.Fragment>
         {children.map((child: string, ind: number) => (
@@ -154,7 +157,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
               Show More
             </button>
           )}
-          {page !== 1 && (
+          {Object.keys(state.requests).length > 1 && (
             <button
               type="button"
               className="btn btn-link show-more"
