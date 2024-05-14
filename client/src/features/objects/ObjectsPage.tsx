@@ -19,6 +19,7 @@ import {
   getNextSetUris,
   isEntityAnArchive,
 } from '../../lib/util/hierarchyHelpers'
+import { archive } from '../../config/setsSearchTags'
 
 import Carries from './Carries'
 import About from './About'
@@ -32,6 +33,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
   const [supertypeIcon, helperText] = element.getSupertypeIcon(types)
   const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
+  const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
 
   return (
     <React.Fragment>
@@ -73,6 +75,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
                     key={data.id}
                     entity={data}
                     parentsOfCurrentEntity={memberOf}
+                    objectsWithImagesHalLink={objectsWithImagesHalLink}
                   />
                 )}
               </ErrorBoundary>

@@ -3,9 +3,11 @@
 /* eslint-disable array-callback-return */
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { ErrorBoundary } from 'react-error-boundary'
 
 import { ICriteria } from '../../types/ISearchResults'
 import { ResultsTab } from '../../types/ResultsTab'
+import { ErrorFallback } from '../error/ErrorFallback'
 
 import FacetAccordionItem from './FacetAccordionItem'
 
@@ -39,17 +41,18 @@ const FacetAccordion: React.FC<IProps> = ({
   }
 
   const elems = requestedFacets.map((facetName, ind) => (
-    <FacetAccordionItem
-      criteria={criteria}
-      key={facetName}
-      tab={tab}
-      facetName={facetName}
-      index={ind}
-      facetQuery={facetQuery}
-      scope={scope}
-      selectedFacets={selectedFacets}
-      handleCallback={setFacetIsNull}
-    />
+    <ErrorBoundary FallbackComponent={ErrorFallback} key={facetName}>
+      <FacetAccordionItem
+        criteria={criteria}
+        tab={tab}
+        facetName={facetName}
+        index={ind}
+        facetQuery={facetQuery}
+        scope={scope}
+        selectedFacets={selectedFacets}
+        handleCallback={setFacetIsNull}
+      />
+    </ErrorBoundary>
   ))
 
   return (

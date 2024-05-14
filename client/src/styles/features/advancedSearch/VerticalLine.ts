@@ -7,6 +7,10 @@ const VerticalLine = styled.div`
   margin-left: 1.5rem;
   padding-top: 1rem;
   display: flex;
+
+  &.groupVerticalLine {
+    height: calc(100% - 53px);
+  }
 `
 
 export default VerticalLine

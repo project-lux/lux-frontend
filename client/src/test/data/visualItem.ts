@@ -90,7 +90,7 @@ export const visualItem: IVisualItem = {
       identified_by: [
         {
           type: 'Name',
-          content: 'Mocked notes',
+          content: 'Mocked Notes Label',
         },
       ],
     },

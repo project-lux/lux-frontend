@@ -65,15 +65,7 @@ export default function linguisticObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // Mock the notes label call
-  nock(apiUrl)
-    .get('/data/concept/note?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Notes Label')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // Mock the notes label call
+  // Mock the production call
   nock(apiUrl)
     .get('/data/concept/production?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Publication')), {

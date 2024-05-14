@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.26.0 - 2024-5-14
+
+### Added
+
+- Added search link for showing objects in archive with images ([#28](https://github.com/project-lux/lux-frontend/issues/28)).
+- Added ErrorBoundary around facet accordions ([#225](https://github.com/project-lux/lux-frontend/issues/225)).
+
+### Changed
+
+- Changed notes labels to be from identified_by data point ([#195](https://github.com/project-lux/lux-frontend/issues/195)).
+- Allowed Google bots in robots.txt ([#24](https://github.com/project-lux/lux-frontend/issues/24)).
+
+### Removed
+
+### Fixed
+
+- Fixed spacing of links in search results lists on entity pages ([#199](https://github.com/project-lux/lux-frontend/issues/199)).
+- Fixed documentation ([#216](https://github.com/project-lux/lux-frontend/issues/216)).
+- Fixed advanced search add row button styling ([#138](https://github.com/project-lux/lux-frontend/issues/138)).
+
 ## v1.25.0 - 2024-4-29
 
 ### Added
@@ -10,6 +30,8 @@ All notable changes to this project will be documented in this file.
 - Added additional geographical information to the locations in object events ([#89](https://github.com/project-lux/lux-frontend/issues/89)).
 - Added B.C.E. and C.E. to dates in timelines ([#52](https://github.com/project-lux/lux-frontend/issues/52)).
 - Added SI page tracking events ([#124](https://github.com/project-lux/lux-frontend/issues/124)).
+
+### Changed
 
 ### Removed
 

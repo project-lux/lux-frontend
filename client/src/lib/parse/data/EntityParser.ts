@@ -24,7 +24,6 @@ import {
   forceArray,
   getAttributedBy,
   getClassifiedAs,
-  getClassifiedAsWithMatchingClassifier,
   getIdentifiedByContent,
   getName,
   sortDataSources,
@@ -372,18 +371,13 @@ export default class EntityParser {
       const languages = forceArray(el.language)
       const language = languages.length > 0 ? languages[0].id : ''
 
-      // used the /identified_by/[content] if it is classified_as Display Title
+      // used the /identified_by/[content] as the default label
       const nestedIdentifiedBy = forceArray(el.identified_by)
       if (nestedIdentifiedBy.length > 0) {
-        const matches = getClassifiedAsWithMatchingClassifier(
-          nestedIdentifiedBy,
-          config.dc.displayTitle,
-        )
-        if (matches.length > 0) {
-          label = matches[0].content
-        }
+        label = nestedIdentifiedBy[0].content || undefined
       }
 
+      // If the label is undefined, set it to the value of /classified_as/id
       if (label === undefined) {
         const nestedClassifiedAs = forceArray(el.classified_as)
         const labelClassifications = getClassifiedAs(nestedClassifiedAs)

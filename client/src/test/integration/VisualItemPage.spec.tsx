@@ -67,7 +67,7 @@ describe('Visual Item page', () => {
     it('renders the visual item notes', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Notes Label/i)
+      await findAllByText(/Mocked Notes Label/i)
       const notes = screen.getByTestId('works-notes-container-0')
       expect(notes).toBeInTheDocument()
     })

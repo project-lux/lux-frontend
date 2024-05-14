@@ -2,11 +2,12 @@
 
 ## Requirements
 
-1. Server (local or hosted)
-    - For more details on local server setup, view the configuration in the [server folder](https://github.com/project-lux/lux-frontend#running-server-locally).
+1. Server
+    - If choosing to run with the local server, see the local server configuration in the [server folder](https://github.com/project-lux/lux-frontend#running-server-locally).
 2. Content mangament service (CMS) server (the application can run without this step)
 2. IDE
 3. [Node](https://nodejs.org/en)
+    - Minimum required Node version is 14.18.1, however, it is recommended to have the latest version of Node installed.
 4. npm (for installing yarn)
 5. [yarn package manager](https://classic.yarnpkg.com/en/)
 
