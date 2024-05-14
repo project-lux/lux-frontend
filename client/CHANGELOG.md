@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed notes labels to be from identified_by data point ([#195](https://github.com/project-lux/lux-frontend/issues/195)).
+- Allowed Google bots in robots.txt ([#24](https://github.com/project-lux/lux-frontend/issues/24)).
 
 ### Removed
 
