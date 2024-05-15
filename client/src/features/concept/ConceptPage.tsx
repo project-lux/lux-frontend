@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -30,11 +30,18 @@ import {
 import FullscreenContainer from '../hierarchy/FullscreenContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
+import { useAppDispatch } from '../../app/hooks'
+import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
 
 import AboutPanel from './AboutPanel'
 
 const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
+  const dispatch = useAppDispatch()
   const concept = new ConceptParser(data)
+
+  useEffect(() => {
+    dispatch(addOrigin({ value: data }))
+  }, [data, dispatch])
 
   return (
     <React.Fragment>
