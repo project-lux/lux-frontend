@@ -2,15 +2,32 @@
 /* eslint-disable consistent-return */
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
+import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
+import { IGraphTimelineData } from '../../types/ITimelines'
+
+import { getInitialState } from './Graph'
 
 interface IFacets {
+  graphData: Array<IGraphTimelineData>
   earliestYear: string
   latestYear: string
-  setZoomRange: (earliest: string, latest: string) => void
-  autoFocus?: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  setZoomRange: (x: Record<string, any>) => void
+  disabledZoomOut: boolean
 }
+
+const StyledBtn = styled.button`
+  background: ${theme.color.gray};
+  color: ${theme.color.white};
+
+  &:hover {
+    background-color: ${theme.color.white};
+    color: ${theme.color.primary.darkBlue};
+    border-color: ${theme.color.primary.darkBlue};
+  }
+`
 
 const StyledInput = styled.input`
   height: auto;
@@ -29,10 +46,11 @@ const StyledSubmit = styled.button`
 `
 
 const ZoomInput: React.FC<IFacets> = ({
+  graphData,
   earliestYear,
   latestYear,
   setZoomRange,
-  autoFocus = false,
+  disabledZoomOut,
 }) => {
   const [earliest, setEarliest] = useState<string>(earliestYear)
   const [latest, setLatest] = useState<string>(latestYear)
@@ -50,6 +68,96 @@ const ZoomInput: React.FC<IFacets> = ({
     setLatest(value)
   }
 
+  const getAxisYDomain = (
+    from: string,
+    to: string | undefined,
+    ref: string,
+    offset: number,
+  ): Array<number | Array<IGraphTimelineData>> => {
+    let fromIndex: number | undefined
+    let toIndex: number | undefined
+    graphData.map((obj) => {
+      // change to obj.year if using the highlight zoom method
+      if (obj.yearKey === from) {
+        fromIndex = graphData.indexOf(obj)
+      }
+      if (obj.yearKey === to) {
+        toIndex = graphData.indexOf(obj)
+      }
+      return null
+    })
+
+    // const stateKeys = Object.keys(state)
+    // const ind = stateKeys.indexOf('_stateId')
+    if (fromIndex !== undefined) {
+      const refData = graphData.slice(
+        fromIndex,
+        isUndefined(toIndex) ? fromIndex + 1 : toIndex + 1,
+      )
+      let [bottom, top] = [refData[0][ref], refData[0][ref]]
+      refData.forEach((d) => {
+        if (d[ref] > top) {
+          top = d[ref]
+        }
+        if (d[ref] < bottom) {
+          bottom = d[ref]
+        }
+      })
+
+      console.log(bottom, top)
+      // eslint-disable-next-line no-bitwise
+      return [
+        parseInt(bottom as string, 10) - offset,
+        parseInt(top as string, 10) + offset,
+        refData,
+      ]
+    }
+
+    // set this to default to the lowest and highest points on the graph
+    return []
+  }
+
+  const zoomInput = (left: string, right: string): void => {
+    let refAreaLeft = left
+    let refAreaRight = right
+
+    // if (refAreaLeft === refAreaRight || refAreaRight === '') {
+    //   setZoomRange(() => ({
+    //     refAreaLeft: '',
+    //     refAreaRight: '',
+    //   }))
+    //   return
+    // }
+
+    // xAxis domain
+    if (refAreaLeft > refAreaRight)
+      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
+
+    // yAxis domain
+    const [bottom, top, slicedData] = getAxisYDomain(
+      refAreaLeft,
+      refAreaRight,
+      'yearKey',
+      1,
+    )
+
+    setZoomRange(() => ({
+      refAreaLeft: '',
+      refAreaRight: '',
+      data: slicedData,
+      left: refAreaLeft,
+      right: refAreaRight,
+      bottom,
+      top,
+    }))
+  }
+
+  const zoomOut = (): void => {
+    setZoomRange(getInitialState(graphData))
+    setEarliest(earliestYear)
+    setLatest(latestYear)
+  }
+
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
@@ -61,13 +169,13 @@ const ZoomInput: React.FC<IFacets> = ({
       setLatest(latestYear)
     }
 
-    setZoomRange(earliest, latest)
+    zoomInput(earliest, latest)
   }
 
   return (
     <form onSubmit={submitHandler}>
       <div className="input-group d-flex">
-        <div className="justify-content-start">
+        <div className="justify-content-start me-2">
           <label htmlFor={earliestDateId} className="d-none">
             Earliest Year
           </label>
@@ -81,10 +189,9 @@ const ZoomInput: React.FC<IFacets> = ({
             max={parseInt(latestYear, 10)}
             ref={earliestRef}
             value={earliest}
-            autoFocus={autoFocus}
           />
         </div>
-        <div className="justify-content-end">
+        <div className="justify-content-end me-2">
           <label htmlFor={latestDateId} className="d-none">
             Latest Year
           </label>
@@ -101,9 +208,17 @@ const ZoomInput: React.FC<IFacets> = ({
           />
         </div>
         <div className="justify-content-start">
-          <StyledSubmit type="submit" className="btn">
+          <StyledSubmit type="submit" className="btn me-2">
             Zoom In
           </StyledSubmit>
+          <StyledBtn
+            type="button"
+            className="btn update"
+            onClick={() => zoomOut()}
+            disabled={disabledZoomOut}
+          >
+            Zoom Out
+          </StyledBtn>
         </div>
       </div>
     </form>
