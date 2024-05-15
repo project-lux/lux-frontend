@@ -1,10 +1,9 @@
 import styled from 'styled-components'
+import { Row } from 'react-bootstrap'
 
 import theme from '../../theme'
-import { BorderedDiv } from '../../shared/BorderedDiv'
 
-const ExploreHierarchy = styled(BorderedDiv)`
-  padding: 25px 28px;
+const ExploreHierarchy = styled(Row)`
   background-color: #fff;
   margin: 0 0 ${theme.spacing.sectionGap};
 
