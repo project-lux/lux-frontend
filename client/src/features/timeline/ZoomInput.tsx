@@ -104,7 +104,6 @@ const ZoomInput: React.FC<IFacets> = ({
         }
       })
 
-      console.log(bottom, top)
       // eslint-disable-next-line no-bitwise
       return [
         parseInt(bottom as string, 10) - offset,
