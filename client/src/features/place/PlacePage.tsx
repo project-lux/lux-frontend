@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -29,12 +29,20 @@ import {
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ImageThumbnail from '../common/ImageThumbnail'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import { useAppDispatch } from '../../app/hooks'
+import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import IPlace from '../../types/data/IPlace'
 
 import AboutPanel from './AboutPanel'
 
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
+  const dispatch = useAppDispatch()
   const place = new EntityParser(data)
   const images = place.getImages()
+
+  useEffect(() => {
+    dispatch(addOrigin({ value: data }))
+  }, [data, dispatch])
 
   const mapConfig = {
     wkt: data.defined_by || '',
