@@ -1,6 +1,7 @@
 import React from 'react'
 // import { isNull } from 'lodash'
 import { useLocation } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 
 import StyledExploreHierarchy from '../../styles/features/common/ExploreHierarchy'
 import { ISearchResults } from '../../types/ISearchResults'
@@ -44,38 +45,40 @@ const ListContainer: React.FC<IProps> = ({
 
   return (
     <StyledExploreHierarchy>
-      {primaryName}
-      <ul>
-        <li>
-          Parents
-          <ul>
-            {parents.slice(0, displayLength).map((parent) => (
-              <Li key={parent} id={parent} />
-            ))}
-          </ul>
-          {children}
-        </li>
-        {descendents.hasOwnProperty('orderedItems') &&
-          descendents.orderedItems.length > 0 && (
-            <li>
-              Children
-              <ul>
-                {descendents.orderedItems
-                  .slice(0, defaultLength)
-                  .map((item) => (
-                    <Li key={item.id} id={item.id} />
-                  ))}
-              </ul>
-              <SearchResultsLink
-                data={descendents}
-                eventTitle="Hierarchy Children"
-                url={descendents.id}
-                scope={scope !== null ? scope : 'places'}
-                additionalLinkText="children"
-              />
-            </li>
-          )}
-      </ul>
+      <Col>
+        {primaryName}
+        <ul>
+          <li>
+            Parents
+            <ul>
+              {parents.slice(0, displayLength).map((parent) => (
+                <Li key={parent} id={parent} />
+              ))}
+            </ul>
+            {children}
+          </li>
+          {descendents.hasOwnProperty('orderedItems') &&
+            descendents.orderedItems.length > 0 && (
+              <li>
+                Children
+                <ul>
+                  {descendents.orderedItems
+                    .slice(0, defaultLength)
+                    .map((item) => (
+                      <Li key={item.id} id={item.id} />
+                    ))}
+                </ul>
+                <SearchResultsLink
+                  data={descendents}
+                  eventTitle="Hierarchy Children"
+                  url={descendents.id}
+                  scope={scope !== null ? scope : 'places'}
+                  additionalLinkText="children"
+                />
+              </li>
+            )}
+        </ul>
+      </Col>
     </StyledExploreHierarchy>
   )
 }

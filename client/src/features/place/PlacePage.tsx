@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -8,6 +8,7 @@ import {
   // relatedTypes,
   // locations,
   relatedObjectsAndWorks,
+  hierarchyChildren,
 } from '../../config/placeSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -27,15 +28,21 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
-import { hierarchyChildren } from '../../config/conceptSearchTags'
+import { useAppDispatch } from '../../app/hooks'
+import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
 
 import AboutPanel from './AboutPanel'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PlacePage: React.FC<{ data: any }> = ({ data }) => {
+  const dispatch = useAppDispatch()
   const place = new EntityParser(data)
   const types = place.getTypes()
   const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
+
+  useEffect(() => {
+    dispatch(addOrigin({ value: data }))
+  }, [data, dispatch])
 
   const mapConfig = {
     wkt: data.defined_by || '',
