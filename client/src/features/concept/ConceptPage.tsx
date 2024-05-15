@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -29,13 +29,20 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
+import { useAppDispatch } from '../../app/hooks'
+import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
 
 import AboutPanel from './AboutPanel'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
+  const dispatch = useAppDispatch()
   const concept = new ConceptParser(data)
   const [supertypeIcon, helperText] = concept.getSupertypeIcon()
+
+  useEffect(() => {
+    dispatch(addOrigin({ value: data }))
+  }, [data, dispatch])
 
   return (
     <React.Fragment>
