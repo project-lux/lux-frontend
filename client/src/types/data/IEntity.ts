@@ -23,6 +23,7 @@ export default interface IEntity {
   _links?: ILinks
 
   about?: IEntity[]
+  assigned_by?: IEntity[]
   attributed_by?: IAttribution[]
   classified_as?: IConcept[]
   conforms_to?: IEntity[]

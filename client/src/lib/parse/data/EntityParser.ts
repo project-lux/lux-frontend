@@ -22,7 +22,6 @@ import { IImages } from '../../../types/IImages'
 import {
   isSpecimen,
   forceArray,
-  getAttributedBy,
   getClassifiedAs,
   getIdentifiedByContent,
   getName,
@@ -30,6 +29,7 @@ import {
   validateClassifiedAsIdMatches,
   getSpecificReferredToBy,
   getMultipleSpecificReferredToBy,
+  getNestedCarriedOutBy,
 } from './helper'
 
 // Meant to be base class for other parsers
@@ -569,13 +569,17 @@ export default class EntityParser {
         const classifiedAs = forceArray(identifier.classified_as)
         const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : ''
         const attributedBy = forceArray(identifier.attributed_by)
-        const carriedOutBy = getAttributedBy(attributedBy)
+        const assignedBy = forceArray(identifier.assigned_by)
+        const agent = [
+          ...getNestedCarriedOutBy(attributedBy),
+          ...getNestedCarriedOutBy(assignedBy),
+        ]
         const label = ids.length > 0 ? ids[0] : ''
 
         return {
           label,
           identifier: identifier.content,
-          carriedOutBy,
+          carriedOutBy: agent,
         }
       })
 
