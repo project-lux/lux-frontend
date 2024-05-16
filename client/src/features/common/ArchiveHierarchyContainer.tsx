@@ -2,6 +2,8 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
+import { isUndefined } from 'lodash'
+import { Col, Row } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
@@ -23,6 +25,7 @@ interface IProps {
   parentsOfCurrentEntity: Array<string>
   objectsWithImagesHalLink: string | null
   currentEntityIsArchive?: boolean
+  halLinkTitle?: string
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -31,6 +34,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
   parentsOfCurrentEntity,
   objectsWithImagesHalLink,
   currentEntityIsArchive = false,
+  halLinkTitle,
 }) => {
   const { pathname } = useLocation()
 
@@ -97,6 +101,9 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       searchString = `${searchQ}&openSearch=false`
     }
 
+    const searchLinkLabel = !isUndefined(halLinkTitle)
+      ? halLinkTitle
+      : 'View records from this archive with images'
     return (
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
@@ -108,26 +115,31 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
           ancestors={ancestorIds}
         />
         {objectsWithImagesHalLink !== null && (
-          <Link
-            to={{
-              pathname: `/view/results/objects`,
-              search: searchString,
-            }}
-            onClick={() =>
-              pushSiteImproveEvent(
-                'Search Link',
-                'Selected',
-                'View records from this archive with images',
-              )
-            }
-            state={{
-              targetName: 'View records from this archive with images',
-            }}
-            data-testid="image-link"
-          >
-            View records from this archive with images
-            <i className="bi bi-camera-fill ms-2" />
-          </Link>
+          <Row className="mt-3">
+            <Col>
+              <Link
+                to={{
+                  pathname: `/view/results/objects`,
+                  search: searchString,
+                }}
+                onClick={() =>
+                  pushSiteImproveEvent(
+                    'Search Link',
+                    'Selected',
+                    searchLinkLabel,
+                  )
+                }
+                state={{
+                  targetName: `${searchLinkLabel} Results Page`,
+                }}
+                className="fw-bold"
+                data-testid="image-link"
+              >
+                {searchLinkLabel}
+                <i className="bi bi-camera-fill ms-2" />
+              </Link>
+            </Col>
+          </Row>
         )}
       </StyledEntityPageSection>
     )

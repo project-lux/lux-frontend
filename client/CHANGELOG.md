@@ -31,6 +31,7 @@ All notable changes to this project will be documented in this file.
 - Fixed spacing of links in search results lists on entity pages ([#199](https://github.com/project-lux/lux-frontend/issues/199)).
 - Fixed documentation ([#216](https://github.com/project-lux/lux-frontend/issues/216)).
 - Fixed advanced search add row button styling ([#138](https://github.com/project-lux/lux-frontend/issues/138)).
+- Fixed styling of archives images search link ([#28](https://github.com/project-lux/lux-frontend/issues/28)).
 
 ## v1.25.0 - 2024-4-29
 

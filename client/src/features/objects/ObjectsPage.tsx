@@ -34,6 +34,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
   const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
+  const halLinkTitle = archive.title
 
   return (
     <React.Fragment>
@@ -76,6 +77,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
                     entity={data}
                     parentsOfCurrentEntity={memberOf}
                     objectsWithImagesHalLink={objectsWithImagesHalLink}
+                    halLinkTitle={halLinkTitle}
                   />
                 )}
               </ErrorBoundary>
