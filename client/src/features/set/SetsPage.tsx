@@ -48,6 +48,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
   const [supertypeIcon, helperText] = setParser.getSupertypeIcon(types)
   const memberOf = setParser.getMemberOf()
   const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
+  const halLinkTitle = archive.title
 
   return (
     <React.Fragment>
@@ -85,6 +86,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
                 parentsOfCurrentEntity={memberOf}
                 currentEntityIsArchive={isArchive}
                 objectsWithImagesHalLink={objectsWithImagesHalLink}
+                halLinkTitle={halLinkTitle}
               />
             </ErrorBoundary>
           </Col>
