@@ -3,7 +3,6 @@ import {
   capitalizeLabels,
   containsSpecificNote,
   forceArray,
-  getAttributedBy,
   getClassifiedAs,
   getIdentifiedByContent,
   isSpecimen,
@@ -25,6 +24,7 @@ import {
   getSpecificReferredToBy,
   transformStringForTestId,
   getMultipleSpecificReferredToBy,
+  getNestedCarriedOutBy,
 } from '../../../lib/parse/data/helper'
 import IAttribution from '../../../types/data/IAttribution'
 import IEntity from '../../../types/data/IEntity'
@@ -87,7 +87,7 @@ describe('helper functions', () => {
     })
   })
 
-  describe('getAttributedBy', () => {
+  describe('getNestedCarriedOutBy', () => {
     it('returns array of agents', () => {
       const mockAttributedBy: Array<IAttribution> = [
         {
@@ -100,7 +100,7 @@ describe('helper functions', () => {
           ],
         },
       ]
-      const data = getAttributedBy(mockAttributedBy)
+      const data = getNestedCarriedOutBy(mockAttributedBy)
       expect(data).toEqual([
         `${config.env.dataApiBaseUrl}data/person/carried-out-by`,
       ])

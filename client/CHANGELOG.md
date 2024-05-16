@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the getIdentifiers function to return assigned_by agents ([#198](https://github.com/project-lux/lux-frontend/issues/198)).
+
 ### Removed
 
 ### Fixed
