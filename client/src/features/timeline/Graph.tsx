@@ -29,12 +29,19 @@ interface IProps {
 
 const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
   const navigate = useNavigate()
+  // Add additional years that were not returned with the data
+  const yearsArray = addYearsWithNoData(sortedKeys)
 
-  const graphData: Array<IGraphTimelineData> = sortedKeys.map((key) => ({
-    year: getYearWithLabel(key),
-    yearKey: key,
-    ...data[key],
-  }))
+  const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
+    const barData = timelineData.hasOwnProperty(year)
+      ? timelineData[year]
+      : { total: 0 }
+    return {
+      year: getYearWithLabel(year),
+      yearKey: year,
+      ...barData,
+    }
+  })
 
   const handleClick = (year: string, searchTag: string): void => {
     const { tab, jsonSearchTerm } = searchTags[searchTag]
