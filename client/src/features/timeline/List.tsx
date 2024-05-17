@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
-import { getYearWithLabel } from '../../lib/parse/search/timelineParser'
+import { getYearWithLabel } from '../../lib/util/timelineHelper'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
