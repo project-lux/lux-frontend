@@ -11,8 +11,9 @@ import {
   ResponsiveContainer,
   ReferenceArea,
 } from 'recharts'
-import { Col, Row } from 'react-bootstrap'
+import { Accordion, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 import {
@@ -28,6 +29,13 @@ import {
 } from '../../lib/util/timelineHelper'
 
 import ZoomInput from './ZoomInput'
+
+const StyledButton = styled(Accordion.Header)`
+  .accordion-button {
+    padding: 0.5rem;
+    width: 15%;
+  }
+`
 
 interface IProps {
   timelineData: ITimelinesTransformed
@@ -129,15 +137,20 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
       style={{ userSelect: 'none', width: '100%' }}
     >
       <Row className="d-flex">
-        <Col className="d-flex justify-content-end">
-          <ZoomInput
-            graphData={graphData}
-            earliestYear={sortedKeys[0]}
-            latestYear={sortedKeys[sortedKeys.length - 1]}
-            setZoomRange={setZoomState}
-            disabledZoomOut={zoomState.data.length === graphData.length}
-          />
-        </Col>
+        <Accordion defaultActiveKey="0">
+          <Accordion.Item eventKey="0">
+            <StyledButton>Filter By Year</StyledButton>
+            <Accordion.Body className="ps-1 pt-2">
+              <ZoomInput
+                graphData={graphData}
+                earliestYear={sortedKeys[0]}
+                latestYear={sortedKeys[sortedKeys.length - 1]}
+                setZoomRange={setZoomState}
+                disabledZoomOut={zoomState.data.length === graphData.length}
+              />
+            </Accordion.Body>
+          </Accordion.Item>
+        </Accordion>
       </Row>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
