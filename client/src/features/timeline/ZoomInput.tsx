@@ -3,13 +3,14 @@
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
+import { Form } from 'react-bootstrap'
 
 import theme from '../../styles/theme'
 import { IGraphTimelineData } from '../../types/ITimelines'
 
 import { getInitialState } from './Graph'
 
-interface IFacets {
+interface IProps {
   graphData: Array<IGraphTimelineData>
   earliestYear: string
   latestYear: string
@@ -45,7 +46,7 @@ const StyledSubmit = styled.button`
   }
 `
 
-const ZoomInput: React.FC<IFacets> = ({
+const ZoomInput: React.FC<IProps> = ({
   graphData,
   earliestYear,
   latestYear,
@@ -104,7 +105,6 @@ const ZoomInput: React.FC<IFacets> = ({
         }
       })
 
-      console.log('ref: ', refData)
       // eslint-disable-next-line no-bitwise
       return [
         parseInt(bottom as string, 10) - offset,
@@ -161,24 +161,36 @@ const ZoomInput: React.FC<IFacets> = ({
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
 
-    if (earliest === null) {
+    let submitEarliest = earliest
+    if (submitEarliest === '') {
       setEarliest(earliestYear)
+      submitEarliest = earliestYear
     }
 
-    if (latest === null) {
+    let submitLatest = latest
+    if (submitLatest === '') {
       setLatest(latestYear)
+      submitLatest = latestYear
     }
 
-    zoomInput(earliest, latest)
+    zoomInput(submitEarliest, submitLatest)
   }
 
   return (
-    <form onSubmit={submitHandler}>
+    <Form onSubmit={submitHandler}>
+      <div>
+        <Form.Text id="yearRangeInput">
+          Enter a start and end year to view the graph in that range.
+        </Form.Text>
+      </div>
       <div className="input-group d-flex">
-        <div className="justify-content-start me-2">
-          <label htmlFor={earliestDateId} className="d-none">
+        <div
+          className="justify-content-start me-2"
+          aria-describedby="yearRangeInput"
+        >
+          <Form.Label htmlFor={earliestDateId} className="d-none">
             Earliest Year
-          </label>
+          </Form.Label>
           <StyledInput
             id={earliestDateId}
             type="number"
@@ -192,9 +204,9 @@ const ZoomInput: React.FC<IFacets> = ({
           />
         </div>
         <div className="justify-content-end me-2">
-          <label htmlFor={latestDateId} className="d-none">
+          <Form.Label htmlFor={latestDateId} className="d-none">
             Latest Year
-          </label>
+          </Form.Label>
           <StyledInput
             id={latestDateId}
             type="number"
@@ -208,8 +220,15 @@ const ZoomInput: React.FC<IFacets> = ({
           />
         </div>
         <div className="justify-content-start">
-          <StyledSubmit type="submit" className="btn me-2">
-            Zoom In
+          <StyledSubmit
+            type="submit"
+            className="btn me-2"
+            disabled={
+              (earliest === earliestYear && latest === latestYear) ||
+              (earliestYear === '' && latestYear === '')
+            }
+          >
+            View Selected Years
           </StyledSubmit>
           <StyledBtn
             type="button"
@@ -217,11 +236,11 @@ const ZoomInput: React.FC<IFacets> = ({
             onClick={() => zoomOut()}
             disabled={disabledZoomOut}
           >
-            Zoom Out
+            Reset
           </StyledBtn>
         </div>
       </div>
-    </form>
+    </Form>
   )
 }
 
