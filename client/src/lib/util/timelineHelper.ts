@@ -6,18 +6,6 @@ import {
   getSearchTagFromFacetedSearch,
 } from '../parse/search/timelineParser'
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-export const fetchTimelineData = (
-  uri: string,
-): Promise<{ [x: string]: any } | Error> =>
-  fetch(uri)
-    .then((response) =>
-      response
-        .text()
-        .then((translatedString) => ({ [uri]: JSON.parse(translatedString) })),
-    )
-    .catch((e) => new Error('The requested facets could not be returned.'))
-
 /**
  * Returns the transformed timeline data for rendering
  * @param {Array<{[key: string]: ISearchResults}>} data; the data from the HAL link requests
