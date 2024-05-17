@@ -6,6 +6,7 @@ import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
+import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
 
 import List from './List'
 import Graph from './Graph'
