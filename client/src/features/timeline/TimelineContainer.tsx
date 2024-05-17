@@ -4,12 +4,12 @@ import { Col } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
+import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
+import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
 import {
   sortTimelineData,
   transformTimelineData,
-} from '../../lib/parse/search/timelineParser'
-import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
+} from '../../lib/util/timelineHelper'
 
 import List from './List'
 import Graph from './Graph'
