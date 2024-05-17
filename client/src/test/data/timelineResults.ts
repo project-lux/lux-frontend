@@ -1,6 +1,6 @@
 import config from '../../config/config'
-import { ITransformedData } from '../../lib/parse/search/timelineParser'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
+import { ITransformedData } from '../../types/ITimelines'
 
 export const productionDateCriteria = {
   producedBy: {

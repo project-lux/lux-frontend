@@ -21,8 +21,11 @@ import {
   ITimelinesTransformed,
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
-import { getYearWithLabel } from '../../lib/parse/search/timelineParser'
 import { formatDateJsonSearch } from '../../lib/facets/dateParser'
+import {
+  addYearsWithNoData,
+  getYearWithLabel,
+} from '../../lib/util/timelineHelper'
 
 import ZoomInput from './ZoomInput'
 
@@ -47,11 +50,19 @@ export const getInitialState = (
 
 const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
   const navigate = useNavigate()
-  const graphData: Array<IGraphTimelineData> = sortedKeys.map((key) => ({
-    year: getYearWithLabel(key),
-    yearKey: key,
-    ...timelineData[key],
-  }))
+  // Add additional years that were not returned with the data
+  const yearsArray = addYearsWithNoData(sortedKeys)
+
+  const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
+    const barData = timelineData.hasOwnProperty(year)
+      ? timelineData[year]
+      : { total: 0 }
+    return {
+      year: getYearWithLabel(year),
+      yearKey: year,
+      ...barData,
+    }
+  })
 
   const [zoomState, setZoomState] = useState<Record<string, any>>(
     getInitialState(graphData),
