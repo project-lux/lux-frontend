@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef, useState } from 'react'
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
@@ -65,58 +65,69 @@ const TimelineContainer: React.FC<{
     if (sortedKeys.length !== 0) {
       return (
         <StyledEntityPageSection
-          className="row"
           data-testid="timeline-container"
           ref={timelineRef}
         >
-          <Col xs={8}>
-            <h2>Timeline of Related Objects/Works</h2>
-          </Col>
-          <Col xs={4} className="d-flex justify-content-end">
-            <StyledDisplaySwitchButton
-              onClick={() => setDisplay(display === 'graph' ? 'list' : 'graph')}
-              role="button"
-              aria-label={`View the hierarchy ${
-                display === 'graph' ? 'list' : 'graph'
-              }`}
-            >
-              <i
-                className={`bi ${
-                  display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
-                }`}
-                style={{ fontSize: '1.5rem' }}
-              />
-            </StyledDisplaySwitchButton>
-            <StyledDisplaySwitchButton
-              onClick={() => setFullscreen()}
-              role="button"
-              aria-label={
-                isFullscreen ? 'Minimize the viewport' : 'Expand to fullscreen'
-              }
-            >
-              <i
-                className={`bi ${
-                  isFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
-                }`}
-                style={{ fontSize: '1.5rem' }}
-              />
-            </StyledDisplaySwitchButton>
-          </Col>
-          <Col xs={12}>
-            {display === 'list' ? (
-              <List
-                sortedKeys={sortedKeys}
-                transformedData={transformedData}
-                searchTags={searchTags}
-              />
-            ) : (
-              <Graph
-                timelineData={transformedData}
-                searchTags={searchTags}
-                sortedKeys={sortedKeys}
-              />
-            )}
-          </Col>
+          <Row>
+            <Col xs={8}>
+              <h2>Timeline of Related Objects/Works</h2>
+            </Col>
+            <Col xs={4} className="d-flex justify-content-end">
+              <div className="h-50">
+                <StyledDisplaySwitchButton
+                  onClick={() =>
+                    setDisplay(display === 'graph' ? 'list' : 'graph')
+                  }
+                  role="button"
+                  aria-label={`View the hierarchy ${
+                    display === 'graph' ? 'list' : 'graph'
+                  }`}
+                >
+                  <i
+                    className={`bi ${
+                      display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+                <StyledDisplaySwitchButton
+                  onClick={() => setFullscreen()}
+                  role="button"
+                  aria-label={
+                    isFullscreen
+                      ? 'Minimize the viewport'
+                      : 'Expand to fullscreen'
+                  }
+                >
+                  <i
+                    className={`bi ${
+                      isFullscreen
+                        ? 'bi-fullscreen-exit'
+                        : 'bi-arrows-fullscreen'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+              </div>
+            </Col>
+          </Row>
+          <Row>
+            <Col xs={12}>
+              {display === 'list' ? (
+                <List
+                  sortedKeys={sortedKeys}
+                  transformedData={transformedData}
+                  searchTags={searchTags}
+                />
+              ) : (
+                <Graph
+                  timelineData={transformedData}
+                  searchTags={searchTags}
+                  sortedKeys={sortedKeys}
+                />
+              )}
+            </Col>
+          </Row>
         </StyledEntityPageSection>
       )
     }
