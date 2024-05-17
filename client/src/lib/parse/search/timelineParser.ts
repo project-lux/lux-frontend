@@ -1,18 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
 import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
-import { IOrderedItems, ISearchResults } from '../../../types/ISearchResults'
-import { ITimelinesTransformed } from '../../../types/ITimelines'
+import { IOrderedItems } from '../../../types/ISearchResults'
+import { ITransformedData } from '../../../types/ITimelines'
 import { getYearFromSingleFacetValue } from '../../facets/dateParser'
-
-import { getCriteriaFromHalLink } from './halLinkHelper'
-
-export interface ITransformedData {
-  value: string | null
-  totalItems: number
-  searchTag: string
-  criteria: IAdvancedSearchState
-}
 
 /**
  * Returns an array of the timeline data transformed from the results for rendering
@@ -56,79 +47,3 @@ export const getSearchTagFromFacetedSearch = (halLink: string): string => {
   const searchTag = urlParams.get('name') || ''
   return searchTag
 }
-
-/**
- * Returns the transformed timeline data for rendering
- * @param {Array<{[key: string]: ISearchResults}>} data; the data from the HAL link requests
- * @returns {ITimelinesTransformed}
- */
-export const transformTimelineData = (
-  data: Array<{
-    [key: string]: ISearchResults
-  }>,
-): ITimelinesTransformed => {
-  let transformedData: Array<ITransformedData> = []
-
-  for (const result of data) {
-    // the key is the api endpoint to retreive the facet values
-    for (const key of Object.keys(result)) {
-      const { orderedItems } = result[key]
-      const criteria = getCriteriaFromHalLink(key, 'facets')
-      const searchTag = getSearchTagFromFacetedSearch(key)
-
-      if (orderedItems !== null && orderedItems.length > 0) {
-        transformedData = [
-          ...transformedData,
-          ...addSearchTagToFacetValues(orderedItems, criteria, searchTag),
-        ]
-      }
-    }
-  }
-
-  transformedData.filter((value) => value !== null)
-
-  const dateCounts: { [key: string]: any } = {}
-  for (const tData of transformedData) {
-    const { value, totalItems, searchTag, criteria } = tData as ITransformedData
-    const date = String(value)
-    if (dateCounts.hasOwnProperty(date)) {
-      dateCounts[date].total += totalItems
-      if (!dateCounts[date].hasOwnProperty(searchTag)) {
-        dateCounts[date][searchTag] = {
-          totalItems,
-          criteria,
-        }
-      }
-    } else {
-      dateCounts[date] = {
-        total: totalItems,
-        [searchTag]: {
-          totalItems,
-          criteria,
-        },
-      }
-    }
-  }
-
-  return dateCounts
-}
-
-/**
- * Returns sorted object of timeline data based on the keys/years
- * @param {ITimelinesTransformed} timeline; the transformed timeline data
- * @returns {Array<string>}
- */
-export const sortTimelineData = (
-  timeline: Record<string, any>,
-): Array<string> =>
-  Object.keys(timeline).sort(
-    (a: string, b: string) => parseInt(a, 10) - parseInt(b, 10),
-  )
-
-/**
- * Adds the correct year label to the string year
- * @param {string} year; the year to add the label
- * @returns {string}
- */
-export const getYearWithLabel = (year: string): string =>
-  year.includes('-') ? `${year.substring(1)} B.C.E.` : `${year} C.E.`
