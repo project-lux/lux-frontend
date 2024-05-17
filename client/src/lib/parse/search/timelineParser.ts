@@ -5,15 +5,6 @@ import { IOrderedItems, ISearchResults } from '../../../types/ISearchResults'
 import { ITimelinesTransformed } from '../../../types/ITimelines'
 import { convertYearToISOYear, getLuxISOString } from '../../facets/dateParser'
 
-import { getCriteriaFromHalLink } from './halLinkHelper'
-
-export interface ITransformedData {
-  value: string | null
-  totalItems: number
-  searchTag: string
-  criteria: IAdvancedSearchState
-}
-
 /**
  * Returns the year from the date string provided
  * @param {string} facetValue; the date provided by the data as a string
