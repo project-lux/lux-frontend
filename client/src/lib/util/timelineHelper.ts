@@ -1,5 +1,11 @@
+import { isUndefined } from 'lodash'
+
 import { ISearchResults } from '../../types/ISearchResults'
-import { ITimelinesTransformed, ITransformedData } from '../../types/ITimelines'
+import {
+  IGraphTimelineData,
+  ITimelinesTransformed,
+  ITransformedData,
+} from '../../types/ITimelines'
 import { getCriteriaFromHalLink } from '../parse/search/halLinkHelper'
 import {
   addSearchTagToFacetValues,
@@ -117,54 +123,54 @@ export const getYearWithLabel = (year: string): string =>
  * @param {number} offset something
  * @returns {Array<number | Array<IGraphTimelineData>>}
  */
-// export const getAxisYDomain = (
-//   graphData: Array<IGraphTimelineData>,
-//   from: string,
-//   to: string | undefined,
-//   ref: string,
-//   offset: number,
-// ): { bottom: number; top: number; slicedData: Array<IGraphTimelineData> } => {
-//   let fromIndex: number | undefined
-//   let toIndex: number | undefined
-//   graphData.map((obj) => {
-//     // change to obj.year if using the highlight zoom method
-//     if (obj.yearKey === from || obj.year === from) {
-//       fromIndex = graphData.indexOf(obj)
-//     }
-//     if (obj.yearKey === to || obj.year === to) {
-//       toIndex = graphData.indexOf(obj)
-//     }
-//     return null
-//   })
+export const getAxisYDomain = (
+  graphData: Array<IGraphTimelineData>,
+  from: string,
+  to: string | undefined,
+  ref: string,
+  offset: number,
+): { bottom: number; top: number; slicedData: Array<IGraphTimelineData> } => {
+  let fromIndex: number | undefined
+  let toIndex: number | undefined
+  graphData.map((obj) => {
+    // change to obj.year if using the highlight zoom method
+    if (obj.yearKey === from || obj.year === from) {
+      fromIndex = graphData.indexOf(obj)
+    }
+    if (obj.yearKey === to || obj.year === to) {
+      toIndex = graphData.indexOf(obj)
+    }
+    return null
+  })
 
-//   // const stateKeys = Object.keys(state)
-//   // const ind = stateKeys.indexOf('_stateId')
-//   if (fromIndex !== undefined) {
-//     const refData = graphData.slice(
-//       fromIndex,
-//       isUndefined(toIndex) ? fromIndex + 1 : toIndex + 1,
-//     )
-//     let [bottom, top] = [refData[0][ref], refData[0][ref]]
-//     refData.forEach((d) => {
-//       if (d[ref] > top) {
-//         top = d[ref]
-//       }
-//       if (d[ref] < bottom) {
-//         bottom = d[ref]
-//       }
-//     })
+  // const stateKeys = Object.keys(state)
+  // const ind = stateKeys.indexOf('_stateId')
+  if (fromIndex !== undefined) {
+    const refData = graphData.slice(
+      fromIndex,
+      isUndefined(toIndex) ? fromIndex + 1 : toIndex + 1,
+    )
+    let [bottom, top] = [refData[0][ref], refData[0][ref]]
+    refData.forEach((d) => {
+      if (d[ref] > top) {
+        top = d[ref]
+      }
+      if (d[ref] < bottom) {
+        bottom = d[ref]
+      }
+    })
 
-//     return {
-//       bottom: parseInt(bottom as string, 10) - offset,
-//       top: parseInt(top as string, 10) + offset,
-//       slicedData: refData,
-//     }
-//   }
+    return {
+      bottom: parseInt(bottom as string, 10) - offset,
+      top: parseInt(top as string, 10) + offset,
+      slicedData: refData,
+    }
+  }
 
-//   // set this to default to the lowest and highest points on the graph
-//   return {
-//     bottom: 0,
-//     top: 0,
-//     slicedData: graphData,
-//   }
-// }
+  // set this to default to the lowest and highest points on the graph
+  return {
+    bottom: 0,
+    top: 0,
+    slicedData: graphData,
+  }
+}
