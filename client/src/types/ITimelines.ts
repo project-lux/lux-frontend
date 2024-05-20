@@ -29,6 +29,7 @@ export type TimelineSearchResult = Array<{
 
 export interface IGraphTimelineData {
   year: string
+  yearKey: string
   total: number
   [key: string]: ITimelineCriteria | string | number
 }
