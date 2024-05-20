@@ -1,6 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ISearchResults } from '../../types/ISearchResults'
-import { ITimelinesTransformed, ITransformedData } from '../../types/ITimelines'
+import {
+  IGraphTimelineData,
+  ITimelinesTransformed,
+  ITransformedData,
+} from '../../types/ITimelines'
 import { getCriteriaFromHalLink } from '../parse/search/halLinkHelper'
 import {
   addSearchTagToFacetValues,
