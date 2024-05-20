@@ -68,7 +68,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
