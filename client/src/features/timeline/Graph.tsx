@@ -14,6 +14,7 @@ import {
 import { Accordion, Row } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import {
@@ -25,15 +26,17 @@ import { IHalLinks } from '../../types/IHalLinks'
 import { formatDateJsonSearch } from '../../lib/facets/dateParser'
 import {
   addYearsWithNoData,
+  getAxisYDomain,
   getYearWithLabel,
 } from '../../lib/util/timelineHelper'
 
 import ZoomInput from './ZoomInput'
+import CustomTooltip from './CustomTooltip'
 
 const StyledButton = styled(Accordion.Header)`
   .accordion-button {
     padding: 0.5rem;
-    width: 15%;
+    width: 20%;
   }
 `
 
@@ -43,16 +46,27 @@ interface IProps {
   sortedKeys: Array<string>
 }
 
+export interface IZoomState {
+  data: Array<IGraphTimelineData>
+  left: string
+  right: string
+  refAreaLeft: string
+  refAreaRight: string
+  top: number
+  bottom: number
+  animation: boolean
+}
+
 export const getInitialState = (
   initialData: Array<IGraphTimelineData>,
-): Record<string, any> => ({
+): IZoomState => ({
   data: initialData,
-  left: 'dataMin',
-  right: 'dataMax',
+  left: initialData[0].yearKey,
+  right: initialData[initialData.length - 1].yearKey,
   refAreaLeft: '',
   refAreaRight: '',
-  top: 'dataMax+1',
-  bottom: 'dataMin-1',
+  top: parseInt(initialData[initialData.length - 1].yearKey, 10),
+  bottom: parseInt(initialData[0].yearKey, 10),
   animation: true,
 })
 
@@ -72,43 +86,58 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     }
   })
 
-  const [zoomState, setZoomState] = useState<Record<string, any>>(
+  const [zoomState, setZoomState] = useState<IZoomState>(
     getInitialState(graphData),
   )
 
-  // const zoom = (): void => {
-  //   let { refAreaLeft, refAreaRight } = zoomState
+  const zoom = (): void => {
+    let { refAreaLeft, refAreaRight } = zoomState
 
-  //   if (refAreaLeft === refAreaRight || refAreaRight === '') {
-  //     setZoomState(() => ({
-  //       refAreaLeft: '',
-  //       refAreaRight: '',
-  //     }))
-  //     return
-  //   }
+    if (refAreaLeft === refAreaRight) {
+      const updatedState = zoomState
+      updatedState.refAreaLeft = ''
+      updatedState.refAreaRight = ''
+      setZoomState(() => updatedState)
+      return
+    }
 
-  //   // xAxis domain
-  //   if (refAreaLeft > refAreaRight)
-  //     [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
+    if (isUndefined(refAreaLeft) || refAreaLeft === '') {
+      refAreaLeft = zoomState.left
+    }
 
-  //   // yAxis domain
-  //   const [bottom, top, slicedData] = getAxisYDomain(
-  //     refAreaLeft,
-  //     refAreaRight,
-  //     'yearKey',
-  //     1,
-  //   )
+    if (isUndefined(refAreaRight) || refAreaRight === '') {
+      refAreaRight = zoomState.right
+    }
+    console.log(refAreaRight)
 
-  //   setZoomState(() => ({
-  //     refAreaLeft: '',
-  //     refAreaRight: '',
-  //     data: slicedData,
-  //     left: refAreaLeft,
-  //     right: refAreaRight,
-  //     bottom,
-  //     top,
-  //   }))
-  // }
+    // xAxis domain
+    if (refAreaLeft > refAreaRight)
+      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
+
+    // yAxis domain
+    const { bottom, top, slicedData } = getAxisYDomain(
+      graphData,
+      refAreaLeft,
+      refAreaRight,
+      'yearKey',
+      1,
+    )
+
+    setZoomState({
+      refAreaLeft: '',
+      refAreaRight: '',
+      data: slicedData,
+      left: refAreaLeft,
+      right: refAreaRight,
+      bottom,
+      top,
+      animation: true,
+    })
+  }
+
+  const zoomOut = (): void => {
+    setZoomState(getInitialState(graphData))
+  }
 
   const handleClick = (year: string, searchTag: string): void => {
     const { tab, jsonSearchTerm } = searchTags[searchTag]
@@ -137,15 +166,18 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
       style={{ userSelect: 'none', width: '100%' }}
     >
       <Row className="d-flex">
-        <Accordion defaultActiveKey="0">
+        <Accordion>
           <Accordion.Item eventKey="0">
-            <StyledButton>Filter By Year</StyledButton>
+            <StyledButton>Filter By Years</StyledButton>
             <Accordion.Body className="ps-1 pt-2">
               <ZoomInput
-                graphData={graphData}
-                earliestYear={sortedKeys[0]}
-                latestYear={sortedKeys[sortedKeys.length - 1]}
-                setZoomRange={setZoomState}
+                key={`${zoomState.data[0].yearKey}-${
+                  zoomState.data[zoomState.data.length - 1].yearKey
+                }`}
+                state={zoomState}
+                setZoomState={setZoomState}
+                setZoom={zoom}
+                setZoomOut={zoomOut}
                 disabledZoomOut={zoomState.data.length === graphData.length}
               />
             </Accordion.Body>
@@ -161,23 +193,32 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
             left: 0,
             bottom: 5,
           }}
-          // onMouseDown={(e) =>
-          //   setZoomState({ ...zoomState, refAreaLeft: e.activeLabel })
-          // }
-          // onMouseMove={(e) =>
-          //   setZoomState({
-          //     ...zoomState,
-          //     refAreaLeft: zoomState.refAreaLeft,
-          //     refAreaRight: e.activeLabel,
-          //   })
-          // }
-          // // eslint-disable-next-line react/jsx-no-bind
-          // onMouseUp={() => zoom()}
+          onMouseDown={(e) =>
+            setZoomState({ ...zoomState, refAreaLeft: e.activeLabel as string })
+          }
+          onMouseMove={(e) => {
+            setZoomState({
+              ...zoomState,
+              refAreaLeft: zoomState.refAreaLeft,
+              refAreaRight: e.activeLabel as string,
+            })
+          }}
+          // eslint-disable-next-line react/jsx-no-bind
+          onMouseUp={() => zoom()}
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
           <YAxis dataKey="total" yAxisId="total" allowDataOverflow />
-          <Tooltip />
+          <Tooltip
+            trigger="click"
+            content={
+              <CustomTooltip
+                searchTags={searchTags}
+                active={false}
+                payload={undefined}
+              />
+            }
+          />
           <Legend />
           <Bar
             dataKey="itemProductionDate.totalItems"

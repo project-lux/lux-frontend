@@ -16,6 +16,7 @@ export interface ITimelinesTransformed {
 
 export interface IGraphTimelineData {
   year: string
+  yearKey: string
   total: number
   [key: string]: ITimelineCriteria | string | number
 }
