@@ -2,20 +2,18 @@
 /* eslint-disable consistent-return */
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
-import { isUndefined } from 'lodash'
 import { Form } from 'react-bootstrap'
 
 import theme from '../../styles/theme'
-import { IGraphTimelineData } from '../../types/ITimelines'
 
-import { getInitialState } from './Graph'
+import { IZoomState } from './Graph'
 
 interface IProps {
-  graphData: Array<IGraphTimelineData>
-  earliestYear: string
-  latestYear: string
+  state: IZoomState
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  setZoomRange: (x: Record<string, any>) => void
+  setZoomState: (x: IZoomState) => void
+  setZoom: () => void
+  setZoomOut: () => void
   disabledZoomOut: boolean
 }
 
@@ -47,14 +45,18 @@ const StyledSubmit = styled.button`
 `
 
 const ZoomInput: React.FC<IProps> = ({
-  graphData,
-  earliestYear,
-  latestYear,
-  setZoomRange,
+  state,
+  setZoomState,
+  setZoom,
+  setZoomOut,
   disabledZoomOut,
 }) => {
-  const [earliest, setEarliest] = useState<string>(earliestYear)
-  const [latest, setLatest] = useState<string>(latestYear)
+  const { data } = state
+  const min = parseInt(data[0].yearKey, 10)
+  const max = parseInt(data[data.length - 1].yearKey, 10)
+
+  const [earliest, setEarliest] = useState<string>(min.toString())
+  const [latest, setLatest] = useState<string>(max.toString())
   const earliestRef = useRef<HTMLInputElement>(null)
   const latestRef = useRef<HTMLInputElement>(null)
 
@@ -63,99 +65,16 @@ const ZoomInput: React.FC<IProps> = ({
 
   const handleEarliestInputChange = (value: string): void => {
     setEarliest(value)
+    setZoomState({ ...state, refAreaLeft: value })
   }
 
   const handleLatestInputChange = (value: string): void => {
     setLatest(value)
-  }
-
-  const getAxisYDomain = (
-    from: string,
-    to: string | undefined,
-    ref: string,
-    offset: number,
-  ): Array<number | Array<IGraphTimelineData>> => {
-    let fromIndex: number | undefined
-    let toIndex: number | undefined
-    graphData.map((obj) => {
-      // change to obj.year if using the highlight zoom method
-      if (obj.yearKey === from) {
-        fromIndex = graphData.indexOf(obj)
-      }
-      if (obj.yearKey === to) {
-        toIndex = graphData.indexOf(obj)
-      }
-      return null
+    setZoomState({
+      ...state,
+      refAreaLeft: state.refAreaLeft,
+      refAreaRight: value,
     })
-
-    // const stateKeys = Object.keys(state)
-    // const ind = stateKeys.indexOf('_stateId')
-    if (fromIndex !== undefined) {
-      const refData = graphData.slice(
-        fromIndex,
-        isUndefined(toIndex) ? fromIndex + 1 : toIndex + 1,
-      )
-      let [bottom, top] = [refData[0][ref], refData[0][ref]]
-      refData.forEach((d) => {
-        if (d[ref] > top) {
-          top = d[ref]
-        }
-        if (d[ref] < bottom) {
-          bottom = d[ref]
-        }
-      })
-
-      // eslint-disable-next-line no-bitwise
-      return [
-        parseInt(bottom as string, 10) - offset,
-        parseInt(top as string, 10) + offset,
-        refData,
-      ]
-    }
-
-    // set this to default to the lowest and highest points on the graph
-    return []
-  }
-
-  const zoomInput = (left: string, right: string): void => {
-    let refAreaLeft = left
-    let refAreaRight = right
-
-    // if (refAreaLeft === refAreaRight || refAreaRight === '') {
-    //   setZoomRange(() => ({
-    //     refAreaLeft: '',
-    //     refAreaRight: '',
-    //   }))
-    //   return
-    // }
-
-    // xAxis domain
-    if (refAreaLeft > refAreaRight)
-      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
-
-    // yAxis domain
-    const [bottom, top, slicedData] = getAxisYDomain(
-      refAreaLeft,
-      refAreaRight,
-      'yearKey',
-      1,
-    )
-
-    setZoomRange(() => ({
-      refAreaLeft: '',
-      refAreaRight: '',
-      data: slicedData,
-      left: refAreaLeft,
-      right: refAreaRight,
-      bottom,
-      top,
-    }))
-  }
-
-  const zoomOut = (): void => {
-    setZoomRange(getInitialState(graphData))
-    setEarliest(earliestYear)
-    setLatest(latestYear)
   }
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -163,24 +82,26 @@ const ZoomInput: React.FC<IProps> = ({
 
     let submitEarliest = earliest
     if (submitEarliest === '') {
-      setEarliest(earliestYear)
-      submitEarliest = earliestYear
+      submitEarliest = data[0].yearKey
+      setEarliest(submitEarliest)
     }
 
     let submitLatest = latest
     if (submitLatest === '') {
-      setLatest(latestYear)
-      submitLatest = latestYear
+      submitLatest = data[data.length - 1].yearKey
+      setLatest(submitLatest)
     }
 
-    zoomInput(submitEarliest, submitLatest)
+    setZoom()
   }
 
   return (
     <Form onSubmit={submitHandler}>
       <div>
         <Form.Text id="yearRangeInput">
-          Enter a start and end year to view the graph in that range.
+          Enter a start and end year to view the graph in that range. You may
+          also click and drag the cursor over the graph to highlight a range you
+          wish to view.
         </Form.Text>
       </div>
       <div className="input-group d-flex">
@@ -195,10 +116,10 @@ const ZoomInput: React.FC<IProps> = ({
             id={earliestDateId}
             type="number"
             className="form-control"
-            placeholder={earliestYear}
+            placeholder={earliest}
             onChange={(e) => handleEarliestInputChange(e.currentTarget.value)}
-            min={parseInt(earliestYear, 10)}
-            max={parseInt(latestYear, 10)}
+            min={min}
+            max={max}
             ref={earliestRef}
             value={earliest}
           />
@@ -211,10 +132,10 @@ const ZoomInput: React.FC<IProps> = ({
             id={latestDateId}
             type="number"
             className="form-control"
-            placeholder={latestYear}
+            placeholder={latest}
             onChange={(e) => handleLatestInputChange(e.currentTarget.value)}
-            min={parseInt(earliestYear, 10)}
-            max={parseInt(latestYear, 10)}
+            min={min}
+            max={max}
             ref={latestRef}
             value={latest}
           />
@@ -224,8 +145,8 @@ const ZoomInput: React.FC<IProps> = ({
             type="submit"
             className="btn me-2"
             disabled={
-              (earliest === earliestYear && latest === latestYear) ||
-              (earliestYear === '' && latestYear === '')
+              (earliest === min.toString() && latest === max.toString()) ||
+              (min.toString() === '' && max.toString() === '')
             }
           >
             View Selected Years
@@ -233,7 +154,7 @@ const ZoomInput: React.FC<IProps> = ({
           <StyledBtn
             type="button"
             className="btn update"
-            onClick={() => zoomOut()}
+            onClick={() => setZoomOut()}
             disabled={disabledZoomOut}
           >
             Reset
