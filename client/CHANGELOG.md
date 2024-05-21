@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added Public Domain to works advanced search ([#47](https://github.com/project-lux/lux-frontend/issues/47)).
+- Added missing data to sets pages ([#88](https://github.com/project-lux/lux-frontend/issues/88)).
 
 ### Changed
 

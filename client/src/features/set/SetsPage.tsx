@@ -77,7 +77,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
         <StyledEntityBody>
           <Col lg={8}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <About data={data} />
+              <About entity={data} />
             </ErrorBoundary>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <ArchiveHierarchyContainer

@@ -2,6 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
+import { isNull } from 'lodash'
 
 import NotesContainer from '../common/NotesContainer'
 import LinkContainer from '../common/LinkContainer'
@@ -13,17 +14,35 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { IEventInfo } from '../../types/derived-data/events'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import DetailedLinkContainer from '../works/DetailedLinkContainer'
+import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
+import { events } from '../../config/setsSearchTags'
 
 interface IObject {
-  data: IEntity
+  entity: IEntity
 }
 
-const About: React.FC<IObject> = ({ data }) => {
-  const setParser = new SetParser(data)
+const About: React.FC<IObject> = ({ entity }) => {
+  const setParser = new SetParser(entity)
   const aboutData = setParser.getAboutData()
+  const eventHalLink = setParser.getHalLink(events.searchTag)
+  let eventData: Array<string> = []
+
+  const { data, isSuccess } = useGetSearchRelationshipQuery(
+    {
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      uri: eventHalLink!,
+    },
+    {
+      skip: isNull(eventHalLink),
+    },
+  )
 
   if (aboutData === null) {
     return null
+  }
+
+  if (isSuccess && data) {
+    eventData = data.orderedItems.map((item) => item.id)
   }
 
   const {
@@ -47,7 +66,7 @@ const About: React.FC<IObject> = ({ data }) => {
       </Row>
       <dl>
         {names !== null && <NamesContainer names={names} showBreakline />}
-        {itemType !== null && (
+        {itemType.length > 0 && (
           <React.Fragment>
             <LinkContainer
               content={itemType}
@@ -102,6 +121,13 @@ const About: React.FC<IObject> = ({ data }) => {
               id="set-depicts-link-container"
             />
           </React.Fragment>
+        )}
+        {eventData.length > 0 && (
+          <LinkContainer
+            content={eventData}
+            label={events.title}
+            id="set-types-link-container"
+          />
         )}
       </dl>
     </StyledEntityPageSection>
