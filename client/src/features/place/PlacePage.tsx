@@ -24,6 +24,7 @@ import { ErrorFallback } from '../error/ErrorFallback'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
+import ImageThumbnail from '../common/ImageThumbnail'
 
 import AboutPanel from './AboutPanel'
 
@@ -32,6 +33,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
   const place = new EntityParser(data)
   const types = place.getTypes()
   const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
+  const images = place.getImages()
 
   const mapConfig = {
     wkt: data.defined_by || '',
@@ -78,10 +80,19 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           </ErrorBoundary>
         </Col>
         <Col lg={4}>
-          <StyledEntityPageSection className="row">
+          <StyledEntityPageSection className="row" data-testid="testing-place">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Map config={mapConfig} className="col lg" />
+                {/* Render the map if there is map data */}
+                {mapConfig.wkt !== '' && (
+                  <Map config={mapConfig} className="col lg" />
+                )}
+                {/* Render images if they exist and there is no map data */}
+                {mapConfig.wkt === '' && images.length > 0 && (
+                  <div style={{ height: '20rem' }}>
+                    <ImageThumbnail imageInfo={images[0]} />
+                  </div>
+                )}
               </ErrorBoundary>
             </Col>
             <ErrorBoundary FallbackComponent={ErrorFallback}>

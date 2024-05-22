@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added Public Domain to works advanced search ([#47](https://github.com/project-lux/lux-frontend/issues/47)).
 - Added types to sets pages ([#241](https://github.com/project-lux/lux-frontend/issues/241)).
+- Added images to place pages ([#242](https://github.com/project-lux/lux-frontend/issues/242)).
 
 ### Changed
 
