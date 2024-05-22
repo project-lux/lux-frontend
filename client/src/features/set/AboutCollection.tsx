@@ -7,6 +7,7 @@ import ProductionEvent from '../common/ProductionEvent'
 import IEntity from '../../types/data/IEntity'
 import { IEventInfo } from '../../types/derived-data/events'
 import WorkParser from '../../lib/parse/data/WorkParser'
+import LinkContainer from '../common/LinkContainer'
 
 interface IObject {
   data: IEntity
@@ -20,7 +21,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
     return null
   }
 
-  const { name, names, publications } = aboutData as Record<string, any>
+  const { name, names, types, publications } = aboutData as Record<string, any>
 
   return (
     <React.Fragment>
@@ -32,6 +33,17 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
           <div className="row">
             <NamesContainer names={names} />
           </div>
+        )}
+        {types.length > 0 && (
+          <React.Fragment>
+            <LinkContainer
+              content={types}
+              label="Types"
+              id="set-types-link-container"
+              expandColumns
+              itemSpacing="single"
+            />
+          </React.Fragment>
         )}
         {publications.length > 0 &&
           publications.map((publication: IEventInfo, ind: number) => (

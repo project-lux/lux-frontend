@@ -202,11 +202,13 @@ export default class WorkParser extends EntityParser {
   > | null {
     const names = this.getNames(true)
     const name = this.getPrimaryName(config.dc.langen)
+    const types = this.getTypes()
     const publications = this.getPublicationEvent()
 
     const data: Record<string, any> = {
       names,
       name,
+      types,
       publications,
     }
 
