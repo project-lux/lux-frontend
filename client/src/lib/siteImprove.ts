@@ -28,7 +28,9 @@ export const pushSiteImproveEvent = (
   const args = label
     ? ['event', category, action, label]
     : ['event', category, action]
-  window._sz.push(args)
+  if (window && window._sz) {
+    window._sz.push(args)
+  }
 }
 
 /**
@@ -43,12 +45,14 @@ export const pushSiteImprovePageEvent = (
   currentUrl: string,
   targetTitle: string,
 ): void => {
-  window._sz.push([
-    'trackdynamic',
-    {
-      url: targetUrl,
-      ref: currentUrl,
-      title: targetTitle,
-    },
-  ])
+  if (window && window._sz) {
+    window._sz.push([
+      'trackdynamic',
+      {
+        url: targetUrl,
+        ref: currentUrl,
+        title: targetTitle,
+      },
+    ])
+  }
 }
