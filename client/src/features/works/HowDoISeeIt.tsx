@@ -28,9 +28,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
         <ExternalLink
           url={link.link}
           name={
-            link.contentIdentifier !== ''
-              ? link.contentIdentifier
-              : `View this item on the collection website`
+            link.contentIdentifier !== '' ? link.contentIdentifier : link.link
           }
         />
         <br />
