@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed default How Do I See It link text ([#243](https://github.com/project-lux/lux-frontend/issues/243)).
+- Fixed advanced search alignment with icons ([#239](https://github.com/project-lux/lux-frontend/issues/239)).
 
 ## v1.26.0 - 2024-5-14
 
