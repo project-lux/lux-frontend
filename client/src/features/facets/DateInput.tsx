@@ -10,7 +10,8 @@ import { facetLabels, facetSearchTerms } from '../../config/facets'
 import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
 import { removeFacetFromQuery } from '../../lib/facets/removeFacet'
 import theme from '../../styles/theme'
-import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
+import { IFacetValue } from '../../types/IFacets'
+import { ICriteria } from '../../types/ISearchResults'
 import { searchScope } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
@@ -19,7 +20,7 @@ import DateSlider from './DateSlider'
 
 interface IFacets {
   criteria: ICriteria
-  facetValues: IOrderedItems[]
+  facetValues: IFacetValue[]
   facetSection: string
   facetQuery: ICriteria
   scope: string

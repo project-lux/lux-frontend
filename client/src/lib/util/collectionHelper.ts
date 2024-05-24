@@ -26,10 +26,12 @@ export const fetchCollection = (entityId: string): Promise<any> =>
       }
       return null
     })
-    .catch(
-      () =>
-        new Error('An error occurred while retreiving data for collections.'),
-    )
+    .catch(() => {
+      console.log('fetchCollection failed for collection id: ', entityId)
+      return new Error(
+        'An error occurred while retreiving data for collections.',
+      )
+    })
 
 export function getCollections(entity: IEntity): any {
   const memberOf = getMemberOfUris(entity)

@@ -5,7 +5,8 @@ import { facetSearchTerms } from '../../config/facets'
 import { buildQuery, getFacetLabel } from '../../lib/facets/helper'
 import { removeFacet } from '../../lib/facets/removeFacet'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
-import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
+import { IFacetValue } from '../../types/IFacets'
+import { ICriteria } from '../../types/ISearchResults'
 import StyledCheckbox from '../../styles/features/facets/Checkbox'
 import ApiText from '../common/ApiText'
 import { getParamPrefix } from '../../lib/util/params'
@@ -16,7 +17,7 @@ import { pushSiteImproveEvent } from '../../lib/siteImprove'
 
 interface IProps {
   criteria: ICriteria
-  facet: IOrderedItems
+  facet: IFacetValue
   facetSection: string
   selectedFacets: Map<string, Set<string | number>> | null
   facetQuery: ICriteria
@@ -152,7 +153,7 @@ const Checkbox: React.FC<IProps> = ({
       />
       <label className="form-check-label ms-2" htmlFor={id}>
         {label}
-        {facet.totalItems ? `(${facet.totalItems})` : null}
+        {facet.count ? `(${facet.count})` : null}
       </label>
     </div>
   )

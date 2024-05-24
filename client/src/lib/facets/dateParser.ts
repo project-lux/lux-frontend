@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 
-import { IOrderedItems } from '../../types/ISearchResults'
+import { IFacetValue } from '../../types/IFacets'
 
 const sortYears = (a: number, b: number): number => {
   if (a < b) {
@@ -17,7 +17,7 @@ const sortYears = (a: number, b: number): number => {
 
 /* eslint-disable consistent-return */
 export const getYearsFromFacetValues = (
-  facetValues: IOrderedItems[],
+  facetValues: IFacetValue[],
 ): number[] => {
   const years = facetValues
     .filter((facet) => facet.value !== null)

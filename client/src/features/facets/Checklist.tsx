@@ -2,13 +2,14 @@
 import React, { useState } from 'react'
 
 import config from '../../config/config'
-import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
+import { IFacetValue } from '../../types/IFacets'
+import { ICriteria } from '../../types/ISearchResults'
 
 import Checkbox from './Checkbox'
 
 interface IFacets {
   criteria: ICriteria
-  facetValues: Array<IOrderedItems>
+  facetValues: Array<IFacetValue>
   facetSection: string
   length?: number
   facetQuery: ICriteria

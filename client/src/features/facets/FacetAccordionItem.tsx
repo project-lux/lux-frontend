@@ -5,11 +5,8 @@ import { booleanFacetNames, facetLabels } from '../../config/facets'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
 import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
 import { IFacetsSelected } from '../../redux/slices/facetsSlice'
-import {
-  ICriteria,
-  IOrderedItems,
-  ISearchResults,
-} from '../../types/ISearchResults'
+import { IFacetValue } from '../../types/IFacets'
+import { ICriteria } from '../../types/ISearchResults'
 
 import Checklist from './Checklist'
 import DateInput from './DateInput'
@@ -26,21 +23,19 @@ interface IProps {
 }
 
 const filterFacetValues = (
-  facets: IOrderedItems[],
+  facets: IFacetValue[],
   facetName: string,
-): IOrderedItems[] => {
+): IFacetValue[] => {
   // Remove null values
-  let values = facets.filter((val: IOrderedItems) => val.value !== null)
+  let values = facets.filter((val: IFacetValue) => val.value !== null)
 
   // Sort the boolean facet values so that Yes appears first in the list
   if (booleanFacetNames.has(facetName)) {
-    values = Object.values(facets).sort(
-      (a: IOrderedItems, b: IOrderedItems) => {
-        const valA = a.value as number
-        const valB = b.value as number
-        return valB - valA
-      },
-    )
+    values = Object.values(facets).sort((a: IFacetValue, b: IFacetValue) => {
+      const valA = a.value as number
+      const valB = b.value as number
+      return valB - valA
+    })
   }
   return values
 }
@@ -70,11 +65,9 @@ const FacetAccordionItem: React.FC<IProps> = ({
   let isFacetOpen = facetName === facetsState.lastSelectedFacetName
 
   if (isSuccess && data) {
-    const { orderedItems } = data as ISearchResults
+    // const { orderedItems } = data as ISearchResults
     const facetsToShow =
-      orderedItems !== null && orderedItems.length > 0
-        ? filterFacetValues(orderedItems, facetName)
-        : []
+      data !== null && data.length > 0 ? filterFacetValues(data, facetName) : []
 
     if (facetsToShow.length > 0) {
       return (
