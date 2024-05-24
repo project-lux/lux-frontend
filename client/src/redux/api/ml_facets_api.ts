@@ -3,8 +3,7 @@ import { createApi } from '@reduxjs/toolkit/query/react'
 
 import { getFacetsApiBaseUrl } from '../../config/config'
 import { ISearchParams } from '../../types/IMlApiParams'
-// import { ISearchResults, ISearchResultsError } from '../../types/ISearchResults'
-import { IFacetValue } from '../../types/IFacets'
+import { IFacetResult } from '../../types/IFacetResult'
 import { searchScope } from '../../config/searchTypes'
 
 import { baseQuery } from './baseQuery'
@@ -44,7 +43,7 @@ export const mlFacetsApi = createApi({
   reducerPath: 'mlFacetsApi',
   baseQuery: baseQuery(getFacetsApiBaseUrl),
   endpoints: (builder) => ({
-    getFacetsSearch: builder.query<IFacetValue[], ISearchParams>({
+    getFacetsSearch: builder.query<IFacetResult, ISearchParams>({
       query: (searchParams) => {
         const { q, facetNames, tab } = searchParams
         const urlParams = new URLSearchParams()

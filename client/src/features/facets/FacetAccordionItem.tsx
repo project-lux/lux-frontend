@@ -65,9 +65,11 @@ const FacetAccordionItem: React.FC<IProps> = ({
   let isFacetOpen = facetName === facetsState.lastSelectedFacetName
 
   if (isSuccess && data) {
-    // const { orderedItems } = data as ISearchResults
+    const facets = data[facetName]
     const facetsToShow =
-      data !== null && data.length > 0 ? filterFacetValues(data, facetName) : []
+      data !== null && facets.length > 0
+        ? filterFacetValues(facets, facetName)
+        : []
 
     if (facetsToShow.length > 0) {
       return (
