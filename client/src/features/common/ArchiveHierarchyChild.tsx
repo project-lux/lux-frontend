@@ -13,7 +13,9 @@ import CollapseContainer from '../advancedSearch/CollapseContainer'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import {
   currentUriInHierarchy,
-  extractHalLinks,
+  getItemChildren,
+  getWorkChildren,
+  hasHierarchyHalLinks,
   isInHierarchy,
 } from '../../lib/util/hierarchyHelpers'
 
@@ -54,7 +56,9 @@ const ArchiveHierarchyChild: React.FC<{
     const entity = new EntityParser(data)
     const primaryName = entity.getPrimaryName(config.dc.langen)
     const iiifImages = entity.getManifestId()
-    const links = entity.json._links ? extractHalLinks(entity.json._links) : []
+    const links = entity.json._links
+      ? hasHierarchyHalLinks(entity.json._links)
+      : []
     const activeClassName = currentUriInHierarchy(data.id, pathname)
       ? 'active'
       : ''
@@ -94,6 +98,8 @@ const ArchiveHierarchyChild: React.FC<{
                 key={pathname}
                 parentsOfCurrentEntity={parentsOfCurrentEntity}
                 ancestors={ancestors}
+                setIncludedItems={getItemChildren(data._links)}
+                setIncludedWorks={getWorkChildren(data._links)}
               />
             </CollapseContainer>
           </Col>

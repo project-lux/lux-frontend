@@ -23,7 +23,7 @@ const ExternalLink: React.FC<IExternalUrl> = ({ url, name, style, id }) => (
     href={url}
     target="_blank"
     rel="noreferrer"
-    style={style}
+    style={{ ...style, overflowWrap: 'break-word' }}
     onClick={() =>
       pushSiteImproveEvent('External Link', 'Selected', `External ${name}`)
     }

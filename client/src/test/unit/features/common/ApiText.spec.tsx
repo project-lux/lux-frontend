@@ -79,7 +79,8 @@ describe('ApiText', () => {
         typeof useGetNameQuery
       >
       // the api call is skipped
-      getName.mockImplementation((skipToken) => ({
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      getName.mockImplementation((skipToken: any) => ({
         currentData: undefined,
         data: undefined,
         isError: false,

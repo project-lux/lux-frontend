@@ -3,15 +3,11 @@
 import React, { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
+import { isNull, isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
-import { useGetMultipleRelationshipsQuery } from '../../redux/api/ml_api'
-import {
-  currentUriInHierarchy,
-  extractHalLinks,
-} from '../../lib/util/hierarchyHelpers'
-import { getDataApiBaseUrl } from '../../config/config'
+import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import {
   addData,
   removeData,
@@ -21,71 +17,107 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
+const isHalLinkForWorks = (link: string | null): boolean =>
+  !isNull(link) && link.includes('/works')
+
 const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestor: IEntity
   skipApiCalls?: boolean
   parentsOfCurrentEntity: Array<string>
   ancestors: Array<string>
+  setIncludedItems: string | null
+  setIncludedWorks: string | null
 }> = ({
   ancestor,
   skipApiCalls = false,
   parentsOfCurrentEntity,
   ancestors,
+  setIncludedItems,
+  setIncludedWorks,
 }) => {
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
-  const [page, setPage] = useState<number>(1)
-  const links = ancestor._links ? extractHalLinks(ancestor._links) : []
-  const skip = links.length === 0
+  const [workPage, setWorkPage] = useState<number>(1)
+  const [itemPage, setItemPage] = useState<number>(1)
+  const [halLink, setHalLink] = useState<string | null>(
+    setIncludedWorks || setIncludedItems,
+  )
+
+  const skip = halLink === null
   const { data, isSuccess, isLoading, isFetching } =
-    useGetMultipleRelationshipsQuery(
+    useGetSearchRelationshipQuery(
       {
-        halLinks: links,
-        page,
+        uri: halLink,
+        page: isHalLinkForWorks(halLink) ? workPage : itemPage,
       },
       {
         skip,
       },
     )
 
-  const handleShowLess = (paginate: number): void => {
-    setPage(paginate)
+  const handleShowLess = (): void => {
+    const page = isHalLinkForWorks(halLink) ? workPage : itemPage
+    if (isHalLinkForWorks(halLink)) {
+      setWorkPage(workPage - 1)
+    } else {
+      if (itemPage === 1 && !isUndefined(setIncludedWorks)) {
+        setHalLink(setIncludedWorks)
+      }
+      setItemPage(itemPage > 1 ? itemPage - 1 : 1)
+    }
     dispatch(
       removeData({
         id: ancestor.id!,
         page,
+        halLinkType: halLink?.includes('/work') ? 'works' : 'items',
       }),
     )
+  }
+
+  const handleShowMore = (next: string | null): void => {
+    // If there are no more work results
+    if (
+      !data.hasOwnProperty('next') &&
+      halLink?.includes('/work') &&
+      !isNull(setIncludedItems)
+    ) {
+      setHalLink(setIncludedItems)
+    } else if (!isNull(next) && !isUndefined(next)) {
+      // If the results returned contains more data
+      if (isHalLinkForWorks(halLink)) {
+        setWorkPage(workPage + 1)
+      } else {
+        setItemPage(itemPage + 1)
+      }
+    } else {
+      setHalLink(null)
+    }
   }
 
   useEffect(() => {
     if (isSuccess && data) {
       let totalResults = 0
       const children: Array<string> = []
-      for (const result of data) {
-        totalResults += getEstimates(result)
-        for (const item of result.orderedItems) {
-          const { id } = item
-          const pathnameInResults = currentUriInHierarchy(id, pathname)
-          if (!pathnameInResults) {
-            children.push(id)
-          }
-        }
+      // let next = null
+      totalResults += getEstimates(data)
+      // next = data.next !== undefined ? data.next.id : null
+      // // If the results returned is the last page of results
+      // if (isNull(next) || (!isNull(next) && next.includes('/works'))) {
+      //   next = itemLink
+      // }
+      for (const item of data.orderedItems) {
+        const { id } = item
+        children.push(id)
       }
-      // Only add the current entity to the top of the results if it is included in the
-      // current list of children from a parent and if it is the first page of results
-      if (parentsOfCurrentEntity.includes(ancestor.id!) && page === 1) {
-        children.unshift(
-          pathname.replace('/view', `${getDataApiBaseUrl()}data`),
-        )
-      }
+      const page = isHalLinkForWorks(halLink) ? workPage : itemPage
       dispatch(
         addData({
           id: ancestor.id!,
           values: children,
           total: totalResults,
           page,
+          halLinkType: halLink?.includes('/work') ? 'works' : 'items',
         }),
       )
     }
@@ -93,10 +125,13 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     ancestor.id,
     data,
     dispatch,
+    halLink,
     isSuccess,
-    page,
+    itemPage,
     parentsOfCurrentEntity,
     pathname,
+    skip,
+    workPage,
   ])
 
   const currentState = useAppSelector(
@@ -123,20 +158,23 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           />
         ))}
         <Col xs={12} className="d-flex justify-content-start">
-          {state.total >= 20 && state.total !== children.length && (
+          {(data.hasOwnProperty('next') ||
+            (!data.hasOwnProperty('next') &&
+              halLink?.includes('/work') &&
+              !isNull(setIncludedItems))) && (
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => setPage(page + 1)}
+              onClick={() => handleShowMore(data.next)}
             >
               Show More
             </button>
           )}
-          {page !== 1 && (
+          {Object.keys(state.requests).length > 1 && (
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => handleShowLess(page - 1)}
+              onClick={() => handleShowLess()}
             >
               Show Less
             </button>

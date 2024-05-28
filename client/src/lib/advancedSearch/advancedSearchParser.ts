@@ -103,7 +103,9 @@ export const isGroup = (searchTerm: string): boolean =>
  * @returns boolean
  */
 export const isBooleanInput = (searchTerm: string): boolean =>
-  searchTerm === 'hasDigitalImage' || searchTerm === 'isOnline'
+  searchTerm === 'hasDigitalImage' ||
+  searchTerm === 'isOnline' ||
+  searchTerm === 'isPublicDomain'
 
 /**
  * Check if state contains valid data for submitting

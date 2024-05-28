@@ -47,7 +47,7 @@ const About: React.FC<IObject> = ({ data }) => {
       </Row>
       <dl>
         {names !== null && <NamesContainer names={names} showBreakline />}
-        {itemType !== null && (
+        {itemType.length > 0 && (
           <React.Fragment>
             <LinkContainer
               content={itemType}

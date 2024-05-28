@@ -62,6 +62,10 @@ describe('advancedSearchParser functions', () => {
     it('returns true for isOnline', () => {
       expect(isBooleanInput('isOnline')).toEqual(true)
     })
+
+    it('returns true for isOnline', () => {
+      expect(isBooleanInput('isPublicDomain')).toEqual(true)
+    })
   })
 
   describe('validateAdvancedSearch', () => {

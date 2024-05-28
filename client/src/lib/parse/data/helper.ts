@@ -76,18 +76,18 @@ export const forceArray = (x: any): Array<any> => {
 }
 
 /**
- * Parses the provided /attributed_by data to return the data from the nested /carried_out_by object
- * @param {Array<IAttribution>} attributedBy the array of objects from a /attributed_by property
+ * Parses the provided data to return the data from the nested /carried_out_by object
+ * @param {Array<IAttribution>} data the array of objects from a /attributed_by property
  * @returns {Array<string>}
  */
-export const getAttributedBy = (
-  attributedBy: Array<IAttribution>,
+export const getNestedCarriedOutBy = (
+  data: Array<IAttribution>,
 ): Array<string> => {
-  if (attributedBy.length === 0) {
+  if (data.length === 0) {
     return []
   }
 
-  const carriedOutByIds = attributedBy.map((attr) => {
+  const carriedOutByIds = data.map((attr) => {
     const carriedOutBy = forceArray(attr.carried_out_by)
 
     const ids = getClassifiedAs(carriedOutBy)

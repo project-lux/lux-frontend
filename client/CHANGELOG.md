@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.27.0 - 2024-5-28
+
+### Added
+
+- Added Public Domain to works advanced search ([#47](https://github.com/project-lux/lux-frontend/issues/47)).
+- Added types to sets pages ([#241](https://github.com/project-lux/lux-frontend/issues/241)).
+- Added images to place pages ([#242](https://github.com/project-lux/lux-frontend/issues/242)).
+
+### Changed
+
+- Changed the getIdentifiers function to return assigned_by agents ([#198](https://github.com/project-lux/lux-frontend/issues/198)).
+- Changed archives to request works first then objects ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+
+### Removed
+
+- Removed Sort Numbers from being returned by getIdentifiers function ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+- Removed functionality to push current entity to top of archive ([#27](https://github.com/project-lux/lux-frontend/issues/27)).
+
+### Fixed
+
+- Fixed default How Do I See It link text ([#243](https://github.com/project-lux/lux-frontend/issues/243)).
+- Fixed advanced search alignment with icons ([#239](https://github.com/project-lux/lux-frontend/issues/239)).
+
 ## v1.26.0 - 2024-5-14
 
 ### Added

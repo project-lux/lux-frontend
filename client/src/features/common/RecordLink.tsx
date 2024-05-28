@@ -1,6 +1,7 @@
 /* eslint-disable react/require-default-props */
 import React from 'react'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 import { useGetNameQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -15,6 +16,13 @@ interface ISearchData {
   className?: string
   name?: string
 }
+
+const StyledLink = styled(Link)`
+  &.active {
+    font-weight: 500;
+    text-decoration: underline;
+  }
+`
 
 const RecordLink: React.FC<ISearchData> = ({
   url,
@@ -39,7 +47,7 @@ const RecordLink: React.FC<ISearchData> = ({
 
   if ((isSuccess && data) || entityName !== '') {
     return (
-      <Link
+      <StyledLink
         to={{
           pathname: `/view/${strippedUrl}`,
         }}
@@ -58,7 +66,7 @@ const RecordLink: React.FC<ISearchData> = ({
         {entityName.length > 200
           ? `${entityName.slice(0, 200)}...`
           : entityName}
-      </Link>
+      </StyledLink>
     )
   }
 

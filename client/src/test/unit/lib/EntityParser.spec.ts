@@ -534,6 +534,22 @@ describe('EntityParser', () => {
     })
   })
 
+  describe('getIdentifiedByAgent', () => {
+    it('returns array of agents corresponding to the idenfitiers', () => {
+      const parser = new EntityParser(mockEntity)
+      const identifiers = parser.getIdentifiers()
+      expect(identifiers).toEqual([
+        {
+          label: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
+          identifier: ['12345abcde'],
+          carriedOutBy: [
+            `${config.env.dataApiBaseUrl}data/group/carried-out-by-library`,
+          ],
+        },
+      ])
+    })
+  })
+
   describe('getHalLinks', () => {
     it('returns HAL link object from data', () => {
       const parser = new EntityParser(mockEntity)

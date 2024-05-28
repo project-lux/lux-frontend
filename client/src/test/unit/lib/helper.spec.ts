@@ -3,7 +3,6 @@ import {
   capitalizeLabels,
   containsSpecificNote,
   forceArray,
-  getAttributedBy,
   getClassifiedAs,
   getIdentifiedByContent,
   isSpecimen,
@@ -25,6 +24,7 @@ import {
   getSpecificReferredToBy,
   transformStringForTestId,
   getMultipleSpecificReferredToBy,
+  getNestedCarriedOutBy,
 } from '../../../lib/parse/data/helper'
 import IAttribution from '../../../types/data/IAttribution'
 import IEntity from '../../../types/data/IEntity'
@@ -87,7 +87,7 @@ describe('helper functions', () => {
     })
   })
 
-  describe('getAttributedBy', () => {
+  describe('getNestedCarriedOutBy', () => {
     it('returns array of agents', () => {
       const mockAttributedBy: Array<IAttribution> = [
         {
@@ -100,7 +100,7 @@ describe('helper functions', () => {
           ],
         },
       ]
-      const data = getAttributedBy(mockAttributedBy)
+      const data = getNestedCarriedOutBy(mockAttributedBy)
       expect(data).toEqual([
         `${config.env.dataApiBaseUrl}data/person/carried-out-by`,
       ])
@@ -116,13 +116,15 @@ describe('helper functions', () => {
         },
         {
           type: 'test',
-          id: `${config.env.dataApiBaseUrl}data/concept/6eee749b-8038-4d26-b184-68321ea4fe91`,
+          id: config.dc.first,
+        },
+        {
+          type: 'test',
         },
       ]
       const classifiedAsId = getClassifiedAs(mockClassifiers)
       expect(classifiedAsId).toEqual([
         `${config.env.dataApiBaseUrl}data/concept/662260fa-f882-4174-b720-0791e45f7dca`,
-        `${config.env.dataApiBaseUrl}data/concept/6eee749b-8038-4d26-b184-68321ea4fe91`,
       ])
     })
   })
