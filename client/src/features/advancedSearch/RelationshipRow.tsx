@@ -124,25 +124,27 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
           <Row className="row ps-4">
             <Col xs={12}>
               <fieldset className="d-flex px-0">
-                <legend className="flex-shrink-0 w-auto">
-                  <img
-                    className="scopeIcon"
-                    src={getIcon(scopeToPassToNestedForm)}
-                    alt={imgAlt}
-                    aria-label={`${imgAlt} form options`}
-                    height={50}
-                    width={50}
-                  />
-                </legend>
-                <div className="ms-3 flex-grow-1">
-                  <AdvancedSearchForm
-                    key={stateId}
-                    state={state}
-                    parentScope={scopeToPassToNestedForm}
-                    parentStateId={stateId}
-                    nestedLevel={nestedLevel + 1}
-                  />
-                </div>
+                <span className="d-flex">
+                  <legend className="flex-shrink-0 w-auto">
+                    <img
+                      className="scopeIcon"
+                      src={getIcon(scopeToPassToNestedForm)}
+                      alt={imgAlt}
+                      aria-label={`${imgAlt} form options`}
+                      height={50}
+                      width={50}
+                    />
+                  </legend>
+                  <div className="ms-3 flex-grow-1">
+                    <AdvancedSearchForm
+                      key={stateId}
+                      state={state}
+                      parentScope={scopeToPassToNestedForm}
+                      parentStateId={stateId}
+                      nestedLevel={nestedLevel + 1}
+                    />
+                  </div>
+                </span>
               </fieldset>
             </Col>
           </Row>
