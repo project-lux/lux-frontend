@@ -17,6 +17,10 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
   const otherLinks = object.getHowDoISeeItLinks()
   const links = [...siteLinks, ...otherLinks]
 
+  if (links.length === 0) {
+    return null
+  }
+
   const displayLinks = (): JSX.Element[] =>
     links.map((link, ind) => (
       <div

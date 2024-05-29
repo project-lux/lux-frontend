@@ -49,6 +49,14 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
     )
   const unitUris = unitsIsSuccess && units ? getFacetValues(units) : []
 
+  if (
+    collectionData.length === 0 &&
+    planYourVisitLinks.length === 0 &&
+    unitUris.length === 0
+  ) {
+    return null
+  }
+
   return (
     <StyledDataRow
       className="row"
