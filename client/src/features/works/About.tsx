@@ -12,6 +12,7 @@ import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import { IEventInfo } from '../../types/derived-data/events'
+import { hasData } from '../../lib/parse/data/helper'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 
@@ -102,7 +103,7 @@ const About: React.FC<IObject> = ({ entity }) => {
               id="works-publication"
             />
           ))}
-        {production && (
+        {production !== null && hasData(production) && (
           <ProductionEvent
             event={production}
             label="Creation"
