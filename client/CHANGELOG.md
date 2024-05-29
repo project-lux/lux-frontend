@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed tooltip to be more accessible ([#255](https://github.com/project-lux/lux-frontend/issues/255)).
+
 ## v1.27.0 - 2024-5-28
 
 ### Added
