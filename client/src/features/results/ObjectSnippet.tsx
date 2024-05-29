@@ -109,7 +109,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   location={location}
                   locationLabel={locationLabel}
                 />
-                {types.length > 0 && <TypeList types={types} label="Object" />}
+                {types.length > 0 && <TypeList types={types} />}
                 {collectionIsLoading && <p>Loading...</p>}
                 {collectionIsSuccess && collectionData.length > 0 && (
                   <React.Fragment>

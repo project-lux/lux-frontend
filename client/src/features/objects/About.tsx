@@ -63,7 +63,7 @@ const About: React.FC<IObject> = ({ data }) => {
         {types.length > 0 && (
           <LinkContainer
             content={types}
-            label="Object Types"
+            label="Categorized As"
             id="object-types-link-container"
           />
         )}

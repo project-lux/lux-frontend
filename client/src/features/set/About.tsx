@@ -52,7 +52,7 @@ const About: React.FC<IObject> = ({ data }) => {
           <React.Fragment>
             <LinkContainer
               content={itemType}
-              label="Types"
+              label="Categorized As"
               id="set-types-link-container"
             />
           </React.Fragment>

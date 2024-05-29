@@ -53,7 +53,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 <RecordLink url={data.id} linkCategory="Results Snippet" />
               </StyledSnippetTitle>
               <ProductionSnippet agent={agent} date={date} label="Creator" />
-              {types.length > 0 && <TypeList types={types} label="Work" />}
+              {types.length > 0 && <TypeList types={types} />}
               {imprint.length > 0 && (
                 <React.Fragment>
                   <StyledDt>Imprint</StyledDt>

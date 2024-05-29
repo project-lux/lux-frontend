@@ -81,7 +81,7 @@ const About: React.FC<IObject> = ({ entity }) => {
         {types.length > 0 && (
           <LinkContainer
             content={types}
-            label="Work Types"
+            label="Categorized As"
             id="works-types-link-container"
           />
         )}

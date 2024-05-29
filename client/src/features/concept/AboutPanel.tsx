@@ -34,7 +34,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {types.length > 0 && (
           <LinkContainer
             content={types}
-            label="Types"
+            label="Categorized As"
             expandColumns
             itemSpacing="single"
             id="concept-types-link-container"
