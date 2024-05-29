@@ -13,6 +13,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { IEventInfo } from '../../types/derived-data/events'
 import ProductionEvent from '../common/ProductionEvent'
 import IdentifiersContainer from '../common/IdentifiersContainer'
+import { hasData } from '../../lib/parse/data/helper'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
@@ -76,7 +77,7 @@ const About: React.FC<IObject> = ({ data }) => {
         {dimensions.length > 0 && (
           <DimensionsContainer dimensions={dimensions} />
         )}
-        {productionEvent && (
+        {productionEvent !== null && hasData(productionEvent) && (
           <ProductionEvent
             event={productionEvent}
             label="Creation"

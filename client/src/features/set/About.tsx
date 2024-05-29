@@ -13,6 +13,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { IEventInfo } from '../../types/derived-data/events'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import DetailedLinkContainer from '../works/DetailedLinkContainer'
+import { hasData } from '../../lib/parse/data/helper'
 
 interface IObject {
   data: IEntity
@@ -70,14 +71,15 @@ const About: React.FC<IObject> = ({ data }) => {
               id="set-publication"
             />
           ))}
-        {sourceObjectCreationEvent !== null && (
-          <ProductionEvent
-            event={sourceObjectCreationEvent}
-            label="Creation of Archival Objects"
-            id="set-source-object-creation"
-          />
-        )}
-        {setCreationEvent !== null && (
+        {sourceObjectCreationEvent !== null &&
+          hasData(sourceObjectCreationEvent) && (
+            <ProductionEvent
+              event={sourceObjectCreationEvent}
+              label="Creation of Archival Objects"
+              id="set-source-object-creation"
+            />
+          )}
+        {setCreationEvent !== null && hasData(setCreationEvent) && (
           <ProductionEvent
             event={setCreationEvent}
             label="Creation of Archive"
