@@ -5,6 +5,7 @@ import ISet from '../../types/data/ISet'
 export const archive: ISet = {
   id: `${config.env.dataApiBaseUrl}data/set/mock-archive`,
   type: 'Set',
+  _label: 'Mock Archive',
   about: [
     {
       id: `${config.env.dataApiBaseUrl}data/concept/about-1`,
@@ -12,7 +13,20 @@ export const archive: ISet = {
       _label: 'Mock about 1',
     },
   ],
-  _label: 'Mock Archive',
+  classified_as: [
+    {
+      id: config.dc.archive,
+      type: 'Type',
+      _label: 'Archive',
+      classified_as: [
+        {
+          id: `${config.env.dataApiBaseUrl}data/concept/type-of-work`,
+          type: 'Type',
+          _label: 'Type of Work',
+        },
+      ],
+    },
+  ],
   created_by: {
     id: '',
     type: 'Creation',
@@ -31,46 +45,60 @@ export const archive: ISet = {
       _label: 'Equivalent Entity',
     },
   ],
-  subject_of: [
+  member_of: [
     {
-      id: '',
-      type: 'LinguisticObject',
-      _label: 'HomePage Content for Item',
-      digitally_carried_by: [
-        {
-          id: '',
-          type: 'DigitalObject',
-          _label: 'HomePage for Item',
-          format: 'text/html',
-          access_point: [
-            {
-              id: 'https://archives.yale.edu/repositories/12/resources/3761',
-              type: 'DigitalObject',
-            },
-          ],
-          classified_as: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/concept/2eca07bd-be42-4ef5-9ec5-87c1bbfe639d`,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
-        },
-      ],
+      id: `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+      type: 'type',
     },
   ],
-  classified_as: [
+  members_exemplified_by: [
     {
-      id: config.dc.archive,
-      type: 'Type',
-      _label: 'Archive',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/type-of-work`,
-          type: 'Type',
-          _label: 'Type of Work',
+      id: '',
+      type: 'HumanMadeObject',
+      _label: 'Mock Archive',
+      produced_by: {
+        id: '',
+        type: 'Production',
+        timespan: {
+          id: '',
+          type: 'TimeSpan',
+          identified_by: [
+            {
+              id: '',
+              type: 'Name',
+              content: '1623-1960',
+              classified_as: [
+                {
+                  id: `${config.env.dataApiBaseUrl}data/concept/display-title`,
+                  type: 'Type',
+                  _label: 'Display Title',
+                },
+              ],
+            },
+          ],
+          end_of_the_end: '1960-12-31T23:59:59',
+          begin_of_the_begin: '1623-01-01T00:00:00',
         },
-      ],
+        carried_out_by: [
+          {
+            id: `${config.env.dataApiBaseUrl}data/group/mock-group`,
+            type: 'Group',
+            _label: 'United States. Congress. Joint Economic Committee',
+          },
+        ],
+        took_place_at: [
+          {
+            id: `${config.env.dataApiBaseUrl}data/place/mock-place`,
+            type: 'Place',
+          },
+        ],
+        technique: [
+          {
+            id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
+            type: 'Type',
+          },
+        ],
+      },
     },
   ],
   identified_by: [
@@ -134,54 +162,32 @@ export const archive: ISet = {
       ],
     },
   ],
-  members_exemplified_by: [
+  subject_of: [
     {
       id: '',
-      type: 'HumanMadeObject',
-      _label: 'Mock Archive',
-      produced_by: {
-        id: '',
-        type: 'Production',
-        timespan: {
+      type: 'LinguisticObject',
+      _label: 'HomePage Content for Item',
+      digitally_carried_by: [
+        {
           id: '',
-          type: 'TimeSpan',
-          identified_by: [
+          type: 'DigitalObject',
+          _label: 'HomePage for Item',
+          format: 'text/html',
+          access_point: [
             {
-              id: '',
-              type: 'Name',
-              content: '1623-1960',
-              classified_as: [
-                {
-                  id: `${config.env.dataApiBaseUrl}data/concept/display-title`,
-                  type: 'Type',
-                  _label: 'Display Title',
-                },
-              ],
+              id: 'https://archives.yale.edu/repositories/12/resources/3761',
+              type: 'DigitalObject',
             },
           ],
-          end_of_the_end: '1960-12-31T23:59:59',
-          begin_of_the_begin: '1623-01-01T00:00:00',
+          classified_as: [
+            {
+              id: `${config.env.dataApiBaseUrl}data/concept/2eca07bd-be42-4ef5-9ec5-87c1bbfe639d`,
+              type: 'Type',
+              _label: 'Web Page',
+            },
+          ],
         },
-        carried_out_by: [
-          {
-            id: `${config.env.dataApiBaseUrl}data/group/mock-group`,
-            type: 'Group',
-            _label: 'United States. Congress. Joint Economic Committee',
-          },
-        ],
-        took_place_at: [
-          {
-            id: `${config.env.dataApiBaseUrl}data/place/mock-place`,
-            type: 'Place',
-          },
-        ],
-        technique: [
-          {
-            id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
-            type: 'Type',
-          },
-        ],
-      },
+      ],
     },
   ],
   _links: {

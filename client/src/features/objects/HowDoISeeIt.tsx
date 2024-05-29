@@ -19,6 +19,15 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
   const links = [...object.getAllSiteLinks(), ...object.getHowDoISeeItLinks()]
   const accessPoints = object.getAccessPoints()
 
+  // Return null if there is no data to display
+  if (
+    accessStatement.length === 0 &&
+    links.length === 0 &&
+    accessPoints.length === 0
+  ) {
+    return null
+  }
+
   return (
     <StyledDataRow className="row">
       <div className="col-12">
