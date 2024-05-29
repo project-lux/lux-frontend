@@ -248,7 +248,9 @@ export default class PersonAndGroupParser extends EntityParser {
       const nestedClassifiedAs = forceArray(el.classified_as)
       const labelClassifications = getClassifiedAs(nestedClassifiedAs)
       let label =
-        labelClassifications.length > 0 ? labelClassifications[0] : 'Type'
+        labelClassifications.length > 0
+          ? labelClassifications[0]
+          : 'Categorized As'
 
       if (label === config.dc.gender) {
         label = 'Gender'

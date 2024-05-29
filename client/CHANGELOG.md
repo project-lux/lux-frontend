@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed Type labels to Categorized As ([#220](https://github.com/project-lux/lux-frontend/issues/220)).
+
 ### Removed
 
 ### Fixed

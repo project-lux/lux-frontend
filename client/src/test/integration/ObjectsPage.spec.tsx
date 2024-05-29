@@ -87,7 +87,7 @@ describe('Objects page', () => {
     it('renders the object types', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Object Types/i)
+      await findAllByText(/Categorized As/i)
       const types = screen.getByTestId('object-types-link-container')
       expect(types).toBeInTheDocument()
     })

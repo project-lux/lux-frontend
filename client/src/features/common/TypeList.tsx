@@ -7,12 +7,11 @@ import RecordLink from './RecordLink'
 
 interface IProps {
   types: string[]
-  label?: string
 }
 
-const TypeList: React.FC<IProps> = ({ types, label = '' }) => (
+const TypeList: React.FC<IProps> = ({ types }) => (
   <React.Fragment>
-    <StyledDt data-testid="types-label">{label} Types</StyledDt>
+    <StyledDt data-testid="types-label">Categorized As</StyledDt>
     <StyledDd data-testid="entity-type-list">
       {types.map((type, index) => (
         // eslint-disable-next-line react/no-array-index-key

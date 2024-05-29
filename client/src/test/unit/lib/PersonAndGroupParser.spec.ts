@@ -227,7 +227,9 @@ describe('PersonAndGroupParser', () => {
       expect(classifiedAs).toEqual([
         {
           Gender: [`${config.env.dataApiBaseUrl}data/concept/gender-1`],
-          Type: [`${config.env.dataApiBaseUrl}data/concept/mock-concept`],
+          'Categorized As': [
+            `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
+          ],
           [config.dc.nationality]: [
             `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
             `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
