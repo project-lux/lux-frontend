@@ -166,7 +166,7 @@ export const getParentData = (
 }
 
 const DEFAULT_POSITION = { x: 0, y: 0 }
-
+const DEFAULT_MAX_NODE_WIDTH = '200px'
 /**
  * Parses the data and returns nodes for react flow hierarchy
  * @param {Array<any>} data the current entity to parse
@@ -180,6 +180,7 @@ export const getParentNodes = (data: Array<string>): Array<Node> =>
     data: {
       label: id, // this will be a RecordLink
     },
+    style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
     position: DEFAULT_POSITION,
   }))
 
@@ -203,6 +204,7 @@ export const getChildNodes = (data: ISearchResults): Array<Node> => {
     data: {
       label: obj.id, // this will be a RecordLink
     },
+    style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
     position: DEFAULT_POSITION,
   }))
 }
@@ -254,5 +256,6 @@ export const getDefaultNode = (currentUuid: string): Node => ({
   data: {
     label: currentUuid, // this will be a RecordLink
   },
+  style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
   position: DEFAULT_POSITION,
 })
