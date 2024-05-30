@@ -24,6 +24,8 @@ import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizati
 import SearchResultsLink from '../relatedLists/SearchResultsLink'
 import { ISearchResults } from '../../types/ISearchResults'
 import { IHierarchy } from '../../redux/slices/hierarchySlice'
+import IPlace from '../../types/data/IPlace'
+import IConcept from '../../types/data/IConcept'
 
 import Hierarchy from './Hierarchy'
 import Node from './Node'
@@ -37,7 +39,7 @@ import BackButton from './BackButton'
 interface IProps {
   entity: IEntity
   halLink: IHalLink
-  getParentUris: (entity: IEntity) => Array<string>
+  getParentUris: (entity: IPlace | IConcept) => Array<string>
 }
 
 const getHalLink = (
@@ -240,13 +242,15 @@ const HierarchyContainer: React.FC<IProps> = ({
               </Toolbar>
               {!skip ? (
                 <Toolbar nodeIds={childNodes.map((node) => node.id)}>
-                  <SearchResultsLink
-                    data={(data as ISearchResults) || {}}
-                    eventTitle="Hierarchy Children"
-                    url={data ? data.id : ''}
-                    scope={scope !== null ? scope : 'places'}
-                    additionalLinkText="children"
-                  />
+                  <strong>
+                    <SearchResultsLink
+                      data={(data as ISearchResults) || {}}
+                      eventTitle="Hierarchy Children"
+                      url={data ? data.id : ''}
+                      scope={scope !== null ? scope : 'places'}
+                      additionalLinkText="children"
+                    />
+                  </strong>
                 </Toolbar>
               ) : (
                 <React.Fragment />
