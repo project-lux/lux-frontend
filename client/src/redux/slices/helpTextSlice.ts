@@ -41,9 +41,14 @@ export const helpTextSlice = createSlice({
       action: PayloadAction<{ value: string; scope?: string }>,
     ) => {
       const { value, scope } = action.payload
+      const { advancedSearch } = config
+      const { terms } = advancedSearch
       if (scope !== undefined && value !== '') {
-        state.hoverHelpText = config.advancedSearch.terms[scope][value].helpText
-        state.selectedHoverKey = config.advancedSearch.terms[scope][value].label
+        // check that the values passed exist in the configuration
+        if (terms.hasOwnProperty(scope) && terms[scope].hasOwnProperty(value)) {
+          state.hoverHelpText = terms[scope][value].helpText
+          state.selectedHoverKey = terms[scope][value].label
+        }
       } else {
         state.hoverHelpText = nonSearchTermHelpText[value].helpText
         state.selectedHoverKey = nonSearchTermHelpText[value].label
