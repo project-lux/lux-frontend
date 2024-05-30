@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed Related Subjects accordion from People and Group pages ([#205](https://github.com/project-lux/lux-frontend/issues/205)).
+
 ### Fixed
 
 - Fixed tooltip to be more accessible ([#255](https://github.com/project-lux/lux-frontend/issues/255)).

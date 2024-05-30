@@ -13,7 +13,7 @@ import ListItem from './ListItem'
 
 interface IProps {
   url: string
-  searchTerm: string | Array<string>
+  searchTerm: string
   data: ISearchResults
   title: string
 }
