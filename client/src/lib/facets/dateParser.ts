@@ -70,7 +70,7 @@ const addLeadingZeros = (year: string): string => year.padStart(4, '0')
 
 export const formatDateJsonSearch = (
   date: string,
-  searchTerm: string | Array<string>,
+  searchTerm: string,
   criteria: any,
 ): string => {
   // Add 1 to the given year to create a range of that given year from start to finish
@@ -80,26 +80,6 @@ export const formatDateJsonSearch = (
   // TODO: uncomment when ML estimates are fixed
   // const end = parseInt(date, 10)
   // const start = parseInt(date, 10)
-
-  if (Array.isArray(searchTerm)) {
-    const children = searchTerm.map((term) => ({
-      AND: [
-        { [term]: laterDate.toString(), _comp: '<' },
-        { [term]: earlierDate.toString(), _comp: '>' },
-        // TODO: uncomment when ML estimates are fixed
-        // {
-        //   [term]: {
-        //     start: start.toString(),
-        //     end: end.toString(),
-        //   },
-        // },
-      ],
-    }))
-
-    return JSON.stringify({
-      AND: [criteria, children],
-    })
-  }
 
   return JSON.stringify({
     AND: [
