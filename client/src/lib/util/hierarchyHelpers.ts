@@ -8,7 +8,6 @@ import ConceptParser from '../parse/data/ConceptParser'
 import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
 import { ISearchResults } from '../../types/ISearchResults'
-import EntityParser from '../parse/data/EntityParser'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
