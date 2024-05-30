@@ -147,7 +147,7 @@ const HierarchyContainer: React.FC<IProps> = ({
       : (entity.id as string)
 
     const parentNodes = getParentNodes(parents).slice(0, displayLength)
-    const childNodes = data ? getChildNodes(data).slice(0, 5) : []
+    const childNodes = data && !skip ? getChildNodes(data).slice(0, 5) : []
     const currentNode = getDefaultNode(currentUuid)
 
     // get edges
