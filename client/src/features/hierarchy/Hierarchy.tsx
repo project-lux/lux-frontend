@@ -51,6 +51,7 @@ const getLayoutedElements = (
 
   nodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id)
+    console.log(node, nodeWithPosition)
     node.targetPosition = isHorizontal ? 'left' : 'top'
     node.sourcePosition = isHorizontal ? 'right' : 'bottom'
 
@@ -64,6 +65,7 @@ const getLayoutedElements = (
     return node
   })
 
+  console.log(nodes)
   return { nodes, edges }
 }
 
