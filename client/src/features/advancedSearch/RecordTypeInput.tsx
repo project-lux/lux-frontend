@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from 'react'
-import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
-import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { addTextValue } from '../../redux/slices/advancedSearchSlice'
-import theme from '../../styles/theme'
 import { recordTypes } from '../../config/advancedSearch/inputTypes'
+
+import AdvancedSearchDropdown from './Dropdown'
 
 interface IInputType {
   label: string
@@ -15,18 +14,6 @@ interface IInputType {
   field: string
   stateId: string
 }
-
-const StyledToggle = styled(ToggleButton)`
-  color: ${theme.color.button};
-  background-color: ${theme.color.white};
-  border: 1px solid ${theme.color.button} !important;
-  border-radius: 5px !important;
-
-  &.checked {
-    color: ${theme.color.white};
-    background-color: ${theme.color.button} !important;
-  }
-`
 
 /**
  * Form group for selecting Yes/No values in the advanced search
@@ -51,8 +38,8 @@ const RecordTypeInput: React.FC<IInputType> = ({
     [dispatch, field, stateId],
   )
   const toggleButtonGroupId = `boolean-field-${stateId}`
-  const options: Array<{ label: string; value: string }> =
-    recordTypes[scope] || []
+  const options: Record<string, string> = recordTypes[scope] || {}
+  const dropdownId = `person-or-group-options-${stateId}`
 
   return (
     <div
@@ -65,29 +52,16 @@ const RecordTypeInput: React.FC<IInputType> = ({
             {label}
           </label>
         )}
-        <ToggleButtonGroup
-          type="radio"
-          name="boolean-options"
-          id={toggleButtonGroupId}
-          onChange={handleOnChange}
-        >
-          {options.map((option: { label: string; value: string }) => (
-            <StyledToggle
-              key={`${option.label}-toggle-types-${stateId}`}
-              id={`${option.label}-toggle-types-${stateId}`}
-              type="radio"
-              name="yes-button"
-              variant="secondary"
-              checked={currentValue === option.value}
-              value={option.value}
-              className={`${
-                currentValue === option.value ? 'checked' : ''
-              } me-2`}
-            >
-              {option.label}
-            </StyledToggle>
-          ))}
-        </ToggleButtonGroup>
+        <AdvancedSearchDropdown
+          options={options}
+          handleChange={handleOnChange}
+          className="recordTypeSelection"
+          dropdownHeaderText="Select Value"
+          id={dropdownId}
+          ariaLabel="Select the record type"
+          scope={scope}
+          selected={currentValue}
+        />
       </div>
     </div>
   )
