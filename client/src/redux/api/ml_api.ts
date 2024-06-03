@@ -9,7 +9,6 @@ import { getDataApiBaseUrl } from '../../config/config'
 import { IDataConstants } from '../../config/dataConstants'
 import { formatSortParameter } from '../../lib/parse/search/queryParser'
 import IEntity from '../../types/data/IEntity'
-import { IHierarchy } from '../../types/IHierarchy'
 import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
@@ -147,24 +146,6 @@ export const mlApi: any = createApi({
         }),
       },
     ),
-    getConceptHierarchy: builder.query<IHierarchy, { id: string }>({
-      query: ({ id }) => ({
-        url: `api/hierarchy/concept?id=${id}`,
-        method: 'GET',
-      }),
-    }),
-    getPlaceHierarchy: builder.query<IHierarchy, { id: string }>({
-      query: ({ id }) => ({
-        url: `api/hierarchy/place?id=${id}`,
-        method: 'GET',
-      }),
-    }),
-    getSetHierarchy: builder.query<IHierarchy, { id: string }>({
-      query: ({ id }) => ({
-        url: `api/hierarchy/set?id=${id}`,
-        method: 'GET',
-      }),
-    }),
     getStats: builder.query<IStats, void>({
       query: () => ({
         url: `api/stats`,
@@ -233,9 +214,6 @@ export const {
   useGetCollectionQuery,
   useGetDataConstantsQuery,
   useGetAdvancedSearchConfigQuery,
-  useGetConceptHierarchyQuery,
-  useGetPlaceHierarchyQuery,
-  useGetSetHierarchyQuery,
   useGetStatsQuery,
   useSearchQuery,
   useGetRelatedListsQuery,
