@@ -5,7 +5,7 @@ import IPlace from '../../../types/data/IPlace'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
-import { hasData } from './helper'
+import { forceArray, getClassifiedAs, hasData } from './helper'
 
 export default class PlaceParser extends EntityParser {
   place: IPlace
@@ -13,6 +13,15 @@ export default class PlaceParser extends EntityParser {
   constructor(json: IPlace) {
     super(json as IEntity)
     this.place = json
+  }
+
+  /**
+   * Returns array of uuids from /part_of
+   * @returns {Array<string>}
+   */
+  getPartOf(): Array<string> {
+    const partOf = forceArray(this.json.part_of)
+    return getClassifiedAs(partOf)
   }
 
   /**
