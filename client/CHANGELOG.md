@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed Type labels to Categorized As ([#220](https://github.com/project-lux/lux-frontend/issues/220)).
 - Changed the Person and Group selector in advanced search ([#190](https://github.com/project-lux/lux-frontend/issues/190)).
+- Changed facets requests to support pagination ([#252](https://github.com/project-lux/lux-frontend/issues/252)).
 
 ### Removed
 

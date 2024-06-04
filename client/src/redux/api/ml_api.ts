@@ -97,21 +97,6 @@ export const mlApi: any = createApi({
         }
       },
     }),
-    // Returns ISearchResults type
-    getFacetedRelationship: builder.query<
-      ISearchResults,
-      {
-        uri: string
-      }
-    >({
-      query: (queryParams) => {
-        const halLink = replaceBaseUrl(queryParams.uri)
-        return {
-          url: halLink,
-          method: 'GET',
-        }
-      },
-    }),
     getTimeline: builder.query<any, Array<string>>({
       queryFn(hrefs) {
         return getTimelines(hrefs)
@@ -227,7 +212,6 @@ export const {
   useGetItemsQuery,
   useGetNameQuery,
   useGetSearchRelationshipQuery,
-  useGetFacetedRelationshipQuery,
   useGetTimelineQuery,
   // useGetMultipleRelationshipsQuery,
   useGetCollectionQuery,
