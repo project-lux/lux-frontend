@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAppSelector } from '../../app/hooks'
 import { booleanFacetNames, facetLabels } from '../../config/facets'
@@ -10,6 +10,7 @@ import {
   IOrderedItems,
   ISearchResults,
 } from '../../types/ISearchResults'
+import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import Checklist from './Checklist'
 import DateInput from './DateInput'
@@ -55,20 +56,55 @@ const FacetAccordionItem: React.FC<IProps> = ({
   selectedFacets,
   handleCallback,
 }) => {
+  const [page, setPage] = useState<number>(1)
+  const [facets, setFacets] = useState<{
+    requests: {
+      [key: string]: Array<{ value: string; totalItems: number }>
+    }
+    total: number
+  }>({ requests: {}, total: 0 })
   const combinedQuery = facetQuery ? { AND: [criteria, facetQuery] } : criteria
+
   const { data, isSuccess, isLoading } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
     facets: {},
     facetNames: facetName,
     tab,
   })
-  console.log(data)
 
   // get the facet state to determine the previously selected facet
   const facetsState = useAppSelector(
     (state) => state.facetSelection as IFacetsSelected,
   )
   let isFacetOpen = facetName === facetsState.lastSelectedFacetName
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      let totalResults = 0
+      const children: Array<{ value: string; totalItems: number }> = []
+      totalResults += getEstimates(data as ISearchResults)
+
+      const { orderedItems } = data as ISearchResults
+      for (const item of orderedItems) {
+        const { value, totalItems } = item
+        children.push({
+          value: value as string,
+          totalItems: totalItems as number,
+        })
+      }
+
+      const requestProperty = `call${page}`
+      if (!facets.requests.hasOwnProperty(requestProperty)) {
+        setFacets({
+          requests: {
+            ...facets.requests,
+            [requestProperty]: children,
+          },
+          total: totalResults,
+        })
+      }
+    }
+  }, [data, facets, isSuccess, page])
 
   if (isSuccess && data) {
     const { orderedItems } = data as ISearchResults
@@ -127,6 +163,10 @@ const FacetAccordionItem: React.FC<IProps> = ({
                   facetQuery={facetQuery}
                   scope={scope}
                   selectedFacets={selectedFacets}
+                  page={page}
+                  // SET
+                  lastPage={2}
+                  setPage={setPage}
                 />
               )}
             </div>
