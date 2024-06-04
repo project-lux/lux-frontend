@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 
 import config from '../../config/config'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
@@ -14,6 +14,9 @@ interface IFacets {
   facetQuery: ICriteria
   scope: string
   selectedFacets: Map<string, Set<string>> | null
+  page: number
+  lastPage: number
+  setPage: (x: number) => void
 }
 
 const Checklist: React.FC<IFacets> = ({
@@ -24,15 +27,15 @@ const Checklist: React.FC<IFacets> = ({
   facetQuery,
   scope,
   selectedFacets,
+  page,
+  lastPage,
+  setPage,
 }) => {
-  const [displayLength, setDisplayLength] = useState(length)
-
   const list = facetValues
     .filter(
       (facet) =>
         facet.value !== null && facet.value !== config.dc.collectionItem,
     )
-    .slice(0, displayLength)
     .map((facet) => (
       <React.Fragment key={facet.value}>
         <Checkbox
@@ -50,22 +53,20 @@ const Checklist: React.FC<IFacets> = ({
     <React.Fragment>
       <form>
         {list}
-        {displayLength >= length && displayLength < facetValues.length && (
+        {page !== lastPage && (
           <button
             type="button"
             className="btn btn-link show-more"
-            onClick={() => setDisplayLength(displayLength + length)}
+            onClick={() => setPage(page + 1)}
           >
             Show More
           </button>
         )}
-        {displayLength > length && (
+        {page !== 1 && (
           <button
             type="button"
             className="btn btn-link show-less"
-            onClick={() =>
-              setDisplayLength(Math.max(displayLength - length, length))
-            }
+            onClick={() => setPage(page - 1)}
           >
             Show Less
           </button>
