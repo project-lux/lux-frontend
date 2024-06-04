@@ -62,6 +62,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
     facetNames: facetName,
     tab,
   })
+  console.log(data)
 
   // get the facet state to determine the previously selected facet
   const facetsState = useAppSelector(
