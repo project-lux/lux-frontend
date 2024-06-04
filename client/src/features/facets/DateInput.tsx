@@ -4,7 +4,7 @@ import React, { useRef, useState } from 'react'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
-import { addFacets } from '../../redux/slices/facetsSlice'
+import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { facetLabels, facetSearchTerms } from '../../config/facets'
 import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
@@ -90,7 +90,7 @@ const DateInput: React.FC<IFacets> = ({
       setLatest(latestYear.toString())
     }
 
-    dispatch(addFacets({ facetName: facetSection, facetUri: '' }))
+    dispatch(addLastSelectedFacet({ facetName: facetSection, facetUri: '' }))
     pushClientEvent(
       'Facets Date Input',
       'Selected',

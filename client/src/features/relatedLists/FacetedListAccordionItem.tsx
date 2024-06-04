@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { useGetFacetedRelationshipQuery } from '../../redux/api/ml_api'
+import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
+import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import FacetsRelatedList from './FacetsRelatedList'
 
@@ -37,13 +38,47 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
   index,
 }) => {
   const [activeAccordion, setActiveAccordion] = useState(false)
+  const [page, setPage] = useState<number>(1)
+  const [facets, setFacets] = useState<{
+    requests: {
+      [key: string]: Array<{ value: string; totalItems: number }>
+    }
+    total: number
+  }>({ requests: {}, total: 0 })
   const { title, searchTag, jsonSearchTerm } = searchTermConfig
   const searchTerm = searchTag.replace('lux:', '')
 
-  const { data, isSuccess, isLoading, isError } =
-    useGetFacetedRelationshipQuery({
+  const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
+    {
       uri: halLink,
-    })
+      page: page.toString(),
+    },
+  )
+  console.log(facets)
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      let totalResults = 0
+      const children: Array<{ value: string; totalItems: number }> = []
+      totalResults += getEstimates(data)
+
+      for (const item of data.orderedItems) {
+        const { value, totalItems } = item
+        children.push({ value, totalItems })
+      }
+
+      const requestProperty = `call${page}`
+      if (!facets.requests.hasOwnProperty(requestProperty)) {
+        setFacets({
+          requests: {
+            ...facets.requests,
+            [requestProperty]: children,
+          },
+          total: totalResults,
+        })
+      }
+    }
+  }, [data, facets, halLink, isSuccess, page, searchTerm])
 
   // Check if the results contain any data
   if (isSuccess && data) {
@@ -99,8 +134,11 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
               <FacetsRelatedList
                 url={halLink}
                 searchTerm={jsonSearchTerm || ''}
-                data={data}
+                data={facets}
                 title={title || ''}
+                page={page}
+                lastPage={3}
+                setPage={setPage}
               />
             )}
           </div>

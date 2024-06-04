@@ -10,7 +10,10 @@ import StyledCheckbox from '../../styles/features/facets/Checkbox'
 import ApiText from '../common/ApiText'
 import { getParamPrefix } from '../../lib/util/params'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { addFacets, IFacetsSelected } from '../../redux/slices/facetsSlice'
+import {
+  addLastSelectedFacet,
+  IFacetsSelected,
+} from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
@@ -77,7 +80,10 @@ const Checkbox: React.FC<IProps> = ({
       tab,
     )
     dispatch(
-      addFacets({ facetName: facetSection, facetUri: event.target.value }),
+      addLastSelectedFacet({
+        facetName: facetSection,
+        facetUri: event.target.value,
+      }),
     )
     pushClientEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
     navigate(`${pathname}?${newSearchParams}`)
@@ -95,7 +101,9 @@ const Checkbox: React.FC<IProps> = ({
     params.set('q', JSON.stringify(criteria))
     params.set('facetRequest', 'true')
 
-    dispatch(addFacets({ facetName: facetSection, facetUri: strValue }))
+    dispatch(
+      addLastSelectedFacet({ facetName: facetSection, facetUri: strValue }),
+    )
     pushClientEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
     navigate(`${pathname}?${params.toString()}`)
   }

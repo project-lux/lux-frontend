@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed Person or Group type label on agent entity pages ([#282](https://github.com/project-lux/lux-frontend/issues/282)).
+- Changed facets requests to support pagination ([#252](https://github.com/project-lux/lux-frontend/issues/252)).
 
 ### Removed
 

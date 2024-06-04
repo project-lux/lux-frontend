@@ -8,7 +8,7 @@ jest.mock('../../../../redux/api/ml_api', () => ({
   useGetCollectionQuery: () => ({
     data: [],
   }),
-  useGetFacetedRelationshipQuery: () => ({
+  useGetSearchRelationshipQuery: () => ({
     data: undefined,
   }),
 }))
