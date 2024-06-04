@@ -54,7 +54,6 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
       page: page.toString(),
     },
   )
-  console.log(facets)
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -137,6 +136,7 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
                 data={facets}
                 title={title || ''}
                 page={page}
+                // SET
                 lastPage={3}
                 setPage={setPage}
               />
