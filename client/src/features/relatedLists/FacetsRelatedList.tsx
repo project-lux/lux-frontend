@@ -7,22 +7,20 @@ import {
   getCriteriaFromHalLink,
   getResultTabFromHalLink,
 } from '../../lib/parse/search/halLinkHelper'
+import { IFacetsPagination } from '../../types/IFacets'
+import { IOrderedItems } from '../../types/ISearchResults'
 
 import ListItem from './ListItem'
 
 interface IProps {
   url: string
   searchTerm: string
-  data: {
-    requests: {
-      [key: string]: Array<{ value: string; totalItems: number }>
-    }
-    total: number
-  }
+  data: IFacetsPagination
   title: string
   page: number
   lastPage: number
   setPage: (x: number) => void
+  setFacets: (x: IFacetsPagination) => void
 }
 
 const FacetsRelatedList: React.FC<IProps> = ({
@@ -33,13 +31,21 @@ const FacetsRelatedList: React.FC<IProps> = ({
   page,
   lastPage,
   setPage,
+  setFacets,
 }) => {
   const criteria = getCriteriaFromHalLink(url, 'facets')
   const scope = getResultTabFromHalLink(url)
 
-  const recordLinks = (
-    facets: Array<{ value: string; totalItems: number }>,
-  ): any => {
+  const handleShowLess = (): void => {
+    const currentRequest = `call${page}`
+    if (data.requests[currentRequest]) {
+      delete data.requests[currentRequest]
+    }
+    setFacets(data)
+    setPage(page - 1)
+  }
+
+  const recordLinks = (facets: Array<IOrderedItems>): any => {
     const filteredFacets = facets.filter((facet) => {
       let { value } = facet
       // type cast as a string
@@ -58,24 +64,22 @@ const FacetsRelatedList: React.FC<IProps> = ({
     }
     return (
       <React.Fragment>
-        {filteredFacets.map(
-          (facet: { value: string; totalItems: number }, ind: number) => {
-            const { value, totalItems } = facet
-            return (
-              <ListItem
-                key={value}
-                uri={value as string}
-                count={totalItems || 0}
-                title={title}
-                tab={scope}
-                criteria={criteria}
-                searchTerm={searchTerm}
-                index={ind}
-                itemSpacing="double"
-              />
-            )
-          },
-        )}
+        {filteredFacets.map((facet: IOrderedItems, ind: number) => {
+          const { value, totalItems } = facet
+          return (
+            <ListItem
+              key={value}
+              uri={value as string}
+              count={totalItems || 0}
+              title={title}
+              tab={scope}
+              criteria={criteria}
+              searchTerm={searchTerm}
+              index={ind}
+              itemSpacing="double"
+            />
+          )
+        })}
         {page !== lastPage && (
           <button
             type="button"
@@ -89,7 +93,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
           <button
             type="button"
             className="btn btn-link show-less"
-            onClick={() => setPage(page - 1)}
+            onClick={() => handleShowLess()}
           >
             Show Less
           </button>
@@ -98,11 +102,9 @@ const FacetsRelatedList: React.FC<IProps> = ({
     )
   }
 
-  const facetsData: Array<{ value: string; totalItems: number }> = []
+  const facetsData: Array<IOrderedItems> = []
   Object.values(data.requests).map((value) =>
-    value.map((v) =>
-      facetsData.push({ value: v.value, totalItems: v.totalItems }),
-    ),
+    value.map((v) => facetsData.push(v)),
   )
 
   return (
