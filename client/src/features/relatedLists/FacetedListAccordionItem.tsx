@@ -6,6 +6,8 @@ import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
+import { IFacetsPagination } from '../../types/IFacets'
+import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import FacetsRelatedList from './FacetsRelatedList'
@@ -37,17 +39,16 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
   halLink,
   index,
 }) => {
-  const [activeAccordion, setActiveAccordion] = useState(false)
-  const [page, setPage] = useState<number>(1)
-  const [facets, setFacets] = useState<{
-    requests: {
-      [key: string]: Array<{ value: string; totalItems: number }>
-    }
-    total: number
-  }>({ requests: {}, total: 0 })
   const { title, searchTag, jsonSearchTerm } = searchTermConfig
   const searchTerm = searchTag.replace('lux:', '')
 
+  const [activeAccordion, setActiveAccordion] = useState(false)
+  const [page, setPage] = useState<number>(1)
+  const [facets, setFacets] = useState<IFacetsPagination>({
+    requests: {},
+    total: 0,
+    numberOfPages: 0,
+  })
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
       uri: halLink,
@@ -58,29 +59,33 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
   useEffect(() => {
     if (isSuccess && data) {
       let totalResults = 0
-      const children: Array<{ value: string; totalItems: number }> = []
-      totalResults += getEstimates(data)
+      const children: Array<IOrderedItems> = []
+      totalResults += getEstimates(data as ISearchResults)
 
-      for (const item of data.orderedItems) {
-        const { value, totalItems } = item
-        children.push({ value, totalItems })
+      const { orderedItems } = data as ISearchResults
+      for (const item of orderedItems) {
+        children.push(item)
       }
 
       const requestProperty = `call${page}`
-      if (!facets.requests.hasOwnProperty(requestProperty)) {
+      if (
+        !facets.requests.hasOwnProperty(requestProperty) &&
+        data.id.includes(`page=${page}`)
+      ) {
         setFacets({
           requests: {
             ...facets.requests,
             [requestProperty]: children,
           },
           total: totalResults,
+          numberOfPages: Math.ceil(totalResults / 20),
         })
       }
     }
-  }, [data, facets, halLink, isSuccess, page, searchTerm])
+  }, [data, facets, halLink, isSuccess, page])
 
-  // Check if the results contain any data
   if (isSuccess && data) {
+    // Check if the results contain any data
     const { orderedItems } = data
     if (orderedItems.length === 0) {
       return null
@@ -136,9 +141,9 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
                 data={facets}
                 title={title || ''}
                 page={page}
-                // SET
-                lastPage={3}
+                lastPage={facets.numberOfPages}
                 setPage={setPage}
+                setFacets={setFacets}
               />
             )}
           </div>

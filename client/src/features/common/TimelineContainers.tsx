@@ -107,8 +107,9 @@ const TimelineContainers: React.FC<{
 }> = ({ searchTags, providedHalLinks }) => {
   const links = getHalLinks(searchTags, providedHalLinks)
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
-  const unitLength = 20
-  const [displayLength, setDisplayLength] = useState<number>(unitLength)
+  const [page, setPage] = useState<number>(1)
+  // SET
+  const lastPage = 1
 
   if (isSuccess && data) {
     const transformedData = transformTimelineData(data)
@@ -128,7 +129,7 @@ const TimelineContainers: React.FC<{
             </Col>
             <Col xs={12}>
               <dl>
-                {sortedKeys.slice(0, displayLength).map((year) => (
+                {sortedKeys.map((year) => (
                   <div key={year} className="mb-2">
                     <HoverableRow>
                       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -172,20 +173,20 @@ const TimelineContainers: React.FC<{
                   </div>
                 ))}
               </dl>
-              {displayLength >= unitLength && displayLength < keys.length && (
+              {page !== lastPage && (
                 <button
                   type="button"
                   className="btn btn-link show-more"
-                  onClick={() => setDisplayLength(keys.length)}
+                  onClick={() => setPage(page + 1)}
                 >
-                  Show All
+                  Show More
                 </button>
               )}
-              {displayLength > unitLength && (
+              {page !== 1 && (
                 <button
                   type="button"
                   className="btn btn-link show-less"
-                  onClick={() => setDisplayLength(unitLength)}
+                  onClick={() => setPage(page - 1)}
                 >
                   Show Less
                 </button>
