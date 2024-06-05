@@ -182,6 +182,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
         </div>
       )
     }
+    return null
   }
 
   handleCallback(facetName)
