@@ -112,7 +112,7 @@ const SelectionContainer: React.FC<IProps> = ({
             <StyledClearAllButton
               type="button"
               className="btn btn-link"
-              onClick={handleClearAll}
+              onClick={() => handleClearAll()}
             >
               Clear All
             </StyledClearAllButton>
