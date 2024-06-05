@@ -1,28 +1,36 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Navigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { facetLabels, facetSearchTerms } from '../../config/facets'
-import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
 import { removeFacetFromQuery } from '../../lib/facets/removeFacet'
 import theme from '../../styles/theme'
-import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
+import { ICriteria, ISearchResults } from '../../types/ISearchResults'
 import { searchScope } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { IFacetsPagination } from '../../types/IFacets'
+import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
+import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
 
 import DateSlider from './DateSlider'
 
 interface IFacets {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  combinedQuery: any
   criteria: ICriteria
-  facetValues: IOrderedItems[]
+  facetValues: IFacetsPagination
   facetSection: string
   facetQuery: ICriteria
   scope: string
+  currentTab: string
+  facetName: string
+  lastPage: number
   autoFocus?: boolean
 }
 
@@ -44,30 +52,64 @@ const StyledSubmit = styled.button`
 `
 
 const DateInput: React.FC<IFacets> = ({
+  combinedQuery,
   criteria,
   facetValues,
   facetSection,
   facetQuery,
   scope,
+  currentTab,
+  facetName,
+  lastPage,
   autoFocus = false,
 }) => {
+  let yearOne = ''
+  let defaultLastYear = ''
+  if (facetValues.requests.hasOwnProperty('call1')) {
+    const years = getYearsFromFacetValues(facetValues.requests.call1)
+    if (years.length > 0) {
+      yearOne = years[0].toString()
+      defaultLastYear = years[years.length - 1].toString()
+    }
+  }
   const dispatch = useAppDispatch()
+  const [earliest, setEarliest] = useState<string>(yearOne)
+  const [latest, setLatest] = useState<string>(defaultLastYear)
+  // This will only change upon retrieving the last date year
+  const [maxYear, setMaxYear] = useState<string>(defaultLastYear)
+
+  const { data, isSuccess } = useGetFacetsSearchQuery({
+    q: JSON.stringify(combinedQuery),
+    facets: {},
+    facetNames: facetName,
+    tab: currentTab,
+    page: lastPage,
+  })
 
   const { pathname, search } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
-  const years = getYearsFromFacetValues(facetValues)
-  const [earliest, setEarliest] = useState<string>(years[0].toString())
-  const [latest, setLatest] = useState<string>(
-    years[years.length - 1].toString(),
-  )
+  // const years = getYearsFromFacetValues(facetValues)
+
   const [redirect, setRedirect] = useState(false)
   const earliestRef = useRef<HTMLInputElement>(null)
   const latestRef = useRef<HTMLInputElement>(null)
 
   const earliestDateId = 'earliest-date'
   const latestDateId = 'latest-date'
+
+  useEffect(() => {
+    if (isSuccess && data) {
+      const { orderedItems } = data as ISearchResults
+      const yearsOfLastPage = getYearsFromFacetValues(orderedItems)
+      const yearsOfLastPageLength = yearsOfLastPage.length
+      const lastYearOfRange =
+        yearsOfLastPage[yearsOfLastPageLength - 1].toString()
+      setLatest(lastYearOfRange)
+      setMaxYear(lastYearOfRange)
+    }
+  }, [data, isSuccess])
 
   const handleEarliestInputChange = (value: string): void => {
     setEarliest(value)
@@ -81,12 +123,12 @@ const DateInput: React.FC<IFacets> = ({
     event.preventDefault()
 
     if (earliest === null) {
-      const earliestYear = years[0]
+      const earliestYear = yearOne
       setEarliest(earliestYear.toString())
     }
 
     if (latest === null) {
-      const latestYear = years[years.length - 1]
+      const latestYear = maxYear
       setLatest(latestYear.toString())
     }
 
@@ -156,8 +198,8 @@ const DateInput: React.FC<IFacets> = ({
       <form className="w-100" onSubmit={submitHandler}>
         <div className="input-group d-block">
           <DateSlider
-            min={years[0]}
-            max={years[years.length - 1]}
+            min={parseInt(yearOne, 10)}
+            max={parseInt(maxYear, 10)}
             earliestVal={earliest}
             latestVal={latest}
             onEarliestChange={handleEarliestInputChange}
@@ -172,12 +214,12 @@ const DateInput: React.FC<IFacets> = ({
                 id={earliestDateId}
                 type="number"
                 className="form-control"
-                placeholder={years[0].toString()}
+                placeholder={yearOne.toString()}
                 onChange={(e) =>
                   handleEarliestInputChange(e.currentTarget.value)
                 }
-                min={years[0]}
-                max={years[years.length - 1]}
+                min={parseInt(yearOne, 10)}
+                max={parseInt(maxYear, 10)}
                 ref={earliestRef}
                 value={earliest}
                 autoFocus={autoFocus}
@@ -191,10 +233,10 @@ const DateInput: React.FC<IFacets> = ({
                 id={latestDateId}
                 type="number"
                 className="form-control"
-                placeholder={years[years.length - 1].toString()}
+                placeholder={maxYear}
                 onChange={(e) => handleLatestInputChange(e.currentTarget.value)}
-                min={years[0]}
-                max={years[years.length - 1]}
+                min={parseInt(yearOne, 10)}
+                max={parseInt(maxYear, 10)}
                 ref={latestRef}
                 value={latest}
               />
