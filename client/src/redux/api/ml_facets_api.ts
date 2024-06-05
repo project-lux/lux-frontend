@@ -28,6 +28,9 @@ export const mlFacetsApi = createApi({
         }
         if (facetNames !== undefined) {
           urlParams.set('name', facetNames)
+          if (facetNames.includes('Date')) {
+            urlParams.set('sort', 'asc')
+          }
         }
         if (page !== undefined) {
           urlParams.set('page', page !== 0 ? page.toString() : '1')
