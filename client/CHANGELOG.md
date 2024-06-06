@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added data validation to individual event data points ([#232](https://github.com/project-lux/lux-frontend/issues/232)).
 - Added data validation to each entity page section ([#238](https://github.com/project-lux/lux-frontend/issues/238)).
+- Added backup fonts for diacritics in data ([#13](https://github.com/project-lux/lux-frontend/issues/13)).
 
 ### Changed
 
