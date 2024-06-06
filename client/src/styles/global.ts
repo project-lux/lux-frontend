@@ -13,7 +13,7 @@ const GlobalStyle = createGlobalStyle`
   body {
     min-height: 100vh;
     margin: 0;
-    font-family: Inter, "Helvetica Neue", sans-serif;
+    font-family: Inter, "Helvetica Neue", Arial, sans-serif;
     font-size: ${theme.font.size.normal};
     font-weight: ${theme.font.weight.extraLight};
     letter-spacing: 0;
