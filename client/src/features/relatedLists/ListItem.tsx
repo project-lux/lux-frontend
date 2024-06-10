@@ -18,7 +18,7 @@ interface IProps {
   uri: string
   count: number
   criteria: any
-  searchTerm: string | Array<string>
+  searchTerm: string
   tab: string
   index: number
   title: string

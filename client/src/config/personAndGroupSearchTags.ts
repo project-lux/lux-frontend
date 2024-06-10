@@ -89,12 +89,6 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:agentFoundedByAgent',
     tab: 'people',
   },
-  subjects: {
-    title: 'Related Subjects',
-    searchTag: 'lux:agentRelatedSubjects',
-    tab: 'objects',
-    jsonSearchTerm: ['aboutConcept', 'aboutAgent', 'aboutPlace'],
-  },
   materials: {
     title: 'Related Materials',
     searchTag: 'lux:agentRelatedMaterials',

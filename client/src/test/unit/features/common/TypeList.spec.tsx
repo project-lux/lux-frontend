@@ -36,21 +36,10 @@ describe('TypeList', () => {
       })
   })
 
-  it('renders the label', async () => {
-    render(
-      <BrowserRouter>
-        <TypeList label={mockLabel} types={mockValues} />
-      </BrowserRouter>,
-    )
-
-    const label = screen.getByTestId('types-label')
-    expect(label).toBeInTheDocument()
-  })
-
   it('renders the list', async () => {
     render(
       <BrowserRouter>
-        <TypeList label={mockLabel} types={mockValues} />
+        <TypeList types={mockValues} />
       </BrowserRouter>,
     )
 
@@ -61,7 +50,7 @@ describe('TypeList', () => {
   it('renders the record links', async () => {
     render(
       <BrowserRouter>
-        <TypeList label={mockLabel} types={mockValues} />
+        <TypeList types={mockValues} />
       </BrowserRouter>,
     )
 

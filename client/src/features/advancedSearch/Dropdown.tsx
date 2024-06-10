@@ -71,7 +71,9 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
   }
 
   const selectedValue =
-    selected !== undefined ? options[selected] : dropdownHeaderText
+    selected !== undefined && selected !== ''
+      ? options[selected]
+      : dropdownHeaderText
 
   return (
     <StyledDropdown id={id}>

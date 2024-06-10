@@ -76,26 +76,10 @@ export const getResultTabFromHalLink = (halLink: string): string => {
 export const formatFacetedSearchJson = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   criteria: any,
-  searchTerm: string | Array<string>,
+  searchTerm: string,
   uri: string,
-): string => {
-  if (Array.isArray(searchTerm)) {
-    const children = searchTerm.map((term) => ({
-      [term]: {
-        id: uri,
-      },
-    }))
-    return JSON.stringify({
-      AND: [
-        criteria,
-        {
-          OR: children,
-        },
-      ],
-    })
-  }
-
-  return JSON.stringify({
+): string =>
+  JSON.stringify({
     AND: [
       criteria,
       {
@@ -105,4 +89,3 @@ export const formatFacetedSearchJson = (
       },
     ],
   })
-}

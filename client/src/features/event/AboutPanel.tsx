@@ -75,7 +75,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           id="event-location-link-container"
         />
         <LinkContainer
-          label="Types"
+          label="Categorized As"
           content={types}
           itemSpacing="single"
           expandColumns

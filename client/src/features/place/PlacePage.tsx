@@ -4,6 +4,7 @@ import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import {
+  hierarchyChildren,
   relatedAccordions,
   // relatedTypes,
   // locations,
@@ -14,7 +15,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
-import ExploreHierarchy from '../common/ExploreHierarchy'
 import FeedbackButton from '../common/FeedbackButton'
 import Map from '../common/Map'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
@@ -22,9 +22,15 @@ import { ErrorFallback } from '../error/ErrorFallback'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
 import EntityParser from '../../lib/parse/data/EntityParser'
-import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
+import {
+  getAllNextPlaceUris,
+  getNextPlaceUris,
+} from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ImageThumbnail from '../common/ImageThumbnail'
+import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import IPlace from '../../types/data/IPlace'
+import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
@@ -65,7 +71,15 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="place"
             />
-            <ExploreHierarchy entity={data} />
+            <HierarchyContainer
+              entity={data}
+              halLink={hierarchyChildren}
+              getParentUris={
+                getAllNextPlaceUris as (
+                  entity: IPlace | IConcept,
+                ) => Array<string>
+              }
+            />
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}

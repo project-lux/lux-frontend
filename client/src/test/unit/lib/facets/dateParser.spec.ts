@@ -94,21 +94,5 @@ describe('dateParser functions', () => {
         '{"AND":[{"producedBy":{"id":"https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83"}},{"producedDate":"1981","_comp":"<"},{"producedDate":"1979","_comp":">"}]}',
       )
     })
-
-    it('returns string with formatted search when given array of searchTerms', () => {
-      const mockCriteria = {
-        producedBy: {
-          id: 'https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83',
-        },
-      }
-      const formattedYear = formatDateJsonSearch(
-        '1980',
-        ['producedDate', 'encounteredDate'],
-        mockCriteria,
-      )
-      expect(formattedYear).toEqual(
-        '{"AND":[{"producedBy":{"id":"https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83"}},[{"AND":[{"producedDate":"1981","_comp":"<"},{"producedDate":"1979","_comp":">"}]},{"AND":[{"encounteredDate":"1981","_comp":"<"},{"encounteredDate":"1979","_comp":">"}]}]]}',
-      )
-    })
   })
 })

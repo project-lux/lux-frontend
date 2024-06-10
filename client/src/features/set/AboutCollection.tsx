@@ -38,7 +38,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
           <React.Fragment>
             <LinkContainer
               content={types}
-              label="Types"
+              label="Categorized As"
               id="set-types-link-container"
               expandColumns
               itemSpacing="single"

@@ -58,7 +58,7 @@ const About: React.FC<IProps> = ({ data }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Type">
+        <TextContainer label="Categorized As">
           <TextValue
             values={agent.json.id?.includes('person') ? ['Person'] : ['Group']}
           />

@@ -1,6 +1,9 @@
+import IConcept from '../../types/data/IConcept'
 import IEntity from '../../types/data/IEntity'
 import ILinks from '../../types/data/ILinks'
+import IPlace from '../../types/data/IPlace'
 import ConceptParser from '../parse/data/ConceptParser'
+import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
@@ -68,6 +71,17 @@ export const getNextConceptUris = (concept: IEntity): Array<string> => {
 }
 
 /**
+ * Parses the concept entity to determine if the /part_of property exists
+ * Used for the breadcrumb hierarchy component on place pages
+ * @param {IConcept} entity the current entity to parse
+ * @returns {Array<string>}
+ */
+export const getAllNextConceptUris = (entity: IConcept): Array<string> => {
+  const parser = new ConceptParser(entity)
+  return parser.getBroaderIds()
+}
+
+/**
  * Parses the place entity to determine if the /part_of property exists
  * Used for the breadcrumb hierarchy component on place pages
  * @param {IEntity} entity the current entity to parse
@@ -79,6 +93,17 @@ export const getNextPlaceUris = (entity: IEntity): Array<string> => {
     return [partOf[0].id]
   }
   return []
+}
+
+/**
+ * Parses the place entity to determine if the /part_of property exists
+ * Used for the breadcrumb hierarchy component on place pages
+ * @param {IPlace} entity the current entity to parse
+ * @returns {string | null}
+ */
+export const getAllNextPlaceUris = (entity: IPlace): Array<string> => {
+  const parser = new PlaceParser(entity)
+  return parser.getPartOf()
 }
 
 /**

@@ -75,6 +75,8 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
             onClick={onClick}
             onMouseEnter={() => setShow(true)}
             data-testid="image-attribution-overlay-button"
+            aria-expanded={show}
+            aria-label="Tooltip"
           >
             {!show && <i className="bi bi-question-circle open" />}
             {show && <i className="bi bi-x-circle close" />}
@@ -99,6 +101,7 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
                   color: theme.color.black,
                   borderRadius: 3,
                   wordBreak: 'break-all',
+                  fontWeight: '350',
                   // eslint-disable-next-line react/prop-types
                   ...props.style,
                 }}

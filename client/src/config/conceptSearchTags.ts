@@ -117,3 +117,10 @@ export const relatedAccordions: IHalLinks = {
   ...relatedItems,
   locations,
 }
+
+// Used for rendering hierarchy children
+export const hierarchyChildren: IHalLink = {
+  title: '',
+  searchTag: 'lux:conceptChildren',
+  tab: 'concepts',
+}

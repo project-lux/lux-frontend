@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.28.0 - Unreleased
+
+### Added
+
+- Added data validation to individual event data points ([#232](https://github.com/project-lux/lux-frontend/issues/232)).
+- Added data validation to each entity page section ([#238](https://github.com/project-lux/lux-frontend/issues/238)).
+- Added backup fonts for diacritics in data ([#13](https://github.com/project-lux/lux-frontend/issues/13)).
+
+### Changed
+
+- Changed Type labels to Categorized As ([#220](https://github.com/project-lux/lux-frontend/issues/220)).
+- Changed the Person and Group selector in advanced search ([#190](https://github.com/project-lux/lux-frontend/issues/190)).
+- Changed the hierarchy search buttons ([#84](https://github.com/project-lux/lux-frontend/issues/84)).
+
+### Removed
+
+- Removed Related Subjects accordion from People and Group pages ([#205](https://github.com/project-lux/lux-frontend/issues/205)).
+
+### Fixed
+
+- Fixed tooltip to be more accessible ([#255](https://github.com/project-lux/lux-frontend/issues/255)).
+
 ## v1.27.0 - 2024-5-28
 
 ### Added
