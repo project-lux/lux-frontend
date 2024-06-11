@@ -126,7 +126,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
                   pushClientEvent('Search Link', 'Selected', searchLinkLabel)
                 }
                 state={{
-                  targetName: `${searchLinkLabel} Results Page`,
+                  targetName: 'Results Page',
                 }}
                 className="fw-bold"
                 data-testid="image-link"

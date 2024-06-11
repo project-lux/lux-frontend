@@ -37,7 +37,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
         search: `q=${searchQ}&openSearch=false`,
       }}
       state={{
-        targetName: linkLabel,
+        targetName: 'Results Page',
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
