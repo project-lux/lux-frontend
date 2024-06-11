@@ -85,7 +85,7 @@ const Relations: React.FC<{
               search: `q=${searchQ}&collapseSearch=true`,
             }}
             state={{
-              targetName: `/view/results/${tab}q=${searchQ}&collapseSearch=true`,
+              targetName: 'Results Page',
             }}
             onClick={() =>
               pushSiteImproveEvent('Search Link', 'Selected', 'Timeline')

@@ -81,7 +81,7 @@ const ListItem: React.FC<IProps> = ({
               search: `q=${searchQ}&openSearch=false`,
             }}
             state={{
-              targetName: linkLabel,
+              targetName: 'Results Page',
             }}
             onClick={() =>
               pushSiteImproveEvent(
