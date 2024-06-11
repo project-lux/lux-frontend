@@ -46,7 +46,7 @@ const SearchResultsLink: React.FC<IProps> = ({
         search: searchString,
       }}
       state={{
-        targetName: linkLabel,
+        targetName: 'Results Page',
       }}
       onClick={() => pushClientEvent('Search Link', 'Selected', eventTitle)}
       data-testid="search-related-list-link"
