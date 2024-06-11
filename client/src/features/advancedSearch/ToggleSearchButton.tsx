@@ -53,7 +53,9 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
       dispatch(updateCurrentSearchState({ value: 'advanced' }))
       urlParams.delete('sq')
-      navigate(`${pathname}?${urlParams.toString()}`)
+      navigate(`${pathname}?${urlParams.toString()}`, {
+        state: { targetName: 'Results Page Switch to Advanced Search' },
+      })
       return
     }
     translate({
