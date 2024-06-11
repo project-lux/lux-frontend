@@ -10,6 +10,7 @@ import ResultsPage from '../results/ResultsPage'
 import Header from '../header/Header'
 import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushSiteImprovePageEvent } from '../../lib/siteImprove'
+import useOpenGraph from '../../lib/hooks/useOpenGraph'
 
 import Footer from './Footer'
 
@@ -33,6 +34,7 @@ const LuxRoutes: React.FC = () => {
   const { pathname, search, state } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
 
+  useOpenGraph('')
   useEffect(() => {
     const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
     // Push a SiteImprove event for a page change
