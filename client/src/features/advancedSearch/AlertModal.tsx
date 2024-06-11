@@ -37,7 +37,9 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
       'Selected',
       'Continue To Simple Search',
     )
-    navigate(`${pathname}?${urlParams.toString()}`)
+    navigate(`${pathname}?${urlParams.toString()}`, {
+      state: { targetName: 'Results Page Switch to Simple Search' },
+    })
   }
 
   return (

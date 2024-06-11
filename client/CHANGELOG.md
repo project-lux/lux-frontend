@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed issue with Site Improve events ([#222](https://github.com/project-lux/lux-frontend/issues/222)).
+
 ## v1.28.0 - 2024-6-10
 
 ### Added

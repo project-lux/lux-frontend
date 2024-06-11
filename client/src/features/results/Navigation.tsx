@@ -180,6 +180,9 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                       isActive ? ' active' : ''
                     }`
                   }
+                  state={{
+                    targetName: `${tabToLinkLabel[key]} Results Page`,
+                  }}
                   onClick={() => {
                     pushSiteImproveEvent(
                       'Results Tab',

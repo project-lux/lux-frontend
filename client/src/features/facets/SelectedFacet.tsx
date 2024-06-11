@@ -76,7 +76,9 @@ const SelectedFacet: React.FC<ISelected> = ({
         'Removed',
         `Facet ${label}`,
       )
-      navigate(`${pathname}?${newSearchParams}`)
+      navigate(`${pathname}?${newSearchParams}`, {
+        state: { targetName: 'Results Page Faceted' },
+      })
     }
   }
 
