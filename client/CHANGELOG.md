@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added results scope to the refine label ([#134](https://github.com/project-lux/lux-frontend/issues/134)).
+
 ### Changed
 
 ### Removed

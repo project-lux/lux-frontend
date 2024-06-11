@@ -27,15 +27,7 @@ import {
 } from '../../lib/util/params'
 import { pushSiteImproveEvent } from '../../lib/siteImprove'
 import { ResultsTab } from '../../types/ResultsTab'
-
-const tabToLinkLabel: Record<string, string> = {
-  objects: 'Objects',
-  works: 'Works',
-  people: 'People & Groups',
-  places: 'Places',
-  concepts: 'Concepts',
-  events: 'Events',
-}
+import { tabToLinkLabel } from '../../config/results'
 
 interface INavigation {
   urlParams: URLSearchParams

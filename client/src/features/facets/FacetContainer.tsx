@@ -9,6 +9,7 @@ import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../../lib/util/params'
 import theme from '../../styles/theme'
 import { ResultsTab } from '../../types/ResultsTab'
+import { tabToLinkLabel } from '../../config/results'
 
 import FacetAccordion from './FacetAccordion'
 import SelectionContainer from './SelectionContainer'
@@ -69,7 +70,7 @@ const FacetContainer: React.FC<IFacets> = ({
     return (
       <Col xs={12} sm={12} md={12} lg={3}>
         <StyledContainer>
-          <StyledHeader>Refine</StyledHeader>
+          <StyledHeader>Refine {tabToLinkLabel[tab]}</StyledHeader>
           <SelectionContainer
             key={facetQuery}
             facetQuery={facetQuery}
