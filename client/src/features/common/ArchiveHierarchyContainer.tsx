@@ -130,7 +130,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
                   )
                 }
                 state={{
-                  targetName: `${searchLinkLabel} Results Page`,
+                  targetName: 'Results Page',
                 }}
                 className="fw-bold"
                 data-testid="image-link"

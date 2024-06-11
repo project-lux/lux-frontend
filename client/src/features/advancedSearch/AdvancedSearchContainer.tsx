@@ -61,9 +61,7 @@ const AdvancedSearchContainer: React.FC = () => {
       },
       {
         state: {
-          targetName: `Advanced search for: /view/results/${
-            tab !== undefined ? tab : 'objects'
-          }?${newUrlParams.toString()}`,
+          targetName: 'Results Page',
         },
       },
     )
