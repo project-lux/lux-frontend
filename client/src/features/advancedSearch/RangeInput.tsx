@@ -71,7 +71,7 @@ const RangeInput: React.FC<IRangeInput> = ({
       </label>
       <StyledInput
         id={rangeId}
-        type="number"
+        type={field.toLowerCase().includes('date') ? 'date' : 'number'}
         className="form-control me-2"
         placeholder={label}
         value={currentValue}
