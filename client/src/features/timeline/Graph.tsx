@@ -12,18 +12,15 @@ import {
   ReferenceArea,
 } from 'recharts'
 import { Accordion, Row } from 'react-bootstrap'
-import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import {
   IGraphTimelineData,
-  ITimelineCriteria,
   ITimelinesTransformed,
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
-import { formatDateJsonSearch } from '../../lib/facets/dateParser'
 import {
   addYearsWithNoData,
   getAxisYDomain,
@@ -71,7 +68,6 @@ export const getInitialState = (
 })
 
 const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
-  const navigate = useNavigate()
   // Add additional years that were not returned with the data
   const yearsArray = addYearsWithNoData(sortedKeys)
 
@@ -108,7 +104,6 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     if (isUndefined(refAreaRight) || refAreaRight === '') {
       refAreaRight = zoomState.right
     }
-    console.log(refAreaRight)
 
     // xAxis domain
     if (refAreaLeft > refAreaRight)
@@ -139,19 +134,19 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     setZoomState(getInitialState(graphData))
   }
 
-  const handleClick = (year: string, searchTag: string): void => {
-    const { tab, jsonSearchTerm } = searchTags[searchTag]
-    const { criteria } = timelineData[year][searchTag] as ITimelineCriteria
-    const searchQ = formatDateJsonSearch(
-      year,
-      jsonSearchTerm as string,
-      criteria,
-    )
-    navigate({
-      pathname: `/view/results/${tab}`,
-      search: `q=${searchQ}&collapseSearch=true`,
-    })
-  }
+  // const handleClick = (year: string, searchTag: string): void => {
+  //   const { tab, jsonSearchTerm } = searchTags[searchTag]
+  //   const { criteria } = timelineData[year][searchTag] as ITimelineCriteria
+  //   const searchQ = formatDateJsonSearch(
+  //     year,
+  //     jsonSearchTerm as string,
+  //     criteria,
+  //   )
+  //   navigate({
+  //     pathname: `/view/results/${tab}`,
+  //     search: `q=${searchQ}&collapseSearch=true`,
+  //   })
+  // }
 
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
@@ -205,6 +200,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           }}
           // eslint-disable-next-line react/jsx-no-bind
           onMouseUp={() => zoom()}
+          accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
@@ -228,7 +224,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
             yAxisId="total"
-            onClick={(d) => handleClick(d.yearKey, 'itemProductionDate')}
+            // onClick={(d) => handleClick(d.yearKey, 'itemProductionDate')}
           />
           <Bar
             dataKey="itemEncounteredDate.totalItems"
@@ -238,7 +234,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
             yAxisId="total"
-            onClick={(d) => handleClick(d.yearKey, 'itemEncounteredDate')}
+            // onClick={(d) => handleClick(d.yearKey, 'itemEncounteredDate')}
           />
           <Bar
             dataKey="workCreationDate.totalItems"
@@ -246,7 +242,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
             fill={theme.color.secondary.lightBlue}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
-            onClick={(d) => handleClick(d.yearKey, 'workCreationDate')}
+            // onClick={(d) => handleClick(d.yearKey, 'workCreationDate')}
           />
           <Bar
             dataKey="workPublicationDate.totalItems"
@@ -256,7 +252,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
             yAxisId="total"
-            onClick={(d) => handleClick(d.yearKey, 'workPublicationDate')}
+            // onClick={(d) => handleClick(d.yearKey, 'workPublicationDate')}
           />
           {zoomState.refAreaLeft && zoomState.refAreaRight ? (
             <ReferenceArea
