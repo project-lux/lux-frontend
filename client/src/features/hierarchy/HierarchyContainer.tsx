@@ -185,7 +185,7 @@ const HierarchyContainer: React.FC<IProps> = ({
       >
         <Row>
           <Col xs={8}>
-            <h2 className="mb-0">Explore</h2>
+            <h2 className="mb-0">Explore the Hierarchy</h2>
           </Col>
           <Col xs={4} className="d-flex justify-content-end">
             {currentUuid !== entity.id && <BackButton currentEntity={entity} />}
