@@ -1,5 +1,5 @@
 import React from 'react'
-import { BaseEdge, getSimpleBezierPath } from 'reactflow'
+import { BaseEdge, getBezierPath } from 'reactflow'
 
 import theme from '../../styles/theme'
 
@@ -11,14 +11,14 @@ interface IProps {
   targetY: number
 }
 
-const HierarchyEdge: React.FC<IProps> = ({
+const AccessibleEdge: React.FC<IProps> = ({
   id,
   sourceX,
   sourceY,
   targetX,
   targetY,
 }) => {
-  const [edgePath] = getSimpleBezierPath({
+  const [edgePath] = getBezierPath({
     sourceX,
     sourceY,
     targetX,
@@ -34,4 +34,4 @@ const HierarchyEdge: React.FC<IProps> = ({
   )
 }
 
-export default HierarchyEdge
+export default AccessibleEdge
