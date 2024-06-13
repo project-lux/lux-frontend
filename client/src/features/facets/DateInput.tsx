@@ -8,6 +8,10 @@ import styled from 'styled-components'
 import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { facetLabels, facetSearchTerms } from '../../config/facets'
+import {
+  getDatesFromFacetValues,
+  // getYearsFromFacetValues,
+} from '../../lib/facets/dateParser'
 import { removeFacetFromQuery } from '../../lib/facets/removeFacet'
 import theme from '../../styles/theme'
 import { ICriteria, ISearchResults } from '../../types/ISearchResults'
@@ -91,6 +95,11 @@ const DateInput: React.FC<IFacets> = ({
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
+  // const years = getYearsFromFacetValues(facetValues)
+  const fullDates = getDatesFromFacetValues(facetValues)
+  const [earliest, setEarliest] = useState<string>(fullDates[0])
+  const [latest, setLatest] = useState<string>(fullDates[fullDates.length - 1])
+  const [redirect, setRedirect] = useState(false)
   const earliestRef = useRef<HTMLInputElement>(null)
   const latestRef = useRef<HTMLInputElement>(null)
 
@@ -121,17 +130,25 @@ const DateInput: React.FC<IFacets> = ({
     event.preventDefault()
 
     if (earliest === null) {
-      const earliestYear = yearOne
+      const earliestYear = fullDates[0]
       setEarliest(earliestYear.toString())
     }
 
     if (latest === null) {
-      const latestYear = maxYear
+      const latestYear = fullDates[fullDates.length - 1]
       setLatest(latestYear.toString())
     }
 
-    dispatch(addLastSelectedFacet({ facetName: facetSection, facetUri: '' }))
-    pushClientEvent(
+    if (typeof earliest === 'number') {
+      setEarliest(`${earliest}-01-01`)
+    }
+
+    if (typeof earliest === 'number') {
+      setLatest(`${latest}-01-01`)
+    }
+
+    dispatch(addFacets({ facetName: facetSection, facetUri: '' }))
+    pushSiteImproveEvent(
       'Facets Date Input',
       'Selected',
       `Facet ${facetLabels[facetSection]}`,
@@ -184,8 +201,8 @@ const DateInput: React.FC<IFacets> = ({
       <form className="w-100" onSubmit={submitHandler}>
         <div className="input-group d-block">
           <DateSlider
-            min={parseInt(yearOne, 10)}
-            max={parseInt(maxYear, 10)}
+            min={new Date(fullDates[0]).getFullYear()}
+            max={new Date(fullDates[fullDates.length - 1]).getFullYear()}
             earliestVal={earliest}
             latestVal={latest}
             onEarliestChange={handleEarliestInputChange}
@@ -198,14 +215,14 @@ const DateInput: React.FC<IFacets> = ({
               </label>
               <StyledInput
                 id={earliestDateId}
-                type="number"
+                type="date"
                 className="form-control"
-                placeholder={yearOne.toString()}
+                placeholder={fullDates[0]}
                 onChange={(e) =>
                   handleEarliestInputChange(e.currentTarget.value)
                 }
-                min={parseInt(yearOne, 10)}
-                max={parseInt(maxYear, 10)}
+                min={fullDates[0]}
+                max={fullDates[fullDates.length - 1]}
                 ref={earliestRef}
                 value={earliest}
                 autoFocus={autoFocus}
@@ -217,12 +234,12 @@ const DateInput: React.FC<IFacets> = ({
               </label>
               <StyledInput
                 id={latestDateId}
-                type="number"
+                type="date"
                 className="form-control"
-                placeholder={maxYear}
+                placeholder={fullDates[fullDates.length - 1]}
                 onChange={(e) => handleLatestInputChange(e.currentTarget.value)}
-                min={parseInt(yearOne, 10)}
-                max={parseInt(maxYear, 10)}
+                min={fullDates[0]}
+                max={fullDates[fullDates.length - 1]}
                 ref={latestRef}
                 value={latest}
               />

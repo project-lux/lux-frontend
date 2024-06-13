@@ -118,8 +118,10 @@ const DateSlider: React.FC<IProps> = ({
   // Set width of the range to decrease from the left side
   useEffect(() => {
     if (maxValRef.current) {
-      const minPercent = getPercent(earliestVal)
-      const maxPercent = getPercent(Number(maxValRef.current.value))
+      const minPercent = getPercent(new Date(earliestVal).getFullYear())
+      const maxPercent = getPercent(
+        new Date(maxValRef.current.value).getFullYear(),
+      )
 
       if (range.current) {
         range.current.style.left = `${minPercent}%`

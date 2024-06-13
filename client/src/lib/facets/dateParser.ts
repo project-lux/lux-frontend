@@ -15,6 +15,57 @@ const sortYears = (a: number, b: number): number => {
   return 0
 }
 
+const sortFullDates = (a: string, b: string): number => {
+  const date1 = new Date(a).getTime()
+  const date2 = new Date(b).getTime()
+
+  if (date1 < date2) {
+    return -1
+  }
+
+  if (date1 > date2) {
+    return 1
+  }
+
+  return 0
+}
+
+/* eslint-disable consistent-return */
+export const getDatesFromFacetValues = (
+  facetValues: IOrderedItems[],
+): string[] => {
+  const dates = facetValues
+    .filter((facet) => facet.value !== null)
+    .map((facet) => {
+      const { value } = facet
+      return getDateFromSingleFacetValue(String(value))
+    })
+
+  return dates
+    .filter((date): date is string => date !== undefined)
+    .sort((a: string, b: string) => sortFullDates(a, b))
+}
+
+export const getDateFromSingleFacetValue = (facetValue: string): string => {
+  let month
+  let day
+  let year
+  const valueStr = String(facetValue)
+  if (valueStr[0] === '-') {
+    const date = new Date(valueStr.substring(1))
+    month = date.getUTCMonth() + 1
+    day = date.getUTCDate()
+    year = `-${date.getUTCFullYear()}`
+    return `${month}/${day}/${year}`
+  }
+
+  const date = new Date(valueStr)
+  month = date.getUTCMonth() + 1
+  day = date.getUTCDate()
+  year = date.getUTCFullYear()
+  return `${month}/${day}/${year}`
+}
+
 /* eslint-disable consistent-return */
 export const getYearsFromFacetValues = (
   facetValues: Array<IOrderedItems>,
