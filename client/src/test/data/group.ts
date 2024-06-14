@@ -133,29 +133,29 @@ export const group: IAgent = {
       content: 'Mock Group',
       language: [
         {
-          id: config.dc.langger,
+          id: config.aat.langger,
           type: 'Language',
           _label: 'German',
         },
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
         {
-          id: config.dc.langfre,
+          id: config.aat.langfre,
           type: 'Language',
           _label: 'French',
         },
         {
-          id: config.dc.langdut,
+          id: config.aat.langdut,
           type: 'Language',
           _label: 'Dutch',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -194,7 +194,7 @@ export const group: IAgent = {
       content: 'In Pittsburgh, Penn.',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
@@ -220,7 +220,7 @@ export const group: IAgent = {
       content: 'Pittsburgh, Pa',
       language: [
         {
-          id: config.dc.langfre,
+          id: config.aat.langfre,
           type: 'Language',
           _label: 'French',
         },
@@ -292,7 +292,7 @@ export const group: IAgent = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },

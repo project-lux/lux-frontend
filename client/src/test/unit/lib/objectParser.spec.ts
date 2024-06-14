@@ -167,7 +167,7 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const accessStatement = object.getAccessStatement()
       expect(accessStatement).toEqual([
-        { content: 'On view', language: config.dc.langen },
+        { content: 'On view', language: config.aat.langen },
       ])
     })
   })
@@ -283,7 +283,7 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const callNumber = object.getCallNumber()
       expect(callNumber).toEqual({
-        label: config.dc.callNumber,
+        label: config.aat.callNumber,
         identifier: ['Mock Call Number'],
         carriedOutBy: [],
       })

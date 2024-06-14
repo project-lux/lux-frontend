@@ -22,7 +22,7 @@ export const set: ISet = {
       _label: 'Archival and Manuscript Material',
     },
     {
-      id: config.dc.archive,
+      id: config.aat.archive,
       type: 'Type',
       _label: 'Archival and Manuscript Material',
     },
@@ -77,7 +77,7 @@ export const set: ISet = {
       content: 'Mock Set',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },

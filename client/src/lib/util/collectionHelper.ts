@@ -18,7 +18,7 @@ export const fetchCollection = (entityId: string): Promise<any> =>
       if (response.ok) {
         return response.json().then((data) => {
           const parser = new EntityParser(data)
-          if (parser.isClassifiedAs(config.dc.collection)) {
+          if (parser.isClassifiedAs(config.aat.collection)) {
             return parser.json.id
           }
           return null

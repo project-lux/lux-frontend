@@ -58,7 +58,7 @@ export const visualItem: IVisualItem = {
       content: 'Mock Visual Item',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -69,7 +69,7 @@ export const visualItem: IVisualItem = {
       content: 'Mock Visual Item Name',
       classified_as: [
         {
-          id: config.dc.displayName,
+          id: config.aat.displayName,
           type: 'Type',
           _label: 'Primary Name',
         },

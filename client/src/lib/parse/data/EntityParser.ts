@@ -61,7 +61,7 @@ export default class EntityParser {
 
       for (const digital of digitallyCarriedBy) {
         const d = new EntityParser(digital)
-        if (d.isClassifiedAs(config.dc.webPage)) {
+        if (d.isClassifiedAs(config.aat.webPage)) {
           const accessPoint = forceArray(digital.access_point)
           for (const p of accessPoint) {
             if (typeof p.id === 'string' && p.id.match(/^https?:\/\/.+/)) {
@@ -141,7 +141,7 @@ export default class EntityParser {
           // check if there are multiple classifications for a name
           if (ids.length > 1) {
             // remove the sort label if there are more than one classifications
-            ids = ids.filter((id) => id !== config.dc.sortName)
+            ids = ids.filter((id) => id !== config.aat.sortName)
             // eslint-disable-next-line prefer-destructuring
             label = ids[0]
           } else if (ids.length === 1) {
@@ -155,7 +155,7 @@ export default class EntityParser {
         }
 
         // Only add the data to the returned object if there is content and the label is not a sort name
-        if (identifier.content !== undefined && label !== config.dc.sortName) {
+        if (identifier.content !== undefined && label !== config.aat.sortName) {
           if (data.hasOwnProperty(label)) {
             data[label].push({ content: identifier.content, language })
           } else {
@@ -171,7 +171,7 @@ export default class EntityParser {
 
     // remove the primary name
     if (removePrimaryName) {
-      const primaryName = this.getPrimaryName(config.dc.langen)
+      const primaryName = this.getPrimaryName(config.aat.langen)
       Object.keys(data).map((names) =>
         // eslint-disable-next-line array-callback-return
         data[names].map((name) => {
@@ -234,7 +234,7 @@ export default class EntityParser {
     return classifiedAs
       .filter((cl) => cl.type === 'Type')
       .map((cl) => cl.id)
-      .filter((id) => id !== config.dc.collectionItem)
+      .filter((id) => id !== config.aat.collectionItem)
   }
 
   /**
@@ -309,7 +309,7 @@ export default class EntityParser {
   getCopyrightLicensingStatement(): INoteContent | null {
     return getSpecificReferredToBy(
       this.json,
-      config.dc.copyrightLicensingStatement,
+      config.aat.copyrightLicensingStatement,
     )
   }
 
@@ -318,7 +318,7 @@ export default class EntityParser {
    * @returns {INoteContent | null}
    */
   getPlanYourVisitLink(): Array<INoteContent> {
-    return getMultipleSpecificReferredToBy(this.json, config.dc.visitors)
+    return getMultipleSpecificReferredToBy(this.json, config.aat.visitors)
   }
 
   /**
@@ -375,7 +375,7 @@ export default class EntityParser {
     referredToBy.map((el: IEntity) => {
       let label
       const nestedElement = new EntityParser(el)
-      const isEnglish = nestedElement.isInLanguage(config.dc.langen)
+      const isEnglish = nestedElement.isInLanguage(config.aat.langen)
       const languages = forceArray(el.language)
       const language = languages.length > 0 ? languages[0].id : ''
 
@@ -435,8 +435,8 @@ export default class EntityParser {
     // remove copyright statement and visitor statement
     Object.keys(data).map((key) => {
       if (
-        key === config.dc.copyrightLicensingStatement ||
-        key === config.dc.visitors
+        key === config.aat.copyrightLicensingStatement ||
+        key === config.aat.visitors
       ) {
         delete data[key]
       }
@@ -517,7 +517,7 @@ export default class EntityParser {
 
         if (
           classifiedAs !== undefined &&
-          validateClassifiedAsIdMatches(classifiedAs[0], config.dc.webPage)
+          validateClassifiedAsIdMatches(classifiedAs[0], config.aat.webPage)
         ) {
           for (const p of accessPoint) {
             links.push({ contentIdentifier, link: p.id })
@@ -544,8 +544,8 @@ export default class EntityParser {
         const accessPoint = forceArray(digital.access_point)
         const d = new EntityParser(digital)
 
-        if (!d.isIIIFManifest() && !d.isClassifiedAs(config.dc.webPage)) {
-          const name = d.getPrimaryName(config.dc.langen)
+        if (!d.isIIIFManifest() && !d.isClassifiedAs(config.aat.webPage)) {
+          const name = d.getPrimaryName(config.aat.langen)
 
           for (const p of accessPoint) {
             links.push({
@@ -590,7 +590,7 @@ export default class EntityParser {
           carriedOutBy: agent,
         }
       })
-      .filter((id) => id.label !== config.dc.sortValue)
+      .filter((id) => id.label !== config.aat.sortValue)
 
     const identifierData: Array<{
       label: string

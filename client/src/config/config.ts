@@ -2,18 +2,18 @@ import { IAdvancedSearchConfigResponse } from '../types/IAdvancedSearchConfigRes
 
 import * as localEnv from './localEnv'
 import { IServerConfig } from './IServerConfig'
-import { IDataConstants, defaultConstants } from './dataConstants'
 import {
   advancedSearch,
   IAdvancedSearchConfig,
 } from './advancedSearch/advancedSearch'
+import { IAat, defaultAats } from './aat'
 
 class Config {
   env: IServerConfig
 
   hasLocalEnv = false
 
-  dc: IDataConstants = {}
+  aat: IAat = {}
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   advancedSearch: IAdvancedSearchConfig = {}
@@ -33,7 +33,7 @@ class Config {
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
-    this.setDefaultDataConstants(this.env.dataApiBaseUrl)
+    this.setDefaultAats(this.env.dataApiBaseUrl)
   }
 
   setServerConfig(data: IServerConfig): void {
@@ -51,15 +51,15 @@ class Config {
     }
   }
 
-  setDefaultDataConstants(baseUrl: string): void {
-    this.dc = defaultConstants(`${baseUrl}`)
+  setDefaultAats(baseUrl: string): void {
+    this.aat = defaultAats()
   }
 
-  setDataConstants(data: IDataConstants): void {
+  setAats(data: IAat): void {
     // Default must be set again with the new base URL from the server
-    this.setDefaultDataConstants(this.env.dataApiBaseUrl)
+    this.setDefaultAats(this.env.dataApiBaseUrl)
 
-    this.dc = { ...this.dc, ...data }
+    this.aat = { ...this.aat, ...data }
   }
 
   setDefaultAdvancedSearchConfig(): void {

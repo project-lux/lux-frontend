@@ -46,7 +46,7 @@ export const event: IEvent = {
       content: 'Mock Event',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -125,7 +125,7 @@ export const event: IEvent = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },
@@ -136,7 +136,7 @@ export const event: IEvent = {
               content: 'Homepage for Exhibition Record',
               classified_as: [
                 {
-                  id: config.dc.primaryName,
+                  id: config.aat.primaryName,
                   type: 'Type',
                   _label: 'Primary Name',
                 },

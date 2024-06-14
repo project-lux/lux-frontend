@@ -36,7 +36,7 @@ export default class PlaceParser extends EntityParser {
       string,
       null | string | Array<any> | IContentWithLanguage
     > = {
-      name: this.getPrimaryName(config.dc.langen),
+      name: this.getPrimaryName(config.aat.langen),
       names: this.getNames(),
       types: this.getTypes(),
       webPages: this.getWebPages(),

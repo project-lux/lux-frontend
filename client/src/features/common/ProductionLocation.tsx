@@ -23,7 +23,7 @@ const ProductionLocation: React.FC<IProps> = ({ location }) => {
 
   if (isSuccess && data) {
     const place = new PlaceParser(data)
-    const name = place.getPrimaryName(config.dc.langen)
+    const name = place.getPrimaryName(config.aat.langen)
 
     const mapConfig = {
       wkt: data.defined_by || '',

@@ -15,14 +15,14 @@ export const reusableMinimalEntity = (
       content,
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },

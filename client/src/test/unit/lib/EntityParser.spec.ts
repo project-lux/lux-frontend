@@ -27,17 +27,17 @@ describe('EntityParser', () => {
         .spyOn(helperFunctions, 'getName')
         .mockImplementation(() => 'primary name')
 
-      parser.getPrimaryName(config.dc.langen)
+      parser.getPrimaryName(config.aat.langen)
       expect(spy).toHaveBeenCalledWith(
         mockEntity.identified_by,
-        config.dc.langen,
+        config.aat.langen,
       )
       spy.mockRestore()
     })
 
     it('returns the primary name', () => {
       const parser = new EntityParser(mockEntity)
-      const primaryName = parser.getPrimaryName(config.dc.langen)
+      const primaryName = parser.getPrimaryName(config.aat.langen)
       expect(primaryName).toEqual('Mock Entity')
     })
   })
@@ -47,17 +47,17 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [config.aat.primaryName]: [
           {
             content: 'Mock Entity',
-            language: config.dc.langen,
+            language: config.aat.langen,
           },
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: config.aat.langfr,
           },
         ],
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'Name with no language',
             language: '',
@@ -70,13 +70,13 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [config.aat.primaryName]: [
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: config.aat.langfr,
           },
         ],
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'Name with no language',
             language: '',
@@ -96,12 +96,12 @@ describe('EntityParser', () => {
             content: 'This should be returned 1',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -113,7 +113,7 @@ describe('EntityParser', () => {
             content: 'This should NOT be returned 1',
             classified_as: [
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -125,12 +125,12 @@ describe('EntityParser', () => {
             content: 'This should be returned 2',
             classified_as: [
               {
-                id: config.dc.displayName,
+                id: config.aat.displayName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -140,13 +140,13 @@ describe('EntityParser', () => {
       })
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [config.aat.primaryName]: [
           {
             content: 'This should be returned 1',
             language: '',
           },
         ],
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'This should be returned 2',
             language: '',
@@ -166,14 +166,14 @@ describe('EntityParser', () => {
             content: 'animal de compagnie',
             classified_as: [
               {
-                id: config.dc.alternateName,
+                id: config.aat.alternateName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
             ],
             language: [
               {
-                id: config.dc.langfr,
+                id: config.aat.langfr,
                 type: 'Language',
                 _label: 'french',
               },
@@ -185,7 +185,7 @@ describe('EntityParser', () => {
             content: 'Name with no language',
             classified_as: [
               {
-                id: config.dc.displayName,
+                id: config.aat.displayName,
                 type: 'Type',
                 _label: 'Display Name',
               },
@@ -195,7 +195,7 @@ describe('EntityParser', () => {
       })
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'Name with no language',
             language: '',
@@ -217,7 +217,7 @@ describe('EntityParser', () => {
             content: 'Mock Entity',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
@@ -229,7 +229,7 @@ describe('EntityParser', () => {
             content: 'animal de compagnie',
             language: [
               {
-                id: config.dc.langfr,
+                id: config.aat.langfr,
                 type: 'Language',
                 _label: 'french',
               },
@@ -244,7 +244,7 @@ describe('EntityParser', () => {
         '': [
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: config.aat.langfr,
           },
         ],
       })
@@ -263,7 +263,7 @@ describe('EntityParser', () => {
             content: 'Mock Entity',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
@@ -462,7 +462,7 @@ describe('EntityParser', () => {
         'https://endpoint.yale.edu/data/text/classified-as-2': [
           {
             content: 'Note 2',
-            language: config.dc.langen,
+            language: config.aat.langen,
             _content_html: undefined,
           },
         ],
@@ -647,14 +647,14 @@ describe('EntityParser', () => {
   describe('isInLanguage', () => {
     it('returns true', () => {
       const parser = new EntityParser(mockEntity)
-      const isLanguage = parser.isInLanguage(config.dc.langen)
+      const isLanguage = parser.isInLanguage(config.aat.langen)
 
       expect(isLanguage).toBeTruthy()
     })
 
     it('returns false', () => {
       const parser = new EntityParser(mockEntity)
-      const isLanguage = parser.isInLanguage(config.dc.langfr)
+      const isLanguage = parser.isInLanguage(config.aat.langfr)
 
       expect(isLanguage).toBeFalsy()
     })

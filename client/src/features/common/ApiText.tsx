@@ -17,7 +17,7 @@ const ApiText = (value: string): string | null => {
   const { pathname } = useLocation()
   // eslint-disable-next-line react/destructuring-assignment
   const containsBaseUrl = value.includes(getDataApiBaseUrl())
-  const isPreferredTerm = value === config.dc.primaryName
+  const isPreferredTerm = value === config.aat.primaryName
   const isEmpty = value === ''
   const uri = stripYaleIdPrefix(value)
   // Only retrieve the data if it contains the base url, it is not defined as a preferred term, and the value is not empty
@@ -28,7 +28,7 @@ const ApiText = (value: string): string | null => {
 
   if (isSuccess && data) {
     const elem = new EntityParser(data)
-    const primaryName = elem.getPrimaryName(config.dc.langen)
+    const primaryName = elem.getPrimaryName(config.aat.langen)
 
     return primaryName
   }

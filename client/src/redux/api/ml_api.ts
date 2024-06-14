@@ -6,7 +6,6 @@ import { ISearchResults, ISearchResultsError } from '../../types/ISearchResults'
 import { IRelatedListEntryTransformed } from '../../types/IRelatedLists'
 import { transformRelatedListResults } from '../../lib/parse/search/relatedListsParser'
 import { getDataApiBaseUrl } from '../../config/config'
-import { IDataConstants } from '../../config/dataConstants'
 import { formatSortParameter } from '../../lib/parse/search/queryParser'
 import IEntity from '../../types/data/IEntity'
 import { replaceBaseUrl } from '../../lib/parse/data/helper'
@@ -132,12 +131,6 @@ export const mlApi: any = createApi({
         return getCollections(entity)
       },
     }),
-    getDataConstants: builder.query<IDataConstants, void>({
-      query: () => ({
-        url: `api/data-constants`,
-        method: 'GET',
-      }),
-    }),
     getAdvancedSearchConfig: builder.query<IAdvancedSearchConfigResponse, void>(
       {
         query: () => ({
@@ -212,7 +205,6 @@ export const {
   useGetTimelineQuery,
   // useGetMultipleRelationshipsQuery,
   useGetCollectionQuery,
-  useGetDataConstantsQuery,
   useGetAdvancedSearchConfigQuery,
   useGetStatsQuery,
   useSearchQuery,

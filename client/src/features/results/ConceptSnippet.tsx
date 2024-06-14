@@ -28,7 +28,7 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
 
   if (isSuccess && data) {
     const concept = new ConceptParser(data)
-    const descriptions = concept.getDescriptions(config.dc.langen)
+    const descriptions = concept.getDescriptions(config.aat.langen)
     const types = concept.getTypes()
 
     return (

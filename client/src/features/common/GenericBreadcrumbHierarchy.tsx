@@ -69,7 +69,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   // All ancestors have been retrieved
   if (isSuccess || isError || done) {
     const record = new EntityParser(entity)
-    const entityName = record.getPrimaryName(config.dc.langen)
+    const entityName = record.getPrimaryName(config.aat.langen)
 
     const links = entities
       .slice(0, entities.length - 1)

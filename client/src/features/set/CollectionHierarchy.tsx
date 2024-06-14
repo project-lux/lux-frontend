@@ -53,7 +53,7 @@ const CollectionHierarchy: React.FC<IProps> = ({ entity }) => {
 
   if (isSuccess || isError || done) {
     const memberOfName = new EntityParser(entity).getPrimaryName(
-      config.dc.langen,
+      config.aat.langen,
     )
 
     const links = members.slice(0, members.length - 1).map((p, ix) => {

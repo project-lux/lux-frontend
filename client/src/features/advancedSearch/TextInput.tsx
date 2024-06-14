@@ -63,7 +63,7 @@ const TextInput: React.FC<IInputType> = ({
   let displayName = currentValue
   if (isSuccess && data) {
     const entity = new EntityParser(data)
-    displayName = entity.getPrimaryName(config.dc.langen)
+    displayName = entity.getPrimaryName(config.aat.langen)
   }
 
   const id = `input-field-${stateId}`

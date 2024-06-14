@@ -30,7 +30,7 @@ const DetailedLink: React.FC<ILinkData> = ({ uri }) => {
 
   if (isSuccess && data) {
     const element = new EntityParser(data)
-    const primaryName = element.getPrimaryName(config.dc.langen)
+    const primaryName = element.getPrimaryName(config.aat.langen)
     const types = element.getTypes()
     const [supertypeIcon, helperText] = element.getSupertypeIcon(types)
 

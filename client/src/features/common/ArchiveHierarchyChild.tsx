@@ -54,7 +54,7 @@ const ArchiveHierarchyChild: React.FC<{
 
   if (isSuccess && data) {
     const entity = new EntityParser(data)
-    const primaryName = entity.getPrimaryName(config.dc.langen)
+    const primaryName = entity.getPrimaryName(config.aat.langen)
     const iiifImages = entity.getManifestId()
     const links = entity.json._links
       ? hasHierarchyHalLinks(entity.json._links)

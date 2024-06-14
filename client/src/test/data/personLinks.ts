@@ -13,7 +13,7 @@ export const personLinks: IEntity = {
       content: 'Mock Entity',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },

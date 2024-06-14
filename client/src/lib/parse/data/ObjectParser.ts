@@ -219,8 +219,8 @@ export default class ObjectParser extends EntityParser {
     const notes = this.getNotes()
 
     if (notes !== null) {
-      return notes[config.dc.accessStatement] !== undefined
-        ? notes[config.dc.accessStatement]
+      return notes[config.aat.accessStatement] !== undefined
+        ? notes[config.aat.accessStatement]
         : []
     }
 
@@ -285,7 +285,7 @@ export default class ObjectParser extends EntityParser {
     const identifiers = this.getIdentifiers()
     if (identifiers.length > 0) {
       for (const identifier of identifiers) {
-        if (identifier.label === config.dc.callNumber) {
+        if (identifier.label === config.aat.callNumber) {
           return identifier
         }
       }
@@ -314,7 +314,9 @@ export default class ObjectParser extends EntityParser {
         label: label.length > 0 ? label[0] : '',
         value: dim.value,
         unit:
-          units.length > 0 && label[0] !== config.dc.typeOfPart ? units[0] : '',
+          units.length > 0 && label[0] !== config.aat.typeOfPart
+            ? units[0]
+            : '',
       }
     })
   }
@@ -347,25 +349,25 @@ export default class ObjectParser extends EntityParser {
     const { notes } = data
     const hasAccessStatement = containsSpecificNote(
       notes,
-      config.dc.accessStatement,
+      config.aat.accessStatement,
     )
     if (notes !== null && hasAccessStatement) {
-      delete notes[config.dc.accessStatement]
+      delete notes[config.aat.accessStatement]
       data.notes = notes
     }
 
     const hasDimensions = containsSpecificNote(
       notes,
-      config.dc.dimensionStatement,
+      config.aat.dimensionStatement,
     )
     data.dimensions = !hasDimensions ? this.getDimensions() : []
 
-    const hasExhibitions = containsSpecificNote(notes, config.dc.exhibition)
+    const hasExhibitions = containsSpecificNote(notes, config.aat.exhibition)
     if (notes !== null && hasExhibitions) {
       data.exhibitionDescription = {
-        'Exhibitions Description': notes[config.dc.exhibition],
+        'Exhibitions Description': notes[config.aat.exhibition],
       }
-      delete notes[config.dc.exhibition]
+      delete notes[config.aat.exhibition]
     }
 
     return hasData(data)

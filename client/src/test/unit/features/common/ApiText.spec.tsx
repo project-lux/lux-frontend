@@ -66,7 +66,7 @@ describe('ApiText', () => {
     })
 
     it('returns the label if value is a preferred term', () => {
-      const value = config.dc.primaryName
+      const value = config.aat.primaryName
       const text = ApiText(value)
 
       expect(text).toEqual(mockLabel)

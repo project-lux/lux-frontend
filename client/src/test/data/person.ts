@@ -141,14 +141,14 @@ export const person: IAgent = {
       content: 'Mock Person',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -218,7 +218,7 @@ export const person: IAgent = {
               content: 'Image attribution',
               classified_as: [
                 {
-                  id: config.dc.copyrightLicensingStatement,
+                  id: config.aat.copyrightLicensingStatement,
                   type: 'Type',
                   _label: 'Copyright/License Statement',
                 },
@@ -251,7 +251,7 @@ export const person: IAgent = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },

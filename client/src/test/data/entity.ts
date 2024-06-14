@@ -15,14 +15,14 @@ export const entity: IEntity = {
       content: 'Mock Entity',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
       ],
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'eng',
         },
@@ -34,14 +34,14 @@ export const entity: IEntity = {
       content: 'animal de compagnie',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
       ],
       language: [
         {
-          id: config.dc.langfr,
+          id: config.aat.langfr,
           type: 'Language',
           _label: 'french',
         },
@@ -53,7 +53,7 @@ export const entity: IEntity = {
       content: 'Name with no language',
       classified_as: [
         {
-          id: config.dc.displayName,
+          id: config.aat.displayName,
           type: 'Type',
           _label: 'Display Name',
         },
@@ -101,7 +101,7 @@ export const entity: IEntity = {
       ],
       classified_as: [
         {
-          id: config.dc.sortValue,
+          id: config.aat.sortValue,
           type: 'Type',
           _label: 'Sort value',
         },
@@ -141,7 +141,7 @@ export const entity: IEntity = {
       _label: 'paintings',
     },
     {
-      id: config.dc.collectionItem,
+      id: config.aat.collectionItem,
       type: 'Type',
       _label: 'collection item',
     },
@@ -192,7 +192,7 @@ export const entity: IEntity = {
       ],
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
@@ -204,7 +204,7 @@ export const entity: IEntity = {
       content: 'Copyright licensing statement',
       classified_as: [
         {
-          id: config.dc.copyrightLicensingStatement,
+          id: config.aat.copyrightLicensingStatement,
           type: 'Type',
           _label: 'Copyright Statement',
         },
@@ -241,7 +241,7 @@ export const entity: IEntity = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },
@@ -292,7 +292,7 @@ export const entity: IEntity = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },
@@ -467,11 +467,11 @@ export const entity: IEntity = {
   ],
   language: [
     {
-      id: config.dc.langspa,
+      id: config.aat.langspa,
       type: 'concept',
     },
     {
-      id: config.dc.langen,
+      id: config.aat.langen,
       type: 'concept',
     },
   ],

@@ -30,7 +30,7 @@ const Checklist: React.FC<IFacets> = ({
   const list = facetValues
     .filter(
       (facet) =>
-        facet.value !== null && facet.value !== config.dc.collectionItem,
+        facet.value !== null && facet.value !== config.aat.collectionItem,
     )
     .slice(0, displayLength)
     .map((facet) => (

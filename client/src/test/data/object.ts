@@ -211,7 +211,7 @@ export const physicalObject: IObject = {
       content: 'Mock Call Number',
       classified_as: [
         {
-          id: config.dc.callNumber,
+          id: config.aat.callNumber,
           type: 'Type',
           _label: 'Call Number',
         },
@@ -222,7 +222,7 @@ export const physicalObject: IObject = {
       content: 'Mock Object',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary',
         },
@@ -233,14 +233,14 @@ export const physicalObject: IObject = {
       content: 'Object that is mocked',
       classified_as: [
         {
-          id: config.dc.displayName,
+          id: config.aat.displayName,
           type: 'Type',
           _label: 'Primary',
         },
       ],
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
@@ -368,14 +368,14 @@ export const physicalObject: IObject = {
       content: 'On view',
       classified_as: [
         {
-          id: config.dc.accessStatement,
+          id: config.aat.accessStatement,
           type: 'Type',
           _label: 'Access Statement',
         },
       ],
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Type',
           _label: 'Access Statement',
         },
@@ -386,7 +386,7 @@ export const physicalObject: IObject = {
       content: '36 15/16 × 14 1/4 × 2 in. (93.8 × 36.2 × 5.1 cm)',
       classified_as: [
         {
-          id: config.dc.dimensionStatement,
+          id: config.aat.dimensionStatement,
           type: 'Type',
           _label: 'Dimensions',
         },
@@ -397,7 +397,7 @@ export const physicalObject: IObject = {
       content: 'A Cool Exhibition',
       classified_as: [
         {
-          id: config.dc.exhibition,
+          id: config.aat.exhibition,
           type: 'Type',
           _label: 'Dimensions',
         },
@@ -408,7 +408,7 @@ export const physicalObject: IObject = {
       content: 'Mock Copyright Information',
       classified_as: [
         {
-          id: config.dc.copyrightLicensingStatement,
+          id: config.aat.copyrightLicensingStatement,
           type: 'Type',
           _label: 'Copyright',
         },
@@ -419,7 +419,7 @@ export const physicalObject: IObject = {
       content: 'Plan Your Visit',
       classified_as: [
         {
-          id: config.dc.visitors,
+          id: config.aat.visitors,
           type: 'Type',
           _label: "Visitors' Statement",
         },
@@ -453,7 +453,7 @@ export const physicalObject: IObject = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },

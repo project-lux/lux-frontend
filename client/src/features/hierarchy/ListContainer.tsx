@@ -42,7 +42,7 @@ const ListContainer: React.FC<IProps> = ({
   }
 
   const parser = new EntityParser(currentEntity)
-  const primaryName = parser.getPrimaryName(config.dc.langen)
+  const primaryName = parser.getPrimaryName(config.aat.langen)
 
   return (
     <StyledExploreHierarchy className="row">

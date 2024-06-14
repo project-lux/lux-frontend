@@ -169,7 +169,7 @@ export const linguisticObject: IObject = {
       content: 'Mock Work',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -181,7 +181,7 @@ export const linguisticObject: IObject = {
       content: 'Mock Work Display Name',
       classified_as: [
         {
-          id: config.dc.displayName,
+          id: config.aat.displayName,
           type: 'Type',
           _label: 'Display Name',
         },
@@ -240,7 +240,7 @@ export const linguisticObject: IObject = {
       content: 'This is in english',
       classified_as: [
         {
-          id: config.dc.languageStatement,
+          id: config.aat.languageStatement,
           type: 'Type',
           _label: 'Language Statement',
         },
@@ -252,7 +252,7 @@ export const linguisticObject: IObject = {
       content: 'This is an imprint statement',
       classified_as: [
         {
-          id: config.dc.imprintStatement,
+          id: config.aat.imprintStatement,
           type: 'Type',
           _label: 'Imprint',
         },

@@ -18,7 +18,7 @@ export const transformRelatedListResults = (
     const scope = getScopeFromHalLink(id)
 
     // Only if the related entity is not an item
-    if (value !== undefined && value !== config.dc.collectionItem) {
+    if (value !== undefined && value !== config.aat.collectionItem) {
       if (!transformedData.hasOwnProperty(value)) {
         transformedData[value] = {}
       }

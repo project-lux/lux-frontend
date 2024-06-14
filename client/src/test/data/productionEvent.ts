@@ -12,7 +12,7 @@ export const productionEvent: IEvent = {
         content: '1780–1800',
         classified_as: [
           {
-            id: config.dc.displayName,
+            id: config.aat.displayName,
             type: 'Type',
             _label: 'Display Date',
           },
