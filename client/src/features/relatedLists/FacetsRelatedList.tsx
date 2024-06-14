@@ -55,7 +55,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
         value !== null &&
         value !== undefined &&
         !value.includes(currentUri) &&
-        value !== config.dc.collectionItem
+        value !== config.aat.collectionItem
       )
     })
 

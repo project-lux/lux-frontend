@@ -70,6 +70,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
+
 ### Fixed
 
 ## v1.28.0 - 2024-6-10

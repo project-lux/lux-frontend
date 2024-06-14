@@ -26,7 +26,7 @@ const AgentData = (uri: string): IAgentSnippet | null => {
     }
 
     const person = new PersonAndGroupParser(data)
-    agentData.name = person.getPrimaryName(config.dc.langen)
+    agentData.name = person.getPrimaryName(config.aat.langen)
     agentData.birthYear = person.getBirthYear()
     agentData.deathYear = person.getDeathYear()
     agentData.nationalities = person.getNationalities()

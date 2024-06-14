@@ -28,14 +28,14 @@ export const place: IPlace = {
       content: 'Pittsburgh',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -55,7 +55,7 @@ export const place: IPlace = {
       content: 'Mock place notes content',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
@@ -86,7 +86,7 @@ export const place: IPlace = {
           ],
           classified_as: [
             {
-              id: config.dc.webPage,
+              id: config.aat.webPage,
               type: 'Type',
               _label: 'Web Page',
             },
@@ -127,14 +127,14 @@ export const placeParent: IPlace = {
       content: 'Pennsylvania',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },

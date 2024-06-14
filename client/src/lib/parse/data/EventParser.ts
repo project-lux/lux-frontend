@@ -137,7 +137,7 @@ export default class EventParser extends EntityParser {
 
         if (
           classifiedAs !== undefined &&
-          validateClassifiedAsIdMatches(classifiedAs[0], config.dc.webPage)
+          validateClassifiedAsIdMatches(classifiedAs[0], config.aat.webPage)
         ) {
           for (const p of accessPoint) {
             links.push({ content, link: p.id })
@@ -363,7 +363,7 @@ export default class EventParser extends EntityParser {
       | IContentWithLanguage
       | Array<{ content: string; link: string }>
     > = {
-      name: this.getPrimaryName(config.dc.langen),
+      name: this.getPrimaryName(config.aat.langen),
       names: this.getNames(),
       entityClass: this.getEntityClass(),
       agents,

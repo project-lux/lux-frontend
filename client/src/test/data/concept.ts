@@ -58,14 +58,14 @@ export const concept: IConcept = {
       content: 'Mock Concept',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -77,14 +77,14 @@ export const concept: IConcept = {
       content: 'British languages (Celtic)',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -99,7 +99,7 @@ export const concept: IConcept = {
         'Languages of the Celts; in the first millennium BCE, these languages were spoken across a wide area of Europe and Asia Minor. Surviving Surviving Celtic languages are now spoken in Ireland, Scotland, Wales, Brittany, Cornwall, and the Isle of Man, and Cape Breton Island.',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
@@ -125,14 +125,14 @@ export const concept: IConcept = {
       content: 'Description statement in english.',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.descriptionStatement,
+          id: config.aat.descriptionStatement,
           type: 'Type',
           _label: 'Rights Statement',
           classified_as: [
@@ -159,14 +159,14 @@ export const languageConcept: IConcept = {
       content: 'English',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -186,14 +186,14 @@ export const displayNameConcept: IConcept = {
       content: 'display name',
       language: [
         {
-          id: config.dc.langen,
+          id: config.aat.langen,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },

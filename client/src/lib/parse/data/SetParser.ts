@@ -52,7 +52,7 @@ export default class SetParser extends EntityParser {
   isArchive(): boolean {
     const types = this.getTypes()
     for (const type of types) {
-      if (type.includes(config.dc.archive)) {
+      if (type.includes(config.aat.archive)) {
         return true
       }
     }

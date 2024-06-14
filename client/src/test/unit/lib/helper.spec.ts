@@ -116,7 +116,7 @@ describe('helper functions', () => {
         },
         {
           type: 'test',
-          id: config.dc.first,
+          id: config.aat.first,
         },
         {
           type: 'test',
@@ -132,10 +132,10 @@ describe('helper functions', () => {
   describe('isSpecimen', () => {
     it('returns true', () => {
       const specimenType = [
-        config.dc.fossil,
-        config.dc.animalSpecimens,
-        config.dc.plantSpecimens,
-        config.dc.biologicalSpecimens,
+        config.aat.fossil,
+        config.aat.animalSpecimens,
+        config.aat.plantSpecimens,
+        config.aat.biologicalSpecimens,
       ]
       const specimen = isSpecimen(
         specimenType[Math.floor(Math.random() * specimenType.length)],
@@ -314,21 +314,21 @@ describe('helper functions', () => {
           content: 'Alfred Stieglitz',
           language: [
             {
-              id: config.dc.langen,
+              id: config.aat.langen,
               type: 'Language',
               _label: 'English',
             },
           ],
           classified_as: [
             {
-              id: config.dc.primaryName,
+              id: config.aat.primaryName,
               type: 'Type',
               _label: 'Primary Name',
             },
           ],
         },
       ]
-      const name = getName(obj, config.dc.langen)
+      const name = getName(obj, config.aat.langen)
       expect(name).toEqual('Alfred Stieglitz')
     })
 
@@ -343,21 +343,21 @@ describe('helper functions', () => {
           content: 'Alfred Stieglitz',
           language: [
             {
-              id: config.dc.langen,
+              id: config.aat.langen,
               type: 'Language',
               _label: 'English',
             },
           ],
           classified_as: [
             {
-              id: config.dc.displayName,
+              id: config.aat.displayName,
               type: 'Type',
               _label: 'Display Name',
             },
           ],
         },
       ]
-      const name = getName(obj, config.dc.langspa)
+      const name = getName(obj, config.aat.langspa)
       expect(name).toEqual('Alfred Stieglitz')
     })
 
@@ -372,14 +372,14 @@ describe('helper functions', () => {
           content: 'Alfred Stieglitz',
           classified_as: [
             {
-              id: config.dc.primaryName,
+              id: config.aat.primaryName,
               type: 'Type',
               _label: 'Primary Name',
             },
           ],
         },
       ]
-      const name = getName(obj, config.dc.langen)
+      const name = getName(obj, config.aat.langen)
       expect(name).toEqual('Alfred Stieglitz')
     })
 
@@ -394,7 +394,7 @@ describe('helper functions', () => {
           content: 'Alfred Stieglitz',
           language: [
             {
-              id: config.dc.langen,
+              id: config.aat.langen,
               type: 'Language',
               _label: 'English',
             },
@@ -405,14 +405,14 @@ describe('helper functions', () => {
           content: 'Steiglitz, Alfred',
           classified_as: [
             {
-              id: config.dc.displayName,
+              id: config.aat.displayName,
               type: 'Type',
               _label: 'Display Name',
             },
           ],
         },
       ]
-      const name = getName(obj, config.dc.langen)
+      const name = getName(obj, config.aat.langen)
       expect(name).toEqual('Alfred Stieglitz')
     })
 
@@ -427,7 +427,7 @@ describe('helper functions', () => {
           content: 'Alfred Steiglitz',
         },
       ]
-      const name = getName(mockObject, config.dc.langen)
+      const name = getName(mockObject, config.aat.langen)
       expect(name).toEqual('Steiglitz, Alfred')
     })
   })
@@ -483,24 +483,24 @@ describe('helper functions', () => {
   describe('validateClassifiedAsIdMatches', () => {
     it('returns true', () => {
       const mockObject = {
-        id: config.dc.primaryName,
+        id: config.aat.primaryName,
         type: 'name',
       }
       const classifierMatches = validateClassifiedAsIdMatches(
         mockObject,
-        config.dc.primaryName,
+        config.aat.primaryName,
       )
       expect(classifierMatches).toBeTruthy()
     })
 
     it('returns false', () => {
       const mockObject = {
-        id: config.dc.primaryName,
+        id: config.aat.primaryName,
         type: 'name',
       }
       const classifierMatches = validateClassifiedAsIdMatches(
         mockObject,
-        config.dc.displayName,
+        config.aat.displayName,
       )
       expect(classifierMatches).toBeFalsy()
     })
@@ -615,7 +615,7 @@ describe('helper functions', () => {
             content: 'Plan Your Visit',
             classified_as: [
               {
-                id: config.dc.visitors,
+                id: config.aat.visitors,
                 type: 'Type',
                 _label: "Visitors' Statement",
               },
@@ -625,7 +625,7 @@ describe('helper functions', () => {
           },
         ],
       }
-      const data = getSpecificReferredToBy(mockData, config.dc.visitors)
+      const data = getSpecificReferredToBy(mockData, config.aat.visitors)
       expect(data).toEqual({
         content: 'Plan Your Visit',
         _content_html:
@@ -649,7 +649,7 @@ describe('helper functions', () => {
             content: 'Plan Your Visit',
             classified_as: [
               {
-                id: config.dc.visitors,
+                id: config.aat.visitors,
                 type: 'Type',
                 _label: "Visitors' Statement",
               },
@@ -662,7 +662,7 @@ describe('helper functions', () => {
             content: 'Plan Your Visit to the gallery',
             classified_as: [
               {
-                id: config.dc.visitors,
+                id: config.aat.visitors,
                 type: 'Type',
                 _label: "Visitors' Statement",
               },
@@ -673,7 +673,7 @@ describe('helper functions', () => {
         ],
       }
 
-      const data = getMultipleSpecificReferredToBy(mockData, config.dc.visitors)
+      const data = getMultipleSpecificReferredToBy(mockData, config.aat.visitors)
       expect(data).toEqual([
         {
           content: 'Plan Your Visit',

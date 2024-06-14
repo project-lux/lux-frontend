@@ -31,7 +31,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
 
   if (isSuccess && data) {
     const person = new PersonAndGroupParser(data)
-    const primaryName = person.getPrimaryName(config.dc.langen)
+    const primaryName = person.getPrimaryName(config.aat.langen)
     const types = person.getTypes()
     let startDate = ''
     let endDate = ''

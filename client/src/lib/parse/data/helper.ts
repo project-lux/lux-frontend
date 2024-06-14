@@ -114,7 +114,7 @@ export const getClassifiedAs = (
 
   return classifiedAs
     .map((classification) => classification.id)
-    .filter((id) => id !== config.dc.first)
+    .filter((id) => id !== config.aat.first)
     .filter((id) => id !== undefined)
 }
 
@@ -127,10 +127,10 @@ let specimenConstants: Set<string> | null = null
 export const isSpecimen = (iri: string): boolean => {
   if (specimenConstants === null) {
     specimenConstants = new Set([
-      config.dc.fossil,
-      config.dc.animalSpecimens,
-      config.dc.plantSpecimens,
-      config.dc.biologicalSpecimens,
+      config.aat.fossil,
+      config.aat.animalSpecimens,
+      config.aat.plantSpecimens,
+      config.aat.biologicalSpecimens,
     ])
   }
   return specimenConstants.has(iri)
@@ -309,7 +309,7 @@ export const getName = (
       // check if name is classified_as a primary name
       const isPrimaryName =
         classifiedAsIds.length > 0
-          ? classifiedAsIds.includes(config.dc.primaryName)
+          ? classifiedAsIds.includes(config.aat.primaryName)
           : false
 
       const el = new EntityParser(identifier)

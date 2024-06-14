@@ -60,7 +60,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
     primaryAgent !== undefined ? AgentData(primaryAgent) : undefined
 
   const element = new EntityParser(entity)
-  const name = element.getPrimaryName(config.dc.langen)
+  const name = element.getPrimaryName(config.aat.langen)
 
   const { displayName, isNameLong, showLongName, setShowLongName } =
     useResizableName(name)

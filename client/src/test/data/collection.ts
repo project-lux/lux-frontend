@@ -17,7 +17,7 @@ export const collection: ISet = {
   ],
   classified_as: [
     {
-      id: config.dc.collection,
+      id: config.aat.collection,
       type: 'Type',
       _label: 'Collection',
     },
@@ -28,7 +28,7 @@ export const collection: ISet = {
       content: 'Mock Collection',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -39,7 +39,7 @@ export const collection: ISet = {
       content: 'Mock Collection Display Name',
       classified_as: [
         {
-          id: config.dc.displayName,
+          id: config.aat.displayName,
           type: 'Type',
           _label: 'Display Name',
         },

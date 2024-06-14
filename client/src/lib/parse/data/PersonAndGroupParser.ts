@@ -252,11 +252,11 @@ export default class PersonAndGroupParser extends EntityParser {
           ? labelClassifications[0]
           : 'Categorized As'
 
-      if (label === config.dc.gender) {
+      if (label === config.aat.gender) {
         label = 'Gender'
       }
 
-      if (label === config.dc.occupation) {
+      if (label === config.aat.occupation) {
         label = 'Occupation'
       }
 
@@ -281,7 +281,7 @@ export default class PersonAndGroupParser extends EntityParser {
     const classifiedAs = forceArray(this.agent.classified_as)
     const genders = getClassifiedAsWithMatchingClassifier(
       classifiedAs,
-      config.dc.gender,
+      config.aat.gender,
     )
 
     const genderIds = genders.map((gender) => gender.id || '')
@@ -297,7 +297,7 @@ export default class PersonAndGroupParser extends EntityParser {
     const classifiedAs = forceArray(this.agent.classified_as)
     const nationalities = getClassifiedAsWithMatchingClassifier(
       classifiedAs,
-      config.dc.nationality,
+      config.aat.nationality,
     )
 
     const nationalitiesIds = nationalities.map(
@@ -314,7 +314,7 @@ export default class PersonAndGroupParser extends EntityParser {
     const classifiedAs = forceArray(this.agent.classified_as)
     const occupations = getClassifiedAsWithMatchingClassifier(
       classifiedAs,
-      config.dc.occupation,
+      config.aat.occupation,
     )
 
     const occupationsIds = occupations.map((occupation) => occupation.id || '')
@@ -386,7 +386,7 @@ export default class PersonAndGroupParser extends EntityParser {
         if (carried.classified_as) {
           const classifiedAs = forceArray(carried.classified_as)
           const ids = getClassifiedAs(classifiedAs)
-          const filteredTypes = ids.filter((id) => id !== config.dc.active)
+          const filteredTypes = ids.filter((id) => id !== config.aat.active)
           type = filteredTypes.length > 0 ? filteredTypes[0] : ''
         }
 

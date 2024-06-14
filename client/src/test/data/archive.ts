@@ -15,7 +15,7 @@ export const archive: ISet = {
   ],
   classified_as: [
     {
-      id: config.dc.archive,
+      id: config.aat.archive,
       type: 'Type',
       _label: 'Archive',
       classified_as: [
@@ -133,7 +133,7 @@ export const archive: ISet = {
       content: 'Mock Archive',
       classified_as: [
         {
-          id: config.dc.primaryName,
+          id: config.aat.primaryName,
           type: 'Type',
           _label: 'Primary Name',
         },
