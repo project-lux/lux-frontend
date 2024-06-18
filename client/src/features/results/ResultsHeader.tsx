@@ -85,10 +85,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     )
 
     queryString.set('view', selectedView)
-    navigate({
-      pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
-      search: `?${queryString.toString()}`,
-    })
+    navigate(
+      {
+        pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
+        search: `?${queryString.toString()}`,
+      },
+      {
+        state: { targetName: `Results Page Switch to ${selectedView} View` },
+      },
+    )
   }
 
   const handleSortDirectionSelection = (value: string): void => {

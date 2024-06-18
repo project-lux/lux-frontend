@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
+import { isNull, isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
@@ -39,7 +40,7 @@ const LuxRoutes: React.FC = () => {
     pushClientPageEvent(
       currentUrl,
       prevUrl,
-      state !== null ? state.targetName : 'unknown page name',
+      !isUndefined(targetName) ? targetName : 'unknown page name',
     )
     setPrevUrl(currentUrl)
   }, [pathname, prevUrl, search, state])
