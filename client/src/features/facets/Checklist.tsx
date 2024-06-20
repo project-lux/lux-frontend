@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
-import config from '../../config/config'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 
 import Checkbox from './Checkbox'
@@ -27,24 +26,18 @@ const Checklist: React.FC<IFacets> = ({
 }) => {
   const [displayLength, setDisplayLength] = useState(length)
 
-  const list = facetValues
-    .filter(
-      (facet) =>
-        facet.value !== null && facet.value !== config.aat.collectionItem,
-    )
-    .slice(0, displayLength)
-    .map((facet) => (
-      <React.Fragment key={facet.value}>
-        <Checkbox
-          criteria={criteria}
-          facet={facet}
-          facetSection={facetSection}
-          selectedFacets={selectedFacets}
-          facetQuery={facetQuery}
-          scope={scope}
-        />
-      </React.Fragment>
-    ))
+  const list = facetValues.slice(0, displayLength).map((facet) => (
+    <React.Fragment key={facet.value}>
+      <Checkbox
+        criteria={criteria}
+        facet={facet}
+        facetSection={facetSection}
+        selectedFacets={selectedFacets}
+        facetQuery={facetQuery}
+        scope={scope}
+      />
+    </React.Fragment>
+  ))
 
   return (
     <React.Fragment>

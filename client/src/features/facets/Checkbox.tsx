@@ -13,6 +13,7 @@ import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { addFacets, IFacetsSelected } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import config from '../../config/config'
 
 interface IProps {
   criteria: ICriteria
@@ -54,7 +55,7 @@ const Checkbox: React.FC<IProps> = ({
   // requires getting label before rendering it with capitalized content
   let label = ''
   if (typeof facetValue === 'string' && !facetSection.includes('RecordType')) {
-    const labelFromApi = ApiText(facetValue)
+    const labelFromApi = ApiText(facetValue, config.aat.collectionItem)
     label = labelFromApi !== null ? labelFromApi : ''
   } else {
     label = getFacetLabel(scope, facetSection, facetValue)
