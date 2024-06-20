@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
-import config from '../../config/config'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { IFacetsPagination } from '../../types/IFacets'
 import { useAppDispatch } from '../../app/hooks'

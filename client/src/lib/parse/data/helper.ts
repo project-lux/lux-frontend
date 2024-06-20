@@ -18,6 +18,7 @@ import {
 } from '../../../types/IContentWithLanguage'
 import IIdentifier from '../../../types/data/IIdentifier'
 import { IImages } from '../../../types/IImages'
+import IConcept from '../../../types/data/IConcept'
 
 import EntityParser from './EntityParser'
 
@@ -116,6 +117,31 @@ export const getClassifiedAs = (
     .map((classification) => classification.id)
     .filter((id) => id !== config.aat.first)
     .filter((id) => id !== undefined)
+}
+
+/**
+ * Parses the data from /classified_as and returns all uuids from the nested objects
+ * This function is used for non /classified_as properties with Array<IEntity> types as well
+ * @param {Array<IEntity>} classifications the array of objects from a /classified_as property
+ * @returns {Array<string>}
+ */
+export const getEquivalentObject = (
+  data: IEntity | Array<IEntity>,
+): Array<IEntity> => {
+  if (Array.isArray(data)) {
+    for (const d of data) {
+      if (d.hasOwnProperty('equivalent')) {
+        return d.equivalent as Array<IEntity>
+      }
+    }
+  }
+
+  if (data.hasOwnProperty('equivalent')) {
+    const obj = data as IEntity
+    return obj.equivalent as Array<IEntity>
+  }
+
+  return []
 }
 
 /**
@@ -303,14 +329,19 @@ export const getName = (
   identifiers.map((identifier: IIdentifier) => {
     if (identifier.type === 'Name') {
       const hasClassifiedAs = identifier.classified_as !== undefined
-      const classifiedAsIds = hasClassifiedAs
-        ? getClassifiedAs(forceArray(identifier.classified_as))
+      const equivalentIds = hasClassifiedAs
+        ? getEquivalentObject(identifier.classified_as as Array<IConcept>)
         : []
-      // check if name is classified_as a primary name
-      const isPrimaryName =
-        classifiedAsIds.length > 0
-          ? classifiedAsIds.includes(config.aat.primaryName)
-          : false
+      let isPrimaryName = false
+      // check if name is primary name
+      if (equivalentIds.length > 0) {
+        equivalentIds.map((equivalent) => {
+          if (equivalent.id === config.aat.primaryName) {
+            isPrimaryName = true
+          }
+          return null
+        })
+      }
 
       const el = new EntityParser(identifier)
       // check if the name is in the provided language uuid
@@ -575,3 +606,28 @@ export const getMultipleSpecificReferredToBy = (
  */
 export const transformStringForTestId = (text: string): string =>
   text.split(' ').join('-')
+
+/**
+ * Determines if the current entity matches the provided AAT
+ * @param {string} comparatorAat the AAT value to compare to
+ * @param {Array<IEntity> | IEntity} data the object or array to check if it contains matching aat
+ * @returns {boolean}
+ */
+export const isEquivalent = (
+  data: Array<IEntity> | IEntity,
+  comparatorAat: string,
+): boolean => {
+  const dataArray = forceArray(data)
+  for (const d of dataArray) {
+    if (d.hasOwnProperty('equivalent')) {
+      const { equivalent } = d
+      const eqArray = forceArray(equivalent)
+      for (const eq of eqArray) {
+        if (eq.id === comparatorAat) {
+          return true
+        }
+      }
+    }
+  }
+  return false
+}

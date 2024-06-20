@@ -30,6 +30,7 @@ import {
   getSpecificReferredToBy,
   getMultipleSpecificReferredToBy,
   getNestedCarriedOutBy,
+  isEquivalent,
 } from './helper'
 
 // Meant to be base class for other parsers
@@ -205,6 +206,15 @@ export default class EntityParser {
   getRepresents(): Array<string> {
     const represents = forceArray(this.json.represents)
     return getClassifiedAs(represents)
+  }
+
+  /**
+   * Returns array of uuids from /equivalent
+   * @returns {Array<string>}
+   */
+  getEquivalent(): Array<string> {
+    const equivalent = forceArray(this.json.equivalent)
+    return getClassifiedAs(equivalent)
   }
 
   /**
@@ -659,12 +669,7 @@ export default class EntityParser {
   isClassifiedAs(typeId: string): boolean {
     const classifiedAs = forceArray(this.json.classified_as)
 
-    for (const elem of classifiedAs) {
-      if (elem.id === typeId) {
-        return true
-      }
-    }
-    return false
+    return isEquivalent(classifiedAs, typeId)
   }
 
   /**
@@ -690,11 +695,6 @@ export default class EntityParser {
   isInLanguage(langId: string): boolean {
     const langs = forceArray(this.json.language)
 
-    for (const elem of langs) {
-      if (elem.id === langId) {
-        return true
-      }
-    }
-    return false
+    return isEquivalent(langs, langId)
   }
 }
