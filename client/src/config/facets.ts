@@ -133,7 +133,14 @@ export const facetNamesLists: IFacetNamesLists = {
     'agentRecordType',
   ],
   places: ['placeTypeId', 'placePartOfId'],
-  conceptsAndGroupings: ['conceptTypeId', 'conceptPartOfId'],
+  conceptsAndGroupings: [
+    'conceptTypeId',
+    'conceptPartOfId',
+    'conceptInfluencedByAgentId',
+    'conceptInfluencedByConceptId',
+    'conceptInfluencedByEventId',
+    'conceptInfluencedByPlaceId',
+  ],
   events: [
     'eventTypeId',
     'eventPlaceId',
@@ -157,6 +164,10 @@ export const facetLabels: { [key: string]: string } = {
   agentMemberOfId: 'Member Of',
   agentRecordType: 'Person or Group',
   agentTypeId: 'Categorized As',
+  conceptInfluencedByAgentId: 'Influenced by Person & Group',
+  conceptInfluencedByConceptId: 'Influenced by Concept',
+  conceptInfluencedByEventId: 'Influenced by Event',
+  conceptInfluencedByPlaceId: 'Influenced by Place',
   conceptPartOfId: 'Part Of',
   conceptTypeId: 'Categorized As',
   eventAgentId: 'Carried Out By',
@@ -355,6 +366,22 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
   },
   concept: {
+    conceptInfluencedByAgentId: {
+      searchTermName: 'influencedByAgent',
+      idFacet: true,
+    },
+    conceptInfluencedByConceptId: {
+      searchTermName: 'influencedByConcept',
+      idFacet: true,
+    },
+    conceptInfluencedByEventId: {
+      searchTermName: 'influencedByEvent',
+      idFacet: true,
+    },
+    conceptInfluencedByPlaceId: {
+      searchTermName: 'influencedByPlace',
+      idFacet: true,
+    },
     conceptTypeId: {
       searchTermName: 'classification',
       idFacet: true,
@@ -586,6 +613,22 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
     broader: {
       facetName: 'conceptPartOfId',
+      idFacet: true,
+    },
+    influencedByAgent: {
+      facetName: 'conceptInfluencedByAgentId',
+      idFacet: true,
+    },
+    influencedByConcept: {
+      facetName: 'conceptInfluencedByConceptId',
+      idFacet: true,
+    },
+    influencedByEvent: {
+      facetName: 'conceptInfluencedByEventId',
+      idFacet: true,
+    },
+    influencedByPlace: {
+      facetName: 'conceptInfluencedByPlaceId',
       idFacet: true,
     },
   },
