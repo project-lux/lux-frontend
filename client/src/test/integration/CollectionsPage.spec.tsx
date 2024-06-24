@@ -4,7 +4,7 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import collectionsMockApi from './utils/collectionsMockApi'
 import productionEventMockApi from './utils/productionEventMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Collection page', () => {
   const page = '/view/set/mock-collection'
@@ -12,7 +12,7 @@ describe('Collection page', () => {
   beforeEach(async () => {
     collectionsMockApi()
     productionEventMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

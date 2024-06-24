@@ -5,7 +5,7 @@ import { HashLink } from 'react-router-hash-link'
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
 import ToggleButton from '../advancedSearch/ToggleSearchButton'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
@@ -69,7 +69,7 @@ const SearchContainer: React.FC<IProps> = ({
                   fontSize: '1rem',
                 }}
                 onClick={() =>
-                  pushSiteImproveEvent(
+                  pushClientEvent(
                     'Internal Link',
                     'Selected',
                     'Internal Search Tips',

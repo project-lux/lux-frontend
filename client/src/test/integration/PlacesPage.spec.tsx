@@ -3,7 +3,7 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import placeMockApi from './utils/placesMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 jest.mock('leaflet')
 
@@ -12,7 +12,7 @@ describe('Place page', () => {
 
   beforeEach(async () => {
     placeMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

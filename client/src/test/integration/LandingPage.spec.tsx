@@ -6,7 +6,7 @@ import config from '../../config/config'
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import statsMockApi from './utils/statsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Landing page', () => {
   const page = '/'
@@ -14,7 +14,7 @@ describe('Landing page', () => {
   beforeEach(async () => {
     cmsMockApi()
     statsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('Search bar', () => {

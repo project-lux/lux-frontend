@@ -6,7 +6,7 @@ import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { useAppDispatch } from '../../app/hooks'
 import { updateCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IAlertModal {
   showModal: boolean
@@ -32,11 +32,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
     onClose()
     dispatch(resetState())
     urlParams.set('sq', '')
-    pushSiteImproveEvent(
-      'Search Switch',
-      'Selected',
-      'Continue To Simple Search',
-    )
+    pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
     navigate(`${pathname}?${urlParams.toString()}`)
   }
 

@@ -13,7 +13,7 @@ import theme from '../../styles/theme'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { searchScope } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import DateSlider from './DateSlider'
 
@@ -91,7 +91,7 @@ const DateInput: React.FC<IFacets> = ({
     }
 
     dispatch(addFacets({ facetName: facetSection, facetUri: '' }))
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Facets Date Input',
       'Selected',
       `Facet ${facetLabels[facetSection]}`,

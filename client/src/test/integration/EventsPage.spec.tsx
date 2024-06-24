@@ -3,14 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import eventsMockApi from './utils/eventsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Events page', () => {
   const page = '/view/activity/mock-event'
 
   beforeEach(async () => {
     eventsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

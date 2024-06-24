@@ -7,7 +7,7 @@ import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import conceptResultsMockApi from './utils/conceptResultsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Concept results page', () => {
   const page =
@@ -17,7 +17,7 @@ describe('Concept results page', () => {
     conceptResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('Results header', () => {

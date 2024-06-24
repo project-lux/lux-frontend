@@ -3,14 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import groupMockApi from './utils/groupMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Group page', () => {
   const page = '/view/group/mock-group'
 
   beforeEach(async () => {
     groupMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

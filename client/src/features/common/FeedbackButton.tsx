@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import ExternalLink from './ExternalLink'
 
@@ -41,7 +41,7 @@ const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
         target="_blank"
         data-testid="submit-feedback-button"
         onClick={() =>
-          pushSiteImproveEvent(
+          pushClientEvent(
             'External Link',
             'Selected',
             'External Submit feedback about this record',

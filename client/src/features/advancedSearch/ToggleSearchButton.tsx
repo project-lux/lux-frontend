@@ -12,7 +12,7 @@ import {
   updateCurrentSearchState,
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IToggleSearchButton {
   setIsError: (x: boolean) => void
@@ -48,7 +48,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
 
   const handleSwitchToAdvancedSearch = (): void => {
     const searchString = value || ''
-    pushSiteImproveEvent('Search Switch', 'Selected', 'To Advanced Search')
+    pushClientEvent('Search Switch', 'Selected', 'To Advanced Search')
     if (searchString === '') {
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
       dispatch(updateCurrentSearchState({ value: 'advanced' }))

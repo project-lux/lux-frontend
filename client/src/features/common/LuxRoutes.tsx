@@ -9,7 +9,7 @@ import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import Header from '../header/Header'
 import CmsRoutingComponent from '../cms/CmsRoutingComponent'
-import { pushSiteImprovePageEvent } from '../../lib/siteImprove'
+import { pushClientPageEvent } from '../../lib/pushClientEvent'
 
 import Footer from './Footer'
 
@@ -35,8 +35,8 @@ const LuxRoutes: React.FC = () => {
 
   useEffect(() => {
     const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
-    // Push a SiteImprove event for a page change
-    pushSiteImprovePageEvent(
+    // Push a tracking event for a page change
+    pushClientPageEvent(
       currentUrl,
       prevUrl,
       state !== null ? state.targetName : 'unknown page name',

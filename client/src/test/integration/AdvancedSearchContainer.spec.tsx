@@ -8,7 +8,7 @@ import config from '../../config/config'
 import { getStateId } from '../../lib/advancedSearch/stateId'
 
 import AppRender from './utils/AppRender'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 jest.mock('../../lib/advancedSearch/stateId', () => ({
   __esModule: true,
@@ -23,7 +23,7 @@ describe('Advanced Search', () => {
   beforeEach(async () => {
     const stateId = getStateId as jest.MockedFunction<typeof getStateId>
     stateId.mockImplementation(() => '1')
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   it('renders', async () => {
