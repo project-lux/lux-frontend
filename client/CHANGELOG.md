@@ -6,6 +6,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added Objects and Works Influenced Tabs to Person & Group pages ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
 - Added results scope to the refine label ([#134](https://github.com/project-lux/lux-frontend/issues/134)).
 - Added component term facets to concept results ([#68](https://github.com/project-lux/lux-frontend/issues/68)).
 
