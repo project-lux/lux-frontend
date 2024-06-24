@@ -15,7 +15,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed Person or Group type label on agent entity pages ([#282](https://github.com/project-lux/lux-frontend/issues/282)).
 
-## v1.29.1 - 2024-6-24
+## v1.29.2 - 2024-6-24
 
 ### Removed
 
