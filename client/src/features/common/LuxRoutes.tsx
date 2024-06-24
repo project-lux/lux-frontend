@@ -36,6 +36,7 @@ const LuxRoutes: React.FC = () => {
 
   useEffect(() => {
     const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
+    const targetName = !isNull(state) ? state.targetName : undefined
     // Push a tracking event for a page change
     pushClientPageEvent(
       currentUrl,
