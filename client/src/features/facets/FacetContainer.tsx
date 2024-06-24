@@ -4,7 +4,6 @@ import { useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { getSelectedFacets } from '../../lib/facets/selectedFacets'
-import { ISearchResponse } from '../../types/ISearchResponse'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../../lib/util/params'
 import theme from '../../styles/theme'
@@ -32,7 +31,6 @@ const StyledHeader = styled.h3`
 
 interface IFacets {
   facetsRequested: Array<string>
-  searchResponse: ISearchResponse
   scope: string
 }
 
@@ -48,11 +46,7 @@ function getIfValidQuery(str: string): ICriteria | null {
   }
 }
 
-const FacetContainer: React.FC<IFacets> = ({
-  facetsRequested,
-  searchResponse,
-  scope,
-}) => {
+const FacetContainer: React.FC<IFacets> = ({ facetsRequested, scope }) => {
   const { search } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)

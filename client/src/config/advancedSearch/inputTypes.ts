@@ -31,6 +31,10 @@ export const recordTypes: Record<string, Record<string, string>> = {
     person: 'Person',
     group: 'Group',
   },
+  item: {
+    HumanMadeObject: 'Physical Object',
+    DigitalObject: 'Digital Object',
+  },
 }
 
 export const comparators: Record<string, string> = {

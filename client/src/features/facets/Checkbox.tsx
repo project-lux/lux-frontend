@@ -53,7 +53,7 @@ const Checkbox: React.FC<IProps> = ({
 
   // requires getting label before rendering it with capitalized content
   let label = ''
-  if (typeof facetValue === 'string') {
+  if (typeof facetValue === 'string' && !facetSection.includes('RecordType')) {
     const labelFromApi = ApiText(facetValue)
     label = labelFromApi !== null ? labelFromApi : ''
   } else {
@@ -125,6 +125,10 @@ const Checkbox: React.FC<IProps> = ({
 
       if (queryObj) {
         array.push(queryObj)
+      } else if (searchTermName === 'recordType') {
+        array.push({
+          [searchTermName as string]: value,
+        })
       } else if (idFacet && searchTermName) {
         array.push({
           [searchTermName as string]: {

@@ -62,7 +62,6 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse }) => {
     <div className="row py-3">
       <FacetContainer
         facetsRequested={facetNamesLists.conceptsAndGroupings}
-        searchResponse={searchResponse}
         scope={searchScope.concepts}
       />
       <Col xs={12} sm={12} md={12} lg={9}>
