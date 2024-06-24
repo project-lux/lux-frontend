@@ -5,6 +5,8 @@ import {
 } from '../types/IFacetNames'
 import { ICriteria } from '../types/ISearchResults'
 
+import { recordTypes } from './advancedSearch/inputTypes'
+
 /* eslint-disable import/prefer-default-export */
 
 export type LabelFunc = (value: number | string) => string
@@ -36,6 +38,12 @@ export const facets: IFacetConfig = {
       facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
+    },
+    itemRecordType: {
+      sectionLabel: 'Object Class',
+      facetLabel: (value) => recordTypes.item[value],
+      selectedLabel: (value) => recordTypes.item[value],
+      buildQuery: (value) => ({ recordType: value }),
     },
     responsibleCollections: {
       sectionLabel: 'Collection',
@@ -99,6 +107,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'itemProductionAgentId',
     'itemProductionPlaceId',
     'itemProductionDate',
+    'itemRecordType',
     'responsibleUnits',
     'responsibleCollections',
   ],
@@ -185,6 +194,7 @@ export const facetLabels: { [key: string]: string } = {
   itemProductionDate: 'Creation Date',
   itemProductionPlaceId: 'Created At',
   itemProductionAgentId: 'Created By',
+  itemRecordType: 'Object Class',
   placePartOfId: 'Part Of',
   placeTypeId: 'Categorized As',
   responsibleCollections: 'Collection',
@@ -244,6 +254,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
     itemProductionDate: {
       searchTermName: 'producedDate',
+      idFacet: false,
+    },
+    itemRecordType: {
+      searchTermName: 'recordType',
       idFacet: false,
     },
   },
@@ -485,6 +499,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
     producedDate: {
       facetName: 'itemProductionDate',
+      idFacet: false,
+    },
+    recordType: {
+      facetName: 'itemRecordType',
       idFacet: false,
     },
   },
