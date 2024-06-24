@@ -62,7 +62,6 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
     <div className="row py-3">
       <FacetContainer
         facetsRequested={facetNamesLists.events}
-        searchResponse={searchResponse}
         scope={searchScope.events}
       />
       <Col xs={12} sm={12} md={12} lg={9}>
