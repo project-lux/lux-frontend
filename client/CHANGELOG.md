@@ -11,6 +11,10 @@ All notable changes to this project will be documented in this file.
 - Added Concept Class to facets and advanced search ([#176](https://github.com/project-lux/lux-frontend/issues/176)).
 - Added Event Class to facets and advanced search ([#175](https://github.com/project-lux/lux-frontend/issues/175)).
 
+### Changed
+
+- Changed Person or Group type label on agent entity pages ([#282](https://github.com/project-lux/lux-frontend/issues/282)).
+
 ## v1.29.2 - 2024-6-24
 
 ### Removed
