@@ -9,7 +9,7 @@ import { IImages } from '../../types/IImages'
 import StyledImageThumbnail from '../../styles/features/common/ImageThumbnail'
 import theme from '../../styles/theme'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   imageInfo: IImages
@@ -41,11 +41,7 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
         <Link
           to={`/view/${stripYaleIdPrefix(linkUrl)}`}
           onClick={() =>
-            pushSiteImproveEvent(
-              'Entity Link',
-              'Selected',
-              'Results Snippet Link',
-            )
+            pushClientEvent('Entity Link', 'Selected', 'Results Snippet Link')
           }
           state={{
             targetName: linkUrl,

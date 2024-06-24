@@ -12,7 +12,7 @@ import DescriptionDetail from '../../styles/shared/DescriptionDetail'
 import theme from '../../styles/theme'
 import RecordLink from '../common/RecordLink'
 import { formatFacetedSearchJson } from '../../lib/parse/search/halLinkHelper'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   uri: string
@@ -84,11 +84,7 @@ const ListItem: React.FC<IProps> = ({
               targetName: linkLabel,
             }}
             onClick={() =>
-              pushSiteImproveEvent(
-                'Search Link',
-                'Selected',
-                `Accordion ${title}`,
-              )
+              pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
             }
             data-testid={`list-item-link-${index}`}
           >

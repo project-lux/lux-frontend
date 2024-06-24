@@ -4,10 +4,11 @@ import React from 'react'
 import config from '../../config/config'
 import { getTimelines } from '../../lib/util/timelineHelper'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
+import * as eventTracking from '../../lib/pushClientEvent'
 
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 // Mock the request for timelines
 jest.mock('../../lib/util/timelineHelper', () => ({
@@ -32,10 +33,14 @@ describe('Entity pages relationship components', () => {
       })),
     )
 
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('Related Objects and Works', () => {
+    beforeEach(() => {
+      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+    })
+
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -150,6 +155,10 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related Facets list when open', () => {
+    beforeEach(() => {
+      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+    })
+
     it('renders the faceted lists accordion container', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -217,6 +226,10 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related search results list when open', () => {
+    beforeEach(() => {
+      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+    })
+
     it('renders the search results accordion container', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
@@ -262,8 +275,12 @@ describe('Entity pages relationship components', () => {
     })
   })
 
-  describe('Related list when open', () => {
-    it('renders the related list accordion item', async () => {
+  describe('Semantic search results list when open', () => {
+    beforeEach(() => {
+      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+    })
+
+    it('renders the semantic accordion item', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Related People and Groups/i)

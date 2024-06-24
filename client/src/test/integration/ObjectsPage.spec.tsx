@@ -6,7 +6,7 @@ import { getCollections } from '../../lib/util/collectionHelper'
 
 import AppRender from './utils/AppRender'
 import physicalObjectsMockApi from './utils/physicalObjectsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -26,7 +26,7 @@ describe('Objects page', () => {
 
   beforeEach(async () => {
     physicalObjectsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
 
     const collection = getCollections as jest.MockedFunction<
       typeof getCollections

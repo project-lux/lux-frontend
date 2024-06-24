@@ -8,7 +8,6 @@ import { useGetNameQuery } from '../../../../redux/api/ml_api'
 const mockTypeOne = 'mock type one'
 const mockTypeTwo = 'mock type two'
 const mockValues = [mockTypeOne, mockTypeTwo]
-const mockLabel = 'Object'
 
 jest.mock('../../../../redux/api/ml_api', () => ({
   useGetNameQuery: jest.fn(),

@@ -9,7 +9,7 @@ import objectMockApi from './utils/objectResultsMockAPI'
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -30,7 +30,7 @@ describe('Object results page', () => {
     objectMockApi()
     estimatesMockApi()
     cmsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
 
     const collection = getCollections as jest.MockedFunction<
       typeof getCollections

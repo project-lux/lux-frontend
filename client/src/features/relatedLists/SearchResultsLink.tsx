@@ -7,7 +7,7 @@ import { ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   data: ISearchResults
@@ -48,9 +48,7 @@ const SearchResultsLink: React.FC<IProps> = ({
       state={{
         targetName: linkLabel,
       }}
-      onClick={() =>
-        pushSiteImproveEvent('Search Link', 'Selected', eventTitle)
-      }
+      onClick={() => pushClientEvent('Search Link', 'Selected', eventTitle)}
       data-testid="search-related-list-link"
     >
       {linkLabel}

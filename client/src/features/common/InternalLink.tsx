@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface ILinkParams {
   uri: string
@@ -26,11 +26,7 @@ const InternalLink: React.FC<ILinkParams> = ({
         targetName: name,
       }}
       onClick={() =>
-        pushSiteImproveEvent(
-          'Internal Link',
-          'Selected',
-          `Internal ${eventText}`,
-        )
+        pushClientEvent('Internal Link', 'Selected', `Internal ${eventText}`)
       }
       data-testid="internal-link"
     >

@@ -14,7 +14,7 @@ import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import config from '../../config/config'
@@ -48,7 +48,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                 <Link
                   to={`/view/${stripYaleIdPrefix(place.json.id!)}`}
                   onClick={() =>
-                    pushSiteImproveEvent(
+                    pushClientEvent(
                       'Entity Link',
                       'Selected',
                       'Results Snippet Link',

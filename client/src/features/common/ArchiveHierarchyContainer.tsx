@@ -15,7 +15,7 @@ import {
   isEntityAnArchive,
   removeViewFromPathname,
 } from '../../lib/util/hierarchyHelpers'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
@@ -123,11 +123,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
                   search: searchString,
                 }}
                 onClick={() =>
-                  pushSiteImproveEvent(
-                    'Search Link',
-                    'Selected',
-                    searchLinkLabel,
-                  )
+                  pushClientEvent('Search Link', 'Selected', searchLinkLabel)
                 }
                 state={{
                   targetName: `${searchLinkLabel} Results Page`,

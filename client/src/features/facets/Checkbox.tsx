@@ -12,7 +12,7 @@ import { getParamPrefix } from '../../lib/util/params'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { addFacets, IFacetsSelected } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   criteria: ICriteria
@@ -79,7 +79,7 @@ const Checkbox: React.FC<IProps> = ({
     dispatch(
       addFacets({ facetName: facetSection, facetUri: event.target.value }),
     )
-    pushSiteImproveEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
+    pushClientEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
     navigate(`${pathname}?${newSearchParams}`)
   }
 
@@ -96,7 +96,7 @@ const Checkbox: React.FC<IProps> = ({
     params.set('facetRequest', 'true')
 
     dispatch(addFacets({ facetName: facetSection, facetUri: strValue }))
-    pushSiteImproveEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
+    pushClientEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
     navigate(`${pathname}?${params.toString()}`)
   }
 

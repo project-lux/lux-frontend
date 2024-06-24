@@ -25,7 +25,7 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
   getFacetParamsForAdvancedSearchEstimatesRequest,
 } from '../../lib/util/params'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
 import { tabToLinkLabel } from '../../config/results'
 
@@ -173,7 +173,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                     }`
                   }
                   onClick={() => {
-                    pushSiteImproveEvent(
+                    pushClientEvent(
                       'Results Tab',
                       'Selected',
                       tabToLinkLabel[key],

@@ -9,7 +9,7 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { DOTS } from '../../lib/util/paginationHelper'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import { Paginator } from './Paginator'
 
@@ -90,7 +90,7 @@ const Paginate: React.FC<IPagination> = ({
 
   // Push analytics
   const handleAnalytics = (): void => {
-    pushSiteImproveEvent('Pagination', 'Selected', 'Results Page')
+    pushClientEvent('Pagination', 'Selected', 'Results Page')
   }
 
   // Go to the specified page

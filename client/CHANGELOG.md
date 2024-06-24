@@ -159,7 +159,9 @@ All notable changes to this project will be documented in this file.
 - Added People Active Here accordion to place pages ([#34](https://github.com/project-lux/lux-frontend/issues/34)).
 - Added Place with Type on concept pages ([#107](https://github.com/project-lux/lux-frontend/issues/107)).
 - Added Events with Type on concept pages ([#128](https://github.com/project-lux/lux-frontend/issues/128)).
-- Added entity icon to About/Depicts ([#86](https://github.com/project-lux/lux-frontend/issues/86)).
+- Added entity icon to About/Depicts ([#84](https://github.com/project-lux/lux-frontend/issues/84)).
+- Added index.html.template and updated docs ([#77](https://github.com/project-lux/lux-frontend/issues/77)).
+- Added event tracking abstraction ([#78](https://github.com/project-lux/lux-frontend/issues/78)).
 
 ### Changed
 

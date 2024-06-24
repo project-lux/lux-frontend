@@ -3,7 +3,7 @@ import { FallbackProps } from 'react-error-boundary'
 
 import StyledErrorFallback from '../../styles/features/error/ErrorFallback'
 import FeedbackButton from '../common/FeedbackButton'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 export const ErrorFallback: React.FC<FallbackProps> = ({
   error,
@@ -12,7 +12,7 @@ export const ErrorFallback: React.FC<FallbackProps> = ({
   console.log(String(error))
 
   useEffect(() => {
-    pushSiteImproveEvent('Error', 'Triggered', 'Error Boundary')
+    pushClientEvent('Error', 'Triggered', 'Error Boundary')
   }, [])
 
   return (

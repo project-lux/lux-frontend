@@ -8,7 +8,7 @@ import {
 } from '../../lib/parse/cms/LandingPageImageParser'
 import { UnitCode } from '../../config/cms'
 import StyledHeroImageSection from '../../styles/features/landing/HeroImageSection'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import WhatIsLux from './WhatIsLux'
 
@@ -44,11 +44,7 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
               to={imageData.recordUrl}
               state={linkState}
               onClick={() =>
-                pushSiteImproveEvent(
-                  'Entity Link',
-                  'Selected',
-                  'Hero Image Link',
-                )
+                pushClientEvent('Entity Link', 'Selected', 'Hero Image Link')
               }
             >
               <img alt={imageData.altText} src={imageData.url} />
@@ -60,7 +56,7 @@ const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
                 <Link
                   to={imageData.recordUrl}
                   onClick={() =>
-                    pushSiteImproveEvent(
+                    pushClientEvent(
                       'Entity Link',
                       'Selected',
                       'Hero Image Link',

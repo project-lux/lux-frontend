@@ -4,7 +4,7 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import productionEventMockApi from './utils/productionEventMockApi'
 import visualItemsMockApi from './utils/visualItemsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Visual Item page', () => {
   const page = '/view/visual/mock-visual-item'
@@ -12,7 +12,7 @@ describe('Visual Item page', () => {
   beforeEach(async () => {
     visualItemsMockApi()
     productionEventMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

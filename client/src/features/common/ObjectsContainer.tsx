@@ -10,7 +10,7 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IObjectsBy {
   uri: string // URI which is the argument of the search tag
@@ -81,11 +81,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                   searchScope[tab],
                 )}&openSearch=false`}
                 onClick={() =>
-                  pushSiteImproveEvent(
-                    'Search Link',
-                    'Selected',
-                    `Tab ${title}`,
-                  )
+                  pushClientEvent('Search Link', 'Selected', `Tab ${title}`)
                 }
                 data-testid="objects-container-show-all-button"
               >

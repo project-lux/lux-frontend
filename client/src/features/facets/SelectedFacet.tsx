@@ -13,7 +13,7 @@ import { ICriteria } from '../../types/ISearchResults'
 import { useAppDispatch } from '../../app/hooks'
 import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 const StyledSelectedFacetContainer = styled.div`
   background: #ffffff;
@@ -71,11 +71,7 @@ const SelectedFacet: React.FC<ISelected> = ({
         tab,
       )
       dispatch(reset())
-      pushSiteImproveEvent(
-        'Facets Selected Filters',
-        'Removed',
-        `Facet ${label}`,
-      )
+      pushClientEvent('Facets Selected Filters', 'Removed', `Facet ${label}`)
       navigate(`${pathname}?${newSearchParams}`)
     }
   }

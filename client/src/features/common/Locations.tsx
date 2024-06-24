@@ -42,7 +42,7 @@ const Locations: React.FC<ILocationsProps> = ({ halLink }) => {
               type="button"
               onClick={() => {
                 const newView = view === 'List' ? 'Graph' : 'List'
-                pushSiteImproveEvent('Related Locations', `${newView} View`)
+                pushClientEvent('Related Locations', `${newView} View`)
                 setView(newView)
               }}
             >

@@ -7,7 +7,7 @@ import { useGetNameQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface ISearchData {
   url: string
@@ -55,7 +55,7 @@ const RecordLink: React.FC<ISearchData> = ({
         aria-label={entityName}
         className={className || ''}
         onClick={() =>
-          pushSiteImproveEvent(
+          pushClientEvent(
             'Entity Link',
             'Selected',
             `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,

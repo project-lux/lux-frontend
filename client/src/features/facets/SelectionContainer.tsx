@@ -8,7 +8,7 @@ import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../../lib/util/params'
 import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import SelectedFacet from './SelectedFacet'
 
@@ -71,11 +71,7 @@ const SelectionContainer: React.FC<IProps> = ({
     params.delete(`${paramPrefix}f`)
     const updatedQuery = params.toString()
     dispatch(reset())
-    pushSiteImproveEvent(
-      'Facets Selected Filters',
-      'Selected',
-      'Facet Clear All',
-    )
+    pushClientEvent('Facets Selected Filters', 'Selected', 'Facet Clear All')
     navigate(`${location.pathname}?${updatedQuery}`)
   }
 

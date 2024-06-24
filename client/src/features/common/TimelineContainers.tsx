@@ -21,7 +21,7 @@ import {
   ITimelineCriteria,
   ITimelinesTransformed,
 } from '../../types/ITimelines'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 const HoverableRow = styled(Row)`
   &:hover {
@@ -88,7 +88,7 @@ const Relations: React.FC<{
               targetName: `/view/results/${tab}q=${searchQ}&collapseSearch=true`,
             }}
             onClick={() =>
-              pushSiteImproveEvent('Search Link', 'Selected', 'Timeline')
+              pushClientEvent('Search Link', 'Selected', 'Timeline')
             }
             data-testid={`${year}-${searchTag}-search-link`}
           >
