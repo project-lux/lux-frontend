@@ -6,7 +6,7 @@ import { NavLink } from 'react-router-dom'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import SearchButton from './SearchButton'
 
@@ -40,8 +40,8 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
-  const handlePushEvent = (link: string): void => {
-    pushSiteImproveEvent('Internal Link', 'Selected', `Internal ${link}`)
+  const handlepushClientEvent = (link: string): void => {
+    pushClientEvent('Internal Link', 'Selected', `Internal ${link}`)
   }
 
   return (
@@ -58,7 +58,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             to="/"
             state={{ targetName: 'LUX: Yale Collections Discovery' }}
             className="navbar-brand"
-            onClick={() => handlePushEvent('Landing Page')}
+            onClick={() => handlepushClientEvent('Landing Page')}
           >
             LUX: Yale Collections Discovery
           </NavLink>
@@ -75,7 +75,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 to="/content/about-lux"
                 state={{ targetName: 'About LUX' }}
                 className="nav-link"
-                onClick={() => handlePushEvent('About LUX')}
+                onClick={() => handlepushClientEvent('About LUX')}
               >
                 About LUX
               </NavLink>
@@ -83,7 +83,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 to="/content/open-access"
                 state={{ targetName: 'Open Access' }}
                 className="nav-link"
-                onClick={() => handlePushEvent('Open Access')}
+                onClick={() => handlepushClientEvent('Open Access')}
               >
                 Open Access
               </NavLink>
@@ -91,7 +91,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 to="/content/simple-search"
                 state={{ targetName: 'Search Tips' }}
                 className="nav-link"
-                onClick={() => handlePushEvent('Search Tips')}
+                onClick={() => handlepushClientEvent('Search Tips')}
               >
                 Search Tips
               </NavLink>
@@ -99,7 +99,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 to="/content/faq"
                 state={{ targetName: 'Help' }}
                 className="nav-link"
-                onClick={() => handlePushEvent('Help')}
+                onClick={() => handlepushClientEvent('Help')}
               >
                 Help
               </NavLink>

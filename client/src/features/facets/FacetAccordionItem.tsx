@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useAppSelector } from '../../app/hooks'
 import { booleanFacetNames, facetLabels } from '../../config/facets'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
 import { IFacetsSelected } from '../../redux/slices/facetsSlice'
 import {
@@ -84,7 +84,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
               onClick={() => {
                 const action = isFacetOpen ? 'Close' : 'Open'
                 isFacetOpen = !isFacetOpen
-                pushSiteImproveEvent(
+                pushClientEvent(
                   'Facets Accordion Item',
                   action,
                   `Facet ${facetLabels[facetName]}`,

@@ -3,14 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import conceptMockApi from './utils/conceptMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Concept page', () => {
   const page = '/view/concept/mock-concept'
 
   beforeEach(async () => {
     conceptMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('About', () => {

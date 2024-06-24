@@ -2,7 +2,7 @@
 import React from 'react'
 
 import StyledExternalLinkIcon from '../../styles/features/common/ExternalLinkIcon'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IExternalUrl {
   url: string
@@ -25,7 +25,7 @@ const ExternalLink: React.FC<IExternalUrl> = ({ url, name, style, id }) => (
     rel="noreferrer"
     style={{ ...style, overflowWrap: 'break-word' }}
     onClick={() =>
-      pushSiteImproveEvent('External Link', 'Selected', `External ${name}`)
+      pushClientEvent('External Link', 'Selected', `External ${name}`)
     }
     data-testid={id ? `${id}-external-link` : 'external-link'}
   >

@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 import StyledFooter from '../../styles/features/common/Footer'
 import theme from '../../styles/theme'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import ExternalLink from './ExternalLink'
 import FeedbackButton from './FeedbackButton'
@@ -23,7 +23,7 @@ const Footer: React.FC = () => (
             id="lux-footer-yale"
             to="https://www.yale.edu"
             onClick={() =>
-              pushSiteImproveEvent('External Link', 'Selected', 'External Yale')
+              pushClientEvent('External Link', 'Selected', 'External Yale')
             }
           >
             Yale

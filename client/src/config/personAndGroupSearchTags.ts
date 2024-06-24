@@ -13,6 +13,11 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:agentMadeDiscoveredItem',
     tab: 'objects',
   },
+  objectsInfluenced: {
+    title: 'Objects With Creation Influenced By',
+    searchTag: 'lux:agentItemProductionInfluenced',
+    tab: 'objects',
+  },
   objectsInDepartment: {
     title: 'Objects in Collection',
     searchTag: 'lux:departmentItems',
@@ -26,6 +31,11 @@ export const relatedObjectsAndWorks: IHalLinks = {
   worksAbout: {
     title: 'Works About',
     searchTag: 'lux:agentWorkAbout',
+    tab: 'works',
+  },
+  worksInfluenced: {
+    title: 'Works With Creation Influenced By',
+    searchTag: 'lux:agentWorkCreationInfluenced',
     tab: 'works',
   },
 }

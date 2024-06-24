@@ -10,7 +10,7 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
 import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   url: string
@@ -88,11 +88,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
               targetName: linkLabel,
             }}
             onClick={() =>
-              pushSiteImproveEvent(
-                'Search Link',
-                'Selected',
-                `Accordion ${title}`,
-              )
+              pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
             }
             data-testid="search-related-list-link"
           >

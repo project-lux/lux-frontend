@@ -3,14 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import linguisticObjectsMockApi from './utils/linguisticObjectsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Linguistic Object page', () => {
   const page = '/view/text/mock-linguistic-object'
 
   beforeEach(async () => {
     linguisticObjectsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   describe('Objects containing work', () => {

@@ -6,7 +6,7 @@ import { BorderedDiv } from '../../styles/shared/BorderedDiv'
 import StyledErrorPage from '../../styles/features/error/ErrorPage'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   code: number | undefined
@@ -23,7 +23,7 @@ const getMessage = (code: number | undefined): string => {
 
 const ErrorPage: React.FC<IProps> = ({ code }) => {
   useEffect(() => {
-    pushSiteImproveEvent('Error', 'Triggered', 'Page Not Found 404')
+    pushClientEvent('Error', 'Triggered', 'Page Not Found 404')
   }, [])
 
   return (

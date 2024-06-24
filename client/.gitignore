@@ -31,3 +31,5 @@ package-lock.json
 /public/
 !/public/uv/
 !/public/index.html.template
+/public/index.html
+/src/lib/pushClientEvent.ts

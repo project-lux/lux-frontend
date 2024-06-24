@@ -18,7 +18,7 @@ import StyledHr from '../../styles/shared/Hr'
 import ErrorMessage from '../search/ErrorMessage'
 import { ErrorFallback } from '../error/ErrorFallback'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -53,7 +53,7 @@ const AdvancedSearchContainer: React.FC = () => {
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     const resultsTab = tab !== undefined ? tab : 'objects'
-    pushSiteImproveEvent('Search Button', 'Submit', 'Advanced Search')
+    pushClientEvent('Search Button', 'Submit', 'Advanced Search')
     navigate(
       {
         pathname: `/view/results/${resultsTab}`,
@@ -71,7 +71,7 @@ const AdvancedSearchContainer: React.FC = () => {
 
   const handleCloseModal = (): void => {
     setShowModal(false)
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Search Switch',
       'Selected',
       'Cancel Switch to Simple Search',

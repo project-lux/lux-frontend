@@ -8,7 +8,7 @@ import styled from 'styled-components'
 
 import StyledResultsHeader from '../../styles/features/results/ResultsHeader'
 import StyledHr from '../../styles/shared/Hr'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { OverlayKey } from '../../config/cms'
 import { sortBy, sortDirection } from '../../config/sortingOptions'
 import { getParamPrefix } from '../../lib/util/params'
@@ -78,7 +78,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // toggle view between list and image view
   const changeView = (selectedView: string): void => {
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Results View Toggle',
       'Selected',
       `To ${selectedView} View`,
@@ -92,7 +92,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   }
 
   const handleSortDirectionSelection = (value: string): void => {
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Results Sort',
       'Selected',
       `Sort By ${sortBySelection}:${value}`,
@@ -105,7 +105,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   }
 
   const handleSortSelection = (value: string): void => {
-    pushSiteImproveEvent(
+    pushClientEvent(
       'Results Sort',
       'Selected',
       `Sort By ${value}:${selectedSortDirection}`,

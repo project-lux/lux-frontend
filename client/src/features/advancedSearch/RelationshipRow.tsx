@@ -13,7 +13,7 @@ import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import CollapseContainer from './CollapseContainer'
 import AdvancedSearchDropdown from './Dropdown'
@@ -104,7 +104,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
       <VerticalLine className="pe-2">
         <CollapseButton
           onClick={() => {
-            pushSiteImproveEvent(
+            pushClientEvent(
               'Collapse Button',
               open ? 'Open' : 'Close',
               'Advanced Search',

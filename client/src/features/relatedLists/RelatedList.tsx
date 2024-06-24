@@ -13,7 +13,7 @@ import { transformRelatedListResults } from '../../lib/parse/search/relatedLists
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import RecordLink from '../common/RecordLink'
 import PageLoading from '../common/PageLoading'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import RelatedListSearchLink from './RelatedListSearchLink'
 
@@ -158,7 +158,7 @@ const RelatedList: React.FC<IProps> = ({ results, halLink, title, next }) => {
   const [isLoading, setIsLoading] = useState<boolean>(false)
 
   const handleClick = (page: number): void => {
-    pushSiteImproveEvent('Pagination', 'Selected', 'Related List Accordion')
+    pushClientEvent('Pagination', 'Selected', 'Related List Accordion')
     fetchRelatedLists({
       halLink,
       page,

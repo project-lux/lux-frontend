@@ -4,7 +4,7 @@ import { HashLink as Link } from 'react-router-hash-link'
 
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface ILinkParams {
   scope: string
@@ -40,7 +40,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
         targetName: linkLabel,
       }}
       onClick={() =>
-        pushSiteImproveEvent('Search Link', 'Selected', `Accordion ${title}`)
+        pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
       }
       data-testid={`related-list-search-link-${id}`}
     >

@@ -8,6 +8,8 @@ const mockConfig = {
   wkt: 'POINT (-76.33269 44.38342)',
 }
 
+jest.mock('leaflet')
+
 describe('Map', () => {
   it('renders', async () => {
     render(<Map config={mockConfig} className="col md" />)

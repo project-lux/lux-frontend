@@ -25,17 +25,9 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
   getFacetParamsForAdvancedSearchEstimatesRequest,
 } from '../../lib/util/params'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
-
-const tabToLinkLabel: Record<string, string> = {
-  objects: 'Objects',
-  works: 'Works',
-  people: 'People & Groups',
-  places: 'Places',
-  concepts: 'Concepts',
-  events: 'Events',
-}
+import { tabToLinkLabel } from '../../config/results'
 
 interface INavigation {
   urlParams: URLSearchParams
@@ -181,7 +173,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                     }`
                   }
                   onClick={() => {
-                    pushSiteImproveEvent(
+                    pushClientEvent(
                       'Results Tab',
                       'Selected',
                       tabToLinkLabel[key],

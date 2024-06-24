@@ -3,14 +3,14 @@ import React from 'react'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
-import siteImproveMock from './utils/mockSiteImprove'
+import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Content page', () => {
   const page = '/content/open-access'
 
   beforeEach(async () => {
     cmsMockApi()
-    siteImproveMock()
+    eventTrackingMock()
   })
 
   it('renders', async () => {
