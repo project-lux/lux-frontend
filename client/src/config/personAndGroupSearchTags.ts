@@ -9,13 +9,8 @@ import { IHalLinks } from '../types/IHalLinks'
 // Shown in people and group page tab content
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsCreated: {
-    title: 'Objects Created or Encountered By',
-    searchTag: 'lux:agentMadeDiscoveredItem',
-    tab: 'objects',
-  },
-  objectsInfluenced: {
-    title: 'Objects With Creation Influenced By',
-    searchTag: 'lux:agentItemProductionInfluenced',
+    title: 'Objects Created, Encountered, or Influenced By',
+    searchTag: 'lux:agentMadeDiscoveredInfluencedItem',
     tab: 'objects',
   },
   objectsInDepartment: {
@@ -24,18 +19,13 @@ export const relatedObjectsAndWorks: IHalLinks = {
     tab: 'objects',
   },
   worksCreated: {
-    title: 'Works Created or Published',
-    searchTag: 'lux:agentCreatedPublishedWork',
+    title: 'Works Created, Published, or Influenced By',
+    searchTag: 'lux:agentCreatedPublishedInfluencedWork',
     tab: 'works',
   },
   worksAbout: {
     title: 'Works About',
     searchTag: 'lux:agentWorkAbout',
-    tab: 'works',
-  },
-  worksInfluenced: {
-    title: 'Works With Creation Influenced By',
-    searchTag: 'lux:agentWorkCreationInfluenced',
     tab: 'works',
   },
 }

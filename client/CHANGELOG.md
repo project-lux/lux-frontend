@@ -15,6 +15,14 @@ All notable changes to this project will be documented in this file.
 
 - Changed Person or Group type label on agent entity pages ([#282](https://github.com/project-lux/lux-frontend/issues/282)).
 
+## v1.29.1 - 2024-6-24
+
+### Added
+
+### Changed
+
+- Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
+
 ### Removed
 
 ### Fixed
