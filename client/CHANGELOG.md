@@ -25,6 +25,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
+
 ### Changed
 
 - Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
