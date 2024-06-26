@@ -38,6 +38,7 @@ export const recordTypes: Record<string, Record<string, string>> = {
   work: {
     VisualItem: 'Visual Item',
     LinguisticObject: 'Textual Work',
+    Set: 'Set',
   },
   concept: {
     Currency: 'Currency',
