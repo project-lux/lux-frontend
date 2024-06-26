@@ -12,7 +12,7 @@ import { recordTypes } from './advancedSearch/inputTypes'
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'item' | 'work' | 'concept'
+export type Scope = 'agent' | 'item' | 'work' | 'concept' | 'event'
 
 export interface IFacet {
   sectionLabel: string
@@ -107,6 +107,14 @@ export const facets: IFacetConfig = {
       buildQuery: (value) => ({ recordType: value }),
     },
   },
+  event: {
+    eventRecordType: {
+      sectionLabel: 'Event Class',
+      facetLabel: (value) => recordTypes.event[value],
+      selectedLabel: (value) => recordTypes.event[value],
+      buildQuery: (value) => ({ recordType: value }),
+    },
+  },
 }
 
 export const facetNamesLists: IFacetNamesLists = {
@@ -172,6 +180,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'eventAgentId',
     'eventStartDate',
     'eventEndDate',
+    'eventRecordType',
   ],
 }
 
@@ -201,6 +210,7 @@ export const facetLabels: { [key: string]: string } = {
   eventPlaceId: 'Took Place At',
   eventStartDate: 'Start Date',
   eventTypeId: 'Categorized As',
+  eventRecordType: 'Event Class',
   itemHasDigitalImage: 'Has Digital Image',
   itemIsOnline: 'Is Online',
   itemTypeId: 'Categorized As',
@@ -452,6 +462,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'carriedOutBy',
       idFacet: true,
     },
+    eventRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
+    },
   },
 }
 
@@ -696,6 +710,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     carriedOutBy: {
       facetName: 'eventAgentId',
       idFacet: true,
+    },
+    recordType: {
+      facetName: 'eventRecordType',
+      idFacet: false,
     },
   },
 }

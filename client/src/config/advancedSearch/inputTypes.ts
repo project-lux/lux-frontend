@@ -47,6 +47,10 @@ export const recordTypes: Record<string, Record<string, string>> = {
     MeasurementUnit: 'Measurement Unit',
     Type: 'General Concept',
   },
+  event: {
+    Period: 'Period',
+    Activity: 'Activity',
+  },
 }
 
 export const comparators: Record<string, string> = {
