@@ -35,6 +35,22 @@ export const recordTypes: Record<string, Record<string, string>> = {
     HumanMadeObject: 'Physical Object',
     DigitalObject: 'Digital Object',
   },
+  work: {
+    VisualItem: 'Visual Item',
+    LinguisticObject: 'Textual Work',
+    Set: 'Set',
+  },
+  concept: {
+    Currency: 'Currency',
+    Language: 'Language',
+    Material: 'Material',
+    MeasurementUnit: 'Measurement Unit',
+    Type: 'General Concept',
+  },
+  event: {
+    Period: 'Period',
+    Activity: 'Activity',
+  },
 }
 
 export const comparators: Record<string, string> = {
