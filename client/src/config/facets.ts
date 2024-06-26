@@ -12,7 +12,7 @@ import { recordTypes } from './advancedSearch/inputTypes'
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'item' | 'work'
+export type Scope = 'agent' | 'item' | 'work' | 'concept'
 
 export interface IFacet {
   sectionLabel: string
@@ -99,6 +99,14 @@ export const facets: IFacetConfig = {
       buildQuery: (value) => ({ hasDigitalImage: value }),
     },
   },
+  concept: {
+    conceptRecordType: {
+      sectionLabel: 'Concept Class',
+      facetLabel: (value) => recordTypes.concept[value],
+      selectedLabel: (value) => recordTypes.concept[value],
+      buildQuery: (value) => ({ recordType: value }),
+    },
+  },
 }
 
 export const facetNamesLists: IFacetNamesLists = {
@@ -156,6 +164,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'conceptInfluencedByConceptId',
     'conceptInfluencedByEventId',
     'conceptInfluencedByPlaceId',
+    'conceptRecordType',
   ],
   events: [
     'eventTypeId',
@@ -185,6 +194,7 @@ export const facetLabels: { [key: string]: string } = {
   conceptInfluencedByEventId: 'Influenced by Event',
   conceptInfluencedByPlaceId: 'Influenced by Place',
   conceptPartOfId: 'Part Of',
+  conceptRecordType: 'Concept Class',
   conceptTypeId: 'Categorized As',
   eventAgentId: 'Carried Out By',
   eventEndDate: 'End Date',
@@ -415,6 +425,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     conceptPartOfId: {
       searchTermName: 'broader',
       idFacet: true,
+    },
+    conceptRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
     },
   },
   event: {
@@ -664,6 +678,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     influencedByPlace: {
       facetName: 'conceptInfluencedByPlaceId',
       idFacet: true,
+    },
+    recordType: {
+      facetName: 'conceptRecordType',
+      idFacet: false,
     },
   },
   event: {
