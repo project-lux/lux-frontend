@@ -83,6 +83,12 @@ export const facets: IFacetConfig = {
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
     },
+    workRecordType: {
+      sectionLabel: 'Work Class',
+      facetLabel: (value) => recordTypes.work[value],
+      selectedLabel: (value) => recordTypes.work[value],
+      buildQuery: (value) => ({ recordType: value }),
+    },
   },
   agent: {
     agentHasDigitalImage: {
@@ -125,6 +131,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationAgentId',
     'workPublicationPlaceId',
     'workPublicationDate',
+    'workRecordType',
   ],
   peopleAndOrgs: [
     'agentHasDigitalImage',
@@ -212,6 +219,7 @@ export const facetLabels: { [key: string]: string } = {
   workPublicationDate: 'Published Date',
   workCreationDate: 'Created Date',
   workLanguageId: 'Language',
+  workRecordType: 'Work Class',
 }
 
 export const facetSearchTerms: IFacetToSearchTermConfig = {
@@ -313,6 +321,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     workLanguageId: {
       searchTermName: 'language',
       idFacet: true,
+    },
+    workRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
     },
   },
   agent: {
@@ -558,6 +570,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     language: {
       facetName: 'workLanguageId',
       idFacet: true,
+    },
+    recordType: {
+      facetName: 'workRecordType',
+      idFacet: false,
     },
   },
   agent: {
