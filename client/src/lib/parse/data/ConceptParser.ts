@@ -84,12 +84,15 @@ export default class ConceptParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
+    const entityClass = this.getEntityClass()
+
     const data: Record<
       string,
       null | string | Array<any> | IContentWithLanguage
     > = {
       name: this.getPrimaryName(config.dc.langen),
       names: this.getNames(),
+      entityClass: entityClass === 'Type' ? 'General Concept' : entityClass,
       types: this.getTypes(),
       notes: this.getNotes(),
       influences: this.getInfluencedBy(),

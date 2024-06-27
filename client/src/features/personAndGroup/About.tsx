@@ -45,6 +45,7 @@ const About: React.FC<IProps> = ({ data }) => {
     residence,
     // shared
     classifiedAs,
+    entityClass,
     names,
     memberOf,
     professionalActivity,
@@ -58,10 +59,8 @@ const About: React.FC<IProps> = ({ data }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Categorized As">
-          <TextValue
-            values={agent.json.id?.includes('person') ? ['Person'] : ['Group']}
-          />
+        <TextContainer label="Person or Group Class">
+          <TextValue values={[entityClass]} />
         </TextContainer>
         <Dates
           date={birthDate}
