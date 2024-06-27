@@ -42,6 +42,14 @@ export default class EntityParser {
 
   /**
    * Returns an array of strings containing related web pages from /subject_of/digitally_carried_by/access_point
+   * @returns {string}
+   */
+  getEntityClass(): string {
+    return this.json.type
+  }
+
+  /**
+   * Returns an array of strings containing related web pages from /subject_of/digitally_carried_by/access_point
    * @returns {Array<string>}
    */
   getWebPages(): Array<string> {

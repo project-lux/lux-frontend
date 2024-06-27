@@ -13,6 +13,9 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import { IEventInfo } from '../../types/derived-data/events'
 import { hasData } from '../../lib/parse/data/helper'
+import TextContainer from '../common/TextContainer'
+import TextValue from '../common/TextValue'
+import StyledHr from '../../styles/shared/Hr'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 
@@ -47,6 +50,7 @@ const About: React.FC<IObject> = ({ entity }) => {
   const {
     // shared
     about,
+    entityClass,
     notes,
     identifiers,
     production,
@@ -68,6 +72,10 @@ const About: React.FC<IObject> = ({ entity }) => {
       </Row>
       <dl>
         {titles !== null && <NamesContainer names={titles} showBreakline />}
+        <TextContainer label="Work Class" textLabelClassName="col-md-3">
+          <TextValue values={[entityClass]} className="col-md-9" />
+          <StyledHr />
+        </TextContainer>
         {identifiers.length > 0 && (
           <IdentifiersContainer identifiers={identifiers} id="works" />
         )}

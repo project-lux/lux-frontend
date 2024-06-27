@@ -31,6 +31,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
   const {
     name,
     names,
+    entityClass,
     agents,
     dates,
     types,
@@ -52,6 +53,9 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
+        <TextContainer label="Event Class">
+          <TextValue values={[entityClass]} />
+        </TextContainer>
         <LinkContainer
           label="Carried Out By"
           content={agents}
