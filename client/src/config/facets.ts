@@ -5,12 +5,14 @@ import {
 } from '../types/IFacetNames'
 import { ICriteria } from '../types/ISearchResults'
 
+import { recordTypes } from './advancedSearch/inputTypes'
+
 /* eslint-disable import/prefer-default-export */
 
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'item' | 'work'
+export type Scope = 'agent' | 'item' | 'work' | 'concept' | 'event'
 
 export interface IFacet {
   sectionLabel: string
@@ -36,6 +38,12 @@ export const facets: IFacetConfig = {
       facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
+    },
+    itemRecordType: {
+      sectionLabel: 'Object Class',
+      facetLabel: (value) => recordTypes.item[value],
+      selectedLabel: (value) => recordTypes.item[value],
+      buildQuery: (value) => ({ recordType: value }),
     },
     responsibleCollections: {
       sectionLabel: 'Collection',
@@ -75,6 +83,12 @@ export const facets: IFacetConfig = {
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
     },
+    workRecordType: {
+      sectionLabel: 'Work Class',
+      facetLabel: (value) => recordTypes.work[value],
+      selectedLabel: (value) => recordTypes.work[value],
+      buildQuery: (value) => ({ recordType: value }),
+    },
   },
   agent: {
     agentHasDigitalImage: {
@@ -83,6 +97,22 @@ export const facets: IFacetConfig = {
       selectedLabel: (value) =>
         value === 1 ? 'Has Digital Image' : 'No Digital Image',
       buildQuery: (value) => ({ hasDigitalImage: value }),
+    },
+  },
+  concept: {
+    conceptRecordType: {
+      sectionLabel: 'Concept Class',
+      facetLabel: (value) => recordTypes.concept[value],
+      selectedLabel: (value) => recordTypes.concept[value],
+      buildQuery: (value) => ({ recordType: value }),
+    },
+  },
+  event: {
+    eventRecordType: {
+      sectionLabel: 'Event Class',
+      facetLabel: (value) => recordTypes.event[value],
+      selectedLabel: (value) => recordTypes.event[value],
+      buildQuery: (value) => ({ recordType: value }),
     },
   },
 }
@@ -99,6 +129,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'itemProductionAgentId',
     'itemProductionPlaceId',
     'itemProductionDate',
+    'itemRecordType',
     'responsibleUnits',
     'responsibleCollections',
   ],
@@ -116,6 +147,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationAgentId',
     'workPublicationPlaceId',
     'workPublicationDate',
+    'workRecordType',
   ],
   peopleAndOrgs: [
     'agentHasDigitalImage',
@@ -140,6 +172,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'conceptInfluencedByConceptId',
     'conceptInfluencedByEventId',
     'conceptInfluencedByPlaceId',
+    'conceptRecordType',
   ],
   events: [
     'eventTypeId',
@@ -147,6 +180,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'eventAgentId',
     'eventStartDate',
     'eventEndDate',
+    'eventRecordType',
   ],
 }
 
@@ -162,19 +196,21 @@ export const facetLabels: { [key: string]: string } = {
   agentOccupationId: 'Occupation',
   agentActivePlaceId: 'Professionally Active At',
   agentMemberOfId: 'Member Of',
-  agentRecordType: 'Person or Group',
+  agentRecordType: 'Person or Group Class',
   agentTypeId: 'Categorized As',
   conceptInfluencedByAgentId: 'Influenced by Person & Group',
   conceptInfluencedByConceptId: 'Influenced by Concept',
   conceptInfluencedByEventId: 'Influenced by Event',
   conceptInfluencedByPlaceId: 'Influenced by Place',
   conceptPartOfId: 'Part Of',
+  conceptRecordType: 'Concept Class',
   conceptTypeId: 'Categorized As',
   eventAgentId: 'Carried Out By',
   eventEndDate: 'End Date',
   eventPlaceId: 'Took Place At',
   eventStartDate: 'Start Date',
   eventTypeId: 'Categorized As',
+  eventRecordType: 'Event Class',
   itemHasDigitalImage: 'Has Digital Image',
   itemIsOnline: 'Is Online',
   itemTypeId: 'Categorized As',
@@ -185,6 +221,7 @@ export const facetLabels: { [key: string]: string } = {
   itemProductionDate: 'Creation Date',
   itemProductionPlaceId: 'Created At',
   itemProductionAgentId: 'Created By',
+  itemRecordType: 'Object Class',
   placePartOfId: 'Part Of',
   placeTypeId: 'Categorized As',
   responsibleCollections: 'Collection',
@@ -202,6 +239,7 @@ export const facetLabels: { [key: string]: string } = {
   workPublicationDate: 'Published Date',
   workCreationDate: 'Created Date',
   workLanguageId: 'Language',
+  workRecordType: 'Work Class',
 }
 
 export const facetSearchTerms: IFacetToSearchTermConfig = {
@@ -244,6 +282,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
     itemProductionDate: {
       searchTermName: 'producedDate',
+      idFacet: false,
+    },
+    itemRecordType: {
+      searchTermName: 'recordType',
       idFacet: false,
     },
   },
@@ -299,6 +341,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     workLanguageId: {
       searchTermName: 'language',
       idFacet: true,
+    },
+    workRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
     },
   },
   agent: {
@@ -390,6 +436,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'broader',
       idFacet: true,
     },
+    conceptRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
+    },
   },
   event: {
     eventStartDate: {
@@ -411,6 +461,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     eventAgentId: {
       searchTermName: 'carriedOutBy',
       idFacet: true,
+    },
+    eventRecordType: {
+      searchTermName: 'recordType',
+      idFacet: false,
     },
   },
 }
@@ -487,6 +541,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'itemProductionDate',
       idFacet: false,
     },
+    recordType: {
+      facetName: 'itemRecordType',
+      idFacet: false,
+    },
   },
   work: {
     hasDigitalImage: {
@@ -540,6 +598,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     language: {
       facetName: 'workLanguageId',
       idFacet: true,
+    },
+    recordType: {
+      facetName: 'workRecordType',
+      idFacet: false,
     },
   },
   agent: {
@@ -631,6 +693,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'conceptInfluencedByPlaceId',
       idFacet: true,
     },
+    recordType: {
+      facetName: 'conceptRecordType',
+      idFacet: false,
+    },
   },
   event: {
     classification: {
@@ -644,6 +710,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     carriedOutBy: {
       facetName: 'eventAgentId',
       idFacet: true,
+    },
+    recordType: {
+      facetName: 'eventRecordType',
+      idFacet: false,
     },
   },
 }

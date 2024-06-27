@@ -443,13 +443,14 @@ export default class PersonAndGroupParser extends EntityParser {
     null | string | Array<any> | IContentWithLanguage
   > | null {
     // Shared between Person and Group
-    const names = this.getNames()
-    const memberOf = this.getMemberOf()
-    const residence = this.getResidence()
-    const professionalActivity = this.getCarriedOut()
-    const webPages = this.getWebPages()
-    const notes = this.getNotes()
     const classifiedAs = this.getAllClassifiedAs()
+    const entityClass = this.getEntityClass()
+    const memberOf = this.getMemberOf()
+    const names = this.getNames()
+    const notes = this.getNotes()
+    const professionalActivity = this.getCarriedOut()
+    const residence = this.getResidence()
+    const webPages = this.getWebPages()
 
     // Values only used by Person
     const birthDate = this.getBirthDate()
@@ -470,6 +471,7 @@ export default class PersonAndGroupParser extends EntityParser {
       null | string | Array<any> | IContentWithLanguage
     > = {
       names,
+      entityClass,
       memberOf,
       classifiedAs,
       residence,

@@ -5,6 +5,8 @@ import NotesContainer from '../common/NotesContainer'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import IEntity from '../../types/data/IEntity'
 import LinkContainer from '../common/LinkContainer'
+import TextContainer from '../common/TextContainer'
+import TextValue from '../common/TextValue'
 
 interface IProps {
   entity: IEntity
@@ -18,11 +20,12 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     return null
   }
 
-  const { name, names, types, notes, influences } = aboutData as Record<
-    string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any
-  >
+  const { name, names, entityClass, types, notes, influences } =
+    aboutData as Record<
+      string,
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      any
+    >
 
   return (
     <React.Fragment>
@@ -31,6 +34,9 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
+        <TextContainer label="Concept Class">
+          <TextValue values={[entityClass]} />
+        </TextContainer>
         {types.length > 0 && (
           <LinkContainer
             content={types}
