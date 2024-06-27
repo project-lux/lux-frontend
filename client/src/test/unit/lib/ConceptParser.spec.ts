@@ -24,8 +24,8 @@ describe('ConceptParser', () => {
   describe('getDescriptions function', () => {
     it('returns array of string content', () => {
       const concept = new ConceptParser(mockConcept)
-      const influenced = concept.getDescriptions(config.aat.langen)
-      expect(influenced).toEqual(['Description statement in english.'])
+      const description = concept.getDescriptions(config.aat.langen)
+      expect(description).toEqual(['Description statement in english.'])
     })
   })
 })

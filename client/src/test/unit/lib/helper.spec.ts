@@ -673,7 +673,10 @@ describe('helper functions', () => {
         ],
       }
 
-      const data = getMultipleSpecificReferredToBy(mockData, config.aat.visitors)
+      const data = getMultipleSpecificReferredToBy(
+        mockData,
+        config.aat.visitors,
+      )
       expect(data).toEqual([
         {
           content: 'Plan Your Visit',

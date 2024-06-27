@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 
-import config from '../../config/config'
 import DescriptionList from '../../styles/shared/DescriptionList'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import {
@@ -37,10 +36,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
       value = value as string
       const currentUri = url.replace('/view', '')
       return (
-        value !== null &&
-        value !== undefined &&
-        !value.includes(currentUri) &&
-        value !== config.aat.collectionItem
+        value !== null && value !== undefined && !value.includes(currentUri)
       )
     })
 
