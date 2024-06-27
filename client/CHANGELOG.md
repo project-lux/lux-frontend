@@ -4,6 +4,13 @@ All notable changes to this project will be documented in this file.
 
 ## v1.30.0 - Unreleased
 
+### Added
+
+- Added Object Class to facets and advanced search ([#178](https://github.com/project-lux/lux-frontend/issues/178)).
+- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
+- Added Concept Class to facets and advanced search ([#176](https://github.com/project-lux/lux-frontend/issues/176)).
+- Added Event Class to facets and advanced search ([#175](https://github.com/project-lux/lux-frontend/issues/175)).
+
 ## v1.29.2 - 2024-6-24
 
 ### Removed
@@ -13,11 +20,6 @@ All notable changes to this project will be documented in this file.
 ## v1.29.1 - 2024-6-24
 
 ### Added
-
-- Added Object Class to facets and advanced search ([#178](https://github.com/project-lux/lux-frontend/issues/178)).
-- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
-- Added Concept Class to facets and advanced search ([#176](https://github.com/project-lux/lux-frontend/issues/176)).
-- Added Event Class to facets and advanced search ([#175](https://github.com/project-lux/lux-frontend/issues/175)).
 
 ### Changed
 

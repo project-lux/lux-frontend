@@ -196,7 +196,7 @@ export const facetLabels: { [key: string]: string } = {
   agentOccupationId: 'Occupation',
   agentActivePlaceId: 'Professionally Active At',
   agentMemberOfId: 'Member Of',
-  agentRecordType: 'Person or Group',
+  agentRecordType: 'Person or Group Class',
   agentTypeId: 'Categorized As',
   conceptInfluencedByAgentId: 'Influenced by Person & Group',
   conceptInfluencedByConceptId: 'Influenced by Concept',
