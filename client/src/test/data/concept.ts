@@ -2,6 +2,9 @@
 import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
 
+const langenId = `${config.env.dataApiBaseUrl}data/concept/english`
+const primaryNameId = `${config.env.dataApiBaseUrl}data/concept/primary-name`
+
 export const concept: IConcept = {
   id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
   type: 'Language',
@@ -58,14 +61,14 @@ export const concept: IConcept = {
       content: 'Mock Concept',
       language: [
         {
-          id: config.aat.langen,
+          id: 'english id',
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: 'primary name id',
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -77,14 +80,14 @@ export const concept: IConcept = {
       content: 'British languages (Celtic)',
       language: [
         {
-          id: config.aat.langen,
+          id: langenId,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: primaryNameId,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -99,7 +102,7 @@ export const concept: IConcept = {
         'Languages of the Celts; in the first millennium BCE, these languages were spoken across a wide area of Europe and Asia Minor. Surviving Surviving Celtic languages are now spoken in Ireland, Scotland, Wales, Brittany, Cornwall, and the Isle of Man, and Cape Breton Island.',
       language: [
         {
-          id: config.aat.langen,
+          id: langenId,
           type: 'Language',
           _label: 'English',
         },
@@ -125,16 +128,30 @@ export const concept: IConcept = {
       content: 'Description statement in english.',
       language: [
         {
-          id: config.aat.langen,
+          id: langenId,
           type: 'Language',
           _label: 'English',
+          equivalent: [
+            {
+              id: config.aat.langen,
+              type: 'Type',
+              _label: 'English',
+            },
+          ],
         },
       ],
       classified_as: [
         {
-          id: config.aat.descriptionStatement,
+          id: '',
           type: 'Type',
           _label: 'Rights Statement',
+          equivalent: [
+            {
+              id: config.aat.descriptionStatement,
+              type: 'Type',
+              _label: 'Description',
+            },
+          ],
           classified_as: [
             {
               id: `${config.env.dataApiBaseUrl}data/concept/brief-text`,
@@ -159,14 +176,14 @@ export const languageConcept: IConcept = {
       content: 'English',
       language: [
         {
-          id: config.aat.langen,
+          id: langenId,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: primaryNameId,
           type: 'Type',
           _label: 'Primary Name',
         },
@@ -186,14 +203,14 @@ export const displayNameConcept: IConcept = {
       content: 'display name',
       language: [
         {
-          id: config.aat.langen,
+          id: langenId,
           type: 'Language',
           _label: 'English',
         },
       ],
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: primaryNameId,
           type: 'Type',
           _label: 'Primary Name',
         },
