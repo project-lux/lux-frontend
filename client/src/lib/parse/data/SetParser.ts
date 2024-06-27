@@ -104,6 +104,7 @@ export default class SetParser extends EntityParser {
     null | string | Array<any> | IContentWithLanguage
   > | null {
     const names = this.getNames()
+    const entityClass = this.getEntityClass()
     const itemType = this.getTypes()
     const identifiers = this.getIdentifiers()
     const setCreationEvent = this.getCreationEvent()
@@ -115,6 +116,7 @@ export default class SetParser extends EntityParser {
 
     const data: Record<string, any> = {
       names,
+      entityClass,
       itemType,
       identifiers,
       setCreationEvent,
