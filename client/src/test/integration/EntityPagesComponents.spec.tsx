@@ -2,7 +2,7 @@ import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import config from '../../config/config'
-import { getTimelines } from '../../lib/util/timelineHelper'
+import { getTimelines } from '../../lib/util/fetchTimeline'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
 import * as eventTracking from '../../lib/pushClientEvent'
 
@@ -11,7 +11,7 @@ import entityMockApi from './utils/entityMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 
 // Mock the request for timelines
-jest.mock('../../lib/util/timelineHelper', () => ({
+jest.mock('../../lib/util/fetchTimeline', () => ({
   __esModule: true,
   getTimelines: jest.fn(() => ({
     data: mockTimeline,
@@ -28,7 +28,7 @@ describe('Entity pages relationship components', () => {
     const promises: any[] = []
     const timelines = getTimelines as jest.MockedFunction<typeof getTimelines>
     timelines.mockImplementation(() =>
-      Promise.all(promises).then((result) => ({
+      Promise.all(promises).then(() => ({
         data: mockTimeline,
       })),
     )

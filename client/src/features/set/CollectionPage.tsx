@@ -18,7 +18,7 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
-import TimelineContainers from '../common/TimelineContainers'
+import TimelineContainer from '../timeline/TimelineContainer'
 // import WhatWeHave from '../common/WhatWeHave'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
@@ -52,7 +52,7 @@ const CollectionPage: React.FC<IProps> = ({ data }) => {
               relationships={objectsIncluded}
               type="collection"
             />
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timeline}
               providedHalLinks={collection.json._links}
             />

@@ -23,7 +23,7 @@ import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 // import Locations from '../common/Locations'
 // import TimelineContainers from '../common/TimelineContainers'
 // import WhatWeHave from '../common/WhatWeHave'
-import TimelineContainers from '../common/TimelineContainers'
+import TimelineContainer from '../timeline/TimelineContainer'
 
 import About from './About'
 
@@ -64,7 +64,7 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timelines}
               providedHalLinks={agent.json._links}
             />

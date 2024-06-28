@@ -20,7 +20,6 @@ import FeedbackButton from '../common/FeedbackButton'
 import { ErrorFallback } from '../error/ErrorFallback'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 // import Locations from '../common/Locations'
-import TimelineContainers from '../common/TimelineContainers'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
@@ -29,6 +28,7 @@ import {
   getNextConceptUris,
 } from '../../lib/util/hierarchyHelpers'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import TimelineContainer from '../timeline/TimelineContainer'
 
 import AboutPanel from './AboutPanel'
 
@@ -68,7 +68,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
