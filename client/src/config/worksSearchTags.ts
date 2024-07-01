@@ -11,12 +11,6 @@ export const carriedBy: IHalLink = {
   searchTag: 'lux:workCarriedBy',
 }
 
-// Used for retrieving and rendering shown by data
-export const shownBy: IHalLink = {
-  title: 'Shown By',
-  searchTag: 'lux:workShownBy',
-}
-
 // Used for retrieving and rendering the set's unit
 export const setUnit: IHalLink = {
   title: 'Collection',
