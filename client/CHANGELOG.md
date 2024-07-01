@@ -19,7 +19,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## v1.29.1 - 2024-6-24
+## v1.29.2 - 2024-6-24
 
 ### Removed
 
