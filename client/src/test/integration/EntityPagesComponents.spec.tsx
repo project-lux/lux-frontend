@@ -38,7 +38,9 @@ describe('Entity pages relationship components', () => {
 
   describe('Related Objects and Works', () => {
     beforeEach(() => {
-      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+      jest
+        .spyOn(eventTracking, 'pushClientEvent')
+        .mockImplementation(() => null)
     })
 
     it('renders the related objects tab', async () => {
@@ -71,7 +73,7 @@ describe('Entity pages relationship components', () => {
     it('renders the related works tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Works Created or Published/i)
+      await findAllByText(/Works Created, Published, or Influenced By/i)
       const worksTab = screen.getByTestId('works-created-or-published-button')
       expect(worksTab).toBeInTheDocument()
     })
@@ -79,7 +81,7 @@ describe('Entity pages relationship components', () => {
     it('renders the related works snippet', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Works Created or Published/i)
+      await findAllByText(/Works Created, Published, or Influenced By/i)
       const worksTab = screen.getByTestId('works-created-or-published-button')
       fireEvent.click(worksTab)
 
@@ -156,7 +158,9 @@ describe('Entity pages relationship components', () => {
 
   describe('Related Facets list when open', () => {
     beforeEach(() => {
-      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+      jest
+        .spyOn(eventTracking, 'pushClientEvent')
+        .mockImplementation(() => null)
     })
 
     it('renders the faceted lists accordion container', async () => {
@@ -227,7 +231,9 @@ describe('Entity pages relationship components', () => {
 
   describe('Related search results list when open', () => {
     beforeEach(() => {
-      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+      jest
+        .spyOn(eventTracking, 'pushClientEvent')
+        .mockImplementation(() => null)
     })
 
     it('renders the search results accordion container', async () => {
@@ -277,7 +283,9 @@ describe('Entity pages relationship components', () => {
 
   describe('Semantic search results list when open', () => {
     beforeEach(() => {
-      jest.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
+      jest
+        .spyOn(eventTracking, 'pushClientEvent')
+        .mockImplementation(() => null)
     })
 
     it('renders the semantic accordion item', async () => {
