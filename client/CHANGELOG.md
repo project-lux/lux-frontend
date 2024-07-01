@@ -17,6 +17,12 @@ All notable changes to this project will be documented in this file.
 
 ## v1.29.1 - 2024-6-24
 
+### Removed
+
+- Removed workShownBy HAL link config ([#277](https://github.com/project-lux/lux-frontend/issues/277)).
+
+## v1.29.1 - 2024-6-24
+
 ### Added
 
 ### Changed

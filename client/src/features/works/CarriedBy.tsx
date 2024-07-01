@@ -2,15 +2,13 @@ import React from 'react'
 
 import IEntity from '../../types/data/IEntity'
 import WorkParser from '../../lib/parse/data/WorkParser'
-import { carriedBy, shownBy } from '../../config/worksSearchTags'
+import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectsContainer from '../common/ObjectsContainer'
 
 const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const work = new WorkParser(entity)
-  const workCarriedByQuery = entity.id?.includes('visual')
-    ? work.getHalLink(shownBy.searchTag)
-    : work.getHalLink(carriedBy.searchTag)
+  const workCarriedByQuery = work.getHalLink(carriedBy.searchTag)
 
   if (workCarriedByQuery === null) {
     return null
