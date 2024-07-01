@@ -17,7 +17,7 @@ const sortYears = (a: number, b: number): number => {
 
 /* eslint-disable consistent-return */
 export const getYearsFromFacetValues = (
-  facetValues: IOrderedItems[],
+  facetValues: Array<IOrderedItems>,
 ): number[] => {
   const years = facetValues
     .filter((facet) => facet.value !== null)

@@ -1,21 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 
 import config from '../../config/config'
 import DescriptionList from '../../styles/shared/DescriptionList'
-import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import {
   getCriteriaFromHalLink,
   getResultTabFromHalLink,
 } from '../../lib/parse/search/halLinkHelper'
+import { IFacetsPagination } from '../../types/IFacets'
+import { IOrderedItems } from '../../types/ISearchResults'
 
 import ListItem from './ListItem'
 
 interface IProps {
   url: string
   searchTerm: string
-  data: ISearchResults
+  data: IFacetsPagination
   title: string
+  page: number
+  lastPage: number
+  setPage: (x: number) => void
+  setFacets: (x: IFacetsPagination) => void
 }
 
 const FacetsRelatedList: React.FC<IProps> = ({
@@ -23,12 +28,22 @@ const FacetsRelatedList: React.FC<IProps> = ({
   searchTerm,
   data,
   title,
+  page,
+  lastPage,
+  setPage,
+  setFacets,
 }) => {
   const criteria = getCriteriaFromHalLink(url, 'facets')
   const scope = getResultTabFromHalLink(url)
 
-  const unitLength = 20
-  const [displayLength, setDisplayLength] = useState(unitLength)
+  const handleShowLess = (): void => {
+    const currentRequest = `call${page}`
+    if (data.requests[currentRequest]) {
+      delete data.requests[currentRequest]
+    }
+    setFacets(data)
+    setPage(page - 1)
+  }
 
   const recordLinks = (facets: Array<IOrderedItems>): any => {
     const filteredFacets = facets.filter((facet) => {
@@ -49,38 +64,36 @@ const FacetsRelatedList: React.FC<IProps> = ({
     }
     return (
       <React.Fragment>
-        {filteredFacets
-          .slice(0, displayLength)
-          .map((facet: IOrderedItems, ind: number) => {
-            const { value, totalItems } = facet
-            return (
-              <ListItem
-                key={facet.id}
-                uri={value as string}
-                count={totalItems || 0}
-                title={title}
-                tab={scope}
-                criteria={criteria}
-                searchTerm={searchTerm}
-                index={ind}
-                itemSpacing="double"
-              />
-            )
-          })}
-        {displayLength >= unitLength && displayLength < facets.length && (
+        {filteredFacets.map((facet: IOrderedItems, ind: number) => {
+          const { value, totalItems } = facet
+          return (
+            <ListItem
+              key={value}
+              uri={value as string}
+              count={totalItems || 0}
+              title={title}
+              tab={scope}
+              criteria={criteria}
+              searchTerm={searchTerm}
+              index={ind}
+              itemSpacing="double"
+            />
+          )
+        })}
+        {page !== lastPage && (
           <button
             type="button"
             className="btn btn-link show-more"
-            onClick={() => setDisplayLength(facets.length)}
+            onClick={() => setPage(page + 1)}
           >
-            Show All
+            Show More
           </button>
         )}
-        {displayLength > 20 && (
+        {page !== 1 && (
           <button
             type="button"
             className="btn btn-link show-less"
-            onClick={() => setDisplayLength(unitLength)}
+            onClick={() => handleShowLess()}
           >
             Show Less
           </button>
@@ -89,18 +102,18 @@ const FacetsRelatedList: React.FC<IProps> = ({
     )
   }
 
-  const { orderedItems } = data
-  if (orderedItems !== null && orderedItems.length > 0) {
-    return (
-      <DescriptionList
-        data-testid={`related-facets-description-list-${searchTerm}`}
-      >
-        {recordLinks(orderedItems)}
-      </DescriptionList>
-    )
-  }
+  const facetsData: Array<IOrderedItems> = []
+  Object.values(data.requests).map((value) =>
+    value.map((v) => facetsData.push(v)),
+  )
 
-  return null
+  return (
+    <DescriptionList
+      data-testid={`related-facets-description-list-${searchTerm}`}
+    >
+      {recordLinks(facetsData)}
+    </DescriptionList>
+  )
 }
 
 export default FacetsRelatedList

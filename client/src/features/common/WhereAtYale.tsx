@@ -11,7 +11,7 @@ import IEntity from '../../types/data/IEntity'
 import { setUnit } from '../../config/worksSearchTags'
 import {
   useGetCollectionQuery,
-  useGetFacetedRelationshipQuery,
+  useGetSearchRelationshipQuery,
 } from '../../redux/api/ml_api'
 import { getFacetValues } from '../../lib/facets/helper'
 
@@ -42,7 +42,7 @@ const WhereAtYale: React.FC<IObject> = ({ data }) => {
 
   // get the responsible units via HAL link
   const { data: units, isSuccess: unitsIsSuccess } =
-    useGetFacetedRelationshipQuery(
+    useGetSearchRelationshipQuery(
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       { uri: unitHalLink! },
       { skip: unitHalLink === null },

@@ -14,7 +14,7 @@ export const facetSlice = createSlice({
   name: 'facetSelection',
   initialState,
   reducers: {
-    addFacets: (
+    addLastSelectedFacet: (
       state,
       action: PayloadAction<{
         facetName: string
@@ -29,6 +29,6 @@ export const facetSlice = createSlice({
   },
 })
 
-export const { addFacets, reset } = facetSlice.actions
+export const { addLastSelectedFacet, reset } = facetSlice.actions
 
 export default facetSlice.reducer

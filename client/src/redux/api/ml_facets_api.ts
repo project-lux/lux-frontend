@@ -17,7 +17,7 @@ export const mlFacetsApi = createApi({
       ISearchParams
     >({
       query: (searchParams) => {
-        const { q, facetNames, tab } = searchParams
+        const { q, facetNames, tab, page } = searchParams
         const urlParams = new URLSearchParams()
 
         urlParams.set('q', q)
@@ -28,8 +28,13 @@ export const mlFacetsApi = createApi({
         }
         if (facetNames !== undefined) {
           urlParams.set('name', facetNames)
+          if (facetNames.includes('Date')) {
+            urlParams.set('sort', 'asc')
+          }
         }
-
+        if (page !== undefined) {
+          urlParams.set('page', page !== 0 ? page.toString() : '1')
+        }
         return {
           url: `api/facets/${scope}?${urlParams.toString()}`,
           method: 'GET',

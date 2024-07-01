@@ -1,19 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 
 import config from '../../config/config'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
+import { IFacetsPagination } from '../../types/IFacets'
+import { useAppDispatch } from '../../app/hooks'
+import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
 
 import Checkbox from './Checkbox'
 
 interface IFacets {
   criteria: ICriteria
-  facetValues: Array<IOrderedItems>
+  facetValues: IFacetsPagination
   facetSection: string
   length?: number
   facetQuery: ICriteria
   scope: string
   selectedFacets: Map<string, Set<string>> | null
+  page: number
+  lastPage: number
+  setPage: (x: number) => void
+  setFacets: (x: IFacetsPagination) => void
 }
 
 const Checklist: React.FC<IFacets> = ({
@@ -24,16 +31,40 @@ const Checklist: React.FC<IFacets> = ({
   facetQuery,
   scope,
   selectedFacets,
+  page,
+  lastPage,
+  setPage,
+  setFacets,
 }) => {
-  const [displayLength, setDisplayLength] = useState(length)
+  const dispatch = useAppDispatch()
 
-  const list = facetValues
-    .filter(
-      (facet) =>
-        facet.value !== null && facet.value !== config.dc.collectionItem,
-    )
-    .slice(0, displayLength)
-    .map((facet) => (
+  const handleShowMore = (): void => {
+    setPage(page + 1)
+    dispatch(addLastSelectedFacet({ facetName: facetSection, facetUri: '' }))
+  }
+
+  const handleShowLess = (): void => {
+    const currentRequest = `call${page}`
+    if (facetValues.requests[currentRequest]) {
+      delete facetValues.requests[currentRequest]
+    }
+    setFacets(facetValues)
+    setPage(page - 1)
+  }
+
+  const list = (): JSX.Element[] => {
+    const facetListCombined: Array<IOrderedItems> = []
+
+    Object.keys(facetValues.requests).map((key) => {
+      facetValues.requests[key].map((facet) => {
+        if (facet.value !== null && facet.value !== config.dc.collectionItem)
+          facetListCombined.push(facet)
+        return null
+      })
+      return null
+    })
+
+    return facetListCombined.map((facet) => (
       <React.Fragment key={facet.value}>
         <Checkbox
           criteria={criteria}
@@ -45,27 +76,26 @@ const Checklist: React.FC<IFacets> = ({
         />
       </React.Fragment>
     ))
+  }
 
   return (
     <React.Fragment>
       <form>
-        {list}
-        {displayLength >= length && displayLength < facetValues.length && (
+        {list()}
+        {page !== lastPage && (
           <button
             type="button"
             className="btn btn-link show-more"
-            onClick={() => setDisplayLength(displayLength + length)}
+            onClick={() => handleShowMore()}
           >
             Show More
           </button>
         )}
-        {displayLength > length && (
+        {page !== 1 && (
           <button
             type="button"
             className="btn btn-link show-less"
-            onClick={() =>
-              setDisplayLength(Math.max(displayLength - length, length))
-            }
+            onClick={() => handleShowLess()}
           >
             Show Less
           </button>
