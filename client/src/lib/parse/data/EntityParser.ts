@@ -242,9 +242,22 @@ export default class EntityParser {
     const classifiedAs = forceArray(this.json.classified_as)
 
     return classifiedAs
-      .filter((cl) => cl.type === 'Type')
+      .filter((cl) => {
+        if (cl.type === 'Type') {
+          if (cl.hasOwnProperty('equivalent')) {
+            for (const eq of cl.equivalent) {
+              if (eq.id !== config.aat.collectionItem) {
+                return cl
+              }
+            }
+          } else {
+            return cl
+          }
+        }
+        return null
+      })
+      .filter((clFil) => clFil !== null)
       .map((cl) => cl.id)
-      .filter((id) => id !== config.aat.collectionItem)
   }
 
   /**
@@ -398,7 +411,11 @@ export default class EntityParser {
       // If the label is undefined, set it to the value of /classified_as/id
       if (label === undefined) {
         const nestedClassifiedAs = forceArray(el.classified_as)
-        const labelClassifications = getClassifiedAs(nestedClassifiedAs)
+        // Filter out copyright licensing and visitors
+        const labelClassifications = getClassifiedAs(nestedClassifiedAs, [
+          config.aat.copyrightLicensingStatement,
+          config.aat.visitors,
+        ])
         label =
           labelClassifications.length > 0
             ? labelClassifications[0]
@@ -441,17 +458,6 @@ export default class EntityParser {
     if (Object.keys(data).length === 0) {
       return null
     }
-
-    // remove copyright statement and visitor statement
-    Object.keys(data).map((key) => {
-      if (
-        key === config.aat.copyrightLicensingStatement ||
-        key === config.aat.visitors
-      ) {
-        delete data[key]
-      }
-      return null
-    })
 
     return data
   }
@@ -525,12 +531,11 @@ export default class EntityParser {
           contentIdentifier = identifiedBy[0].content
         }
 
-        if (
-          classifiedAs !== undefined &&
-          validateClassifiedAsIdMatches(classifiedAs[0], config.aat.webPage)
-        ) {
-          for (const p of accessPoint) {
-            links.push({ contentIdentifier, link: p.id })
+        if (classifiedAs !== undefined) {
+          if (validateClassifiedAsIdMatches(classifiedAs, config.aat.webPage)) {
+            for (const p of accessPoint) {
+              links.push({ contentIdentifier, link: p.id })
+            }
           }
         }
       }
@@ -585,7 +590,10 @@ export default class EntityParser {
       .filter((identifier) => identifier.type === 'Identifier')
       .map((identifier) => {
         const classifiedAs = forceArray(identifier.classified_as)
-        const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : ''
+        const ids =
+          classifiedAs.length > 0
+            ? getClassifiedAs(classifiedAs, [config.aat.sortValue])
+            : []
         const attributedBy = forceArray(identifier.attributed_by)
         const assignedBy = forceArray(identifier.assigned_by)
         const agent = [
@@ -600,7 +608,6 @@ export default class EntityParser {
           carriedOutBy: agent,
         }
       })
-      .filter((id) => id.label !== config.aat.sortValue)
 
     const identifierData: Array<{
       label: string

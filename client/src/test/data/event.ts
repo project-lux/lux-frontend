@@ -125,9 +125,16 @@ export const event: IEvent = {
           ],
           classified_as: [
             {
-              id: config.aat.webPage,
+              id: 'web page id',
               type: 'Type',
               _label: 'Web Page',
+              equivalent: [
+                {
+                  id: config.aat.webPage,
+                  type: 'Type',
+                  _label: 'Web Page',
+                },
+              ],
             },
           ],
           identified_by: [
@@ -136,9 +143,16 @@ export const event: IEvent = {
               content: 'Homepage for Exhibition Record',
               classified_as: [
                 {
-                  id: config.aat.primaryName,
+                  id: 'primary name',
                   type: 'Type',
                   _label: 'Primary Name',
+                  equivalent: [
+                    {
+                      id: config.aat.primaryName,
+                      type: 'Type',
+                      _label: 'Primary Name',
+                    },
+                  ],
                 },
               ],
             },

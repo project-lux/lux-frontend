@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isUndefined } from 'lodash'
+
 import config from '../../../config/config'
 import { IHalLinks } from '../../../types/IHalLinks'
 import IAttribution from '../../../types/data/IAttribution'
@@ -110,13 +112,30 @@ export const getNestedCarriedOutBy = (
  */
 export const getClassifiedAs = (
   classifications: Array<IEntity>,
+  additionalAatToFilterBy?: Array<string>,
 ): Array<string> => {
   const classifiedAs = forceArray(classifications)
 
+  const filterByAats = !isUndefined(additionalAatToFilterBy)
+    ? [config.aat.first, ...additionalAatToFilterBy]
+    : [config.aat.first]
+
   return classifiedAs
+    .filter((cl) => {
+      if (cl.hasOwnProperty('equivalent')) {
+        for (const eq of cl.equivalent) {
+          // Filter out values that have the AAT of "first"
+          if (!filterByAats.includes(eq.id)) {
+            return cl
+          }
+        }
+      } else {
+        return cl
+      }
+      return null
+    })
     .map((classification) => classification.id)
-    .filter((id) => id !== config.aat.first)
-    .filter((id) => id !== undefined)
+    .filter((id) => id !== null && id !== undefined)
 }
 
 /**
@@ -173,42 +192,6 @@ export const getIdentifiedByContent = (
   const identifiedBy = forceArray(identifiers)
 
   return identifiedBy.map((id) => id.content)
-}
-
-/**
- * Compares the id value of the nested /classified_as object within the data passed and returns those objects
- * with the matching classifier
- * @param {any} data the data to test against
- * @param {string} requestedClassifier the uuid to compare against the nested object id value
- * @returns {Array<IEntity>}
- */
-export const getClassifiedAsWithMatchingClassifier = (
-  data: any,
-  requestedClassifier: string,
-): Array<IEntity> => {
-  const classifiedAs = forceArray(data)
-  if (classifiedAs.length === 0) {
-    return []
-  }
-
-  const matchingClassifierData = classifiedAs
-    .map((classification) => {
-      const classifierObject = forceArray(classification)
-      for (const cl of classifierObject) {
-        const nestedClassification = forceArray(cl.classified_as)
-        for (const nested of nestedClassification) {
-          if (validateClassifiedAsIdMatches(nested, requestedClassifier)) {
-            return cl
-          }
-          return null
-        }
-        return null
-      }
-      return null
-    })
-    .filter((el) => el !== null)
-
-  return matchingClassifierData
 }
 
 /**
@@ -447,14 +430,26 @@ export function transformYear(date: string): string {
 
 /**
  * Returns whether the object's /classified_as/id matches the classifier being requested
- * @param {IEntity} elem the object compare
- * @param {string} requestedClassifier the uuid to compare the object against
+ * @param {Array<IEntity>} entities the array of objects to validate
+ * @param {string} requestedAat the AAT to compare the object's equivalents IDs against
  * @returns {boolean}
  */
 export const validateClassifiedAsIdMatches = (
-  elem: IEntity,
-  requestedClassifier: string,
-): boolean => elem.id === requestedClassifier
+  entities: Array<IEntity>,
+  requestedAat: string,
+): boolean => {
+  const classifications = forceArray(entities)
+  for (const cl of classifications) {
+    if (cl.hasOwnProperty('equivalent')) {
+      for (const eq of cl.equivalent) {
+        if (eq.id === requestedAat) {
+          return true
+        }
+      }
+    }
+  }
+  return false
+}
 
 /**
  * Returns the correct icon to display for the uri given and its alt text
@@ -562,10 +557,14 @@ export const getSpecificReferredToBy = (
   for (const ref of referredToBy) {
     const classifiedAs = forceArray(ref.classified_as)
     for (const cls of classifiedAs) {
-      if (cls.id === comparator) {
-        return {
-          content: ref.content || '',
-          _content_html: ref._content_html,
+      if (cls.hasOwnProperty('equivalent')) {
+        for (const eq of cls.equivalent) {
+          if (eq.id === comparator) {
+            return {
+              content: ref.content || '',
+              _content_html: ref._content_html,
+            }
+          }
         }
       }
     }
@@ -588,11 +587,15 @@ export const getMultipleSpecificReferredToBy = (
   for (const ref of referredToBy) {
     const classifiedAs = forceArray(ref.classified_as)
     for (const cls of classifiedAs) {
-      if (cls.id === comparator) {
-        references.push({
-          content: ref.content || '',
-          _content_html: ref._content_html,
-        })
+      if (cls.hasOwnProperty('equivalent')) {
+        for (const eq of cls.equivalent) {
+          if (eq.id === comparator) {
+            references.push({
+              content: ref.content || '',
+              _content_html: ref._content_html,
+            })
+          }
+        }
       }
     }
   }

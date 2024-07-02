@@ -12,9 +12,9 @@ import EntityParser from './EntityParser'
 import {
   forceArray,
   getClassifiedAs,
-  getClassifiedAsWithMatchingClassifier,
   hasData,
   transformDate,
+  validateClassifiedAsIdMatches,
 } from './helper'
 
 export default class PersonAndGroupParser extends EntityParser {
@@ -273,32 +273,26 @@ export default class PersonAndGroupParser extends EntityParser {
   }
 
   /**
-   * Returns array of uuids /classified_as genders
-   * @returns {Array<string>}
-   * @deprecated
-   */
-  getGenders(): Array<string> {
-    const classifiedAs = forceArray(this.agent.classified_as)
-    const genders = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.aat.gender,
-    )
-
-    const genderIds = genders.map((gender) => gender.id || '')
-    return genderIds
-  }
-
-  /**
    * Returns array of uuids /classified_as nationality
    * @returns {Array<string>}
    */
   // TODO: remove at a later date, this is no longer required
   getNationalities(): Array<string> {
     const classifiedAs = forceArray(this.agent.classified_as)
-    const nationalities = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.aat.nationality,
-    )
+    const nationalities = []
+
+    for (const cl of classifiedAs) {
+      if (cl.hasOwnProperty('classified_as')) {
+        if (
+          validateClassifiedAsIdMatches(
+            cl.classified_as,
+            config.aat.nationality,
+          )
+        ) {
+          nationalities.push(cl)
+        }
+      }
+    }
 
     const nationalitiesIds = nationalities.map(
       (nationality) => nationality.id || '',
@@ -312,10 +306,17 @@ export default class PersonAndGroupParser extends EntityParser {
    */
   getOccupations(): Array<string> {
     const classifiedAs = forceArray(this.agent.classified_as)
-    const occupations = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.aat.occupation,
-    )
+    const occupations = []
+
+    for (const cl of classifiedAs) {
+      if (cl.hasOwnProperty('classified_as')) {
+        if (
+          validateClassifiedAsIdMatches(cl.classified_as, config.aat.occupation)
+        ) {
+          occupations.push(cl)
+        }
+      }
+    }
 
     const occupationsIds = occupations.map((occupation) => occupation.id || '')
     return occupationsIds

@@ -15,16 +15,30 @@ export const entity: IEntity = {
       content: 'Mock Entity',
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: `${config.env.dataApiBaseUrl}data/concept/primary-name`,
           type: 'Type',
           _label: 'Primary Name',
+          equivalent: [
+            {
+              id: config.aat.primaryName,
+              type: 'Type',
+              _label: 'Primary Name',
+            },
+          ],
         },
       ],
       language: [
         {
-          id: config.aat.langen,
+          id: `${config.env.dataApiBaseUrl}data/concept/english`,
           type: 'Language',
           _label: 'eng',
+          equivalent: [
+            {
+              id: config.aat.langen,
+              type: 'Language',
+              _label: 'eng',
+            },
+          ],
         },
       ],
     },
@@ -34,16 +48,30 @@ export const entity: IEntity = {
       content: 'animal de compagnie',
       classified_as: [
         {
-          id: config.aat.primaryName,
+          id: `${config.env.dataApiBaseUrl}data/concept/primary-name`,
           type: 'Type',
           _label: 'Primary Name',
+          equivalent: [
+            {
+              id: config.aat.primaryName,
+              type: 'Type',
+              _label: 'Primary Name',
+            },
+          ],
         },
       ],
       language: [
         {
-          id: config.aat.langfr,
+          id: `${config.env.dataApiBaseUrl}data/concept/french`,
           type: 'Language',
           _label: 'french',
+          equivalent: [
+            {
+              id: config.aat.langfr,
+              type: 'Language',
+              _label: 'fr',
+            },
+          ],
         },
       ],
     },
@@ -53,9 +81,16 @@ export const entity: IEntity = {
       content: 'Name with no language',
       classified_as: [
         {
-          id: config.aat.displayName,
+          id: `${config.env.dataApiBaseUrl}data/concept/display-name`,
           type: 'Type',
           _label: 'Display Name',
+          equivalent: [
+            {
+              id: config.aat.displayName,
+              type: 'Type',
+              _label: 'Display Name',
+            },
+          ],
         },
       ],
     },
@@ -80,6 +115,13 @@ export const entity: IEntity = {
           id: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
           type: 'Type',
           _label: 'System-Assigned Number',
+          equivalent: [
+            {
+              id: 'equivalent',
+              type: 'Type',
+              _label: 'Primary Name',
+            },
+          ],
         },
       ],
     },
@@ -101,9 +143,16 @@ export const entity: IEntity = {
       ],
       classified_as: [
         {
-          id: config.aat.sortValue,
+          id: 'for sorting',
           type: 'Type',
           _label: 'Sort value',
+          equivalent: [
+            {
+              id: config.aat.sortValue,
+              type: 'Type',
+              _label: 'Sort ID',
+            },
+          ],
         },
       ],
     },
@@ -139,14 +188,28 @@ export const entity: IEntity = {
       id: `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
       type: 'Type',
       _label: 'paintings',
-    },
-    {
-      id: config.aat.collectionItem,
-      type: 'Type',
-      _label: 'collection item',
+      equivalent: [
+        {
+          id: config.aat.archive,
+          type: 'Type',
+          _label: 'archive',
+        },
+      ],
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/classified-as-3`,
+      type: 'Type',
+      _label: 'collection item',
+      equivalent: [
+        {
+          id: config.aat.collectionItem,
+          type: 'Type',
+          _label: 'collection item',
+        },
+      ],
+    },
+    {
+      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-4`,
       type: 'Language',
       _label: 'spanish',
     },
@@ -185,28 +248,47 @@ export const entity: IEntity = {
       content: 'Note 2',
       classified_as: [
         {
-          id: `${config.env.dataApiBaseUrl}data/text/classified-as-2`,
+          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
           type: 'Type',
           _label: 'Not a Rights Statement',
         },
       ],
       language: [
         {
-          id: config.aat.langen,
+          id: `${config.env.dataApiBaseUrl}data/concept/language-1`,
           type: 'Language',
           _label: 'English',
+          equivalent: [
+            {
+              id: config.aat.langen,
+              type: 'Language',
+              _label: 'English',
+            },
+          ],
         },
       ],
     },
     {
-      id: `${config.env.dataApiBaseUrl}data/text/copyright-licensing-statement`,
+      id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
       type: 'LinguisticObject',
       content: 'Copyright licensing statement',
-      classified_as: [
+      equivalent: [
         {
           id: config.aat.copyrightLicensingStatement,
           type: 'Type',
           _label: 'Copyright Statement',
+        },
+      ],
+    },
+    {
+      id: `${config.env.dataApiBaseUrl}data/concept/visitors`,
+      type: 'LinguisticObject',
+      content: 'visitors',
+      equivalent: [
+        {
+          id: config.aat.visitors,
+          type: 'Type',
+          _label: 'visitors',
         },
       ],
     },
@@ -241,9 +323,16 @@ export const entity: IEntity = {
           ],
           classified_as: [
             {
-              id: config.aat.webPage,
+              id: 'web page',
               type: 'Type',
               _label: 'Web Page',
+              equivalent: [
+                {
+                  id: config.aat.webPage,
+                  type: 'Type',
+                  _label: 'Web Page',
+                },
+              ],
             },
           ],
         },
@@ -292,9 +381,16 @@ export const entity: IEntity = {
           ],
           classified_as: [
             {
-              id: config.aat.webPage,
+              id: 'web page',
               type: 'Type',
               _label: 'Web Page',
+              equivalent: [
+                {
+                  id: config.aat.webPage,
+                  type: 'Type',
+                  _label: 'Web Page',
+                },
+              ],
             },
           ],
           identified_by: [
@@ -467,12 +563,26 @@ export const entity: IEntity = {
   ],
   language: [
     {
-      id: config.aat.langspa,
+      id: `${config.env.dataApiBaseUrl}data/concept/spanish`,
       type: 'concept',
+      equivalent: [
+        {
+          id: config.aat.langspa,
+          type: 'concept',
+          _label: 'spanish',
+        },
+      ],
     },
     {
-      id: config.aat.langen,
+      id: `${config.env.dataApiBaseUrl}data/concept/english`,
       type: 'concept',
+      equivalent: [
+        {
+          id: config.aat.langen,
+          type: 'concept',
+          _label: 'english',
+        },
+      ],
     },
   ],
   _links: {

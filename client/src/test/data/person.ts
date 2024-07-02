@@ -79,9 +79,16 @@ export const person: IAgent = {
       type: 'Type',
       classified_as: [
         {
-          id: dc.nationality,
+          id: 'nationality',
           type: 'Type',
           _label: 'nationality',
+          equivalent: [
+            {
+              id: config.aat.nationality,
+              type: 'Type',
+              _label: 'nationality',
+            },
+          ],
         },
       ],
       _label: 'American',
@@ -91,9 +98,16 @@ export const person: IAgent = {
       type: 'Type',
       classified_as: [
         {
-          id: dc.nationality,
+          id: 'nationality',
           type: 'Type',
           _label: 'nationality',
+          equivalent: [
+            {
+              id: config.aat.nationality,
+              type: 'Type',
+              _label: 'nationality',
+            },
+          ],
         },
       ],
       _label: 'German',
@@ -103,9 +117,16 @@ export const person: IAgent = {
       type: 'Type',
       classified_as: [
         {
-          id: dc.occupation,
+          id: 'occupation',
           type: 'Type',
           _label: 'Occupations',
+          equivalent: [
+            {
+              id: config.aat.occupation,
+              type: 'Type',
+              _label: 'occupation',
+            },
+          ],
         },
       ],
       _label: 'artist',

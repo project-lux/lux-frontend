@@ -47,17 +47,17 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.aat.primaryName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'Mock Entity',
-            language: config.aat.langen,
+            language: `${config.env.dataApiBaseUrl}data/concept/english`,
           },
           {
             content: 'animal de compagnie',
-            language: config.aat.langfr,
+            language: `${config.env.dataApiBaseUrl}data/concept/french`,
           },
         ],
-        [config.aat.displayName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
           {
             content: 'Name with no language',
             language: '',
@@ -70,13 +70,13 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.aat.primaryName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'animal de compagnie',
-            language: config.aat.langfr,
+            language: `${config.env.dataApiBaseUrl}data/concept/french`,
           },
         ],
-        [config.aat.displayName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
           {
             content: 'Name with no language',
             language: '',
@@ -394,9 +394,16 @@ describe('EntityParser', () => {
             _content_html: '<span>Copyright licensing statement</span>',
             classified_as: [
               {
-                id: `${config.env.dataApiBaseUrl}data/concept/4030679e-c6e0-4e5e-b3c0-48ee1b8cfe60`,
+                id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
                 type: 'Type',
                 _label: 'Copyright Statement',
+                equivalent: [
+                  {
+                    id: config.aat.copyrightLicensingStatement,
+                    type: 'Type',
+                    _label: 'Copyright Statement',
+                  },
+                ],
               },
             ],
           },
@@ -459,10 +466,10 @@ describe('EntityParser', () => {
               '<span class="lux_data"><a href="https://artgallery.yale.edu/print-study-room">By appointment, Duffy Study Room</a></span>',
           },
         ],
-        'https://endpoint.yale.edu/data/text/classified-as-2': [
+        'https://endpoint.yale.edu/data/concept/classified-as-2': [
           {
             content: 'Note 2',
-            language: config.aat.langen,
+            language: `${config.env.dataApiBaseUrl}data/concept/language-1`,
             _content_html: undefined,
           },
         ],
@@ -522,6 +529,7 @@ describe('EntityParser', () => {
     it('returns array of identifier data', () => {
       const parser = new EntityParser(mockEntity)
       const identifiers = parser.getIdentifiers()
+      console.log(identifiers)
       expect(identifiers).toEqual([
         {
           label: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
@@ -587,9 +595,7 @@ describe('EntityParser', () => {
   describe('isClassifiedAs', () => {
     it('returns true', () => {
       const parser = new EntityParser(mockEntity)
-      const value = parser.isClassifiedAs(
-        `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
-      )
+      const value = parser.isClassifiedAs(config.aat.archive)
 
       expect(value).toBeTruthy()
     })

@@ -7,7 +7,6 @@ import {
   getIdentifiedByContent,
   isSpecimen,
   transformDate,
-  getClassifiedAsWithMatchingClassifier,
   getContentByClassifiedAs,
   getDateContent,
   getLabelBasedOnEntityType,
@@ -111,12 +110,19 @@ describe('helper functions', () => {
     it('returns array of ids', () => {
       const mockClassifiers: Array<IEntity> = [
         {
-          type: 'test',
+          type: 'Type',
           id: `${config.env.dataApiBaseUrl}data/concept/662260fa-f882-4174-b720-0791e45f7dca`,
         },
         {
           type: 'test',
-          id: config.aat.first,
+          id: 'invlaid id',
+          equivalent: [
+            {
+              type: 'test',
+              id: config.aat.first,
+              _label: 'invalid',
+            },
+          ],
         },
         {
           type: 'test',
@@ -163,47 +169,6 @@ describe('helper functions', () => {
       ]
       const arr = getIdentifiedByContent(identifiedBy)
       expect(arr).toEqual(['some name', 'abcd1234'])
-    })
-  })
-
-  describe('getClassifiedAsWithMatchingClassifier', () => {
-    it('returns array of matching objects', () => {
-      const idToMatch = `${config.env.dataApiBaseUrl}data/concept/matching`
-      const entity = [
-        {
-          type: 'Name',
-          content: 'some name',
-          classified_as: [
-            {
-              id: idToMatch,
-              type: 'type',
-            },
-          ],
-        },
-        {
-          type: 'Identifier',
-          content: 'abcd1234',
-          classified_as: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/concept/not-matching`,
-              type: 'type',
-            },
-          ],
-        },
-      ]
-      const arr = getClassifiedAsWithMatchingClassifier(entity, idToMatch)
-      expect(arr).toEqual([
-        {
-          type: 'Name',
-          content: 'some name',
-          classified_as: [
-            {
-              id: idToMatch,
-              type: 'type',
-            },
-          ],
-        },
-      ])
     })
   })
 
@@ -482,10 +447,18 @@ describe('helper functions', () => {
 
   describe('validateClassifiedAsIdMatches', () => {
     it('returns true', () => {
-      const mockObject = {
-        id: config.aat.primaryName,
-        type: 'name',
-      }
+      const mockObject = [
+        {
+          id: 'testing',
+          type: 'name',
+          equivalent: [
+            {
+              id: config.aat.primaryName,
+              type: 'name',
+            },
+          ],
+        },
+      ]
       const classifierMatches = validateClassifiedAsIdMatches(
         mockObject,
         config.aat.primaryName,
@@ -494,10 +467,18 @@ describe('helper functions', () => {
     })
 
     it('returns false', () => {
-      const mockObject = {
-        id: config.aat.primaryName,
-        type: 'name',
-      }
+      const mockObject = [
+        {
+          id: 'testing',
+          type: 'name',
+          equivalent: [
+            {
+              id: config.aat.primaryName,
+              type: 'name',
+            },
+          ],
+        },
+      ]
       const classifierMatches = validateClassifiedAsIdMatches(
         mockObject,
         config.aat.displayName,
@@ -642,31 +623,33 @@ describe('helper functions', () => {
 
   describe('getMultipleSpecificReferredToBy', () => {
     it('returns data', () => {
+      const mockClassifiedAs = [
+        {
+          id: 'visitors',
+          type: 'Type',
+          _label: "Visitors' Statement",
+          equivalent: [
+            {
+              id: config.aat.visitors,
+              type: 'Type',
+              _label: "Visitors' Statement",
+            },
+          ],
+        },
+      ]
       const mockData = {
         referred_to_by: [
           {
             type: 'LinguisticObject',
             content: 'Plan Your Visit',
-            classified_as: [
-              {
-                id: config.aat.visitors,
-                type: 'Type',
-                _label: "Visitors' Statement",
-              },
-            ],
+            classified_as: mockClassifiedAs,
             _content_html:
               "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
           },
           {
             type: 'LinguisticObject',
             content: 'Plan Your Visit to the gallery',
-            classified_as: [
-              {
-                id: config.aat.visitors,
-                type: 'Type',
-                _label: "Visitors' Statement",
-              },
-            ],
+            classified_as: mockClassifiedAs,
             _content_html:
               "<a href='https://gallery.yale.edu/visit'>Plan Your Visit to the gallery</a>",
           },
