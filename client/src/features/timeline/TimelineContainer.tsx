@@ -40,23 +40,9 @@ const TimelineContainer: React.FC<{
   providedHalLinks: any
 }> = ({ searchTags, providedHalLinks }) => {
   const links = getHalLinks(searchTags, providedHalLinks)
-  // const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const timelineRef = useRef<HTMLDivElement>(null)
-  // const [display] = useState<'list' | 'graph'>('list')
 
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
-
-  // const setFullscreen = (): void => {
-  //   setIsFullscreen(!isFullscreen)
-  //   const elem = timelineRef.current
-  //   if (isFullscreen) {
-  //     document.exitFullscreen()
-  //   } else if (!isFullscreen) {
-  //     if (elem !== null && elem.requestFullscreen) {
-  //       elem.requestFullscreen()
-  //     }
-  //   }
-  // }
 
   if (isSuccess && data) {
     const transformedData = transformTimelineData(data)
@@ -72,44 +58,6 @@ const TimelineContainer: React.FC<{
             <Col xs={8}>
               <h2>Timeline of Related Objects/Works</h2>
             </Col>
-            {/* <Col xs={4} className="d-flex justify-content-end">
-              <div className="h-50">
-                <StyledDisplaySwitchButton
-                  onClick={() =>
-                    setDisplay(display === 'graph' ? 'list' : 'graph')
-                  }
-                  role="button"
-                  aria-label={`View the hierarchy ${
-                    display === 'graph' ? 'list' : 'graph'
-                  }`}
-                >
-                  <i
-                    className={`bi ${
-                      display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
-                    }`}
-                    style={{ fontSize: '1.5rem' }}
-                  />
-                </StyledDisplaySwitchButton>
-                <StyledDisplaySwitchButton
-                  onClick={() => setFullscreen()}
-                  role="button"
-                  aria-label={
-                    isFullscreen
-                      ? 'Minimize the viewport'
-                      : 'Expand to fullscreen'
-                  }
-                >
-                  <i
-                    className={`bi ${
-                      isFullscreen
-                        ? 'bi-fullscreen-exit'
-                        : 'bi-arrows-fullscreen'
-                    }`}
-                    style={{ fontSize: '1.5rem' }}
-                  />
-                </StyledDisplaySwitchButton>
-              </div>
-            </Col> */}
           </Row>
           <Row>
             <Col xs={12}>
@@ -118,14 +66,6 @@ const TimelineContainer: React.FC<{
                 transformedData={transformedData}
                 searchTags={searchTags}
               />
-              {/* {display === 'list' ? (
-              ) : (
-                <Graph
-                  timelineData={transformedData}
-                  searchTags={searchTags}
-                  sortedKeys={sortedKeys}
-                />
-              )} */}
             </Col>
           </Row>
         </StyledEntityPageSection>
