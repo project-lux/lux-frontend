@@ -54,7 +54,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       dispatch(updateCurrentSearchState({ value: 'advanced' }))
       urlParams.delete('sq')
       navigate(`${pathname}?${urlParams.toString()}`, {
-        state: { targetName: 'Results Page Switch to Advanced Search' },
+        state: { targetName: 'Results Page' },
       })
       return
     }
@@ -70,7 +70,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
         urlParams.delete('sq')
         urlParams.set('q', noScopeJSON)
         navigate(`${pathname}?${urlParams.toString()}`, {
-          state: { targetName: 'Results Page Switch to Advanced Search' },
+          state: { targetName: 'Results Page' },
         })
       },
       onError: () => setIsError(true),

@@ -91,7 +91,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         search: `?${queryString.toString()}`,
       },
       {
-        state: { targetName: `Results Page Switch to ${selectedView} View` },
+        state: { targetName: `Results Page ${selectedView} View` },
       },
     )
   }
