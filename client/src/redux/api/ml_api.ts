@@ -12,7 +12,7 @@ import IEntity from '../../types/data/IEntity'
 import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
-import { getTimelines } from '../../lib/util/timelineHelper'
+import { getTimelines } from '../../lib/util/fetchTimeline'
 // import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { IEstimateItems } from '../../types/ISearchEstimates'
@@ -92,21 +92,6 @@ export const mlApi: any = createApi({
         }
         return {
           url: `${halLink}${pageParam}`,
-          method: 'GET',
-        }
-      },
-    }),
-    // Returns ISearchResults type
-    getFacetedRelationship: builder.query<
-      ISearchResults,
-      {
-        uri: string
-      }
-    >({
-      query: (queryParams) => {
-        const halLink = replaceBaseUrl(queryParams.uri)
-        return {
-          url: halLink,
           method: 'GET',
         }
       },
@@ -208,7 +193,6 @@ export const {
   useGetItemsQuery,
   useGetNameQuery,
   useGetSearchRelationshipQuery,
-  useGetFacetedRelationshipQuery,
   useGetTimelineQuery,
   // useGetMultipleRelationshipsQuery,
   useGetCollectionQuery,
