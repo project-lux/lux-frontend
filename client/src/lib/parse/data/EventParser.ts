@@ -136,7 +136,9 @@ export default class EventParser extends EntityParser {
         }
 
         if (classifiedAs !== undefined) {
-          if (validateClassifiedAsIdMatches(classifiedAs, config.aat.webPage)) {
+          if (
+            validateClassifiedAsIdMatches(classifiedAs, [config.aat.webPage])
+          ) {
             for (const p of accessPoint) {
               links.push({ content, link: p.id })
             }

@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import config from '../../../config/config'
 import {
   collectionsIcon,
@@ -397,7 +399,22 @@ export default class EntityParser {
 
     referredToBy.map((el: IEntity) => {
       let label
+
+      // check if note is classified as copyright statement or visitors
+      // do not parse the entity and return null as they should not be displayed with notes
+      if (!isUndefined(el.classified_as)) {
+        if (
+          validateClassifiedAsIdMatches(el.classified_as, [
+            config.aat.copyrightLicensingStatement,
+            config.aat.visitors,
+          ])
+        ) {
+          return null
+        }
+      }
+
       const nestedElement = new EntityParser(el)
+      // get languages
       const isEnglish = nestedElement.isInLanguage(config.aat.langen)
       const languages = forceArray(el.language)
       const language = languages.length > 0 ? languages[0].id : ''
@@ -411,11 +428,7 @@ export default class EntityParser {
       // If the label is undefined, set it to the value of /classified_as/id
       if (label === undefined) {
         const nestedClassifiedAs = forceArray(el.classified_as)
-        // Filter out copyright licensing and visitors
-        const labelClassifications = getClassifiedAs(nestedClassifiedAs, [
-          config.aat.copyrightLicensingStatement,
-          config.aat.visitors,
-        ])
+        const labelClassifications = getClassifiedAs(nestedClassifiedAs)
         label =
           labelClassifications.length > 0
             ? labelClassifications[0]
@@ -532,7 +545,9 @@ export default class EntityParser {
         }
 
         if (classifiedAs !== undefined) {
-          if (validateClassifiedAsIdMatches(classifiedAs, config.aat.webPage)) {
+          if (
+            validateClassifiedAsIdMatches(classifiedAs, [config.aat.webPage])
+          ) {
             for (const p of accessPoint) {
               links.push({ contentIdentifier, link: p.id })
             }
@@ -587,13 +602,27 @@ export default class EntityParser {
     const identifiedBy = forceArray(this.json.identified_by)
 
     const identifiers = identifiedBy
-      .filter((identifier) => identifier.type === 'Identifier')
+      .filter((identifier) => {
+        if (identifier.type === 'Identifier') {
+          if (identifier.classified_as) {
+            for (const cl of identifier.classified_as) {
+              const nestedEntity = new EntityParser(cl)
+              console.log(nestedEntity)
+              console.log(nestedEntity.getEquivalent())
+              if (
+                !nestedEntity.getEquivalent().includes(config.aat.sortValue)
+              ) {
+                return identifier
+              }
+            }
+          }
+          return identifier
+        }
+        return null
+      })
       .map((identifier) => {
         const classifiedAs = forceArray(identifier.classified_as)
-        const ids =
-          classifiedAs.length > 0
-            ? getClassifiedAs(classifiedAs, [config.aat.sortValue])
-            : []
+        const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : []
         const attributedBy = forceArray(identifier.attributed_by)
         const assignedBy = forceArray(identifier.assigned_by)
         const agent = [

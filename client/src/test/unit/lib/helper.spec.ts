@@ -459,10 +459,9 @@ describe('helper functions', () => {
           ],
         },
       ]
-      const classifierMatches = validateClassifiedAsIdMatches(
-        mockObject,
+      const classifierMatches = validateClassifiedAsIdMatches(mockObject, [
         config.aat.primaryName,
-      )
+      ])
       expect(classifierMatches).toBeTruthy()
     })
 
@@ -479,10 +478,9 @@ describe('helper functions', () => {
           ],
         },
       ]
-      const classifierMatches = validateClassifiedAsIdMatches(
-        mockObject,
+      const classifierMatches = validateClassifiedAsIdMatches(mockObject, [
         config.aat.displayName,
-      )
+      ])
       expect(classifierMatches).toBeFalsy()
     })
   })

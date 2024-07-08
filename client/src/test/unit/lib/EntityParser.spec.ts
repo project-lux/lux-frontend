@@ -454,7 +454,7 @@ describe('EntityParser', () => {
   })
 
   describe('getNotes', () => {
-    it('returns notes without copyright statement', () => {
+    it('returns notes with filtered notes', () => {
       const element = new EntityParser(mockEntity)
       const notes = element.getNotes()
       expect(notes).toEqual({
@@ -529,7 +529,6 @@ describe('EntityParser', () => {
     it('returns array of identifier data', () => {
       const parser = new EntityParser(mockEntity)
       const identifiers = parser.getIdentifiers()
-      console.log(identifiers)
       expect(identifiers).toEqual([
         {
           label: `${config.env.dataApiBaseUrl}data/concept/classified-as`,

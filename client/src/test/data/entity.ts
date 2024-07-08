@@ -272,11 +272,18 @@ export const entity: IEntity = {
       id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
       type: 'LinguisticObject',
       content: 'Copyright licensing statement',
-      equivalent: [
+      classified_as: [
         {
-          id: config.aat.copyrightLicensingStatement,
+          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-citations`,
           type: 'Type',
-          _label: 'Copyright Statement',
+          _label: 'Citations',
+          equivalent: [
+            {
+              id: config.aat.copyrightLicensingStatement,
+              type: 'Type',
+              _label: 'Citations',
+            },
+          ],
         },
       ],
     },
@@ -284,11 +291,18 @@ export const entity: IEntity = {
       id: `${config.env.dataApiBaseUrl}data/concept/visitors`,
       type: 'LinguisticObject',
       content: 'visitors',
-      equivalent: [
+      classified_as: [
         {
-          id: config.aat.visitors,
+          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-visitors`,
           type: 'Type',
-          _label: 'visitors',
+          _label: 'Visitors',
+          equivalent: [
+            {
+              id: config.aat.visitors,
+              type: 'Type',
+              _label: 'visitors',
+            },
+          ],
         },
       ],
     },

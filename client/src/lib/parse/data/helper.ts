@@ -139,9 +139,8 @@ export const getClassifiedAs = (
 }
 
 /**
- * Parses the data from /classified_as and returns all uuids from the nested objects
- * This function is used for non /classified_as properties with Array<IEntity> types as well
- * @param {Array<IEntity>} classifications the array of objects from a /classified_as property
+ * Parses the data from /equivalent and returns all uuids from the nested objects
+ * @param {Array<IEntity>} data the entity or array of entities
  * @returns {Array<string>}
  */
 export const getEquivalentObject = (
@@ -429,20 +428,20 @@ export function transformYear(date: string): string {
 }
 
 /**
- * Returns whether the object's /classified_as/id matches the classifier being requested
+ * Returns whether the object's /classified_as/equivalent/id matches the classifier being requested
  * @param {Array<IEntity>} entities the array of objects to validate
- * @param {string} requestedAat the AAT to compare the object's equivalents IDs against
+ * @param {Array<string>} requestedAats the AATs to compare the object's equivalents IDs against
  * @returns {boolean}
  */
 export const validateClassifiedAsIdMatches = (
   entities: Array<IEntity>,
-  requestedAat: string,
+  requestedAat: Array<string>,
 ): boolean => {
   const classifications = forceArray(entities)
   for (const cl of classifications) {
     if (cl.hasOwnProperty('equivalent')) {
       for (const eq of cl.equivalent) {
-        if (eq.id === requestedAat) {
+        if (requestedAat.includes(eq.id)) {
           return true
         }
       }

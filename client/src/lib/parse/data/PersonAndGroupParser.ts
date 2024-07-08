@@ -284,10 +284,9 @@ export default class PersonAndGroupParser extends EntityParser {
     for (const cl of classifiedAs) {
       if (cl.hasOwnProperty('classified_as')) {
         if (
-          validateClassifiedAsIdMatches(
-            cl.classified_as,
+          validateClassifiedAsIdMatches(cl.classified_as, [
             config.aat.nationality,
-          )
+          ])
         ) {
           nationalities.push(cl)
         }
@@ -311,7 +310,9 @@ export default class PersonAndGroupParser extends EntityParser {
     for (const cl of classifiedAs) {
       if (cl.hasOwnProperty('classified_as')) {
         if (
-          validateClassifiedAsIdMatches(cl.classified_as, config.aat.occupation)
+          validateClassifiedAsIdMatches(cl.classified_as, [
+            config.aat.occupation,
+          ])
         ) {
           occupations.push(cl)
         }
