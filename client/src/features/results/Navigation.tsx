@@ -173,7 +173,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                     }`
                   }
                   state={{
-                    targetName: `${tabToLinkLabel[key]} Results Page`,
+                    targetName: `Results Page ${tabToLinkLabel[key]}`,
                   }}
                   onClick={() => {
                     pushClientEvent(
