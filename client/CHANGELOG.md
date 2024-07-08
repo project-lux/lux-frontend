@@ -34,6 +34,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed issue with Site Improve events ([#222](https://github.com/project-lux/lux-frontend/issues/222)).
+
 ## v1.29.2 - 2024-6-24
 
 ### Removed
@@ -67,8 +69,6 @@ All notable changes to this project will be documented in this file.
 - Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
 
 ### Fixed
-
-- Fixed issue with Site Improve events ([#222](https://github.com/project-lux/lux-frontend/issues/222)).
 
 ## v1.28.0 - 2024-6-10
 
