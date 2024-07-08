@@ -23,7 +23,7 @@ export interface IOrderedItems {
   name?: string
 }
 
-interface IPartOf {
+export interface IPartOf {
   id: string
   type: string
   label?: {
@@ -33,7 +33,7 @@ interface IPartOf {
     [key: string]: Array<string>
   }
   totalItems?: number
-  partOf?: Array<IPartOf>
+  partOf?: Array<IPartOf> | IPartOf
 }
 
 export interface ISearchResults {
@@ -45,5 +45,5 @@ export interface ISearchResults {
     id: string
     type: string
   }
-  partOf?: Array<IPartOf>
+  partOf?: Array<IPartOf> | IPartOf
 }

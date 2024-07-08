@@ -14,6 +14,9 @@ import { IEventInfo } from '../../types/derived-data/events'
 import ProductionEvent from '../common/ProductionEvent'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import { hasData } from '../../lib/parse/data/helper'
+import TextContainer from '../common/TextContainer'
+import TextValue from '../common/TextValue'
+import StyledHr from '../../styles/shared/Hr'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
@@ -32,6 +35,7 @@ const About: React.FC<IObject> = ({ data }) => {
   }
 
   const {
+    entityClass,
     types,
     titles,
     identifiers,
@@ -57,6 +61,10 @@ const About: React.FC<IObject> = ({ data }) => {
             <NamesContainer names={titles} showBreakline />
           </React.Fragment>
         )}
+        <TextContainer label="Object Class" textLabelClassName="col-md-3">
+          <TextValue values={[entityClass]} className="col-md-9" />
+          <StyledHr />
+        </TextContainer>
         {identifiers.length > 0 && (
           <IdentifiersContainer identifiers={identifiers} id="objects" />
         )}

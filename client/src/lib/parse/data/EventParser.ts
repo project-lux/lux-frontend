@@ -365,6 +365,7 @@ export default class EventParser extends EntityParser {
     > = {
       name: this.getPrimaryName(config.dc.langen),
       names: this.getNames(),
+      entityClass: this.getEntityClass(),
       agents,
       dates: this.getDates(),
       types: this.getTypes(),

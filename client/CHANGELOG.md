@@ -2,11 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.29.1 - 2024-6-24
+## v1.30.0 - Unreleased
+
+### Added
+
+- Added Object Class to facets and advanced search ([#178](https://github.com/project-lux/lux-frontend/issues/178)).
+- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
+- Added Concept Class to facets and advanced search ([#176](https://github.com/project-lux/lux-frontend/issues/176)).
+- Added Event Class to facets and advanced search ([#175](https://github.com/project-lux/lux-frontend/issues/175)).
+
+### Changed
+
+- Changed Person or Group type label on agent entity pages ([#282](https://github.com/project-lux/lux-frontend/issues/282)).
+- Changed facets requests to support pagination ([#252](https://github.com/project-lux/lux-frontend/issues/252)).
+
+### Removed
+
+### Fixed
+
+## v1.29.2 - 2024-6-24
 
 ### Removed
 
 - Removed workShownBy HAL link config ([#277](https://github.com/project-lux/lux-frontend/issues/277)).
+
+## v1.29.1 - 2024-6-24
+
+### Added
+
+- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
+
+### Changed
+
+- Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
 
 ## v1.29.1 - 2024-6-24
 

@@ -7,8 +7,6 @@ import {
   relatedAccordions,
   relatedObjectsAndWorks,
   timelines,
-  // itemAndWorkTypes,
-  // locations,
 } from '../../config/personAndGroupSearchTags'
 import { ErrorFallback } from '../error/ErrorFallback'
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
@@ -20,10 +18,7 @@ import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import ImageThumbnail from '../common/ImageThumbnail'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
-// import Locations from '../common/Locations'
-// import TimelineContainers from '../common/TimelineContainers'
-// import WhatWeHave from '../common/WhatWeHave'
-import TimelineContainers from '../common/TimelineContainers'
+import TimelineContainer from '../timeline/TimelineContainer'
 
 import About from './About'
 
@@ -64,15 +59,11 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <TimelineContainers
+            <TimelineContainer
               searchTags={timelines}
               providedHalLinks={agent.json._links}
             />
           </ErrorBoundary>
-
-          {/* {Object.keys(data._links).includes(locations.searchTag) && (
-                <Locations halLink={data._links[locations.searchTag]} />
-              )} */}
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <AccordionContainer
               searchTags={relatedAccordions}
@@ -90,10 +81,6 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
                   </div>
                 )}
                 <About data={data} />
-                {/* <WhatWeHave
-                    configuredHalLinks={itemAndWorkTypes}
-                    providedHalLinks={person.json._links}
-                  /> */}
               </Col>
             </StyledEntityPageSection>
             <Row>

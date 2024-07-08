@@ -8,18 +8,20 @@ import TextLabel from './TextLabel'
 interface IContainer {
   label?: string | undefined
   additionalClassName?: string
+  textLabelClassName?: string
 }
 
 const TextContainer: React.FC<IContainer> = ({
   label,
   children,
   additionalClassName = '',
+  textLabelClassName = 'col-12',
 }) => (
   <StyledDataRow
     className={`row ${additionalClassName}`}
     data-testid="text-container"
   >
-    <TextLabel label={label} className="col-12" />
+    <TextLabel label={label} className={textLabelClassName} />
     {children}
   </StyledDataRow>
 )

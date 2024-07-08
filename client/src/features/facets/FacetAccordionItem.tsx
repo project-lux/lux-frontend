@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { useAppSelector } from '../../app/hooks'
 import { booleanFacetNames, facetLabels } from '../../config/facets'
@@ -10,6 +10,8 @@ import {
   IOrderedItems,
   ISearchResults,
 } from '../../types/ISearchResults'
+import { IFacetsPagination } from '../../types/IFacets'
+import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import Checklist from './Checklist'
 import DateInput from './DateInput'
@@ -55,12 +57,20 @@ const FacetAccordionItem: React.FC<IProps> = ({
   selectedFacets,
   handleCallback,
 }) => {
+  const [page, setPage] = useState<number>(1)
+  const [facets, setFacets] = useState<IFacetsPagination>({
+    requests: {},
+    total: 0,
+    numberOfPages: 1,
+  })
   const combinedQuery = facetQuery ? { AND: [criteria, facetQuery] } : criteria
+
   const { data, isSuccess, isLoading } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
     facets: {},
     facetNames: facetName,
     tab,
+    page,
   })
 
   // get the facet state to determine the previously selected facet
@@ -69,14 +79,45 @@ const FacetAccordionItem: React.FC<IProps> = ({
   )
   let isFacetOpen = facetName === facetsState.lastSelectedFacetName
 
+  useEffect(() => {
+    if (isSuccess && data) {
+      let totalResults = 0
+      const children: Array<IOrderedItems> = []
+      totalResults += getEstimates(data as ISearchResults)
+
+      const { orderedItems, id } = data as ISearchResults
+      for (const item of orderedItems) {
+        children.push(item)
+      }
+
+      const requestProperty = `call${page}`
+      if (
+        !facets.requests.hasOwnProperty(requestProperty) &&
+        id.includes(`page=${page}`)
+      ) {
+        setFacets({
+          requests: {
+            ...facets.requests,
+            [requestProperty]: filterFacetValues(children, facetName),
+          },
+          total: totalResults,
+          numberOfPages: Math.ceil(totalResults / 20),
+        })
+      }
+    }
+  }, [data, facetName, facets, isSuccess, page])
+
+  if (isLoading) {
+    return <p className="px-2 py-1">Loading facet...</p>
+  }
+
   if (isSuccess && data) {
     const { orderedItems } = data as ISearchResults
-    const facetsToShow =
-      orderedItems !== null && orderedItems.length > 0
-        ? filterFacetValues(orderedItems, facetName)
-        : []
-
-    if (facetsToShow.length > 0) {
+    if (
+      orderedItems &&
+      orderedItems.length > 0 &&
+      Object.keys(facets.requests).length > 0
+    ) {
       return (
         <div key={`${tab}-${facetName}`} className="accordion-item">
           <p className="accordion-header" id={`heading-${index}`}>
@@ -111,21 +152,29 @@ const FacetAccordionItem: React.FC<IProps> = ({
             <div className="accordion-body">
               {facetName.includes('Date') ? (
                 <DateInput
+                  combinedQuery={combinedQuery}
                   criteria={criteria}
-                  facetValues={facetsToShow}
+                  facetValues={facets}
                   facetSection={facetName}
                   facetQuery={facetQuery}
                   scope={scope}
+                  currentTab={tab}
+                  facetName={facetName}
+                  lastPage={facets.numberOfPages}
                   autoFocus={facetName === facetsState.lastSelectedFacetName}
                 />
               ) : (
                 <Checklist
                   criteria={criteria}
-                  facetValues={facetsToShow}
+                  facetValues={facets}
                   facetSection={facetName}
                   facetQuery={facetQuery}
                   scope={scope}
                   selectedFacets={selectedFacets}
+                  page={page}
+                  lastPage={facets.numberOfPages}
+                  setPage={setPage}
+                  setFacets={setFacets}
                 />
               )}
             </div>
@@ -133,10 +182,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
         </div>
       )
     }
-  }
-
-  if (isLoading) {
-    return <p className="px-2 py-1">Loading facet...</p>
+    return null
   }
 
   handleCallback(facetName)

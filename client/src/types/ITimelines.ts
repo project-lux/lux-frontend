@@ -13,3 +13,10 @@ export interface IYear {
 export interface ITimelinesTransformed {
   [key: string]: IYear
 }
+
+export interface ITransformedData {
+  value: string | null
+  totalItems: number
+  searchTag: string
+  criteria: IAdvancedSearchState
+}
