@@ -1,8 +1,5 @@
 import config from '../../config/config'
-import { defaultConstants } from '../../config/dataConstants'
 import IObject from '../../types/data/IObject'
-
-const dc = defaultConstants(config.env.dataApiBaseUrl)
 
 // eslint-disable-next-line import/prefer-default-export
 export const physicalObject: IObject = {
@@ -151,9 +148,16 @@ export const physicalObject: IObject = {
       ],
       classified_as: [
         {
-          id: dc.typeOfPart,
+          id: `${config.env.dataApiBaseUrl}data/concept/dimension-classified-as-3`,
           type: 'Type',
           _label: 'width',
+          equivalent: [
+            {
+              id: config.aat.typeOfPart,
+              type: 'Type',
+              _label: 'width',
+            },
+          ],
         },
       ],
     },
@@ -368,14 +372,21 @@ export const physicalObject: IObject = {
       content: 'On view',
       classified_as: [
         {
-          id: config.aat.accessStatement,
+          id: `${config.env.dataApiBaseUrl}data/concept/access-statement`,
           type: 'Type',
           _label: 'Access Statement',
+          equivalent: [
+            {
+              id: config.aat.accessStatement,
+              type: 'Type',
+              _label: 'Access Statement',
+            },
+          ],
         },
       ],
       language: [
         {
-          id: config.aat.langen,
+          id: `${config.env.dataApiBaseUrl}data/concept/language`,
           type: 'Type',
           _label: 'Access Statement',
         },

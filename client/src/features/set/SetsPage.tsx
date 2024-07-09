@@ -44,8 +44,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
     return <CollectionPage data={data} />
   }
   const isArchive = setParser.isArchive()
-  const types = setParser.getTypes()
-  const [supertypeIcon, helperText] = setParser.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = setParser.getSupertypeIcon()
   const memberOf = setParser.getMemberOf()
   const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title

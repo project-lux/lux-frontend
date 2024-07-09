@@ -5,6 +5,7 @@ import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { IFacetsPagination } from '../../types/IFacets'
 import { useAppDispatch } from '../../app/hooks'
 import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
+import config from '../../config/config'
 
 import Checkbox from './Checkbox'
 
@@ -56,7 +57,7 @@ const Checklist: React.FC<IFacets> = ({
 
     Object.keys(facetValues.requests).map((key) => {
       facetValues.requests[key].map((facet) => {
-        if (facet.value !== null && facet.value !== config.dc.collectionItem)
+        if (facet.value !== null && facet.value !== config.aat.collectionItem)
           facetListCombined.push(facet)
         return null
       })

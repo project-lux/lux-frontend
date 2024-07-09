@@ -5,9 +5,6 @@ import mockPhysicalObject from '../../data/object'
 import { digitalObject as mockDigitalObject } from '../../data/digitalObject'
 import config from '../../../config/config'
 import IObject from '../../../types/data/IObject'
-import { defaultConstants } from '../../../config/dataConstants'
-
-const dc = defaultConstants(config.env.dataApiBaseUrl)
 
 describe('ObjectParser', () => {
   describe('getCurrentLocation', () => {
@@ -167,7 +164,10 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const accessStatement = object.getAccessStatement()
       expect(accessStatement).toEqual([
-        { content: 'On view', language: config.aat.langen },
+        {
+          content: 'On view',
+          _content_html: undefined,
+        },
       ])
     })
   })
@@ -332,7 +332,7 @@ describe('ObjectParser', () => {
           unit: `${config.env.dataApiBaseUrl}data/concept/unit-2`,
         },
         {
-          label: dc.typeOfPart,
+          label: `${config.env.dataApiBaseUrl}data/concept/dimension-classified-as-3`,
           value: 100,
           unit: '',
         },

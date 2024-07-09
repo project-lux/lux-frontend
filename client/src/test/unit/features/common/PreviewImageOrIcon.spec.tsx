@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom'
 
 import { physicalObject as mockObject } from '../../../data/object'
 import PreviewImageOrIcon from '../../../../features/common/PreviewImageOrIcon'
-import config from '../../../../config/config'
 
 const mockImages = [
   {
@@ -17,11 +16,7 @@ describe('PreviewImageOrIcon', () => {
   it('renders', async () => {
     render(
       <BrowserRouter>
-        <PreviewImageOrIcon
-          images={mockImages}
-          entity={mockObject}
-          types={[`${config.env.dataApiBaseUrl}data/concept/classified-as-1`]}
-        />
+        <PreviewImageOrIcon images={mockImages} entity={mockObject} />
       </BrowserRouter>,
     )
 
@@ -32,11 +27,7 @@ describe('PreviewImageOrIcon', () => {
   it('renders the images thumbnail', async () => {
     render(
       <BrowserRouter>
-        <PreviewImageOrIcon
-          images={mockImages}
-          entity={mockObject}
-          types={[`${config.env.dataApiBaseUrl}data/concept/classified-as-1`]}
-        />
+        <PreviewImageOrIcon images={mockImages} entity={mockObject} />
       </BrowserRouter>,
     )
 
@@ -45,13 +36,7 @@ describe('PreviewImageOrIcon', () => {
   })
 
   it('renders the icon', async () => {
-    render(
-      <PreviewImageOrIcon
-        images={[]}
-        entity={mockObject}
-        types={[`${config.env.dataApiBaseUrl}data/concept/classified-as-1`]}
-      />,
-    )
+    render(<PreviewImageOrIcon images={[]} entity={mockObject} />)
 
     const icon = screen.getByTestId('entitiy-type-icon')
     expect(icon).toBeInTheDocument()

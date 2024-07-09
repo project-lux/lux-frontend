@@ -337,6 +337,7 @@ describe('EntityParser', () => {
       expect(types).toEqual([
         `${config.env.dataApiBaseUrl}data/concept/classified-as-1`,
         `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
+        `${config.env.dataApiBaseUrl}data/concept/classified-as-5`,
       ])
     })
   })
@@ -482,19 +483,19 @@ describe('EntityParser', () => {
       const element = new EntityParser({
         type: 'Person',
       })
-      const icons = element.getSupertypeIcon([])
+      const icons = element.getSupertypeIcon()
       expect(icons).toEqual(['people-orgs.svg', 'person and group'])
     })
 
     it('returns array with icon and alt text of specimen', () => {
-      const spy = jest
-        .spyOn(helperFunctions, 'isSpecimen')
-        .mockImplementation(() => true)
+      // const spy = jest
+      //   .spyOn(helperFunctions, 'isSpecimen')
+      //   .mockImplementation(() => true)
 
       const element = new EntityParser(mockEntity)
-      const icons = element.getSupertypeIcon(['specimen type uuid'])
+      const icons = element.getSupertypeIcon()
       expect(icons).toEqual(['specimens.svg', 'specimen'])
-      spy.mockRestore()
+      // spy.mockRestore()
     })
   })
 

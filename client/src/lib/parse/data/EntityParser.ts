@@ -329,9 +329,9 @@ export default class EntityParser {
 
   /**
    * Returns the copyright statement from /referred_to_by
-   * @returns {INoteContent | null}
+   * @returns {Array<INoteContent>}
    */
-  getCopyrightLicensingStatement(): INoteContent | null {
+  getCopyrightLicensingStatement(): Array<INoteContent> {
     return getSpecificReferredToBy(
       this.json,
       config.aat.copyrightLicensingStatement,
@@ -372,11 +372,11 @@ export default class EntityParser {
           imageRep.imageUrls.push(point.id)
         }
 
-        const copyrightStatement = new EntityParser(
+        const copyrightStatements = new EntityParser(
           digital,
         ).getCopyrightLicensingStatement()
         imageRep.attribution =
-          copyrightStatement !== null ? copyrightStatement.content : ''
+          copyrightStatements.length > 0 ? copyrightStatements[0].content : ''
         imageReps.push(imageRep)
       }
     }
@@ -399,6 +399,7 @@ export default class EntityParser {
 
     referredToBy.map((el: IEntity) => {
       let label
+      let equivalent
 
       // check if note is classified as copyright statement or visitors
       // do not parse the entity and return null as they should not be displayed with notes
@@ -407,6 +408,7 @@ export default class EntityParser {
           validateClassifiedAsIdMatches(el.classified_as, [
             config.aat.copyrightLicensingStatement,
             config.aat.visitors,
+            config.aat.accessStatement,
           ])
         ) {
           return null
@@ -426,13 +428,17 @@ export default class EntityParser {
       }
 
       // If the label is undefined, set it to the value of /classified_as/id
+      const nestedClassifiedAs = forceArray(el.classified_as)
       if (label === undefined) {
-        const nestedClassifiedAs = forceArray(el.classified_as)
         const labelClassifications = getClassifiedAs(nestedClassifiedAs)
         label =
           labelClassifications.length > 0
             ? labelClassifications[0]
             : 'Additional Notes'
+      }
+      for (const cl of nestedClassifiedAs) {
+        const nestedEntity = new EntityParser(cl)
+        equivalent = nestedEntity.getEquivalent()
       }
 
       const htmlContent = el._content_html
@@ -446,12 +452,14 @@ export default class EntityParser {
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             })
           } else {
             data[label].push({
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             })
           }
         } else {
@@ -460,6 +468,7 @@ export default class EntityParser {
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             },
           ]
         }
@@ -477,13 +486,27 @@ export default class EntityParser {
 
   /**
    * Returns the supertype icon to be displayed with the entity along with its alt text
-   * @param {Array<string>} types types to be parsed when the entity is a HumanMadeObject
    * @returns {Array<string>}
    */
-  getSupertypeIcon(types: Array<string>): Array<string> {
+  getSupertypeIcon(): Array<string> {
     const { type } = this.json
+
+    // get type AATs from /equivalent
+    const types: Array<string> = []
+    if (this.json.classified_as) {
+      const classifiedAs = forceArray(this.json.classified_as)
+      for (const cls of classifiedAs) {
+        if (cls.hasOwnProperty('equivalent')) {
+          for (const eq of cls.equivalent) {
+            types.push(eq.id)
+          }
+        }
+      }
+    }
+
     switch (type) {
       case 'HumanMadeObject':
+        // eslint-disable-next-line no-case-declarations
         if (types.some((typeIri) => isSpecimen(typeIri))) {
           return [specimensIcon, 'specimen']
         }
@@ -605,18 +628,17 @@ export default class EntityParser {
       .filter((identifier) => {
         if (identifier.type === 'Identifier') {
           if (identifier.classified_as) {
+            // filter identifiers that are classified as sorting identifiers
             for (const cl of identifier.classified_as) {
               const nestedEntity = new EntityParser(cl)
-              console.log(nestedEntity)
-              console.log(nestedEntity.getEquivalent())
-              if (
-                !nestedEntity.getEquivalent().includes(config.aat.sortValue)
-              ) {
+              const aats = nestedEntity.getEquivalent()
+              if (!aats.includes(config.aat.sortValue)) {
                 return identifier
               }
             }
+          } else {
+            return identifier
           }
-          return identifier
         }
         return null
       })

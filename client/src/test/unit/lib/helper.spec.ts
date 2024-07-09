@@ -32,6 +32,7 @@ import { entity as mockEntity } from '../../data/entity'
 import ILinks from '../../../types/data/ILinks'
 import { IHalLinks } from '../../../types/IHalLinks'
 import { IImages } from '../../../types/IImages'
+import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 describe('helper functions', () => {
   describe('capitalizeLabels', () => {
@@ -43,14 +44,21 @@ describe('helper functions', () => {
 
   describe('containsSpecificNote', () => {
     it('returns true', () => {
-      const notes = {
-        'https://endpoint.yale.edu/data/concept/1': [],
-        'https://endpoint.yale.edu/data/concept/2': [],
+      const mockAat = 'http://vocab.getty.edu/aat/300133046'
+      const notes: IContentWithLanguage = {
+        'https://endpoint.yale.edu/data/concept/1': [
+          {
+            content: 'test 1',
+          },
+        ],
+        'https://endpoint.yale.edu/data/concept/2': [
+          {
+            content: 'test 2',
+            equivalent: [mockAat],
+          },
+        ],
       }
-      const hasNote = containsSpecificNote(
-        notes,
-        'https://endpoint.yale.edu/data/concept/2',
-      )
+      const hasNote = containsSpecificNote(notes, mockAat)
       expect(hasNote).toBeTruthy()
     })
 

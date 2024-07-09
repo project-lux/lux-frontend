@@ -32,7 +32,6 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
   if (isSuccess && data) {
     const person = new PersonAndGroupParser(data)
     const primaryName = person.getPrimaryName(config.aat.langen)
-    const types = person.getTypes()
     let startDate = ''
     let endDate = ''
 
@@ -74,7 +73,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
         <React.Fragment>
           <div className="m-2 d-flex">
             <div className="flex-shrink-0">
-              <PreviewImageOrIcon images={images} entity={data} types={types} />
+              <PreviewImageOrIcon images={images} entity={data} />
             </div>
             <div className="flex-grow-1 ms-3">
               <StyledSnippetTitle
@@ -139,7 +138,6 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               <PreviewImageOrIcon
                 images={images}
                 entity={data}
-                types={types}
                 className="card-img-top py-0"
                 width="auto"
                 height="auto"
@@ -148,7 +146,6 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               <PreviewImageOrIcon
                 images={images}
                 entity={data}
-                types={types}
                 className="card-img-top"
                 height="152px"
                 width="auto"

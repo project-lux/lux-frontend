@@ -35,7 +35,7 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
       <React.Fragment>
         <div className="m-2 d-flex">
           <div className="flex-shrink-0">
-            <PreviewImageOrIcon images={[]} entity={data} types={types} />
+            <PreviewImageOrIcon images={[]} entity={data} />
           </div>
           <div className="flex-grow-1 ms-3">
             <StyledSnippetTitle

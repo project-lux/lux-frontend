@@ -37,8 +37,7 @@ import AboutPanel from './AboutPanel'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PlacePage: React.FC<{ data: any }> = ({ data }) => {
   const place = new EntityParser(data)
-  const types = place.getTypes()
-  const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = place.getSupertypeIcon()
   const images = place.getImages()
 
   const mapConfig = {

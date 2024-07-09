@@ -213,6 +213,18 @@ export const entity: IEntity = {
       type: 'Language',
       _label: 'spanish',
     },
+    {
+      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-5`,
+      type: 'Type',
+      _label: 'specimen',
+      equivalent: [
+        {
+          id: config.aat.animalSpecimens,
+          type: 'Type',
+          _label: 'specimen',
+        },
+      ],
+    },
   ],
   referred_to_by: [
     {

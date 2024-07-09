@@ -62,7 +62,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                 </Link>
               </StyledImageContainer>
             ) : (
-              <PreviewImageOrIcon images={[]} entity={data} types={types} />
+              <PreviewImageOrIcon images={[]} entity={data} />
             )}
           </div>
           <div className="flex-grow-1 ms-3">

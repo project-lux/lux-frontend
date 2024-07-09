@@ -44,19 +44,23 @@ export const capitalizeLabels = (text: string): string => {
 /**
  * Determines if notes array contains a specific note type
  * @param {IContentWithLanguage | null} notes Note content
- * @param {string} identifer Identifier to compare to each note to determine if it exists in notes
+ * @param {string} identifier Identifier to compare to each note to determine if it exists in notes
  * @returns {boolean}
  */
 export const containsSpecificNote = (
   notes: IContentWithLanguage | null,
-  identifer: string,
+  identifier: string,
 ): boolean => {
   if (notes === null) {
     return false
   }
 
-  if (Object.keys(notes).includes(identifer)) {
-    return true
+  for (const key of Object.keys(notes)) {
+    for (const obj of notes[key]) {
+      if (!isUndefined(obj.equivalent) && obj.equivalent.includes(identifier)) {
+        return true
+      }
+    }
   }
 
   return false
@@ -543,32 +547,62 @@ export const getWikidataImage = (images: Array<IImages>): string | null => {
 }
 
 /**
- * Returns a specific data point in /referred_to_by based on its /classified_as/id
+ * Returns a specific data point in /referred_to_by based on its AAT
  * @param {Record<string, any>} data object containing data about the entity
  * @returns {Record<string, any> | null}
  */
 export const getSpecificReferredToBy = (
   data: Record<string, any>,
   comparator: string,
-): INoteContent | null => {
+): Array<INoteContent> => {
   const referredToBy = forceArray(data.referred_to_by)
 
+  const notes = []
   for (const ref of referredToBy) {
     const classifiedAs = forceArray(ref.classified_as)
     for (const cls of classifiedAs) {
       if (cls.hasOwnProperty('equivalent')) {
         for (const eq of cls.equivalent) {
           if (eq.id === comparator) {
-            return {
+            notes.push({
               content: ref.content || '',
               _content_html: ref._content_html,
-            }
+            })
           }
         }
       }
     }
   }
-  return null
+  return notes
+}
+
+/**
+ * Returns a specific data point in /identified_by based on its AAT
+ * @param {Record<string, any>} data object containing data about the entity
+ * @returns {Record<string, any> | null}
+ */
+export const getSpecificIdentifiedBy = (
+  data: Record<string, any>,
+  comparator: string,
+): Array<INoteContent> => {
+  const identifiedBy = forceArray(data.identified_by)
+
+  const notes = []
+  for (const id of identifiedBy) {
+    const classifiedAs = forceArray(id.classified_as)
+    for (const cls of classifiedAs) {
+      if (cls.hasOwnProperty('equivalent')) {
+        for (const eq of cls.equivalent) {
+          if (eq.id === comparator) {
+            notes.push({
+              content: id.content || '',
+            })
+          }
+        }
+      }
+    }
+  }
+  return notes
 }
 
 /**
