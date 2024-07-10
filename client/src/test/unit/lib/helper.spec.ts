@@ -182,15 +182,23 @@ describe('helper functions', () => {
 
   describe('getContentByClassifiedAs', () => {
     it('returns array of matching objects', () => {
-      const idToMatch = `${config.env.dataApiBaseUrl}data/concept/matching`
+      const mockEquivalentId = config.aat.imprintStatement
       const entity = [
         {
           type: 'Name',
           content: 'some name',
           classified_as: [
             {
-              id: idToMatch,
+              id: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
               type: 'type',
+              _label: 'test',
+              equivalent: [
+                {
+                  id: mockEquivalentId,
+                  type: 'type',
+                  _label: 'test',
+                },
+              ],
             },
           ],
         },
@@ -205,7 +213,7 @@ describe('helper functions', () => {
           ],
         },
       ]
-      const arr = getContentByClassifiedAs(entity, idToMatch)
+      const arr = getContentByClassifiedAs(entity, mockEquivalentId)
       expect(arr).toEqual(['some name'])
     })
   })
