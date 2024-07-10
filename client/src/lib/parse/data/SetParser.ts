@@ -50,10 +50,15 @@ export default class SetParser extends EntityParser {
    * @returns {boolean}
    */
   isArchive(): boolean {
-    const types = this.getTypes()
-    for (const type of types) {
-      if (type.includes(config.aat.archive)) {
-        return true
+    const classifiedAs = forceArray(this.json.classified_as)
+    for (const cl of classifiedAs) {
+      if (cl.hasOwnProperty('equivalent')) {
+        const equivalent = forceArray(cl.equivalent)
+        for (const eq of equivalent) {
+          if (eq.id === config.aat.archive) {
+            return true
+          }
+        }
       }
     }
 

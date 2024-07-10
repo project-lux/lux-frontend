@@ -15,9 +15,16 @@ export const archive: ISet = {
   ],
   classified_as: [
     {
-      id: config.aat.archive,
+      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-1`,
       type: 'Type',
       _label: 'Archive',
+      equivalent: [
+        {
+          id: config.aat.archive,
+          type: 'Type',
+          _label: 'Archive',
+        },
+      ],
       classified_as: [
         {
           id: `${config.env.dataApiBaseUrl}data/concept/type-of-work`,
