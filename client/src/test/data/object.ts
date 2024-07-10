@@ -1,6 +1,20 @@
 import config from '../../config/config'
 import IObject from '../../types/data/IObject'
 
+import {
+  accessStatement,
+  callNumber,
+  copyrightStatement,
+  dimensionStatement,
+  displayName,
+  englishLanguage,
+  exhibition,
+  primaryName,
+  typeOfPart,
+  visitors,
+  webPage,
+} from './helperObjects'
+
 // eslint-disable-next-line import/prefer-default-export
 export const physicalObject: IObject = {
   id: `${config.env.dataApiBaseUrl}data/object/mock-object`,
@@ -16,13 +30,7 @@ export const physicalObject: IObject = {
           id: '',
           type: 'Name',
           content: 'Online dataset',
-          classified_as: [
-            {
-              id: 'http://vocab.getty.edu/aat/300404669',
-              type: 'Type',
-              _label: 'Display Title',
-            },
-          ],
+          classified_as: displayName,
         },
       ],
     },
@@ -146,20 +154,7 @@ export const physicalObject: IObject = {
           ],
         },
       ],
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/dimension-classified-as-3`,
-          type: 'Type',
-          _label: 'width',
-          equivalent: [
-            {
-              id: config.aat.typeOfPart,
-              type: 'Type',
-              _label: 'width',
-            },
-          ],
-        },
-      ],
+      classified_as: typeOfPart,
     },
   ],
   encountered_by: [
@@ -213,42 +208,18 @@ export const physicalObject: IObject = {
     {
       type: 'Identifier',
       content: 'Mock Call Number',
-      classified_as: [
-        {
-          id: config.aat.callNumber,
-          type: 'Type',
-          _label: 'Call Number',
-        },
-      ],
+      classified_as: callNumber,
     },
     {
       type: 'Name',
       content: 'Mock Object',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       type: 'Name',
       content: 'Object that is mocked',
-      classified_as: [
-        {
-          id: config.aat.displayName,
-          type: 'Type',
-          _label: 'Primary',
-        },
-      ],
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
+      classified_as: displayName,
+      language: englishLanguage,
     },
   ],
   made_of: [
@@ -370,71 +341,28 @@ export const physicalObject: IObject = {
       id: '',
       type: 'LinguisticObject',
       content: 'On view',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/access-statement`,
-          type: 'Type',
-          _label: 'Access Statement',
-          equivalent: [
-            {
-              id: config.aat.accessStatement,
-              type: 'Type',
-              _label: 'Access Statement',
-            },
-          ],
-        },
-      ],
-      language: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/language`,
-          type: 'Type',
-          _label: 'Access Statement',
-        },
-      ],
+      classified_as: accessStatement,
+      language: englishLanguage,
     },
     {
       type: 'LinguisticObject',
       content: '36 15/16 × 14 1/4 × 2 in. (93.8 × 36.2 × 5.1 cm)',
-      classified_as: [
-        {
-          id: config.aat.dimensionStatement,
-          type: 'Type',
-          _label: 'Dimensions',
-        },
-      ],
+      classified_as: dimensionStatement,
     },
     {
       type: 'LinguisticObject',
       content: 'A Cool Exhibition',
-      classified_as: [
-        {
-          id: config.aat.exhibition,
-          type: 'Type',
-          _label: 'Dimensions',
-        },
-      ],
+      classified_as: exhibition,
     },
     {
       type: 'LinguisticObject',
       content: 'Mock Copyright Information',
-      classified_as: [
-        {
-          id: config.aat.copyrightLicensingStatement,
-          type: 'Type',
-          _label: 'Copyright',
-        },
-      ],
+      classified_as: copyrightStatement,
     },
     {
       type: 'LinguisticObject',
       content: 'Plan Your Visit',
-      classified_as: [
-        {
-          id: config.aat.visitors,
-          type: 'Type',
-          _label: "Visitors' Statement",
-        },
-      ],
+      classified_as: visitors,
       _content_html:
         "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
     },
@@ -462,13 +390,7 @@ export const physicalObject: IObject = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.aat.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },
@@ -514,13 +436,7 @@ export const physicalObject: IObject = {
             id: '',
             type: 'Name',
             content: '2009',
-            classified_as: [
-              {
-                id: 'https://endpoint.yale.edu/data/concept/display-title',
-                type: 'Type',
-                _label: 'Display Title',
-              },
-            ],
+            classified_as: displayName,
           },
         ],
         end_of_the_end: '2009-12-31T23:59:59',

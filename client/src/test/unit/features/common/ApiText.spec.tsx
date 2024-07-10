@@ -1,14 +1,26 @@
 import config from '../../../../config/config'
 import ApiText from '../../../../features/common/ApiText'
-import { useGetNameQuery } from '../../../../redux/api/ml_api'
+import { useGetItemQuery } from '../../../../redux/api/ml_api'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockLabel = 'Name'
 const mockPerson = reusableMinimalEntity('Mock Person')
+const mockEntity = {
+  id: 'test',
+  _label: 'test',
+  type: 'HumanMadeObject',
+  equivalent: [
+    {
+      id: config.aat.primaryName,
+      type: 'type',
+      label: 'test',
+    },
+  ],
+}
 const mockPathname = `${config.env.dataApiBaseUrl}view/person/mock-person`
 
 jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: jest.fn(),
+  useGetItemQuery: jest.fn(),
 }))
 
 jest.mock('react-router-dom', () => ({
@@ -26,8 +38,8 @@ jest.mock('../../../../lib/parse/data/helper', () => ({
 describe('ApiText', () => {
   describe('returns primary name', () => {
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
+      const getName = useGetItemQuery as jest.MockedFunction<
+        typeof useGetItemQuery
       >
       getName.mockReturnValueOnce({
         data: mockPerson,
@@ -46,19 +58,19 @@ describe('ApiText', () => {
 
   describe('returns primary name label', () => {
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
+      const getName = useGetItemQuery as jest.MockedFunction<
+        typeof useGetItemQuery
       >
       // the api call is skipped
       getName.mockReturnValueOnce({
         currentData: undefined,
-        data: undefined,
+        data: mockEntity,
         isError: false,
         isFetching: false,
         isLoading: false,
-        isSuccess: false,
-        isUninitialized: true,
-        status: 'uninitialized',
+        isSuccess: true,
+        isUninitialized: false,
+        status: 'fulfilled',
         refetch(): void {
           throw new Error('Function not implemented.')
         },
@@ -75,8 +87,8 @@ describe('ApiText', () => {
 
   describe('returns the value', () => {
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
+      const getName = useGetItemQuery as jest.MockedFunction<
+        typeof useGetItemQuery
       >
       // the api call is skipped
       // eslint-disable-next-line @typescript-eslint/no-explicit-any

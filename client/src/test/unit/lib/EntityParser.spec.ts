@@ -5,6 +5,12 @@ import EntityParser from '../../../lib/parse/data/EntityParser'
 import * as helperFunctions from '../../../lib/parse/data/helper'
 import IDigitalObject from '../../../types/data/IDigitalObject'
 import { entity as mockEntity } from '../../data/entity'
+import {
+  animalSpecimensId,
+  archivesId,
+  englishLanguageId,
+  frenchLanguageId,
+} from '../../data/helperObjects'
 import { physicalObject as mockObject } from '../../data/object'
 
 describe('EntityParser', () => {
@@ -50,11 +56,11 @@ describe('EntityParser', () => {
         [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'Mock Entity',
-            language: `${config.env.dataApiBaseUrl}data/concept/english`,
+            language: englishLanguageId,
           },
           {
             content: 'animal de compagnie',
-            language: `${config.env.dataApiBaseUrl}data/concept/french`,
+            language: frenchLanguageId,
           },
         ],
         [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
@@ -73,7 +79,7 @@ describe('EntityParser', () => {
         [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'animal de compagnie',
-            language: `${config.env.dataApiBaseUrl}data/concept/french`,
+            language: frenchLanguageId,
           },
         ],
         [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
@@ -336,8 +342,8 @@ describe('EntityParser', () => {
       const types = parser.getTypes()
       expect(types).toEqual([
         `${config.env.dataApiBaseUrl}data/concept/classified-as-1`,
-        `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
-        `${config.env.dataApiBaseUrl}data/concept/classified-as-5`,
+        archivesId,
+        animalSpecimensId,
       ])
     })
   })
@@ -379,10 +385,12 @@ describe('EntityParser', () => {
     it('returns the content with no html content', () => {
       const parser = new EntityParser(mockEntity)
       const types = parser.getCopyrightLicensingStatement()
-      expect(types).toEqual({
-        _content_html: undefined,
-        content: 'Copyright licensing statement',
-      })
+      expect(types).toEqual([
+        {
+          _content_html: undefined,
+          content: 'Copyright licensing statement',
+        },
+      ])
     })
 
     it('returns the html content if content is undefined', () => {
@@ -411,10 +419,12 @@ describe('EntityParser', () => {
         ],
       })
       const types = parser.getCopyrightLicensingStatement()
-      expect(types).toEqual({
-        _content_html: '<span>Copyright licensing statement</span>',
-        content: '',
-      })
+      expect(types).toEqual([
+        {
+          _content_html: '<span>Copyright licensing statement</span>',
+          content: '',
+        },
+      ])
     })
   })
 
@@ -463,6 +473,7 @@ describe('EntityParser', () => {
           {
             content: '',
             language: '',
+            equivalent: [],
             _content_html:
               '<span class="lux_data"><a href="https://artgallery.yale.edu/print-study-room">By appointment, Duffy Study Room</a></span>',
           },
@@ -470,8 +481,9 @@ describe('EntityParser', () => {
         'https://endpoint.yale.edu/data/concept/classified-as-2': [
           {
             content: 'Note 2',
-            language: `${config.env.dataApiBaseUrl}data/concept/language-1`,
+            language: englishLanguageId,
             _content_html: undefined,
+            equivalent: [],
           },
         ],
       })
@@ -537,6 +549,7 @@ describe('EntityParser', () => {
           carriedOutBy: [
             `${config.env.dataApiBaseUrl}data/group/carried-out-by-library`,
           ],
+          equivalent: [],
         },
       ])
     })
@@ -553,6 +566,7 @@ describe('EntityParser', () => {
           carriedOutBy: [
             `${config.env.dataApiBaseUrl}data/group/carried-out-by-library`,
           ],
+          equivalent: [],
         },
       ])
     })
@@ -660,7 +674,7 @@ describe('EntityParser', () => {
 
     it('returns false', () => {
       const parser = new EntityParser(mockEntity)
-      const isLanguage = parser.isInLanguage(config.aat.langfr)
+      const isLanguage = parser.isInLanguage(config.aat.langdut)
 
       expect(isLanguage).toBeFalsy()
     })

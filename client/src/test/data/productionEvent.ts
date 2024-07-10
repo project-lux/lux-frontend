@@ -1,6 +1,8 @@
 import config from '../../config/config'
 import IEvent from '../../types/data/IEvent'
 
+import { displayName } from './helperObjects'
+
 export const productionEvent: IEvent = {
   id: `${config.env.dataApiBaseUrl}data/concept/used-for`,
   type: 'Production',
@@ -10,13 +12,7 @@ export const productionEvent: IEvent = {
       {
         type: 'Name',
         content: '1780–1800',
-        classified_as: [
-          {
-            id: config.aat.displayName,
-            type: 'Type',
-            _label: 'Display Date',
-          },
-        ],
+        classified_as: displayName,
       },
     ],
     end_of_the_end: '1800-12-31T00:00:00Z',

@@ -281,7 +281,10 @@ export default class ObjectParser extends EntityParser {
     const identifiers = this.getIdentifiers()
     if (identifiers.length > 0) {
       for (const identifier of identifiers) {
-        if (identifier.label === config.aat.callNumber) {
+        if (
+          !isUndefined(identifier.equivalent) &&
+          identifier.equivalent.includes(config.aat.callNumber)
+        ) {
           return identifier
         }
       }

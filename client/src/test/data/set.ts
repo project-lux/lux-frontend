@@ -2,6 +2,7 @@
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
+import { archives, primaryName } from './helperObjects'
 import { productionEvent as mockProductionEvent } from './productionEvent'
 
 export const set: ISet = {
@@ -21,11 +22,7 @@ export const set: ISet = {
       type: 'Type',
       _label: 'Archival and Manuscript Material',
     },
-    {
-      id: config.aat.archive,
-      type: 'Type',
-      _label: 'Archival and Manuscript Material',
-    },
+    ...archives,
   ],
   created_by: {
     id: '',
@@ -75,13 +72,7 @@ export const set: ISet = {
       id: '',
       type: 'Name',
       content: 'Mock Set',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   members_exemplified_by: [

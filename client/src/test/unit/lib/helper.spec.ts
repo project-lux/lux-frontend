@@ -33,6 +33,12 @@ import ILinks from '../../../types/data/ILinks'
 import { IHalLinks } from '../../../types/IHalLinks'
 import { IImages } from '../../../types/IImages'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
+import {
+  displayName,
+  englishLanguage,
+  primaryName,
+  visitors,
+} from '../../data/helperObjects'
 
 describe('helper functions', () => {
   describe('capitalizeLabels', () => {
@@ -293,20 +299,8 @@ describe('helper functions', () => {
         {
           type: 'Name',
           content: 'Alfred Stieglitz',
-          language: [
-            {
-              id: config.aat.langen,
-              type: 'Language',
-              _label: 'English',
-            },
-          ],
-          classified_as: [
-            {
-              id: config.aat.primaryName,
-              type: 'Type',
-              _label: 'Primary Name',
-            },
-          ],
+          language: englishLanguage,
+          classified_as: primaryName,
         },
       ]
       const name = getName(obj, config.aat.langen)
@@ -373,24 +367,12 @@ describe('helper functions', () => {
         {
           type: 'Name',
           content: 'Alfred Stieglitz',
-          language: [
-            {
-              id: config.aat.langen,
-              type: 'Language',
-              _label: 'English',
-            },
-          ],
+          language: englishLanguage,
         },
         {
           type: 'Name',
           content: 'Steiglitz, Alfred',
-          classified_as: [
-            {
-              id: config.aat.displayName,
-              type: 'Type',
-              _label: 'Display Name',
-            },
-          ],
+          classified_as: displayName,
         },
       ]
       const name = getName(obj, config.aat.langen)
@@ -608,30 +590,26 @@ describe('helper functions', () => {
           {
             type: 'LinguisticObject',
             content: 'Plan Your Visit',
-            classified_as: [
-              {
-                id: config.aat.visitors,
-                type: 'Type',
-                _label: "Visitors' Statement",
-              },
-            ],
+            classified_as: visitors,
             _content_html:
               "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
           },
         ],
       }
       const data = getSpecificReferredToBy(mockData, config.aat.visitors)
-      expect(data).toEqual({
-        content: 'Plan Your Visit',
-        _content_html:
-          "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
-      })
+      expect(data).toStrictEqual([
+        {
+          content: 'Plan Your Visit',
+          _content_html:
+            "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
+        },
+      ])
     })
 
-    it('returns null', () => {
+    it('returns empty array', () => {
       const mockData = {}
       const data = getSpecificReferredToBy(mockData, 'test')
-      expect(data).toBeNull()
+      expect(data.length).toEqual(0)
     })
   })
 

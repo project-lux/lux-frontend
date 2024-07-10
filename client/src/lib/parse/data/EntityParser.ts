@@ -621,6 +621,7 @@ export default class EntityParser {
     label: string
     identifier: Array<string>
     carriedOutBy: Array<string>
+    equivalent: Array<string>
   }> {
     const identifiedBy = forceArray(this.json.identified_by)
 
@@ -644,7 +645,20 @@ export default class EntityParser {
       })
       .map((identifier) => {
         const classifiedAs = forceArray(identifier.classified_as)
+        // get equivalent ids
+        const equivalentObjects = classifiedAs
+          .map((cl) => {
+            if (cl.hasOwnProperty('equivalent')) {
+              const { equivalent } = cl
+              for (const eq of equivalent) {
+                return eq.id
+              }
+            }
+            return null
+          })
+          .filter((eq) => eq !== null)
         const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : []
+
         const attributedBy = forceArray(identifier.attributed_by)
         const assignedBy = forceArray(identifier.assigned_by)
         const agent = [
@@ -657,6 +671,7 @@ export default class EntityParser {
           label,
           identifier: identifier.content,
           carriedOutBy: agent,
+          equivalent: equivalentObjects,
         }
       })
 
@@ -664,6 +679,7 @@ export default class EntityParser {
       label: string
       identifier: Array<string>
       carriedOutBy: Array<string>
+      equivalent: Array<string>
     }> = []
 
     for (const identifier of identifiers) {

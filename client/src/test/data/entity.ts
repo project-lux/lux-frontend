@@ -2,6 +2,21 @@ import config from '../../config/config'
 import { unit } from '../../config/objectsSearchTags'
 import IEntity from '../../types/data/IEntity'
 
+import {
+  animalSpecimens,
+  archives,
+  collectionItem,
+  copyrightStatement,
+  descriptionStatement,
+  displayName,
+  englishLanguage,
+  frenchLanguage,
+  primaryName,
+  sortValue,
+  visitors,
+  webPage,
+} from './helperObjects'
+
 // eslint-disable-next-line import/prefer-default-export
 export const entity: IEntity = {
   id: `${config.env.dataApiBaseUrl}data/object/1`,
@@ -13,86 +28,21 @@ export const entity: IEntity = {
       id: '',
       type: 'Name',
       content: 'Mock Entity',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/primary-name`,
-          type: 'Type',
-          _label: 'Primary Name',
-          equivalent: [
-            {
-              id: config.aat.primaryName,
-              type: 'Type',
-              _label: 'Primary Name',
-            },
-          ],
-        },
-      ],
-      language: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/english`,
-          type: 'Language',
-          _label: 'eng',
-          equivalent: [
-            {
-              id: config.aat.langen,
-              type: 'Language',
-              _label: 'eng',
-            },
-          ],
-        },
-      ],
+      classified_as: primaryName,
+      language: englishLanguage,
     },
     {
       id: '',
       type: 'Name',
       content: 'animal de compagnie',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/primary-name`,
-          type: 'Type',
-          _label: 'Primary Name',
-          equivalent: [
-            {
-              id: config.aat.primaryName,
-              type: 'Type',
-              _label: 'Primary Name',
-            },
-          ],
-        },
-      ],
-      language: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/french`,
-          type: 'Language',
-          _label: 'french',
-          equivalent: [
-            {
-              id: config.aat.langfr,
-              type: 'Language',
-              _label: 'fr',
-            },
-          ],
-        },
-      ],
+      classified_as: primaryName,
+      language: frenchLanguage,
     },
     {
       id: '',
       type: 'Name',
       content: 'Name with no language',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/display-name`,
-          type: 'Type',
-          _label: 'Display Name',
-          equivalent: [
-            {
-              id: config.aat.displayName,
-              type: 'Type',
-              _label: 'Display Name',
-            },
-          ],
-        },
-      ],
+      classified_as: displayName,
     },
     {
       id: '',
@@ -115,13 +65,6 @@ export const entity: IEntity = {
           id: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
           type: 'Type',
           _label: 'System-Assigned Number',
-          equivalent: [
-            {
-              id: 'equivalent',
-              type: 'Type',
-              _label: 'Primary Name',
-            },
-          ],
         },
       ],
     },
@@ -141,20 +84,7 @@ export const entity: IEntity = {
           ],
         },
       ],
-      classified_as: [
-        {
-          id: 'for sorting',
-          type: 'Type',
-          _label: 'Sort value',
-          equivalent: [
-            {
-              id: config.aat.sortValue,
-              type: 'Type',
-              _label: 'Sort ID',
-            },
-          ],
-        },
-      ],
+      classified_as: sortValue,
     },
   ],
   part_of: [
@@ -185,46 +115,13 @@ export const entity: IEntity = {
       ],
     },
     {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
-      type: 'Type',
-      _label: 'paintings',
-      equivalent: [
-        {
-          id: config.aat.archive,
-          type: 'Type',
-          _label: 'archive',
-        },
-      ],
-    },
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-3`,
-      type: 'Type',
-      _label: 'collection item',
-      equivalent: [
-        {
-          id: config.aat.collectionItem,
-          type: 'Type',
-          _label: 'collection item',
-        },
-      ],
-    },
-    {
       id: `${config.env.dataApiBaseUrl}data/concept/classified-as-4`,
       type: 'Language',
       _label: 'spanish',
     },
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-5`,
-      type: 'Type',
-      _label: 'specimen',
-      equivalent: [
-        {
-          id: config.aat.animalSpecimens,
-          type: 'Type',
-          _label: 'specimen',
-        },
-      ],
-    },
+    ...archives,
+    ...collectionItem,
+    ...animalSpecimens,
   ],
   referred_to_by: [
     {
@@ -265,58 +162,19 @@ export const entity: IEntity = {
           _label: 'Not a Rights Statement',
         },
       ],
-      language: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/language-1`,
-          type: 'Language',
-          _label: 'English',
-          equivalent: [
-            {
-              id: config.aat.langen,
-              type: 'Language',
-              _label: 'English',
-            },
-          ],
-        },
-      ],
+      language: englishLanguage,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
       type: 'LinguisticObject',
       content: 'Copyright licensing statement',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-citations`,
-          type: 'Type',
-          _label: 'Citations',
-          equivalent: [
-            {
-              id: config.aat.copyrightLicensingStatement,
-              type: 'Type',
-              _label: 'Citations',
-            },
-          ],
-        },
-      ],
+      classified_as: copyrightStatement,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/visitors`,
       type: 'LinguisticObject',
       content: 'visitors',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-visitors`,
-          type: 'Type',
-          _label: 'Visitors',
-          equivalent: [
-            {
-              id: config.aat.visitors,
-              type: 'Type',
-              _label: 'visitors',
-            },
-          ],
-        },
-      ],
+      classified_as: visitors,
     },
   ],
   member_of: [
@@ -347,20 +205,7 @@ export const entity: IEntity = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: 'web page',
-              type: 'Type',
-              _label: 'Web Page',
-              equivalent: [
-                {
-                  id: config.aat.webPage,
-                  type: 'Type',
-                  _label: 'Web Page',
-                },
-              ],
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },
@@ -405,20 +250,7 @@ export const entity: IEntity = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: 'web page',
-              type: 'Type',
-              _label: 'Web Page',
-              equivalent: [
-                {
-                  id: config.aat.webPage,
-                  type: 'Type',
-                  _label: 'Web Page',
-                },
-              ],
-            },
-          ],
+          classified_as: webPage,
           identified_by: [
             {
               id: '',
@@ -549,68 +381,19 @@ export const entity: IEntity = {
             {
               type: 'LinguisticObject',
               content: 'Andy Warhol with Archie, his pet Dachshund',
-              classified_as: [
-                {
-                  id: 'http://vocab.getty.edu/aat/300435416',
-                  type: 'Type',
-                  _label: 'Description',
-                  classified_as: [
-                    {
-                      id: 'http://vocab.getty.edu/aat/300418049',
-                      type: 'Type',
-                      _label: 'Brief Text',
-                    },
-                  ],
-                },
-              ],
+              classified_as: descriptionStatement,
             },
             {
               type: 'LinguisticObject',
               content: 'by Jack Mitchell',
-              classified_as: [
-                {
-                  id: `${config.env.dataApiBaseUrl}data/concept/4030679e-c6e0-4e5e-b3c0-48ee1b8cfe60`,
-                  type: 'Type',
-                  _label: 'Copyright/License Statement',
-                  classified_as: [
-                    {
-                      id: 'http://vocab.getty.edu/aat/300418049',
-                      type: 'Type',
-                      _label: 'Brief Text',
-                    },
-                  ],
-                },
-              ],
+              classified_as: copyrightStatement,
             },
           ],
         },
       ],
     },
   ],
-  language: [
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/spanish`,
-      type: 'concept',
-      equivalent: [
-        {
-          id: config.aat.langspa,
-          type: 'concept',
-          _label: 'spanish',
-        },
-      ],
-    },
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/english`,
-      type: 'concept',
-      equivalent: [
-        {
-          id: config.aat.langen,
-          type: 'concept',
-          _label: 'english',
-        },
-      ],
-    },
-  ],
+  language: [...frenchLanguage, ...englishLanguage],
   _links: {
     curies: [
       {

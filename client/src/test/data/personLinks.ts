@@ -1,6 +1,8 @@
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 
+import { primaryName } from './helperObjects'
+
 export const personLinks: IEntity = {
   '@context': 'https://context',
   id: `${config.env.dataApiBaseUrl}data/person/mock-person`,
@@ -11,13 +13,7 @@ export const personLinks: IEntity = {
       id: '',
       type: 'Name',
       content: 'Mock Entity',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   _links: {

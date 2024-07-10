@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import config from '../../../config/config'
 import { IRelatedListEntryTransformed } from '../../../types/IRelatedLists'
 import { IBase } from '../../../types/ISearchEstimates'
 import { IOrderedItems } from '../../../types/ISearchResults'
@@ -18,7 +17,7 @@ export const transformRelatedListResults = (
     const scope = getScopeFromHalLink(id)
 
     // Only if the related entity is not an item
-    if (value !== undefined && value !== config.aat.collectionItem) {
+    if (value !== undefined) {
       if (!transformedData.hasOwnProperty(value)) {
         transformedData[value] = {}
       }

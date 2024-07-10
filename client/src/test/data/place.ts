@@ -1,6 +1,13 @@
 import config from '../../config/config'
 import IPlace from '../../types/data/IPlace'
 
+import {
+  descriptionStatement,
+  englishLanguage,
+  primaryName,
+  webPage,
+} from './helperObjects'
+
 export const place: IPlace = {
   id: `${config.env.dataApiBaseUrl}data/place/mock-place`,
   type: 'Place',
@@ -26,20 +33,8 @@ export const place: IPlace = {
     {
       type: 'Name',
       content: 'Pittsburgh',
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
   ],
   part_of: [
@@ -53,20 +48,8 @@ export const place: IPlace = {
     {
       type: 'LinguisticObject',
       content: 'Mock place notes content',
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/description-statement`,
-          type: 'Type',
-          _label: 'Description',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: descriptionStatement,
     },
   ],
   representation: [],
@@ -84,13 +67,7 @@ export const place: IPlace = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.aat.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },
@@ -125,20 +102,8 @@ export const placeParent: IPlace = {
     {
       type: 'Name',
       content: 'Pennsylvania',
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
   ],
 }

@@ -1,6 +1,8 @@
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 
+import { englishLanguage, primaryName } from './helperObjects'
+
 export const reusableMinimalEntity = (
   content: string,
   endpoint?: string,
@@ -13,20 +15,8 @@ export const reusableMinimalEntity = (
       id: '',
       type: 'Name',
       content,
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
   ],
 })

@@ -17,7 +17,7 @@ const mockNames = {
 const mockEntity = reusableMinimalEntity('Primary Name')
 
 jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: () => ({
+  useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,
   }),

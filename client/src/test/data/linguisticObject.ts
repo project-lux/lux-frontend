@@ -2,6 +2,12 @@
 import config from '../../config/config'
 import IObject from '../../types/data/IObject'
 
+import {
+  displayName,
+  imprintStatement,
+  languageStatement,
+  primaryName,
+} from './helperObjects'
 import { productionEventWithCarriedOutBy as mockProductionEvent } from './productionEvent'
 
 export const linguisticObject: IObject = {
@@ -167,25 +173,13 @@ export const linguisticObject: IObject = {
       id: '',
       type: 'Name',
       content: 'Mock Work',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       id: '',
       type: 'Name',
       content: 'Mock Work Display Name',
-      classified_as: [
-        {
-          id: config.aat.displayName,
-          type: 'Type',
-          _label: 'Display Name',
-        },
-      ],
+      classified_as: displayName,
     },
   ],
   language: [
@@ -238,25 +232,13 @@ export const linguisticObject: IObject = {
       id: '',
       type: 'LinguisticObject',
       content: 'This is in english',
-      classified_as: [
-        {
-          id: config.aat.languageStatement,
-          type: 'Type',
-          _label: 'Language Statement',
-        },
-      ],
+      classified_as: languageStatement,
     },
     {
       id: '',
       type: 'LinguisticObject',
       content: 'This is an imprint statement',
-      classified_as: [
-        {
-          id: config.aat.imprintStatement,
-          type: 'Type',
-          _label: 'Imprint',
-        },
-      ],
+      classified_as: imprintStatement,
     },
   ],
   represents: [

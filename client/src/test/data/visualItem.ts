@@ -1,6 +1,7 @@
 import config from '../../config/config'
 import IVisualItem from '../../types/data/IVisualItem'
 
+import { displayName, primaryName } from './helperObjects'
 import { productionEventWithCarriedOutBy as mockProductionEvent } from './productionEvent'
 
 export const visualItem: IVisualItem = {
@@ -56,24 +57,12 @@ export const visualItem: IVisualItem = {
     {
       type: 'Name',
       content: 'Mock Visual Item',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       type: 'Name',
       content: 'Mock Visual Item Name',
-      classified_as: [
-        {
-          id: config.aat.displayName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: displayName,
     },
   ],
   referred_to_by: [

@@ -2,6 +2,8 @@
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
+import { archives, displayName, primaryName } from './helperObjects'
+
 export const archive: ISet = {
   id: `${config.env.dataApiBaseUrl}data/set/mock-archive`,
   type: 'Set',
@@ -13,27 +15,7 @@ export const archive: ISet = {
       _label: 'Mock about 1',
     },
   ],
-  classified_as: [
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-1`,
-      type: 'Type',
-      _label: 'Archive',
-      equivalent: [
-        {
-          id: config.aat.archive,
-          type: 'Type',
-          _label: 'Archive',
-        },
-      ],
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/type-of-work`,
-          type: 'Type',
-          _label: 'Type of Work',
-        },
-      ],
-    },
-  ],
+  classified_as: archives,
   created_by: {
     id: '',
     type: 'Creation',
@@ -74,13 +56,7 @@ export const archive: ISet = {
               id: '',
               type: 'Name',
               content: '1623-1960',
-              classified_as: [
-                {
-                  id: `${config.env.dataApiBaseUrl}data/concept/display-title`,
-                  type: 'Type',
-                  _label: 'Display Title',
-                },
-              ],
+              classified_as: displayName,
             },
           ],
           end_of_the_end: '1960-12-31T23:59:59',
@@ -138,13 +114,7 @@ export const archive: ISet = {
       id: '',
       type: 'Name',
       content: 'Mock Archive',
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   referred_to_by: [

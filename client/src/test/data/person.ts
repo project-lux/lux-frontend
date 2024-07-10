@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config/config'
-import { defaultConstants } from '../../config/dataConstants'
 import IAgent from '../../types/data/IAgent'
 import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
 
-const dc = defaultConstants(`${config.env.dataApiBaseUrl}`)
+import {
+  copyrightStatement,
+  englishLanguage,
+  gender,
+  nationality,
+  occupation,
+  primaryName,
+  professionalActivity,
+  webPage,
+} from './helperObjects'
 
 export const person: IAgent = {
   '@context': 'https://context',
@@ -35,18 +43,7 @@ export const person: IAgent = {
       type: 'Activity',
       _label: 'Active Dates',
       classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/professional-activity`,
-          type: 'Type',
-          _label: 'Professional Activities',
-          equivalent: [
-            {
-              id: config.aat.active,
-              type: 'Type',
-              _label: 'Professional Activities',
-            },
-          ],
-        },
+        ...professionalActivity,
         {
           id: `${config.env.dataApiBaseUrl}data/concept/professional-activity-to-display`,
           type: 'Type',
@@ -84,78 +81,26 @@ export const person: IAgent = {
     {
       id: `${config.env.dataApiBaseUrl}data/concept/gender-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: dc.gender,
-          type: 'Type',
-          _label: 'gender',
-          equivalent: [
-            {
-              id: config.aat.gender,
-              type: 'Type',
-              _label: 'gender',
-            },
-          ],
-        },
-      ],
       _label: 'male',
+      classified_as: gender,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/nationality-label`,
-          type: 'Type',
-          _label: 'nationality',
-          equivalent: [
-            {
-              id: config.aat.nationality,
-              type: 'Type',
-              _label: 'nationality',
-            },
-          ],
-        },
-      ],
       _label: 'American',
+      classified_as: nationality,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
       type: 'Type',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/nationality-label`,
-          type: 'Type',
-          _label: 'nationality',
-          equivalent: [
-            {
-              id: config.aat.nationality,
-              type: 'Type',
-              _label: 'nationality',
-            },
-          ],
-        },
-      ],
       _label: 'German',
+      classified_as: nationality,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/occupation-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: 'occupation',
-          type: 'Type',
-          _label: 'Occupations',
-          equivalent: [
-            {
-              id: config.aat.occupation,
-              type: 'Type',
-              _label: 'occupation',
-            },
-          ],
-        },
-      ],
       _label: 'artist',
+      classified_as: occupation,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
@@ -186,20 +131,8 @@ export const person: IAgent = {
       id: '',
       type: 'Name',
       content: 'Mock Person',
-      language: [
-        {
-          id: config.aat.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.aat.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
     {
       id: '',
@@ -263,13 +196,7 @@ export const person: IAgent = {
             {
               type: 'LinguisticObject',
               content: 'Image attribution',
-              classified_as: [
-                {
-                  id: config.aat.copyrightLicensingStatement,
-                  type: 'Type',
-                  _label: 'Copyright/License Statement',
-                },
-              ],
+              classified_as: copyrightStatement,
             },
           ],
         },
@@ -296,13 +223,7 @@ export const person: IAgent = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.aat.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },

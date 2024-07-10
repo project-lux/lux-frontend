@@ -15,6 +15,7 @@ export function defaultAats(): IAat {
     animalSpecimens: 'http://vocab.getty.edu/aat/300420186',
     archive: 'http://vocab.getty.edu/aat/300375748',
     biologicalSpecimens: 'http://vocab.getty.edu/aat/300421897',
+    callNumber: 'http://vocab.getty.edu/aat/300311706',
     collection: 'http://vocab.getty.edu/aat/300025976',
     collectionItem: 'http://vocab.getty.edu/aat/300404024',
     copyrightLicensingStatement: 'http://vocab.getty.edu/aat/300435434',
