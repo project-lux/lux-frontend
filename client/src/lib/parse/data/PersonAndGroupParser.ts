@@ -251,13 +251,18 @@ export default class PersonAndGroupParser extends EntityParser {
         labelClassifications.length > 0
           ? labelClassifications[0]
           : 'Categorized As'
-
-      if (label === config.aat.gender) {
-        label = 'Gender'
-      }
-
-      if (label === config.aat.occupation) {
-        label = 'Occupation'
+      // check if AATs indicate the label should be overwritten
+      for (const cl of nestedClassifiedAs) {
+        if (cl.hasOwnProperty('equivalent')) {
+          const equivalent = forceArray(cl.equivalent)
+          for (const eq of equivalent) {
+            if (eq.id === config.aat.gender) {
+              label = 'Gender'
+            } else if (eq.id === config.aat.occupation) {
+              label = 'Occupation'
+            }
+          }
+        }
       }
 
       data.map((d) => {

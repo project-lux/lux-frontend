@@ -230,7 +230,7 @@ describe('PersonAndGroupParser', () => {
           'Categorized As': [
             `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
           ],
-          [config.aat.nationality]: [
+          [`${config.env.dataApiBaseUrl}data/concept/nationality-label`]: [
             `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
             `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
           ],

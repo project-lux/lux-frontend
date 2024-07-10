@@ -70,6 +70,13 @@ export const person: IAgent = {
           id: dc.gender,
           type: 'Type',
           _label: 'gender',
+          equivalent: [
+            {
+              id: config.aat.gender,
+              type: 'Type',
+              _label: 'gender',
+            },
+          ],
         },
       ],
       _label: 'male',
@@ -79,7 +86,7 @@ export const person: IAgent = {
       type: 'Type',
       classified_as: [
         {
-          id: 'nationality',
+          id: `${config.env.dataApiBaseUrl}data/concept/nationality-label`,
           type: 'Type',
           _label: 'nationality',
           equivalent: [
@@ -98,7 +105,7 @@ export const person: IAgent = {
       type: 'Type',
       classified_as: [
         {
-          id: 'nationality',
+          id: `${config.env.dataApiBaseUrl}data/concept/nationality-label`,
           type: 'Type',
           _label: 'nationality',
           equivalent: [
