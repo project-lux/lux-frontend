@@ -39,6 +39,25 @@ export const person: IAgent = {
           id: `${config.env.dataApiBaseUrl}data/concept/professional-activity`,
           type: 'Type',
           _label: 'Professional Activities',
+          equivalent: [
+            {
+              id: config.aat.active,
+              type: 'Type',
+              _label: 'Professional Activities',
+            },
+          ],
+        },
+        {
+          id: `${config.env.dataApiBaseUrl}data/concept/professional-activity-to-display`,
+          type: 'Type',
+          _label: 'Professional Activity',
+          equivalent: [
+            {
+              id: 'not the aat to filter',
+              type: 'Type',
+              _label: 'Professional Activities',
+            },
+          ],
         },
       ],
       timespan: {

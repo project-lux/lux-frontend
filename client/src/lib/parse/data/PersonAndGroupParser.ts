@@ -392,8 +392,21 @@ export default class PersonAndGroupParser extends EntityParser {
 
         if (carried.classified_as) {
           const classifiedAs = forceArray(carried.classified_as)
-          const ids = getClassifiedAs(classifiedAs)
-          const filteredTypes = ids.filter((id) => id !== config.aat.active)
+          const filteredTypes = classifiedAs
+            .filter((cl) => {
+              // Filter ids that contain the id corresponding with the label of "Professional Activity"
+              if (cl.hasOwnProperty('equivalent')) {
+                const equivalent = forceArray(cl.equivalent)
+                for (const eq of equivalent) {
+                  if (eq.id !== config.aat.active) {
+                    return cl.id
+                  }
+                }
+              }
+              return null
+            })
+            .filter((cl) => cl !== null)
+            .map((cl) => cl.id)
           type = filteredTypes.length > 0 ? filteredTypes[0] : ''
         }
 

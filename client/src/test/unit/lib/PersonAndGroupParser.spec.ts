@@ -246,7 +246,7 @@ describe('PersonAndGroupParser', () => {
       const carriedOut = person.getCarriedOut()
       expect(carriedOut).toEqual([
         {
-          type: `${config.env.dataApiBaseUrl}data/concept/professional-activity`,
+          type: `${config.env.dataApiBaseUrl}data/concept/professional-activity-to-display`,
           location: `${config.env.dataApiBaseUrl}data/place/activity-took-place-at-1`,
           dates: '2000-2010',
         },
