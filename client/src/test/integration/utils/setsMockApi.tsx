@@ -90,21 +90,6 @@ export default function setsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for display name
-  nock(apiUrl)
-    .get('/data/concept/5088ec29-065b-4c66-b49e-e61d3c8f3717?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Display Name')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  nock(apiUrl)
-    .get('/data/concept/03f4eb19-0611-4f31-8e09-fc111c52f898?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Note')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // mock api call for archive type
   nock(apiUrl)
     .get('/data/concept/24a671f3-e269-4ad9-9710-4796b8cc9478?profile=name')
@@ -140,6 +125,22 @@ export default function setsMockApi(): void {
   nock(apiUrl)
     .get('/data/group/mock-group?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Group')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // Mocks for the archive /identified_by/carried_out_by
+  nock(apiUrl)
+    .get('/data/group/carried-out-by?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Group')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // Mocks for the archive /identified_by/classified_as
+  nock(apiUrl)
+    .get('/data/concept/classified-as?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Concept')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

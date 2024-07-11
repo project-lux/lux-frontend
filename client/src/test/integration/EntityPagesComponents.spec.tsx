@@ -9,6 +9,7 @@ import * as eventTracking from '../../lib/pushClientEvent'
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 // Mock the request for timelines
 jest.mock('../../lib/util/fetchTimeline', () => ({
@@ -23,6 +24,7 @@ describe('Entity pages relationship components', () => {
 
   beforeEach(async () => {
     entityMockApi()
+    sharedMock()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: any[] = []
@@ -37,12 +39,6 @@ describe('Entity pages relationship components', () => {
   })
 
   describe('Related Objects and Works', () => {
-    beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
-    })
-
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 

@@ -4,12 +4,14 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import personMockApi from './utils/personMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Person page', () => {
   const page = '/view/person/mock-person'
 
   beforeEach(async () => {
     personMockApi()
+    sharedMock()
     eventTrackingMock()
   })
 

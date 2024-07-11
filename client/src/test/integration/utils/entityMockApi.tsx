@@ -29,7 +29,7 @@ export default function entityMockApi(): void {
   // mock the request for types
   nock(apiUrl)
     .get(
-      '/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person%22%7D%7D&name=itemTypeId',
+      '/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person%22%7D%7D&name=itemTypeId&page=1',
     )
     .reply(200, JSON.stringify(mockTypes), {
       'Access-Control-Allow-Origin': '*',
@@ -63,7 +63,7 @@ export default function entityMockApi(): void {
 
   // mock the request for semantically related group
   nock(apiUrl)
-    .get('/data/group/mock-semantic-group?profile=name')
+    .get('/data/group/mock-semantic-group?profile=results')
     .reply(
       200,
       JSON.stringify(

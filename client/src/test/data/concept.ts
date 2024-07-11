@@ -62,20 +62,8 @@ export const concept: IConcept = {
       id: '',
       type: 'Name',
       content: 'Mock Concept',
-      language: [
-        {
-          id: 'english id',
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: 'primary name id',
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
     {
       id: '',
@@ -117,23 +105,8 @@ export const concept: IConcept = {
   ],
 }
 
-export const languageConcept: IConcept = {
-  id: `${config.env.dataApiBaseUrl}data/concept/language`,
-  type: 'Language',
-  _label: 'Brythonic languages',
-  identified_by: [
-    {
-      id: '',
-      type: 'Name',
-      content: 'English',
-      language: englishLanguage,
-      classified_as: primaryName,
-    },
-  ],
-}
-
 export const displayNameConcept: IConcept = {
-  id: `${config.env.dataApiBaseUrl}data/concept/language`,
+  id: `${config.env.dataApiBaseUrl}data/concept/display-name`,
   type: 'Language',
   _label: 'Display name',
   identified_by: [

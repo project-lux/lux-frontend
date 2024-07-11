@@ -33,14 +33,6 @@ export default function linguisticObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // Mock the language call
-  nock(apiUrl)
-    .get('/data/concept/language?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Language')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // Mock the about call
   nock(apiUrl)
     .get('/data/concept/about-1?profile=results')
@@ -67,7 +59,7 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the production call
   nock(apiUrl)
-    .get('/data/concept/production?profile=name')
+    .get('/data/concept/production?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Publication')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -84,7 +76,7 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the identifier label call
   nock(apiUrl)
-    .get('/data/concept/system-assigned-number?profile=name')
+    .get('/data/concept/system-assigned-number?profile=results')
     .reply(
       200,
       JSON.stringify(reusableMinimalEntity('System Assigned Number')),
@@ -102,18 +94,31 @@ export default function linguisticObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // Mock the imprint statement label call
+  // Mock workCarriedBy HAL link
   nock(apiUrl)
-    .get('/data/concept/e29bcdc8-e35d-4a6d-a7ae-fd3702611fb8?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Imprint Statement')), {
+    .get('/api/search/agent?q=workCarriedByMockHalLink')
+    .reply(200, JSON.stringify(mockResults('data/concept/concept', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
 
-  // Mock workCarriedBy HAL link
   nock(apiUrl)
-    .get('/api/search/agent?q=workCarriedByMockHalLink')
-    .reply(200, JSON.stringify(mockResults('/data/concept/concept', 1)), {
+    .get('/data/concept/concept')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Concept')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/concept/concept?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Concept')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/entity/mock-entity?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Concept')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
@@ -122,6 +127,59 @@ export default function linguisticObjectsMockApi(): void {
   nock(apiUrl)
     .get('/data/object/mock-object?profile=name')
     .reply(200, JSON.stringify(mockObject), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the technique
+  nock(apiUrl)
+    .get('/data/concept/created-by-technique-1?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Technique')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the locations
+  nock(apiUrl)
+    .get('/data/place/mock-place-entity?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Place')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the production classified_as
+  nock(apiUrl)
+    .get('/data/concept/created-by-classified-as-2?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Classified As')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/concept/created-by-classified-as-1?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Classified As')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the production carried_out_by
+  nock(apiUrl)
+    .get('/data/group/created-by-carried-out-by-2?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Carried Out By')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/group/created-by-carried-out-by-1?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Carried Out By')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/group/created-by-carried-out-by-1?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Carried Out By')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

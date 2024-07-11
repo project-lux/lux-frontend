@@ -3,11 +3,14 @@ import React from 'react'
 
 import config from '../../config/config'
 import { getCollections } from '../../lib/util/collectionHelper'
+import { reusableMinimalEntity } from '../data/reusableMinimalEntity'
+import { getItems } from '../../lib/util/fetchItems'
 
 import AppRender from './utils/AppRender'
 import productionEventMockApi from './utils/productionEventMockApi'
 import setsMockApi from './utils/setsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -20,11 +23,34 @@ jest.mock('../../lib/util/collectionHelper', () => ({
   })),
 }))
 
+const mockItems = [
+  reusableMinimalEntity(
+    'Mock Item 1',
+    `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+  ),
+  reusableMinimalEntity(
+    'Mock Item 2',
+    `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
+  ),
+  reusableMinimalEntity(
+    'Mock Item 3',
+    `${config.env.dataApiBaseUrl}data/set/member-of-unit-1`,
+  ),
+]
+
+jest.mock('../../lib/util/fetchItems', () => ({
+  __esModule: true,
+  getItems: jest.fn(() => ({
+    data: mockItems,
+  })),
+}))
+
 describe('Set page', () => {
   const page = '/view/set/mock-set'
 
   beforeEach(async () => {
     setsMockApi()
+    sharedMock()
     productionEventMockApi()
     eventTrackingMock()
 
@@ -36,6 +62,11 @@ describe('Set page', () => {
         `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
         `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
       ],
+    }))
+
+    const items = getItems as jest.MockedFunction<typeof getItems>
+    items.mockImplementation(() => ({
+      data: mockItems,
     }))
   })
 

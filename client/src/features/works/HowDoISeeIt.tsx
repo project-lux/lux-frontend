@@ -42,7 +42,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
   return (
     <React.Fragment>
       <StyledDataRow className="row">
-        {siteLinks.length > 0 && (
+        {links.length > 0 && (
           <React.Fragment>
             <div className="col-12">
               <h2 data-testid="works-how-do-i-see-it">How do I see it?</h2>

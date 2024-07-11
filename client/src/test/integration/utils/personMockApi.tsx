@@ -3,7 +3,6 @@ import nock from 'nock'
 import { person as mockPerson } from '../../data/person'
 import config from '../../../config/config'
 import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
-import { languageConcept } from '../../data/concept'
 
 export default function personMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
@@ -148,14 +147,6 @@ export default function personMockApi(): void {
   nock(apiUrl)
     .get('/data/place/born-place?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Birth Place')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // mock the api call for the name language
-  nock(apiUrl)
-    .get('/data/concept/1fda962d-1edc-4fd7-bfa9-0c10e3153449?profile=name')
-    .reply(200, JSON.stringify(languageConcept), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

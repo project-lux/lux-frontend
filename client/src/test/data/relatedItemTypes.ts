@@ -13,4 +13,9 @@ export const types: ISearchResults = {
       totalItems: 217,
     },
   ],
+  partOf: {
+    id: '',
+    type: 'OrderedCollection',
+    totalItems: 1,
+  },
 }

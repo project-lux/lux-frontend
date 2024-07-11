@@ -3,7 +3,6 @@ import nock from 'nock'
 import { place as mockPlace, placeParent as mockParent } from '../../data/place'
 import config from '../../../config/config'
 import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
-import { languageConcept } from '../../data/concept'
 
 export default function placeMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
@@ -61,22 +60,6 @@ export default function placeMockApi(): void {
       `/api/hierarchy/place?id=${config.env.dataApiBaseUrl}data/place/mock-place`,
     )
     .reply(200, JSON.stringify(null), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // mock the api call for the name language
-  nock(apiUrl)
-    .get('/data/concept/1fda962d-1edc-4fd7-bfa9-0c10e3153449?profile=name')
-    .reply(200, JSON.stringify(languageConcept), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // mock the api call for description statement from referred_to_by
-  nock(apiUrl)
-    .get('/data/concept/description-statement?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Note')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

@@ -4,12 +4,14 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import conceptMockApi from './utils/conceptMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Concept page', () => {
   const page = '/view/concept/mock-concept'
 
   beforeEach(async () => {
     conceptMockApi()
+    sharedMock()
     eventTrackingMock()
   })
 

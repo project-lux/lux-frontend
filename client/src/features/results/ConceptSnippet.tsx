@@ -32,7 +32,7 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
 
     return (
       <React.Fragment>
-        <div className="m-2 d-flex">
+        <div className="m-2 d-flex" data-testid="testing-concept">
           <div className="flex-shrink-0">
             <PreviewImageOrIcon images={[]} entity={data} />
           </div>

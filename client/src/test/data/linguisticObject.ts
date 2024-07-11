@@ -4,6 +4,7 @@ import IObject from '../../types/data/IObject'
 
 import {
   displayName,
+  englishLanguage,
   imprintStatement,
   languageStatement,
   primaryName,
@@ -182,12 +183,7 @@ export const linguisticObject: IObject = {
       classified_as: displayName,
     },
   ],
-  language: [
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/language`,
-      type: 'concept',
-    },
-  ],
+  language: englishLanguage,
   part_of: [
     {
       id: `${config.env.dataApiBaseUrl}data/concept/part-of`,
