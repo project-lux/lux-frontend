@@ -2,7 +2,12 @@
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
-import { archives, displayName, primaryName } from './helperObjects'
+import {
+  accessStatement,
+  archives,
+  displayName,
+  primaryName,
+} from './helperObjects'
 
 export const archive: ISet = {
   id: `${config.env.dataApiBaseUrl}data/set/mock-archive`,
@@ -32,6 +37,39 @@ export const archive: ISet = {
       id: 'https://linked-art.library.yale.edu/node/d548b70c-7f55-497a-ad3f-d2de31836bc5',
       type: 'Set',
       _label: 'Equivalent Entity',
+    },
+  ],
+  identified_by: [
+    {
+      id: '',
+      type: 'Identifier',
+      content: 'mssa.ms.1824',
+      attributed_by: [
+        {
+          id: '',
+          type: 'AttributeAssignment',
+          carried_out_by: [
+            {
+              id: `${config.env.dataApiBaseUrl}data/group/carried-out-by`,
+              type: 'Group',
+              _label: 'Yale University Library',
+            },
+          ],
+        },
+      ],
+      classified_as: [
+        {
+          id: `${config.env.dataApiBaseUrl}data/concept/classified-as`,
+          type: 'Type',
+          _label: 'Owner-Assigned Number',
+        },
+      ],
+    },
+    {
+      id: '',
+      type: 'Name',
+      content: 'Mock Archive',
+      classified_as: primaryName,
     },
   ],
   member_of: [
@@ -84,59 +122,13 @@ export const archive: ISet = {
       },
     },
   ],
-  identified_by: [
-    {
-      id: '',
-      type: 'Identifier',
-      content: 'mssa.ms.1824',
-      attributed_by: [
-        {
-          id: '',
-          type: 'AttributeAssignment',
-          carried_out_by: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/group/2d6a086f-9a78-494b-81b1-2bc428ef7001`,
-              type: 'Group',
-              _label: 'Yale University Library',
-            },
-          ],
-        },
-      ],
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/5020b403-c0cd-400e-b9f9-63aae5f360af`,
-          type: 'Type',
-          _label: 'Owner-Assigned Number',
-        },
-      ],
-    },
-    {
-      id: '',
-      type: 'Name',
-      content: 'Mock Archive',
-      classified_as: primaryName,
-    },
-  ],
   referred_to_by: [
     {
       id: '',
       type: 'LinguisticObject',
       content:
         'To request items from this collection for use on site, please use the request links in the HTML version of this finding aid, available at http://hdl.handle.net/10079/fa/mssa.ms.1824',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/03f4eb19-0611-4f31-8e09-fc111c52f898`,
-          type: 'Type',
-          _label: 'Access Statement',
-          classified_as: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/concept/brief-text`,
-              type: 'Type',
-              _label: 'Brief Text',
-            },
-          ],
-        },
-      ],
+      classified_as: accessStatement,
     },
   ],
   subject_of: [

@@ -49,7 +49,7 @@ export const imprintStatementId = baseId('concept', 'imprint-statement')
 export const professionalActivityId = baseId('concept', 'professional-activity')
 export const genderId = baseId('concept', 'gender')
 export const occupationId = baseId('concept', 'occupation')
-export const nationiltyId = baseId('concept', 'nationality')
+export const nationalityId = baseId('concept', 'nationality')
 
 // reusable nested entities
 export const primaryName: Array<IEntity> = baseEntity(
@@ -197,7 +197,7 @@ export const occupation: Array<IEntity> = baseEntity(
   config.aat.occupation,
 )
 export const nationality: Array<IEntity> = baseEntity(
-  nationiltyId,
+  nationalityId,
   'Nationality',
   'Type',
   config.aat.nationality,

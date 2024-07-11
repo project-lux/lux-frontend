@@ -4,6 +4,7 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import eventsMockApi from './utils/eventsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Events page', () => {
   const page = '/view/activity/mock-event'
@@ -11,6 +12,7 @@ describe('Events page', () => {
   beforeEach(async () => {
     eventsMockApi()
     eventTrackingMock()
+    sharedMock()
   })
 
   describe('About', () => {

@@ -33,12 +33,12 @@ export const personLinks: IEntity = {
       href: `${config.env.dataApiBaseUrl}data/person/mock-person`,
     },
     // related objects/works
-    'lux:agentMadeDiscoveredItem': {
-      href: `${config.env.dataApiBaseUrl}api/search/item?q=agentMadeDiscoveredItem`,
+    'lux:agentMadeDiscoveredInfluencedItem': {
+      href: `${config.env.dataApiBaseUrl}api/search/item?q=agentMadeDiscoveredInfluencedItem`,
       _estimate: 1,
     },
-    'lux:agentCreatedPublishedWork': {
-      href: `${config.env.dataApiBaseUrl}api/search/work?q=agentCreatedPublishedWork`,
+    'lux:agentCreatedPublishedInfluencedWork': {
+      href: `${config.env.dataApiBaseUrl}api/search/work?q=agentCreatedPublishedInfluencedWork`,
       _estimate: 1,
     },
     // timeline

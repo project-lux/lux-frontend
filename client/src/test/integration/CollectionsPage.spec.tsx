@@ -43,7 +43,7 @@ describe('Collection page', () => {
     it('renders the collection hierarchy', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Parent of Collection/i)
+      await findAllByText(/Mock Concept/i)
       const hierarchy = screen.getByTestId('collections-hierarchy-0')
       expect(hierarchy).toBeInTheDocument()
     })

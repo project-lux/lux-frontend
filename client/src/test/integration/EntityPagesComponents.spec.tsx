@@ -5,10 +5,12 @@ import config from '../../config/config'
 import { getTimelines } from '../../lib/util/fetchTimeline'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
 import * as eventTracking from '../../lib/pushClientEvent'
+import { relatedObjectsAndWorks } from '../../config/personAndGroupSearchTags'
 
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 // Mock the request for timelines
 jest.mock('../../lib/util/fetchTimeline', () => ({
@@ -23,6 +25,7 @@ describe('Entity pages relationship components', () => {
 
   beforeEach(async () => {
     entityMockApi()
+    sharedMock()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const promises: any[] = []
@@ -46,43 +49,47 @@ describe('Entity pages relationship components', () => {
     it('renders the related objects tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Objects Created or Encountered By/i)
+      await findAllByText(relatedObjectsAndWorks.objectsCreated.title as string)
       const names = screen.getByTestId('names-container')
       expect(names).toBeInTheDocument()
     })
 
     it('renders the objects snippet', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Object/i)
+      await findByTestId('object-snippet-list-view')
       const snippet = screen.getByTestId('object-snippet-list-view')
       expect(snippet).toBeInTheDocument()
     })
 
     it('renders the related objects show all results button with correct href', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Object/i)
+      await findAllByTestId(/objects-container-show-all-button/i)
       const link = screen.getByTestId('objects-container-show-all-button')
       expect(link).toHaveAttribute(
         'href',
-        '/view/results/objects?q=agentMadeDiscoveredItem&openSearch=false',
+        '/view/results/objects?q=agentMadeDiscoveredInfluencedItem&openSearch=false',
       )
     })
 
     it('renders the related works tab', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Works Created, Published, or Influenced By/i)
-      const worksTab = screen.getByTestId('works-created-or-published-button')
+      await findAllByText(relatedObjectsAndWorks.worksCreated.title as string)
+      const worksTab = screen.getByTestId(
+        'works-created,-published,-or-influenced-by-button',
+      )
       expect(worksTab).toBeInTheDocument()
     })
 
     it('renders the related works snippet', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Works Created, Published, or Influenced By/i)
-      const worksTab = screen.getByTestId('works-created-or-published-button')
+      await findAllByText(relatedObjectsAndWorks.worksCreated.title as string)
+      const worksTab = screen.getByTestId(
+        'works-created,-published,-or-influenced-by-button',
+      )
       fireEvent.click(worksTab)
 
       await findAllByText(/Mock Work/i)
@@ -185,6 +192,7 @@ describe('Entity pages relationship components', () => {
 
       // Find the related facet name
       await findAllByText(/Mock Facet Concept/i)
+
       const list = screen.getByTestId(
         'related-facets-description-list-classification',
       )

@@ -4,12 +4,16 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import linguisticObjectsMockApi from './utils/linguisticObjectsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
+import productionEventMockApi from './utils/productionEventMockApi'
 
 describe('Linguistic Object page', () => {
   const page = '/view/text/mock-linguistic-object'
 
   beforeEach(async () => {
     linguisticObjectsMockApi()
+    productionEventMockApi()
+    sharedMock()
     eventTrackingMock()
   })
 
@@ -72,15 +76,15 @@ describe('Linguistic Object page', () => {
       expect(types).toBeInTheDocument()
     })
 
-    it('renders the languages', async () => {
+    it('renders the linguistic object languages', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Language/i)
+      await findAllByText(/English/i)
       const languages = screen.getByTestId('works-languages-link-container')
       expect(languages).toBeInTheDocument()
     })
 
-    it('renders the work publication event', async () => {
+    it('renders the linguistic object publication event', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Publication/i)
