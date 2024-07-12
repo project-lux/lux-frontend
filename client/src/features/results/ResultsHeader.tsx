@@ -91,7 +91,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         search: `?${queryString.toString()}`,
       },
       {
-        state: { targetName: `Results Page ${selectedView} View` },
+        state: { targetName: 'Results Page' },
       },
     )
   }
@@ -109,7 +109,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       queryString.set(sortName, `${sortBySelection}:${value}`)
       const searchQ = queryString.toString()
       navigate(`${pathname}?${searchQ}`, {
-        state: { targetName: 'Results Page Sorted' },
+        state: { targetName: 'Results Page' },
       })
     }
   }
@@ -129,7 +129,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     const searchQ = queryString.toString()
     setSortBySelection(value)
     navigate(`${pathname}?${searchQ}`, {
-      state: { targetName: 'Results Page Sorted' },
+      state: { targetName: 'Results Page' },
     })
   }
 

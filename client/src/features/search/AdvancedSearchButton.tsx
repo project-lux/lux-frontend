@@ -38,7 +38,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
       navigate(`/view/results/${entityType}?q=`, {
         state: {
           fromLandingPage: true,
-          targetName: 'Results Page Advanced Search',
+          targetName: 'Results Page',
         },
       })
       return
@@ -52,7 +52,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
         navigate(`/view/results/${entityType}?${urlParams.toString()}`, {
           state: {
-            targetName: 'Results Page Advanced Search',
+            targetName: 'Results Page',
           },
         })
       },
