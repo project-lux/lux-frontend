@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed brackets from Show More/Less buttons ([#272](https://github.com/project-lux/lux-frontend/issues/272)).
+
 ### Fixed
 
 ## v1.30.0 - 2024-7-8
