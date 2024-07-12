@@ -1,7 +1,7 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React, { useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
@@ -91,11 +91,6 @@ const DateInput: React.FC<IFacets> = ({
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
-  const years = getYearsFromFacetValues(facetValues)
-  const [earliest, setEarliest] = useState<string>(years[0].toString())
-  const [latest, setLatest] = useState<string>(
-    years[years.length - 1].toString(),
-  )
   const earliestRef = useRef<HTMLInputElement>(null)
   const latestRef = useRef<HTMLInputElement>(null)
 
