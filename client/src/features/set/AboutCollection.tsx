@@ -10,6 +10,9 @@ import WorkParser from '../../lib/parse/data/WorkParser'
 import LinkContainer from '../common/LinkContainer'
 import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
+import { setEvent } from '../../config/collectionsSearchTags'
+
+import SetEvent from './SetEvent'
 
 interface IObject {
   data: IEntity
@@ -66,6 +69,9 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
               stackKeyValuePairs
             />
           ))}
+        {data._links && (
+          <SetEvent providedLinks={data._links} configuredLink={setEvent} />
+        )}
       </div>
     </React.Fragment>
   )

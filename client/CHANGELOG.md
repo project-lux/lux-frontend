@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added events relationship to sets ([#88](https://github.com/project-lux/lux-frontend/issues/88)).
+
 ### Changed
 
 ### Removed
