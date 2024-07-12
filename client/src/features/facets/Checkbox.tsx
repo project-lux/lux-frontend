@@ -88,7 +88,7 @@ const Checkbox: React.FC<IProps> = ({
     )
     pushClientEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
     navigate(`${pathname}?${newSearchParams}`, {
-      state: { targetName: 'Results Page Faceted' },
+      state: { targetName: 'Results Page' },
     })
   }
 
@@ -109,7 +109,7 @@ const Checkbox: React.FC<IProps> = ({
     )
     pushClientEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
     navigate(`${pathname}?${params.toString()}`, {
-      state: { targetName: 'Results Page Faceted' },
+      state: { targetName: 'Results Page' },
     })
   }
 

@@ -101,7 +101,7 @@ const Paginate: React.FC<IPagination> = ({
         search: `?${newURL}&${pageParam}=${pageNumber}`,
       },
       {
-        state: { targetName: 'Results Page Paginated' },
+        state: { targetName: 'Results Page' },
       },
     )
   }
@@ -116,7 +116,7 @@ const Paginate: React.FC<IPagination> = ({
         search: `?${newURL}&${pageParam}=${pageValue}`,
       },
       {
-        state: { targetName: 'Results Page Paginated' },
+        state: { targetName: 'Results Page' },
       },
     )
   }

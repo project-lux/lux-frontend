@@ -145,7 +145,7 @@ const DateInput: React.FC<IFacets> = ({
     searchParams.set(`${paramPrefix}p`, '1')
     const searchQ = searchParams.toString()
     navigate(`${pathname}?${searchQ}`, {
-      state: { targetName: 'Results Page Faceted' },
+      state: { targetName: 'Results Page' },
     })
   }
 

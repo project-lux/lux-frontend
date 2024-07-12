@@ -73,7 +73,7 @@ const SelectedFacet: React.FC<ISelected> = ({
       dispatch(reset())
       pushClientEvent('Facets Selected Filters', 'Removed', `Facet ${label}`)
       navigate(`${pathname}?${newSearchParams}`, {
-        state: { targetName: 'Results Page Faceted' },
+        state: { targetName: 'Results Page' },
       })
     }
   }
