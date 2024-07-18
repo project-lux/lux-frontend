@@ -61,3 +61,8 @@ export const comparators: Record<string, string> = {
   '=': 'equals',
   '!=': 'not equals',
 }
+
+export const timePeriod: Record<string, string> = {
+  ce: 'CE',
+  bce: 'BCE',
+}

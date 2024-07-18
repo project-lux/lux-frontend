@@ -46,6 +46,11 @@ const RangeInput: React.FC<IRangeInput> = ({
     dispatch(addRangeComparator({ comp: selected, stateId }))
   }
 
+  // const handleAddTimePeriod = (selected: string): void => {
+  //   console.log(selected)
+  //   // dispatch(addRangeComparator({ comp: selected, stateId }))
+  // }
+
   const comparatorsId = `comparators-options-${stateId}`
   const rangeId = `comparators-options-${stateId}`
 
@@ -77,6 +82,23 @@ const RangeInput: React.FC<IRangeInput> = ({
         value={currentValue}
         onChange={(e) => handleOnChange(e.currentTarget.value)}
       />
+      {/* Possible solution */}
+      {/* {field.toLowerCase().includes('date') && (
+        <React.Fragment>
+          <label htmlFor="date-period" className="d-none">
+            {label}
+          </label>
+          <AdvancedSearchDropdown
+            options={timePeriod}
+            handleChange={handleAddTimePeriod}
+            className="comparatorSelection me-2"
+            dropdownHeaderText="Select the era"
+            ariaLabel="Select the era BC or BCE"
+            selected="CE"
+            id="date-period"
+          />
+        </React.Fragment>
+      )} */}
     </div>
   )
 }
