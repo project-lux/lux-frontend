@@ -1,8 +1,19 @@
 import config from '../../config/config'
-import { defaultConstants } from '../../config/dataConstants'
 import IObject from '../../types/data/IObject'
 
-const dc = defaultConstants(config.env.dataApiBaseUrl)
+import {
+  accessStatement,
+  callNumber,
+  copyrightStatement,
+  dimensionStatement,
+  displayName,
+  englishLanguage,
+  exhibition,
+  primaryName,
+  typeOfPart,
+  visitors,
+  webPage,
+} from './helperObjects'
 
 // eslint-disable-next-line import/prefer-default-export
 export const physicalObject: IObject = {
@@ -19,13 +30,7 @@ export const physicalObject: IObject = {
           id: '',
           type: 'Name',
           content: 'Online dataset',
-          classified_as: [
-            {
-              id: 'http://vocab.getty.edu/aat/300404669',
-              type: 'Type',
-              _label: 'Display Title',
-            },
-          ],
+          classified_as: displayName,
         },
       ],
     },
@@ -149,13 +154,7 @@ export const physicalObject: IObject = {
           ],
         },
       ],
-      classified_as: [
-        {
-          id: dc.typeOfPart,
-          type: 'Type',
-          _label: 'width',
-        },
-      ],
+      classified_as: typeOfPart,
     },
   ],
   encountered_by: [
@@ -209,42 +208,18 @@ export const physicalObject: IObject = {
     {
       type: 'Identifier',
       content: 'Mock Call Number',
-      classified_as: [
-        {
-          id: config.dc.callNumber,
-          type: 'Type',
-          _label: 'Call Number',
-        },
-      ],
+      classified_as: callNumber,
     },
     {
       type: 'Name',
       content: 'Mock Object',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       type: 'Name',
       content: 'Object that is mocked',
-      classified_as: [
-        {
-          id: config.dc.displayName,
-          type: 'Type',
-          _label: 'Primary',
-        },
-      ],
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
+      classified_as: displayName,
+      language: englishLanguage,
     },
   ],
   made_of: [
@@ -366,64 +341,28 @@ export const physicalObject: IObject = {
       id: '',
       type: 'LinguisticObject',
       content: 'On view',
-      classified_as: [
-        {
-          id: config.dc.accessStatement,
-          type: 'Type',
-          _label: 'Access Statement',
-        },
-      ],
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Type',
-          _label: 'Access Statement',
-        },
-      ],
+      classified_as: accessStatement,
+      language: englishLanguage,
     },
     {
       type: 'LinguisticObject',
       content: '36 15/16 × 14 1/4 × 2 in. (93.8 × 36.2 × 5.1 cm)',
-      classified_as: [
-        {
-          id: config.dc.dimensionStatement,
-          type: 'Type',
-          _label: 'Dimensions',
-        },
-      ],
+      classified_as: dimensionStatement,
     },
     {
       type: 'LinguisticObject',
       content: 'A Cool Exhibition',
-      classified_as: [
-        {
-          id: config.dc.exhibition,
-          type: 'Type',
-          _label: 'Dimensions',
-        },
-      ],
+      classified_as: exhibition,
     },
     {
       type: 'LinguisticObject',
       content: 'Mock Copyright Information',
-      classified_as: [
-        {
-          id: config.dc.copyrightLicensingStatement,
-          type: 'Type',
-          _label: 'Copyright',
-        },
-      ],
+      classified_as: copyrightStatement,
     },
     {
       type: 'LinguisticObject',
       content: 'Plan Your Visit',
-      classified_as: [
-        {
-          id: config.dc.visitors,
-          type: 'Type',
-          _label: "Visitors' Statement",
-        },
-      ],
+      classified_as: visitors,
       _content_html:
         "<a href='https://britishart.yale.edu/visit'>Plan Your Visit</a>",
     },
@@ -451,13 +390,7 @@ export const physicalObject: IObject = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },
@@ -503,13 +436,7 @@ export const physicalObject: IObject = {
             id: '',
             type: 'Name',
             content: '2009',
-            classified_as: [
-              {
-                id: 'https://endpoint.yale.edu/data/concept/display-title',
-                type: 'Type',
-                _label: 'Display Title',
-              },
-            ],
+            classified_as: displayName,
           },
         ],
         end_of_the_end: '2009-12-31T23:59:59',

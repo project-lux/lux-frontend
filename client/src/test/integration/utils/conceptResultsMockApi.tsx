@@ -1,12 +1,10 @@
 import nock from 'nock'
 
 import { activityStreams as mockResults } from '../../data/results'
-import {
-  concept as mockConcept,
-  languageConcept as mockParent,
-} from '../../data/concept'
+import { concept as mockConcept } from '../../data/concept'
 import { facetNamesLists } from '../../../config/facets'
 import config from '../../../config/config'
+import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
 
 export default function conceptResultsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
@@ -27,7 +25,7 @@ export default function conceptResultsMockApi(): void {
   for (const facet of facetNamesLists.conceptsAndGroupings) {
     nock(facetsApiUrl)
       .get(
-        `/api/facets/concept?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}`,
+        `/api/facets/concept?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}&page=1`,
       )
       .reply(200, JSON.stringify(null), {
         'Access-Control-Allow-Origin': '*',
@@ -51,26 +49,20 @@ export default function conceptResultsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the initial parent in the hierarchy
-  nock(apiUrl)
-    .get('/data/concept/broader-1?profile=name')
-    .reply(200, JSON.stringify(mockConcept), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // mock the api call for the hierarchy set
   nock(apiUrl)
     .get('/data/concept/broader-1?profile=results')
-    .reply(200, JSON.stringify(mockParent), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  nock(apiUrl)
-    .get('/data/concept/language?profile=name')
-    .reply(200, JSON.stringify(mockParent), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
+    .reply(
+      200,
+      JSON.stringify(
+        reusableMinimalEntity(
+          `${config.env.dataApiBaseUrl}data/concept/broader-1`,
+          'English',
+        ),
+      ),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
 }

@@ -1,9 +1,9 @@
 import config from '../../config/config'
 import { ISearchResults } from '../../types/ISearchResults'
 
-export const types: ISearchResults = {
+export const types = (id: string): ISearchResults => ({
   '@context': 'context',
-  id: 'id',
+  id,
   type: 'OrderedCollectionPage',
   orderedItems: [
     {
@@ -13,4 +13,9 @@ export const types: ISearchResults = {
       totalItems: 217,
     },
   ],
-}
+  partOf: {
+    id: '',
+    type: 'OrderedCollection',
+    totalItems: 1,
+  },
+})

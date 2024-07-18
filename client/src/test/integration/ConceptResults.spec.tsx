@@ -67,18 +67,18 @@ describe('Concept results page', () => {
       expect(header).toHaveTextContent('Mock Concept')
     })
 
-    it('renders the description', async () => {
+    it('renders the description statement', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Concept/i)
+      await findAllByText(/Description statement/i)
       const dates = screen.getByTestId('concept-snippet-description')
       expect(dates).toBeInTheDocument()
     })
 
-    it('renders the hierarchy', async () => {
+    it('renders the concept snippet hierarchy', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Concept/i)
+      await findAllByText(/English/i)
       const hierarchy = screen.getByTestId(
         'concept-snippet-generic-breadcrumb-hierarchy',
       )

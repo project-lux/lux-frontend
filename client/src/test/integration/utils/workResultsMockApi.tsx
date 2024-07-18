@@ -3,10 +3,7 @@ import nock from 'nock'
 import { activityStreams as mockResults } from '../../data/results'
 import { linguisticObject as mockWork } from '../../data/linguisticObject'
 import { person as mockPerson } from '../../data/person'
-import {
-  concept as mockConcept,
-  languageConcept as mockLanguageConcept,
-} from '../../data/concept'
+import { concept as mockConcept } from '../../data/concept'
 import { facetNamesLists } from '../../../config/facets'
 import config from '../../../config/config'
 
@@ -65,14 +62,6 @@ export default function workResultsMockApi(): void {
   nock(apiUrl)
     .get('/data/concept/classified-as-1?profile=name')
     .reply(200, JSON.stringify(mockConcept), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // mock the api call for language
-  nock(apiUrl)
-    .get('/data/concept/language?profile=name')
-    .reply(200, JSON.stringify(mockLanguageConcept), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

@@ -7,10 +7,7 @@ import config from './config/config'
 import Routes from './features/common/LuxRoutes'
 import GlobalStyle from './styles/global'
 import { useGetEnvQuery } from './redux/api/configApi'
-import {
-  useGetDataConstantsQuery,
-  useGetAdvancedSearchConfigQuery,
-} from './redux/api/ml_api'
+import { useGetAdvancedSearchConfigQuery } from './redux/api/ml_api'
 import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
@@ -29,7 +26,6 @@ const Error = styled.div`
 
 const App: React.FC = () => {
   const [envLoaded, setEnvLoaded] = useState(false)
-  const [dcLoaded, setDcLoaded] = useState(false)
   const [asConfigLoaded, setAsConfigLoaded] = useState(false)
   const envResult = useGetEnvQuery()
 
@@ -39,7 +35,6 @@ const App: React.FC = () => {
       ? undefined
       : skipToken
 
-  const dcResult = useGetDataConstantsQuery(skip)
   const asConfigResults = useGetAdvancedSearchConfigQuery(skip)
 
   useEffect(() => {
@@ -60,11 +55,6 @@ const App: React.FC = () => {
     setEnvLoaded(true)
   }
 
-  if (!dcLoaded && dcResult.isSuccess && dcResult.data) {
-    config.setDataConstants(dcResult.data)
-    setDcLoaded(true)
-  }
-
   if (!asConfigLoaded && asConfigResults.isSuccess && asConfigResults.data) {
     config.setAdvancedSearch(asConfigResults.data)
     setAsConfigLoaded(true)
@@ -78,20 +68,12 @@ const App: React.FC = () => {
     console.error('failed to load env')
   }
 
-  if (dcResult.isError) {
-    console.error('failed to load data constants')
-  }
-
   if (asConfigResults.isError) {
     console.error('failed to load advanced search config')
   }
 
   if (envResult.isLoading) {
     return <p>Loading env...</p>
-  }
-
-  if (dcResult.isLoading) {
-    return <p>Loading data constants...</p>
   }
 
   if (asConfigResults.isLoading) {
@@ -104,7 +86,6 @@ const App: React.FC = () => {
 
   if (
     (!envResult.isSuccess && !config.hasLocalEnv) ||
-    !dcResult.isSuccess ||
     !asConfigResults.isSuccess
   ) {
     errorMessage =

@@ -31,8 +31,8 @@ import CollectionPage from './CollectionPage'
 const SetsPage: React.FC<{ data: any }> = ({ data }) => {
   const setParser = new SetParser(data)
   const isCollectionPage =
-    setParser.isClassifiedAs(config.dc.collection) ||
-    setParser.isClassifiedAs(config.dc.exhibition)
+    setParser.isClassifiedAs(config.aat.collection) ||
+    setParser.isClassifiedAs(config.aat.exhibition)
   const manifestId = setParser.getManifestId()
   const dispatch = useAppDispatch()
 
@@ -44,8 +44,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
     return <CollectionPage data={data} />
   }
   const isArchive = setParser.isArchive()
-  const types = setParser.getTypes()
-  const [supertypeIcon, helperText] = setParser.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = setParser.getSupertypeIcon()
   const memberOf = setParser.getMemberOf()
   const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title

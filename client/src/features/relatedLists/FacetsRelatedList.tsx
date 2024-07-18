@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
-import config from '../../config/config'
 import DescriptionList from '../../styles/shared/DescriptionList'
 import {
   getCriteriaFromHalLink,
@@ -52,10 +51,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
       value = value as string
       const currentUri = url.replace('/view', '')
       return (
-        value !== null &&
-        value !== undefined &&
-        !value.includes(currentUri) &&
-        value !== config.dc.collectionItem
+        value !== null && value !== undefined && !value.includes(currentUri)
       )
     })
 

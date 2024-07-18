@@ -64,7 +64,7 @@ export default class ConceptParser extends EntityParser {
       .map((elem) => {
         const p = new EntityParser(elem)
         if (
-          p.isClassifiedAs(config.dc.descriptionStatement) &&
+          p.isClassifiedAs(config.aat.descriptionStatement) &&
           p.isInLanguage(lang)
         ) {
           return elem._content_html !== undefined
@@ -90,7 +90,7 @@ export default class ConceptParser extends EntityParser {
       string,
       null | string | Array<any> | IContentWithLanguage
     > = {
-      name: this.getPrimaryName(config.dc.langen),
+      name: this.getPrimaryName(config.aat.langen),
       names: this.getNames(),
       entityClass: entityClass === 'Type' ? 'General Concept' : entityClass,
       types: this.getTypes(),

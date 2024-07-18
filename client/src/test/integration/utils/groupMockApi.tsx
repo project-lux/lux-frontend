@@ -173,23 +173,6 @@ export default function groupMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the name languages
-  // English
-  nock(apiUrl)
-    .get('/data/concept/1fda962d-1edc-4fd7-bfa9-0c10e3153449?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('English')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // French
-  nock(apiUrl)
-    .get('/data/concept/416a8d83-430d-4ae9-8039-41b8c84e1353?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('French')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // German
   nock(apiUrl)
     .get('/data/concept/9d31890a-a72a-40e2-b872-de5c5412b093?profile=name')
@@ -200,7 +183,7 @@ export default function groupMockApi(): void {
 
   // mock the api call for description
   nock(apiUrl)
-    .get('/data/concept/description?profile=name')
+    .get('/data/concept/description?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Description')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

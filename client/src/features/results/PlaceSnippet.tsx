@@ -31,7 +31,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
 
   if (isSuccess && data) {
     const place = new EntityParser(data)
-    const primaryName = place.getPrimaryName(config.dc.langen)
+    const primaryName = place.getPrimaryName(config.aat.langen)
     const types = place.getTypes()
 
     const mapConfig = {
@@ -62,7 +62,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
                 </Link>
               </StyledImageContainer>
             ) : (
-              <PreviewImageOrIcon images={[]} entity={data} types={types} />
+              <PreviewImageOrIcon images={[]} entity={data} />
             )}
           </div>
           <div className="flex-grow-1 ms-3">

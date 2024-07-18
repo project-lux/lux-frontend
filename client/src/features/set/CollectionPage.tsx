@@ -32,8 +32,7 @@ interface IProps {
 
 const CollectionPage: React.FC<IProps> = ({ data }) => {
   const collection = new WorkParser(data)
-  const types = collection.getTypes()
-  const [supertypeIcon, helperText] = collection.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = collection.getSupertypeIcon()
 
   return (
     <React.Fragment>

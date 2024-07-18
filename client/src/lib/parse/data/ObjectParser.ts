@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isUndefined } from 'lodash'
+
 import config from '../../../config/config'
 import IDigitalObject from '../../../types/data/IDigitalObject'
 import IObject from '../../../types/data/IObject'
@@ -9,6 +11,7 @@ import {
   INoteContent,
 } from '../../../types/IContentWithLanguage'
 import { recordTypes } from '../../../config/advancedSearch/inputTypes'
+import IEntity from '../../../types/data/IEntity'
 
 import EntityParser from './EntityParser'
 import EventParser from './EventParser'
@@ -16,6 +19,7 @@ import {
   containsSpecificNote,
   forceArray,
   getClassifiedAs,
+  getSpecificReferredToBy,
   hasData,
 } from './helper'
 
@@ -216,15 +220,7 @@ export default class ObjectParser extends EntityParser {
    * @returns {Array<INoteContent>}
    */
   getAccessStatement(): Array<INoteContent> {
-    const notes = this.getNotes()
-
-    if (notes !== null) {
-      return notes[config.dc.accessStatement] !== undefined
-        ? notes[config.dc.accessStatement]
-        : []
-    }
-
-    return []
+    return getSpecificReferredToBy(this.json, config.aat.accessStatement)
   }
 
   /**
@@ -285,7 +281,10 @@ export default class ObjectParser extends EntityParser {
     const identifiers = this.getIdentifiers()
     if (identifiers.length > 0) {
       for (const identifier of identifiers) {
-        if (identifier.label === config.dc.callNumber) {
+        if (
+          !isUndefined(identifier.equivalent) &&
+          identifier.equivalent.includes(config.aat.callNumber)
+        ) {
           return identifier
         }
       }
@@ -306,15 +305,25 @@ export default class ObjectParser extends EntityParser {
     return dimensions.map((dim) => {
       const classifiedAs = forceArray(dim.classified_as)
       let units = forceArray(dim.unit)
-
-      const label = getClassifiedAs(classifiedAs)
       units = getClassifiedAs(units)
 
+      const label: Array<IEntity> = []
+      for (const cl of classifiedAs) {
+        label.push(cl)
+      }
+
+      let unit = units.length > 0 ? units[0] : ''
+      // overwrite the value of unit if the label contains the aat for typeOfPart
+      if (label.length > 0 && label[0].hasOwnProperty('equivalent')) {
+        const nestedObj = new ObjectParser(label[0])
+        if (nestedObj.getEquivalent().includes(config.aat.typeOfPart)) {
+          unit = ''
+        }
+      }
       return {
-        label: label.length > 0 ? label[0] : '',
+        label: label.length > 0 ? (label[0].id as string) : '',
         value: dim.value,
-        unit:
-          units.length > 0 && label[0] !== config.dc.typeOfPart ? units[0] : '',
+        unit,
       }
     })
   }
@@ -345,27 +354,29 @@ export default class ObjectParser extends EntityParser {
     }
 
     const { notes } = data
-    const hasAccessStatement = containsSpecificNote(
-      notes,
-      config.dc.accessStatement,
-    )
-    if (notes !== null && hasAccessStatement) {
-      delete notes[config.dc.accessStatement]
-      data.notes = notes
-    }
-
     const hasDimensions = containsSpecificNote(
       notes,
-      config.dc.dimensionStatement,
+      config.aat.dimensionStatement,
     )
     data.dimensions = !hasDimensions ? this.getDimensions() : []
 
-    const hasExhibitions = containsSpecificNote(notes, config.dc.exhibition)
+    const hasExhibitions = containsSpecificNote(notes, config.aat.exhibition)
+    // remove the exhibition note from the notes
     if (notes !== null && hasExhibitions) {
-      data.exhibitionDescription = {
-        'Exhibitions Description': notes[config.dc.exhibition],
-      }
-      delete notes[config.dc.exhibition]
+      Object.keys(notes).map((key) => {
+        notes[key].map((val: INoteContent) => {
+          if (!isUndefined(val.equivalent)) {
+            if (val.equivalent.includes(config.aat.exhibition)) {
+              data.exhibitionDescription = {
+                'Exhibitions Description': notes[key],
+              }
+              delete data.notes[key]
+            }
+          }
+          return null
+        })
+        return null
+      })
     }
 
     return hasData(data)

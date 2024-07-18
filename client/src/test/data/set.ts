@@ -2,6 +2,7 @@
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
+import { accessStatement, archives, descriptionStatement, primaryName } from './helperObjects'
 import { productionEvent as mockProductionEvent } from './productionEvent'
 
 export const set: ISet = {
@@ -21,11 +22,7 @@ export const set: ISet = {
       type: 'Type',
       _label: 'Archival and Manuscript Material',
     },
-    {
-      id: config.dc.archive,
-      type: 'Type',
-      _label: 'Archival and Manuscript Material',
-    },
+    ...archives,
   ],
   created_by: {
     id: '',
@@ -75,13 +72,7 @@ export const set: ISet = {
       id: '',
       type: 'Name',
       content: 'Mock Set',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   members_exemplified_by: [
@@ -147,20 +138,13 @@ export const set: ISet = {
       type: 'LinguisticObject',
       content:
         'To request items from this collection for use on site, please use the request links in the HTML version of this finding aid, available at http://hdl.handle.net/10079/fa/mssa.ms.1824',
-      classified_as: [
-        {
-          id: `${config.env.dataApiBaseUrl}data/concept/03f4eb19-0611-4f31-8e09-fc111c52f898`,
-          type: 'Type',
-          _label: 'Access Statement',
-          classified_as: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/concept/brief-text`,
-              type: 'Type',
-              _label: 'Brief Text',
-            },
-          ],
-        },
-      ],
+      classified_as: accessStatement,
+    },
+    {
+      id: '',
+      type: 'LinguisticObject',
+      content: 'Statement',
+      classified_as: descriptionStatement,
     },
   ],
   represents: [

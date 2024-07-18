@@ -42,7 +42,7 @@ const RecordLink: React.FC<ISearchData> = ({
   // Get the name of the entity if the name query was called
   if (isSuccess && data && entityName === '') {
     const entity = new EntityParser(data)
-    entityName = entity.getPrimaryName(config.dc.langen)
+    entityName = entity.getPrimaryName(config.aat.langen)
   }
 
   if ((isSuccess && data) || entityName !== '') {

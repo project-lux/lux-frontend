@@ -49,7 +49,7 @@ export default function visualItemsMockApi(): void {
 
   // Additional mocks not required for individual tests
   nock(apiUrl)
-    .get('/data/concept/carried-out-by-classified-as?profile=name')
+    .get('/data/concept/carried-out-by-classified-as?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Carried Out By')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

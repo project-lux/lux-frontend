@@ -88,7 +88,7 @@ export default function eventsMockApi(): void {
 
   // mock the api call for objects
   nock(apiUrl)
-    .get('/data/concept/identifier-classified-as?profile=name')
+    .get('/data/concept/identifier-classified-as?profile=results')
     .reply(
       200,
       JSON.stringify(reusableMinimalEntity('Mock Identifier Label')),
@@ -100,7 +100,7 @@ export default function eventsMockApi(): void {
 
   // mock the api call for notes label
   nock(apiUrl)
-    .get('/data/concept/referred-to-by-classified-as-1?profile=name')
+    .get('/data/concept/referred-to-by-classified-as-1?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Notes Label')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

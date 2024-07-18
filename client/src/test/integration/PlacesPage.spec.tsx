@@ -4,6 +4,7 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import placeMockApi from './utils/placesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 jest.mock('leaflet')
 
@@ -12,6 +13,7 @@ describe('Place page', () => {
 
   beforeEach(async () => {
     placeMockApi()
+    sharedMock()
     eventTrackingMock()
   })
 
@@ -51,7 +53,7 @@ describe('Place page', () => {
     it('renders the place notes', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Note/i)
+      await findAllByText(/Description Statement/i)
       const notes = screen.getByTestId('notes-container-0')
       expect(notes).toBeInTheDocument()
     })

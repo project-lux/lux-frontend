@@ -8,7 +8,7 @@ export default function productionEventMockApi(): void {
 
   // Mock the event label
   nock(apiUrl)
-    .get('/data/concept/production?profile=name')
+    .get('/data/concept/production?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Event Label')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -16,13 +16,20 @@ export default function productionEventMockApi(): void {
 
   // Mock the creator label call
   nock(apiUrl)
-    .get('/data/concept/creator-description?profile=name')
+    .get('/data/concept/creator-description?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Creator')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
 
   // Mock occurred during
+  nock(apiUrl)
+    .get('/data/concept/occurred-during?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Occurred During')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
   nock(apiUrl)
     .get('/data/concept/occurred-during?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Occurred During')), {
@@ -32,6 +39,13 @@ export default function productionEventMockApi(): void {
 
   // Mock technique
   nock(apiUrl)
+    .get('/data/concept/technique?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Technique')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
     .get('/data/concept/technique?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Technique')), {
       'Access-Control-Allow-Origin': '*',
@@ -40,13 +54,20 @@ export default function productionEventMockApi(): void {
 
   // Mock took place at
   nock(apiUrl)
-    .get('/data/place/event-took-place-at?profile=name')
+    .get('/data/place/event-took-place-at?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Location')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
 
   // Mock agent
+  nock(apiUrl)
+    .get('/data/person/carried-out-agent?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Person')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
   nock(apiUrl)
     .get('/data/person/carried-out-agent?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Person')), {
@@ -56,7 +77,7 @@ export default function productionEventMockApi(): void {
 
   // Mock the used_for id
   nock(apiUrl)
-    .get('/data/concept/used-for?profile=name')
+    .get('/data/concept/used-for?profile=results')
     .reply(200, JSON.stringify(null), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -64,7 +85,7 @@ export default function productionEventMockApi(): void {
 
   // Mock the referred_to_by id
   nock(apiUrl)
-    .get('/data/concept/event-description?profile=name')
+    .get('/data/concept/event-description?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Description')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

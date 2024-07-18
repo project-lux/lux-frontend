@@ -1,6 +1,14 @@
 import config from '../../config/config'
 import IAgent from '../../types/data/IAgent'
 
+import {
+  dutchLanguage,
+  englishLanguage,
+  frenchLanguage,
+  primaryName,
+  webPage,
+} from './helperObjects'
+
 // eslint-disable-next-line import/prefer-default-export
 export const group: IAgent = {
   id: `${config.env.dataApiBaseUrl}data/group/mock-group`,
@@ -131,35 +139,8 @@ export const group: IAgent = {
       id: '',
       type: 'Name',
       content: 'Mock Group',
-      language: [
-        {
-          id: config.dc.langger,
-          type: 'Language',
-          _label: 'German',
-        },
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-        {
-          id: config.dc.langfre,
-          type: 'Language',
-          _label: 'French',
-        },
-        {
-          id: config.dc.langdut,
-          type: 'Language',
-          _label: 'Dutch',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: [...englishLanguage, ...frenchLanguage, ...dutchLanguage],
+      classified_as: primaryName,
     },
   ],
   member_of: [
@@ -192,13 +173,7 @@ export const group: IAgent = {
       id: '',
       type: 'LinguisticObject',
       content: 'In Pittsburgh, Penn.',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
+      language: englishLanguage,
       classified_as: [
         {
           id: `${config.env.dataApiBaseUrl}data/concept/description`,
@@ -218,13 +193,7 @@ export const group: IAgent = {
       id: '',
       type: 'LinguisticObject',
       content: 'Pittsburgh, Pa',
-      language: [
-        {
-          id: config.dc.langfre,
-          type: 'Language',
-          _label: 'French',
-        },
-      ],
+      language: frenchLanguage,
       classified_as: [
         {
           id: `${config.env.dataApiBaseUrl}data/concept/description`,
@@ -290,13 +259,7 @@ export const group: IAgent = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },

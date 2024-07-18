@@ -5,6 +5,7 @@ import AppRender from './utils/AppRender'
 import productionEventMockApi from './utils/productionEventMockApi'
 import visualItemsMockApi from './utils/visualItemsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Visual Item page', () => {
   const page = '/view/visual/mock-visual-item'
@@ -13,6 +14,7 @@ describe('Visual Item page', () => {
     visualItemsMockApi()
     productionEventMockApi()
     eventTrackingMock()
+    sharedMock()
   })
 
   describe('About', () => {
@@ -51,7 +53,7 @@ describe('Visual Item page', () => {
     it('renders the work publication event', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/Publication/i)
+      await findAllByText(/Creation/i)
       const statement = screen.getByTestId('works-publication-container')
       expect(statement).toBeInTheDocument()
     })

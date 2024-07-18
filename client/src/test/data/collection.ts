@@ -1,6 +1,7 @@
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
+import { collections, displayName, primaryName } from './helperObjects'
 import { productionEventWithCarriedOutBy as mockProductionEvent } from './productionEvent'
 
 export const collection: ISet = {
@@ -15,35 +16,17 @@ export const collection: ISet = {
       _label: 'Mock Member Of',
     },
   ],
-  classified_as: [
-    {
-      id: config.dc.collection,
-      type: 'Type',
-      _label: 'Collection',
-    },
-  ],
+  classified_as: collections,
   identified_by: [
     {
       type: 'Name',
       content: 'Mock Collection',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       type: 'Name',
       content: 'Mock Collection Display Name',
-      classified_as: [
-        {
-          id: config.dc.displayName,
-          type: 'Type',
-          _label: 'Display Name',
-        },
-      ],
+      classified_as: displayName,
     },
   ],
   used_for: [mockProductionEvent],

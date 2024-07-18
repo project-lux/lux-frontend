@@ -30,7 +30,7 @@ export default class WorkParser extends EntityParser {
    */
   getImprint(): Array<string> {
     const referredToBy = forceArray(this.work.referred_to_by)
-    return getContentByClassifiedAs(referredToBy, config.dc.imprintStatement)
+    return getContentByClassifiedAs(referredToBy, config.aat.imprintStatement)
   }
 
   /**
@@ -48,7 +48,7 @@ export default class WorkParser extends EntityParser {
    */
   getLanguageNotes(): Array<string> {
     const referredToBy = forceArray(this.work.referred_to_by)
-    return getContentByClassifiedAs(referredToBy, config.dc.languageStatement)
+    return getContentByClassifiedAs(referredToBy, config.aat.languageStatement)
   }
 
   /**
@@ -204,7 +204,7 @@ export default class WorkParser extends EntityParser {
     null | string | Array<any> | IContentWithLanguage
   > | null {
     const names = this.getNames(true)
-    const name = this.getPrimaryName(config.dc.langen)
+    const name = this.getPrimaryName(config.aat.langen)
     const entityClass = this.getEntityClass()
     const types = this.getTypes()
     const publications = this.getPublicationEvent()

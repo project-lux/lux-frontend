@@ -3,7 +3,6 @@ import nock from 'nock'
 import { person as mockPerson } from '../../data/person'
 import config from '../../../config/config'
 import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
-import { languageConcept } from '../../data/concept'
 
 export default function personMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
@@ -130,7 +129,7 @@ export default function personMockApi(): void {
 
   // mock the api call for note label
   nock(apiUrl)
-    .get('/data/concept/biography-statement?profile=name')
+    .get('/data/concept/biography-statement?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Note Label')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -152,10 +151,10 @@ export default function personMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the name language
+  // mock the api call for professional activity label
   nock(apiUrl)
-    .get('/data/concept/1fda962d-1edc-4fd7-bfa9-0c10e3153449?profile=name')
-    .reply(200, JSON.stringify(languageConcept), {
+    .get('/data/concept/professional-activity-to-display?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Activity Type')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

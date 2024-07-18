@@ -47,7 +47,7 @@ const DataSources: React.FC<IProps> = ({ entity }) => {
   )
 
   return (
-    <div data-testid="test">
+    <div>
       <h2 data-testid="data-sources-header">Data Sources</h2>
       <div className="mb-2">
         <span>

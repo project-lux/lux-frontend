@@ -28,9 +28,8 @@ import HowDoISeeIt from './HowDoISeeIt'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
   const element = new ObjectParser(data)
-  const types = element.getTypes()
   const personUri = element.getAgentFromProductionEvent() || undefined
-  const [supertypeIcon, helperText] = element.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = element.getSupertypeIcon()
   const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)

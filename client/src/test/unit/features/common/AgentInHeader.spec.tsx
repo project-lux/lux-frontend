@@ -8,7 +8,7 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 const mockEntity = reusableMinimalEntity('American')
 
 jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: () => ({
+  useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,
   }),

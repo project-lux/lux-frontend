@@ -2,6 +2,13 @@
 import config from '../../config/config'
 import IObject from '../../types/data/IObject'
 
+import {
+  displayName,
+  englishLanguage,
+  imprintStatement,
+  languageStatement,
+  primaryName,
+} from './helperObjects'
 import { productionEventWithCarriedOutBy as mockProductionEvent } from './productionEvent'
 
 export const linguisticObject: IObject = {
@@ -167,33 +174,16 @@ export const linguisticObject: IObject = {
       id: '',
       type: 'Name',
       content: 'Mock Work',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
     {
       id: '',
       type: 'Name',
       content: 'Mock Work Display Name',
-      classified_as: [
-        {
-          id: config.dc.displayName,
-          type: 'Type',
-          _label: 'Display Name',
-        },
-      ],
+      classified_as: displayName,
     },
   ],
-  language: [
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/language`,
-      type: 'concept',
-    },
-  ],
+  language: englishLanguage,
   part_of: [
     {
       id: `${config.env.dataApiBaseUrl}data/concept/part-of`,
@@ -238,25 +228,13 @@ export const linguisticObject: IObject = {
       id: '',
       type: 'LinguisticObject',
       content: 'This is in english',
-      classified_as: [
-        {
-          id: config.dc.languageStatement,
-          type: 'Type',
-          _label: 'Language Statement',
-        },
-      ],
+      classified_as: languageStatement,
     },
     {
       id: '',
       type: 'LinguisticObject',
       content: 'This is an imprint statement',
-      classified_as: [
-        {
-          id: config.dc.imprintStatement,
-          type: 'Type',
-          _label: 'Imprint',
-        },
-      ],
+      classified_as: imprintStatement,
     },
   ],
   represents: [

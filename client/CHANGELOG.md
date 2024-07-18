@@ -42,10 +42,6 @@ All notable changes to this project will be documented in this file.
 
 ## v1.29.1 - 2024-6-24
 
-### Added
-
-- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
-
 ### Changed
 
 - Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
@@ -73,6 +69,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Removed
+
+- Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
 
 ### Fixed
 

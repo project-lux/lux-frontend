@@ -4,12 +4,14 @@ import React from 'react'
 import AppRender from './utils/AppRender'
 import groupMockApi from './utils/groupMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Group page', () => {
   const page = '/view/group/mock-group'
 
   beforeEach(async () => {
     groupMockApi()
+    sharedMock()
     eventTrackingMock()
   })
 

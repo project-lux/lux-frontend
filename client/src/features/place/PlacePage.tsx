@@ -37,8 +37,7 @@ import AboutPanel from './AboutPanel'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const PlacePage: React.FC<{ data: any }> = ({ data }) => {
   const place = new EntityParser(data)
-  const types = place.getTypes()
-  const [supertypeIcon, helperText] = place.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = place.getSupertypeIcon()
   const images = place.getImages()
 
   const mapConfig = {
@@ -94,7 +93,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           </ErrorBoundary>
         </Col>
         <Col lg={4}>
-          <StyledEntityPageSection className="row" data-testid="testing-place">
+          <StyledEntityPageSection className="row">
             <Col xs={12}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 {/* Render the map if there is map data */}
