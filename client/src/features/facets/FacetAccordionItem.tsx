@@ -64,6 +64,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
     numberOfPages: 1,
   })
   const combinedQuery = facetQuery ? { AND: [criteria, facetQuery] } : criteria
+  const isDateFacet = facetName.includes('Date')
 
   const { data, isSuccess, isLoading } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
@@ -71,6 +72,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
     facetNames: facetName,
     tab,
     page,
+    sort: isDateFacet ? 'asc' : undefined,
   })
 
   // get the facet state to determine the previously selected facet
@@ -150,7 +152,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
             data-bs-parent={`#${tab}-facet-accordion`}
           >
             <div className="accordion-body">
-              {facetName.includes('Date') ? (
+              {isDateFacet ? (
                 <DateInput
                   combinedQuery={combinedQuery}
                   criteria={criteria}

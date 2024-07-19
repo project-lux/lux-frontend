@@ -94,4 +94,8 @@ export const nonSearchTermHelpText: {
       'If checked, ? will match any one character, and * will match any number of characters, rather than the characters "?" and "*".',
     label: 'Wildcarded',
   },
+  default: {
+    helpText: 'The selected field does not contain help text.',
+    label: '',
+  },
 }

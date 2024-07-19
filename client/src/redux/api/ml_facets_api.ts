@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react'
+import { isUndefined } from 'lodash'
 
 import { getFacetsApiBaseUrl } from '../../config/config'
 import { ISearchParams } from '../../types/IMlApiParams'
@@ -17,9 +18,9 @@ export const mlFacetsApi = createApi({
       ISearchParams
     >({
       query: (searchParams) => {
-        const { q, facetNames, tab, page } = searchParams
+        const { q, facetNames, tab, page, sort } = searchParams
         const urlParams = new URLSearchParams()
-
+        const hasPage = !isUndefined(page)
         urlParams.set('q', q)
 
         let scope = ''
@@ -29,10 +30,17 @@ export const mlFacetsApi = createApi({
         if (facetNames !== undefined) {
           urlParams.set('name', facetNames)
           if (facetNames.includes('Date')) {
-            urlParams.set('sort', 'asc')
+            if (hasPage && page > 1) {
+              urlParams.set('pageLength', '1')
+            }
+            if (!isUndefined(sort)) {
+              urlParams.set('sort', sort)
+            } else {
+              urlParams.set('sort', 'asc')
+            }
           }
         }
-        if (page !== undefined) {
+        if (hasPage) {
           urlParams.set('page', page !== 0 ? page.toString() : '1')
         }
         return {

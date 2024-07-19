@@ -52,9 +52,8 @@ export const isInput = (searchTerm: string): boolean =>
   isRangeInput(searchTerm) ||
   isTextInput(searchTerm) ||
   isBooleanInput(searchTerm) ||
-  isRecordTypeInput(searchTerm)
-// TODO: uncomment when ML estimates are fixed
-// || isDateInput(searchTerm)
+  isRecordTypeInput(searchTerm) ||
+  isDateInput(searchTerm)
 
 /**
  * Determines if the property given requires text input
@@ -71,7 +70,7 @@ export const isTextInput = (searchTerm: string): boolean =>
  * @returns boolean
  */
 export const isRangeInput = (searchTerm: string): boolean =>
-  searchTerm.toLowerCase().includes('date') || dimensions.includes(searchTerm)
+  dimensions.includes(searchTerm)
 
 /**
  * Determines if the property given requires selector input

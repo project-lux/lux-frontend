@@ -1,88 +1,91 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 
+import { isUndefined } from 'lodash'
+
 import { IOrderedItems } from '../../types/ISearchResults'
 
-const sortYears = (a: number, b: number): number => {
-  if (a < b) {
-    return -1
+// const sortFullDates = (a: string, b: string): number => {
+//   const date1 = new Date(a).getTime()
+//   const date2 = new Date(b).getTime()
+
+//   if (date1 < date2) {
+//     return -1
+//   }
+
+//   if (date1 > date2) {
+//     return 1
+//   }
+
+//   return 0
+// }
+
+type dateFormat = 'yearMonthDay'
+export const getFormattedDateFromTimestamp = (
+  value: number,
+  format?: dateFormat,
+): string => {
+  const date = new Date(value)
+  const month = date.getUTCMonth() + 1
+  const day = date.getUTCDate()
+  let year = date.getUTCFullYear().toString()
+
+  if (year.length !== 4) {
+    year = year.padStart(5 - year.length, '0')
   }
 
-  if (a > b) {
-    return 1
+  if (!isUndefined(format) && format === 'yearMonthDay') {
+    return `${year}-${month.toString().padStart(2, '0')}-${day
+      .toString()
+      .padStart(2, '0')}`
   }
-
-  return 0
+  return `${month}/${day}/${year}`
 }
 
-const sortFullDates = (a: string, b: string): number => {
-  const date1 = new Date(a).getTime()
-  const date2 = new Date(b).getTime()
+// To be called when passing it to date input
+export const getDateInputPlaceholder = (timestamp: number): string => {
+  const date = new Date(timestamp)
+  let year = date.getUTCFullYear().toString()
 
-  if (date1 < date2) {
-    return -1
+  if (year[0] === '-') {
+    year = year.substring(1)
   }
 
-  if (date1 > date2) {
-    return 1
+  if (year.length !== 4) {
+    year = year.padStart(4, '0')
   }
 
-  return 0
+  const month = date.getUTCMonth() + 1
+  const day = date.getUTCDate()
+  return `${year}-${month.toString().padStart(2, '0')}-${day
+    .toString()
+    .padStart(2, '0')}`
 }
 
-/* eslint-disable consistent-return */
-export const getDatesFromFacetValues = (
+export const getTimestampFromFacetValue = (value: string): number => {
+  if (value[0] === '-') {
+    const splitDate = value.substring(1).split('-')
+    splitDate[0] = splitDate[0].padStart(6, '0')
+    const newDate = `-${splitDate.join('-')}`
+    const date = new Date(newDate)
+    return date.getTime()
+  }
+
+  const date = new Date(value)
+  return date.getTime()
+}
+
+export const getTimestampsFromFacetValues = (
   facetValues: IOrderedItems[],
-): string[] => {
+): number[] => {
   const dates = facetValues
     .filter((facet) => facet.value !== null)
     .map((facet) => {
       const { value } = facet
-      return getDateFromSingleFacetValue(String(value))
+      return getTimestampFromFacetValue(String(value))
     })
 
   return dates
-    .filter((date): date is string => date !== undefined)
-    .sort((a: string, b: string) => sortFullDates(a, b))
-}
-
-export const getDateFromSingleFacetValue = (facetValue: string): string => {
-  let month
-  let day
-  let year
-  const valueStr = String(facetValue)
-  if (valueStr[0] === '-') {
-    const date = new Date(valueStr.substring(1))
-    month = date.getUTCMonth() + 1
-    day = date.getUTCDate()
-    year = `-${date.getUTCFullYear()}`
-    return `${month}/${day}/${year}`
-  }
-
-  const date = new Date(valueStr)
-  month = date.getUTCMonth() + 1
-  day = date.getUTCDate()
-  year = date.getUTCFullYear()
-  return `${month}/${day}/${year}`
-}
-
-/* eslint-disable consistent-return */
-export const getYearsFromFacetValues = (
-  facetValues: Array<IOrderedItems>,
-): number[] => {
-  const years = facetValues
-    .filter((facet) => facet.value !== null)
-    .map((facet) => {
-      const { value } = facet
-      const transformedYear = getYearFromSingleFacetValue(String(value))
-      return transformedYear !== null
-        ? parseInt(transformedYear, 10)
-        : undefined
-    })
-
-  return years
-    .filter((year): year is number => year !== undefined)
-    .sort((a: any, b: any) => sortYears(a, b))
 }
 
 export const getYearFromSingleFacetValue = (
@@ -146,4 +149,26 @@ export const formatDateJsonSearch = (
       // },
     ],
   })
+}
+
+/**
+ * Returns date range use selected to facet by
+ * @param {string} facet the facet value which is formatted as "earliest to latest"
+ * @returns {string}
+ */
+export const parseSelectedDateFacet = (facet: string): string => {
+  const stringVal = facet as string
+  return stringVal
+  // const v = stringVal.split('to')
+  // const e = v[0].trim()
+  // const l = v[1].trim()
+  // const earliestDate = getDateFromSingleFacetValue(e)
+  // const latestDate = getDateFromSingleFacetValue(l)
+  // return `${earliestDate} to ${latestDate}`
+}
+
+export const getEra = (timestamp: number): string => {
+  const date = new Date(timestamp)
+  const year = date.getUTCFullYear().toString()
+  return year[0].includes('-') ? 'bce' : 'ce'
 }

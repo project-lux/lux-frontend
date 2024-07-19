@@ -31,9 +31,12 @@ export const helpTextSlice = createSlice({
         state.selectedHelpText =
           config.advancedSearch.terms[scope][value].helpText
         state.selectedKey = config.advancedSearch.terms[scope][value].label
-      } else {
+      } else if (nonSearchTermHelpText.hasOwnProperty(value)) {
         state.selectedHelpText = nonSearchTermHelpText[value].helpText
         state.selectedKey = nonSearchTermHelpText[value].label
+      } else {
+        state.selectedHelpText = nonSearchTermHelpText.default.helpText
+        state.selectedKey = nonSearchTermHelpText.default.label
       }
     },
     addHoverHelpText: (
@@ -49,9 +52,12 @@ export const helpTextSlice = createSlice({
           state.hoverHelpText = terms[scope][value].helpText
           state.selectedHoverKey = terms[scope][value].label
         }
-      } else {
+      } else if (nonSearchTermHelpText.hasOwnProperty(value)) {
         state.hoverHelpText = nonSearchTermHelpText[value].helpText
         state.selectedHoverKey = nonSearchTermHelpText[value].label
+      } else {
+        state.selectedHelpText = nonSearchTermHelpText.default.helpText
+        state.selectedKey = nonSearchTermHelpText.default.label
       }
     },
     resetHoverHelpText: (state) => {

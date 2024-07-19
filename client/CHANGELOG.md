@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the date facets to full dates for facets and advanced search ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
+
 ### Removed
 
 ### Fixed
@@ -125,8 +127,6 @@ All notable changes to this project will be documented in this file.
 - Added component term facets to concept results ([#68](https://github.com/project-lux/lux-frontend/issues/68)).
 
 ### Changed
-
-- Changed the date facets to full dates for facets and advanced search ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
 
 ### Removed
 

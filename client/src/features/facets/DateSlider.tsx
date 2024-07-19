@@ -88,10 +88,10 @@ const StyledDiv = styled.div`
 interface IProps {
   min: number
   max: number
-  earliestVal: string
-  latestVal: string
-  onEarliestChange: (x: string) => void
-  onLatestChange: (x: string) => void
+  earliestVal: number
+  latestVal: number
+  onEarliestChange: (x: string | number) => void
+  onLatestChange: (x: string | number) => void
 }
 
 const DateSlider: React.FC<IProps> = ({
@@ -148,13 +148,13 @@ const DateSlider: React.FC<IProps> = ({
   ): void => {
     const value = Math.min(Number(e.currentTarget.value), maxVal - 1)
     setMinVal(value)
-    onEarliestChange(value.toString())
+    onEarliestChange(value)
   }
 
   const handleOnLatestChange = (e: React.FormEvent<HTMLInputElement>): void => {
     const value = Math.max(Number(e.currentTarget.value), minVal + 1)
     setMaxVal(value)
-    onLatestChange(value.toString())
+    onLatestChange(value)
   }
 
   return (

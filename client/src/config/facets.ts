@@ -1,3 +1,4 @@
+import { parseSelectedDateFacet } from '../lib/facets/dateParser'
 import {
   IFacetNamesLists,
   IFacetToSearchTermConfig,
@@ -26,6 +27,11 @@ type IFacetConfig = Record<Scope, Record<string, IFacet>>
 // This should replace facetLabels and facetSearchTerms
 export const facets: IFacetConfig = {
   item: {
+    itemEncounteredDate: {
+      sectionLabel: 'Encounter Date',
+      selectedLabel: (value) => parseSelectedDateFacet(value as string),
+      buildQuery: (value) => ({ hasDigitalImage: value }),
+    },
     itemHasDigitalImage: {
       sectionLabel: 'Has Digital Image',
       facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
@@ -38,6 +44,11 @@ export const facets: IFacetConfig = {
       facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
+    },
+    itemProductionDate: {
+      sectionLabel: 'Creation Date',
+      selectedLabel: (value) => parseSelectedDateFacet(value as string),
+      buildQuery: (value) => ({ hasDigitalImage: value }),
     },
     itemRecordType: {
       sectionLabel: 'Object Class',

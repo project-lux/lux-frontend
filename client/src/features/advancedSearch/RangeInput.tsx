@@ -38,6 +38,7 @@ const RangeInput: React.FC<IRangeInput> = ({
   ariaLabel,
 }) => {
   const dispatch = useAppDispatch()
+
   const handleOnChange = (userInput: string): void => {
     dispatch(addRangeValue({ field, value: userInput, stateId }))
   }
@@ -45,11 +46,6 @@ const RangeInput: React.FC<IRangeInput> = ({
   const handleAddComparator = (selected: string): void => {
     dispatch(addRangeComparator({ comp: selected, stateId }))
   }
-
-  // const handleAddTimePeriod = (selected: string): void => {
-  //   console.log(selected)
-  //   // dispatch(addRangeComparator({ comp: selected, stateId }))
-  // }
 
   const comparatorsId = `comparators-options-${stateId}`
   const rangeId = `comparators-options-${stateId}`
@@ -76,29 +72,12 @@ const RangeInput: React.FC<IRangeInput> = ({
       </label>
       <StyledInput
         id={rangeId}
-        type={field.toLowerCase().includes('date') ? 'date' : 'number'}
+        type="number"
         className="form-control me-2"
         placeholder={label}
         value={currentValue}
         onChange={(e) => handleOnChange(e.currentTarget.value)}
       />
-      {/* Possible solution */}
-      {/* {field.toLowerCase().includes('date') && (
-        <React.Fragment>
-          <label htmlFor="date-period" className="d-none">
-            {label}
-          </label>
-          <AdvancedSearchDropdown
-            options={timePeriod}
-            handleChange={handleAddTimePeriod}
-            className="comparatorSelection me-2"
-            dropdownHeaderText="Select the era"
-            ariaLabel="Select the era BC or BCE"
-            selected="CE"
-            id="date-period"
-          />
-        </React.Fragment>
-      )} */}
     </div>
   )
 }

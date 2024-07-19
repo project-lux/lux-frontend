@@ -2,56 +2,9 @@ import {
   formatDateJsonSearch,
   formatYear,
   getYearFromSingleFacetValue,
-  getYearsFromFacetValues,
 } from '../../../../lib/facets/dateParser'
-import { IOrderedItems } from '../../../../types/ISearchResults'
 
 describe('dateParser functions', () => {
-  const mockFacetValues: Array<IOrderedItems> = [
-    {
-      id: 'id',
-      type: 'OrderedCollection',
-      totalItems: 22,
-      first: { id: 'first', type: 'test' },
-      value: '1983-01-01T00:00:00Z',
-    },
-    {
-      id: 'id',
-      type: 'OrderedCollection',
-      totalItems: 19,
-      first: { id: 'first', type: 'test' },
-      value: '-1980-01-01T00:00:00Z',
-    },
-    {
-      id: 'id',
-      type: 'OrderedCollection',
-      totalItems: 18,
-      first: { id: 'first', type: 'test' },
-      value: '1977-01-01T00:00:00Z',
-    },
-    {
-      id: 'id',
-      type: 'OrderedCollection',
-      totalItems: 17,
-      first: { id: 'first', type: 'test' },
-      value: '-1974-01-01T00:00:00Z',
-    },
-    {
-      id: 'id',
-      type: 'OrderedCollection',
-      totalItems: 15,
-      first: { id: 'first', type: 'test' },
-      value: '1982-01-01T00:00:00Z',
-    },
-  ]
-
-  describe('getYearsFromFacetValues', () => {
-    it('returns sorted years from facetValues', () => {
-      const years = getYearsFromFacetValues(mockFacetValues)
-      expect(years).toEqual([-1980, -1974, 1977, 1982, 1983])
-    })
-  })
-
   describe('getYearFromSingleFacetValue', () => {
     it('returns BC year', () => {
       const year = getYearFromSingleFacetValue('-2017-10-20T00:00:00')
