@@ -29,16 +29,24 @@ export default function entityMockApi(): void {
   // mock the request for types
   nock(apiUrl)
     .get(
-      '/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person%22%7D%7D&name=itemTypeId',
+      '/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person%22%7D%7D&name=itemTypeId&page=1',
     )
-    .reply(200, JSON.stringify(mockTypes), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
+    .reply(
+      200,
+      JSON.stringify(
+        mockTypes(
+          '/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person%22%7D%7D&name=itemTypeId&page=1',
+        ),
+      ),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
 
   // mock api call for the name of the related type
   nock(apiUrl)
-    .get('/data/concept/mock-facet-concept?profile=name')
+    .get('/data/concept/mock-facet-concept?profile=results')
     .reply(
       200,
       JSON.stringify(
@@ -63,7 +71,7 @@ export default function entityMockApi(): void {
 
   // mock the request for semantically related group
   nock(apiUrl)
-    .get('/data/group/mock-semantic-group?profile=name')
+    .get('/data/group/mock-semantic-group?profile=results')
     .reply(
       200,
       JSON.stringify(
@@ -109,7 +117,7 @@ export default function entityMockApi(): void {
 
   // mock the request for items made/discovered
   nock(apiUrl)
-    .get('/api/search/item?q=agentMadeDiscoveredItem')
+    .get('/api/search/item?q=agentMadeDiscoveredInfluencedItem')
     .reply(200, JSON.stringify(mockResults('data/object/mock-object', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -132,14 +140,20 @@ export default function entityMockApi(): void {
   // mock the api call for the object name
   nock(apiUrl)
     .get('/data/object/mock-object?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Object')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
+    .reply(
+      200,
+      JSON.stringify(
+        reusableMinimalEntity('Mock Object', '/object/mock-object'),
+      ),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
 
   // mock the request for works published
   nock(apiUrl)
-    .get('/api/search/work?q=agentCreatedPublishedWork')
+    .get('/api/search/work?q=agentCreatedPublishedInfluencedWork')
     .reply(200, JSON.stringify(mockResults('data/text/mock-work', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -168,4 +182,12 @@ export default function entityMockApi(): void {
         'Content-type': 'application/json',
       },
     )
+
+  // Mock the request for the related work
+  nock(apiUrl)
+    .get('/data/entity/mock-entity?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Work')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
 }

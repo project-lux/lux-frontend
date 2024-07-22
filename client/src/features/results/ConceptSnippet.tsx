@@ -28,14 +28,13 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
 
   if (isSuccess && data) {
     const concept = new ConceptParser(data)
-    const descriptions = concept.getDescriptions(config.dc.langen)
-    const types = concept.getTypes()
+    const descriptions = concept.getDescriptions(config.aat.langen)
 
     return (
       <React.Fragment>
         <div className="m-2 d-flex">
           <div className="flex-shrink-0">
-            <PreviewImageOrIcon images={[]} entity={data} types={types} />
+            <PreviewImageOrIcon images={[]} entity={data} />
           </div>
           <div className="flex-grow-1 ms-3">
             <StyledSnippetTitle

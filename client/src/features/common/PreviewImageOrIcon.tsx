@@ -12,7 +12,6 @@ import ImageThumbnail from './ImageThumbnail'
 interface IObjectsBy {
   images: Array<IImages>
   entity: IEntity
-  types: Array<string>
   margin?: string
   className?: string
   width?: string
@@ -22,7 +21,6 @@ interface IObjectsBy {
 const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
   images,
   entity,
-  types,
   margin,
   className,
   width,
@@ -42,7 +40,7 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
   }
 
   const element = new EntityParser(entity)
-  const [supertypeIcon, helperText] = element.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = element.getSupertypeIcon()
 
   return (
     <StyledIconDiv

@@ -1,8 +1,8 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
-import React, { useEffect, useRef, useState } from 'react'
-import { Navigate, useLocation, useParams } from 'react-router-dom'
+import React, { useRef, useState, useEffect } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
@@ -86,13 +86,11 @@ const DateInput: React.FC<IFacets> = ({
     page: lastPage,
   })
 
+  const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
-  // const years = getYearsFromFacetValues(facetValues)
-
-  const [redirect, setRedirect] = useState(false)
   const earliestRef = useRef<HTMLInputElement>(null)
   const latestRef = useRef<HTMLInputElement>(null)
 
@@ -138,7 +136,17 @@ const DateInput: React.FC<IFacets> = ({
       'Selected',
       `Facet ${facetLabels[facetSection]}`,
     )
-    setRedirect(true)
+
+    const newFacetQuery = getUpdatedFacetQuery()
+    const searchParams = new URLSearchParams(search)
+    searchParams.set(`${paramPrefix}f`, JSON.stringify(newFacetQuery))
+    searchParams.set('q', JSON.stringify(criteria))
+    searchParams.set('facetRequest', 'true')
+    searchParams.set(`${paramPrefix}p`, '1')
+    const searchQ = searchParams.toString()
+    navigate(`${pathname}?${searchQ}`, {
+      state: { targetName: 'Results Page' },
+    })
   }
 
   function getUpdatedFacetQuery(): ICriteria {
@@ -169,28 +177,6 @@ const DateInput: React.FC<IFacets> = ({
       // TODO: uncomment when ML estimates are fixed
       // array.push({ [searchTermName]: { start: earliest, end: latest } })
     }
-  }
-
-  if (redirect) {
-    const newFacetQuery = getUpdatedFacetQuery()
-    const searchParams = new URLSearchParams(search)
-    searchParams.set(`${paramPrefix}f`, JSON.stringify(newFacetQuery))
-    searchParams.set('q', JSON.stringify(criteria))
-    searchParams.set('facetRequest', 'true')
-    searchParams.set(`${paramPrefix}p`, '1')
-
-    const searchQ = searchParams.toString()
-    return (
-      <Navigate
-        to={{
-          pathname,
-          search: searchQ,
-        }}
-        state={{
-          targetName: `${pathname}${searchQ}`,
-        }}
-      />
-    )
   }
 
   return (

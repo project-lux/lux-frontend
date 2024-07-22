@@ -172,6 +172,9 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                       isActive ? ' active' : ''
                     }`
                   }
+                  state={{
+                    targetName: 'Results Page',
+                  }}
                   onClick={() => {
                     pushClientEvent(
                       'Results Tab',

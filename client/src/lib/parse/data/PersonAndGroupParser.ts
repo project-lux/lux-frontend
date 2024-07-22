@@ -12,9 +12,9 @@ import EntityParser from './EntityParser'
 import {
   forceArray,
   getClassifiedAs,
-  getClassifiedAsWithMatchingClassifier,
   hasData,
   transformDate,
+  validateClassifiedAsIdMatches,
 } from './helper'
 
 export default class PersonAndGroupParser extends EntityParser {
@@ -251,13 +251,18 @@ export default class PersonAndGroupParser extends EntityParser {
         labelClassifications.length > 0
           ? labelClassifications[0]
           : 'Categorized As'
-
-      if (label === config.dc.gender) {
-        label = 'Gender'
-      }
-
-      if (label === config.dc.occupation) {
-        label = 'Occupation'
+      // check if AATs indicate the label should be overwritten
+      for (const cl of nestedClassifiedAs) {
+        if (cl.hasOwnProperty('equivalent')) {
+          const equivalent = forceArray(cl.equivalent)
+          for (const eq of equivalent) {
+            if (eq.id === config.aat.gender) {
+              label = 'Gender'
+            } else if (eq.id === config.aat.occupation) {
+              label = 'Occupation'
+            }
+          }
+        }
       }
 
       data.map((d) => {
@@ -273,32 +278,25 @@ export default class PersonAndGroupParser extends EntityParser {
   }
 
   /**
-   * Returns array of uuids /classified_as genders
-   * @returns {Array<string>}
-   * @deprecated
-   */
-  getGenders(): Array<string> {
-    const classifiedAs = forceArray(this.agent.classified_as)
-    const genders = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.dc.gender,
-    )
-
-    const genderIds = genders.map((gender) => gender.id || '')
-    return genderIds
-  }
-
-  /**
    * Returns array of uuids /classified_as nationality
    * @returns {Array<string>}
    */
   // TODO: remove at a later date, this is no longer required
   getNationalities(): Array<string> {
     const classifiedAs = forceArray(this.agent.classified_as)
-    const nationalities = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.dc.nationality,
-    )
+    const nationalities = []
+
+    for (const cl of classifiedAs) {
+      if (cl.hasOwnProperty('classified_as')) {
+        if (
+          validateClassifiedAsIdMatches(cl.classified_as, [
+            config.aat.nationality,
+          ])
+        ) {
+          nationalities.push(cl)
+        }
+      }
+    }
 
     const nationalitiesIds = nationalities.map(
       (nationality) => nationality.id || '',
@@ -312,10 +310,19 @@ export default class PersonAndGroupParser extends EntityParser {
    */
   getOccupations(): Array<string> {
     const classifiedAs = forceArray(this.agent.classified_as)
-    const occupations = getClassifiedAsWithMatchingClassifier(
-      classifiedAs,
-      config.dc.occupation,
-    )
+    const occupations = []
+
+    for (const cl of classifiedAs) {
+      if (cl.hasOwnProperty('classified_as')) {
+        if (
+          validateClassifiedAsIdMatches(cl.classified_as, [
+            config.aat.occupation,
+          ])
+        ) {
+          occupations.push(cl)
+        }
+      }
+    }
 
     const occupationsIds = occupations.map((occupation) => occupation.id || '')
     return occupationsIds
@@ -385,8 +392,21 @@ export default class PersonAndGroupParser extends EntityParser {
 
         if (carried.classified_as) {
           const classifiedAs = forceArray(carried.classified_as)
-          const ids = getClassifiedAs(classifiedAs)
-          const filteredTypes = ids.filter((id) => id !== config.dc.active)
+          const filteredTypes = classifiedAs
+            .filter((cl) => {
+              // Filter ids that contain the id corresponding with the label of "Professional Activity"
+              if (cl.hasOwnProperty('equivalent')) {
+                const equivalent = forceArray(cl.equivalent)
+                for (const eq of equivalent) {
+                  if (eq.id !== config.aat.active) {
+                    return cl.id
+                  }
+                }
+              }
+              return null
+            })
+            .filter((cl) => cl !== null)
+            .map((cl) => cl.id)
           type = filteredTypes.length > 0 ? filteredTypes[0] : ''
         }
 

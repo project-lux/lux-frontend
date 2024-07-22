@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import config from '../../../config/config'
 import {
   collectionsIcon,
@@ -30,6 +32,7 @@ import {
   getSpecificReferredToBy,
   getMultipleSpecificReferredToBy,
   getNestedCarriedOutBy,
+  isEquivalent,
 } from './helper'
 
 // Meant to be base class for other parsers
@@ -61,7 +64,7 @@ export default class EntityParser {
 
       for (const digital of digitallyCarriedBy) {
         const d = new EntityParser(digital)
-        if (d.isClassifiedAs(config.dc.webPage)) {
+        if (d.isClassifiedAs(config.aat.webPage)) {
           const accessPoint = forceArray(digital.access_point)
           for (const p of accessPoint) {
             if (typeof p.id === 'string' && p.id.match(/^https?:\/\/.+/)) {
@@ -141,7 +144,7 @@ export default class EntityParser {
           // check if there are multiple classifications for a name
           if (ids.length > 1) {
             // remove the sort label if there are more than one classifications
-            ids = ids.filter((id) => id !== config.dc.sortName)
+            ids = ids.filter((id) => id !== config.aat.sortName)
             // eslint-disable-next-line prefer-destructuring
             label = ids[0]
           } else if (ids.length === 1) {
@@ -155,7 +158,7 @@ export default class EntityParser {
         }
 
         // Only add the data to the returned object if there is content and the label is not a sort name
-        if (identifier.content !== undefined && label !== config.dc.sortName) {
+        if (identifier.content !== undefined && label !== config.aat.sortName) {
           if (data.hasOwnProperty(label)) {
             data[label].push({ content: identifier.content, language })
           } else {
@@ -171,7 +174,7 @@ export default class EntityParser {
 
     // remove the primary name
     if (removePrimaryName) {
-      const primaryName = this.getPrimaryName(config.dc.langen)
+      const primaryName = this.getPrimaryName(config.aat.langen)
       Object.keys(data).map((names) =>
         // eslint-disable-next-line array-callback-return
         data[names].map((name) => {
@@ -208,6 +211,15 @@ export default class EntityParser {
   }
 
   /**
+   * Returns array of uuids from /equivalent
+   * @returns {Array<string>}
+   */
+  getEquivalent(): Array<string> {
+    const equivalent = forceArray(this.json.equivalent)
+    return getClassifiedAs(equivalent)
+  }
+
+  /**
    * Returns array of uuids from /about
    * @returns {Array<string>}
    */
@@ -232,9 +244,22 @@ export default class EntityParser {
     const classifiedAs = forceArray(this.json.classified_as)
 
     return classifiedAs
-      .filter((cl) => cl.type === 'Type')
+      .filter((cl) => {
+        if (cl.type === 'Type') {
+          if (cl.hasOwnProperty('equivalent')) {
+            for (const eq of cl.equivalent) {
+              if (eq.id !== config.aat.collectionItem) {
+                return cl
+              }
+            }
+          } else {
+            return cl
+          }
+        }
+        return null
+      })
+      .filter((clFil) => clFil !== null)
       .map((cl) => cl.id)
-      .filter((id) => id !== config.dc.collectionItem)
   }
 
   /**
@@ -304,12 +329,12 @@ export default class EntityParser {
 
   /**
    * Returns the copyright statement from /referred_to_by
-   * @returns {INoteContent | null}
+   * @returns {Array<INoteContent>}
    */
-  getCopyrightLicensingStatement(): INoteContent | null {
+  getCopyrightLicensingStatement(): Array<INoteContent> {
     return getSpecificReferredToBy(
       this.json,
-      config.dc.copyrightLicensingStatement,
+      config.aat.copyrightLicensingStatement,
     )
   }
 
@@ -318,7 +343,7 @@ export default class EntityParser {
    * @returns {INoteContent | null}
    */
   getPlanYourVisitLink(): Array<INoteContent> {
-    return getMultipleSpecificReferredToBy(this.json, config.dc.visitors)
+    return getMultipleSpecificReferredToBy(this.json, config.aat.visitors)
   }
 
   /**
@@ -347,11 +372,11 @@ export default class EntityParser {
           imageRep.imageUrls.push(point.id)
         }
 
-        const copyrightStatement = new EntityParser(
+        const copyrightStatements = new EntityParser(
           digital,
         ).getCopyrightLicensingStatement()
         imageRep.attribution =
-          copyrightStatement !== null ? copyrightStatement.content : ''
+          copyrightStatements.length > 0 ? copyrightStatements[0].content : ''
         imageReps.push(imageRep)
       }
     }
@@ -374,8 +399,25 @@ export default class EntityParser {
 
     referredToBy.map((el: IEntity) => {
       let label
+      let equivalent
+
+      // check if note is classified as copyright statement or visitors
+      // do not parse the entity and return null as they should not be displayed with notes
+      if (!isUndefined(el.classified_as)) {
+        if (
+          validateClassifiedAsIdMatches(el.classified_as, [
+            config.aat.copyrightLicensingStatement,
+            config.aat.visitors,
+            config.aat.accessStatement,
+          ])
+        ) {
+          return null
+        }
+      }
+
       const nestedElement = new EntityParser(el)
-      const isEnglish = nestedElement.isInLanguage(config.dc.langen)
+      // get languages
+      const isEnglish = nestedElement.isInLanguage(config.aat.langen)
       const languages = forceArray(el.language)
       const language = languages.length > 0 ? languages[0].id : ''
 
@@ -386,13 +428,17 @@ export default class EntityParser {
       }
 
       // If the label is undefined, set it to the value of /classified_as/id
+      const nestedClassifiedAs = forceArray(el.classified_as)
       if (label === undefined) {
-        const nestedClassifiedAs = forceArray(el.classified_as)
         const labelClassifications = getClassifiedAs(nestedClassifiedAs)
         label =
           labelClassifications.length > 0
             ? labelClassifications[0]
             : 'Additional Notes'
+      }
+      for (const cl of nestedClassifiedAs) {
+        const nestedEntity = new EntityParser(cl)
+        equivalent = nestedEntity.getEquivalent()
       }
 
       const htmlContent = el._content_html
@@ -406,12 +452,14 @@ export default class EntityParser {
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             })
           } else {
             data[label].push({
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             })
           }
         } else {
@@ -420,6 +468,7 @@ export default class EntityParser {
               content: contentToDisplay || '',
               language,
               _content_html: htmlContent,
+              equivalent,
             },
           ]
         }
@@ -432,29 +481,32 @@ export default class EntityParser {
       return null
     }
 
-    // remove copyright statement and visitor statement
-    Object.keys(data).map((key) => {
-      if (
-        key === config.dc.copyrightLicensingStatement ||
-        key === config.dc.visitors
-      ) {
-        delete data[key]
-      }
-      return null
-    })
-
     return data
   }
 
   /**
    * Returns the supertype icon to be displayed with the entity along with its alt text
-   * @param {Array<string>} types types to be parsed when the entity is a HumanMadeObject
    * @returns {Array<string>}
    */
-  getSupertypeIcon(types: Array<string>): Array<string> {
+  getSupertypeIcon(): Array<string> {
     const { type } = this.json
+
+    // get type AATs from /equivalent
+    const types: Array<string> = []
+    if (this.json.classified_as) {
+      const classifiedAs = forceArray(this.json.classified_as)
+      for (const cls of classifiedAs) {
+        if (cls.hasOwnProperty('equivalent')) {
+          for (const eq of cls.equivalent) {
+            types.push(eq.id)
+          }
+        }
+      }
+    }
+
     switch (type) {
       case 'HumanMadeObject':
+        // eslint-disable-next-line no-case-declarations
         if (types.some((typeIri) => isSpecimen(typeIri))) {
           return [specimensIcon, 'specimen']
         }
@@ -515,12 +567,13 @@ export default class EntityParser {
           contentIdentifier = identifiedBy[0].content
         }
 
-        if (
-          classifiedAs !== undefined &&
-          validateClassifiedAsIdMatches(classifiedAs[0], config.dc.webPage)
-        ) {
-          for (const p of accessPoint) {
-            links.push({ contentIdentifier, link: p.id })
+        if (classifiedAs !== undefined) {
+          if (
+            validateClassifiedAsIdMatches(classifiedAs, [config.aat.webPage])
+          ) {
+            for (const p of accessPoint) {
+              links.push({ contentIdentifier, link: p.id })
+            }
           }
         }
       }
@@ -544,8 +597,8 @@ export default class EntityParser {
         const accessPoint = forceArray(digital.access_point)
         const d = new EntityParser(digital)
 
-        if (!d.isIIIFManifest() && !d.isClassifiedAs(config.dc.webPage)) {
-          const name = d.getPrimaryName(config.dc.langen)
+        if (!d.isIIIFManifest() && !d.isClassifiedAs(config.aat.webPage)) {
+          const name = d.getPrimaryName(config.aat.langen)
 
           for (const p of accessPoint) {
             links.push({
@@ -568,14 +621,44 @@ export default class EntityParser {
     label: string
     identifier: Array<string>
     carriedOutBy: Array<string>
+    equivalent: Array<string>
   }> {
     const identifiedBy = forceArray(this.json.identified_by)
 
     const identifiers = identifiedBy
-      .filter((identifier) => identifier.type === 'Identifier')
+      .filter((identifier) => {
+        if (identifier.type === 'Identifier') {
+          if (identifier.classified_as) {
+            // filter identifiers that are classified as sorting identifiers
+            for (const cl of identifier.classified_as) {
+              const nestedEntity = new EntityParser(cl)
+              const aats = nestedEntity.getEquivalent()
+              if (!aats.includes(config.aat.sortValue)) {
+                return identifier
+              }
+            }
+          } else {
+            return identifier
+          }
+        }
+        return null
+      })
       .map((identifier) => {
         const classifiedAs = forceArray(identifier.classified_as)
-        const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : ''
+        // get equivalent ids
+        const equivalentObjects = classifiedAs
+          .map((cl) => {
+            if (cl.hasOwnProperty('equivalent')) {
+              const { equivalent } = cl
+              for (const eq of equivalent) {
+                return eq.id
+              }
+            }
+            return null
+          })
+          .filter((eq) => eq !== null)
+        const ids = classifiedAs.length > 0 ? getClassifiedAs(classifiedAs) : []
+
         const attributedBy = forceArray(identifier.attributed_by)
         const assignedBy = forceArray(identifier.assigned_by)
         const agent = [
@@ -588,14 +671,15 @@ export default class EntityParser {
           label,
           identifier: identifier.content,
           carriedOutBy: agent,
+          equivalent: equivalentObjects,
         }
       })
-      .filter((id) => id.label !== config.dc.sortValue)
 
     const identifierData: Array<{
       label: string
       identifier: Array<string>
       carriedOutBy: Array<string>
+      equivalent: Array<string>
     }> = []
 
     for (const identifier of identifiers) {
@@ -659,12 +743,7 @@ export default class EntityParser {
   isClassifiedAs(typeId: string): boolean {
     const classifiedAs = forceArray(this.json.classified_as)
 
-    for (const elem of classifiedAs) {
-      if (elem.id === typeId) {
-        return true
-      }
-    }
-    return false
+    return isEquivalent(classifiedAs, typeId)
   }
 
   /**
@@ -690,11 +769,6 @@ export default class EntityParser {
   isInLanguage(langId: string): boolean {
     const langs = forceArray(this.json.language)
 
-    for (const elem of langs) {
-      if (elem.id === langId) {
-        return true
-      }
-    }
-    return false
+    return isEquivalent(langs, langId)
   }
 }

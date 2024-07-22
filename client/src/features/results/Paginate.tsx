@@ -93,14 +93,32 @@ const Paginate: React.FC<IPagination> = ({
     pushClientEvent('Pagination', 'Selected', 'Results Page')
   }
 
+  const handlePageSelection = (pageNumber: number): void => {
+    handleAnalytics()
+    navigate(
+      {
+        pathname: `${pathname}`,
+        search: `?${newURL}&${pageParam}=${pageNumber}`,
+      },
+      {
+        state: { targetName: 'Results Page' },
+      },
+    )
+  }
+
   // Go to the specified page
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     handleAnalytics()
-    navigate({
-      pathname: `${pathname}`,
-      search: `?${newURL}&${pageParam}=${pageValue}`,
-    })
+    navigate(
+      {
+        pathname: `${pathname}`,
+        search: `?${newURL}&${pageParam}=${pageValue}`,
+      },
+      {
+        state: { targetName: 'Results Page' },
+      },
+    )
   }
 
   const paginationRange = Paginator({
@@ -134,16 +152,14 @@ const Paginate: React.FC<IPagination> = ({
           {width < theme.breakpoints.md ? (
             <React.Fragment>
               <Pagination.Prev
-                href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
                 disabled={currentPage === 1}
-                onClick={() => handleAnalytics()}
+                onClick={() => handlePageSelection(currentPage - 1)}
               >
                 Previous
               </Pagination.Prev>
               <Pagination.Next
-                href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
                 disabled={currentPage === lastPage}
-                onClick={() => handleAnalytics()}
+                onClick={() => handlePageSelection(currentPage + 1)}
               >
                 Next
               </Pagination.Next>
@@ -151,29 +167,26 @@ const Paginate: React.FC<IPagination> = ({
           ) : (
             <React.Fragment>
               <Pagination.First
-                href={`${pathname}?${newURL}&${pageParam}=1`}
                 active={currentPage === 1}
-                onClick={() => handleAnalytics()}
+                onClick={() => handlePageSelection(1)}
               >
                 First
               </Pagination.First>
               {currentPage !== 1 && (
                 <Pagination.Prev
-                  href={`${pathname}?${newURL}&${pageParam}=${currentPage - 1}`}
-                  onClick={() => handleAnalytics()}
+                  onClick={() => handlePageSelection(currentPage - 1)}
                 />
               )}
               {paginationRange.length > 0 &&
                 paginationRange.map((pageNumber: string | number) => {
-                  if (pageNumber === DOTS) {
+                  if (typeof pageNumber === 'string' && pageNumber === DOTS) {
                     return <Pagination.Ellipsis disabled />
                   }
                   return (
                     <Pagination.Item
                       key={pageNumber}
-                      href={`${pathname}?${newURL}&${pageParam}=${pageNumber}`}
                       active={currentPage === pageNumber}
-                      onClick={() => handleAnalytics()}
+                      onClick={() => handlePageSelection(pageNumber as number)}
                     >
                       {pageNumber}
                     </Pagination.Item>
@@ -181,14 +194,12 @@ const Paginate: React.FC<IPagination> = ({
                 })}
               {currentPage !== lastPage && (
                 <Pagination.Next
-                  href={`${pathname}?${newURL}&${pageParam}=${currentPage + 1}`}
-                  onClick={() => handleAnalytics()}
+                  onClick={() => handlePageSelection(currentPage + 1)}
                 />
               )}
               <Pagination.Last
-                href={`${pathname}?${newURL}&${pageParam}=${lastPage}`}
                 active={currentPage === lastPage}
-                onClick={() => handleAnalytics()}
+                onClick={() => handlePageSelection(lastPage)}
               >
                 Last
               </Pagination.Last>

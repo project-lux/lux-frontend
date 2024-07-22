@@ -162,6 +162,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'agentActivePlaceId',
     'agentActiveDate',
     'agentMemberOfId',
+    'agentProfessionalActivityId',
     'agentRecordType',
   ],
   places: ['placeTypeId', 'placePartOfId'],
@@ -196,6 +197,7 @@ export const facetLabels: { [key: string]: string } = {
   agentOccupationId: 'Occupation',
   agentActivePlaceId: 'Professionally Active At',
   agentMemberOfId: 'Member Of',
+  agentProfessionalActivityId: 'Professional Activity Categorized As',
   agentRecordType: 'Person or Group Class',
   agentTypeId: 'Categorized As',
   conceptInfluencedByAgentId: 'Influenced by Person & Group',
@@ -390,6 +392,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
     agentMemberOfId: {
       searchTermName: 'memberOf',
+      idFacet: true,
+    },
+    agentProfessionalActivityId: {
+      searchTermName: 'professionalActivity',
       idFacet: true,
     },
     agentTypeId: {
@@ -651,6 +657,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
     classification: {
       facetName: 'agentTypeId',
+      idFacet: true,
+    },
+    professionalActivity: {
+      facetName: 'agentProfessionalActivityId',
       idFacet: true,
     },
     recordType: {

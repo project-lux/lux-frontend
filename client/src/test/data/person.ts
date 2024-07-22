@@ -1,10 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config/config'
-import { defaultConstants } from '../../config/dataConstants'
 import IAgent from '../../types/data/IAgent'
 import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
 
-const dc = defaultConstants(`${config.env.dataApiBaseUrl}`)
+import {
+  copyrightStatement,
+  englishLanguage,
+  gender,
+  nationality,
+  occupation,
+  primaryName,
+  professionalActivity,
+  webPage,
+} from './helperObjects'
 
 export const person: IAgent = {
   '@context': 'https://context',
@@ -35,10 +43,18 @@ export const person: IAgent = {
       type: 'Activity',
       _label: 'Active Dates',
       classified_as: [
+        ...professionalActivity,
         {
-          id: `${config.env.dataApiBaseUrl}data/concept/professional-activity`,
+          id: `${config.env.dataApiBaseUrl}data/concept/professional-activity-to-display`,
           type: 'Type',
-          _label: 'Professional Activities',
+          _label: 'Professional Activity',
+          equivalent: [
+            {
+              id: 'not the aat to filter',
+              type: 'Type',
+              _label: 'Professional Activities',
+            },
+          ],
         },
       ],
       timespan: {
@@ -65,50 +81,26 @@ export const person: IAgent = {
     {
       id: `${config.env.dataApiBaseUrl}data/concept/gender-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: dc.gender,
-          type: 'Type',
-          _label: 'gender',
-        },
-      ],
       _label: 'male',
+      classified_as: gender,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: dc.nationality,
-          type: 'Type',
-          _label: 'nationality',
-        },
-      ],
       _label: 'American',
+      classified_as: nationality,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
       type: 'Type',
-      classified_as: [
-        {
-          id: dc.nationality,
-          type: 'Type',
-          _label: 'nationality',
-        },
-      ],
       _label: 'German',
+      classified_as: nationality,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/occupation-1`,
       type: 'Type',
-      classified_as: [
-        {
-          id: dc.occupation,
-          type: 'Type',
-          _label: 'Occupations',
-        },
-      ],
       _label: 'artist',
+      classified_as: occupation,
     },
     {
       id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
@@ -139,20 +131,8 @@ export const person: IAgent = {
       id: '',
       type: 'Name',
       content: 'Mock Person',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
     {
       id: '',
@@ -216,13 +196,7 @@ export const person: IAgent = {
             {
               type: 'LinguisticObject',
               content: 'Image attribution',
-              classified_as: [
-                {
-                  id: config.dc.copyrightLicensingStatement,
-                  type: 'Type',
-                  _label: 'Copyright/License Statement',
-                },
-              ],
+              classified_as: copyrightStatement,
             },
           ],
         },
@@ -249,13 +223,7 @@ export const person: IAgent = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },

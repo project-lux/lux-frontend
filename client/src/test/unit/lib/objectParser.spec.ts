@@ -5,9 +5,7 @@ import mockPhysicalObject from '../../data/object'
 import { digitalObject as mockDigitalObject } from '../../data/digitalObject'
 import config from '../../../config/config'
 import IObject from '../../../types/data/IObject'
-import { defaultConstants } from '../../../config/dataConstants'
-
-const dc = defaultConstants(config.env.dataApiBaseUrl)
+import { callNumberId, typeOfPartId } from '../../data/helperObjects'
 
 describe('ObjectParser', () => {
   describe('getCurrentLocation', () => {
@@ -167,7 +165,10 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const accessStatement = object.getAccessStatement()
       expect(accessStatement).toEqual([
-        { content: 'On view', language: config.dc.langen },
+        {
+          content: 'On view',
+          _content_html: undefined,
+        },
       ])
     })
   })
@@ -283,9 +284,10 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const callNumber = object.getCallNumber()
       expect(callNumber).toEqual({
-        label: config.dc.callNumber,
+        label: callNumberId,
         identifier: ['Mock Call Number'],
         carriedOutBy: [],
+        equivalent: [config.aat.callNumber],
       })
     })
 
@@ -312,6 +314,7 @@ describe('ObjectParser', () => {
         label: `${config.env.dataApiBaseUrl}data/concept/not-call-number`,
         identifier: ['Another identifier'],
         carriedOutBy: [],
+        equivalent: [],
       })
     })
   })
@@ -332,7 +335,7 @@ describe('ObjectParser', () => {
           unit: `${config.env.dataApiBaseUrl}data/concept/unit-2`,
         },
         {
-          label: dc.typeOfPart,
+          label: typeOfPartId,
           value: 100,
           unit: '',
         },

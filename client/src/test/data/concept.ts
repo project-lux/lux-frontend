@@ -2,6 +2,12 @@
 import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
 
+import {
+  descriptionStatement,
+  englishLanguage,
+  primaryName,
+} from './helperObjects'
+
 export const concept: IConcept = {
   id: `${config.env.dataApiBaseUrl}data/concept/mock-concept`,
   type: 'Language',
@@ -56,39 +62,15 @@ export const concept: IConcept = {
       id: '',
       type: 'Name',
       content: 'Mock Concept',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
     {
       id: '',
       type: 'Name',
       content: 'British languages (Celtic)',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
   ],
   referred_to_by: [
@@ -97,13 +79,7 @@ export const concept: IConcept = {
       type: 'LinguisticObject',
       content:
         'Languages of the Celts; in the first millennium BCE, these languages were spoken across a wide area of Europe and Asia Minor. Surviving Surviving Celtic languages are now spoken in Ireland, Scotland, Wales, Brittany, Cornwall, and the Isle of Man, and Cape Breton Island.',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
+      language: englishLanguage,
       classified_as: [
         {
           id: `${config.env.dataApiBaseUrl}data/concept/40ab3a0f-d7d1-440f-9be2-05131d6e567e`,
@@ -123,60 +99,14 @@ export const concept: IConcept = {
       id: '',
       type: 'LinguisticObject',
       content: 'Description statement in english.',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.descriptionStatement,
-          type: 'Type',
-          _label: 'Rights Statement',
-          classified_as: [
-            {
-              id: `${config.env.dataApiBaseUrl}data/concept/brief-text`,
-              type: 'Type',
-              _label: 'Brief Text',
-            },
-          ],
-        },
-      ],
-    },
-  ],
-}
-
-export const languageConcept: IConcept = {
-  id: `${config.env.dataApiBaseUrl}data/concept/language`,
-  type: 'Language',
-  _label: 'Brythonic languages',
-  identified_by: [
-    {
-      id: '',
-      type: 'Name',
-      content: 'English',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: descriptionStatement,
     },
   ],
 }
 
 export const displayNameConcept: IConcept = {
-  id: `${config.env.dataApiBaseUrl}data/concept/language`,
+  id: `${config.env.dataApiBaseUrl}data/concept/display-name`,
   type: 'Language',
   _label: 'Display name',
   identified_by: [
@@ -184,20 +114,8 @@ export const displayNameConcept: IConcept = {
       id: '',
       type: 'Name',
       content: 'display name',
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      language: englishLanguage,
+      classified_as: primaryName,
     },
   ],
 }

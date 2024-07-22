@@ -8,6 +8,7 @@ import cmsMockApi from './utils/cmsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
 import placeResultsMockApi from './utils/placeResultsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+import sharedMock from './utils/sharedMockApi'
 
 describe('Place results page', () => {
   const page =
@@ -15,6 +16,7 @@ describe('Place results page', () => {
 
   beforeEach(async () => {
     placeResultsMockApi()
+    sharedMock()
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()

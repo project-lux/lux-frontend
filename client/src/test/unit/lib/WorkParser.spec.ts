@@ -1,5 +1,6 @@
 import config from '../../../config/config'
 import WorkParser from '../../../lib/parse/data/WorkParser'
+import { englishLanguageId } from '../../data/helperObjects'
 import { linguisticObject as mockObject } from '../../data/linguisticObject'
 
 describe('WorkParser', () => {
@@ -125,9 +126,7 @@ describe('WorkParser', () => {
     it('returns array of uuids', () => {
       const work = new WorkParser(mockObject)
       const languages = work.getLanguages()
-      expect(languages).toEqual([
-        `${config.env.dataApiBaseUrl}data/concept/language`,
-      ])
+      expect(languages).toEqual([englishLanguageId])
     })
   })
 

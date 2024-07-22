@@ -35,8 +35,7 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
     endDate = agent.getDissolutionDate()
   }
   const images = agent.getImages()
-  const types = agent.getTypes()
-  const [supertypeIcon, helperText] = agent.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = agent.getSupertypeIcon()
 
   return (
     <React.Fragment>

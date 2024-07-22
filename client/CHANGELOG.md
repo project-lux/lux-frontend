@@ -2,7 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.30.0 - Unreleased
+## v1.31.0 - Unreleased
+
+### Added
+
+- Added events relationship to sets ([#88](https://github.com/project-lux/lux-frontend/issues/88)).
+- Added Professional Activity to facets ([#268](https://github.com/project-lux/lux-frontend/issues/268)).
+
+### Changed
+
+### Removed
+
+- Removed brackets from Show More/Less buttons ([#272](https://github.com/project-lux/lux-frontend/issues/272)).
+
+### Fixed
+
+- Fixed issue with Site Improve events ([#222](https://github.com/project-lux/lux-frontend/issues/222)).
+
+## v1.30.0 - 2024-7-8
 
 ### Added
 
@@ -30,16 +47,6 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added Work Class to facets and advanced search ([#177](https://github.com/project-lux/lux-frontend/issues/177)).
-
-### Changed
-
-- Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
-
-## v1.29.1 - 2024-6-24
-
-### Added
-
 ### Changed
 
 - Changed Objects and Works Influenced Tabs to be combined with existing tabs ([#87](https://github.com/project-lux/lux-frontend/issues/87)).
@@ -59,6 +66,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Removed
+
+- Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
 
 ### Fixed
 

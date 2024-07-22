@@ -36,10 +36,10 @@ export default function collectionsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the call number name
+  // Mock the request
   nock(apiUrl)
-    .get('/data/concept/5088ec29-065b-4c66-b49e-e61d3c8f3717?profile=name')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Display Name')), {
+    .get('/data/entity/mock-entity?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Concept')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

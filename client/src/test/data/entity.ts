@@ -2,6 +2,21 @@ import config from '../../config/config'
 import { unit } from '../../config/objectsSearchTags'
 import IEntity from '../../types/data/IEntity'
 
+import {
+  animalSpecimens,
+  archives,
+  collectionItem,
+  copyrightStatement,
+  descriptionStatement,
+  displayName,
+  englishLanguage,
+  frenchLanguage,
+  primaryName,
+  sortValue,
+  visitors,
+  webPage,
+} from './helperObjects'
+
 // eslint-disable-next-line import/prefer-default-export
 export const entity: IEntity = {
   id: `${config.env.dataApiBaseUrl}data/object/1`,
@@ -13,51 +28,21 @@ export const entity: IEntity = {
       id: '',
       type: 'Name',
       content: 'Mock Entity',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'eng',
-        },
-      ],
+      classified_as: primaryName,
+      language: englishLanguage,
     },
     {
       id: '',
       type: 'Name',
       content: 'animal de compagnie',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
-      language: [
-        {
-          id: config.dc.langfr,
-          type: 'Language',
-          _label: 'french',
-        },
-      ],
+      classified_as: primaryName,
+      language: frenchLanguage,
     },
     {
       id: '',
       type: 'Name',
       content: 'Name with no language',
-      classified_as: [
-        {
-          id: config.dc.displayName,
-          type: 'Type',
-          _label: 'Display Name',
-        },
-      ],
+      classified_as: displayName,
     },
     {
       id: '',
@@ -99,13 +84,7 @@ export const entity: IEntity = {
           ],
         },
       ],
-      classified_as: [
-        {
-          id: config.dc.sortValue,
-          type: 'Type',
-          _label: 'Sort value',
-        },
-      ],
+      classified_as: sortValue,
     },
   ],
   part_of: [
@@ -136,20 +115,13 @@ export const entity: IEntity = {
       ],
     },
     {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
-      type: 'Type',
-      _label: 'paintings',
-    },
-    {
-      id: config.dc.collectionItem,
-      type: 'Type',
-      _label: 'collection item',
-    },
-    {
-      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-3`,
+      id: `${config.env.dataApiBaseUrl}data/concept/classified-as-4`,
       type: 'Language',
       _label: 'spanish',
     },
+    ...archives,
+    ...collectionItem,
+    ...animalSpecimens,
   ],
   referred_to_by: [
     {
@@ -185,30 +157,24 @@ export const entity: IEntity = {
       content: 'Note 2',
       classified_as: [
         {
-          id: `${config.env.dataApiBaseUrl}data/text/classified-as-2`,
+          id: `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
           type: 'Type',
           _label: 'Not a Rights Statement',
         },
       ],
-      language: [
-        {
-          id: config.dc.langen,
-          type: 'Language',
-          _label: 'English',
-        },
-      ],
+      language: englishLanguage,
     },
     {
-      id: `${config.env.dataApiBaseUrl}data/text/copyright-licensing-statement`,
+      id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
       type: 'LinguisticObject',
       content: 'Copyright licensing statement',
-      classified_as: [
-        {
-          id: config.dc.copyrightLicensingStatement,
-          type: 'Type',
-          _label: 'Copyright Statement',
-        },
-      ],
+      classified_as: copyrightStatement,
+    },
+    {
+      id: `${config.env.dataApiBaseUrl}data/concept/visitors`,
+      type: 'LinguisticObject',
+      content: 'visitors',
+      classified_as: visitors,
     },
   ],
   member_of: [
@@ -239,13 +205,7 @@ export const entity: IEntity = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
         },
       ],
     },
@@ -290,13 +250,7 @@ export const entity: IEntity = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
           identified_by: [
             {
               id: '',
@@ -427,54 +381,19 @@ export const entity: IEntity = {
             {
               type: 'LinguisticObject',
               content: 'Andy Warhol with Archie, his pet Dachshund',
-              classified_as: [
-                {
-                  id: 'http://vocab.getty.edu/aat/300435416',
-                  type: 'Type',
-                  _label: 'Description',
-                  classified_as: [
-                    {
-                      id: 'http://vocab.getty.edu/aat/300418049',
-                      type: 'Type',
-                      _label: 'Brief Text',
-                    },
-                  ],
-                },
-              ],
+              classified_as: descriptionStatement,
             },
             {
               type: 'LinguisticObject',
               content: 'by Jack Mitchell',
-              classified_as: [
-                {
-                  id: `${config.env.dataApiBaseUrl}data/concept/4030679e-c6e0-4e5e-b3c0-48ee1b8cfe60`,
-                  type: 'Type',
-                  _label: 'Copyright/License Statement',
-                  classified_as: [
-                    {
-                      id: 'http://vocab.getty.edu/aat/300418049',
-                      type: 'Type',
-                      _label: 'Brief Text',
-                    },
-                  ],
-                },
-              ],
+              classified_as: copyrightStatement,
             },
           ],
         },
       ],
     },
   ],
-  language: [
-    {
-      id: config.dc.langspa,
-      type: 'concept',
-    },
-    {
-      id: config.dc.langen,
-      type: 'concept',
-    },
-  ],
+  language: [...frenchLanguage, ...englishLanguage],
   _links: {
     curies: [
       {

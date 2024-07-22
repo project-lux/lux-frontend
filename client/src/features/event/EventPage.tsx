@@ -20,8 +20,7 @@ import AboutPanel from './AboutPanel'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const EventPage: React.FC<{ data: any }> = ({ data }) => {
   const event = new EventParser(data)
-  const types = event.getTypes()
-  const [supertypeIcon, helperText] = event.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = event.getSupertypeIcon()
 
   return (
     <React.Fragment>

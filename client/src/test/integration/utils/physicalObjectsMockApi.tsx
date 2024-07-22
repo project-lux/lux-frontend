@@ -5,11 +5,7 @@ import { physicalObject as mockObject } from '../../data/object'
 import { set as mockSet } from '../../data/set'
 import { person as mockPerson } from '../../data/person'
 import { linguisticObject as mockWork } from '../../data/linguisticObject'
-import {
-  concept as mockConcept,
-  displayNameConcept,
-  languageConcept,
-} from '../../data/concept'
+import { concept as mockConcept } from '../../data/concept'
 import { place as mockPlace } from '../../data/place'
 import { event as mockEvent } from '../../data/event'
 import { archive as mockArchive } from '../../data/archive'
@@ -27,14 +23,6 @@ export default function physicalObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the name language
-  nock(apiUrl)
-    .get('/data/concept/1fda962d-1edc-4fd7-bfa9-0c10e3153449?profile=name')
-    .reply(200, JSON.stringify(languageConcept), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // mock the api call for the call number name
   nock(apiUrl)
     .get('/data/concept/35961a03-7a62-4494-bd50-f1630477035f?profile=name')
@@ -43,24 +31,16 @@ export default function physicalObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for the call number name
-  nock(apiUrl)
-    .get('/data/concept/5088ec29-065b-4c66-b49e-e61d3c8f3717?profile=name')
-    .reply(200, JSON.stringify(displayNameConcept), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
   // mock the original works
   nock(apiUrl)
-    .get('/data/text/original-work-1?profile=name')
+    .get('/data/text/original-work-1?profile=results')
     .reply(200, JSON.stringify(mockWork), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
 
   nock(apiUrl)
-    .get('/data/text/original-work-2?profile=name')
+    .get('/data/text/original-work-2?profile=results')
     .reply(200, JSON.stringify(mockWork), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -68,7 +48,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for carries
   nock(apiUrl)
-    .get('/data/text/carries?profile=name')
+    .get('/data/text/carries?profile=results')
     .reply(200, JSON.stringify(mockWork), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -76,7 +56,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for shows
   nock(apiUrl)
-    .get('/data/text/shows?profile=name')
+    .get('/data/text/shows?profile=results')
     .reply(200, JSON.stringify(mockWork), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -165,7 +145,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for production label
   nock(apiUrl)
-    .get('/data/concept/production-part-classified-as?profile=name')
+    .get('/data/concept/production-part-classified-as?profile=results')
     .reply(200, JSON.stringify(mockConcept), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -205,7 +185,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for encounter location
   nock(apiUrl)
-    .get('/data/place/encounter-took-place-at?profile=name')
+    .get('/data/place/encounter-took-place-at?profile=results')
     .reply(200, JSON.stringify(mockPlace), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -219,9 +199,16 @@ export default function physicalObjectsMockApi(): void {
       'Content-type': 'application/json',
     })
 
+  nock(apiUrl)
+    .get('/data/concept/referred-to-by-classified-as-1?profile=results')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Notes label')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
   // mock the api call for publication label
   nock(apiUrl)
-    .get('/data/concept/d1d83293-3374-4fba-916a-ce79c31184d3?profile=name')
+    .get('/data/concept/d1d83293-3374-4fba-916a-ce79c31184d3?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Publication Location')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -276,7 +263,7 @@ export default function physicalObjectsMockApi(): void {
 
   // mock the api call for nationality name
   nock(apiUrl)
-    .get('/data/concept/nationality-1?profile=name')
+    .get('/data/concept/nationality-1?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('British')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

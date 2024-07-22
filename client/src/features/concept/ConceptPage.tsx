@@ -35,8 +35,7 @@ import AboutPanel from './AboutPanel'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
   const concept = new ConceptParser(data)
-  const types = concept.getTypes()
-  const [supertypeIcon, helperText] = concept.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = concept.getSupertypeIcon()
 
   return (
     <React.Fragment>

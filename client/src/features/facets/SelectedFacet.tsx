@@ -57,7 +57,7 @@ const SelectedFacet: React.FC<ISelected> = ({
   )
 
   if (nameResult.isSuccess && nameResult.data) {
-    label = new EntityParser(nameResult.data).getPrimaryName(config.dc.langen)
+    label = new EntityParser(nameResult.data).getPrimaryName(config.aat.langen)
   }
 
   const handleRemoveFacet = (): void => {
@@ -72,7 +72,9 @@ const SelectedFacet: React.FC<ISelected> = ({
       )
       dispatch(reset())
       pushClientEvent('Facets Selected Filters', 'Removed', `Facet ${label}`)
-      navigate(`${pathname}?${newSearchParams}`)
+      navigate(`${pathname}?${newSearchParams}`, {
+        state: { targetName: 'Results Page' },
+      })
     }
   }
 

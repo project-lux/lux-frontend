@@ -1,7 +1,7 @@
 /* eslint-disable react/no-danger */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react'
-import { useNavigate, useLocation, useParams, Navigate } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, ButtonGroup, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -85,10 +85,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     )
 
     queryString.set('view', selectedView)
-    navigate({
-      pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
-      search: `?${queryString.toString()}`,
-    })
+    navigate(
+      {
+        pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
+        search: `?${queryString.toString()}`,
+      },
+      {
+        state: { targetName: 'Results Page' },
+      },
+    )
   }
 
   const handleSortDirectionSelection = (value: string): void => {
@@ -100,7 +105,12 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     setSelectedSortDirection(value)
     if (sort !== undefined) {
       setSortBySelection(sort)
-      setRedirect(true)
+      // set query string params
+      queryString.set(sortName, `${sortBySelection}:${value}`)
+      const searchQ = queryString.toString()
+      navigate(`${pathname}?${searchQ}`, {
+        state: { targetName: 'Results Page' },
+      })
     }
   }
 
@@ -110,33 +120,17 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       'Selected',
       `Sort By ${value}:${selectedSortDirection}`,
     )
-    setSortBySelection(value)
-    setRedirect(true)
-  }
-
-  if (redirect) {
-    queryString.set(sortName, `${sortBySelection}:${selectedSortDirection}`)
     queryString.delete('rnd')
-
-    // If it is a query for random shuffling, add a sequence nunber to the URL
-    // so that the results component is re-rendered
-    // and that the cached results won't be reused.
-    if (sortBySelection === 'random') {
+    if (value === 'random') {
       queryString.set('rnd', String(seq))
       seq += 1
     }
+    queryString.set(sortName, `${value}:${selectedSortDirection}`)
     const searchQ = queryString.toString()
-    return (
-      <Navigate
-        to={{
-          pathname,
-          search: searchQ,
-        }}
-        state={{
-          targetName: `${pathname}${searchQ}`,
-        }}
-      />
-    )
+    setSortBySelection(value)
+    navigate(`${pathname}?${searchQ}`, {
+      state: { targetName: 'Results Page' },
+    })
   }
 
   return (

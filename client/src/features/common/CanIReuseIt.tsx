@@ -27,7 +27,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
   }
 
   // get object specific data
-  let copyright: INoteContent | null = null
+  let copyright: Array<INoteContent> = []
   let carries: Array<string> = []
   if (entityType === 'object') {
     const object = new ObjectParser(entity)
@@ -82,11 +82,12 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
           </p>
         )}
       </Col>
-      {copyright !== null && (
-        <Col xs={12}>
-          <TextNote content={copyright.content} id="copyright-statement" />
-        </Col>
-      )}
+      {copyright.length > 0 &&
+        copyright.map((cr) => (
+          <Col xs={12} key={cr.content}>
+            <TextNote content={cr.content} id="copyright-statement" />
+          </Col>
+        ))}
       <Col xs={12}>
         <InternalLink
           uri="/content/rights-info"

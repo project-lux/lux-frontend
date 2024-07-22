@@ -21,8 +21,7 @@ const WorksPage: React.FC<{ data: any }> = ({ data }) => {
   const entity = new WorkParser(data)
   const personUri =
     entity.getProductionAgent() || entity.getPublicationAgent() || undefined
-  const types = entity.getTypes()
-  const [supertypeIcon, helperText] = entity.getSupertypeIcon(types)
+  const [supertypeIcon, helperText] = entity.getSupertypeIcon()
 
   return (
     <React.Fragment>

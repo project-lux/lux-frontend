@@ -6,35 +6,40 @@ import {
   stripYaleIdPrefix,
   getLabelBasedOnEntityType,
 } from '../../lib/parse/data/helper'
-import { useGetNameQuery } from '../../redux/api/ml_api'
+import { useGetItemQuery } from '../../redux/api/ml_api'
 
 /**
  * Retrieves and transforms an individual data point's primary name
  * @param {string} value the uri of the data to be retrieved
+ * @param {string} filterByAatValue optional; the AAT to filter by
  * @returns {JSX.Element}
  */
-const ApiText = (value: string): string | null => {
+const ApiText = (value: string, filterByAatValue?: string): string | null => {
   const { pathname } = useLocation()
   // eslint-disable-next-line react/destructuring-assignment
   const containsBaseUrl = value.includes(getDataApiBaseUrl())
-  const isPreferredTerm = value === config.dc.primaryName
   const isEmpty = value === ''
   const uri = stripYaleIdPrefix(value)
   // Only retrieve the data if it contains the base url, it is not defined as a preferred term, and the value is not empty
-  const { data, isSuccess } = useGetNameQuery(
-    { uri },
-    { skip: !containsBaseUrl || isPreferredTerm || isEmpty },
+  const { data, isSuccess } = useGetItemQuery(
+    { uri, profile: 'results' },
+    { skip: !containsBaseUrl || isEmpty },
   )
 
   if (isSuccess && data) {
     const elem = new EntityParser(data)
-    const primaryName = elem.getPrimaryName(config.dc.langen)
-
+    const equivalent = elem.getEquivalent()
+    // if primary name, return the correct text to be rendered
+    if (equivalent.includes(config.aat.primaryName)) {
+      return getLabelBasedOnEntityType(pathname)
+    }
+    if (filterByAatValue !== undefined) {
+      if (equivalent.includes(filterByAatValue)) {
+        return null
+      }
+    }
+    const primaryName = elem.getPrimaryName(config.aat.langen)
     return primaryName
-  }
-
-  if (isPreferredTerm) {
-    return getLabelBasedOnEntityType(pathname)
   }
 
   if (!containsBaseUrl) {

@@ -1,6 +1,8 @@
 import config from '../../config/config'
 import IEvent from '../../types/data/IEvent'
 
+import { primaryName, webPage } from './helperObjects'
+
 export const event: IEvent = {
   id: `${config.env.dataApiBaseUrl}data/activity/mock-event`,
   type: 'Activity',
@@ -44,13 +46,7 @@ export const event: IEvent = {
       id: '',
       type: 'Name',
       content: 'Mock Event',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   part: [
@@ -123,24 +119,12 @@ export const event: IEvent = {
               type: 'DigitalObject',
             },
           ],
-          classified_as: [
-            {
-              id: config.dc.webPage,
-              type: 'Type',
-              _label: 'Web Page',
-            },
-          ],
+          classified_as: webPage,
           identified_by: [
             {
               type: 'Name',
               content: 'Homepage for Exhibition Record',
-              classified_as: [
-                {
-                  id: config.dc.primaryName,
-                  type: 'Type',
-                  _label: 'Primary Name',
-                },
-              ],
+              classified_as: primaryName,
             },
           ],
         },

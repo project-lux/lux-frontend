@@ -1,6 +1,8 @@
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 
+import { primaryName } from './helperObjects'
+
 export const personLinks: IEntity = {
   '@context': 'https://context',
   id: `${config.env.dataApiBaseUrl}data/person/mock-person`,
@@ -11,13 +13,7 @@ export const personLinks: IEntity = {
       id: '',
       type: 'Name',
       content: 'Mock Entity',
-      classified_as: [
-        {
-          id: config.dc.primaryName,
-          type: 'Type',
-          _label: 'Primary Name',
-        },
-      ],
+      classified_as: primaryName,
     },
   ],
   _links: {
@@ -37,12 +33,12 @@ export const personLinks: IEntity = {
       href: `${config.env.dataApiBaseUrl}data/person/mock-person`,
     },
     // related objects/works
-    'lux:agentMadeDiscoveredItem': {
-      href: `${config.env.dataApiBaseUrl}api/search/item?q=agentMadeDiscoveredItem`,
+    'lux:agentMadeDiscoveredInfluencedItem': {
+      href: `${config.env.dataApiBaseUrl}api/search/item?q=agentMadeDiscoveredInfluencedItem`,
       _estimate: 1,
     },
-    'lux:agentCreatedPublishedWork': {
-      href: `${config.env.dataApiBaseUrl}api/search/work?q=agentCreatedPublishedWork`,
+    'lux:agentCreatedPublishedInfluencedWork': {
+      href: `${config.env.dataApiBaseUrl}api/search/work?q=agentCreatedPublishedInfluencedWork`,
       _estimate: 1,
     },
     // timeline

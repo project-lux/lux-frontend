@@ -16,6 +16,7 @@ import {
 } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import config from '../../config/config'
 
 interface IProps {
   criteria: ICriteria
@@ -57,7 +58,7 @@ const Checkbox: React.FC<IProps> = ({
   // requires getting label before rendering it with capitalized content
   let label = ''
   if (typeof facetValue === 'string' && !facetSection.includes('RecordType')) {
-    const labelFromApi = ApiText(facetValue)
+    const labelFromApi = ApiText(facetValue, config.aat.collectionItem)
     label = labelFromApi !== null ? labelFromApi : ''
   } else {
     label = getFacetLabel(scope, facetSection, facetValue)
@@ -86,7 +87,9 @@ const Checkbox: React.FC<IProps> = ({
       }),
     )
     pushClientEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
-    navigate(`${pathname}?${newSearchParams}`)
+    navigate(`${pathname}?${newSearchParams}`, {
+      state: { targetName: 'Results Page' },
+    })
   }
 
   const submitFacet = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -105,7 +108,9 @@ const Checkbox: React.FC<IProps> = ({
       addLastSelectedFacet({ facetName: facetSection, facetUri: strValue }),
     )
     pushClientEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
-    navigate(`${pathname}?${params.toString()}`)
+    navigate(`${pathname}?${params.toString()}`, {
+      state: { targetName: 'Results Page' },
+    })
   }
 
   function updateFacetQuery(value: number | string): ICriteria {

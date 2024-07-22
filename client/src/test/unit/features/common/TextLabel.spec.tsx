@@ -15,7 +15,7 @@ jest.mock('react-router-dom', () => ({
 }))
 
 jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: () => ({
+  useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,
   }),

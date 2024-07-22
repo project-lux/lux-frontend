@@ -5,6 +5,12 @@ import EntityParser from '../../../lib/parse/data/EntityParser'
 import * as helperFunctions from '../../../lib/parse/data/helper'
 import IDigitalObject from '../../../types/data/IDigitalObject'
 import { entity as mockEntity } from '../../data/entity'
+import {
+  animalSpecimensId,
+  archivesId,
+  englishLanguageId,
+  frenchLanguageId,
+} from '../../data/helperObjects'
 import { physicalObject as mockObject } from '../../data/object'
 
 describe('EntityParser', () => {
@@ -27,17 +33,17 @@ describe('EntityParser', () => {
         .spyOn(helperFunctions, 'getName')
         .mockImplementation(() => 'primary name')
 
-      parser.getPrimaryName(config.dc.langen)
+      parser.getPrimaryName(config.aat.langen)
       expect(spy).toHaveBeenCalledWith(
         mockEntity.identified_by,
-        config.dc.langen,
+        config.aat.langen,
       )
       spy.mockRestore()
     })
 
     it('returns the primary name', () => {
       const parser = new EntityParser(mockEntity)
-      const primaryName = parser.getPrimaryName(config.dc.langen)
+      const primaryName = parser.getPrimaryName(config.aat.langen)
       expect(primaryName).toEqual('Mock Entity')
     })
   })
@@ -47,17 +53,17 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'Mock Entity',
-            language: config.dc.langen,
+            language: englishLanguageId,
           },
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: frenchLanguageId,
           },
         ],
-        [config.dc.displayName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
           {
             content: 'Name with no language',
             language: '',
@@ -70,13 +76,13 @@ describe('EntityParser', () => {
       const parser = new EntityParser(mockEntity)
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/primary-name`]: [
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: frenchLanguageId,
           },
         ],
-        [config.dc.displayName]: [
+        [`${config.env.dataApiBaseUrl}data/concept/display-name`]: [
           {
             content: 'Name with no language',
             language: '',
@@ -96,12 +102,12 @@ describe('EntityParser', () => {
             content: 'This should be returned 1',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -113,7 +119,7 @@ describe('EntityParser', () => {
             content: 'This should NOT be returned 1',
             classified_as: [
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -125,12 +131,12 @@ describe('EntityParser', () => {
             content: 'This should be returned 2',
             classified_as: [
               {
-                id: config.dc.displayName,
+                id: config.aat.displayName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
               {
-                id: config.dc.sortName,
+                id: config.aat.sortName,
                 type: 'Type',
                 _label: 'Sort Name',
               },
@@ -140,13 +146,13 @@ describe('EntityParser', () => {
       })
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.dc.primaryName]: [
+        [config.aat.primaryName]: [
           {
             content: 'This should be returned 1',
             language: '',
           },
         ],
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'This should be returned 2',
             language: '',
@@ -166,14 +172,14 @@ describe('EntityParser', () => {
             content: 'animal de compagnie',
             classified_as: [
               {
-                id: config.dc.alternateName,
+                id: config.aat.alternateName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
             ],
             language: [
               {
-                id: config.dc.langfr,
+                id: config.aat.langfr,
                 type: 'Language',
                 _label: 'french',
               },
@@ -185,7 +191,7 @@ describe('EntityParser', () => {
             content: 'Name with no language',
             classified_as: [
               {
-                id: config.dc.displayName,
+                id: config.aat.displayName,
                 type: 'Type',
                 _label: 'Display Name',
               },
@@ -195,7 +201,7 @@ describe('EntityParser', () => {
       })
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.dc.displayName]: [
+        [config.aat.displayName]: [
           {
             content: 'Name with no language',
             language: '',
@@ -217,7 +223,7 @@ describe('EntityParser', () => {
             content: 'Mock Entity',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
@@ -229,7 +235,7 @@ describe('EntityParser', () => {
             content: 'animal de compagnie',
             language: [
               {
-                id: config.dc.langfr,
+                id: config.aat.langfr,
                 type: 'Language',
                 _label: 'french',
               },
@@ -244,7 +250,7 @@ describe('EntityParser', () => {
         '': [
           {
             content: 'animal de compagnie',
-            language: config.dc.langfr,
+            language: config.aat.langfr,
           },
         ],
       })
@@ -263,7 +269,7 @@ describe('EntityParser', () => {
             content: 'Mock Entity',
             classified_as: [
               {
-                id: config.dc.primaryName,
+                id: config.aat.primaryName,
                 type: 'Type',
                 _label: 'Primary Name',
               },
@@ -336,7 +342,8 @@ describe('EntityParser', () => {
       const types = parser.getTypes()
       expect(types).toEqual([
         `${config.env.dataApiBaseUrl}data/concept/classified-as-1`,
-        `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
+        archivesId,
+        animalSpecimensId,
       ])
     })
   })
@@ -378,10 +385,12 @@ describe('EntityParser', () => {
     it('returns the content with no html content', () => {
       const parser = new EntityParser(mockEntity)
       const types = parser.getCopyrightLicensingStatement()
-      expect(types).toEqual({
-        _content_html: undefined,
-        content: 'Copyright licensing statement',
-      })
+      expect(types).toEqual([
+        {
+          _content_html: undefined,
+          content: 'Copyright licensing statement',
+        },
+      ])
     })
 
     it('returns the html content if content is undefined', () => {
@@ -394,19 +403,28 @@ describe('EntityParser', () => {
             _content_html: '<span>Copyright licensing statement</span>',
             classified_as: [
               {
-                id: `${config.env.dataApiBaseUrl}data/concept/4030679e-c6e0-4e5e-b3c0-48ee1b8cfe60`,
+                id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
                 type: 'Type',
                 _label: 'Copyright Statement',
+                equivalent: [
+                  {
+                    id: config.aat.copyrightLicensingStatement,
+                    type: 'Type',
+                    _label: 'Copyright Statement',
+                  },
+                ],
               },
             ],
           },
         ],
       })
       const types = parser.getCopyrightLicensingStatement()
-      expect(types).toEqual({
-        _content_html: '<span>Copyright licensing statement</span>',
-        content: '',
-      })
+      expect(types).toEqual([
+        {
+          _content_html: '<span>Copyright licensing statement</span>',
+          content: '',
+        },
+      ])
     })
   })
 
@@ -447,7 +465,7 @@ describe('EntityParser', () => {
   })
 
   describe('getNotes', () => {
-    it('returns notes without copyright statement', () => {
+    it('returns notes with filtered notes', () => {
       const element = new EntityParser(mockEntity)
       const notes = element.getNotes()
       expect(notes).toEqual({
@@ -455,15 +473,17 @@ describe('EntityParser', () => {
           {
             content: '',
             language: '',
+            equivalent: [],
             _content_html:
               '<span class="lux_data"><a href="https://artgallery.yale.edu/print-study-room">By appointment, Duffy Study Room</a></span>',
           },
         ],
-        'https://endpoint.yale.edu/data/text/classified-as-2': [
+        'https://endpoint.yale.edu/data/concept/classified-as-2': [
           {
             content: 'Note 2',
-            language: config.dc.langen,
+            language: englishLanguageId,
             _content_html: undefined,
+            equivalent: [],
           },
         ],
       })
@@ -475,19 +495,19 @@ describe('EntityParser', () => {
       const element = new EntityParser({
         type: 'Person',
       })
-      const icons = element.getSupertypeIcon([])
+      const icons = element.getSupertypeIcon()
       expect(icons).toEqual(['people-orgs.svg', 'person and group'])
     })
 
     it('returns array with icon and alt text of specimen', () => {
-      const spy = jest
-        .spyOn(helperFunctions, 'isSpecimen')
-        .mockImplementation(() => true)
+      // const spy = jest
+      //   .spyOn(helperFunctions, 'isSpecimen')
+      //   .mockImplementation(() => true)
 
       const element = new EntityParser(mockEntity)
-      const icons = element.getSupertypeIcon(['specimen type uuid'])
+      const icons = element.getSupertypeIcon()
       expect(icons).toEqual(['specimens.svg', 'specimen'])
-      spy.mockRestore()
+      // spy.mockRestore()
     })
   })
 
@@ -529,6 +549,7 @@ describe('EntityParser', () => {
           carriedOutBy: [
             `${config.env.dataApiBaseUrl}data/group/carried-out-by-library`,
           ],
+          equivalent: [],
         },
       ])
     })
@@ -545,6 +566,7 @@ describe('EntityParser', () => {
           carriedOutBy: [
             `${config.env.dataApiBaseUrl}data/group/carried-out-by-library`,
           ],
+          equivalent: [],
         },
       ])
     })
@@ -587,9 +609,7 @@ describe('EntityParser', () => {
   describe('isClassifiedAs', () => {
     it('returns true', () => {
       const parser = new EntityParser(mockEntity)
-      const value = parser.isClassifiedAs(
-        `${config.env.dataApiBaseUrl}data/concept/classified-as-2`,
-      )
+      const value = parser.isClassifiedAs(config.aat.archive)
 
       expect(value).toBeTruthy()
     })
@@ -647,14 +667,14 @@ describe('EntityParser', () => {
   describe('isInLanguage', () => {
     it('returns true', () => {
       const parser = new EntityParser(mockEntity)
-      const isLanguage = parser.isInLanguage(config.dc.langen)
+      const isLanguage = parser.isInLanguage(config.aat.langen)
 
       expect(isLanguage).toBeTruthy()
     })
 
     it('returns false', () => {
       const parser = new EntityParser(mockEntity)
-      const isLanguage = parser.isInLanguage(config.dc.langfr)
+      const isLanguage = parser.isInLanguage(config.aat.langdut)
 
       expect(isLanguage).toBeFalsy()
     })
