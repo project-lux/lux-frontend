@@ -6,9 +6,13 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added hierarchy visualization to Places and Concepts pages ([#25](https://github.com/project-lux/lux-frontend/issues/25)).
+
 ### Changed
 
 - Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
+
+### Changed
 
 ### Removed
 

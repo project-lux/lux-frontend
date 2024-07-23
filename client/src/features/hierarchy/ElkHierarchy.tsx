@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reactflow/dist/style.css'
+// import ELK from 'elkjs/lib/elk.bundled.js'
 import React, { useCallback, useLayoutEffect } from 'react'
 import {
   ReactFlow,
@@ -8,8 +9,9 @@ import {
   useEdgesState,
   useReactFlow,
   Controls,
+  Edge,
+  Node,
 } from 'reactflow'
-import type { Edge, Node, Connection } from 'reactflow'
 import ElkConstructor from 'elkjs'
 
 import NodeContainer from './NodeContainer'
@@ -73,7 +75,7 @@ const nodeTypes = {
   childNode: NodeContainer,
 }
 
-const Hierarchy: React.FC<IProps> = ({
+const ElkHierarchy: React.FC<IProps> = ({
   luxNodes,
   luxEdges,
   currentUuid,
@@ -84,7 +86,7 @@ const Hierarchy: React.FC<IProps> = ({
   const { fitView } = useReactFlow()
 
   const onConnect = useCallback(
-    (params: Edge | Connection) => setEdges((eds: any) => addEdge(params, eds)),
+    (params) => setEdges((eds: any) => addEdge(params, eds)),
     [setEdges],
   )
 
@@ -119,9 +121,6 @@ const Hierarchy: React.FC<IProps> = ({
       onEdgesChange={onEdgesChange}
       nodeTypes={nodeTypes}
       edgesFocusable={false}
-      nodeOrigin={[0, 0]}
-      // onDrop={onDrop}
-      // onDragOver={onDragOver}
       fitView
     >
       {children}
@@ -130,4 +129,4 @@ const Hierarchy: React.FC<IProps> = ({
   )
 }
 
-export default Hierarchy
+export default ElkHierarchy

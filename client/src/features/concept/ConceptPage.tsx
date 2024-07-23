@@ -31,7 +31,7 @@ import FullscreenContainer from '../hierarchy/FullscreenContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
 import { useAppDispatch } from '../../app/hooks'
-import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 
 import AboutPanel from './AboutPanel'
 
