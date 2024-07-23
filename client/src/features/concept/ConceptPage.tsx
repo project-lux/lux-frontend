@@ -27,11 +27,11 @@ import {
   getAllNextConceptUris,
   getNextConceptUris,
 } from '../../lib/util/hierarchyHelpers'
-import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import FullscreenContainer from '../hierarchy/FullscreenContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
 import { useAppDispatch } from '../../app/hooks'
-import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 
 import AboutPanel from './AboutPanel'
 
@@ -67,7 +67,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <HierarchyContainer
+            <FullscreenContainer
               key={concept.json.id}
               entity={data}
               halLink={hierarchyChildren}

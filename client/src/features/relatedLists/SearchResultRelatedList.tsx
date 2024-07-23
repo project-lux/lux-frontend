@@ -57,18 +57,6 @@ const SearchResultRelatedList: React.FC<IProps> = ({
     })
 
   const { orderedItems } = data
-  const estimate = getEstimates(data)
-  const newScope = scope !== undefined ? scope : 'objects'
-  const resultsEndpoint = searchScope[newScope]
-
-  const params = getAllParamsFromHalLink(url, 'search')
-  const sort = new URLSearchParams(params).get('sort')
-
-  const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
-  const searchQ = formatHalLink(url, searchScope[newScope])
-  const searchString = `${searchQ}&searchLink=true${
-    sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-  }`
 
   return (
     <React.Fragment>

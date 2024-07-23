@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added caused_by data to events ([#309](https://github.com/project-lux/lux-frontend/issues/309)).
 - Added Part Of inverse relationship data point to works ([#302](https://github.com/project-lux/lux-frontend/issues/302)).
+- Added hierarchy visualization to Places and Concepts pages ([#25](https://github.com/project-lux/lux-frontend/issues/25)).
 
 ### Changed
 
@@ -15,6 +16,8 @@ All notable changes to this project will be documented in this file.
 - Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
 - Changed date parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
 - Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
+
+### Changed
 
 ### Removed
 

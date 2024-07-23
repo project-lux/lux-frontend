@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import 'reactflow/dist/style.css'
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useLayoutEffect } from 'react'
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -9,14 +9,16 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
+  Controls,
+  applyNodeChanges,
+  useReactFlow,
+  // useReactFlow,
 } from 'reactflow'
 import dagre from '@dagrejs/dagre'
 
 import theme from '../../styles/theme'
 
-import OriginNode from './OriginNode'
-import ParentNode from './ParentNode'
-import ChildNode from './ChildNode'
+import NodeContainer from './NodeContainer'
 
 interface IProps {
   luxNodes: Array<Node>
@@ -35,7 +37,7 @@ const getLayoutedElements = (
   nodes: Array<any>,
   edges: Array<any>,
   direction = 'LR',
-): { nodes: Array<any>; edges: Array<any> } => {
+): any => {
   const isHorizontal = direction === 'LR'
   dagreGraph.setGraph({ rankdir: 'LR' })
 
@@ -57,8 +59,8 @@ const getLayoutedElements = (
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
     node.position = {
-      x: nodeWithPosition.x - nodeWidth / 2,
-      y: nodeWithPosition.y - nodeHeight / 2,
+      x: nodeWithPosition.x,
+      y: nodeWithPosition.y,
     }
 
     return node
@@ -68,9 +70,9 @@ const getLayoutedElements = (
 }
 
 const nodeTypes = {
-  originNode: OriginNode,
-  parentNode: ParentNode,
-  childNode: ChildNode,
+  originNode: NodeContainer,
+  parentNode: NodeContainer,
+  childNode: NodeContainer,
 }
 
 const Hierarchy: React.FC<IProps> = ({
@@ -79,19 +81,58 @@ const Hierarchy: React.FC<IProps> = ({
   currentUuid,
   children,
 }) => {
-  const { nodes: newNodes, edges: newEdges } = getLayoutedElements(
-    luxNodes,
-    luxEdges,
-  )
+  // const { nodes: newNodes, edges: newEdges } = getLayoutedElements(
+  //   luxNodes,
+  //   luxEdges,
+  // )
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes, onNodesChange] = useNodesState(newNodes)
-  const [edges, setEdges, onEdgesChange] = useEdgesState(newEdges)
+  const [nodes, setNodes] = useNodesState([])
+  const [edges, setEdges, onEdgesChange] = useEdgesState([])
+  const { fitView } = useReactFlow()
 
-  useEffect(() => {
+  // const handleOnInit = useCallback((instance) => {
+  //   // Call fitView after the component has rendered
+  //   setTimeout(() => {
+  //     instance.fitView()
+  //   }, 0)
+  // }, [])
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((els) => applyNodeChanges(changes, els)),
+    [setNodes],
+  )
+
+  // useEffect(() => {
+  //   setNodes(newNodes)
+  //   setEdges(newEdges)
+  // }, [newEdges, newNodes, setEdges, setNodes])
+
+  const onLayout = useCallback(() => {
+    const { nodes: newNodes, edges: newEdges } = getLayoutedElements(
+      luxNodes,
+      luxEdges,
+    )
     setNodes(newNodes)
     setEdges(newEdges)
-  }, [newEdges, newNodes, setEdges, setNodes])
+    window.requestAnimationFrame(() => fitView())
+    // getLayoutedElements(luxNodes, luxEdges).then(
+    //   (layoutedNodesAndEdges: {
+    //     nodes: React.SetStateAction<Node<any, string | undefined>[]>
+    //     edges: React.SetStateAction<Edge<any>[]>
+    //   }) => {
+    //     setNodes(layoutedNodesAndEdges.nodes)
+    //     setEdges(layoutedNodesAndEdges.edges)
+
+    //     window.requestAnimationFrame(() => fitView())
+    //   },
+    // )
+  }, [luxNodes, luxEdges, setNodes, setEdges, fitView])
+
+  // Calculate the initial layout on mount.
+  useLayoutEffect(() => {
+    onLayout()
+  }, [onLayout])
 
   const onConnect = useCallback(
     (params: Connection | Edge) =>
@@ -119,9 +160,13 @@ const Hierarchy: React.FC<IProps> = ({
       connectionLineType={ConnectionLineType.SmoothStep}
       nodeTypes={nodeTypes}
       edgesFocusable={false}
+      nodeOrigin={[0, 0]}
+      // onDrop={onDrop}
+      // onDragOver={onDragOver}
       fitView
     >
       {children}
+      <Controls showInteractive={false} />
     </ReactFlow>
   )
 }
