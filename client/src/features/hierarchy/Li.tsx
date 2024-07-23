@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom'
 import ApiText from '../common/ApiText'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import EntityParser from '../../lib/parse/data/EntityParser'
+import { useGetItemQuery } from '../../redux/api/ml_api'
+import config from '../../config/config'
+
+import ViewHierarchyButton from './ViewHierarchyButton'
 
 interface IProps {
   id: string
@@ -30,6 +35,18 @@ const Li: React.FC<IProps> = ({
     }
   })
 
+  const uriToRetrieve = stripYaleIdPrefix(id)
+
+  const { data, isSuccess } = useGetItemQuery({
+    uri: uriToRetrieve,
+  })
+
+  let name = ''
+  if (data && isSuccess) {
+    const entity = new EntityParser(data)
+    name = entity.getPrimaryName(config.aat.langen)
+  }
+
   return (
     <li id={ind}>
       <Link
@@ -46,6 +63,12 @@ const Li: React.FC<IProps> = ({
       >
         {entityName || 'unknown name'}
       </Link>
+      <ViewHierarchyButton
+        data={data}
+        name={name}
+        rotation="-90"
+        className="listButton"
+      />
     </li>
   )
 }
