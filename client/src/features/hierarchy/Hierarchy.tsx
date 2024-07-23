@@ -9,6 +9,9 @@ import ReactFlow, {
   Connection,
   Edge,
   Node,
+  Controls,
+  applyNodeChanges,
+  // useReactFlow,
 } from 'reactflow'
 import dagre from '@dagrejs/dagre'
 
@@ -17,6 +20,7 @@ import theme from '../../styles/theme'
 import OriginNode from './OriginNode'
 import ParentNode from './ParentNode'
 import ChildNode from './ChildNode'
+// import { useDnD } from './DnDContext'
 
 interface IProps {
   luxNodes: Array<Node>
@@ -73,6 +77,10 @@ const nodeTypes = {
   childNode: ChildNode,
 }
 
+// let id = 0
+// // eslint-disable-next-line no-plusplus
+// const getId = (): string => `dndnode_${id++}`
+
 const Hierarchy: React.FC<IProps> = ({
   luxNodes,
   luxEdges,
@@ -83,10 +91,17 @@ const Hierarchy: React.FC<IProps> = ({
     luxNodes,
     luxEdges,
   )
+  // const { screenToFlowPosition } = useReactFlow()
+  // const [type] = useDnD()
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [nodes, setNodes, onNodesChange] = useNodesState(newNodes)
+  const [nodes, setNodes] = useNodesState(newNodes)
   const [edges, setEdges, onEdgesChange] = useEdgesState(newEdges)
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((els) => applyNodeChanges(changes, els)),
+    [setNodes],
+  )
 
   useEffect(() => {
     setNodes(newNodes)
@@ -104,6 +119,39 @@ const Hierarchy: React.FC<IProps> = ({
     [setEdges],
   )
 
+  // const onDragOver = useCallback((event) => {
+  //   event.preventDefault()
+  //   event.dataTransfer.dropEffect = 'move'
+  // }, [])
+
+  // const onDrop = useCallback(
+  //   (event) => {
+  //     event.preventDefault()
+
+  //     // check if the dropped element is valid
+  //     if (!type) {
+  //       return
+  //     }
+
+  //     // project was renamed to screenToFlowPosition
+  //     // and you don't need to subtract the reactFlowBounds.left/top anymore
+  //     // details: https://reactflow.dev/whats-new/2023-11-10
+  //     const position = screenToFlowPosition({
+  //       x: event.clientX,
+  //       y: event.clientY,
+  //     })
+  //     const newNode = {
+  //       id: getId(),
+  //       type,
+  //       position,
+  //       data: { label: `${type} node` },
+  //     }
+
+  //     setNodes((nds) => nds.concat(newNode))
+  //   },
+  //   [screenToFlowPosition, setNodes, type],
+  // )
+
   return (
     <ReactFlow
       key={`${currentUuid}-${luxNodes.length}`}
@@ -119,9 +167,12 @@ const Hierarchy: React.FC<IProps> = ({
       connectionLineType={ConnectionLineType.SmoothStep}
       nodeTypes={nodeTypes}
       edgesFocusable={false}
+      // onDrop={onDrop}
+      // onDragOver={onDragOver}
       fitView
     >
       {children}
+      <Controls />
     </ReactFlow>
   )
 }

@@ -3,7 +3,7 @@ import React from 'react'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
-import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
 
@@ -19,7 +19,7 @@ const BackButton: React.FC<IProps> = ({ currentEntity }) => {
   }
 
   const entity = new EntityParser(currentEntity)
-  const name = entity.getPrimaryName(config.dc.langen)
+  const name = entity.getPrimaryName(config.aat.langen)
 
   return (
     <LinkButton

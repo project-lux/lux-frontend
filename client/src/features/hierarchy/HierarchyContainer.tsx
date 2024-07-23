@@ -3,27 +3,27 @@ import 'reactflow/dist/style.css'
 import React, { useRef, useState } from 'react'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { isNull } from 'lodash'
+// import { isNull } from 'lodash'
 import { useLocation } from 'react-router-dom'
+// import { useReactFlow } from 'reactflow'
 
 import IEntity from '../../types/data/IEntity'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import ILinks from '../../types/data/ILinks'
 import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import theme from '../../styles/theme'
-import { useAppSelector } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   getChildEdges,
   getChildNodes,
   getDefaultNode,
+  getHalLink,
   getParentEdges,
   getParentNodes,
 } from '../../lib/util/hierarchyHelpers'
-import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
 import SearchResultsLink from '../relatedLists/SearchResultsLink'
 import { ISearchResults } from '../../types/ISearchResults'
-import { IHierarchy } from '../../redux/slices/hierarchySlice'
+import { IHierarchy, addFullscreen } from '../../redux/slices/hierarchySlice'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
 
@@ -40,22 +40,6 @@ interface IProps {
   entity: IEntity
   halLink: IHalLink
   getParentUris: (entity: IPlace | IConcept) => Array<string>
-}
-
-const getHalLink = (
-  links: ILinks | undefined,
-  halLink: IHalLink,
-): string | null => {
-  if (links === undefined) {
-    return null
-  }
-
-  const { searchTag } = halLink
-  if (links.hasOwnProperty(searchTag)) {
-    return links[searchTag].href
-  }
-
-  return null
 }
 
 const StyledSwitchButton = styled(Button)`
@@ -82,15 +66,18 @@ const HierarchyContainer: React.FC<IProps> = ({
   halLink,
   getParentUris,
 }) => {
+  const dispatch = useAppDispatch()
+  const hierarchyRef = useRef<HTMLDivElement>(null)
+  const { pathname } = useLocation()
+
   const currentState = useAppSelector(
     (hierarchyState) => hierarchyState.hierarchy as IHierarchy,
   )
+  const { fullscreen } = currentState
+
   const [view, setView] = useState<'graph' | 'list'>('graph')
-  const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
-  const defaultHierarchyHeight = '600px'
-  const hierarchyRef = useRef<HTMLDivElement>(null)
-  const childrenUri = getHalLink(entity._links, halLink)
-  const { pathname } = useLocation()
+  // const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
+
   let scope: null | string = null
   if (pathname.includes('concept')) {
     scope = 'concepts'
@@ -100,17 +87,13 @@ const HierarchyContainer: React.FC<IProps> = ({
     scope = 'places'
   }
 
-  const currentVisualizationState = useAppSelector(
-    (state) => state.hierarchyVisualization as IHierarchyVisualization,
-  )
-
   const setFullscreen = (): void => {
-    setIsFullscreen(!isFullscreen)
+    dispatch(addFullscreen({ isFullscreen: !fullscreen }))
     if (hierarchyRef !== null) {
       const elem = hierarchyRef.current
-      if (isFullscreen) {
+      if (fullscreen) {
         document.exitFullscreen()
-      } else if (!isFullscreen) {
+      } else if (!fullscreen) {
         if (elem !== null && elem.requestFullscreen) {
           elem.requestFullscreen()
         }
@@ -118,21 +101,21 @@ const HierarchyContainer: React.FC<IProps> = ({
     }
   }
 
-  const currentEntity = isNull(currentVisualizationState.origin)
-    ? entity
-    : currentVisualizationState.origin
+  const currentEntity = currentState.origin || entity
   const parents = getParentUris(currentEntity)
-
+  const childrenUri = getHalLink(currentEntity._links, halLink)
   const skip = childrenUri === null
-  const { data, isSuccess, isError } = useGetSearchRelationshipQuery(
-    {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      uri: childrenUri!,
-    },
-    {
-      skip,
-    },
-  )
+
+  const { data, isSuccess, isError, isUninitialized } =
+    useGetSearchRelationshipQuery(
+      {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        uri: childrenUri!,
+      },
+      {
+        skip,
+      },
+    )
 
   if (isError) {
     console.log(
@@ -146,15 +129,13 @@ const HierarchyContainer: React.FC<IProps> = ({
 
   if ((isSuccess && data) || skip) {
     // get nodes
-    const currentUuid: string = currentVisualizationState.origin
-      ? currentVisualizationState.origin.id!
-      : (entity.id as string)
-
+    const currentUuid: string = currentEntity.id as string
     const parentNodes = getParentNodes(parents).slice(
       0,
       currentState.currentPageLength,
     )
-    const childNodes = data ? getChildNodes(data).slice(0, 5) : []
+    const childNodes =
+      !isUninitialized && data ? getChildNodes(data).slice(0, 5) : []
     const currentNode = getDefaultNode(currentUuid)
 
     // get edges
@@ -180,8 +161,11 @@ const HierarchyContainer: React.FC<IProps> = ({
 
     return (
       <StyledEntityPageSection
-        className="hierarchyContainer"
+        className="hierarchyContainer d-flex"
         ref={hierarchyRef}
+        style={{
+          flexDirection: 'column',
+        }}
       >
         <Row>
           <Col xs={8}>
@@ -207,12 +191,12 @@ const HierarchyContainer: React.FC<IProps> = ({
               onClick={() => setFullscreen()}
               role="button"
               aria-label={
-                isFullscreen ? 'Minimize the viewport' : 'Expand to fullscreen'
+                fullscreen ? 'Minimize the viewport' : 'Expand to fullscreen'
               }
             >
               <i
                 className={`bi ${
-                  isFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
+                  fullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
                 }`}
                 style={{ fontSize: '1.5rem' }}
               />
@@ -222,10 +206,8 @@ const HierarchyContainer: React.FC<IProps> = ({
         {view === 'graph' ? (
           <div
             style={{
-              height:
-                hierarchyRef.current !== null
-                  ? `${hierarchyRef.current.offsetHeight - 100}px`
-                  : defaultHierarchyHeight,
+              height: 600,
+              flexGrow: 1,
             }}
           >
             <Hierarchy
@@ -240,7 +222,7 @@ const HierarchyContainer: React.FC<IProps> = ({
                   displayLength={currentState.currentPageLength}
                 />
               </Toolbar>
-              {!skip ? (
+              {childNodes.length > 0 ? (
                 <Toolbar nodeIds={childNodes.map((node) => node.id)}>
                   <strong>
                     <SearchResultsLink
