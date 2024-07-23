@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { isUndefined } from 'lodash'
 
 import { ISearchResults } from '../../types/ISearchResults'
