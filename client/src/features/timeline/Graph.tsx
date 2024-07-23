@@ -10,6 +10,7 @@ import {
   Legend,
   ResponsiveContainer,
   ReferenceArea,
+  Brush,
 } from 'recharts'
 import { Accordion, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -184,22 +185,23 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           data={zoomState.data}
           margin={{
             top: 20,
-            right: 10,
-            left: 0,
+            right: 60,
+            left: 30,
             bottom: 5,
           }}
-          onMouseDown={(e) =>
-            setZoomState({ ...zoomState, refAreaLeft: e.activeLabel as string })
-          }
-          onMouseMove={(e) => {
-            setZoomState({
-              ...zoomState,
-              refAreaLeft: zoomState.refAreaLeft,
-              refAreaRight: e.activeLabel as string,
-            })
-          }}
+          // Comment out these functions if you want to test zoom feature with Brush and accessibilityLayer
+          // onMouseDown={(e) =>
+          //   setZoomState({ ...zoomState, refAreaLeft: e.activeLabel as string })
+          // }
+          // onMouseMove={(e) => {
+          //   setZoomState({
+          //     ...zoomState,
+          //     refAreaLeft: zoomState.refAreaLeft,
+          //     refAreaRight: e.activeLabel as string,
+          //   })
+          // }}
           // eslint-disable-next-line react/jsx-no-bind
-          onMouseUp={() => zoom()}
+          // onMouseUp={() => zoom()}
           accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -262,6 +264,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
               strokeOpacity={0.3}
             />
           ) : null}
+          <Brush dataKey="year" stroke={theme.color.primary.blue} />
         </BarChart>
       </ResponsiveContainer>
     </div>
