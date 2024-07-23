@@ -28,9 +28,9 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ImageThumbnail from '../common/ImageThumbnail'
-import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import HierarchyContainer from '../hierarchy/FullscreenContainer'
 import { useAppDispatch } from '../../app/hooks'
-import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
 
