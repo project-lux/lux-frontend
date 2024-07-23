@@ -1,9 +1,5 @@
 import { ISearchResults } from '../../types/ISearchResults'
-import {
-  IGraphTimelineData,
-  ITimelinesTransformed,
-  ITransformedData,
-} from '../../types/ITimelines'
+import { ITimelinesTransformed, ITransformedData } from '../../types/ITimelines'
 import { getCriteriaFromHalLink } from '../parse/search/halLinkHelper'
 import {
   addSearchTagToFacetValues,

@@ -8,6 +8,7 @@ import ConceptParser from '../parse/data/ConceptParser'
 import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
 import { ISearchResults } from '../../types/ISearchResults'
+import { IHalLink } from '../../types/IHalLink'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
@@ -131,6 +132,28 @@ export const getNextSetUris = (entity: IEntity): Array<string> => {
 }
 
 /**
+ * Returns the requested HAL link
+ * @param {ILinks | undefined} links the current entity to parse
+ * @param {IHalLink} halLink the requested HAL link
+ * @returns {boolean}
+ */
+export const getHalLink = (
+  links: ILinks | undefined,
+  halLink: IHalLink,
+): string | null => {
+  if (links === undefined) {
+    return null
+  }
+
+  const { searchTag } = halLink
+  if (links.hasOwnProperty(searchTag)) {
+    return links[searchTag].href
+  }
+
+  return null
+}
+
+/**
  * Used exclusively in objects breadcrumb hierarchies and in all Explore hierarchies on sets, objects, and works pages
  * @param {IEntity} entity the current entity to parse
  * @returns {boolean}
@@ -174,7 +197,7 @@ const DEFAULT_MAX_NODE_WIDTH = '200px'
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getParentNodes = (data: Array<string>): Array<Node> =>
   data.map((id) => ({
-    id,
+    id: `${id}-parent`,
     type: 'parentNode',
     data: {
       label: id, // this will be a RecordLink
@@ -192,13 +215,11 @@ export const getParentNodes = (data: Array<string>): Array<Node> =>
 export const getChildNodes = (data: ISearchResults): Array<Node> => {
   const { orderedItems } = data
   if (orderedItems.length === 0) {
-    console.log('No children were returned with the provided search criteria.')
-
     return []
   }
 
   return orderedItems.map((obj) => ({
-    id: obj.id,
+    id: `${obj.id}-child`,
     type: 'childNode',
     data: {
       label: obj.id, // this will be a RecordLink

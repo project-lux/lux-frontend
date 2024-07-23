@@ -1,32 +1,42 @@
 import React from 'react'
-import { Handle, Position } from 'reactflow'
+import styled from 'styled-components'
 
-import StyledNode from '../../styles/features/hierarchy/Node'
+import theme from '../../styles/theme'
+import { useGetItemQuery } from '../../redux/api/ml_api'
+import EntityParser from '../../lib/parse/data/EntityParser'
+import config from '../../config/config'
+import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 
 interface IProps {
-  data: {
-    label: string
-  }
+  entityId: string
 }
 
-const OriginNode: React.FC<IProps> = ({ data }) => (
-  <StyledNode>
-    <Handle
-      type="target"
-      className="targetHandle"
-      position={Position.Left}
-      id="a"
-      isConnectable
-    />
-    {data.label}
-    <Handle
-      type="source"
-      className="sourceHandle"
-      position={Position.Right}
-      id="b"
-      isConnectable
-    />
-  </StyledNode>
-)
+const StyledSpan = styled.span`
+  color: ${theme.color.black};
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  font-weight: 400;
+`
+
+const OriginNode: React.FC<IProps> = ({ entityId }) => {
+  const uriToRetrieve = stripYaleIdPrefix(entityId)
+
+  const { data, isSuccess } = useGetItemQuery({
+    uri: uriToRetrieve,
+    profile: 'results',
+  })
+
+  let name = ''
+  if (data && isSuccess) {
+    const entity = new EntityParser(data)
+    name = entity.getPrimaryName(config.aat.langen)
+  }
+
+  return (
+    <StyledSpan className="d-flex display-inline align-items-center">
+      {name}
+    </StyledSpan>
+  )
+}
 
 export default OriginNode
