@@ -5,7 +5,7 @@ import { Col, Row } from 'react-bootstrap'
 
 // import { formatDateJsonSearch } from '../../lib/facets/dateParser'
 import { ITimelineCriteria } from '../../types/ITimelines'
-import { pushSiteImproveEvent } from '../../lib/siteImprove'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { IHalLinks } from '../../types/IHalLinks'
 import theme from '../../styles/theme'
 import { formatDateJsonSearch } from '../../lib/facets/dateParser'
@@ -32,7 +32,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
         search: `q=${searchQ}&collapseSearch=true`,
       }}
       onClick={() =>
-        pushSiteImproveEvent('Search Link', 'Selected', 'Timeline Search Link')
+        pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
       }
       onMouseLeave={() => setUnderline(false)}
       onMouseEnter={() => setUnderline(true)}
