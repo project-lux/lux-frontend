@@ -18,7 +18,8 @@ const HierarchyButton = styled(Button)<IProps>`
     color: ${theme.color.primary.darkBlue};
   }
 
-  &.childButton {
+  &.childButton,
+  &.listButton {
     margin-left: 0.5rem;
   }
 
