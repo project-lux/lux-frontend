@@ -7,8 +7,8 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import RecordLink from '../common/RecordLink'
 import StyledHierarchyButton from '../../styles/features/hierarchy/HierarchyButton'
 import { useAppDispatch } from '../../app/hooks'
-import { addOrigin } from '../../redux/slices/hierarchyVisualizationSlice'
 import IEntity from '../../types/data/IEntity'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 
 interface IProps {
   entityId: string
@@ -29,7 +29,7 @@ const ParentCustomNode: React.FC<IProps> = ({ entityId }) => {
   let name = ''
   if (data && isSuccess) {
     const entity = new EntityParser(data)
-    name = entity.getPrimaryName(config.dc.langen)
+    name = entity.getPrimaryName(config.aat.langen)
   }
 
   return (
