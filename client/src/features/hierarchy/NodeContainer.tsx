@@ -9,7 +9,7 @@ interface IProps {
   }
 }
 
-const ParentNode: React.FC<IProps> = ({ data }) => (
+const NodeContainer: React.FC<IProps> = ({ data }) => (
   <StyledNode>
     <Handle
       type="target"
@@ -29,4 +29,4 @@ const ParentNode: React.FC<IProps> = ({ data }) => (
   </StyledNode>
 )
 
-export default ParentNode
+export default NodeContainer
