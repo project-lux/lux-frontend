@@ -19,7 +19,7 @@ const BackButton: React.FC<IProps> = ({ currentEntity }) => {
   }
 
   const entity = new EntityParser(currentEntity)
-  const name = entity.getPrimaryName(config.dc.langen)
+  const name = entity.getPrimaryName(config.aat.langen)
 
   return (
     <LinkButton

@@ -29,7 +29,7 @@ const ChildCustomNode: React.FC<IProps> = ({ entityId }) => {
   let name = ''
   if (data && isSuccess) {
     const entity = new EntityParser(data)
-    name = entity.getPrimaryName(config.dc.langen)
+    name = entity.getPrimaryName(config.aat.langen)
   }
 
   return (
