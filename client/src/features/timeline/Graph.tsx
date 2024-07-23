@@ -200,7 +200,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           }}
           // eslint-disable-next-line react/jsx-no-bind
           onMouseUp={() => zoom()}
-          accessibilityLayer
+          // accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
