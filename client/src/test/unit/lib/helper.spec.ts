@@ -24,6 +24,7 @@ import {
   transformStringForTestId,
   getMultipleSpecificReferredToBy,
   getNestedCarriedOutBy,
+  getEquivalentFromClassifiedAsArray,
 } from '../../../lib/parse/data/helper'
 import IAttribution from '../../../types/data/IAttribution'
 import IEntity from '../../../types/data/IEntity'
@@ -672,6 +673,50 @@ describe('helper functions', () => {
       const text = 'this is a string'
       const data = transformStringForTestId(text)
       expect(data).toEqual('this-is-a-string')
+    })
+  })
+
+  describe('getEquivalentFromClassifiedAsArray', () => {
+    const mockEquivalentOne = {
+      id: config.aat.primaryName,
+      type: 'aat',
+      _label: 'primary name',
+    }
+
+    const mockEquivalentTwo = {
+      id: config.aat.displayName,
+      type: 'aat',
+      _label: 'display name',
+    }
+
+    const mockEquivalentThree = {
+      id: config.aat.archive,
+      type: 'aat',
+      _label: 'archive',
+    }
+
+    it('returns the array of equivalent objects', () => {
+      const mockObject = {
+        id: '',
+        classified_as: [
+          {
+            id: 'classifiedAsOne',
+            type: 'classified as',
+            equivalent: [mockEquivalentOne, mockEquivalentTwo],
+          },
+          {
+            id: 'classifiedAsTwo',
+            type: 'classified as',
+            equivalent: [mockEquivalentThree],
+          },
+        ],
+      }
+      const data = getEquivalentFromClassifiedAsArray(mockObject.classified_as)
+      expect(data).toStrictEqual([
+        mockEquivalentOne,
+        mockEquivalentTwo,
+        mockEquivalentThree,
+      ])
     })
   })
 })
