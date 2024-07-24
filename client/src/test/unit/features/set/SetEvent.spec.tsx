@@ -11,10 +11,17 @@ import { activityStreams } from '../../../data/results'
 import config from '../../../../config/config'
 import { setEvent } from '../../../../config/collectionsSearchTags'
 import { event as mockEvent } from '../../../data/event'
+import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
+
+const mockObject = reusableMinimalEntity('Mock')
 
 jest.mock('../../../../redux/api/ml_api', () => ({
   useGetSearchRelationshipQuery: jest.fn(),
   useGetNameQuery: jest.fn(),
+  useGetItemQuery: () => ({
+    data: mockObject,
+    isSuccess: true,
+  }),
 }))
 
 describe('SetEvent', () => {

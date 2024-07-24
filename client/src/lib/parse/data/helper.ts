@@ -147,13 +147,16 @@ export const getClassifiedAs = (
  * @param {Array<IEntity>} data the entity or array of entities
  * @returns {Array<string>}
  */
-export const getEquivalentObject = (
+export const getEquivalentFromClassifiedAsArray = (
   data: IEntity | Array<IEntity>,
 ): Array<IEntity> => {
+  const eqArr: Array<IEntity> = []
   if (Array.isArray(data)) {
     for (const d of data) {
-      if (d.hasOwnProperty('equivalent')) {
-        return d.equivalent as Array<IEntity>
+      if (!isUndefined(d.equivalent)) {
+        for (const eq of d.equivalent) {
+          eqArr.push(eq as IEntity)
+        }
       }
     }
   }
@@ -163,7 +166,7 @@ export const getEquivalentObject = (
     return obj.equivalent as Array<IEntity>
   }
 
-  return []
+  return eqArr
 }
 
 /**
@@ -316,7 +319,9 @@ export const getName = (
     if (identifier.type === 'Name') {
       const hasClassifiedAs = identifier.classified_as !== undefined
       const equivalentIds = hasClassifiedAs
-        ? getEquivalentObject(identifier.classified_as as Array<IConcept>)
+        ? getEquivalentFromClassifiedAsArray(
+            identifier.classified_as as Array<IConcept>,
+          )
         : []
       let isPrimaryName = false
       // check if name is primary name

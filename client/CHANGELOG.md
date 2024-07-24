@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.31.0 - Unreleased
+## v1.31.1 - 2024-7-24
+
+### Fixed
+
+- Fixed issue with getName function and reading AATs ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
+
+## v1.31.0 - 2024-7-22
 
 ### Added
 
@@ -14,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed brackets from Show More/Less buttons ([#272](https://github.com/project-lux/lux-frontend/issues/272)).
+- Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
 
 ### Fixed
 
@@ -66,8 +73,6 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 ### Removed
-
-- Removed data constants ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
 
 ### Fixed
 
