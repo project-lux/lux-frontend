@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.31.2 - 2024-7-25
+
+### Fixed
+
+- Fixed issue with getNames filtering with AATs ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
+
 ## v1.31.1 - 2024-7-24
 
 ### Fixed
