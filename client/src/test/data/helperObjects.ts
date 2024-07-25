@@ -50,6 +50,9 @@ export const professionalActivityId = baseId('concept', 'professional-activity')
 export const genderId = baseId('concept', 'gender')
 export const occupationId = baseId('concept', 'occupation')
 export const nationalityId = baseId('concept', 'nationality')
+export const invertedTermsId = baseId('concept', 'inverted-term')
+export const alternateNameId = baseId('concept', 'alternate-name')
+export const firstId = baseId('concept', 'first')
 
 // reusable nested entities
 export const primaryName: Array<IEntity> = baseEntity(
@@ -201,4 +204,22 @@ export const nationality: Array<IEntity> = baseEntity(
   'Nationality',
   'Type',
   config.aat.nationality,
+)
+export const invertedTerms: Array<IEntity> = baseEntity(
+  invertedTermsId,
+  'Inverted Term',
+  'Type',
+  config.aat.invertedTerms,
+)
+export const alternateName: Array<IEntity> = baseEntity(
+  alternateNameId,
+  'Alternate Name',
+  'Type',
+  config.aat.alternateName,
+)
+export const first: Array<IEntity> = baseEntity(
+  firstId,
+  'First',
+  'Type',
+  config.aat.first,
 )

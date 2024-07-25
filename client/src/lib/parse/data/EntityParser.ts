@@ -137,28 +137,30 @@ export default class EntityParser {
         const identifiedByChild = forceArray(identifier.identified_by)
         const languages = forceArray(identifier.language)
         const language = languages.length > 0 ? languages[0].id : ''
-
         let label = ''
+
+        // The label will be an empty string if it does not come from the data
+        if (classifiedAs.length === 0 && identifiedByChild.length === 0) {
+          label = ''
+        }
+
+        // Get the label of the list of names from either the nested classified_as or nested identified_by
         if (classifiedAs.length > 0) {
-          let ids = getClassifiedAs(classifiedAs)
+          // Filter out inverted terms classifications
+          const ids = getClassifiedAs(classifiedAs, [config.aat.invertedTerms])
           // check if there are multiple classifications for a name
-          if (ids.length > 1) {
-            // remove the sort label if there are more than one classifications
-            ids = ids.filter((id) => id !== config.aat.sortName)
-            // eslint-disable-next-line prefer-destructuring
-            label = ids[0]
-          } else if (ids.length === 1) {
+          if (ids.length > 0) {
             ;[label] = ids
           } else {
-            label = ''
+            return null
           }
         } else if (identifiedByChild.length > 0) {
+          // Get label from identified_by if there is no classified_as data
           const content = getIdentifiedByContent(identifiedByChild)
           label = content.length > 0 ? content[0] : ''
         }
 
-        // Only add the data to the returned object if there is content and the label is not a sort name
-        if (identifier.content !== undefined && label !== config.aat.sortName) {
+        if (identifier.content !== undefined) {
           if (data.hasOwnProperty(label)) {
             data[label].push({ content: identifier.content, language })
           } else {
