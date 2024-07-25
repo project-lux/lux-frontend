@@ -6,10 +6,18 @@ import * as helperFunctions from '../../../lib/parse/data/helper'
 import IDigitalObject from '../../../types/data/IDigitalObject'
 import { entity as mockEntity } from '../../data/entity'
 import {
+  alternateName,
   animalSpecimensId,
   archivesId,
+  copyrightStatement,
+  displayName,
+  displayNameId,
   englishLanguageId,
+  frenchLanguage,
   frenchLanguageId,
+  invertedTerms,
+  primaryName,
+  primaryNameId,
 } from '../../data/helperObjects'
 import { physicalObject as mockObject } from '../../data/object'
 
@@ -43,8 +51,8 @@ describe('EntityParser', () => {
 
     it('returns the primary name', () => {
       const parser = new EntityParser(mockEntity)
-      const primaryName = parser.getPrimaryName(config.aat.langen)
-      expect(primaryName).toEqual('Mock Entity')
+      const primary = parser.getPrimaryName(config.aat.langen)
+      expect(primary).toEqual('Mock Entity')
     })
   })
 
@@ -91,7 +99,7 @@ describe('EntityParser', () => {
       })
     })
 
-    it('returns all of the names minus ones classified as sort name', () => {
+    it('returns all of the names minus ones classified as inverted term', () => {
       const parser = new EntityParser({
         id: 'test',
         type: 'HumanMadeObject',
@@ -100,61 +108,67 @@ describe('EntityParser', () => {
             id: '',
             type: 'Name',
             content: 'This should be returned 1',
-            classified_as: [
-              {
-                id: config.aat.primaryName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-              {
-                id: config.aat.sortName,
-                type: 'Type',
-                _label: 'Sort Name',
-              },
-            ],
+            classified_as: [...primaryName, ...invertedTerms],
           },
           {
             id: '',
             type: 'Name',
             content: 'This should NOT be returned 1',
-            classified_as: [
-              {
-                id: config.aat.sortName,
-                type: 'Type',
-                _label: 'Sort Name',
-              },
-            ],
+            classified_as: [...invertedTerms],
           },
           {
             id: '',
             type: 'Name',
             content: 'This should be returned 2',
-            classified_as: [
+            classified_as: [...displayName, ...invertedTerms],
+          },
+          {
+            id: '',
+            type: 'Name',
+            content: 'This should be returned 3',
+            identified_by: [
               {
-                id: config.aat.displayName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-              {
-                id: config.aat.sortName,
-                type: 'Type',
-                _label: 'Sort Name',
+                id: '',
+                type: 'content',
+                content: 'Identified By Label',
               },
             ],
+          },
+          {
+            id: '',
+            content: 'This should NOT be returned 2',
+            type: 'Identifier',
+          },
+          {
+            id: '',
+            content: 'This should be returned 4',
+            type: 'Name',
           },
         ],
       })
       const names = parser.getNames()
       expect(names).toEqual({
-        [config.aat.primaryName]: [
+        [primaryNameId]: [
           {
             content: 'This should be returned 1',
             language: '',
           },
         ],
-        [config.aat.displayName]: [
+        [displayNameId]: [
           {
             content: 'This should be returned 2',
+            language: '',
+          },
+        ],
+        'Identified By Label': [
+          {
+            content: 'This should be returned 3',
+            language: '',
+          },
+        ],
+        '': [
+          {
+            content: 'This should be returned 4',
             language: '',
           },
         ],
@@ -170,38 +184,20 @@ describe('EntityParser', () => {
             id: '',
             type: 'Name',
             content: 'animal de compagnie',
-            classified_as: [
-              {
-                id: config.aat.alternateName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-            ],
-            language: [
-              {
-                id: config.aat.langfr,
-                type: 'Language',
-                _label: 'french',
-              },
-            ],
+            classified_as: [...alternateName],
+            language: [...frenchLanguage],
           },
           {
             id: '',
             type: 'Name',
             content: 'Name with no language',
-            classified_as: [
-              {
-                id: config.aat.displayName,
-                type: 'Type',
-                _label: 'Display Name',
-              },
-            ],
+            classified_as: [...displayName],
           },
         ],
       })
       const names = parser.getNames(true)
       expect(names).toEqual({
-        [config.aat.displayName]: [
+        [displayNameId]: [
           {
             content: 'Name with no language',
             language: '',
@@ -221,25 +217,13 @@ describe('EntityParser', () => {
             id: '',
             type: 'Name',
             content: 'Mock Entity',
-            classified_as: [
-              {
-                id: config.aat.primaryName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-            ],
+            classified_as: [...primaryName],
           },
           {
             id: '',
             type: 'Name',
             content: 'animal de compagnie',
-            language: [
-              {
-                id: config.aat.langfr,
-                type: 'Language',
-                _label: 'french',
-              },
-            ],
+            language: [...frenchLanguage],
           },
         ],
       }
@@ -250,7 +234,7 @@ describe('EntityParser', () => {
         '': [
           {
             content: 'animal de compagnie',
-            language: config.aat.langfr,
+            language: frenchLanguageId,
           },
         ],
       })
@@ -267,13 +251,7 @@ describe('EntityParser', () => {
             id: '',
             type: 'Name',
             content: 'Mock Entity',
-            classified_as: [
-              {
-                id: config.aat.primaryName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-            ],
+            classified_as: [...primaryName],
           },
         ],
       }
@@ -401,20 +379,7 @@ describe('EntityParser', () => {
             id: `${config.env.dataApiBaseUrl}data/text/copyright-licensing-statement`,
             type: 'LinguisticObject',
             _content_html: '<span>Copyright licensing statement</span>',
-            classified_as: [
-              {
-                id: `${config.env.dataApiBaseUrl}data/concept/copyright-licensing-statement`,
-                type: 'Type',
-                _label: 'Copyright Statement',
-                equivalent: [
-                  {
-                    id: config.aat.copyrightLicensingStatement,
-                    type: 'Type',
-                    _label: 'Copyright Statement',
-                  },
-                ],
-              },
-            ],
+            classified_as: [...copyrightStatement],
           },
         ],
       })

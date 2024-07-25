@@ -37,6 +37,7 @@ import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 import {
   displayName,
   englishLanguage,
+  first,
   primaryName,
   visitors,
 } from '../../data/helperObjects'
@@ -51,8 +52,8 @@ describe('helper functions', () => {
 
   describe('containsSpecificNote', () => {
     it('returns true', () => {
-      const mockAat = 'http://vocab.getty.edu/aat/300133046'
-      const notes: IContentWithLanguage = {
+      const mockAat = config.aat.descriptionStatement
+      const mockNotes: IContentWithLanguage = {
         'https://endpoint.yale.edu/data/concept/1': [
           {
             content: 'test 1',
@@ -65,7 +66,7 @@ describe('helper functions', () => {
           },
         ],
       }
-      const hasNote = containsSpecificNote(notes, mockAat)
+      const hasNote = containsSpecificNote(mockNotes, mockAat)
       expect(hasNote).toBeTruthy()
     })
 
@@ -128,17 +129,7 @@ describe('helper functions', () => {
           type: 'Type',
           id: `${config.env.dataApiBaseUrl}data/concept/662260fa-f882-4174-b720-0791e45f7dca`,
         },
-        {
-          type: 'test',
-          id: 'invlaid id',
-          equivalent: [
-            {
-              type: 'test',
-              id: config.aat.first,
-              _label: 'invalid',
-            },
-          ],
-        },
+        ...first,
         {
           type: 'test',
         },
@@ -317,20 +308,8 @@ describe('helper functions', () => {
         {
           type: 'Name',
           content: 'Alfred Stieglitz',
-          language: [
-            {
-              id: config.aat.langen,
-              type: 'Language',
-              _label: 'English',
-            },
-          ],
-          classified_as: [
-            {
-              id: config.aat.displayName,
-              type: 'Type',
-              _label: 'Display Name',
-            },
-          ],
+          language: englishLanguage,
+          classified_as: displayName,
         },
       ]
       const name = getName(obj, config.aat.langspa)
@@ -346,13 +325,7 @@ describe('helper functions', () => {
         {
           type: 'Name',
           content: 'Alfred Stieglitz',
-          classified_as: [
-            {
-              id: config.aat.primaryName,
-              type: 'Type',
-              _label: 'Primary Name',
-            },
-          ],
+          classified_as: primaryName,
         },
       ]
       const name = getName(obj, config.aat.langen)
@@ -445,19 +418,9 @@ describe('helper functions', () => {
   })
 
   describe('validateClassifiedAsIdMatches', () => {
+    const mockObject = primaryName
+
     it('returns true', () => {
-      const mockObject = [
-        {
-          id: 'testing',
-          type: 'name',
-          equivalent: [
-            {
-              id: config.aat.primaryName,
-              type: 'name',
-            },
-          ],
-        },
-      ]
       const classifierMatches = validateClassifiedAsIdMatches(mockObject, [
         config.aat.primaryName,
       ])
@@ -465,18 +428,6 @@ describe('helper functions', () => {
     })
 
     it('returns false', () => {
-      const mockObject = [
-        {
-          id: 'testing',
-          type: 'name',
-          equivalent: [
-            {
-              id: config.aat.primaryName,
-              type: 'name',
-            },
-          ],
-        },
-      ]
       const classifierMatches = validateClassifiedAsIdMatches(mockObject, [
         config.aat.displayName,
       ])
@@ -616,20 +567,7 @@ describe('helper functions', () => {
 
   describe('getMultipleSpecificReferredToBy', () => {
     it('returns data', () => {
-      const mockClassifiedAs = [
-        {
-          id: 'visitors',
-          type: 'Type',
-          _label: "Visitors' Statement",
-          equivalent: [
-            {
-              id: config.aat.visitors,
-              type: 'Type',
-              _label: "Visitors' Statement",
-            },
-          ],
-        },
-      ]
+      const mockClassifiedAs = visitors
       const mockData = {
         referred_to_by: [
           {
