@@ -366,7 +366,10 @@ export default class ObjectParser extends EntityParser {
       Object.keys(notes).map((key) => {
         notes[key].map((val: INoteContent) => {
           if (!isUndefined(val.equivalent)) {
-            if (val.equivalent.includes(config.aat.exhibition)) {
+            if (
+              val.equivalent.includes(config.aat.exhibition) &&
+              !isUndefined(notes[key])
+            ) {
               data.exhibitionDescription = {
                 'Exhibitions Description': notes[key],
               }
