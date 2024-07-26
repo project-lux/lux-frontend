@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.31.3 - 2024-7-26
+
+### Fixed
+
+- Fixed issue with getAboutData in ObjectParser ([#196](https://github.com/project-lux/lux-frontend/issues/196)).
+
 ## v1.31.2 - 2024-7-25
 
 ### Fixed
