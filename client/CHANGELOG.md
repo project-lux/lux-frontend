@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed Occupation label to Occupation/Role ([#45](https://github.com/project-lux/lux-frontend/issues/45)).
+
 ### Removed
 
 ### Fixed
