@@ -43,10 +43,3 @@ export interface IGraphTimelineData {
   total: number
   [key: string]: ITimelineCriteria | string | number
 }
-
-export interface ITransformedData {
-  value: string | null
-  totalItems: number
-  searchTag: string
-  criteria: IAdvancedSearchState
-}

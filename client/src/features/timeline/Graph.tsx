@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable @typescript-eslint/no-explicit-any */
+>>>>>>> 4278886 (15 added timeline graph with accessibility features)
 import React from 'react'
 import {
   BarChart,
@@ -8,8 +12,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
+  // Brush,
 } from 'recharts'
-import { useNavigate } from 'react-router-dom'
 
 import theme from '../../styles/theme'
 import {
@@ -18,20 +22,51 @@ import {
   ITimelinesTransformed,
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
-import { formatDateJsonSearch } from '../../lib/facets/dateParser'
-import { getYearWithLabel } from '../../lib/parse/search/timelineParser'
+import { getYearWithLabel } from '../../lib/util/timelineHelper'
+
+import CustomTooltip from './CustomTooltip'
 
 interface IProps {
   data: ITimelinesTransformed
   searchTags: IHalLinks
-  sortedKeys: Array<string>
+  yearsArray: Array<string>
+  handleRangeChange: (start: number, end: number) => void
+  startIndex: number
+  endIndex: number
 }
 
-const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
-  const navigate = useNavigate()
-  // Add additional years that were not returned with the data
-  const yearsArray = addYearsWithNoData(sortedKeys)
+export interface IZoomState {
+  data: Array<IGraphTimelineData>
+  left: string
+  right: string
+  refAreaLeft: string
+  refAreaRight: string
+  top: number
+  bottom: number
+  animation: boolean
+}
 
+export const getInitialState = (
+  initialData: Array<IGraphTimelineData>,
+): IZoomState => ({
+  data: initialData,
+  left: initialData[0].yearKey,
+  right: initialData[initialData.length - 1].yearKey,
+  refAreaLeft: '',
+  refAreaRight: '',
+  top: parseInt(initialData[initialData.length - 1].yearKey, 10),
+  bottom: parseInt(initialData[0].yearKey, 10),
+  animation: true,
+})
+
+const Graph: React.FC<IProps> = ({
+  timelineData,
+  searchTags,
+  yearsArray,
+  handleRangeChange,
+  startIndex,
+  endIndex,
+}) => {
   const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
     const barData = timelineData.hasOwnProperty(year)
       ? timelineData[year]
@@ -43,20 +78,6 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
     }
   })
 
-  const handleClick = (year: string, searchTag: string): void => {
-    const { tab, jsonSearchTerm } = searchTags[searchTag]
-    const { criteria } = data[year][searchTag] as ITimelineCriteria
-    const searchQ = formatDateJsonSearch(
-      year,
-      jsonSearchTerm as string,
-      criteria,
-    )
-    navigate({
-      pathname: `/view/results/${tab}`,
-      search: `q=${searchQ}&collapseSearch=true`,
-    })
-  }
-
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
     ['itemEncounteredDate', 'Objects Encountered'],
@@ -65,55 +86,86 @@ const Graph: React.FC<IProps> = ({ data, searchTags, sortedKeys }) => {
   ])
 
   return (
-    <ResponsiveContainer width="100%" height={500}>
-      <BarChart
-        data={graphData}
-        margin={{
-          top: 20,
-          right: 10,
-          left: 0,
-          bottom: 5,
-        }}
-      >
-        <CartesianGrid strokeDasharray="3 3" />
-        <XAxis dataKey="year" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar
-          dataKey="itemProductionDate.totalItems"
-          stackId="a"
-          fill={theme.color.primary.blue}
-          name={facetNameMap.get('itemProductionDate') || 'itemProductionDate'}
-          onClick={(d) => handleClick(d.yearKey, 'itemProductionDate')}
-        />
-        <Bar
-          dataKey="itemEncounteredDate.totalItems"
-          stackId="a"
-          fill={theme.color.primary.teal}
-          name={
-            facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
-          }
-          onClick={(d) => handleClick(d.yearKey, 'itemEncounteredDate')}
-        />
-        <Bar
-          dataKey="workCreationDate.totalItems"
-          stackId="a"
-          fill={theme.color.secondary.lightBlue}
-          name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
-          onClick={(d) => handleClick(d.yearKey, 'workCreationDate')}
-        />
-        <Bar
-          dataKey="workPublicationDate.totalItems"
-          stackId="a"
-          fill={theme.color.secondary.pacificBlue}
-          name={
-            facetNameMap.get('workPublicationDate') || 'workPublicationDate'
-          }
-          onClick={(d) => handleClick(d.yearKey, 'workPublicationDate')}
-        />
-      </BarChart>
-    </ResponsiveContainer>
+    <div
+      className="highlight-bar-charts"
+      style={{ userSelect: 'none', width: '100%' }}
+    >
+      <ResponsiveContainer width="100%" height={500}>
+        <BarChart
+          data={graphData}
+          margin={{
+            top: 20,
+            right: 75,
+            left: 15,
+            bottom: 5,
+          }}
+          accessibilityLayer
+        >
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="year" allowDataOverflow />
+          <YAxis dataKey="total" yAxisId="total" allowDataOverflow />
+          <Tooltip
+            trigger="click"
+            content={
+              <CustomTooltip
+                searchTags={searchTags}
+                active={false}
+                payload={undefined}
+              />
+            }
+          />
+          <Legend />
+          <Bar
+            dataKey="itemProductionDate.totalItems"
+            stackId="a"
+            fill={theme.color.primary.darkBlue}
+            name={
+              facetNameMap.get('itemProductionDate') || 'itemProductionDate'
+            }
+            yAxisId="total"
+          />
+          <Bar
+            dataKey="itemEncounteredDate.totalItems"
+            stackId="a"
+            fill={theme.color.secondary.pacificBlue}
+            name={
+              facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
+            }
+            yAxisId="total"
+          />
+          <Bar
+            dataKey="workCreationDate.totalItems"
+            stackId="a"
+            fill={theme.color.secondary.cornflowerBlue}
+            name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
+            yAxisId="total"
+          />
+          <Bar
+            dataKey="workPublicationDate.totalItems"
+            stackId="a"
+            fill={theme.color.primary.teal}
+            name={
+              facetNameMap.get('workPublicationDate') || 'workPublicationDate'
+            }
+            yAxisId="total"
+          />
+          {/* <Brush
+            dataKey="year"
+            stroke={theme.color.primary.blue}
+            startIndex={startIndex}
+            endIndex={endIndex}
+            onChange={(e: any) => {
+              const start = e.startIndex
+              const end = e.endIndex
+              handleRangeChange(start, end)
+            }}
+            onDragEnd={(e: any) => {
+              console.log(e)
+            }}
+          /> */}
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
   )
 }
 
