@@ -110,7 +110,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
-            fill={theme.color.primary.darkBlue}
+            fill={theme.color.graphs.produced}
             name={
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
@@ -119,7 +119,7 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           <Bar
             dataKey="itemEncounteredDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.pacificBlue}
+            fill={theme.color.graphs.encounter}
             name={
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
@@ -128,14 +128,14 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           <Bar
             dataKey="workCreationDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.cornflowerBlue}
+            fill={theme.color.graphs.created}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
           />
           <Bar
             dataKey="workPublicationDate.totalItems"
             stackId="a"
-            fill={theme.color.primary.teal}
+            fill={theme.color.graphs.published}
             name={
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
