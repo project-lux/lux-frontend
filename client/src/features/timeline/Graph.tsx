@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 import {
   BarChart,
   Bar,
@@ -9,12 +9,8 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  ReferenceArea,
   Brush,
 } from 'recharts'
-import { Accordion, Row } from 'react-bootstrap'
-import styled from 'styled-components'
-import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import {
@@ -24,19 +20,10 @@ import {
 import { IHalLinks } from '../../types/IHalLinks'
 import {
   addYearsWithNoData,
-  getAxisYDomain,
   getYearWithLabel,
 } from '../../lib/util/timelineHelper'
 
-import ZoomInput from './ZoomInput'
 import CustomTooltip from './CustomTooltip'
-
-const StyledButton = styled(Accordion.Header)`
-  .accordion-button {
-    padding: 0.5rem;
-    width: 20%;
-  }
-`
 
 interface IProps {
   timelineData: ITimelinesTransformed
@@ -83,72 +70,6 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
     }
   })
 
-  const [zoomState, setZoomState] = useState<IZoomState>(
-    getInitialState(graphData),
-  )
-
-  const zoom = (): void => {
-    let { refAreaLeft, refAreaRight } = zoomState
-
-    if (refAreaLeft === refAreaRight) {
-      const updatedState = zoomState
-      updatedState.refAreaLeft = ''
-      updatedState.refAreaRight = ''
-      setZoomState(() => updatedState)
-      return
-    }
-
-    if (isUndefined(refAreaLeft) || refAreaLeft === '') {
-      refAreaLeft = zoomState.left
-    }
-
-    if (isUndefined(refAreaRight) || refAreaRight === '') {
-      refAreaRight = zoomState.right
-    }
-
-    // xAxis domain
-    if (refAreaLeft > refAreaRight)
-      [refAreaLeft, refAreaRight] = [refAreaRight, refAreaLeft]
-
-    // yAxis domain
-    const { bottom, top, slicedData } = getAxisYDomain(
-      graphData,
-      refAreaLeft,
-      refAreaRight,
-      'yearKey',
-      1,
-    )
-
-    setZoomState({
-      refAreaLeft: '',
-      refAreaRight: '',
-      data: slicedData,
-      left: refAreaLeft,
-      right: refAreaRight,
-      bottom,
-      top,
-      animation: true,
-    })
-  }
-
-  const zoomOut = (): void => {
-    setZoomState(getInitialState(graphData))
-  }
-
-  // const handleClick = (year: string, searchTag: string): void => {
-  //   const { tab, jsonSearchTerm } = searchTags[searchTag]
-  //   const { criteria } = timelineData[year][searchTag] as ITimelineCriteria
-  //   const searchQ = formatDateJsonSearch(
-  //     year,
-  //     jsonSearchTerm as string,
-  //     criteria,
-  //   )
-  //   navigate({
-  //     pathname: `/view/results/${tab}`,
-  //     search: `q=${searchQ}&collapseSearch=true`,
-  //   })
-  // }
-
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
     ['itemEncounteredDate', 'Objects Encountered'],
@@ -161,47 +82,15 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
       className="highlight-bar-charts"
       style={{ userSelect: 'none', width: '100%' }}
     >
-      <Row className="d-flex">
-        <Accordion>
-          <Accordion.Item eventKey="0">
-            <StyledButton>Filter By Years</StyledButton>
-            <Accordion.Body className="ps-1 pt-2">
-              <ZoomInput
-                key={`${zoomState.data[0].yearKey}-${
-                  zoomState.data[zoomState.data.length - 1].yearKey
-                }`}
-                state={zoomState}
-                setZoomState={setZoomState}
-                setZoom={zoom}
-                setZoomOut={zoomOut}
-                disabledZoomOut={zoomState.data.length === graphData.length}
-              />
-            </Accordion.Body>
-          </Accordion.Item>
-        </Accordion>
-      </Row>
       <ResponsiveContainer width="100%" height={500}>
         <BarChart
-          data={zoomState.data}
+          data={graphData}
           margin={{
             top: 20,
-            right: 60,
-            left: 30,
+            right: 75,
+            left: 15,
             bottom: 5,
           }}
-          // Comment out these functions if you want to test zoom feature with Brush and accessibilityLayer
-          // onMouseDown={(e) =>
-          //   setZoomState({ ...zoomState, refAreaLeft: e.activeLabel as string })
-          // }
-          // onMouseMove={(e) => {
-          //   setZoomState({
-          //     ...zoomState,
-          //     refAreaLeft: zoomState.refAreaLeft,
-          //     refAreaRight: e.activeLabel as string,
-          //   })
-          // }}
-          // eslint-disable-next-line react/jsx-no-bind
-          // onMouseUp={() => zoom()}
           accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
@@ -221,49 +110,37 @@ const Graph: React.FC<IProps> = ({ timelineData, searchTags, sortedKeys }) => {
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
-            fill={theme.color.primary.blue}
+            fill={theme.color.primary.darkBlue}
             name={
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
             yAxisId="total"
-            // onClick={(d) => handleClick(d.yearKey, 'itemProductionDate')}
           />
           <Bar
             dataKey="itemEncounteredDate.totalItems"
             stackId="a"
-            fill={theme.color.primary.teal}
+            fill={theme.color.secondary.pacificBlue}
             name={
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
             yAxisId="total"
-            // onClick={(d) => handleClick(d.yearKey, 'itemEncounteredDate')}
           />
           <Bar
             dataKey="workCreationDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.lightBlue}
+            fill={theme.color.secondary.cornflowerBlue}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
-            // onClick={(d) => handleClick(d.yearKey, 'workCreationDate')}
           />
           <Bar
             dataKey="workPublicationDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.pacificBlue}
+            fill={theme.color.primary.teal}
             name={
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
             yAxisId="total"
-            // onClick={(d) => handleClick(d.yearKey, 'workPublicationDate')}
           />
-          {zoomState.refAreaLeft && zoomState.refAreaRight ? (
-            <ReferenceArea
-              yAxisId="total"
-              x1={zoomState.refAreaLeft}
-              x2={zoomState.refAreaRight}
-              strokeOpacity={0.3}
-            />
-          ) : null}
           <Brush dataKey="year" stroke={theme.color.primary.blue} />
         </BarChart>
       </ResponsiveContainer>
