@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed featured collections link ([#322](https://github.com/project-lux/lux-frontend/issues/322)).
+
 ## v1.31.3 - 2024-7-26
 
 ### Fixed
