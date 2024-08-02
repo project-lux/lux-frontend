@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -10,9 +10,9 @@ import {
   transformTimelineData,
 } from '../../lib/util/timelineHelper'
 import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
+import { ITimelinesTransformed } from '../../types/ITimelines'
 
-import List from './List'
-import Graph from './Graph'
+import TimelineData from './TimelineData'
 
 const getHalLinks = (
   searchTags: IHalLinks,
@@ -44,6 +44,12 @@ const TimelineContainer: React.FC<{
   const timelineRef = useRef<HTMLDivElement>(null)
   const [display, setDisplay] = useState<'list' | 'graph'>('graph')
 
+  const [timelineData, setTimelineData] =
+    useState<ITimelinesTransformed | null>(null)
+  const [sortedTimelineYears, setSortedTimelineYears] = useState<Array<string>>(
+    [],
+  )
+
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
   const setFullscreen = (): void => {
@@ -58,11 +64,17 @@ const TimelineContainer: React.FC<{
     }
   }
 
-  if (isSuccess && data) {
-    const transformedData = transformTimelineData(data)
-    const sortedKeys = sortTimelineData(transformedData)
+  useEffect(() => {
+    if (isSuccess && data) {
+      const transformedData = transformTimelineData(data)
+      const sortedKeys = sortTimelineData(transformedData)
+      setTimelineData(transformedData)
+      setSortedTimelineYears(sortedKeys)
+    }
+  }, [data, isSuccess])
 
-    if (sortedKeys.length !== 0) {
+  if (isSuccess && data) {
+    if (sortedTimelineYears.length !== 0) {
       return (
         <StyledEntityPageSection
           data-testid="timeline-container"
@@ -111,27 +123,15 @@ const TimelineContainer: React.FC<{
               </div>
             </Col>
           </Row>
-          <Row>
-            <Col xs={12}>
-              {display === 'list' ? (
-                <List
-                  sortedKeys={sortedKeys}
-                  transformedData={transformedData}
-                  searchTags={searchTags}
-                />
-              ) : (
-                <Graph
-                  timelineData={transformedData}
-                  searchTags={searchTags}
-                  sortedKeys={sortedKeys}
-                />
-              )}
-            </Col>
-          </Row>
+          <TimelineData
+            display={display}
+            sortedKeys={sortedTimelineYears}
+            transformedData={timelineData}
+            searchTags={searchTags}
+          />
         </StyledEntityPageSection>
       )
     }
-    return null
   }
 
   if (isError) {
