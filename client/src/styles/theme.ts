@@ -47,6 +47,13 @@ const color = {
     cornflowerBlue: '#8095E8',
   },
 
+  graphs: {
+    produced: '#7E761B',
+    encounter: '#007A1F',
+    published: '#49007A',
+    created: '#BA531C',
+  },
+
   advancedSearch: {
     addRowText: '#979797',
   },
