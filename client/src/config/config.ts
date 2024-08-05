@@ -30,6 +30,10 @@ class Config {
       wikidataImagePathname: localEnv.wikidataImagePathname,
       luxWikidataManifestPrefix: localEnv.luxWikidataManifestPrefix,
       luxFeedbackUrl: localEnv.luxFeedbackUrl,
+      oidcAuthority: localEnv.oidcAuthority,
+      oidcClientId: localEnv.oidcClientId,
+      oidcRedirectUri: localEnv.oidcRedirectUri,
+      myCollectionsUri: localEnv.myCollectionsUri,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -48,6 +52,10 @@ class Config {
       wikidataImagePathname: data.wikidataImagePathname,
       luxWikidataManifestPrefix: data.luxWikidataManifestPrefix,
       luxFeedbackUrl: data.luxFeedbackUrl,
+      oidcAuthority: data.oidcAuthority,
+      oidcClientId: data.oidcClientId,
+      oidcRedirectUri: data.oidcRedirectUri,
+      myCollectionsUri: data.myCollectionsUri,
     }
   }
 
@@ -80,5 +88,8 @@ const config = new Config()
 export const getDataApiBaseUrl = (): string => config.env.dataApiBaseUrl
 export const getFacetsApiBaseUrl = (): string => config.env.facetsApiBaseUrl
 export const getCmsApiBaseUrl = (): string => config.env.cmsApiBaseUrl
+export const getOidcAuthority = (): string => config.env.oidcAuthority
+export const getOidcClientId = (): string => config.env.oidcClientId
+export const getOidcRedirectUri = (): string => config.env.oidcRedirectUri
 
 export default config

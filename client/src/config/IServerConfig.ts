@@ -9,4 +9,8 @@ export interface IServerConfig {
   wikidataImagePathname: string
   luxWikidataManifestPrefix: string
   luxFeedbackUrl: string
+  oidcAuthority: string
+  oidcClientId: string
+  oidcRedirectUri: string
+  myCollectionsUri: string
 }
