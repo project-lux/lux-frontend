@@ -169,9 +169,9 @@ export function advancedSearch(): IAdvancedSearchConfig {
           defaultOptionsName: 'keyword',
         },
         occupation: {
-          label: 'Occupation',
+          label: 'Occupation/Role',
           helpText:
-            'Search for a People & Groups with the specified Occupation.',
+            'Search for a People & Groups with the specified Occupation/Role.',
           relation: 'concept',
           autoCompleteContext: 'agent.occupation',
           allowedOptionsName: 'keyword',
@@ -320,7 +320,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
           relation: 'agent',
         },
         occupationOf: {
-          label: 'Occupation of',
+          label: 'Occupation/Role of',
           helpText:
             'Search for Concept terms that describe the Occupation of the specified People & Groups.',
           relation: 'agent',

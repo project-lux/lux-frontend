@@ -194,7 +194,7 @@ export const facetLabels: { [key: string]: string } = {
   agentStartDate: 'Born/Formed Date',
   agentEndDate: 'Died/Dissolved Date',
   agentActiveDate: 'Professionally Active Date',
-  agentOccupationId: 'Occupation',
+  agentOccupationId: 'Occupation/Role',
   agentActivePlaceId: 'Professionally Active At',
   agentMemberOfId: 'Member Of',
   agentProfessionalActivityId: 'Professional Activity Categorized As',

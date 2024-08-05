@@ -36,6 +36,7 @@ export function defaultAats(): IAat {
     occupation: 'http://vocab.getty.edu/aat/300263369',
     plantSpecimens: 'http://vocab.getty.edu/aat/300430421',
     primaryName: 'http://vocab.getty.edu/aat/300404670',
+    role: 'http://vocab.getty.edu/aat/300435108',
     sortValue: 'http://vocab.getty.edu/aat/300451544',
     typeOfPart: 'http://vocab.getty.edu/aat/300241583',
     visitors: 'http://vocab.getty.edu/aat/300025883',

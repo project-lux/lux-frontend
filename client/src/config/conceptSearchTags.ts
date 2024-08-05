@@ -95,7 +95,7 @@ export const relatedAccordions: IHalLinks = {
     tab: 'people',
   },
   agentOccupation: {
-    title: 'People and Groups with Occupation',
+    title: 'People and Groups with Occupation/Role',
     searchTag: 'lux:occupationForAgent',
     tab: 'people',
   },

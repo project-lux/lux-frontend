@@ -11,7 +11,6 @@ import IEntity from '../../types/data/IEntity'
 import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
 import TextContainer from '../common/TextContainer'
-import { personLabels } from '../../config/personLabels'
 import ExternalLink from '../common/ExternalLink'
 
 import Dates from './Dates'
@@ -65,15 +64,15 @@ const About: React.FC<IProps> = ({ data }) => {
         <Dates
           date={birthDate}
           place={birthPlace}
-          dateLabel={personLabels.birthDate}
-          placeLabel={personLabels.birthPlace}
+          dateLabel="Birth"
+          placeLabel="Birth Place"
           id="person-born"
         />
         <Dates
           date={deathDate}
           place={deathPlace}
-          dateLabel={personLabels.deathDate}
-          placeLabel={personLabels.deathPlace}
+          dateLabel="Death"
+          placeLabel="Death Place"
           id="person-died"
         />
         <Dates
