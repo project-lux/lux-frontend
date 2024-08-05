@@ -36,10 +36,11 @@ const TextLabel: React.FC<ITextLabelProps> = ({
   // Call ApiText in case there is a label that contains the base url
   let displayLabel = label
   const apiText = label !== undefined ? ApiText(label) : null
+  // Capitalize the text returned from the api if it did not come from the data
   displayLabel =
-    displayLabel !== undefined && apiText !== null
+    displayLabel !== undefined && apiText !== null && displayLabel !== apiText
       ? capitalizeLabels(apiText)
-      : undefined
+      : displayLabel
 
   const testId = label
     ? `${transformStringForTestId(label).toLowerCase()}-text-label`

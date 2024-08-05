@@ -12,7 +12,7 @@ describe('InternalLink', () => {
   it('renders with correct name', async () => {
     render(
       <BrowserRouter>
-        <InternalLink uri={mockUri} name={mockName} />
+        <InternalLink uri={mockUri} linkCategory="cat" name={mockName} />
       </BrowserRouter>,
     )
 
@@ -23,7 +23,7 @@ describe('InternalLink', () => {
   it('renders with correct href', async () => {
     render(
       <BrowserRouter>
-        <InternalLink uri={mockUri} name={mockName} />
+        <InternalLink uri={mockUri} linkCategory="cat" name={mockName} />
       </BrowserRouter>,
     )
 

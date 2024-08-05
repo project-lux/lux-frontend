@@ -102,7 +102,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               <StyledDl>
                 {occupations.length > 0 && (
                   <React.Fragment>
-                    <StyledDt>Occupations</StyledDt>
+                    <StyledDt>Occupations/Roles</StyledDt>
                     <StyledDd data-testid="person-group-result-snippet-occupation">
                       <RecordLink
                         url={occupations[0]}
@@ -179,7 +179,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 <StyledDl>
                   {occupations.length > 0 && (
                     <React.Fragment>
-                      <StyledDt hidden>Occupations</StyledDt>
+                      <StyledDt hidden>Occupations/Roles</StyledDt>
                       <StyledDd>
                         <RecordLink
                           url={occupations[0]}

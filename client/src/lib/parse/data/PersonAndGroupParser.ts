@@ -258,8 +258,11 @@ export default class PersonAndGroupParser extends EntityParser {
           for (const eq of equivalent) {
             if (eq.id === config.aat.gender) {
               label = 'Gender'
-            } else if (eq.id === config.aat.occupation) {
-              label = 'Occupation'
+            } else if (
+              eq.id === config.aat.occupation ||
+              eq.id === config.aat.role
+            ) {
+              label = 'Occupation/Role'
             }
           }
         }
@@ -305,7 +308,7 @@ export default class PersonAndGroupParser extends EntityParser {
   }
 
   /**
-   * Returns array of uuids /classified_as occupation
+   * Returns array of uuids /classified_as occupation or role
    * @returns {Array<string>}
    */
   getOccupations(): Array<string> {
@@ -317,6 +320,7 @@ export default class PersonAndGroupParser extends EntityParser {
         if (
           validateClassifiedAsIdMatches(cl.classified_as, [
             config.aat.occupation,
+            config.aat.role,
           ])
         ) {
           occupations.push(cl)

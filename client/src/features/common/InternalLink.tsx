@@ -5,8 +5,8 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface ILinkParams {
   uri: string
+  linkCategory: string
   name?: string
-  linkCategory?: string
   children?: JSX.Element
 }
 
@@ -16,24 +16,20 @@ const InternalLink: React.FC<ILinkParams> = ({
   name,
   linkCategory,
   children,
-}) => {
-  const eventText = linkCategory !== undefined ? linkCategory : name
-
-  return (
-    <Link
-      to={uri}
-      state={{
-        targetName: name,
-      }}
-      onClick={() =>
-        pushClientEvent('Internal Link', 'Selected', `Internal ${eventText}`)
-      }
-      data-testid="internal-link"
-    >
-      {name}
-      {children}
-    </Link>
-  )
-}
+}) => (
+  <Link
+    to={uri}
+    state={{
+      targetName: name,
+    }}
+    onClick={() =>
+      pushClientEvent('Internal Link', 'Selected', `Internal ${linkCategory}`)
+    }
+    data-testid="internal-link"
+  >
+    {name}
+    {children}
+  </Link>
+)
 
 export default InternalLink

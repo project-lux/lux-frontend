@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.32.0 - Unreleased
+
+### Added
+
+### Changed
+
+- Changed Occupation label to Occupation/Role ([#45](https://github.com/project-lux/lux-frontend/issues/45)).
+
+### Removed
+
+### Fixed
+
+- Fixed featured collections link ([#322](https://github.com/project-lux/lux-frontend/issues/322)).
+
 ## v1.31.3 - 2024-7-26
 
 ### Fixed
