@@ -9,4 +9,5 @@ export interface IServerConfig {
   wikidataImagePathname: string
   luxWikidataManifestPrefix: string
   luxFeedbackUrl: string
+  bugherdApiKey: string
 }
