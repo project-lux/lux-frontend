@@ -3,9 +3,8 @@ import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
-import type { AuthContextProps } from 'react-oidc-context'
 
-import config from '../../config/config'
+import { listCollections, signout } from '../../lib/my-collections/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -37,30 +36,6 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
   padding-right: 1rem;
   padding-left: 1rem;
 `
-
-const listCollections = (p: AuthContextProps): void => {
-  if (!p.isAuthenticated) {
-    // eslint-disable-next-line no-alert
-    alert('User is not logged in.')
-    return
-  }
-
-  const url = `${config.env.myCollectionsUri}/api/collections`
-
-  fetch(url, { headers: { Authorization: `Bearer ${p.user?.access_token}` } })
-    .then((response): void => {
-      if (response.ok) {
-        response.json().then((collections): void => {
-          console.log('collections:', collections)
-        })
-      } else {
-        console.error(`status code: ${response.status}`)
-      }
-    })
-    .catch((error): void => {
-      console.error(`Error fetching collections from ${url}: ${error}`)
-    })
-}
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
@@ -137,9 +112,16 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               >
                 Help
               </NavLink>
-              <button type="submit" onClick={() => auth.signinRedirect()}>
-                Login
-              </button>
+              {!auth.isAuthenticated && (
+                <button type="submit" onClick={() => auth.signinRedirect()}>
+                  Sign In
+                </button>
+              )}
+              {auth.isAuthenticated && (
+                <button type="submit" onClick={() => signout(auth)}>
+                  Sign Out
+                </button>
+              )}
               <button type="submit" onClick={() => listCollections(auth)}>
                 List
               </button>
