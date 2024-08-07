@@ -4,7 +4,11 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
 
-import { listCollections, signout } from '../../lib/my-collections/helper'
+import {
+  listCollections,
+  openMyCollections,
+  signout,
+} from '../../lib/my-collections/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -124,6 +128,9 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               )}
               <button type="submit" onClick={() => listCollections(auth)}>
                 List
+              </button>
+              <button type="submit" onClick={() => openMyCollections()}>
+                My Collections
               </button>
               {hideSearch ? null : (
                 <React.Fragment>

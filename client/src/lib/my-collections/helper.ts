@@ -16,6 +16,10 @@ export function signout(auth: AuthContextProps | null): void {
   })
 }
 
+export function openMyCollections(): void {
+  window.open(config.env.myCollectionsUri, '_blank')
+}
+
 export function listCollections(p: AuthContextProps): void {
   if (!p.isAuthenticated) {
     // eslint-disable-next-line no-alert
