@@ -42,8 +42,7 @@ const App: React.FC = () => {
       const script = document.createElement('script')
 
       script.type = 'text/javascript'
-      script.src =
-        'https://www.bugherd.com/sidebarv2.js?apikey=t7upvctsnbi5jeyrpjeceq'
+      script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
       script.async = true
 
       document.body.appendChild(script)
