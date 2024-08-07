@@ -55,6 +55,10 @@ class App {
         maintenanceMode: env.maintenanceMode,
         maintenanceMessage: env.maintenanceMessage,
         cacheViewerMode: env.cacheViewerMode,
+        oidcAuthority: env.oidcAuthority,
+        oidcClientId: env.oidcClientId,
+        oidcRedirectUri: env.oidcRedirectUri,
+        myCollectionsUri: env.myCollectionsUri,
       })
     })
 
