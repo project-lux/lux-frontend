@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added accessibility roles to hierarchy breadcrumbs ([#294](https://github.com/project-lux/lux-frontend/issues/294)).
+- Added aria-role=tab to entity page tabs ([#291](https://github.com/project-lux/lux-frontend/issues/291)).
 
 ### Changed
 

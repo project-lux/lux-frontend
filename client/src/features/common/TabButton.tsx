@@ -30,6 +30,7 @@ const TabButton: React.FC<ITabButton> = ({
       <StyledTabButton
         type="button"
         className={buttonClasses}
+        aria-roledescription="tab"
         onClick={() => {
           pushClientEvent('Tabs', 'Selected', `Tab ${title}`)
           setSelectedTab(index)
