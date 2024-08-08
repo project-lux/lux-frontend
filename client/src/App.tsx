@@ -30,6 +30,14 @@ const App: React.FC = () => {
   const [asConfigLoaded, setAsConfigLoaded] = useState(false)
   const envResult = useGetEnvQuery()
 
+  const removeTokenFromUrl = (): void => {
+    window.history.replaceState(
+      null,
+      '',
+      window.location.pathname.replace(/[?&]code=[^&]*/, ''),
+    )
+  }
+
   // Skip will be passed to config query endpoints if local env exists or if it hasn't loaded
   const skip =
     envLoaded || (envResult.isError && config.hasLocalEnv)
@@ -100,6 +108,7 @@ const App: React.FC = () => {
         redirect_uri={config.env.oidcRedirectUri}
         revokeTokenTypes={['refresh_token']}
         scope="openid email"
+        onSigninCallback={removeTokenFromUrl}
       >
         <GlobalStyle />
         <Router>
