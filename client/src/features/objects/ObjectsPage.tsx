@@ -46,6 +46,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
         >
           {element.json.member_of && (
             <GenericBreadcrumbHierarchy
+              key={element.json.id}
               entity={data}
               columnClassName="px-0"
               id="object-page"

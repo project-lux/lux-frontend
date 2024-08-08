@@ -234,7 +234,7 @@ describe('PersonAndGroupParser', () => {
             `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
             `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
           ],
-          Occupation: [`${config.env.dataApiBaseUrl}data/concept/occupation-1`],
+          "Occupation/Role": [`${config.env.dataApiBaseUrl}data/concept/occupation-1`],
         },
       ])
     })

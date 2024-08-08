@@ -60,6 +60,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
           >
             {isArchive && (
               <GenericBreadcrumbHierarchy
+                key={setParser.json.id}
                 entity={data}
                 columnClassName="px-0"
                 id="sets-page"

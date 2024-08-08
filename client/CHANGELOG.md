@@ -6,6 +6,14 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+### Changed
+
+### Removed
+
+### Fixed
+
+- Fixed the rendering issues in the breadcrumb hierarchy ([#312](https://github.com/project-lux/lux-frontend/issues/312)).
+
 ## v1.32.2 - 2024-8-7
 
 ### Added
