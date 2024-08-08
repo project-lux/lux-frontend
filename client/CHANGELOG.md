@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added accessibility roles to hierarchy breadcrumbs ([#294](https://github.com/project-lux/lux-frontend/issues/294)).
+
 ### Changed
 
 ### Removed
