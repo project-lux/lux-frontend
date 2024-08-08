@@ -20,7 +20,7 @@ interface IProps {
   descendents: ISearchResults
   currentEntity: IEntity
   displayLength: number
-  children: JSX.Element
+  children: JSX.Element | boolean
 }
 
 const ListContainer: React.FC<IProps> = ({
@@ -49,15 +49,17 @@ const ListContainer: React.FC<IProps> = ({
       <Col>
         <strong>{primaryName}</strong>
         <ul>
-          <li>
-            Parents
-            <ul>
-              {parents.slice(0, displayLength).map((parent) => (
-                <Li key={parent} id={parent} />
-              ))}
-            </ul>
-            {children}
-          </li>
+          {parents.length > 0 && (
+            <li>
+              Parents
+              <ul>
+                {parents.slice(0, displayLength).map((parent) => (
+                  <Li key={parent} id={parent} />
+                ))}
+              </ul>
+              {children}
+            </li>
+          )}
           <StyledHr width="100%" className="my-3" />
           {descendents.hasOwnProperty('orderedItems') &&
             descendents.orderedItems.length > 0 && (

@@ -72,6 +72,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
               type="place"
             />
             <HierarchyContainer
+              key={place.json.id}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={
