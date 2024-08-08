@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed the rendering issues in the breadcrumb hierarchy ([#312](https://github.com/project-lux/lux-frontend/issues/312)).
+- Fixed the hierarchy to not render when there is no data ([#297](https://github.com/project-lux/lux-frontend/issues/297)).
+- Fixed the hierarchy rendering issues when navigating between pages ([#297](https://github.com/project-lux/lux-frontend/issues/297)).
 
 ## v1.32.2 - 2024-8-7
 
