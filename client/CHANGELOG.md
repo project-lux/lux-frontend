@@ -6,6 +6,24 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+## v1.32.2 - 2024-8-7
+
+### Added
+
+- Added support for bugherd in lux-byunit2 in the frontend server ([#327](https://github.com/project-lux/lux-frontend/issues/327)).
+
+### Changed
+
+### Removed
+
+### Fixed
+
+## v1.32.1 - 2024-8-7
+
+### Added
+
+- Added support for bugherd in lux-byunit2 ([#327](https://github.com/project-lux/lux-frontend/issues/327)).
+
 ### Changed
 
 ### Removed

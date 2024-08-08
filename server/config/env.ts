@@ -36,3 +36,4 @@ export const luxEnv = getString(process.env.LUX_ENVIRONMENT)
 export const maintenanceMode = getBool(process.env.MAINTENANCE_MODE) || false
 export const maintenanceMessage = getString(process.env.MAINTENANCE_MESSAGE)
 export const cacheViewerMode = getBool(process.env.CACHE_VIEWER_MODE)
+export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
