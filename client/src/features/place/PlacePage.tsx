@@ -54,6 +54,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           entityTypeForIcon={helperText}
         >
           <GenericBreadcrumbHierarchy
+            key={place.json.id}
             entity={data}
             columnClassName="px-0"
             maxLength={8}

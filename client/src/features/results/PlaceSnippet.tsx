@@ -76,6 +76,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
               {types.length > 0 && <TypeList types={types} />}
             </StyledDl>
             <GenericBreadcrumbHierarchy
+              key={place.json.id}
               entity={data}
               columnClassName="px-0"
               maxLength={8}

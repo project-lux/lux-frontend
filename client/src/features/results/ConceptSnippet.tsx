@@ -55,6 +55,7 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
               )}
             </StyledDl>
             <GenericBreadcrumbHierarchy
+              key={concept.json.id}
               entity={data}
               id="concept-snippet"
               getNextEntityUri={getNextConceptUris}

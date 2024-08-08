@@ -135,6 +135,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledDl>
               {object.json.member_of && (
                 <GenericBreadcrumbHierarchy
+                  key={object.json.id}
                   entity={data}
                   id="object-snippet"
                   getNextEntityUri={getNextSetUris}
