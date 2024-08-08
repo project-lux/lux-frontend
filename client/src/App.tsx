@@ -31,11 +31,10 @@ const App: React.FC = () => {
   const envResult = useGetEnvQuery()
 
   const removeTokenFromUrl = (): void => {
-    window.history.replaceState(
-      null,
-      '',
-      window.location.pathname.replace(/[?&]code=[^&]*/, ''),
-    )
+    const url = new URL(window.location.href)
+    url.searchParams.delete('code')
+    url.searchParams.delete('state')
+    window.history.replaceState({}, '', url.toString())
   }
 
   // Skip will be passed to config query endpoints if local env exists or if it hasn't loaded
