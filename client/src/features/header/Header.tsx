@@ -2,7 +2,13 @@ import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
+import {
+  listCollections,
+  openMyCollections,
+  signout,
+} from '../../lib/my-collections/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -37,11 +43,18 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
 
 /* eslint-disable jsx-a11y/anchor-is-valid */
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
+  const auth = useAuth()
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
   const handlepushClientEvent = (link: string): void => {
     pushClientEvent('Internal Link', 'Selected', `Internal ${link}`)
+  }
+
+  if (auth.isAuthenticated) {
+    console.log('Authenticated', auth.user)
+  } else {
+    console.log('Not authenticated')
   }
 
   return (
@@ -103,6 +116,22 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               >
                 Help
               </NavLink>
+              {!auth.isAuthenticated && (
+                <button type="submit" onClick={() => auth.signinRedirect()}>
+                  Sign In
+                </button>
+              )}
+              {auth.isAuthenticated && (
+                <button type="submit" onClick={() => signout(auth)}>
+                  Sign Out
+                </button>
+              )}
+              <button type="submit" onClick={() => listCollections(auth)}>
+                List
+              </button>
+              <button type="submit" onClick={() => openMyCollections()}>
+                My Collections
+              </button>
               {hideSearch ? null : (
                 <React.Fragment>
                   <SeparatingLine />
