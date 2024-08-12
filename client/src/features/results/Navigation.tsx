@@ -21,10 +21,7 @@ import {
   transformAdvancedSearchEstimates,
   transformSimpleSearchEstimates,
 } from '../../lib/parse/search/estimatesParser'
-import {
-  getFacetParamsForSimpleSearchEstimatesRequest,
-  getFacetParamsForAdvancedSearchEstimatesRequest,
-} from '../../lib/util/params'
+import { getFacetParamsForSimpleSearchEstimatesRequest } from '../../lib/util/params'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
 import { tabToLinkLabel } from '../../config/results'
@@ -32,15 +29,15 @@ import { tabToLinkLabel } from '../../config/results'
 interface INavigation {
   urlParams: URLSearchParams
   criteria: any
+  search: string
 }
 
-const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
+const Navigation: React.FC<INavigation> = ({ urlParams, criteria, search }) => {
   const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
-  const { pathname, search, state } = useLocation() as {
+  const { pathname, state } = useLocation() as {
     pathname: string
-    search: string
     state: { [key: string]: boolean }
   }
 
@@ -56,11 +53,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
   const params =
     isSimpleSearch && simpleSearchParam !== ''
       ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
-      : getFacetParamsForAdvancedSearchEstimatesRequest(
-          criteria,
-          urlParams,
-          queryTab,
-        )
+      : JSON.stringify(criteria)
 
   const {
     data: simpleSearchData,
@@ -135,7 +128,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
       if (tabWithResults !== null) {
         navigate({
           pathname: pathname.replace(tab, tabWithResults),
-          search: search.toString(),
+          search,
         })
       }
     }
