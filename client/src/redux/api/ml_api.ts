@@ -100,17 +100,6 @@ export const mlApi: any = createApi({
         return getTimelines(hrefs)
       },
     }),
-    // getMultipleRelationships: builder.query<
-    //   any,
-    //   { halLinks: Array<string>; page: number }
-    // >({
-    //   queryFn({ halLinks, page }) {
-    //     const promises = halLinks.map((link) =>
-    //       fetchHalLinkSearchRequest(link, page),
-    //     )
-    //     return Promise.all(promises).then((result) => ({ data: result }))
-    //   },
-    // }),
     getCollection: builder.query<any, IEntity>({
       queryFn(entity) {
         return getCollections(entity)

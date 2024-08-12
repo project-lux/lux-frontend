@@ -103,7 +103,10 @@ const ResultsPage: React.FC = () => {
       <SearchContainer key={tab} isSimpleSearch={hasSimpleSearchQuery} />
       <Navigation
         urlParams={urlParams}
-        criteria={queryString !== '' ? JSON.parse(queryString) : null}
+        criteria={
+          actualSearchString !== '' ? JSON.parse(actualSearchString) : null
+        }
+        search={search}
       />
       <div className="mx-3">
         {getScopedResultsComponent(tab, searchResponse)}
