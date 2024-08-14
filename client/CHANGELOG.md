@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added keyboard focus when navigating hierarchy ([#293](https://github.com/project-lux/lux-frontend/issues/293)).
+
 ### Changed
 
 ### Removed

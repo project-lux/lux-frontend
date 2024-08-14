@@ -5,13 +5,13 @@ import { Col } from 'react-bootstrap'
 
 import StyledExploreHierarchy from '../../styles/features/common/ExploreHierarchy'
 import { ISearchResults } from '../../types/ISearchResults'
-// import { useAppSelector } from '../../app/hooks'
-// import { IHierarchyVisualization } from '../../redux/slices/hierarchyVisualizationSlice'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 import SearchResultsLink from '../relatedLists/SearchResultsLink'
 import StyledHr from '../../styles/shared/Hr'
+import { useAppSelector } from '../../app/hooks'
+import { IHierarchy } from '../../redux/slices/hierarchySlice'
 
 import Li from './Li'
 
@@ -19,7 +19,6 @@ interface IProps {
   parents: Array<string>
   descendents: ISearchResults
   currentEntity: IEntity
-  displayLength: number
   children: JSX.Element | boolean
 }
 
@@ -27,10 +26,11 @@ const ListContainer: React.FC<IProps> = ({
   parents,
   descendents,
   currentEntity,
-  displayLength,
   children,
 }) => {
-  const defaultLength = 5
+  const { currentPageLength, previousPageLength, defaultDisplayLength } =
+    useAppSelector((hierarchyState) => hierarchyState.hierarchy as IHierarchy)
+
   const { pathname } = useLocation()
   let scope: null | string = null
   if (pathname.includes('concept')) {
@@ -43,6 +43,11 @@ const ListContainer: React.FC<IProps> = ({
 
   const parser = new EntityParser(currentEntity)
   const primaryName = parser.getPrimaryName(config.aat.langen)
+  const isShowMore = currentPageLength > previousPageLength
+  // Set the index of the element that should be focused on after selecting show more/less
+  const listElementToFocus = isShowMore
+    ? (Math.floor(currentPageLength / 5) - 1) * 5 + 1
+    : currentPageLength
 
   return (
     <StyledExploreHierarchy className="row">
@@ -53,8 +58,14 @@ const ListContainer: React.FC<IProps> = ({
             <li>
               Parents
               <ul>
-                {parents.slice(0, displayLength).map((parent) => (
-                  <Li key={parent} id={parent} />
+                {parents.slice(0, currentPageLength).map((parent, ind) => (
+                  <Li
+                    key={parent}
+                    id={parent}
+                    focusOnLiElement={currentPageLength !== previousPageLength}
+                    indexToFocus={ind + 1 === listElementToFocus}
+                    ind={(ind + 1).toString()}
+                  />
                 ))}
               </ul>
               {children}
@@ -67,7 +78,7 @@ const ListContainer: React.FC<IProps> = ({
                 Children
                 <ul>
                   {descendents.orderedItems
-                    .slice(0, defaultLength)
+                    .slice(0, defaultDisplayLength)
                     .map((item) => (
                       <Li key={item.id} id={item.id} />
                     ))}

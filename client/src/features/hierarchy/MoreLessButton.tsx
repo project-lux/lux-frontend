@@ -1,49 +1,54 @@
 import React from 'react'
 
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import {
+  IHierarchy,
+  addShowLess,
+  addShowMore,
+} from '../../redux/slices/hierarchySlice'
+
 interface IProps {
-  parentsLength: number
-  defaultDisplayLength: number
+  parentsArrayLength: number
   displayLength: number
-  setParentDisplayLength: (x: number) => void
 }
 
 const MoreLessButton: React.FC<IProps> = ({
-  parentsLength,
-  defaultDisplayLength,
+  parentsArrayLength,
   displayLength,
-  setParentDisplayLength,
-}) => (
-  <div className="ms-4">
-    {displayLength <= parentsLength && (
-      <button
-        type="button"
-        className="btn btn-link show-more"
-        onClick={() =>
-          setParentDisplayLength(displayLength + defaultDisplayLength)
-        }
-        style={{ textDecoration: 'none' }}
-      >
-        <strong>Show More</strong>
-      </button>
-    )}
-    {displayLength > defaultDisplayLength && (
-      <button
-        type="button"
-        className="btn btn-link show-less ms-3"
-        onClick={() =>
-          setParentDisplayLength(
-            Math.max(
-              displayLength - defaultDisplayLength,
-              defaultDisplayLength,
-            ),
-          )
-        }
-        style={{ textDecoration: 'none' }}
-      >
-        <strong>Show Less</strong>
-      </button>
-    )}
-  </div>
-)
+}) => {
+  const dispatch = useAppDispatch()
+  const currentState = useAppSelector(
+    (hierarchyState) => hierarchyState.hierarchy as IHierarchy,
+  )
+
+  return (
+    <div className="ms-4">
+      {currentState.currentPageLength <= parentsArrayLength && (
+        <button
+          type="button"
+          className="btn btn-link show-more"
+          onClick={() =>
+            dispatch(addShowMore({ currentPageLength: displayLength }))
+          }
+          style={{ textDecoration: 'none' }}
+        >
+          <strong>Show More</strong>
+        </button>
+      )}
+      {currentState.currentPageLength > currentState.defaultDisplayLength && (
+        <button
+          type="button"
+          className="btn btn-link show-less ms-3"
+          onClick={() =>
+            dispatch(addShowLess({ currentPageLength: displayLength }))
+          }
+          style={{ textDecoration: 'none' }}
+        >
+          <strong>Show Less</strong>
+        </button>
+      )}
+    </div>
+  )
+}
 
 export default MoreLessButton

@@ -1,16 +1,16 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-// import ExploreHierarchy from '../common/ExploreHierarchy'
-// import PrimaryButton from '../../styles/shared/PrimaryButton'
 import ILinks from '../../types/data/ILinks'
 import { IHalLink } from '../../types/IHalLink'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import { ISearchResults } from '../../types/ISearchResults'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
+import { useAppSelector } from '../../app/hooks'
+import { IHierarchy } from '../../redux/slices/hierarchySlice'
 
 import ListContainer from './ListContainer'
 import MoreLessButton from './MoreLessButton'
@@ -43,11 +43,10 @@ const HierarchyContainer: React.FC<IProps> = ({
   halLink,
   getParentUris,
 }) => {
+  const currentState = useAppSelector(
+    (hierarchyState) => hierarchyState.hierarchy as IHierarchy,
+  )
   const hierarchyRef = useRef<HTMLDivElement>(null)
-
-  const defaultLength = 5
-  const [displayLength, setDisplayLength] = useState(defaultLength)
-
   const childrenUri = getHalLink(entity._links, halLink)
   const parents = getParentUris(entity)
 
@@ -84,17 +83,14 @@ const HierarchyContainer: React.FC<IProps> = ({
           </Col>
         </Row>
         <ListContainer
-          displayLength={displayLength}
           parents={parents}
           descendents={(data as ISearchResults) || {}}
           currentEntity={entity}
         >
-          {parents.length > defaultLength && (
+          {parents.length > currentState.defaultDisplayLength && (
             <MoreLessButton
-              parentsLength={parents.length}
-              defaultDisplayLength={defaultLength}
-              displayLength={displayLength}
-              setParentDisplayLength={setDisplayLength}
+              parentsArrayLength={parents.length}
+              displayLength={currentState.currentPageLength}
             />
           )}
         </ListContainer>
