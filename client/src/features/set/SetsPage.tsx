@@ -19,7 +19,7 @@ import {
   isEntityAnArchive,
 } from '../../lib/util/hierarchyHelpers'
 import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
-import { reset } from '../../redux/slices/hierarchySlice'
+import { reset } from '../../redux/slices/archiveHierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { archive } from '../../config/setsSearchTags'

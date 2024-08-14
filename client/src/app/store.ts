@@ -3,6 +3,7 @@ import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
 import advancedSearchReducer from '../redux/slices/advancedSearchSlice'
 import simpleSearchReducer from '../redux/slices/simpleSearchSlice'
 import helpTextReducer from '../redux/slices/helpTextSlice'
+import archiveHierarchyReducer from '../redux/slices/archiveHierarchySlice'
 import hierarchyReducer from '../redux/slices/hierarchySlice'
 import facetsReducer from '../redux/slices/facetsSlice'
 import currentSearchReducer from '../redux/slices/currentSearchSlice'
@@ -16,9 +17,10 @@ export const store = configureStore({
     advancedSearch: advancedSearchReducer,
     simpleSearch: simpleSearchReducer,
     helpTextKey: helpTextReducer,
-    archiveHierarchy: hierarchyReducer,
+    archiveHierarchy: archiveHierarchyReducer,
     facetSelection: facetsReducer,
     currentSearch: currentSearchReducer,
+    hierarchy: hierarchyReducer,
     [configApi.reducerPath]: configApi.reducer,
     [cmsApi.reducerPath]: cmsApi.reducer,
     [mlApi.reducerPath]: mlApi.reducer,
