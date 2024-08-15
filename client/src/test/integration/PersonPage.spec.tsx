@@ -28,7 +28,7 @@ describe('Person page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/1950/i)
-      const date = screen.getByText('3/4/1950')
+      const date = screen.getByText('3/4/1950 CE')
       expect(date).toBeInTheDocument()
     })
 
@@ -44,7 +44,7 @@ describe('Person page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/2000/i)
-      const date = screen.getByText('5/10/2000')
+      const date = screen.getByText('5/10/2000 CE')
       expect(date).toBeInTheDocument()
     })
 
@@ -100,7 +100,7 @@ describe('Person page', () => {
 
       await findAllByText(/Professional Activities/i)
       const dates = screen.getByTestId('professional-activity-dates')
-      expect(dates).toHaveTextContent('during 2000-2010')
+      expect(dates).toHaveTextContent('during 2000 CE-2010 CE')
     })
 
     it('renders the web pages', async () => {

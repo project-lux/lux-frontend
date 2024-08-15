@@ -36,29 +36,13 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     let endDate = ''
 
     if (person.json.type === 'Person') {
-      const birthDate = person.getBirthDate()
-      startDate =
-        birthDate !== ''
-          ? PersonAndGroupParser.transformYear(birthDate)
-          : birthDate
-      const deathDate = person.getDeathDate()
-      endDate =
-        deathDate !== ''
-          ? PersonAndGroupParser.transformYear(deathDate)
-          : deathDate
+      startDate = person.getBirthYear()
+      endDate = person.getDeathYear()
     }
 
     if (person.json.type === 'Group') {
-      const formationDate = person.getFormationDate()
-      startDate =
-        formationDate !== ''
-          ? PersonAndGroupParser.transformYear(formationDate)
-          : formationDate
-      const dissolutionDate = person.getDissolutionDate()
-      endDate =
-        dissolutionDate !== ''
-          ? PersonAndGroupParser.transformYear(dissolutionDate)
-          : dissolutionDate
+      startDate = person.getFormationYear()
+      endDate = person.getDissolutionYear()
     }
 
     const images = person.getImages()
@@ -68,6 +52,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const linkState = {
       targetName: primaryName,
     }
+    console.log(startDate, endDate)
     if (view === 'list') {
       return (
         <React.Fragment>

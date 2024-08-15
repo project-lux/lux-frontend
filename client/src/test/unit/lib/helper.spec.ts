@@ -25,6 +25,7 @@ import {
   getMultipleSpecificReferredToBy,
   getNestedCarriedOutBy,
   getEquivalentFromClassifiedAsArray,
+  addOneToBceYear,
 } from '../../../lib/parse/data/helper'
 import IAttribution from '../../../types/data/IAttribution'
 import IEntity from '../../../types/data/IEntity'
@@ -251,12 +252,24 @@ describe('helper functions', () => {
   describe('transformedDate', () => {
     it('returns transformed dates AD', () => {
       const date = transformDate('1997-05-13T23:59:59Z')
-      expect(date).toEqual('5/13/1997')
+      expect(date).toEqual('5/13/1997 CE')
     })
 
     it('returns transformed dates BCE', () => {
       const date = transformDate('-1997-05-13T23:59:59Z')
-      expect(date).toEqual('5/13/1997 BCE')
+      expect(date).toEqual('5/13/1998 BCE')
+    })
+  })
+
+  describe('addOneToBceYear', () => {
+    it('returns BCE year plus one', () => {
+      const date = addOneToBceYear(1000)
+      expect(date).toEqual(1001)
+    })
+
+    it('returns transformed dates BCE', () => {
+      const date = transformDate('-1997-05-13T23:59:59Z')
+      expect(date).toEqual('5/13/1998 BCE')
     })
   })
 
