@@ -248,8 +248,8 @@ export const person: IAgent = {
 }
 
 export const agentData: IAgentSnippet = {
-  birthYear: '1950',
-  deathYear: '2000',
+  birthYear: '1950 CE',
+  deathYear: '2000 CE',
   name: 'Mock Person',
   nationalities: [
     `${config.env.dataApiBaseUrl}data/concept/nationality-1`,

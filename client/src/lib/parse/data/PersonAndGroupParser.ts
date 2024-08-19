@@ -10,6 +10,7 @@ import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
 import {
+  addOneToBceYear,
   forceArray,
   getClassifiedAs,
   hasData,
@@ -63,7 +64,7 @@ export default class PersonAndGroupParser extends EntityParser {
     }
 
     const dateIsBc = date[0] === '-'
-    const dateToParse = dateIsBc ? date.slice(1) : date
+    const dateToParse = dateIsBc ? date.slice(1).padStart(4, '0') : date
     const year = new Date(dateToParse).getUTCFullYear()
 
     if (isNaN(year)) {
@@ -71,10 +72,10 @@ export default class PersonAndGroupParser extends EntityParser {
     }
 
     if (dateIsBc) {
-      return `${year.toString()} BCE`
+      return `${addOneToBceYear(year)} BCE`
     }
 
-    return year.toString()
+    return `${year.toString()} CE`
   }
 
   /**
@@ -94,8 +95,13 @@ export default class PersonAndGroupParser extends EntityParser {
    * @returns {string}
    */
   getBirthYear(): string {
-    const birthDate = this.getBirthDate()
-    return PersonAndGroupParser.transformYear(birthDate)
+    const { born } = this.agent
+    if (born !== undefined && born.timespan !== undefined) {
+      return PersonAndGroupParser.transformYear(
+        born.timespan.begin_of_the_begin,
+      )
+    }
+    return ''
   }
 
   /**
@@ -127,8 +133,13 @@ export default class PersonAndGroupParser extends EntityParser {
    * @returns {string}
    */
   getDeathYear(): string {
-    const deathDate = this.getDeathDate()
-    return PersonAndGroupParser.transformYear(deathDate)
+    const { died } = this.agent
+    if (died !== undefined && died.timespan !== undefined) {
+      return PersonAndGroupParser.transformYear(
+        died.timespan.begin_of_the_begin,
+      )
+    }
+    return ''
   }
 
   /**
@@ -160,8 +171,13 @@ export default class PersonAndGroupParser extends EntityParser {
    * @returns {string}
    */
   getFormationYear(): string {
-    const formationDate = this.getFormationDate()
-    return PersonAndGroupParser.transformYear(formationDate)
+    const formedBy = this.agent.formed_by
+    if (formedBy !== undefined && formedBy.timespan !== undefined) {
+      return PersonAndGroupParser.transformYear(
+        formedBy.timespan.begin_of_the_begin,
+      )
+    }
+    return ''
   }
 
   /**
@@ -206,8 +222,13 @@ export default class PersonAndGroupParser extends EntityParser {
    * @returns {string}
    */
   getDissolutionYear(): string {
-    const dissolutionDate = this.getDissolutionDate()
-    return PersonAndGroupParser.transformYear(dissolutionDate)
+    const dissolvedBy = this.agent.dissolved_by
+    if (dissolvedBy !== undefined && dissolvedBy.timespan !== undefined) {
+      return PersonAndGroupParser.transformYear(
+        dissolvedBy.timespan.begin_of_the_begin,
+      )
+    }
+    return ''
   }
 
   /**

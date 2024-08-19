@@ -33,7 +33,7 @@ describe('AgentInHeader', () => {
     render(<AgentInHeader data={mockAgentData} />)
 
     const years = screen.getByTestId('agent-in-header-years')
-    expect(years).toHaveTextContent('1950-2000')
+    expect(years).toHaveTextContent('1950 CE-2000 CE')
   })
 
   it('returns agent name', () => {

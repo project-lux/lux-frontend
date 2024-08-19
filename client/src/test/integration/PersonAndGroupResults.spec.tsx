@@ -74,7 +74,7 @@ describe('Person and Group results page', () => {
       render(<AppRender route={gridViewPage} />)
 
       const dates = screen.getByTestId('start-end-dates')
-      expect(dates).toHaveTextContent('1950-2000')
+      expect(dates).toHaveTextContent('1950 CE-2000 CE')
     })
 
     it('renders the image in grid view', async () => {
@@ -117,7 +117,7 @@ describe('Person and Group results page', () => {
 
       await findAllByText(/Mock Person/i)
       const dates = screen.getByTestId('start-end-dates')
-      expect(dates).toHaveTextContent('1950-2000')
+      expect(dates).toHaveTextContent('1950 CE-2000 CE')
     })
 
     it('renders the occupation', async () => {

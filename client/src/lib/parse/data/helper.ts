@@ -242,9 +242,11 @@ export const getDateContent = (
     .filter((cont) => cont !== undefined)
 }
 
+export const addOneToBceYear = (year: number): number => year + 1
+
 /**
  * Returns a date with proper formatting
- * @param {string | undefined} date the UTC date format YYYY-MM-DDThh:mm
+ * @param {string | undefined} date the UTC date in ISOString format
  * @returns {string}
  */
 export const transformDate = (date: string | undefined): string => {
@@ -262,18 +264,18 @@ export const transformDate = (date: string | undefined): string => {
 
   const month = transformedDate.getUTCMonth() + 1
   const day = transformedDate.getUTCDate()
-  const year = transformedDate.getUTCFullYear()
+  const year = dateIsBc
+    ? addOneToBceYear(transformedDate.getUTCFullYear())
+    : transformedDate.getUTCFullYear()
+  const era = dateIsBc ? 'BCE' : 'CE'
+  console.log(year)
 
-  let newDate = `${month}/${day}/${year}`
   // Remove month and day if it is January 1st
   if (month === 1 && day === 1) {
-    newDate = year.toString()
+    return `${year} ${era}`
   }
 
-  if (dateIsBc) {
-    return `${newDate} BCE`
-  }
-  return newDate
+  return `${month}/${day}/${year} ${era}`
 }
 
 /**
@@ -418,22 +420,6 @@ export function stripYaleIdPrefix(id: string): string {
   }
 
   return id.replace(`${baseUrl}data/`, '')
-}
-
-/**
- * Returns the year from the date provided
- * @param {string} date the date to parse to get the year
- * @returns {string}
- * @deprecated
- */
-export function transformYear(date: string): string {
-  const year = new Date(date).getUTCFullYear()
-
-  if (isNaN(year)) {
-    return ''
-  }
-
-  return year.toString()
 }
 
 /**
