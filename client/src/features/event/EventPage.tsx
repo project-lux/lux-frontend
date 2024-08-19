@@ -12,8 +12,8 @@ import FeedbackButton from '../common/FeedbackButton'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import { ErrorFallback } from '../error/ErrorFallback'
 import EventParser from '../../lib/parse/data/EventParser'
-import StyledHr from '../../styles/shared/Hr'
 import AccordionContainer from '../relatedLists/AccordionContainer'
+import ImageThumbnail from '../common/ImageThumbnail'
 
 import AboutPanel from './AboutPanel'
 
@@ -21,6 +21,7 @@ import AboutPanel from './AboutPanel'
 const EventPage: React.FC<{ data: any }> = ({ data }) => {
   const event = new EventParser(data)
   const [supertypeIcon, helperText] = event.getSupertypeIcon()
+  const images = event.getImages()
 
   return (
     <React.Fragment>
@@ -50,8 +51,14 @@ const EventPage: React.FC<{ data: any }> = ({ data }) => {
         <Col lg={4}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <StyledEntityPageSection className="row">
-              <AboutPanel entity={data} />
-              <StyledHr />
+              <Col xs={12}>
+                {images.length > 0 && (
+                  <div style={{ height: '20rem' }}>
+                    <ImageThumbnail imageInfo={images[0]} />
+                  </div>
+                )}
+                <AboutPanel entity={data} />
+              </Col>
             </StyledEntityPageSection>
             <Row>
               <Col xs={12}>

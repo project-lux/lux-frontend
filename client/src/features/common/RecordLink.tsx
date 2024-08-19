@@ -31,7 +31,7 @@ const RecordLink: React.FC<ISearchData> = ({
   returns404,
   className,
   name,
-  ariaRoleDescription,
+  ariaRoleDescription = 'link',
 }) => {
   const skip = url === undefined || name !== undefined
   const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
@@ -55,7 +55,7 @@ const RecordLink: React.FC<ISearchData> = ({
         }}
         state={{ targetName: entityName }}
         aria-label={entityName}
-        aria-roledescription={ariaRoleDescription}
+        role={ariaRoleDescription}
         className={className || ''}
         onClick={() =>
           pushClientEvent(
