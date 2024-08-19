@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed getEntityClass function to return rendered label ([#301](https://github.com/project-lux/lux-frontend/issues/301)).
+
 ## v1.33.0 - 2024-8-19
 
 ### Added

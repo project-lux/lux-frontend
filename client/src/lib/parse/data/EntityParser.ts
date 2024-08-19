@@ -20,6 +20,7 @@ import {
   INoteContent,
 } from '../../../types/IContentWithLanguage'
 import { IImages } from '../../../types/IImages'
+import { recordTypes } from '../../../config/advancedSearch/inputTypes'
 
 import {
   isSpecimen,
@@ -47,8 +48,11 @@ export default class EntityParser {
    * Returns an array of strings containing related web pages from /subject_of/digitally_carried_by/access_point
    * @returns {string}
    */
-  getEntityClass(): string {
-    return this.json.type
+  getEntityClass(scope: string): string {
+    const { type } = this.json
+    const entityClass: string =
+      recordTypes[scope][type] !== undefined ? recordTypes[scope][type] : type
+    return entityClass
   }
 
   /**

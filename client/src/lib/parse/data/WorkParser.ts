@@ -1,7 +1,6 @@
 /* eslint-disable consistent-return */
 /* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { recordTypes } from '../../../config/advancedSearch/inputTypes'
 import config from '../../../config/config'
 import IWork from '../../../types/data/IWork'
 import { IEventInfo } from '../../../types/derived-data/events'
@@ -177,11 +176,11 @@ export default class WorkParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
-    const entityClass = this.getEntityClass()
+    const entityClass = this.getEntityClass('work')
     const data: Record<string, any> = {
       types: this.getTypes(),
       titles: this.getNames(true),
-      entityClass: recordTypes.work[entityClass],
+      entityClass,
       identifiers: this.getIdentifiers(),
       publications: this.getPublicationEvent(),
       about: this.getAbout(),
@@ -205,14 +204,14 @@ export default class WorkParser extends EntityParser {
   > | null {
     const names = this.getNames(true)
     const name = this.getPrimaryName(config.aat.langen)
-    const entityClass = this.getEntityClass()
+    const entityClass = this.getEntityClass('work')
     const types = this.getTypes()
     const publications = this.getPublicationEvent()
 
     const data: Record<string, any> = {
       names,
       name,
-      entityClass: recordTypes.work[entityClass],
+      entityClass,
       types,
       publications,
     }

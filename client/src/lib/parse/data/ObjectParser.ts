@@ -10,7 +10,6 @@ import {
   IContentWithLanguage,
   INoteContent,
 } from '../../../types/IContentWithLanguage'
-import { recordTypes } from '../../../config/advancedSearch/inputTypes'
 import IEntity from '../../../types/data/IEntity'
 
 import EntityParser from './EntityParser'
@@ -336,12 +335,12 @@ export default class ObjectParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
-    const entityClass = this.getEntityClass()
+    const entityClass = this.getEntityClass('item')
 
     const data: Record<string, any> = {
       types: this.getTypes(),
       titles: this.getNames(true),
-      entityClass: recordTypes.item[entityClass],
+      entityClass,
       identifiers: this.getIdentifiers(),
       publicationEvents: this.getPublicationEvent(),
       productionEvent: this.getProductionEvent(),

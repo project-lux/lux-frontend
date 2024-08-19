@@ -489,7 +489,7 @@ export default class PersonAndGroupParser extends EntityParser {
   > | null {
     // Shared between Person and Group
     const classifiedAs = this.getAllClassifiedAs()
-    const entityClass = this.getEntityClass()
+    const entityClass = this.getEntityClass('agent')
     const memberOf = this.getMemberOf()
     const names = this.getNames()
     const notes = this.getNotes()
