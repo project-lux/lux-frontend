@@ -46,6 +46,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
           entityTypeForIcon={helperText}
         >
           <GenericBreadcrumbHierarchy
+            key={concept.json.id}
             entity={data}
             id="concept-page"
             getNextEntityUri={getNextConceptUris}
@@ -63,6 +64,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
               type="concept"
             />
             <HierarchyContainer
+              key={concept.json.id}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}

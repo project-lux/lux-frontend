@@ -39,6 +39,7 @@ const ProductionLocation: React.FC<IProps> = ({ location }) => {
         </Row>
         {hasMapData && <Map config={mapConfig} className="md row ms-1" />}
         <GenericBreadcrumbHierarchy
+          key={data.id}
           entity={data}
           columnClassName="mt-2"
           maxLength={8}

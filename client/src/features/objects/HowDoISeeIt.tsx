@@ -37,7 +37,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
         {accessStatement.length > 0 && (
           <React.Fragment>
             <NotesContainer
-              notes={{ access: accessStatement }}
+              notes={{ Access: accessStatement }}
               id="object-access-statement"
               expandColumns
               labelTooltipText={access}

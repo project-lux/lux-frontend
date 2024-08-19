@@ -54,6 +54,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
           entityTypeForIcon={helperText}
         >
           <GenericBreadcrumbHierarchy
+            key={place.json.id}
             entity={data}
             columnClassName="px-0"
             maxLength={8}
@@ -71,6 +72,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
               type="place"
             />
             <HierarchyContainer
+              key={place.json.id}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={

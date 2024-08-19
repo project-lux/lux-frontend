@@ -83,6 +83,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
               <RecordLink
                 url={currentEntity.id ?? ''}
                 linkCategory="Breadcrumb"
+                ariaRoleDescription="breadcrumb"
               />
             </React.Fragment>,
           )
@@ -100,6 +101,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
         <Col
           className={columnClassName || ''}
           data-testid={`${id}-generic-breadcrumb-hierarchy`}
+          role="navigation"
         >
           {links} {'>'} {entityName}
         </Col>

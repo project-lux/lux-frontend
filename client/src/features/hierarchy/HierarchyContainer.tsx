@@ -45,17 +45,17 @@ const HierarchyContainer: React.FC<IProps> = ({
 }) => {
   const hierarchyRef = useRef<HTMLDivElement>(null)
 
-  const [displayLength, setDisplayLength] = useState(5)
-
   const defaultLength = 5
-  const uri = getHalLink(entity._links, halLink)
+  const [displayLength, setDisplayLength] = useState(defaultLength)
+
+  const childrenUri = getHalLink(entity._links, halLink)
   const parents = getParentUris(entity)
 
-  const skip = uri === null
+  const skip = childrenUri === null
   const { data, isSuccess, isError } = useGetSearchRelationshipQuery(
     {
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      uri: uri!,
+      uri: childrenUri!,
     },
     {
       skip,
@@ -66,6 +66,10 @@ const HierarchyContainer: React.FC<IProps> = ({
     console.log(
       'An error occurred retrieving the children of the current entity.',
     )
+  }
+
+  if (skip && parents.length === 0) {
+    return null
   }
 
   if ((isSuccess && data) || skip) {
@@ -85,12 +89,14 @@ const HierarchyContainer: React.FC<IProps> = ({
           descendents={(data as ISearchResults) || {}}
           currentEntity={entity}
         >
-          <MoreLessButton
-            parentsLength={parents.length}
-            defaultDisplayLength={defaultLength}
-            displayLength={displayLength}
-            setParentDisplayLength={setDisplayLength}
-          />
+          {parents.length > defaultLength && (
+            <MoreLessButton
+              parentsLength={parents.length}
+              defaultDisplayLength={defaultLength}
+              displayLength={displayLength}
+              setParentDisplayLength={setDisplayLength}
+            />
+          )}
         </ListContainer>
       </StyledEntityPageSection>
     )

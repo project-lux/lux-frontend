@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.33.0 - Unreleased
+
+### Added
+
+- Added accessibility roles to hierarchy breadcrumbs ([#294](https://github.com/project-lux/lux-frontend/issues/294)).
+- Added aria-role=tab to entity page tabs ([#291](https://github.com/project-lux/lux-frontend/issues/291)).
+- Added images to event pages ([#311](https://github.com/project-lux/lux-frontend/issues/311)).
+
+### Changed
+
+- Changed parsing of person dates ([#310](https://github.com/project-lux/lux-frontend/issues/310)).
+
+### Removed
+
+### Fixed
+
+- Fixed the rendering issues in the breadcrumb hierarchy ([#312](https://github.com/project-lux/lux-frontend/issues/312)).
+- Fixed the hierarchy to not render when there is no data ([#297](https://github.com/project-lux/lux-frontend/issues/297)).
+- Fixed the hierarchy rendering issues when navigating between pages ([#297](https://github.com/project-lux/lux-frontend/issues/297)).
+
 ## v1.32.2 - 2024-8-7
 
 ### Added

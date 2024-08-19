@@ -15,6 +15,7 @@ interface ISearchData {
   returns404?: (x: boolean) => void
   className?: string
   name?: string
+  ariaRoleDescription?: string
 }
 
 const StyledLink = styled(Link)`
@@ -30,6 +31,7 @@ const RecordLink: React.FC<ISearchData> = ({
   returns404,
   className,
   name,
+  ariaRoleDescription = 'link',
 }) => {
   const skip = url === undefined || name !== undefined
   const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
@@ -53,6 +55,7 @@ const RecordLink: React.FC<ISearchData> = ({
         }}
         state={{ targetName: entityName }}
         aria-label={entityName}
+        role={ariaRoleDescription}
         className={className || ''}
         onClick={() =>
           pushClientEvent(

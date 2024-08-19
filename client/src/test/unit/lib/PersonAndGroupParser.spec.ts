@@ -19,37 +19,7 @@ describe('PersonAndGroupParser', () => {
       }
 
       const dates = PersonAndGroupParser.getDates(data)
-      expect(dates).toEqual('5/13/1994')
-    })
-
-    it('returns identified_by content', () => {
-      const data: IEvent = {
-        id: '',
-        type: '',
-        timespan: {
-          id: '',
-          type: 'TimeSpan',
-          identified_by: [
-            {
-              id: '',
-              type: 'Name',
-              content: '1997-05-13',
-              classified_as: [
-                {
-                  id: `${config.env.dataApiBaseUrl}data/concept/display-title`,
-                  type: 'Type',
-                  _label: 'Display Title',
-                },
-              ],
-            },
-          ],
-          end_of_the_end: '1997-05-13T23:59:59Z',
-          begin_of_the_begin: '1997-05-13T00:00:00Z',
-        },
-      }
-
-      const dates = PersonAndGroupParser.getDates(data)
-      expect(dates).toEqual('5/13/1997')
+      expect(dates).toEqual('5/13/1994 CE')
     })
   })
 
@@ -80,13 +50,13 @@ describe('PersonAndGroupParser', () => {
     it('returns birth date', () => {
       const group = new PersonAndGroupParser(mockPerson)
       const dateOfDeath = group.getBirthDate()
-      expect(dateOfDeath).toEqual('3/4/1950')
+      expect(dateOfDeath).toEqual('3/4/1950 CE')
     })
 
     it('returns birth year', () => {
       const group = new PersonAndGroupParser(mockPerson)
       const birthYear = group.getBirthYear()
-      expect(birthYear).toEqual('1950')
+      expect(birthYear).toEqual('1950 CE')
     })
 
     it('returns birth place', () => {
@@ -102,13 +72,13 @@ describe('PersonAndGroupParser', () => {
     it('returns death date', () => {
       const group = new PersonAndGroupParser(mockPerson)
       const dateOfDeath = group.getDeathDate()
-      expect(dateOfDeath).toEqual('5/10/2000')
+      expect(dateOfDeath).toEqual('5/10/2000 CE')
     })
 
     it('returns death year', () => {
       const group = new PersonAndGroupParser(mockPerson)
       const deathYear = group.getDeathYear()
-      expect(deathYear).toEqual('2000')
+      expect(deathYear).toEqual('2000 CE')
     })
 
     it('returns death place', () => {
@@ -132,13 +102,13 @@ describe('PersonAndGroupParser', () => {
     it('returns formation date', () => {
       const group = new PersonAndGroupParser(mockGroup)
       const dateOfDeath = group.getFormationDate()
-      expect(dateOfDeath).toEqual('4/10/1990')
+      expect(dateOfDeath).toEqual('4/10/1990 CE')
     })
 
     it('returns formation year', () => {
       const group = new PersonAndGroupParser(mockGroup)
-      const deathYear = group.getFormationYear()
-      expect(deathYear).toEqual('1990')
+      const formedYear = group.getFormationYear()
+      expect(formedYear).toEqual('1990 CE')
     })
 
     it('returns formation place', () => {
@@ -153,14 +123,14 @@ describe('PersonAndGroupParser', () => {
   describe('dissolution data', () => {
     it('returns dissolution date', () => {
       const group = new PersonAndGroupParser(mockGroup)
-      const dateOfDeath = group.getDissolutionDate()
-      expect(dateOfDeath).toEqual('5/13/1994')
+      const dateOfDissolution = group.getDissolutionDate()
+      expect(dateOfDissolution).toEqual('5/13/1994 CE')
     })
 
     it('returns dissolution year', () => {
       const group = new PersonAndGroupParser(mockGroup)
-      const deathYear = group.getDissolutionYear()
-      expect(deathYear).toEqual('1994')
+      const dissolutionYear = group.getDissolutionYear()
+      expect(dissolutionYear).toEqual('1994 CE')
     })
 
     it('returns dissolution place', () => {
@@ -216,7 +186,7 @@ describe('PersonAndGroupParser', () => {
     it('returns years active', () => {
       const person = new PersonAndGroupParser(mockPerson)
       const years = person.getYearsActive()
-      expect(years).toStrictEqual(['2000-2010'])
+      expect(years).toStrictEqual(['2000 CE-2010 CE'])
     })
   })
 
@@ -234,7 +204,9 @@ describe('PersonAndGroupParser', () => {
             `${config.env.dataApiBaseUrl}data/concept/nationality-1`,
             `${config.env.dataApiBaseUrl}data/concept/nationality-2`,
           ],
-          Occupation: [`${config.env.dataApiBaseUrl}data/concept/occupation-1`],
+          'Occupation/Role': [
+            `${config.env.dataApiBaseUrl}data/concept/occupation-1`,
+          ],
         },
       ])
     })
@@ -248,7 +220,7 @@ describe('PersonAndGroupParser', () => {
         {
           type: `${config.env.dataApiBaseUrl}data/concept/professional-activity-to-display`,
           location: `${config.env.dataApiBaseUrl}data/place/activity-took-place-at-1`,
-          dates: '2000-2010',
+          dates: '2000 CE-2010 CE',
         },
       ])
     })
@@ -257,12 +229,12 @@ describe('PersonAndGroupParser', () => {
   describe('transformYear', () => {
     it('returns AD year', () => {
       const year = PersonAndGroupParser.transformYear('2000-01-01T00:00:00Z')
-      expect(year).toEqual('2000')
+      expect(year).toEqual('2000 CE')
     })
 
     it('returns BCE year', () => {
       const bcYear = PersonAndGroupParser.transformYear('-2000-01-01T00:00:00Z')
-      expect(bcYear).toEqual('2000 BCE')
+      expect(bcYear).toEqual('2001 BCE')
     })
   })
 
