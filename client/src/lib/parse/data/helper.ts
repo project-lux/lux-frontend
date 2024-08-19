@@ -268,7 +268,6 @@ export const transformDate = (date: string | undefined): string => {
     ? addOneToBceYear(transformedDate.getUTCFullYear())
     : transformedDate.getUTCFullYear()
   const era = dateIsBc ? 'BCE' : 'CE'
-  console.log(year)
 
   // Remove month and day if it is January 1st
   if (month === 1 && day === 1) {
