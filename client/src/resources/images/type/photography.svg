@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="43px" viewBox="0 0 44 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/photograph</title>
+    <g id="icons/photograph" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-Copy-5" transform="translate(2, 2)" stroke="#00356B">
+            <circle id="Oval-Copy-88" stroke-width="1.8" transform="translate(27.2176, 8.5243) scale(-1, 1) rotate(4) translate(-27.2176, -8.5243)" cx="27.2175931" cy="8.52431609" r="1"></circle>
+            <rect id="Rectangle-Copy-82" stroke-width="2" x="1" y="18.4795764" width="31" height="19.6666667" rx="1.66666667"></rect>
+            <rect id="Rectangle-Copy-83" stroke-width="2" x="12.55" y="15.146243" width="7.9" height="3" rx="1.5"></rect>
+            <rect id="Rectangle-Copy-84" stroke-width="2" x="3.475" y="17.646243" width="2.125" height="1" rx="0.5"></rect>
+            <rect id="Rectangle-Copy-85" stroke-width="2" x="5.95" y="20.9795764" width="2.125" height="1" rx="0.5"></rect>
+            <ellipse id="Oval-Copy-77" stroke-width="2" cx="16.5" cy="28.3129097" rx="7.25" ry="7.33333333"></ellipse>
+            <ellipse id="Oval-Copy-79" stroke-width="2" cx="16.5" cy="28.3129097" rx="3.95" ry="4"></ellipse>
+            <polyline id="Path-75-Copy-4" stroke-width="2" stroke-linejoin="round" points="7.0037864 18.183597 7.0037864 -7.30679958e-15 39.0153051 -7.30679958e-15 39.0153051 31.6162244 32.2390972 31.6162244"></polyline>
+            <polyline id="Path-76-Copy-4" stroke-width="2" stroke-linejoin="round" points="11.0409402 17.896243 11.0315406 3.94022469 35.0075371 3.94022469 35.0075371 20.7183866 31.9829102 20.7183866"></polyline>
+            <path d="M10.7723654,16.646243 C10.7723654,16.646243 14.1441504,13.9389341 20.8877203,8.52431609 L26.6153549,13.3990302" id="Path-77-Copy-7" stroke-width="2" stroke-linejoin="round" transform="translate(18.6939, 12.5853) scale(-1, 1) translate(-18.6939, -12.5853)"></path>
+            <path d="M25.2328044,17.4795764 C25.2328044,17.4795764 26.7171647,16.1193943 29.6858855,13.3990302 L35.201501,18.4874854" id="Path-77-Copy-8" stroke-width="2" stroke-linejoin="round" transform="translate(30.2172, 15.9433) scale(-1, 1) translate(-30.2172, -15.9433)"></path>
+        </g>
+    </g>
+</svg>

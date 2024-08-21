@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added support for additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+- Added additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
 
 ### Changed
 
