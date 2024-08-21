@@ -170,24 +170,6 @@ export const getEquivalentFromClassifiedAsArray = (
 }
 
 /**
- * Determines if the uuid provided is classified as a specimen
- * @param {string} iri the uuid to be compared
- * @returns {boolean}
- */
-let specimenConstants: Set<string> | null = null
-export const isSpecimen = (iri: string): boolean => {
-  if (specimenConstants === null) {
-    specimenConstants = new Set([
-      config.aat.fossil,
-      config.aat.animalSpecimens,
-      config.aat.plantSpecimens,
-      config.aat.biologicalSpecimens,
-    ])
-  }
-  return specimenConstants.has(iri)
-}
-
-/**
  * Returns the value of /content properties from nested objects in /identified_by as an array
  * @param {Array<IEntity>} identifiers the array of objects in /identified_by
  * @returns {Array<string>}

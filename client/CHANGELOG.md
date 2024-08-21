@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added support for additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+
 ### Changed
 
 - Changed order of HAL links on People/Group pages for related objects and works ([#313](https://github.com/project-lux/lux-frontend/issues/313)).
