@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="30px" height="44px" viewBox="0 0 30 44" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/furniture</title>
+    <g id="icons/furniture" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-17-Copy-5" transform="translate(2, 2)">
+            <path d="M13.5,21.5303378 C17.6838387,21.5303378 21.1982482,22.0621052 24.038619,23.1470956 C24.6291947,23.3726884 25.1195399,23.7687983 25.4622411,24.2665591 C25.8049426,24.7643202 26,25.3637321 26,25.9959285 C26,26.4196439 25.8282554,26.8032462 25.5505819,27.0809197 C25.2729085,27.3585932 24.8893061,27.5303378 24.4655907,27.5303378 L2.5344093,27.5303378 C2.11069387,27.5303378 1.72709155,27.3585932 1.44941808,27.0809197 C1.17174461,26.8032462 1,26.4196439 1,25.9959285 C1,25.3637321 1.1950574,24.7643202 1.53775886,24.2665591 C1.88046012,23.7687983 2.37080528,23.3726884 2.96138187,23.1470952 C5.80175182,22.0621052 9.31616132,21.5303378 13.5,21.5303378 Z" id="Rectangle-Copy-70" stroke="#00356B" stroke-width="2"></path>
+            <path d="M2.5,3.99672456 C3.87584213,3.94048614 5.03924478,4.27600992 5.99020795,5.0032959 C6.94169188,3.78617685 7.89726735,2.5690578 13.5,2.5690578 C19.1027326,2.5690578 20.0540725,3.8435244 21.0020142,5.0032959 C21.9792495,4.33224834 23.1452447,3.99672456 24.5,3.99672456" id="Line-36-Copy-17" stroke="#00356B" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <circle id="Oval" fill="#00356B" cx="2.5" cy="2" r="1.5"></circle>
+            <circle id="Oval-Copy-20" fill="#00356B" cx="12.5" cy="1.5" r="1.5"></circle>
+            <circle id="Oval-Copy-20" fill="#00356B" cx="11" cy="2" r="1"></circle>
+            <circle id="Oval-Copy-20" fill="#00356B" cx="16" cy="2" r="1"></circle>
+            <circle id="Oval-Copy-21" fill="#00356B" cx="14.5" cy="1.5" r="1.5"></circle>
+            <circle id="Oval-Copy-19" fill="#00356B" cx="24.5" cy="2" r="1.5"></circle>
+            <path d="M3.5,3 C4.05228475,3 4.5,3.44771525 4.5,4 L4.5,14.6704031 L4.5,14.6704031 L4.5,22.5 C4.5,23.0522847 4.05228475,23.5 3.5,23.5 C2.94771525,23.5 2.5,23.0522847 2.5,22.5 L2.5,4 C2.5,3.44771525 2.94771525,3 3.5,3 Z" id="Rectangle" fill="#00356B" transform="translate(3.5, 13.25) rotate(-7) translate(-3.5, -13.25)"></path>
+            <path d="M23.5,3 C24.0522847,3 24.5,3.44771525 24.5,4 L24.5,14.6704031 L24.5,14.6704031 L24.5,22.5 C24.5,23.0522847 24.0522847,23.5 23.5,23.5 C22.9477153,23.5 22.5,23.0522847 22.5,22.5 L22.5,4 C22.5,3.44771525 22.9477153,3 23.5,3 Z" id="Rectangle" fill="#00356B" transform="translate(23.5, 13.25) scale(-1, 1) rotate(-7) translate(-23.5, -13.25)"></path>
+            <path d="M3.5,9.5 C6.32799017,8.18867037 9.6613235,7.53300556 13.5,7.53300556 C17.3386765,7.53300556 20.6720098,8.18867037 23.5,9.5" id="Line-43" stroke="#00356B" stroke-width="2" stroke-linecap="square"></path>
+            <path d="M10.5,8.5 C11.1220733,10.0171747 11.4331099,11.8743175 11.4331099,14.0714286 C11.4331099,16.2685396 11.1220733,18.4113968 10.5,20.5" id="Line-44" stroke="#00356B" stroke-width="2" stroke-linecap="square"></path>
+            <path d="M15.5,8.5 C16.1220733,10.0171747 16.4331099,11.8743175 16.4331099,14.0714286 C16.4331099,16.2685396 16.1220733,18.4113968 15.5,20.5" id="Line-44" stroke="#00356B" stroke-width="2" stroke-linecap="square" transform="translate(15.9666, 14.5) scale(-1, 1) translate(-15.9666, -14.5)"></path>
+            <line x1="2.5" y1="27.5" x2="2.5" y2="40.5" id="Line-47" stroke="#00356B" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="7" y1="28.0909091" x2="7" y2="36.3636364" id="Line-47" stroke="#00356B" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="20" y1="28.0909091" x2="20" y2="36.3636364" id="Line-47" stroke="#00356B" stroke-width="2" stroke-linecap="round"></line>
+            <line x1="24.5" y1="27.5" x2="24.5" y2="40.5" id="Line-47-Copy" stroke="#00356B" stroke-width="2" stroke-linecap="round"></line>
+        </g>
+    </g>
+</svg>

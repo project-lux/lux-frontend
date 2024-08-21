@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="44px" height="43px" viewBox="0 0 44 43" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icons/clothing</title>
+    <g id="icons/clothing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-3-Copy-4" transform="translate(2, 2)" stroke="#00356B" stroke-width="2">
+            <path d="M19,1 C20.3807119,1 21.6307119,1.55964406 22.5355339,2.46446609 C23.4403559,3.36928813 24,4.61928813 24,6 L24,11 L20,11 L20,24 L6,24 L6,11 L1,11 L1,6 C1,4.61928813 1.55964406,3.36928813 2.46446609,2.46446609 C3.36928813,1.55964406 4.61928813,1 5.99958279,0.999999913 L7.73132574,1.00072242 C8.15215183,1.84260705 8.77231879,2.5653893 9.52905368,3.10582035 C10.4570168,3.76853604 11.5897621,4.15789474 12.8125,4.15789474 C14.0352379,4.15789474 15.1679832,3.76853604 16.0959463,3.10582035 C16.8527104,2.56536844 17.4728961,1.84255124 17.893723,1.0006249 Z" id="Combined-Shape-Copy-5"></path>
+            <line x1="6" y1="10.9375" x2="6" y2="8.4375" id="Line-16-Copy-4" stroke-linecap="round"></line>
+            <line x1="20" y1="10.9375" x2="20" y2="8.4375" id="Line-16-Copy-5" stroke-linecap="round"></line>
+            <line x1="25.5" y1="13.9875" x2="25.5" y2="17.975" id="Line-23-Copy-2" stroke-linecap="round"></line>
+            <path d="M20,17.608227 C21.7958345,17.4380826 22.7607977,16.4714159 22.8948897,14.708227" id="Path-14-Copy-3" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M28.4646711,17.6052542 C30.7179978,17.6691362 31.9263311,16.7034605 32.0896711,14.708227" id="Path-14-Copy-4" stroke-linecap="round" stroke-linejoin="round" transform="translate(30.2772, 16.1582) scale(-1, 1) translate(-30.2772, -16.1582)"></path>
+            <polyline id="Path-18-Copy-2" stroke-linejoin="round" points="19.2977785 13.5164045 32.0105676 13.5164045 38.9192696 38.9906855 29.5787177 38.9906855 25.6732654 23 22.0111846 38.9906855 12.6700657 38.9906855 16.9776527 23.9337622"></polyline>
+        </g>
+    </g>
+</svg>
