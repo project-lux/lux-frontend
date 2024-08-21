@@ -9,7 +9,6 @@ import {
   peopleOrgsIcon,
   placesIcon,
   softwareElectronicMediaIcon,
-  specimensIcon,
   textualWorksIcon,
   visualWorksIcon,
 } from '../../../config/resources'
@@ -21,9 +20,9 @@ import {
 } from '../../../types/IContentWithLanguage'
 import { IImages } from '../../../types/IImages'
 import { recordTypes } from '../../../config/advancedSearch/inputTypes'
+import { iconAats } from '../../../config/icons'
 
 import {
-  isSpecimen,
   forceArray,
   getClassifiedAs,
   getIdentifiedByContent,
@@ -34,6 +33,7 @@ import {
   getMultipleSpecificReferredToBy,
   getNestedCarriedOutBy,
   isEquivalent,
+  getEquivalentFromClassifiedAsArray,
 } from './helper'
 
 // Meant to be base class for other parsers
@@ -495,28 +495,20 @@ export default class EntityParser {
    * @returns {Array<string>}
    */
   getSupertypeIcon(): Array<string> {
+    const classifiedAs = forceArray(this.json.classified_as)
+    const equivalent = getEquivalentFromClassifiedAsArray(classifiedAs)
     const { type } = this.json
 
-    // get type AATs from /equivalent
-    const types: Array<string> = []
-    if (this.json.classified_as) {
-      const classifiedAs = forceArray(this.json.classified_as)
-      for (const cls of classifiedAs) {
-        if (cls.hasOwnProperty('equivalent')) {
-          for (const eq of cls.equivalent) {
-            types.push(eq.id)
-          }
-        }
+    for (const eq of equivalent) {
+      const id = eq.id as string
+      if (Object.keys(iconAats).includes(id)) {
+        return iconAats[id]
       }
     }
 
+    // For unspecified types
     switch (type) {
       case 'HumanMadeObject':
-        // eslint-disable-next-line no-case-declarations
-        if (types.some((typeIri) => isSpecimen(typeIri))) {
-          return [specimensIcon, 'specimen']
-        }
-
         return [objectsIcon, 'physical object']
       case 'DigitalObject':
         return [softwareElectronicMediaIcon, 'digital object']

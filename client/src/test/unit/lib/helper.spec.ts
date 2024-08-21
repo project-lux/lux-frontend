@@ -5,7 +5,6 @@ import {
   forceArray,
   getClassifiedAs,
   getIdentifiedByContent,
-  isSpecimen,
   transformDate,
   getContentByClassifiedAs,
   getDateContent,
@@ -139,26 +138,6 @@ describe('helper functions', () => {
       expect(classifiedAsId).toEqual([
         `${config.env.dataApiBaseUrl}data/concept/662260fa-f882-4174-b720-0791e45f7dca`,
       ])
-    })
-  })
-
-  describe('isSpecimen', () => {
-    it('returns true', () => {
-      const specimenType = [
-        config.aat.fossil,
-        config.aat.animalSpecimens,
-        config.aat.plantSpecimens,
-        config.aat.biologicalSpecimens,
-      ]
-      const specimen = isSpecimen(
-        specimenType[Math.floor(Math.random() * specimenType.length)],
-      )
-      expect(specimen).toBeTruthy()
-    })
-
-    it('returns false', () => {
-      const specimen = isSpecimen('not a specimen')
-      expect(specimen).toBeFalsy()
     })
   })
 
