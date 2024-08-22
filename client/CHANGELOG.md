@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed order of HAL links on People/Group pages for related objects and works ([#313](https://github.com/project-lux/lux-frontend/issues/313)).
+- Changed order of facets ([#317](https://github.com/project-lux/lux-frontend/issues/317)).
 
 ### Removed
 
