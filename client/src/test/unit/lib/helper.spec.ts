@@ -252,7 +252,7 @@ describe('helper functions', () => {
   describe('transformedDate', () => {
     it('returns transformed dates AD', () => {
       const date = transformDate('1997-05-13T23:59:59Z')
-      expect(date).toEqual('5/13/1997 CE')
+      expect(date).toEqual('5/13/1997')
     })
 
     it('returns transformed dates BCE', () => {

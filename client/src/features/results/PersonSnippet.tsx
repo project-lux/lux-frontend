@@ -52,7 +52,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const linkState = {
       targetName: primaryName,
     }
-    console.log(startDate, endDate)
+
     if (view === 'list') {
       return (
         <React.Fragment>
