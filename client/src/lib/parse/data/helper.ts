@@ -249,14 +249,15 @@ export const transformDate = (date: string | undefined): string => {
   const year = dateIsBc
     ? addOneToBceYear(transformedDate.getUTCFullYear())
     : transformedDate.getUTCFullYear()
-  const era = dateIsBc ? 'BCE' : 'CE'
+  const era = dateIsBc ? 'BCE' : ''
+  let returnDate = `${month}/${day}/${year} ${era}`
 
   // Remove month and day if it is January 1st
   if (month === 1 && day === 1) {
-    return `${year} ${era}`
+    returnDate = `${year} ${era}`
   }
 
-  return `${month}/${day}/${year} ${era}`
+  return returnDate.trim()
 }
 
 /**

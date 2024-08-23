@@ -28,7 +28,7 @@ describe('Group page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/1990/i)
-      const date = screen.getByText('4/10/1990 CE')
+      const date = screen.getByText('4/10/1990')
       expect(date).toBeInTheDocument()
     })
 
@@ -44,7 +44,7 @@ describe('Group page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/1994/i)
-      const date = screen.getByText('5/13/1994 CE')
+      const date = screen.getByText('5/13/1994')
       expect(date).toBeInTheDocument()
     })
 
