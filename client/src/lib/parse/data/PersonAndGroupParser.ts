@@ -75,7 +75,7 @@ export default class PersonAndGroupParser extends EntityParser {
       return `${addOneToBceYear(year)} BCE`
     }
 
-    return `${year.toString()} CE`
+    return `${year.toString()}`
   }
 
   /**
