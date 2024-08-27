@@ -16,6 +16,8 @@ import { hasData } from '../../lib/parse/data/helper'
 import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
 import StyledHr from '../../styles/shared/Hr'
+import SubjectOf from '../common/SubjectOf'
+import { subjectOf } from '../../config/worksSearchTags'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 
@@ -132,6 +134,7 @@ const About: React.FC<IObject> = ({ entity }) => {
             id="works-represents-link-container"
           />
         )}
+        <SubjectOf entity={entity} halLinkConfig={subjectOf} />
         {notes !== null && (
           <NotesContainer
             notes={notes}

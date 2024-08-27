@@ -17,3 +17,9 @@ export const unit: IHalLink = {
   title: 'Responsible Unit',
   searchTag: 'lux:itemUnit',
 }
+
+// Used to request and display items that are the subject of a work
+export const subjectOf: IHalLink = {
+  title: 'Subject Of',
+  searchTag: 'lux:itemWorkAbout',
+}
