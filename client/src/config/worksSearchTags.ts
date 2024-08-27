@@ -17,3 +17,9 @@ export const setUnit: IHalLink = {
   searchTag: 'lux:setUnit',
   facetName: 'responsibleUnits',
 }
+
+// Used to request and display works that are the subject of a work
+export const subjectOf: IHalLink = {
+  title: 'Subject Of',
+  searchTag: 'lux:workWorksAbout',
+}
