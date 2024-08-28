@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../app/hooks'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import {
   isBooleanInput,
-  // isDateInput,
+  isDateInput,
   isRangeInput,
   isRecordTypeInput,
   isTextInput,
@@ -22,7 +22,7 @@ import TextInput from './TextInput'
 import OptionsButton, { INPUT_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
 import RecordTypeInput from './RecordTypeInput'
-// import DateInput from './DateInput'
+import DateInput from './DateInput'
 
 interface IFieldSelectRow {
   stateId: string
@@ -94,9 +94,7 @@ const InputRow: React.FC<IFieldSelectRow> = ({
           )}
           {isRangeInput(selectedKey) && (
             <RangeInput
-              label={`Enter ${
-                selectedKey.includes('Date') ? 'year' : 'number'
-              }`}
+              label="Enter number"
               currentValue={state[selectedKey]}
               field={selectedKey}
               comp={state._comp}
@@ -113,13 +111,16 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               stateId={stateId}
             />
           )}
-          {/* {isDateInput(selectedKey) && (
+          {isDateInput(selectedKey) && (
             <DateInput
+              label={`Select options for ${labelForAria}`}
+              comp={state._comp}
               currentValue={state[selectedKey]}
               field={selectedKey}
               stateId={stateId}
+              ariaLabel={labelForAria}
             />
-          )} */}
+          )}
           {isTextInput(selectedKey) && (
             <TextInput
               label="Enter a text value"

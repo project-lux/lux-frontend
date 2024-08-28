@@ -2,71 +2,141 @@ import React from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
 import {
-  addEndDateValue,
-  addStartDateValue,
+  comparators,
+  numbersToMonths,
+} from '../../config/advancedSearch/inputTypes'
+import {
+  addRangeComparator,
+  addRangeValue,
 } from '../../redux/slices/advancedSearchSlice'
 import { StyledInput } from '../../styles/features/advancedSearch/Input'
+import {
+  getDaysInMonthArray,
+  getDefaultAdvancedSearchDate,
+  getLuxISOString,
+  getLuxYear,
+  isDayOrMonthToLuxNumberAsString,
+  getYearToDisplay,
+} from '../../lib/facets/dateParser'
+
+import AdvancedSearchDropdown from './Dropdown'
+import DayDropdown from './DayDropdown'
 
 interface IDateInput {
-  currentValue: {
-    start: string
-    end: string
-  }
+  label: string
+  currentValue: string
   field: string
+  comp: string
   stateId: string
+  ariaLabel: string
 }
 
 /**
- * Responsible for rendering the range input components for advanced search.
+ * Responsible for rendering the day input components for advanced search.
  * @param {string} label the current nested state within the advanced search state
- * @param {string} currentValue current range value
- * @param {string} field current range field selected
+ * @param {string} currentValue current day value
+ * @param {string} field current day field selected
  * @param {string} comp comparator value, such as >, <, >=, etc
  * @param {string} stateId id of the current object within the advanced search state
  * @param {string} ariaLabel label for aria-label for the AdvancedSearchDropdown
  * @returns {JSX.Element}
  */
-const DateInput: React.FC<IDateInput> = ({ currentValue, field, stateId }) => {
+const DateInput: React.FC<IDateInput> = ({
+  label,
+  currentValue,
+  field,
+  comp,
+  stateId,
+  ariaLabel,
+}) => {
   const dispatch = useAppDispatch()
-  const handleStartOnChange = (userInput: string): void => {
-    dispatch(addStartDateValue({ field, value: userInput, stateId }))
+  const { month, day, year } = getDefaultAdvancedSearchDate(currentValue)
+  const daysArr = getDaysInMonthArray(month, year)
+  const handleAddComparator = (selected: string): void => {
+    dispatch(addRangeComparator({ comp: selected, stateId }))
   }
 
-  const handleEndOnChange = (userInput: string): void => {
-    dispatch(addEndDateValue({ field, value: userInput, stateId }))
+  const handleAddDate = (y: string, m: string, d: string): void => {
+    const isoDate = getLuxISOString(y, m, d)
+    dispatch(addRangeValue({ field, value: isoDate, stateId }))
   }
 
-  const startId = `earliest-date-${stateId}`
-  const endId = `latest-date-${stateId}`
+  const handleMonthChange = (selected: string): void => {
+    handleAddDate(year, selected, day)
+  }
+
+  const handleDayChange = (selected: string): void => {
+    handleAddDate(year, month, selected)
+  }
+
+  const handleYearChange = (selected: string): void => {
+    const yearToAdd = getLuxYear(selected)
+    handleAddDate(yearToAdd, month, day)
+  }
+
+  const comparatorsId = `comparators-options-${stateId}`
+  const rangeId = `comparators-options-${stateId}`
 
   return (
     <div
       className="d-flex justify-content-between"
-      data-testid={`${field}-${stateId}-range-input`}
+      data-testid={`${field}-${stateId}-day-input`}
     >
-      <label htmlFor={startId} className="d-none">
-        Enter a start year
+      <label htmlFor={comparatorsId} className="d-none">
+        Select a comparator
       </label>
-      <StyledInput
-        id={startId}
-        type="number"
-        className="form-control me-2"
-        placeholder="Enter start year"
-        value={currentValue.start}
-        onChange={(e) => handleStartOnChange(e.currentTarget.value)}
+      <AdvancedSearchDropdown
+        options={comparators}
+        handleChange={handleAddComparator}
+        className="comparatorSelection me-2"
+        dropdownHeaderText="greater than or equal to"
+        ariaLabel={`${ariaLabel} greater than or equal to`}
+        selected={comp}
+        id={comparatorsId}
       />
-      <p className="d-flex align-items-center me-2 mb-0">to</p>
-      <label htmlFor={endId} className="d-none">
-        Enter an end year
+      <label htmlFor={rangeId} className="d-none">
+        {label}
       </label>
-      <StyledInput
-        id={endId}
-        type="number"
-        className="form-control me-2"
-        placeholder="Enter end year"
-        value={currentValue.end || ''}
-        onChange={(e) => handleEndOnChange(e.currentTarget.value)}
-      />
+      <div className="d-flex justify-content-between me-2">
+        <label htmlFor="month-selection" hidden>
+          Month
+        </label>
+        <AdvancedSearchDropdown
+          options={numbersToMonths}
+          handleChange={handleMonthChange}
+          className="monthSelection me-2"
+          dropdownHeaderText="Select a month"
+          ariaLabel="Select a month"
+          selected={isDayOrMonthToLuxNumberAsString(month)}
+          id="month-selection"
+        />
+        <label htmlFor="day-input" hidden>
+          Day
+        </label>
+        <DayDropdown
+          options={daysArr}
+          handleChange={handleDayChange}
+          className="dateSelection me-2"
+          dropdownHeaderText="Select a date"
+          ariaLabel="Select a date"
+          selected={isDayOrMonthToLuxNumberAsString(day)}
+          id="month-selection"
+        />
+        <label htmlFor="year-input" hidden>
+          Year
+        </label>
+        <StyledInput
+          id="year-input"
+          type="number"
+          className="form-control"
+          onChange={(e) => handleYearChange(e.target.value)}
+          placeholder="Enter a year"
+          value={getYearToDisplay(year)}
+          max={9999}
+          min={-9999}
+          required
+        />
+      </div>
     </div>
   )
 }

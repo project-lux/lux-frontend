@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable array-callback-return */
 /* eslint-disable consistent-return */
@@ -8,6 +9,11 @@ import { dimensions, text } from '../../config/advancedSearch/inputTypes'
 import { getDefaultSearchOptions } from '../../config/advancedSearch/options'
 // import config from '../../config/config'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
+import {
+  getLuxISOString,
+  getYearMonthDay,
+  isValidDateObject,
+} from '../facets/dateParser'
 
 import { getFieldToEntityRelationship } from './stateManager'
 
@@ -52,9 +58,8 @@ export const isInput = (searchTerm: string): boolean =>
   isRangeInput(searchTerm) ||
   isTextInput(searchTerm) ||
   isBooleanInput(searchTerm) ||
-  isRecordTypeInput(searchTerm)
-// TODO: uncomment when ML estimates are fixed
-// || isDateInput(searchTerm)
+  isRecordTypeInput(searchTerm) ||
+  isDateInput(searchTerm)
 
 /**
  * Determines if the property given requires text input
@@ -66,12 +71,11 @@ export const isTextInput = (searchTerm: string): boolean =>
 
 /**
  * Determines if the property given requires range input using a comparator
- * TODO: remove date conditional when ML estimates are fixed
  * @param searchTerm string; string property from the state
  * @returns boolean
  */
 export const isRangeInput = (searchTerm: string): boolean =>
-  searchTerm.toLowerCase().includes('date') || dimensions.includes(searchTerm)
+  dimensions.includes(searchTerm)
 
 /**
  * Determines if the property given requires selector input
@@ -133,7 +137,7 @@ export const validateAdvancedSearch = (
 
   // If the nested property is text input and it is a string value that is not empty
   if (
-    isRangeInput(property) &&
+    (isRangeInput(property) || isDateInput(property)) &&
     nested !== '' &&
     state.hasOwnProperty('_comp') &&
     state._comp !== ''
@@ -144,14 +148,6 @@ export const validateAdvancedSearch = (
   if (isBooleanInput(property) && typeof nested === 'number') {
     return true
   }
-
-  // TODO: uncomment when ML estimates are fixed
-  // if (isDateInput(property)) {
-  //   const values = nested as { start: string; end: string }
-  //   if (values.start !== '' || values.end !== '') {
-  //     return true
-  //   }
-  // }
 
   if (!Array.isArray(nested) && typeof nested === 'object') {
     return validateAdvancedSearch(nested)
@@ -189,9 +185,6 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
   // _stateId is removed and there are more properties in the object
   const propertyToCheck = getProperty(currentState)
 
-  // if (propertyToCheck === '') {
-  //   return null
-  // }
   // Is null
   if (currentState[propertyToCheck] === null) {
     return null
@@ -218,22 +211,35 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
     }
   }
 
+  // Is date
+  if (isDateInput(propertyToCheck)) {
+    const value = currentState[propertyToCheck]
+    const dateObj = new Date(value)
+    // Ensure that the date is valid before submitting
+    // Change it if needed
+    if (!isValidDateObject(dateObj)) {
+      // value should be a LUX ISO string format
+      const { year, month, day } = getYearMonthDay(value)
+      const isoYear =
+        year[0] === '-'
+          ? `-${year.substring(1).padStart(6, '0')}`
+          : year.padStart(4, '0')
+      // have to add 1 to the value
+      const isoMonth = month.padStart(2, '0')
+      const isoDay = day.padStart(2, '0')
+      const dateToSubmit = new Date(getLuxISOString(isoYear, isoMonth, isoDay))
+      if (isValidDateObject(dateToSubmit)) {
+        currentState[propertyToCheck] = dateToSubmit.toISOString()
+      }
+    }
+  }
+
   // Is range
   if (currentState.hasOwnProperty('_comp')) {
     if (currentState._comp === '') {
       return null
     }
   }
-
-  // Is date
-  // TODO: uncomment when ML estimates are fixed
-  // if (isDateInput(propertyToCheck)) {
-  //   const { start, end } = currentState[propertyToCheck]
-  //   // if both are null or empty values
-  //   if (start === '' && end === '') {
-  //     return null
-  //   }
-  // }
 
   // we want to shrink the _options param as small as possible, so that we don't make our request unnecessarily large
   if (currentState.hasOwnProperty('_options')) {
