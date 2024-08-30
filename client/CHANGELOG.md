@@ -19,6 +19,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed getEntityClass function to return rendered label ([#301](https://github.com/project-lux/lux-frontend/issues/301)).
+- Fixed timeline search link estimates ([#314](https://github.com/project-lux/lux-frontend/issues/314)).
 
 ## v1.33.1 - 2024-8-23
 
