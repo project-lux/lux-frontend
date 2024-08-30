@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added support for additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
 - Added additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+- Added subject on objects and works pages ([#62](https://github.com/project-lux/lux-frontend/issues/62)).
 
 ### Changed
 

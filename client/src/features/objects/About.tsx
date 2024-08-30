@@ -17,6 +17,8 @@ import { hasData } from '../../lib/parse/data/helper'
 import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
 import StyledHr from '../../styles/shared/Hr'
+import SubjectOf from '../common/SubjectOf'
+import { subjectOf } from '../../config/objectsSearchTags'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
@@ -118,6 +120,7 @@ const About: React.FC<IObject> = ({ data }) => {
               id="object-publication"
             />
           ))}
+        <SubjectOf entity={data} halLinkConfig={subjectOf} />
         {notes !== null && (
           <NotesContainer
             notes={notes}
