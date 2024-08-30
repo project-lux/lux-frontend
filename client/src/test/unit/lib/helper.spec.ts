@@ -238,17 +238,22 @@ describe('helper functions', () => {
       const date = transformDate('-1997-05-13T23:59:59Z')
       expect(date).toEqual('5/13/1998 BCE')
     })
+
+    it('returns transformed empty string if year is greater than or equal to 9999', () => {
+      const date = transformDate('9999-05-13T23:59:59Z')
+      expect(date).toEqual('')
+    })
+
+    it('returns transformed empty string if year is less than or equal to -9999', () => {
+      const date = transformDate('-9999-05-13T23:59:59Z')
+      expect(date).toEqual('')
+    })
   })
 
   describe('addOneToBceYear', () => {
     it('returns BCE year plus one', () => {
       const date = addOneToBceYear(1000)
       expect(date).toEqual(1001)
-    })
-
-    it('returns transformed dates BCE', () => {
-      const date = transformDate('-1997-05-13T23:59:59Z')
-      expect(date).toEqual('5/13/1998 BCE')
     })
   })
 

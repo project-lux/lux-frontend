@@ -252,6 +252,10 @@ export const transformDate = (date: string | undefined): string => {
   const era = dateIsBc ? 'BCE' : ''
   let returnDate = `${month}/${day}/${year} ${era}`
 
+  if (isPlaceholderYear(year)) {
+    return ''
+  }
+
   // Remove month and day if it is January 1st
   if (month === 1 && day === 1) {
     returnDate = `${year} ${era}`
@@ -259,6 +263,14 @@ export const transformDate = (date: string | undefined): string => {
 
   return returnDate.trim()
 }
+
+/**
+ * Checks if the year given is a placeholder year
+ * @param {number} year the year to check
+ * @returns {boolean}
+ */
+export const isPlaceholderYear = (year: number): boolean =>
+  year >= 9999 || year <= -9999
 
 /**
  * Returns the label to be displayed alongside the primary names of the entity
