@@ -64,9 +64,9 @@ export const getSelectedFacets = (
           const notNullFacetObj = facetObj || {}
           dateFacets.set(facetName, notNullFacetObj)
           if (searchObj._comp === '>=') {
-            notNullFacetObj.min = searchObj[searchTerm]
+            notNullFacetObj.min = parseInt(searchObj[searchTerm], 10).toString()
           } else {
-            notNullFacetObj.max = searchObj[searchTerm]
+            notNullFacetObj.max = parseInt(searchObj[searchTerm], 10).toString()
           }
           // TODO: uncomment when ML estimates are fixed
           // notNullFacetObj.min = searchObj[searchTerm].start
