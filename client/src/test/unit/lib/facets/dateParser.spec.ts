@@ -1,6 +1,5 @@
 import {
   formatDateJsonSearch,
-  formatYear,
   getYearFromSingleFacetValue,
   getYearsFromFacetValues,
 } from '../../../../lib/facets/dateParser'
@@ -20,7 +19,7 @@ describe('dateParser functions', () => {
       type: 'OrderedCollection',
       totalItems: 19,
       first: { id: 'first', type: 'test' },
-      value: '-1980-01-01T00:00:00Z',
+      value: '-001980-01-01T00:00:00Z',
     },
     {
       id: 'id',
@@ -34,7 +33,7 @@ describe('dateParser functions', () => {
       type: 'OrderedCollection',
       totalItems: 17,
       first: { id: 'first', type: 'test' },
-      value: '-1974-01-01T00:00:00Z',
+      value: '-001974-01-01T00:00:00Z',
     },
     {
       id: 'id',
@@ -54,27 +53,13 @@ describe('dateParser functions', () => {
 
   describe('getYearFromSingleFacetValue', () => {
     it('returns BC year', () => {
-      const year = getYearFromSingleFacetValue('-2017-10-20T00:00:00')
+      const year = getYearFromSingleFacetValue('-002017-10-20T00:00:00')
       expect(year).toEqual('-2017')
     })
 
     it('returns year', () => {
       const year = getYearFromSingleFacetValue('2017-10-20T00:00:00')
       expect(year).toEqual('2017')
-    })
-  })
-
-  describe('formatYear', () => {
-    it('returns a 4 digit year when passed a negative number', () => {
-      const year = '-45'
-      const formattedYear = formatYear(year)
-      expect(formattedYear).toEqual('-0045')
-    })
-
-    it('returns a 4 digit year when passed a positive number', () => {
-      const year = '4'
-      const formattedYear = formatYear(year)
-      expect(formattedYear).toEqual('0004')
     })
   })
 
