@@ -14,6 +14,7 @@ import {
   forceArray,
   getClassifiedAs,
   hasData,
+  isPlaceholderYear,
   transformDate,
   validateClassifiedAsIdMatches,
 } from './helper'
@@ -68,6 +69,10 @@ export default class PersonAndGroupParser extends EntityParser {
     const year = new Date(dateToParse).getUTCFullYear()
 
     if (isNaN(year)) {
+      return ''
+    }
+
+    if (isPlaceholderYear(year)) {
       return ''
     }
 

@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed the years -9999 and 9999 from rendering ([#319](https://github.com/project-lux/lux-frontend/issues/319)).
+
 ### Fixed
 
 - Fixed getEntityClass function to return rendered label ([#301](https://github.com/project-lux/lux-frontend/issues/301)).
