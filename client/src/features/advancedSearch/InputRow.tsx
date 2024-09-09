@@ -6,6 +6,7 @@ import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import {
   isBooleanInput,
   // isDateInput,
+  isDateRangeInput,
   isRangeInput,
   isRecordTypeInput,
   isTextInput,
@@ -15,6 +16,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getParentLabels } from '../../lib/advancedSearch/stateManager'
 import Legend from '../../styles/features/advancedSearch/Legend'
 
+import DateRangeInput from './DateRangeInput'
 import RangeInput from './RangeInput'
 import AdvancedSearchDropdown from './Dropdown'
 import BooleanInput from './BooleanInput'
@@ -92,11 +94,19 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               stateId={stateId}
             />
           )}
+          {isDateRangeInput(selectedKey) && (
+            <DateRangeInput
+              label="Enter year"
+              currentValue={state[selectedKey]}
+              field={selectedKey}
+              comp={state._comp}
+              stateId={stateId}
+              ariaLabel={labelForAria}
+            />
+          )}
           {isRangeInput(selectedKey) && (
             <RangeInput
-              label={`Enter ${
-                selectedKey.includes('Date') ? 'year' : 'number'
-              }`}
+              label="Enter number"
               currentValue={state[selectedKey]}
               field={selectedKey}
               comp={state._comp}

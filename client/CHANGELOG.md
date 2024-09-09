@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.34.0 - Unreleased
+
+### Added
+
+- Added support for additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+- Added additional icons ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+- Added subject on objects and works pages ([#62](https://github.com/project-lux/lux-frontend/issues/62)).
+
+### Changed
+
+- Changed order of HAL links on People/Group pages for related objects and works ([#313](https://github.com/project-lux/lux-frontend/issues/313)).
+- Changed order of facets ([#317](https://github.com/project-lux/lux-frontend/issues/317)).
+- Changed date inputs to support ISO dates ([#359](https://github.com/project-lux/lux-frontend/issues/359)).
+
+### Removed
+
+- Removed the years -9999 and 9999 from rendering ([#319](https://github.com/project-lux/lux-frontend/issues/319)).
+
+### Fixed
+
+- Fixed getEntityClass function to return rendered label ([#301](https://github.com/project-lux/lux-frontend/issues/301)).
+- Fixed timeline search link estimates ([#314](https://github.com/project-lux/lux-frontend/issues/314)).
+
 ## v1.33.1 - 2024-8-23
 
 ### Removed

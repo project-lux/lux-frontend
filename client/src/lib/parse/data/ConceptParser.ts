@@ -84,7 +84,7 @@ export default class ConceptParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
-    const entityClass = this.getEntityClass()
+    const entityClass = this.getEntityClass('concept')
 
     const data: Record<
       string,

@@ -8,14 +8,14 @@ import { IHalLinks } from '../types/IHalLinks'
 
 // Shown in people and group page tab content
 export const relatedObjectsAndWorks: IHalLinks = {
-  objectsCreated: {
-    title: 'Objects Created, Encountered, or Influenced By',
-    searchTag: 'lux:agentMadeDiscoveredInfluencedItem',
-    tab: 'objects',
-  },
   objectsInDepartment: {
     title: 'Objects in Collection',
     searchTag: 'lux:departmentItems',
+    tab: 'objects',
+  },
+  objectsCreated: {
+    title: 'Objects Created, Encountered, or Influenced By',
+    searchTag: 'lux:agentMadeDiscoveredInfluencedItem',
     tab: 'objects',
   },
   worksCreated: {

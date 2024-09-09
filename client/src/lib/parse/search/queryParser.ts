@@ -2,8 +2,6 @@
 import config from '../../../config/config'
 import { searchScope } from '../../../config/searchTypes'
 import { ArrayOfOneOrMore } from '../../../types/ArrayOfOneOrMore'
-import { ISearchParams } from '../../../types/IMlApiParams'
-import { formatYear } from '../../facets/dateParser'
 
 // FIXME: remove
 export const formatSearchRequestUrl = (
@@ -31,35 +29,6 @@ export const formatSearchRequestUrl = (
   }:("${uri}"))${facets}&facetsOnly=${facetsOnly}`
 
   return url
-}
-
-// Transforms the frontend URL into the Marklogic
-// accepted API request
-/**
- * @param searchParams URL params
- * @returns string
- */
-// FIXME: remove
-export const formatFacetSearchRequestUrl = (
-  searchParams: ISearchParams,
-): string => {
-  let formatMarklogicFacets = ''
-
-  Object.keys(searchParams.facets).forEach((key) => {
-    if (key.includes('Date')) {
-      const [earliest, latest] = searchParams.facets[key].split(' to ')
-      formatMarklogicFacets += ` (${key} GE "${formatYear(
-        earliest,
-      )}" AND ${key} LE "${formatYear(latest)}") `
-    } else {
-      const itemIds = searchParams.facets[key].split(',')
-      itemIds.forEach((itemId) => {
-        formatMarklogicFacets += `${key}:(${itemId}) `
-      })
-    }
-  })
-
-  return formatMarklogicFacets
 }
 
 /**

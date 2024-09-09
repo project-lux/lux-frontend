@@ -170,24 +170,6 @@ export const getEquivalentFromClassifiedAsArray = (
 }
 
 /**
- * Determines if the uuid provided is classified as a specimen
- * @param {string} iri the uuid to be compared
- * @returns {boolean}
- */
-let specimenConstants: Set<string> | null = null
-export const isSpecimen = (iri: string): boolean => {
-  if (specimenConstants === null) {
-    specimenConstants = new Set([
-      config.aat.fossil,
-      config.aat.animalSpecimens,
-      config.aat.plantSpecimens,
-      config.aat.biologicalSpecimens,
-    ])
-  }
-  return specimenConstants.has(iri)
-}
-
-/**
  * Returns the value of /content properties from nested objects in /identified_by as an array
  * @param {Array<IEntity>} identifiers the array of objects in /identified_by
  * @returns {Array<string>}
@@ -270,6 +252,10 @@ export const transformDate = (date: string | undefined): string => {
   const era = dateIsBc ? 'BCE' : ''
   let returnDate = `${month}/${day}/${year} ${era}`
 
+  if (isPlaceholderYear(year)) {
+    return ''
+  }
+
   // Remove month and day if it is January 1st
   if (month === 1 && day === 1) {
     returnDate = `${year} ${era}`
@@ -277,6 +263,14 @@ export const transformDate = (date: string | undefined): string => {
 
   return returnDate.trim()
 }
+
+/**
+ * Checks if the year given is a placeholder year
+ * @param {number} year the year to check
+ * @returns {boolean}
+ */
+export const isPlaceholderYear = (year: number): boolean =>
+  year >= 9999 || year <= -9999
 
 /**
  * Returns the label to be displayed alongside the primary names of the entity

@@ -48,6 +48,8 @@ export const transformTimelineData = (
           totalItems,
           criteria,
         }
+      } else {
+        dateCounts[date][searchTag].totalItems += totalItems
       }
     } else {
       dateCounts[date] = {
