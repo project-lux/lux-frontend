@@ -13,11 +13,8 @@ export type AppConfig = {
 const robotsProd = `User-agent: Twitterbot
 Disallow:
 
-User-agent: Googlebot
-Disallow: /view/results/
-
 User-agent: *
-Disallow: /
+Disallow: /view/results/
 `
 
 const robotsNonProd = `User-agent: *
