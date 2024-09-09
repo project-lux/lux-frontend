@@ -49,6 +49,7 @@ export const containsInput = (properties: Array<string>): boolean => {
  * @returns boolean
  */
 export const isInput = (searchTerm: string): boolean =>
+  isDateRangeInput(searchTerm) ||
   isRangeInput(searchTerm) ||
   isTextInput(searchTerm) ||
   isBooleanInput(searchTerm) ||
@@ -65,13 +66,20 @@ export const isTextInput = (searchTerm: string): boolean =>
   Object.keys(text).includes(searchTerm)
 
 /**
+ * Determines if the property given requires range input using a comparator with date format
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isDateRangeInput = (searchTerm: string): boolean =>
+  searchTerm.toLowerCase().includes('date')
+
+/**
  * Determines if the property given requires range input using a comparator
- * TODO: remove date conditional when ML estimates are fixed
  * @param searchTerm string; string property from the state
  * @returns boolean
  */
 export const isRangeInput = (searchTerm: string): boolean =>
-  searchTerm.toLowerCase().includes('date') || dimensions.includes(searchTerm)
+  dimensions.includes(searchTerm)
 
 /**
  * Determines if the property given requires selector input
@@ -134,6 +142,16 @@ export const validateAdvancedSearch = (
   // If the nested property is text input and it is a string value that is not empty
   if (
     isRangeInput(property) &&
+    nested !== '' &&
+    state.hasOwnProperty('_comp') &&
+    state._comp !== ''
+  ) {
+    return true
+  }
+
+  // If the nested property is text input and it is a string value that is not empty
+  if (
+    isDateRangeInput(property) &&
     nested !== '' &&
     state.hasOwnProperty('_comp') &&
     state._comp !== ''
@@ -209,6 +227,15 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
     if (currentState[propertyToCheck] === '') {
       return null
     }
+  }
+
+  if (isDateRangeInput(propertyToCheck)) {
+    const value = currentState[propertyToCheck]
+    const isoYear =
+      value[0] === '-'
+        ? `-${value.substring(1).padStart(6, '0')}`
+        : value.padStart(4, '0')
+    currentState[propertyToCheck] = isoYear
   }
 
   // Is range

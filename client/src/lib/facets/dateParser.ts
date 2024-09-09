@@ -15,6 +15,14 @@ const sortYears = (a: number, b: number): number => {
   return 0
 }
 
+export const convertYearToISOYear = (year: string): string => {
+  const isoYear =
+    year[0] === '-'
+      ? `-${year.substring(1).padStart(6, '0')}`
+      : year.padStart(4, '0')
+  return isoYear
+}
+
 /* eslint-disable consistent-return */
 export const getYearsFromFacetValues = (
   facetValues: Array<IOrderedItems>,
@@ -38,22 +46,21 @@ export const getYearFromSingleFacetValue = (
   facetValue: string,
 ): string | null => {
   const valueStr = String(facetValue)
-  if (valueStr[0] === '-') {
-    const date = new Date(valueStr.substring(1))
-    const bcFullYear = date.getUTCFullYear()
-    if (!isNaN(bcFullYear)) {
-      const negativeYear = `-${bcFullYear.toString()}`
-      return negativeYear
-    }
-  } else {
-    const date = new Date(valueStr)
-    const utcFullYear = date.getUTCFullYear()
-    if (!isNaN(utcFullYear)) {
-      return utcFullYear.toString()
-    }
+  const date = new Date(valueStr)
+  const utcFullYear = date.getUTCFullYear()
+  if (!isNaN(utcFullYear)) {
+    return utcFullYear.toString()
   }
 
   return null
+}
+
+export const getYearToDisplay = (year: string): string => {
+  if (year === '' || year === '-') {
+    return year
+  }
+
+  return parseInt(year, 10).toString()
 }
 
 export const formatYear = (year: number | string): string => {

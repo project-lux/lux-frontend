@@ -16,7 +16,10 @@ import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { IFacetsPagination } from '../../types/IFacets'
 import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
-import { getYearsFromFacetValues } from '../../lib/facets/dateParser'
+import {
+  getYearsFromFacetValues,
+  convertYearToISOYear,
+} from '../../lib/facets/dateParser'
 
 import DateSlider from './DateSlider'
 
@@ -171,8 +174,14 @@ const DateInput: React.FC<IFacets> = ({
     return query
 
     function addFacetToArray(array: Array<ICriteria>): void {
-      const min = { [searchTermName]: earliest, _comp: '>=' }
-      const max = { [searchTermName]: latest, _comp: '<=' }
+      const min = {
+        [searchTermName]: convertYearToISOYear(earliest),
+        _comp: '>=',
+      }
+      const max = {
+        [searchTermName]: convertYearToISOYear(latest),
+        _comp: '<=',
+      }
       array.push(min, max)
       // TODO: uncomment when ML estimates are fixed
       // array.push({ [searchTermName]: { start: earliest, end: latest } })

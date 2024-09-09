@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed order of HAL links on People/Group pages for related objects and works ([#313](https://github.com/project-lux/lux-frontend/issues/313)).
 - Changed order of facets ([#317](https://github.com/project-lux/lux-frontend/issues/317)).
+- Changed date inputs to support ISO dates ([#359](https://github.com/project-lux/lux-frontend/issues/359)).
 
 ### Removed
 
