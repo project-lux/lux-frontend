@@ -12,7 +12,7 @@ import {
 import { StyledInput } from '../../styles/features/advancedSearch/Input'
 import {
   getDaysInMonthArray,
-  getDefaultAdvancedSearchDate,
+  getDefaultDate,
   getLuxISOString,
   getLuxYear,
   isDayOrMonthToLuxNumberAsString,
@@ -51,7 +51,7 @@ const DateInput: React.FC<IDateInput> = ({
   ariaLabel,
 }) => {
   const dispatch = useAppDispatch()
-  const { month, day, year } = getDefaultAdvancedSearchDate(currentValue)
+  const { month, day, year } = getDefaultDate(currentValue)
   const daysArr = getDaysInMonthArray(month, year)
   const handleAddComparator = (selected: string): void => {
     dispatch(addRangeComparator({ comp: selected, stateId }))
@@ -88,7 +88,7 @@ const DateInput: React.FC<IDateInput> = ({
   return (
     <div
       className="d-flex justify-content-between"
-      data-testid={`${field}-${stateId}-day-input`}
+      data-testid={`${field}-${stateId}-date-input`}
     >
       <label htmlFor={comparatorsId} className="d-none">
         Select a comparator

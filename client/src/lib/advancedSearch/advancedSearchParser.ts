@@ -10,9 +10,9 @@ import { getDefaultSearchOptions } from '../../config/advancedSearch/options'
 // import config from '../../config/config'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import {
-  getLuxISOString,
-  getYearMonthDay,
+  convertYearToISOYear,
   isValidDateObject,
+  convertLuxISODateToISODate,
 } from '../facets/dateParser'
 
 import { getFieldToEntityRelationship } from './stateManager'
@@ -206,10 +206,7 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
 
   if (isDateInput(propertyToCheck)) {
     const value = currentState[propertyToCheck]
-    const isoYear =
-      value[0] === '-'
-        ? `-${value.substring(1).padStart(6, '0')}`
-        : value.padStart(4, '0')
+    const isoYear = convertYearToISOYear(value)
     currentState[propertyToCheck] = isoYear
   }
 
@@ -228,15 +225,7 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
     // Change it if needed
     if (!isValidDateObject(dateObj)) {
       // value should be a LUX ISO string format
-      const { year, month, day } = getYearMonthDay(value)
-      const isoYear =
-        year[0] === '-'
-          ? `-${year.substring(1).padStart(6, '0')}`
-          : year.padStart(4, '0')
-      // have to add 1 to the value
-      const isoMonth = month.padStart(2, '0')
-      const isoDay = day.padStart(2, '0')
-      const dateToSubmit = new Date(getLuxISOString(isoYear, isoMonth, isoDay))
+      const dateToSubmit = convertLuxISODateToISODate(value)
       if (isValidDateObject(dateToSubmit)) {
         currentState[propertyToCheck] = dateToSubmit.toISOString()
       }
