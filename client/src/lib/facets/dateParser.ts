@@ -4,18 +4,17 @@
 
 import { IOrderedItems } from '../../types/ISearchResults'
 
-const sortYears = (a: number, b: number): number => {
-  if (a < b) {
-    return -1
-  }
-
-  if (a > b) {
-    return 1
-  }
-
-  return 0
+export interface IDateObj {
+  month: string
+  day: string
+  year: string
 }
 
+/**
+ * Returns the year in the correct format for ISO date strings
+ * @param {string} year; the year to be converted
+ * @returns {string}
+ */
 export const convertYearToISOYear = (year: string): string => {
   const isoYear =
     year[0] === '-'
@@ -24,65 +23,28 @@ export const convertYearToISOYear = (year: string): string => {
   return isoYear
 }
 
-/* eslint-disable consistent-return */
-export const getYearsFromFacetValues = (
-  facetValues: Array<IOrderedItems>,
-): number[] => {
-  const years = facetValues
-    .filter((facet) => facet.value !== null)
-    .map((facet) => {
-      const { value } = facet
-      const transformedYear = getYearFromSingleFacetValue(String(value))
-      return transformedYear !== null
-        ? parseInt(transformedYear, 10)
-        : undefined
-    })
-
-  return years
-    .filter((year): year is number => year !== undefined)
-    .sort((a: any, b: any) => sortYears(a, b))
+/**
+ * Returns the date in the Javascript accepted ISO string format
+ * @param {string} date; the date in LuxISOString format
+ * @returns {string}
+ */
+export const convertLuxISODateToISODate = (date: string): Date => {
+  const { year, month, day } = getISOYearMonthDay(date)
+  const dateObj = new Date(getLuxISOString(year, month, day))
+  return dateObj
 }
 
-export const getYearFromSingleFacetValue = (
-  facetValue: string,
-): string | null => {
-  const valueStr = String(facetValue)
-  const date = new Date(valueStr)
-  const utcFullYear = date.getUTCFullYear()
-  if (!isNaN(utcFullYear)) {
-    return utcFullYear.toString()
+/**
+ * Returns the date in the Javascript accepted date timestamp
+ * @param {string} date; the date in LuxISOString format
+ * @returns {string}
+ */
+export const getLUXTimestamp = (luxISODate: string): number => {
+  const dateObj = convertLuxISODateToISODate(luxISODate)
+  if (isValidDateObject(dateObj)) {
+    return dateObj.getTime()
   }
-
-  return null
-}
-
-export const formatDateJsonSearch = (
-  date: string,
-  searchTerm: string,
-  criteria: any,
-): string => {
-  // Add 1 to the given year to create a range of that given year from start to finish
-  const laterDate = parseInt(date, 10) + 1
-  // Subtract 1 to the given year to create a range of that given year from start to finish
-  const earlierDate = parseInt(date, 10) - 1
-  // TODO: uncomment when ML estimates are fixed
-  // const end = parseInt(date, 10)
-  // const start = parseInt(date, 10)
-
-  return JSON.stringify({
-    AND: [
-      criteria,
-      { [searchTerm]: laterDate.toString(), _comp: '<' },
-      { [searchTerm]: earlierDate.toString(), _comp: '>' },
-      // TODO: uncomment when ML estimates are fixed
-      // {
-      //   [searchTerm]: {
-      //     start: start.toString(),
-      //     end: end.toString(),
-      //   },
-      // },
-    ],
-  })
+  return 0
 }
 
 // Advanced search functions (for now)
@@ -121,14 +83,12 @@ export const isValid = (d: number, m: number, y: number): boolean =>
 /**
  * Returns the year, month, and day based on what the user has selected
  * @param {string} date; the date string in a loose ISO format
- * @returns {{ month: string; day: string; year: string }}
+ * @returns {IDateObj}
  */
-export const getYearMonthDay = (
-  date: string,
-): { month: string; day: string; year: string } => {
+export const getISOYearMonthDay = (date: string): IDateObj => {
   let month = '0'
   let day = '1'
-  let year = new Date().getUTCFullYear().toString()
+  let year = ''
 
   const [dateString] = date.split('T')
   // parse a BCE date
@@ -148,21 +108,26 @@ export const getYearMonthDay = (
   } else {
     ;[year, month, day] = dateString.split('-')
   }
+
+  const isoYear =
+    year !== '' && year !== '-' ? convertYearToISOYear(year) : year
+  // have to add 1 to the value
+  const isoMonth = month.padStart(2, '0')
+  const isoDay = day.padStart(2, '0')
+
   return {
-    month,
-    day,
-    year,
+    month: isoMonth,
+    day: isoDay,
+    year: isoYear,
   }
 }
 
 /**
  * Returns the year, month, and day based on what the user has selected or the default values
  * @param {string} date; the date string in a loose ISO format or an empty string
- * @returns {{ month: string; day: string; year: string }}
+ * @returns {IDateObj}
  */
-export const getDefaultAdvancedSearchDate = (
-  date: string,
-): { month: string; day: string; year: string } => {
+export const getDefaultDate = (date: string): IDateObj => {
   if (date === '') {
     return {
       month: '1',
@@ -171,13 +136,13 @@ export const getDefaultAdvancedSearchDate = (
     }
   }
 
-  return getYearMonthDay(date)
+  return getISOYearMonthDay(date)
 }
 
 /**
  * Validates the year and returns the appropriate value for displaying the year within the form
  * @param {string} year; the year selected
- * @returns {{ month: string; day: string; year: string }}
+ * @returns {string}
  */
 export const getLuxYear = (year: string): string => {
   if (year === '' || year === '-') {
@@ -246,4 +211,45 @@ export const getYearToDisplay = (year: string): string => {
   }
 
   return parseInt(year, 10).toString()
+}
+
+// Facets functions (for now)
+
+/**
+ * Compares 2 values to determine if they are greater or less than each other
+ * @param {IDateObj} a; the date to check
+ * @param {IDateObj} b; the date to check
+ * @returns {number}
+ */
+const sortByYears = (a: IDateObj, b: IDateObj): number => {
+  const aInt = parseInt(a.year, 10)
+  const bInt = parseInt(b.year, 10)
+
+  if (aInt < bInt) {
+    return -1
+  }
+
+  if (aInt > bInt) {
+    return 1
+  }
+
+  return 0
+}
+
+/**
+ * Returns an array of objects containing sorted dates
+ * @param {Array<IOrderedItems>} facetValues; array of ordered items containing facet values
+ * @returns {Array<IDateObj>}
+ */
+export const getDatesFromFacetValues = (
+  facetValues: Array<IOrderedItems>,
+): Array<IDateObj> => {
+  const dates = facetValues
+    .filter((facet) => facet.value !== null)
+    .map((facet) => {
+      const { value } = facet
+      return getDefaultDate(String(value))
+    })
+
+  return dates.sort((a: IDateObj, b: IDateObj) => sortByYears(a, b))
 }

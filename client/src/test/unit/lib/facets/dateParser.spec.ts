@@ -1,18 +1,19 @@
 import { numbersToMonths } from '../../../../config/advancedSearch/inputTypes'
 import {
   daysInMonth,
-  formatDateJsonSearch,
   getDaysInMonthArray,
-  getDefaultAdvancedSearchDate,
+  getDefaultDate,
   getLuxISOString,
   getLuxYear,
-  getYearFromSingleFacetValue,
-  getYearMonthDay,
+  getISOYearMonthDay,
   getYearToDisplay,
-  getYearsFromFacetValues,
+  getDatesFromFacetValues,
   isDayOrMonthToLuxNumberAsString,
   isValid,
   isValidDateObject,
+  convertYearToISOYear,
+  convertLuxISODateToISODate,
+  getLUXTimestamp,
 } from '../../../../lib/facets/dateParser'
 import { IOrderedItems } from '../../../../types/ISearchResults'
 
@@ -55,40 +56,74 @@ describe('dateParser functions', () => {
     },
   ]
 
-  describe('getYearsFromFacetValues', () => {
-    it('returns sorted years from facetValues', () => {
-      const years = getYearsFromFacetValues(mockFacetValues)
-      expect(years).toEqual([-1980, -1974, 1977, 1982, 1983])
-    })
-  })
-
-  describe('getYearFromSingleFacetValue', () => {
+  describe('convertYearToISOYear', () => {
     it('returns BC year', () => {
-      const year = getYearFromSingleFacetValue('-002017-10-20T00:00:00')
-      expect(year).toEqual('-2017')
+      const year = convertYearToISOYear('-17')
+      expect(year).toEqual('-000017')
     })
 
-    it('returns year', () => {
-      const year = getYearFromSingleFacetValue('2017-10-20T00:00:00')
-      expect(year).toEqual('2017')
+    it('returns AD year', () => {
+      const year = convertYearToISOYear('17')
+      expect(year).toEqual('0017')
     })
   })
 
-  describe('formatDateJsonSearch', () => {
-    it('returns string with formatted search when given single searchTerm', () => {
-      const mockCriteria = {
-        producedBy: {
-          id: 'https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83',
+  describe('convertLuxISODateToISODate', () => {
+    it('returns BC ISO date', () => {
+      const isoDate = convertLuxISODateToISODate('-980-01-01T00:00.000Z')
+      expect(isoDate.toISOString()).toEqual('-000980-01-01T00:00:00.000Z')
+    })
+
+    it('returns AD ISO date', () => {
+      const isoDate = convertLuxISODateToISODate('982-01-01T00:00.000Z')
+      expect(isoDate.toISOString()).toEqual('0982-01-01T00:00:00.000Z')
+    })
+  })
+
+  describe('getLUXTimestamp', () => {
+    it('returns BC year', () => {
+      const expectedDate = new Date('-000980-01-01T00:00:00Z').getTime()
+      const timestamp = getLUXTimestamp('-980-01-01T00:00:00Z')
+      expect(timestamp).toEqual(expectedDate)
+    })
+
+    it('returns AD year', () => {
+      const expectedDate = new Date('1982-01-01T00:00:00Z').getTime()
+      const timestamp = getLUXTimestamp('1982-01-01T00:00:00Z')
+      expect(timestamp).toEqual(expectedDate)
+    })
+  })
+
+  describe('getDatesFromFacetValues', () => {
+    it('returns sorted years from facetValues', () => {
+      const years = getDatesFromFacetValues(mockFacetValues)
+      expect(years).toEqual([
+        {
+          day: '01',
+          month: '01',
+          year: '-001980',
         },
-      }
-      const formattedYear = formatDateJsonSearch(
-        '1980',
-        'producedDate',
-        mockCriteria,
-      )
-      expect(formattedYear).toEqual(
-        '{"AND":[{"producedBy":{"id":"https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83"}},{"producedDate":"1981","_comp":"<"},{"producedDate":"1979","_comp":">"}]}',
-      )
+        {
+          day: '01',
+          month: '01',
+          year: '-001974',
+        },
+        {
+          day: '01',
+          month: '01',
+          year: '1977',
+        },
+        {
+          day: '01',
+          month: '01',
+          year: '1982',
+        },
+        {
+          day: '01',
+          month: '01',
+          year: '1983',
+        },
+      ])
     })
   })
 
@@ -137,17 +172,17 @@ describe('dateParser functions', () => {
   describe('getYearMonthDay', () => {
     it('returns valid BCE values', () => {
       const bceDate = '-2-05-05T00:00:00.000Z'
-      const values = getYearMonthDay(bceDate)
+      const values = getISOYearMonthDay(bceDate)
       expect(values).toStrictEqual({
         month: '05',
         day: '05',
-        year: '-2',
+        year: '-000002',
       })
     })
 
     it('returns valid values if there is no year input or if there is only a negative symbol', () => {
       const emptyYear = '-05-05T00:00:00.000Z'
-      const values = getYearMonthDay(emptyYear)
+      const values = getISOYearMonthDay(emptyYear)
       expect(values).toStrictEqual({
         month: '05',
         day: '05',
@@ -157,11 +192,11 @@ describe('dateParser functions', () => {
 
     it('returns valid CE values', () => {
       const ceDate = '9-05-05T00:00:00.000Z'
-      const values = getYearMonthDay(ceDate)
+      const values = getISOYearMonthDay(ceDate)
       expect(values).toStrictEqual({
         month: '05',
         day: '05',
-        year: '9',
+        year: '0009',
       })
     })
   })
@@ -169,11 +204,11 @@ describe('dateParser functions', () => {
   describe('getDefaultAdvancedSearchDate', () => {
     it('returns default values', () => {
       const bceDate = ''
-      const values = getDefaultAdvancedSearchDate(bceDate)
+      const values = getDefaultDate(bceDate)
       expect(values).toStrictEqual({
         month: '1',
         day: '1',
-        year: '2024',
+        year: '',
       })
     })
   })

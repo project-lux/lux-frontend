@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { formatDateJsonSearch } from '../../lib/facets/dateParser'
+import { formatDateJsonSearch } from '../../lib/parse/search/timelineParser'
 import {
   ITimelineCriteria,
   ITimelinesTransformed,
