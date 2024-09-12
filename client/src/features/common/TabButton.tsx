@@ -28,9 +28,12 @@ const TabButton: React.FC<ITabButton> = ({
   return (
     <li className="nav-item" data-testid="tab-button-list-item">
       <StyledTabButton
+        id={`tab-${testId}`}
         type="button"
         className={buttonClasses}
         role="tab"
+        aria-selected={isActive}
+        aria-controls={`panel-${testId}`}
         onClick={() => {
           pushClientEvent('Tabs', 'Selected', `Tab ${title}`)
           setSelectedTab(index)

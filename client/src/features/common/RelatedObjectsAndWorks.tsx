@@ -3,9 +3,9 @@ import _ from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
+import { transformStringForTestId } from '../../lib/parse/data/helper'
 
 import ObjectsContainer from './ObjectsContainer'
-import Tab from './Tab'
 import Tabs from './Tabs'
 
 interface IRelated {
@@ -26,17 +26,28 @@ const tabsChildren = (
       // If the configured search tag exists in the returned HAL links, check for estimates
       if (!_.isNil(links) && Object.keys(links).includes(currentSearchTag)) {
         if (links[currentSearchTag]._estimate > 0) {
+          // transform the title for accessibility uses
+          const id = transformStringForTestId(
+            tabSection.title as string,
+          ).toLowerCase()
+
           // Return a tab with content if the related search returns data
           return (
-            <Tab key={tabSection.title} title={tabSection.title as string}>
-              <StyledEntityPageSection style={{ paddingTop: 0 }}>
-                <ObjectsContainer
-                  uri={links[currentSearchTag].href}
-                  tab={tabSection.tab as string}
-                  title={tabSection.title as string}
-                />
-              </StyledEntityPageSection>
-            </Tab>
+            <StyledEntityPageSection
+              key={tabSection.title}
+              id={`panel-${id}`}
+              role="tabpanel"
+              tabIndex={0}
+              style={{ paddingTop: 0 }}
+              title={tabSection.title as string}
+              aria-labelledby={`tab-${id}`}
+            >
+              <ObjectsContainer
+                uri={links[currentSearchTag].href}
+                tab={tabSection.tab as string}
+                title={tabSection.title as string}
+              />
+            </StyledEntityPageSection>
           )
         }
       }

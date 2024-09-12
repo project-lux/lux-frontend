@@ -16,7 +16,7 @@ const Tabs: React.FC<ITabChildren> = ({ children }) => {
     <StyledTabs>
       <ul
         className="nav nav-tabs border-bottom-0 d-flex"
-        role="navigation"
+        role="tablist"
         data-testid="tabs-unordered-list"
       >
         {children.map((item, index) => {
