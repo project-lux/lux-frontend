@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.34.0 - Unreleased
+## v1.34.1 - 2024-9-13
+
+### Changed
+
+- Changed the icon for numismatics ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
+
+## v1.34.0 - 2024-9-9
 
 ### Added
 
