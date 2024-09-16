@@ -48,7 +48,10 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria, search }) => {
   const hasCriteria = criteria !== null && criteria !== undefined
   const facetsRequest = urlParams.get('facetRequest')
   const simpleSearchParam = urlParams.has('sq') ? urlParams.get('sq') : ''
-
+  console.log('')
+  console.log('advanced: ', isAdvancedSearch)
+  console.log('simple: ', isSimpleSearch)
+  console.log('')
   // Simple search estimates request
   const params =
     isSimpleSearch && simpleSearchParam !== ''
@@ -101,7 +104,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria, search }) => {
   }
 
   // Get the estimates for a simple search if there are no errors
-  if (isSimpleSearch && !simpleSearchIsError) {
+  if (simpleSearchIsSuccess && !simpleSearchIsError) {
     estimates = transformSimpleSearchEstimates(
       simpleSearchIsSuccess,
       simpleSearchData,
@@ -115,6 +118,13 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria, search }) => {
       advancedSearchData,
       queryTab,
     )
+  }
+
+  if (Object.keys(estimates).length === 0) {
+    Object.keys(searchScope).map((key) => {
+      estimates[key] = '-'
+      return null
+    })
   }
 
   // If performing a simple search, check if the current tab has results
@@ -132,13 +142,6 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria, search }) => {
         })
       }
     }
-  }
-
-  if (Object.keys(estimates).length === 0) {
-    Object.keys(searchScope).map((key) => {
-      estimates[key] = '-'
-      return null
-    })
   }
 
   return (

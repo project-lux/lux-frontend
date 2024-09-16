@@ -1,5 +1,6 @@
 import config from '../../config/config'
 import { IEstimateItems } from '../../types/ISearchEstimates'
+import { ISearchResultsErrorData } from '../../types/ISearchResults'
 
 export const objectEstimates: Record<string, IEstimateItems> = {
   objects: {
@@ -146,6 +147,22 @@ export const estimatesResults: Array<Record<string, IEstimateItems>> = [
   placeEstimates,
   conceptEstimates,
   eventEstimates,
+]
+
+export const estimatesErrorResults: Array<
+  Record<string, ISearchResultsErrorData>
+> = [
+  {
+    objects: {
+      errorMessage: 'string',
+      statusCode: 400,
+    },
+  },
+  { works: { errorMessage: 'string', statusCode: 400 } },
+  { people: { errorMessage: 'string', statusCode: 400 } },
+  { places: { errorMessage: 'string', statusCode: 400 } },
+  { concepts: { errorMessage: 'string', statusCode: 400 } },
+  { events: { errorMessage: 'string', statusCode: 400 } },
 ]
 
 export const estimatesState = {

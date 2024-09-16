@@ -7,11 +7,13 @@ export interface ICriteria {
   [key: string]: any
 }
 
+export interface ISearchResultsErrorData {
+  errorMessage: string
+  statusCode: number
+}
+
 export interface ISearchResultsError {
-  data: {
-    errorMessage: string
-    statusCode: number
-  }
+  data: ISearchResultsErrorData
 }
 
 export interface IOrderedItems {

@@ -1,5 +1,6 @@
 import { searchScope } from '../../../config/searchTypes'
 import { IEstimateItems } from '../../../types/ISearchEstimates'
+import { ISearchResultsErrorData } from '../../../types/ISearchResults'
 
 import { getScopeFromHalLink } from './halLinkHelper'
 
@@ -24,13 +25,21 @@ export const transformAdvancedSearchEstimates = (
 
 export const transformSimpleSearchEstimates = (
   isSuccess: boolean,
-  data: Array<Record<string, IEstimateItems>> | undefined,
-): Record<string, number> => {
-  const estimates: Record<string, number> = {}
-  if (isSuccess && data) {
+  data:
+    | Array<Record<string, IEstimateItems | ISearchResultsErrorData>>
+    | undefined,
+): Record<string, number | string> => {
+  const estimates: Record<string, number | string> = {}
+  if ((isSuccess && data) || (data && data.length > 0)) {
     for (const d of data) {
       Object.keys(d).map((key: string) => {
-        estimates[key] = d[key].totalItems
+        // Check if results have an error
+        if (d[key].hasOwnProperty('errorMessage')) {
+          estimates[key] = '-'
+        } else {
+          const estimatesResults = d[key] as IEstimateItems
+          estimates[key] = estimatesResults.totalItems
+        }
         return null
       })
     }
