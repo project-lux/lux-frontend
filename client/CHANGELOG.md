@@ -52,6 +52,8 @@ All notable changes to this project will be documented in this file.
 
 - Changed the icon for numismatics ([#40](https://github.com/project-lux/lux-frontend/issues/40)).
 
+- Fixed search estimates when switching from advanced to simple search ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
+
 ## v1.34.0 - 2024-9-9
 
 ### Added
