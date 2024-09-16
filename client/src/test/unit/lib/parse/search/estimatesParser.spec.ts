@@ -6,6 +6,7 @@ import {
 } from '../../../../../lib/parse/search/estimatesParser'
 import {
   advancedSearchEstimates,
+  estimatesErrorResults,
   estimatesResults,
   estimatesResultsWithRedirect,
   estimatesState,
@@ -37,6 +38,20 @@ describe('estimatesParser', () => {
         places: 14,
         concepts: 730,
         events: 1,
+      })
+    })
+
+    it('returns the estimates when there are errors in the results', () => {
+      const mockSimpleSearchEstimatesResults = estimatesErrorResults
+      expect(
+        transformSimpleSearchEstimates(true, mockSimpleSearchEstimatesResults),
+      ).toStrictEqual({
+        objects: '-',
+        works: '-',
+        people: '-',
+        places: '-',
+        concepts: '-',
+        events: '-',
       })
     })
   })
