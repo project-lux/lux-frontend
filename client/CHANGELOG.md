@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed accessibility issues with tabbed components ([#291](https://github.com/project-lux/lux-frontend/issues/291)).
+- Fixed advanced search estimates requests ([#337](https://github.com/project-lux/lux-frontend/issues/337)).
 
 ## v1.34.1 - 2024-9-13
 

@@ -7,7 +7,7 @@ const fetchSearchEstimates = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> =>
   fetch(
-    `${config.env.dataApiBaseUrl}api/search-estimate/${searchScope[tab]}?q=${params}`,
+    `${config.env.dataApiBaseUrl}api/search-estimate/${searchScope[tab]}?${params}`,
   )
     .then((response) =>
       response
@@ -18,8 +18,10 @@ const fetchSearchEstimates = (
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getSearchEstimates(params: Record<string, string>): any {
-  const promises = Object.keys(params).map((key: string) =>
-    fetchSearchEstimates(params[key], key),
-  )
+  const promises = Object.keys(params).map((key: string) => {
+    const urlParams = new URLSearchParams()
+    urlParams.set('q', params[key])
+    return fetchSearchEstimates(urlParams.toString(), key)
+  })
   return Promise.all(promises).then((result) => ({ data: result }))
 }
