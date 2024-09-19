@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added new Yale contributing records ([#365](https://github.com/project-lux/lux-frontend/issues/365)).
+
 ### Changed
 
 - Changed advanced search date input to accept full dates ([#39](https://github.com/project-lux/lux-frontend/issues/39)).

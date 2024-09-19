@@ -288,6 +288,8 @@ export default class EntityParser {
       'https://images.peabody.yale.edu/data/',
       'https://media.art.yale.edu/content/',
       'https://linked-art.library.yale.edu/node/',
+      'https://data.paul-mellon-centre.ac.uk/',
+      'https://paperbase.xyz/',
     ]
 
     const equivalent = forceArray(this.json.equivalent)
