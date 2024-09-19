@@ -180,7 +180,7 @@ const Paginate: React.FC<IPagination> = ({
               {paginationRange.length > 0 &&
                 paginationRange.map((pageNumber: string | number) => {
                   if (typeof pageNumber === 'string' && pageNumber === DOTS) {
-                    return <Pagination.Ellipsis disabled />
+                    return <Pagination.Ellipsis disabled key={pageNumber} />
                   }
                   return (
                     <Pagination.Item

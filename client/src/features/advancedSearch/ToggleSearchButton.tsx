@@ -69,6 +69,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
         dispatch(addAqParamValue({ scope, aqParamValue: noScopeJSON }))
         urlParams.delete('sq')
         urlParams.set('q', noScopeJSON)
+        urlParams.set('qt', tab)
         navigate(`${pathname}?${urlParams.toString()}`, {
           state: { targetName: 'Results Page' },
         })

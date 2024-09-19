@@ -21,7 +21,7 @@ describe('estimatesParser', () => {
       const mockEstimates = objectEstimates.objects
       const mockTransformedEstimates = advancedSearchEstimates
       expect(
-        transformAdvancedSearchEstimates(true, mockEstimates, 'objects'),
+        transformAdvancedSearchEstimates({ objects: mockEstimates }, 'objects'),
       ).toStrictEqual(mockTransformedEstimates)
     })
   })
@@ -30,7 +30,7 @@ describe('estimatesParser', () => {
     it('returns the translated estimates for all tabs', () => {
       const mockSimpleSearchEstimatesResults = estimatesResults
       expect(
-        transformSimpleSearchEstimates(true, mockSimpleSearchEstimatesResults),
+        transformSimpleSearchEstimates(mockSimpleSearchEstimatesResults),
       ).toStrictEqual({
         objects: 803,
         works: 100,
@@ -44,7 +44,7 @@ describe('estimatesParser', () => {
     it('returns the estimates when there are errors in the results', () => {
       const mockSimpleSearchEstimatesResults = estimatesErrorResults
       expect(
-        transformSimpleSearchEstimates(true, mockSimpleSearchEstimatesResults),
+        transformSimpleSearchEstimates(mockSimpleSearchEstimatesResults),
       ).toStrictEqual({
         objects: '-',
         works: '-',
