@@ -127,6 +127,7 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               currentValue={state[selectedKey]}
               field={selectedKey}
               stateId={stateId}
+              scope={scope}
               autoFocus
             />
           )}

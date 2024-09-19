@@ -18,8 +18,8 @@ interface IInputType {
   currentValue: string
   field: string
   stateId: string
+  scope: string
   autoFocus?: boolean
-  scope?: string
 }
 
 /**
@@ -42,7 +42,7 @@ const TextInput: React.FC<IInputType> = ({
 }) => {
   const dispatch = useAppDispatch()
   const handleOnChange = (userInput: string): void => {
-    dispatch(addTextValue({ field, value: userInput, stateId }))
+    dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
   const handleOnSelect = (): void => {

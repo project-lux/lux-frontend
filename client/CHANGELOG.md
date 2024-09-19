@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added new Yale contributing records ([#365](https://github.com/project-lux/lux-frontend/issues/365)).
+- Added options dropdown to Name input in advanced search ([#318](https://github.com/project-lux/lux-frontend/issues/318)).
 
 ### Changed
 
