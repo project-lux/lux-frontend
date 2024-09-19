@@ -1,10 +1,10 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, prettyDOM, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import config from '../../config/config'
 import { getCollections } from '../../lib/util/collectionHelper'
-import { getSearchEstimates } from '../../lib/util/fetchSearchEstimates'
+import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 import { searchEstimate } from '../data/results'
 
 import AppRender from './utils/AppRender'
@@ -12,6 +12,27 @@ import cmsMockApi from './utils/cmsMockApi'
 import objectsResultsMockApi from './utils/objectResultsMockAPI'
 import resultsErrorsMockApi from './utils/resultsErrorsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
+
+const mockEstimatesResults = [
+  {
+    objects: searchEstimate(801),
+  },
+  {
+    works: searchEstimate(1266),
+  },
+  {
+    people: searchEstimate(64),
+  },
+  {
+    places: searchEstimate(10),
+  },
+  {
+    concepts: searchEstimate(55),
+  },
+  {
+    events: searchEstimate(6),
+  },
+]
 
 // Mock the request for collections
 jest.mock('../../lib/util/collectionHelper', () => ({
@@ -25,9 +46,11 @@ jest.mock('../../lib/util/collectionHelper', () => ({
 }))
 
 // Mock the request for collections
-jest.mock('../../lib/util/fetchSearchEstimates', () => ({
+jest.mock('../../lib/parse/search/estimatesParser', () => ({
   __esModule: true,
-  getSearchEstimates: jest.fn(),
+  getEstimatesRequests: jest.fn(),
+  isAdvancedSearch: jest.fn(),
+  isSimpleSearch: jest.fn(),
 }))
 
 describe('Results page shared components', () => {
@@ -55,30 +78,11 @@ describe('Results page shared components', () => {
         ],
       }))
 
-      const estimates = getSearchEstimates as jest.MockedFunction<
-        typeof getSearchEstimates
+      const estimates = getEstimatesRequests as jest.MockedFunction<
+        typeof getEstimatesRequests
       >
       estimates.mockImplementation(() => ({
-        data: [
-          {
-            objects: searchEstimate(801),
-          },
-          {
-            works: searchEstimate(1266),
-          },
-          {
-            people: searchEstimate(64),
-          },
-          {
-            places: searchEstimate(10),
-          },
-          {
-            concepts: searchEstimate(55),
-          },
-          {
-            events: searchEstimate(6),
-          },
-        ],
+        data: mockEstimatesResults,
       }))
     })
 
