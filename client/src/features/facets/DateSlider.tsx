@@ -90,8 +90,8 @@ interface IProps {
   max: number
   earliestVal: string
   latestVal: string
-  onEarliestChange: (x: string) => void
-  onLatestChange: (x: string) => void
+  onEarliestChange: (x: number) => void
+  onLatestChange: (x: number) => void
 }
 
 const DateSlider: React.FC<IProps> = ({
@@ -146,13 +146,13 @@ const DateSlider: React.FC<IProps> = ({
   ): void => {
     const value = Math.min(Number(e.currentTarget.value), maxVal - 1)
     setMinVal(value)
-    onEarliestChange(value.toString())
+    onEarliestChange(value)
   }
 
   const handleOnLatestChange = (e: React.FormEvent<HTMLInputElement>): void => {
     const value = Math.max(Number(e.currentTarget.value), minVal + 1)
     setMaxVal(value)
-    onLatestChange(value.toString())
+    onLatestChange(value)
   }
 
   return (
@@ -161,7 +161,7 @@ const DateSlider: React.FC<IProps> = ({
       <input
         type="range"
         id="earliest-range-slider"
-        aria-label="earliest year range"
+        aria-label={new Date(parseInt(earliestVal, 10)).toDateString()}
         className={`thumb thumb--zindex-3 ${
           minVal > max - 100 ? 'thumb--zindex-5' : ''
         }`}
@@ -174,7 +174,7 @@ const DateSlider: React.FC<IProps> = ({
       <input
         type="range"
         id="latest-range-slider"
-        aria-label="latest year range"
+        aria-label={new Date(parseInt(latestVal, 10)).toDateString()}
         className="thumb thumb--zindex-4"
         min={min}
         max={max}

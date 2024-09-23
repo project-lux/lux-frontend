@@ -3,7 +3,6 @@ import config from '../../../config/config'
 import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
 import { IOrderedItems, ISearchResults } from '../../../types/ISearchResults'
 import { ITimelinesTransformed } from '../../../types/ITimelines'
-import { getYearFromSingleFacetValue } from '../../facets/dateParser'
 
 import { getCriteriaFromHalLink } from './halLinkHelper'
 
@@ -12,6 +11,24 @@ export interface ITransformedData {
   totalItems: number
   searchTag: string
   criteria: IAdvancedSearchState
+}
+
+/**
+ * Returns the year from the date string provided
+ * @param {string} facetValue; the date provided by the data as a string
+ * @returns {string | null}
+ */
+export const getYearFromSingleFacetValue = (
+  facetValue: string,
+): string | null => {
+  const valueStr = String(facetValue)
+  const date = new Date(valueStr)
+  const utcFullYear = date.getUTCFullYear()
+  if (!isNaN(utcFullYear)) {
+    return utcFullYear.toString()
+  }
+
+  return null
 }
 
 /**
@@ -132,3 +149,22 @@ export const sortTimelineData = (
  */
 export const getYearWithLabel = (year: string): string =>
   year.includes('-') ? `${year.substring(1)} B.C.E.` : `${year} C.E.`
+
+export const formatDateJsonSearch = (
+  date: string,
+  searchTerm: string,
+  criteria: any,
+): string => {
+  // Add 1 to the given year to create a range of that given year from start to finish
+  const laterDate = parseInt(date, 10) + 1
+  // Subtract 1 to the given year to create a range of that given year from start to finish
+  const earlierDate = parseInt(date, 10) - 1
+
+  return JSON.stringify({
+    AND: [
+      criteria,
+      { [searchTerm]: laterDate.toString(), _comp: '<' },
+      { [searchTerm]: earlierDate.toString(), _comp: '>' },
+    ],
+  })
+}

@@ -5,6 +5,8 @@ import {
   sortTimelineData,
   getSearchTagFromFacetedSearch,
   getYearWithLabel,
+  formatDateJsonSearch,
+  getYearFromSingleFacetValue,
 } from '../../../../../lib/parse/search/timelineParser'
 import {
   timelineResults as mockTimelineResults,
@@ -69,6 +71,36 @@ describe('timelineParser', () => {
       const mockYear = '2024'
 
       expect(getYearWithLabel(mockYear)).toEqual('2024 C.E.')
+    })
+  })
+
+  describe('formatDateJsonSearch', () => {
+    it('returns string with formatted search when given single searchTerm', () => {
+      const mockJsonCriteria = {
+        producedBy: {
+          id: 'https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83',
+        },
+      }
+      const formattedYear = formatDateJsonSearch(
+        '1980',
+        'producedDate',
+        mockJsonCriteria,
+      )
+      expect(formattedYear).toEqual(
+        '{"AND":[{"producedBy":{"id":"https://endpoint.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83"}},{"producedDate":"1981","_comp":"<"},{"producedDate":"1979","_comp":">"}]}',
+      )
+    })
+  })
+
+  describe('getYearFromSingleFacetValue', () => {
+    it('returns BC year', () => {
+      const year = getYearFromSingleFacetValue('-002017-10-20T00:00:00')
+      expect(year).toEqual('-2017')
+    })
+
+    it('returns year', () => {
+      const year = getYearFromSingleFacetValue('2017-10-20T00:00:00')
+      expect(year).toEqual('2017')
     })
   })
 })

@@ -14,7 +14,8 @@ import { IFacetsPagination } from '../../types/IFacets'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import Checklist from './Checklist'
-import DateInput from './DateInput'
+import FullDateInput from './FullDateInput'
+// import DateInput from './DateInput'
 
 interface IProps {
   criteria: ICriteria
@@ -151,7 +152,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
           >
             <div className="accordion-body">
               {facetName.includes('Date') ? (
-                <DateInput
+                <FullDateInput
                   combinedQuery={combinedQuery}
                   criteria={criteria}
                   facetValues={facets}

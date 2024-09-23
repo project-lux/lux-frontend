@@ -11,7 +11,10 @@ import {
   getUpdatedOptions,
   removeObjectFromState,
 } from '../../lib/advancedSearch/stateManager'
-import { QueryOption } from '../../config/advancedSearch/options'
+import {
+  getDefaultSearchOptions,
+  QueryOption,
+} from '../../config/advancedSearch/options'
 import {
   getProperty,
   isGroup,
@@ -101,12 +104,31 @@ export const advancedSearchSlice = createSlice({
     // New
     addTextValue: (
       state,
-      action: PayloadAction<{ field: string; value: string; stateId: string }>,
+      action: PayloadAction<{
+        field: string
+        value: string
+        stateId: string
+        scope: string
+      }>,
     ) => {
-      const { field, value, stateId } = action.payload
+      const { field, value, stateId, scope } = action.payload
       const objectInState = findObjectInState(state, stateId)
       if (objectInState !== null) {
         objectInState[field] = value
+        let options = getDefaultSearchOptions(scope, field)
+        if (options !== null) {
+          if (options.includes('exact')) {
+            options = [
+              'case-sensitive',
+              'diacritic-sensitive',
+              'punctuation-sensitive',
+              'whitespace-sensitive',
+              'unstemmed',
+              'unwildcarded',
+            ]
+          }
+          objectInState._options = options
+        }
       }
     },
     // New

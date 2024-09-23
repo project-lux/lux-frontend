@@ -6,6 +6,7 @@ import { conditionals } from '../../config/advancedSearch/conditionals'
 import { nonSearchTermHelpText } from '../../config/advancedSearch/helpText'
 import config from '../../config/config'
 import { getStateId } from '../../lib/advancedSearch/stateId'
+import { dimensions } from '../../config/advancedSearch/inputTypes'
 
 import AppRender from './utils/AppRender'
 import eventTrackingMock from './utils/eventTrackingMock'
@@ -237,11 +238,34 @@ describe('Advanced Search', () => {
       expect(inputRow).toBeInTheDocument()
     })
 
-    it('renders the RangeInput component', async () => {
+    it('renders the DateRangeInput component', async () => {
       // advanced search fields that render the TextInput component
       const rangeFields = ['encounteredDate', 'producedDate']
       const randomIndex = Math.floor(Math.random() * rangeFields.length)
       const field = rangeFields[randomIndex]
+
+      render(<AppRender route={page} />)
+
+      // select the single field dropdown
+      const dropdown = screen.getByTestId(/single-fields-1-dropdown-toggle/i)
+      await act(async () => {
+        fireEvent.click(dropdown)
+      })
+      // select name
+      const dropdownItem = screen.getByTestId(`single-fields-1-${field}-option`)
+
+      await act(async () => {
+        fireEvent.click(dropdownItem)
+      })
+      // expect the input row to be in the document
+      const inputRow = screen.getByTestId(`${field}-1-date-input`)
+      expect(inputRow).toBeInTheDocument()
+    })
+
+    it('renders the RangeInput component', async () => {
+      // advanced search fields that render the TextInput component
+      const randomIndex = Math.floor(Math.random() * dimensions.length)
+      const field = dimensions[randomIndex]
 
       render(<AppRender route={page} />)
 

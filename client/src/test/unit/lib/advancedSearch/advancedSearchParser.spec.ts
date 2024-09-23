@@ -108,6 +108,15 @@ describe('advancedSearchParser functions', () => {
       expect(validateAdvancedSearch(mockState)).toEqual(true)
     })
 
+    it('returns true if there is valid date input', () => {
+      const mockState = {
+        _stateId: 1,
+        producedDate: 'valid date',
+        _comp: '>',
+      }
+      expect(validateAdvancedSearch(mockState)).toEqual(true)
+    })
+
     it('returns false if there is invalid range input', () => {
       const mockState = {
         _stateId: 1,
@@ -175,14 +184,11 @@ describe('advancedSearchParser functions', () => {
               ],
             },
           },
-          // TODO: uncomment when ML estimates are fixed
-          // {
-          //   _stateId: 9,
-          //   producedDate: {
-          //     start: '',
-          //     end: '',
-          //   },
-          // },
+          {
+            _stateId: 9,
+            producedDate: '200-5-6T00:00:00.000Z',
+            _comp: '>=',
+          },
         ],
       }
 
@@ -190,6 +196,10 @@ describe('advancedSearchParser functions', () => {
         AND: [
           {
             name: 'andy warhol',
+          },
+          {
+            producedDate: '0200-05-06T00:00:00.000Z',
+            _comp: '>=',
           },
         ],
       })

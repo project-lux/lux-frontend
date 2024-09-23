@@ -5,8 +5,7 @@ import { useAppDispatch } from '../../app/hooks'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import {
   isBooleanInput,
-  // isDateInput,
-  isDateRangeInput,
+  isDateInput,
   isRangeInput,
   isRecordTypeInput,
   isTextInput,
@@ -16,7 +15,6 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getParentLabels } from '../../lib/advancedSearch/stateManager'
 import Legend from '../../styles/features/advancedSearch/Legend'
 
-import DateRangeInput from './DateRangeInput'
 import RangeInput from './RangeInput'
 import AdvancedSearchDropdown from './Dropdown'
 import BooleanInput from './BooleanInput'
@@ -24,7 +22,7 @@ import TextInput from './TextInput'
 import OptionsButton, { INPUT_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
 import RecordTypeInput from './RecordTypeInput'
-// import DateInput from './DateInput'
+import DateInput from './DateInput'
 
 interface IFieldSelectRow {
   stateId: string
@@ -94,16 +92,6 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               stateId={stateId}
             />
           )}
-          {isDateRangeInput(selectedKey) && (
-            <DateRangeInput
-              label="Enter year"
-              currentValue={state[selectedKey]}
-              field={selectedKey}
-              comp={state._comp}
-              stateId={stateId}
-              ariaLabel={labelForAria}
-            />
-          )}
           {isRangeInput(selectedKey) && (
             <RangeInput
               label="Enter number"
@@ -123,19 +111,23 @@ const InputRow: React.FC<IFieldSelectRow> = ({
               stateId={stateId}
             />
           )}
-          {/* {isDateInput(selectedKey) && (
+          {isDateInput(selectedKey) && (
             <DateInput
+              label={`Select options for ${labelForAria}`}
+              comp={state._comp}
               currentValue={state[selectedKey]}
               field={selectedKey}
               stateId={stateId}
+              ariaLabel={labelForAria}
             />
-          )} */}
+          )}
           {isTextInput(selectedKey) && (
             <TextInput
               label="Enter a text value"
               currentValue={state[selectedKey]}
               field={selectedKey}
               stateId={stateId}
+              scope={scope}
               autoFocus
             />
           )}

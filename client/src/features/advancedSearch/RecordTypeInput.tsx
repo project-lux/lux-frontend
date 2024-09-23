@@ -33,9 +33,9 @@ const RecordTypeInput: React.FC<IInputType> = ({
   const dispatch = useAppDispatch()
   const handleOnChange = useCallback(
     (selected: string): void => {
-      dispatch(addTextValue({ field, value: selected, stateId }))
+      dispatch(addTextValue({ field, value: selected, stateId, scope }))
     },
-    [dispatch, field, stateId],
+    [dispatch, field, stateId, scope],
   )
   const toggleButtonGroupId = `boolean-field-${stateId}`
   const options: Record<string, string> = recordTypes[scope] || {}

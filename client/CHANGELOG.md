@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.35.0 - Unreleased
+
+### Added
+
+- Added new Yale contributing records ([#365](https://github.com/project-lux/lux-frontend/issues/365)).
+- Added options dropdown to Name input in advanced search ([#318](https://github.com/project-lux/lux-frontend/issues/318)).
+
+### Changed
+
+- Changed advanced search date input to accept full dates ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
+- Changed facet dates to accept full dates ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
+
+### Removed
+
+### Fixed
+
+- Fixed accessibility issues with tabbed components ([#291](https://github.com/project-lux/lux-frontend/issues/291)).
+- Fixed advanced search estimates requests ([#337](https://github.com/project-lux/lux-frontend/issues/337)).
+
 ## v1.34.1 - 2024-9-13
 
 ### Changed
@@ -21,6 +40,7 @@ All notable changes to this project will be documented in this file.
 - Changed order of HAL links on People/Group pages for related objects and works ([#313](https://github.com/project-lux/lux-frontend/issues/313)).
 - Changed order of facets ([#317](https://github.com/project-lux/lux-frontend/issues/317)).
 - Changed date inputs to support ISO dates ([#359](https://github.com/project-lux/lux-frontend/issues/359)).
+- Changed advanced search date input to accept full dates ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
 
 ### Removed
 

@@ -114,12 +114,6 @@ export const addFieldSelectionHelper = (
       ) {
         objectToUpdate[selected] = ''
         delete objectToUpdate._comp
-        // TODO: uncomment when ML estimates are fixed
-        // } else if (isDateInput(selected)) {
-        //   objectToUpdate[selected] = {
-        //     start: '',
-        //     end: '',
-        //   }
       } else {
         objectToUpdate[selected] = existingValue !== null ? existingValue : ''
       }
@@ -328,12 +322,7 @@ export const convertAqSearchParam = (
     if (key !== '_options') {
       const nestedObject = jsonAqParamValue[key]
 
-      if (
-        !Array.isArray(nestedObject) &&
-        typeof nestedObject === 'object'
-        // TODO: uncomment when ML estimates are fixed
-        // && nestedObject !== null
-      ) {
+      if (!Array.isArray(nestedObject) && typeof nestedObject === 'object') {
         jsonAqParamValue[key] = convertAqSearchParam(
           getFieldToEntityRelationship(scope, key) || '',
           nestedObject,
