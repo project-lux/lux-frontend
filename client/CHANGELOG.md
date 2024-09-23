@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.35.0 - Unreleased
+## v1.36.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+## v1.35.0 - 2024-9-23
 
 ### Added
 
