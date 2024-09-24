@@ -9,10 +9,10 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import CanIReuseIt from '../common/CanIReuseIt'
+import HowDoISeeIt from '../common/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 
 import CarriedBy from './CarriedBy'
-import HowDoISeeIt from './HowDoISeeIt'
 import About from './About'
 import Images from './Images'
 
@@ -44,7 +44,7 @@ const WorksPage: React.FC<{ data: any }> = ({ data }) => {
         <Col lg={4}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <StyledEntityPageSection className="row">
-              <HowDoISeeIt entity={data} />
+              <HowDoISeeIt data={data} />
               <CanIReuseIt entity={data} entityType="work" />
             </StyledEntityPageSection>
             <Row>

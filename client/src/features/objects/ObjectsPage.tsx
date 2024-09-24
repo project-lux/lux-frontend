@@ -20,10 +20,10 @@ import {
   isEntityAnArchive,
 } from '../../lib/util/hierarchyHelpers'
 import { archive } from '../../config/setsSearchTags'
+import HowDoISeeIt from '../common/HowDoISeeIt'
 
 import Carries from './Carries'
 import About from './About'
-import HowDoISeeIt from './HowDoISeeIt'
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
@@ -85,7 +85,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
             <Col lg={4}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <StyledEntityPageSection className="row">
-                  <HowDoISeeIt entity={data} />
+                  <HowDoISeeIt data={data} />
                   <WhereAtYale data={data} />
                   <CanIReuseIt entity={data} entityType="object" />
                 </StyledEntityPageSection>

@@ -249,7 +249,7 @@ describe('Objects page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/How do I see it/i)
-      const component = screen.getByTestId('object-how-do-i-see-it')
+      const component = screen.getByTestId('how-do-i-see-it')
       expect(component).toBeInTheDocument()
     })
 
@@ -257,7 +257,7 @@ describe('Objects page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/How do I see it/i)
-      const statement = screen.getByTestId('object-access-statement-0')
+      const statement = screen.getByTestId('access-statement-0')
       expect(statement).toBeInTheDocument()
     })
 
@@ -276,7 +276,7 @@ describe('Objects page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/How do I see it/i)
-      const links = screen.getByTestId('object-site-links')
+      const links = screen.getByTestId('site-links')
       expect(links).toBeInTheDocument()
     })
   })

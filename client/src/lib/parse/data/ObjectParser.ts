@@ -18,7 +18,6 @@ import {
   containsSpecificNote,
   forceArray,
   getClassifiedAs,
-  getSpecificReferredToBy,
   hasData,
 } from './helper'
 
@@ -212,14 +211,6 @@ export default class ObjectParser extends EntityParser {
     const shown = forceArray(this.object.shows).map((item) => item.id)
     const carried = forceArray(this.object.carries).map((item) => item.id)
     return [...shown, ...carried].filter((id) => id !== undefined)
-  }
-
-  /**
-   * Retrieves /referred_to_by data and extracts the access statement
-   * @returns {Array<INoteContent>}
-   */
-  getAccessStatement(): Array<INoteContent> {
-    return getSpecificReferredToBy(this.json, config.aat.accessStatement)
   }
 
   /**

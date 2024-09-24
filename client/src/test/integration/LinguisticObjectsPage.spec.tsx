@@ -130,7 +130,7 @@ describe('Linguistic Object page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/How do I see it/i)
-      const component = screen.getByTestId('works-how-do-i-see-it')
+      const component = screen.getByTestId('how-do-i-see-it')
       expect(component).toBeInTheDocument()
     })
 
@@ -138,7 +138,7 @@ describe('Linguistic Object page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/How do I see it/i)
-      const links = screen.getByTestId('works-site-links-0')
+      const links = screen.getByTestId('site-links')
       expect(links).toBeInTheDocument()
     })
   })
