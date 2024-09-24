@@ -278,6 +278,14 @@ export default class EntityParser {
   }
 
   /**
+   * Retrieves /referred_to_by data and extracts the access statement
+   * @returns {Array<INoteContent>}
+   */
+  getAccessStatement(): Array<INoteContent> {
+    return getSpecificReferredToBy(this.json, config.aat.accessStatement)
+  }
+
+  /**
    * Returns object with label as the key and array of urls as the value
    * Extract the record id, IIIF manifest, and /equivalent data
    * @returns {Record<string, Array<string>>}

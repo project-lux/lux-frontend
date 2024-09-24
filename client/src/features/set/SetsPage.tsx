@@ -11,7 +11,6 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import WhereAtYale from '../common/WhereAtYale'
-import HowDoISeeIt from '../works/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 import UV from '../common/UV'
 import {
@@ -23,6 +22,7 @@ import { reset } from '../../redux/slices/archiveHierarchySlice'
 import { useAppDispatch } from '../../app/hooks'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { archive } from '../../config/setsSearchTags'
+import HowDoISeeIt from '../common/HowDoISeeIt'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
@@ -93,7 +93,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
           <Col lg={4}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <StyledEntityPageSection className="row">
-                <HowDoISeeIt entity={data} />
+                <HowDoISeeIt data={data} />
                 {isArchive && <WhereAtYale data={data} />}
               </StyledEntityPageSection>
               <Row>

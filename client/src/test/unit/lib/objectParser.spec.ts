@@ -160,19 +160,6 @@ describe('ObjectParser', () => {
     })
   })
 
-  describe('getAccessStatement', () => {
-    it('returns access statement from notes', () => {
-      const object = new ObjectParser(mockPhysicalObject)
-      const accessStatement = object.getAccessStatement()
-      expect(accessStatement).toEqual([
-        {
-          content: 'On view',
-          _content_html: undefined,
-        },
-      ])
-    })
-  })
-
   describe('getAccessPoints', () => {
     it('returns access point with content', () => {
       const object = new ObjectParser(mockPhysicalObject)

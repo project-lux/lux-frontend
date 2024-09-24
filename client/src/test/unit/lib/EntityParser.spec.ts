@@ -19,7 +19,7 @@ import {
   primaryName,
   primaryNameId,
 } from '../../data/helperObjects'
-import { physicalObject as mockObject } from '../../data/object'
+import physicalObject, { physicalObject as mockObject } from '../../data/object'
 
 describe('EntityParser', () => {
   describe('getWebPages', () => {
@@ -642,6 +642,19 @@ describe('EntityParser', () => {
       const isLanguage = parser.isInLanguage(config.aat.langdut)
 
       expect(isLanguage).toBeFalsy()
+    })
+  })
+
+  describe('getAccessStatement', () => {
+    it('returns access statement from notes', () => {
+      const object = new EntityParser(physicalObject)
+      const accessStatement = object.getAccessStatement()
+      expect(accessStatement).toEqual([
+        {
+          content: 'On view',
+          _content_html: undefined,
+        },
+      ])
     })
   })
 })
