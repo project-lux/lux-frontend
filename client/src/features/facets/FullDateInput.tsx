@@ -28,6 +28,8 @@ import {
   getLuxISOString,
   convertYearToISOYear,
   getLUXTimestamp,
+  getISOMonth,
+  getISODay,
 } from '../../lib/facets/dateParser'
 import { numbersToMonths } from '../../config/advancedSearch/inputTypes'
 import DayDropdown from '../advancedSearch/DayDropdown'
@@ -230,16 +232,16 @@ const FullDateInput: React.FC<IFacets> = ({
       const min = {
         [searchTermName]: getLuxISOString(
           convertYearToISOYear(earliest.year),
-          earliest.month,
-          earliest.day,
+          getISOMonth(earliest.month),
+          getISODay(earliest.day),
         ),
         _comp: '>=',
       }
       const max = {
         [searchTermName]: getLuxISOString(
           convertYearToISOYear(latest.year),
-          latest.month,
-          latest.day,
+          getISOMonth(latest.month),
+          getISODay(latest.day),
         ),
         _comp: '<=',
       }

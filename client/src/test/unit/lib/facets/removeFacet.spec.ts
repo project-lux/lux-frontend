@@ -58,7 +58,7 @@ describe('removeFacet exported functions', () => {
   describe('removeFacetFromQuery', () => {
     it('returns a new object after removing date facets', () => {
       const targetFacet = 'itemProductionDate'
-      const targetValue = '1800 to 1900'
+      const targetValue = '1/1/1800 to 1/1/1900'
       const facetQuery = {
         AND: [
           {
@@ -67,11 +67,11 @@ describe('removeFacet exported functions', () => {
             },
           },
           {
-            producedDate: '1800',
+            producedDate: '1800-01-01T00.00.000Z',
             _comp: '>=',
           },
           {
-            producedDate: '1900',
+            producedDate: '1900-01-01T00.00.000Z',
             _comp: '<=',
           },
         ],

@@ -138,7 +138,7 @@ const DateInput: React.FC<IDateInput> = ({
           type="number"
           className="form-control"
           onChange={(e) => handleYearChange(e.target.value)}
-          placeholder="Enter a year"
+          placeholder="Enter year"
           value={getYearToDisplay(year)}
           max={9999}
           min={-9999}
