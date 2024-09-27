@@ -185,6 +185,19 @@ export const getLuxISOString = (
 ): string => `${year}-${month}-${date}T00:00:00.000Z`
 
 /**
+ * Returns the month with padded zeros
+ * @param {string} month; the month selected
+ * @returns {string}
+ */
+export const getISOMonth = (month: string): string => month.padStart(2, '0')
+
+/**
+ * Returns the day with padded zeros
+ * @param {string} date; the day selected
+ * @returns {string}
+ */
+export const getISODay = (date: string): string => date.padStart(2, '0')
+/**
  * Checks if date is valid
  * @param {string | Date} date; the day selected
  * @returns {boolean}

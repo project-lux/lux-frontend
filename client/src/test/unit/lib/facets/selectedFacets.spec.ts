@@ -49,7 +49,7 @@ describe('selectedFacets functions', () => {
         ]),
         itemTypeId: new Set(['https://endpoint.yale.edu/data/test-id-1']),
         itemHasDigitalImage: new Set([1]),
-        itemProductionDate: new Set(['1800 to 1900']),
+        itemProductionDate: new Set(['1/1/1800 to 1/1/1900']),
       }
       const criteriaMap = new Map(Object.entries(criteriaMapJson))
       const selected = getSelectedFacets(criteria, 'item')
