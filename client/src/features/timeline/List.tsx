@@ -15,6 +15,7 @@ import ListRow from './ListRow'
 
 interface IProps {
   sortedKeys: Array<string>
+  yearsArray: Array<string>
   transformedData: ITimelinesTransformed
   searchTags: IHalLinks
 }
@@ -31,9 +32,22 @@ const HoverableRow = styled(Row)`
 
 const List: React.FC<IProps> = ({
   sortedKeys,
+  yearsArray,
   transformedData,
   searchTags,
 }) => {
+  console.log(yearsArray)
+  console.log(sortedKeys)
+  // set the years to render based on user filtering
+  const sortedYearsRange: Array<string> = []
+  // eslint-disable-next-line array-callback-return
+  yearsArray.map((y) => {
+    console.log(y)
+    if (sortedKeys.includes(y)) {
+      sortedYearsRange.push(y)
+    }
+  })
+
   const unitLength = 20
   const [displayLength, setDisplayLength] = useState<number>(unitLength)
 
@@ -48,7 +62,7 @@ const List: React.FC<IProps> = ({
   return (
     <React.Fragment>
       <dl>
-        {sortedKeys.slice(0, displayLength).map((year) => (
+        {sortedYearsRange.slice(0, displayLength).map((year) => (
           <div key={year} className="mb-2">
             <HoverableRow>
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -84,7 +98,7 @@ const List: React.FC<IProps> = ({
           </div>
         ))}
       </dl>
-      {displayLength >= unitLength && displayLength < sortedKeys.length && (
+      {displayLength >= unitLength && displayLength < sortedYearsRange.length && (
         <button
           type="button"
           className="btn btn-link show-more"
