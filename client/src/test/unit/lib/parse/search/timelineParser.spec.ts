@@ -2,9 +2,8 @@ import config from '../../../../../config/config'
 import {
   addSearchTagToFacetValues,
   getSearchTagFromFacetedSearch,
-  getYearWithLabel,
-  formatDateJsonSearch,
   getYearFromSingleFacetValue,
+  transformTimelineData,
 } from '../../../../../lib/parse/search/timelineParser'
 import {
   itemProductionDateFacetsTransformed as mockItemFacetsTransformed,
