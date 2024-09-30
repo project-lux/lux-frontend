@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 /* eslint-disable @typescript-eslint/no-explicit-any */
->>>>>>> 4278886 (15 added timeline graph with accessibility features)
 import React from 'react'
 import {
   BarChart,
@@ -12,22 +9,21 @@ import {
   Tooltip,
   Legend,
   ResponsiveContainer,
-  // Brush,
+  Brush,
 } from 'recharts'
 
 import theme from '../../styles/theme'
 import {
   IGraphTimelineData,
-  ITimelineCriteria,
   ITimelinesTransformed,
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
-import { getYearWithLabel } from '../../lib/util/timelineHelper'
+import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 
 import CustomTooltip from './CustomTooltip'
 
 interface IProps {
-  data: ITimelinesTransformed
+  timelineData: ITimelinesTransformed
   searchTags: IHalLinks
   yearsArray: Array<string>
   handleRangeChange: (start: number, end: number) => void
@@ -72,7 +68,7 @@ const Graph: React.FC<IProps> = ({
       ? timelineData[year]
       : { total: 0 }
     return {
-      year: getYearWithLabel(year),
+      year: TimelineParser.getYearWithLabel(year),
       yearKey: year,
       ...barData,
     }
@@ -118,7 +114,7 @@ const Graph: React.FC<IProps> = ({
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
-            fill={theme.color.primary.darkBlue}
+            fill={theme.color.trueBlack}
             name={
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
@@ -127,7 +123,7 @@ const Graph: React.FC<IProps> = ({
           <Bar
             dataKey="itemEncounteredDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.pacificBlue}
+            fill={theme.color.barChartPurple}
             name={
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
@@ -136,7 +132,7 @@ const Graph: React.FC<IProps> = ({
           <Bar
             dataKey="workCreationDate.totalItems"
             stackId="a"
-            fill={theme.color.secondary.cornflowerBlue}
+            fill={theme.color.barChartGreen}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
           />
@@ -149,20 +145,18 @@ const Graph: React.FC<IProps> = ({
             }
             yAxisId="total"
           />
-          {/* <Brush
+          <Brush
             dataKey="year"
             stroke={theme.color.primary.blue}
             startIndex={startIndex}
             endIndex={endIndex}
-            onChange={(e: any) => {
+            data={graphData}
+            onDragEnd={(e: any) => {
               const start = e.startIndex
               const end = e.endIndex
               handleRangeChange(start, end)
             }}
-            onDragEnd={(e: any) => {
-              console.log(e)
-            }}
-          /> */}
+          />
         </BarChart>
       </ResponsiveContainer>
     </div>

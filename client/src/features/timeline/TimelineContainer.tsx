@@ -5,9 +5,9 @@ import { Col, Row } from 'react-bootstrap'
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
 import { ITimelinesTransformed } from '../../types/ITimelines'
+import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 
 import TimelineData from './TimelineData'
 
@@ -63,8 +63,9 @@ const TimelineContainer: React.FC<{
 
   useEffect(() => {
     if (isSuccess && data) {
-      const transformedData = transformTimelineData(data)
-      const sortedKeys = sortTimelineData(transformedData)
+      const timeline = new TimelineParser(data)
+      const transformedData = timeline.getTransformedTimelineData()
+      const sortedKeys = timeline.getSortedTimelineYears()
       setTimelineData(transformedData)
       setSortedTimelineYears(sortedKeys)
     }
@@ -82,38 +83,42 @@ const TimelineContainer: React.FC<{
               <h2>Timeline of Related Objects/Works</h2>
             </Col>
             <Col xs={4} className="d-flex justify-content-end">
-              <StyledDisplaySwitchButton
-                onClick={() =>
-                  setDisplay(display === 'graph' ? 'list' : 'graph')
-                }
-                role="button"
-                aria-label={`View the hierarchy ${
-                  display === 'graph' ? 'list' : 'graph'
-                }`}
-              >
-                <i
-                  className={`bi ${
-                    display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+              <div className="h-50">
+                <StyledDisplaySwitchButton
+                  onClick={() =>
+                    setDisplay(display === 'graph' ? 'list' : 'graph')
+                  }
+                  role="button"
+                  aria-label={`View the hierarchy ${
+                    display === 'graph' ? 'list' : 'graph'
                   }`}
-                  style={{ fontSize: '1.5rem' }}
-                />
-              </StyledDisplaySwitchButton>
-              <StyledDisplaySwitchButton
-                onClick={() => setFullscreen()}
-                role="button"
-                aria-label={
-                  isFullscreen
-                    ? 'Minimize the viewport'
-                    : 'Expand to fullscreen'
-                }
-              >
-                <i
-                  className={`bi ${
-                    isFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
-                  }`}
-                  style={{ fontSize: '1.5rem' }}
-                />
-              </StyledDisplaySwitchButton>
+                >
+                  <i
+                    className={`bi ${
+                      display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+                <StyledDisplaySwitchButton
+                  onClick={() => setFullscreen()}
+                  role="button"
+                  aria-label={
+                    isFullscreen
+                      ? 'Minimize the viewport'
+                      : 'Expand to fullscreen'
+                  }
+                >
+                  <i
+                    className={`bi ${
+                      isFullscreen
+                        ? 'bi-fullscreen-exit'
+                        : 'bi-arrows-fullscreen'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+              </div>
             </Col>
           </Row>
           <TimelineData

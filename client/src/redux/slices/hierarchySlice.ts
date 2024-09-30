@@ -3,8 +3,6 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 import IEntity from '../../types/data/IEntity'
 
-import IEntity from '../../types/data/IEntity'
-
 export interface IHierarchy {
   currentPageLength: number
   previousPageLength: number

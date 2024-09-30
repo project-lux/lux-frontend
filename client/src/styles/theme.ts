@@ -31,6 +31,8 @@ const color = {
   errorFg: 'FC0D1B',
   errorBg: '#FFF0F0',
   trueBlack: '#000',
+  barChartGreen: '#46813B',
+  barChartPurple: '#6b58A6',
 
   // Primary colors defined by POW design
   primary: {

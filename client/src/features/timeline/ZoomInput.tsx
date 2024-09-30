@@ -1,5 +1,3 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
 import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
@@ -105,7 +103,7 @@ const ZoomInput: React.FC<IFacets> = ({
       })
 
       console.log('ref: ', refData)
-      // eslint-disable-next-line no-bitwise
+
       return [
         parseInt(bottom as string, 10) - offset,
         parseInt(top as string, 10) + offset,

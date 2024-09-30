@@ -21,66 +21,6 @@ export const convertYearToISOYear = (year: string): string => {
 }
 
 /**
- * Returns the date in the Javascript accepted ISO string format
- * @param {string} date; the date in LuxISOString format
- * @returns {string}
- */
-// Used by advanced search and getLUXTimestamp
-export const convertLuxISODateToISODate = (date: string): Date => {
-  const { year, month, day } = getISOYearMonthDay(date)
-  const dateObj = new Date(getLuxISOString(year, month, day))
-  return dateObj
-}
-
-/**
- * Returns the date in the Javascript accepted date timestamp
- * @param {string} date; the date in LuxISOString format
- * @returns {string}
- */
-// Used by facets
-export const getLUXTimestamp = (luxISODate: string): number => {
-  const dateObj = convertLuxISODateToISODate(luxISODate)
-  if (isValidDateObject(dateObj)) {
-    return dateObj.getTime()
-  }
-  return 0
-}
-
-// Advanced search functions (for now)
-
-/**
- * Returns the number of days for a selected month and year
- * @param {number} m; the month selected
- * @param {number} y; the year selected
- * @returns {number}
- */
-export const daysInMonth = (m: number, y: number): number => {
-  // m starting index is 1, range is 1-12
-  switch (m) {
-    case 2:
-      return (y % 4 === 0 && y % 100) || y % 400 === 0 ? 29 : 28
-    case 9:
-    case 4:
-    case 6:
-    case 11:
-      return 30
-    default:
-      return 31
-  }
-}
-
-/**
- * Checks if the day selected exists within the month selected and returns true/false
- * @param {number} d; the day selected
- * @param {number} m; the month selected
- * @param {number} y; the year selected
- * @returns {boolean}
- */
-// Used by facets and advanced search
-export const isValid = (d: number, m: number, y: number): boolean =>
-  m >= 1 && m <= 12 && d > 0 && d <= daysInMonth(m, y)
-
-/**
  * Returns the year, month, and day based on what the user has selected
  * @param {string} date; the date string in a loose ISO format
  * @returns {IDateObj}
@@ -138,6 +78,18 @@ export const getLuxISOString = (
 ): string => `${year}-${month}-${date}T00:00:00.000Z`
 
 /**
+ * Returns the date in the Javascript accepted ISO string format
+ * @param {string} date; the date in LuxISOString format
+ * @returns {string}
+ */
+// Used by advanced search and getLUXTimestamp
+export const convertLuxISODateToISODate = (date: string): Date => {
+  const { year, month, day } = getISOYearMonthDay(date)
+  const dateObj = new Date(getLuxISOString(year, month, day))
+  return dateObj
+}
+
+/**
  * Checks if date is valid
  * @param {string | Date} date; the day selected
  * @returns {boolean}
@@ -145,6 +97,54 @@ export const getLuxISOString = (
 // Used by facets
 export const isValidDateObject = (dateObj: string | Date): boolean =>
   dateObj instanceof Date && !isNaN(dateObj.getTime())
+
+/**
+ * Returns the date in the Javascript accepted date timestamp
+ * @param {string} date; the date in LuxISOString format
+ * @returns {string}
+ */
+// Used by facets
+export const getLUXTimestamp = (luxISODate: string): number => {
+  const dateObj = convertLuxISODateToISODate(luxISODate)
+  if (isValidDateObject(dateObj)) {
+    return dateObj.getTime()
+  }
+  return 0
+}
+
+// Advanced search functions (for now)
+
+/**
+ * Returns the number of days for a selected month and year
+ * @param {number} m; the month selected
+ * @param {number} y; the year selected
+ * @returns {number}
+ */
+export const daysInMonth = (m: number, y: number): number => {
+  // m starting index is 1, range is 1-12
+  switch (m) {
+    case 2:
+      return (y % 4 === 0 && y % 100) || y % 400 === 0 ? 29 : 28
+    case 9:
+    case 4:
+    case 6:
+    case 11:
+      return 30
+    default:
+      return 31
+  }
+}
+
+/**
+ * Checks if the day selected exists within the month selected and returns true/false
+ * @param {number} d; the day selected
+ * @param {number} m; the month selected
+ * @param {number} y; the year selected
+ * @returns {boolean}
+ */
+// Used by facets and advanced search
+export const isValid = (d: number, m: number, y: number): boolean =>
+  m >= 1 && m <= 12 && d > 0 && d <= daysInMonth(m, y)
 
 /**
  * Returns the year, month, and day based on what the user has selected or the default values
