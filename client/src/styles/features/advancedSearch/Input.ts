@@ -8,5 +8,5 @@ export const StyledInput = styled.input`
   border: none;
   border: 1px solid ${theme.color.button};
   border-radius: 5px !important;
-  min-width: 100px;
+  min-width: 150px;
 `

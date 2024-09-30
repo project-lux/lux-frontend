@@ -44,7 +44,9 @@ const DayDropdown: React.FC<IDropdown> = ({
     e.preventDefault()
     const target = e.target as HTMLButtonElement
     handleChange(target.id)
-    dispatch(addSelectedHelpText({ value: target.id, scope }))
+    if (scope) {
+      dispatch(addSelectedHelpText({ value: target.id, scope }))
+    }
   }
 
   return (

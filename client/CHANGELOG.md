@@ -14,7 +14,13 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## v1.35.0 - 2024-9-23
+## v1.35.1 - 2024-09-30
+
+### Fixed
+
+- Fixed day input issue with date facets ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
+
+## v1.35.0 - 2024-09-23
 
 ### Added
 
