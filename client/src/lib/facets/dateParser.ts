@@ -278,3 +278,21 @@ export const getDatesFromFacetValues = (
 
   return dates.sort((a: IDateObj, b: IDateObj) => sortByYears(a, b))
 }
+
+/**
+ * Returns the year from the date string provided
+ * @param {string} facetValue; the date provided by the data as a string
+ * @returns {string | null}
+ */
+export const getYearFromSingleFacetValue = (
+  facetValue: string,
+): string | null => {
+  const valueStr = String(facetValue)
+  const date = new Date(valueStr)
+  const utcFullYear = date.getUTCFullYear()
+  if (!isNaN(utcFullYear)) {
+    return utcFullYear.toString()
+  }
+
+  return null
+}
