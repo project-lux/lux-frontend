@@ -2,8 +2,13 @@
 import config from '../../../config/config'
 import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
 import { IOrderedItems, ISearchResults } from '../../../types/ISearchResults'
-import { ITimelinesTransformed } from '../../../types/ITimelines'
+import {
+  ITimelinesTransformed,
+  ITransformedData,
+} from '../../../types/ITimelines'
 import { convertYearToISOYear, getLuxISOString } from '../../facets/dateParser'
+
+import { getCriteriaFromHalLink } from './halLinkHelper'
 
 /**
  * Returns the year from the date string provided
