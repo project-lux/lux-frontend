@@ -1,15 +1,19 @@
 import config from '../../../../../config/config'
 import {
   addSearchTagToFacetValues,
-  getSearchTagFromFacetedSearch,
-  getYearWithLabel,
   formatDateJsonSearch,
+  getSearchTagFromFacetedSearch,
   getYearFromSingleFacetValue,
+  getYearWithLabel,
+  sortTimelineData,
+  transformTimelineData,
 } from '../../../../../lib/parse/search/timelineParser'
 import {
+  timelineResults as mockTimelineResults,
   itemProductionDateFacetsTransformed as mockItemFacetsTransformed,
   itemProductionDateFacets as mockItemFacets,
   productionDateCriteria as mockCriteria,
+  transformedTimelineFacets as mockTransformedResults,
 } from '../../../../data/timelineResults'
 
 describe('timelineParser', () => {
