@@ -19,9 +19,6 @@ const InternalLink: React.FC<ILinkParams> = ({
 }) => (
   <Link
     to={uri}
-    state={{
-      targetName: name,
-    }}
     onClick={() =>
       pushClientEvent('Internal Link', 'Selected', `Internal ${linkCategory}`)
     }

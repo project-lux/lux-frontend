@@ -1,8 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 
-import { aboutPages } from '../../config/cms'
 import StyledAboutSideBar from '../../styles/features/cms/AboutSideBar'
+import { aboutPagesMap } from '../../config/routerPages'
 
 /**
  * Navigation menu on the about page.
@@ -10,14 +10,14 @@ import StyledAboutSideBar from '../../styles/features/cms/AboutSideBar'
  */
 const AboutSideBar: React.FC = () => (
   <StyledAboutSideBar className="sidebar" data-testid="about-page-side-bar">
-    {aboutPages.map((item) => (
+    {Array.from(aboutPagesMap.entries()).map(([key, value]) => (
       <NavLink
-        to={item.route}
-        state={{ targetName: item.label }}
+        to={key}
         className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-        key={item.key}
+        // eslint-disable-next-line react/no-array-index-key
+        key={key}
       >
-        {item.label}
+        {value}
       </NavLink>
     ))}
   </StyledAboutSideBar>
