@@ -35,8 +35,17 @@ const LuxRoutes: React.FC = () => {
   const [prevUrl, setPrevUrl] = useState('')
 
   useEffect(() => {
-    const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
-    const targetName = !isNull(state) ? state.targetName : undefined
+    const currentUrl = `${window.location.protocol}//${
+      window.location.hostname
+    }${pathname === '/' ? '/landing' : pathname}${search}`
+    let targetName = !isNull(state) ? state.targetName : undefined
+    // set targetName to landing page if that is where a user has entered the site
+    targetName =
+      isUndefined(targetName) &&
+      currentUrl ===
+        `${window.location.protocol}//${window.location.hostname}/landing`
+        ? 'LUX Landing Page'
+        : targetName
     // Push a tracking event for a page change
     pushClientPageEvent(
       currentUrl,
@@ -63,6 +72,7 @@ const LuxRoutes: React.FC = () => {
         )}
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/index.html" element={<Landing />} />
 
           {/* BEGIN data/search views */}
