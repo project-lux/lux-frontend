@@ -151,9 +151,6 @@ const Navigation: React.FC<INavigation> = ({
                       isActive ? ' active' : ''
                     }`
                   }
-                  state={{
-                    targetName: 'Results Page',
-                  }}
                   onClick={() => {
                     pushClientEvent(
                       'Results Tab',

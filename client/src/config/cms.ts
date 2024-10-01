@@ -85,40 +85,6 @@ export const contentPageRouteToKey: { [key: string]: PageKey } = {
   'terms-of-use': 'termsOfUse',
 }
 
-export const aboutPages = [
-  {
-    key: 'aboutLux',
-    label: 'About LUX',
-    route: '/content/about-lux',
-  },
-  {
-    key: 'collabHistory',
-    label:
-      "History of Digital Collaboration among Yale's Libraries, Museums, and ITS",
-    route: '/content/collaboration-history',
-  },
-  {
-    key: 'technology',
-    label: 'LUX Technology',
-    route: '/content/technology',
-  },
-  {
-    key: 'sharableOutcomes',
-    label: 'Sharable Outcomes from LUX',
-    route: '/content/sharable-outcomes',
-  },
-  {
-    key: 'whoWeAre',
-    label: 'Who We Are',
-    route: '/content/who-we-are',
-  },
-  {
-    key: 'landAck',
-    label: 'Land Acknowledgement',
-    route: '/content/land-acknowledgement',
-  },
-]
-
 export enum FaqGroupKey {
   NO_GROUP = '0',
   GENERAL_INFO = '1',
