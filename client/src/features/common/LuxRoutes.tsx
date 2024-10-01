@@ -3,6 +3,7 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 import { isNull, isUndefined } from 'lodash'
 
+import { useGetItemQuery } from '../../redux/api/ml_api'
 import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
 import RoutingComponent from '../results/RoutingComponent'
@@ -11,6 +12,9 @@ import ResultsPage from '../results/ResultsPage'
 import Header from '../header/Header'
 import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
+import EntityParser from '../../lib/parse/data/EntityParser'
+import config from '../../config/config'
+import { getRouteNames } from '../../config/routerPages'
 
 import Footer from './Footer'
 
@@ -33,10 +37,38 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search, state } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
+  const routes = getRouteNames()
+  const isNonEntityPage = routes.has(pathname)
+
+  // used to get the name of the page if on an entity page
+  const { isSuccess, data } = useGetItemQuery(
+    {
+      uri: pathname.replace('/view/', ''),
+    },
+    {
+      skip: isNonEntityPage,
+    },
+  )
 
   useEffect(() => {
-    const currentUrl = `${window.location.protocol}//${window.location.hostname}${pathname}${search}`
-    const targetName = !isNull(state) ? state.targetName : undefined
+    // Set the current URL
+    // If the landing page does not have a named path, add it
+    const currentUrl = `${window.location.protocol}//${
+      window.location.hostname
+    }${pathname === '/' ? '/landing' : pathname}${search}`
+    let targetName = !isNull(state) ? state.targetName : undefined
+
+    // set the target name to the correct non-entity page
+    if (isNonEntityPage) {
+      targetName = routes.get(pathname)
+    }
+
+    // set the taget name to the entity page
+    if (isSuccess && data) {
+      const entity = new EntityParser(data)
+      targetName = entity.getPrimaryName(config.aat.primaryName)
+    }
+
     // Push a tracking event for a page change
     pushClientPageEvent(
       currentUrl,
@@ -44,7 +76,16 @@ const LuxRoutes: React.FC = () => {
       !isUndefined(targetName) ? targetName : 'unknown page name',
     )
     setPrevUrl(currentUrl)
-  }, [pathname, prevUrl, search, state])
+  }, [
+    data,
+    isNonEntityPage,
+    isSuccess,
+    pathname,
+    prevUrl,
+    routes,
+    search,
+    state,
+  ])
 
   return (
     <React.Fragment>
@@ -63,6 +104,7 @@ const LuxRoutes: React.FC = () => {
         )}
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/index.html" element={<Landing />} />
 
           {/* BEGIN data/search views */}
