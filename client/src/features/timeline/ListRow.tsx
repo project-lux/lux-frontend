@@ -55,9 +55,6 @@ const ListRow: React.FC<{
               pathname: `/view/results/${tab}`,
               search: `q=${searchQ}&collapseSearch=true`,
             }}
-            state={{
-              targetName: 'Results Page',
-            }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
             }

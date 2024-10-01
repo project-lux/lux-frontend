@@ -84,9 +84,6 @@ const SearchResultRelatedList: React.FC<IProps> = ({
               pathname: `/view/results/${newScope}`,
               search: searchString,
             }}
-            state={{
-              targetName: 'Results Page',
-            }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
             }
