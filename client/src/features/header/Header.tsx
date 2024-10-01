@@ -55,7 +55,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
       >
         <Container fluid className="mx-0">
           <NavLink
-            to="/"
+            to="/landing"
             state={{ targetName: 'LUX Landing Page' }}
             className="navbar-brand"
             onClick={() => handlepushClientEvent('Landing Page')}

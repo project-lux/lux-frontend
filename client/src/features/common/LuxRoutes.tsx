@@ -63,6 +63,7 @@ const LuxRoutes: React.FC = () => {
         )}
         <Routes>
           <Route path="/" element={<Landing />} />
+          <Route path="/landing" element={<Landing />} />
           <Route path="/index.html" element={<Landing />} />
 
           {/* BEGIN data/search views */}
