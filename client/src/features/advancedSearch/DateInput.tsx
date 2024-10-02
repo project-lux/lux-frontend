@@ -19,9 +19,10 @@ import {
   getYearToDisplay,
   isValid,
 } from '../../lib/facets/dateParser'
+import DayDropdown from '../dates/DayDropdown'
+import MonthDropdown from '../dates/MonthDropdown'
 
 import AdvancedSearchDropdown from './Dropdown'
-import DayDropdown from './DayDropdown'
 
 interface IDateInput {
   label: string
@@ -109,7 +110,7 @@ const DateInput: React.FC<IDateInput> = ({
         <label htmlFor="month-selection" hidden>
           Month
         </label>
-        <AdvancedSearchDropdown
+        <MonthDropdown
           options={numbersToMonths}
           handleChange={handleMonthChange}
           className="monthSelection me-2"
