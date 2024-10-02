@@ -32,8 +32,8 @@ import {
   getISODay,
 } from '../../lib/facets/dateParser'
 import { numbersToMonths } from '../../config/advancedSearch/inputTypes'
-import DayDropdown from '../advancedSearch/DayDropdown'
-import AdvancedSearchDropdown from '../advancedSearch/Dropdown'
+import DayDropdown from '../dates/DayDropdown'
+import MonthDropdown from '../dates/MonthDropdown'
 
 import DateSlider from './DateSlider'
 
@@ -295,7 +295,7 @@ const FullDateInput: React.FC<IFacets> = ({
           <label htmlFor={`${earliestDateId}-month-selection`} hidden>
             Earliest Month
           </label>
-          <AdvancedSearchDropdown
+          <MonthDropdown
             options={numbersToMonths}
             handleChange={handleEarliestMonthChange}
             className="monthSelection me-2"
@@ -343,7 +343,7 @@ const FullDateInput: React.FC<IFacets> = ({
           <label htmlFor={`${latestDateId}-month-selection`} hidden>
             Latest Month
           </label>
-          <AdvancedSearchDropdown
+          <MonthDropdown
             options={numbersToMonths}
             handleChange={handleLatestMonthChange}
             className="monthSelection me-2"
