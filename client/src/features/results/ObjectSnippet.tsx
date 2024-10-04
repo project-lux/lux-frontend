@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any, camelcase, @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import { Card, Col } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetCollectionQuery, useGetItemQuery } from '../../redux/api/ml_api'
@@ -112,25 +112,29 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                 {types.length > 0 && <TypeList types={types} />}
                 {collectionIsLoading && <p>Loading...</p>}
                 {collectionIsSuccess && collectionData.length > 0 && (
-                  <React.Fragment>
-                    <StyledDt>Collection</StyledDt>
-                    <StyledDd data-testid="object-snippet-collections">
-                      <RecordLink
-                        url={collectionData[0]}
-                        linkCategory="Results Snippet"
-                      />
-                      {collectionData.length > 1 && '...'}
-                    </StyledDd>
-                  </React.Fragment>
+                  <Row>
+                    <Col>
+                      <StyledDt>Collection</StyledDt>
+                      <StyledDd data-testid="object-snippet-collections">
+                        <RecordLink
+                          url={collectionData[0]}
+                          linkCategory="Results Snippet"
+                        />
+                        {collectionData.length > 1 && '...'}
+                      </StyledDd>
+                    </Col>
+                  </Row>
                 )}
                 {callNumber !== null && (
-                  <React.Fragment>
-                    <StyledDt>Identifiers</StyledDt>
-                    <StyledDd data-testid="object-snippet-identifiers">
-                      {callNumber.identifier}
-                      {identifiers.length > 1 && '...'}
-                    </StyledDd>
-                  </React.Fragment>
+                  <Row>
+                    <Col>
+                      <StyledDt>Identifiers</StyledDt>
+                      <StyledDd data-testid="object-snippet-identifiers">
+                        {callNumber.identifier}
+                        {identifiers.length > 1 && '...'}
+                      </StyledDd>
+                    </Col>
+                  </Row>
                 )}
               </StyledDl>
               {object.json.member_of && (

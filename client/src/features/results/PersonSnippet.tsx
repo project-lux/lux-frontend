@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Col } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
 import Dates from '../common/Dates'
@@ -86,26 +86,30 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledSnippetTitle>
               <StyledDl>
                 {occupations.length > 0 && (
-                  <React.Fragment>
-                    <StyledDt>Occupations/Roles</StyledDt>
-                    <StyledDd data-testid="person-group-result-snippet-occupation">
-                      <RecordLink
-                        url={occupations[0]}
-                        linkCategory="Results Snippet"
-                      />
-                    </StyledDd>
-                  </React.Fragment>
+                  <Row>
+                    <Col>
+                      <StyledDt>Occupations/Roles</StyledDt>
+                      <StyledDd data-testid="person-group-result-snippet-occupation">
+                        <RecordLink
+                          url={occupations[0]}
+                          linkCategory="Results Snippet"
+                        />
+                      </StyledDd>
+                    </Col>
+                  </Row>
                 )}
                 {nationalities.length > 0 && (
-                  <React.Fragment>
-                    <StyledDt>Nationalities</StyledDt>
-                    <StyledDd data-testid="person-group-result-snippet-nationality">
-                      <RecordLink
-                        url={nationalities[0]}
-                        linkCategory="Results Snippet"
-                      />
-                    </StyledDd>
-                  </React.Fragment>
+                  <Row>
+                    <Col>
+                      <StyledDt>Nationalities</StyledDt>
+                      <StyledDd data-testid="person-group-result-snippet-nationality">
+                        <RecordLink
+                          url={nationalities[0]}
+                          linkCategory="Results Snippet"
+                        />
+                      </StyledDd>
+                    </Col>
+                  </Row>
                 )}
               </StyledDl>
             </div>
