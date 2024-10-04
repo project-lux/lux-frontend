@@ -442,7 +442,6 @@ export default class PersonAndGroupParser extends EntityParser {
           type = filteredTypes.length > 0 ? filteredTypes[0] : ''
         }
 
-        console.log(type)
         if (carried.timespan) {
           startDate = PersonAndGroupParser.transformYear(
             carried.timespan.begin_of_the_begin,
