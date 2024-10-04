@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { Col, Row } from 'react-bootstrap'
 
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledDd from '../../styles/shared/DescriptionDetail'
@@ -22,20 +23,24 @@ const ProductionSnippet: React.FC<IProducedBy> = ({
 }) => (
   <React.Fragment>
     {agent !== null && (
-      <React.Fragment>
-        <StyledDt>{label}</StyledDt>
-        <StyledDd data-testid="production-snippet-agent-data">
-          <RecordLink url={agent} /> {date !== null && `in ${date}`}
-        </StyledDd>
-      </React.Fragment>
+      <Row>
+        <Col>
+          <StyledDt>{label}</StyledDt>
+          <StyledDd data-testid="production-snippet-agent-data">
+            <RecordLink url={agent} /> {date !== null && `in ${date}`}
+          </StyledDd>
+        </Col>
+      </Row>
     )}
     {location !== undefined && location !== null && (
-      <React.Fragment>
-        <StyledDt>{locationLabel || 'Location'}</StyledDt>
-        <StyledDd data-testid="production-snippet-location-data">
-          <RecordLink url={location} />
-        </StyledDd>
-      </React.Fragment>
+      <Row>
+        <Col>
+          <StyledDt>{locationLabel || 'Location'}</StyledDt>
+          <StyledDd data-testid="production-snippet-location-data">
+            <RecordLink url={location} />
+          </StyledDd>
+        </Col>
+      </Row>
     )}
   </React.Fragment>
 )

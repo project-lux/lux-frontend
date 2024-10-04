@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Card, Col } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 
 import WorkParser from '../../lib/parse/data/WorkParser'
 import StyledHr from '../../styles/shared/Hr'
@@ -55,40 +55,48 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               <ProductionSnippet agent={agent} date={date} label="Creator" />
               {types.length > 0 && <TypeList types={types} />}
               {imprint.length > 0 && (
-                <React.Fragment>
-                  <StyledDt>Imprint</StyledDt>
-                  <StyledDd data-testid="work-snippet-imprint-statement">
-                    {imprint[0]}
-                  </StyledDd>
-                </React.Fragment>
+                <Row>
+                  <Col>
+                    <StyledDt>Imprint</StyledDt>
+                    <StyledDd data-testid="work-snippet-imprint-statement">
+                      {imprint[0]}
+                    </StyledDd>
+                  </Col>
+                </Row>
               )}
               {languages.length > 0 && (
-                <React.Fragment>
-                  <StyledDt>Languages</StyledDt>
-                  <StyledDd data-testid="work-snippet-language">
-                    <RecordLink
-                      url={languages[0]}
-                      linkCategory="Results Snippet"
-                    />
-                  </StyledDd>
-                </React.Fragment>
+                <Row>
+                  <Col>
+                    <StyledDt>Languages</StyledDt>
+                    <StyledDd data-testid="work-snippet-language">
+                      <RecordLink
+                        url={languages[0]}
+                        linkCategory="Results Snippet"
+                      />
+                    </StyledDd>
+                  </Col>
+                </Row>
               )}
               {languageNotes.length > 0 && (
-                <React.Fragment>
-                  <StyledDt>Related Languages</StyledDt>
-                  <StyledDd data-testid="work-snippet-language-notes">
-                    {languageNotes[0]}
-                  </StyledDd>
-                </React.Fragment>
+                <Row>
+                  <Col>
+                    <StyledDt>Related Languages</StyledDt>
+                    <StyledDd data-testid="work-snippet-language-notes">
+                      {languageNotes[0]}
+                    </StyledDd>
+                  </Col>
+                </Row>
               )}
               {identifiers.length > 0 && (
-                <React.Fragment>
-                  <StyledDt>Identifiers</StyledDt>
-                  <StyledDd data-testid="work-snippet-identifiers">
-                    {identifiers[0].identifier}
-                    {identifiers.length > 1 && '...'}
-                  </StyledDd>
-                </React.Fragment>
+                <Row>
+                  <Col>
+                    <StyledDt>Identifiers</StyledDt>
+                    <StyledDd data-testid="work-snippet-identifiers">
+                      {identifiers[0].identifier}
+                      {identifiers.length > 1 && '...'}
+                    </StyledDd>
+                  </Col>
+                </Row>
               )}
             </div>
           </div>
