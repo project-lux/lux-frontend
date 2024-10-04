@@ -152,25 +152,16 @@ export const getYearWithLabel = (year: string): string =>
   year.includes('-') ? `${year.substring(1)} B.C.E.` : `${year} C.E.`
 
 export const formatDateJsonSearch = (
-  date: string,
+  year: string,
   searchTerm: string,
   criteria: any,
 ): string => {
-  // Add 1 to the given year to create a range of that given year from start to finish
-  const laterDate = parseInt(date, 10)
-  // Subtract 1 to the given year to create a range of that given year from start to finish
-  const earlierDate = parseInt(date, 10)
-
   const earliestISODate = getLuxISOString(
-    convertYearToISOYear(earlierDate.toString()),
-    '12',
-    '31',
-  )
-  const latestISODate = getLuxISOString(
-    convertYearToISOYear(laterDate.toString()),
+    convertYearToISOYear(year),
     '01',
     '01',
   )
+  const latestISODate = getLuxISOString(convertYearToISOYear(year), '12', '31')
 
   return JSON.stringify({
     AND: [
