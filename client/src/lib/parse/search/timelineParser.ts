@@ -3,6 +3,7 @@ import config from '../../../config/config'
 import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
 import { IOrderedItems, ISearchResults } from '../../../types/ISearchResults'
 import { ITimelinesTransformed } from '../../../types/ITimelines'
+import { convertYearToISOYear, getLuxISOString } from '../../facets/dateParser'
 
 import { getCriteriaFromHalLink } from './halLinkHelper'
 
@@ -151,20 +152,22 @@ export const getYearWithLabel = (year: string): string =>
   year.includes('-') ? `${year.substring(1)} B.C.E.` : `${year} C.E.`
 
 export const formatDateJsonSearch = (
-  date: string,
+  year: string,
   searchTerm: string,
   criteria: any,
 ): string => {
-  // Add 1 to the given year to create a range of that given year from start to finish
-  const laterDate = parseInt(date, 10) + 1
-  // Subtract 1 to the given year to create a range of that given year from start to finish
-  const earlierDate = parseInt(date, 10) - 1
+  const earliestISODate = getLuxISOString(
+    convertYearToISOYear(year),
+    '01',
+    '01',
+  )
+  const latestISODate = getLuxISOString(convertYearToISOYear(year), '12', '31')
 
   return JSON.stringify({
     AND: [
       criteria,
-      { [searchTerm]: laterDate.toString(), _comp: '<' },
-      { [searchTerm]: earlierDate.toString(), _comp: '>' },
+      { [searchTerm]: latestISODate, _comp: '<=' },
+      { [searchTerm]: earliestISODate.toString(), _comp: '>=' },
     ],
   })
 }

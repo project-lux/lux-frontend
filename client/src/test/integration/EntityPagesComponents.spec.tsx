@@ -148,7 +148,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('1983-itemProductionDate-search-link')
       expect(link).toHaveAttribute(
         'href',
-        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1984","_comp":"<"},{"producedDate":"1982","_comp":">"}]}&collapseSearch=true`,
+        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1984-01-01T00:00:00.000Z","_comp":"<="},{"producedDate":"1983-01-01T00:00:00.000Z","_comp":">="}]}&collapseSearch=true`,
       )
     })
   })

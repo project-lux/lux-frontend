@@ -15,7 +15,13 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## v1.35.1 - 2024-09-30
+## v1.35.2 - 2024-10-4
+
+### Fixed
+
+- Fixed timeline links to support full dates ([#39](https://github.com/project-lux/lux-frontend/issues/39)).
+
+## v1.35.1 - 2024-09-27
 
 ### Fixed
 
