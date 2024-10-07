@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added keyboard focus when navigating hierarchy ([#293](https://github.com/project-lux/lux-frontend/issues/293)).
 - Added access statement to works pages ([#364](https://github.com/project-lux/lux-frontend/issues/364)).
+- Added support for 404 pages ([#366](https://github.com/project-lux/lux-frontend/issues/366)).
 
 ### Changed
 
@@ -17,6 +18,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed layout of snippets if data fails to render ([#375](https://github.com/project-lux/lux-frontend/issues/375)).
 - Fixed professional activities rendering on people and group pages ([#321](https://github.com/project-lux/lux-frontend/issues/321)).
+- Fixed results estimates when switching between simple and advanced search ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
 
 ## v1.35.2 - 2024-10-4
 
