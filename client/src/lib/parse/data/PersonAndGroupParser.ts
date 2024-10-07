@@ -432,6 +432,8 @@ export default class PersonAndGroupParser extends EntityParser {
                     return cl.id
                   }
                 }
+              } else {
+                return cl.id
               }
               return null
             })

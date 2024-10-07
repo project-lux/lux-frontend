@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
@@ -45,13 +46,15 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
             </StyledSnippetTitle>
             <StyledDl>
               {descriptions.length > 0 && (
-                <React.Fragment>
-                  <StyledDt>Descriptions</StyledDt>
-                  <StyledDd data-testid="concept-snippet-description">{`${descriptions[0].slice(
-                    0,
-                    200,
-                  )}...`}</StyledDd>
-                </React.Fragment>
+                <Row>
+                  <Col>
+                    <StyledDt>Descriptions</StyledDt>
+                    <StyledDd data-testid="concept-snippet-description">{`${descriptions[0].slice(
+                      0,
+                      200,
+                    )}...`}</StyledDd>
+                  </Col>
+                </Row>
               )}
             </StyledDl>
             <GenericBreadcrumbHierarchy

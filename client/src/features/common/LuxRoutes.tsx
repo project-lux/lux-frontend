@@ -74,7 +74,7 @@ const LuxRoutes: React.FC = () => {
           <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
           {/* END CMS pages */}
 
-          <Route element={<ErrorPage code={404} />} />
+          <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>
       </div>
       <Footer />

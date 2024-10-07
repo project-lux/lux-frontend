@@ -14,9 +14,8 @@ import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/fetchTimeline'
 // import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
-import { IEstimateItems } from '../../types/ISearchEstimates'
-import { getSearchEstimates } from '../../lib/util/fetchSearchEstimates'
 import { getItems } from '../../lib/util/fetchItems'
+import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -100,17 +99,6 @@ export const mlApi: any = createApi({
         return getTimelines(hrefs)
       },
     }),
-    // getMultipleRelationships: builder.query<
-    //   any,
-    //   { halLinks: Array<string>; page: number }
-    // >({
-    //   queryFn({ halLinks, page }) {
-    //     const promises = halLinks.map((link) =>
-    //       fetchHalLinkSearchRequest(link, page),
-    //     )
-    //     return Promise.all(promises).then((result) => ({ data: result }))
-    //   },
-    // }),
     getCollection: builder.query<any, IEntity>({
       queryFn(entity) {
         return getCollections(entity)
@@ -154,28 +142,30 @@ export const mlApi: any = createApi({
         return null
       },
     }),
-    // Used for getting the estimates of all of the tabs in a simple search
-    getManyEstimates: builder.query<any, { tabParams: Record<string, string> }>(
+    getEstimates: builder.query<
+      any,
       {
-        queryFn({ tabParams }) {
-          return getSearchEstimates(tabParams)
-        },
-      },
-    ),
-    // Used for getting the estimate of a single tab in an advanced search
-    getSingleEstimate: builder.query<
-      IEstimateItems,
-      { params: string; tab: string }
+        searchType: string
+        facetRequest: boolean
+        qt: string
+        params: Record<string, string> | string
+        isSwitchToSimpleSearch: boolean
+      }
     >({
-      query: ({ params, tab }) => {
-        const urlParams = new URLSearchParams()
-        urlParams.set('q', params)
-        return {
-          url: `api/search-estimate/${
-            searchScope[tab]
-          }?${urlParams.toString()}`,
-          method: 'GET',
-        }
+      queryFn({
+        searchType,
+        facetRequest,
+        qt,
+        params,
+        isSwitchToSimpleSearch,
+      }) {
+        return getEstimatesRequests(
+          searchType,
+          facetRequest,
+          params,
+          qt,
+          isSwitchToSimpleSearch,
+        )
       },
     }),
   }),
@@ -187,12 +177,10 @@ export const {
   useGetNameQuery,
   useGetSearchRelationshipQuery,
   useGetTimelineQuery,
-  // useGetMultipleRelationshipsQuery,
   useGetCollectionQuery,
   useGetAdvancedSearchConfigQuery,
   useGetStatsQuery,
   useSearchQuery,
   useGetRelatedListsQuery,
-  useGetManyEstimatesQuery,
-  useGetSingleEstimateQuery,
+  useGetEstimatesQuery,
 } = mlApi

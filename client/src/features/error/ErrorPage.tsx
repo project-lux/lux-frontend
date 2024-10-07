@@ -27,7 +27,7 @@ const ErrorPage: React.FC<IProps> = ({ code }) => {
   }, [])
 
   return (
-    <StyledErrorPage className="row mx-0">
+    <StyledErrorPage className="row mx-0" data-testid="error-page">
       <BorderedDiv className="col section">
         <Row>
           <Col xs={12}>

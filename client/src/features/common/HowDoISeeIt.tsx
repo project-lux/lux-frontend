@@ -1,23 +1,32 @@
 import React from 'react'
 
 import { access } from '../../config/tooltips'
+import EntityParser from '../../lib/parse/data/EntityParser'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import StyledDataRow from '../../styles/shared/DataRow'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 import IEntity from '../../types/data/IEntity'
-import ExternalLink from '../common/ExternalLink'
-import NotesContainer from '../common/NotesContainer'
+import StyledDl from '../../styles/shared/DescriptionList'
+import { searchTypes } from '../../config/searchTypes'
+
+import ExternalLink from './ExternalLink'
+import NotesContainer from './NotesContainer'
 
 interface IProps {
-  entity: IEntity
+  data: IEntity
 }
 
-const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
-  const object = new ObjectParser(entity)
-  const accessStatement = object.getAccessStatement()
-  const links = [...object.getAllSiteLinks(), ...object.getHowDoISeeItLinks()]
-  const accessPoints = object.getAccessPoints()
+const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
+  const entity = new EntityParser(data)
+  const accessStatement = entity.getAccessStatement()
+  const links = [...entity.getAllSiteLinks(), ...entity.getHowDoISeeItLinks()]
+  let accessPoints: Array<{ content: string; id: string }> = []
+
+  if (searchTypes.objects.includes(entity.json.type)) {
+    const object = new ObjectParser(data)
+    accessPoints = object.getAccessPoints()
+  }
 
   // Return null if there is no data to display
   if (
@@ -29,22 +38,20 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
   }
 
   return (
-    <StyledDataRow className="row">
+    <StyledDataRow className="row" data-testid="how-do-i-see-it">
       <div className="col-12">
         <h2>How do I see it?</h2>
       </div>
-      <dl data-testid="object-how-do-i-see-it">
-        {accessStatement.length > 0 && (
-          <React.Fragment>
-            <NotesContainer
-              notes={{ Access: accessStatement }}
-              id="object-access-statement"
-              expandColumns
-              labelTooltipText={access}
-            />
-          </React.Fragment>
-        )}
-      </dl>
+      {accessStatement.length > 0 && (
+        <StyledDl data-testid="access-statement-dl mb-0">
+          <NotesContainer
+            notes={{ Access: accessStatement }}
+            id="access-statement"
+            expandColumns
+            labelTooltipText={access}
+          />
+        </StyledDl>
+      )}
       {accessPoints.length > 0 &&
         accessPoints.map((accessPoint) => (
           <ExternalLink
@@ -61,7 +68,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ entity }) => {
           key={link.link}
           className="col-12"
           style={{ marginBottom: theme.spacing.verticalItemDoubleSpacing }}
-          data-testid="object-site-links"
+          data-testid="site-links"
         >
           <ExternalLink
             url={link.link}

@@ -1,16 +1,67 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { searchScope } from '../../../config/searchTypes'
 import { IEstimateItems } from '../../../types/ISearchEstimates'
+import { ISearchResultsErrorData } from '../../../types/ISearchResults'
+import { fetchSearchEstimates } from '../../util/fetchSearchEstimates'
 
 import { getScopeFromHalLink } from './halLinkHelper'
 
+export const isAdvancedSearch = (searchType: string): boolean =>
+  searchType === 'advanced'
+
+export const isSimpleSearch = (searchType: string): boolean =>
+  searchType === 'simple'
+
+export const getEstimatesRequests = (
+  searchType: string,
+  facetRequest: boolean,
+  params: Record<string, string> | string,
+  qt: string,
+  isSwitchToSimpleSearch: boolean,
+): any => {
+  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
+    return getAdvancedSearchEstimates(params as string, qt)
+  }
+
+  return getSimpleSearchEstimates(params as Record<string, string>)
+}
+
+export const getSimpleSearchEstimates = (
+  params: Record<string, string>,
+): Promise<
+  Record<string, any>[] | { data: Record<string, string | number> }
+> => {
+  const promises = Object.keys(params).map((key: string) => {
+    const urlParams = new URLSearchParams()
+    urlParams.set('q', params[key])
+    return fetchSearchEstimates(urlParams.toString(), key)
+  })
+  return Promise.all(promises).then((result) => ({
+    data: transformSimpleSearchEstimates(result),
+  }))
+}
+
+export const getAdvancedSearchEstimates = (
+  params: string,
+  qt: string,
+): Promise<
+  Record<string, string | number> | { data: Record<string, string | number> }
+> => {
+  const urlParams = new URLSearchParams()
+  urlParams.set('q', params)
+  const promises = fetchSearchEstimates(urlParams.toString(), qt)
+  return promises.then((est) => ({
+    data: transformAdvancedSearchEstimates(est, qt),
+  }))
+}
+
 export const transformAdvancedSearchEstimates = (
-  isSuccess: boolean,
-  data: IEstimateItems | undefined,
+  data: { [key: string]: IEstimateItems } | undefined,
   tab: string,
 ): Record<string, number | string> => {
   const estimates: Record<string, number | string> = {}
-  if (isSuccess && data) {
-    const { totalItems } = data
+  if (data && data.hasOwnProperty(tab)) {
+    const { totalItems } = data[tab]
     // assign the current tab its estimate from the data returned
     estimates[tab] = totalItems
     for (const key of Object.keys(searchScope)) {
@@ -23,14 +74,21 @@ export const transformAdvancedSearchEstimates = (
 }
 
 export const transformSimpleSearchEstimates = (
-  isSuccess: boolean,
-  data: Array<Record<string, IEstimateItems>> | undefined,
-): Record<string, number> => {
-  const estimates: Record<string, number> = {}
-  if (isSuccess && data) {
+  data:
+    | Array<Record<string, IEstimateItems | ISearchResultsErrorData>>
+    | undefined,
+): Record<string, number | string> => {
+  const estimates: Record<string, number | string> = {}
+  if (data && data.length > 0) {
     for (const d of data) {
       Object.keys(d).map((key: string) => {
-        estimates[key] = d[key].totalItems
+        // Check if results have an error
+        if (d[key].hasOwnProperty('errorMessage')) {
+          estimates[key] = '-'
+        } else {
+          const estimatesResults = d[key] as IEstimateItems
+          estimates[key] = estimatesResults.totalItems
+        }
         return null
       })
     }

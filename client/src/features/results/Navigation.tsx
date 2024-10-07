@@ -2,14 +2,10 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
-import { isNull } from 'lodash'
 
-import {
-  useGetManyEstimatesQuery,
-  useGetSingleEstimateQuery,
-} from '../../redux/api/ml_api'
+import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { searchScope } from '../../config/searchTypes'
 import StyledNavLi from '../../styles/features/results/NavLi'
@@ -17,128 +13,97 @@ import StyledLink from '../../styles/features/results/Link'
 import StyledNavbar from '../../styles/features/results/Navbar'
 import LoadingSpinner from '../common/LoadingSpinner'
 import {
+  isAdvancedSearch,
+  isSimpleSearch,
   redirectToTabWithResults,
-  transformAdvancedSearchEstimates,
-  transformSimpleSearchEstimates,
 } from '../../lib/parse/search/estimatesParser'
-import {
-  getFacetParamsForSimpleSearchEstimatesRequest,
-  getFacetParamsForAdvancedSearchEstimatesRequest,
-} from '../../lib/util/params'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
 import { tabToLinkLabel } from '../../config/results'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import {
+  getFacetParamsForAdvancedSearchEstimatesRequest,
+  getFacetParamsForSimpleSearchEstimatesRequest,
+} from '../../lib/util/params'
 
 interface INavigation {
   urlParams: URLSearchParams
   criteria: any
+  search: string
+  isSwitchToSimpleSearch: boolean
 }
 
-const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
+const getUrlState = (
+  urlParams: URLSearchParams,
+  currentTab: string,
+): {
+  qt: string
+  facetRequest: boolean
+} => {
+  const qt = urlParams.get('qt') || currentTab
+  const facetRequest = urlParams.get('facetRequest') === 'true'
+  return {
+    qt,
+    facetRequest,
+  }
+}
+
+const Navigation: React.FC<INavigation> = ({
+  urlParams,
+  criteria,
+  search,
+  isSwitchToSimpleSearch,
+}) => {
+  const currentSearchState = useAppSelector(
+    (state) => state.currentSearch as ICurrentSearchState,
+  )
+
   const dispatch = useAppDispatch()
 
   const navigate = useNavigate()
-  const { pathname, search, state } = useLocation() as {
+  const { pathname, state } = useLocation() as {
     pathname: string
-    search: string
     state: { [key: string]: boolean }
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const queryTab = urlParams.get('qt') || tab
-  const isAdvancedSearch = !urlParams.has('sq')
-  const isSimpleSearch = !isAdvancedSearch
+  const { qt, facetRequest } = getUrlState(urlParams, tab)
+  const { searchType } = currentSearchState
+  const advancedSearch = isAdvancedSearch(searchType)
+  const simpleSearch = isSimpleSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
-  const facetsRequest = urlParams.get('facetRequest')
-  const simpleSearchParam = urlParams.has('sq') ? urlParams.get('sq') : ''
+  // const isSwitchToSimpleSearch = urlParams.get('fromAdvanced') === 'true'
 
   // Simple search estimates request
   const params =
-    isSimpleSearch && simpleSearchParam !== ''
+    simpleSearch && !isSwitchToSimpleSearch
       ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
-      : getFacetParamsForAdvancedSearchEstimatesRequest(
-          criteria,
-          urlParams,
-          queryTab,
-        )
+      : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
 
-  const {
-    data: simpleSearchData,
-    isSuccess: simpleSearchIsSuccess,
-    isFetching: simpleSearchIsFetching,
-    isLoading: simpleSearchIsLoading,
-    isError: simpleSearchIsError,
-  } = useGetManyEstimatesQuery(
-    {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      tabParams: params as Record<string, string>,
-    },
-    {
-      skip: isAdvancedSearch || isNull(params) || simpleSearchParam === '',
-    },
-  )
+  const { data, isSuccess, isFetching, isLoading, isError } =
+    useGetEstimatesQuery(
+      {
+        searchType,
+        facetRequest,
+        qt,
+        params,
+        isSwitchToSimpleSearch,
+      },
+      {
+        skip: !hasCriteria,
+      },
+    )
 
-  // Advanced search estimate request
-  const {
-    data: advancedSearchData,
-    isSuccess: advancedSearchIsSuccess,
-    isLoading: advancedSearchIsLoading,
-    isError: advancedSearchIsError,
-  } = useGetSingleEstimateQuery(
-    {
-      params: params as string,
-      tab: queryTab,
-    },
-    {
-      skip: (isSimpleSearch && !facetsRequest) || !hasCriteria,
-    },
-  )
+  // set to estimates or set empty if no results
+  const estimates: Record<string, number | string> =
+    isSuccess && data ? data : {}
 
-  let estimates: Record<string, number | string> = {}
   // If there are any errors retrieving the endpoints set estimates to '-'
-  if (
-    (isSimpleSearch && simpleSearchIsError) ||
-    (isAdvancedSearch && advancedSearchIsError) ||
-    !hasCriteria
-  ) {
+  if (isError || !hasCriteria) {
     Object.keys(searchScope).map((scope) => {
       estimates[scope] = '-'
       return null
     })
-  }
-
-  // Get the estimates for a simple search if there are no errors
-  if (isSimpleSearch && !simpleSearchIsError) {
-    estimates = transformSimpleSearchEstimates(
-      simpleSearchIsSuccess,
-      simpleSearchData,
-    )
-  }
-
-  // Get the estimates for an advanced search if there are no errors
-  if (isAdvancedSearch && hasCriteria && !advancedSearchIsError) {
-    estimates = transformAdvancedSearchEstimates(
-      advancedSearchIsSuccess,
-      advancedSearchData,
-      queryTab,
-    )
-  }
-
-  // If performing a simple search, check if the current tab has results
-  if (isSimpleSearch && !simpleSearchIsError) {
-    if (estimates[tab] === 0) {
-      const tabWithResults = redirectToTabWithResults(
-        simpleSearchData,
-        state,
-        tab,
-      )
-      if (tabWithResults !== null) {
-        navigate({
-          pathname: pathname.replace(tab, tabWithResults),
-          search: search.toString(),
-        })
-      }
-    }
   }
 
   if (Object.keys(estimates).length === 0) {
@@ -146,6 +111,19 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
       estimates[key] = '-'
       return null
     })
+  }
+
+  // If performing a simple search, check if the current tab has results
+  if (simpleSearch && !isError) {
+    if (estimates[tab] === 0) {
+      const tabWithResults = redirectToTabWithResults(data, state, tab)
+      if (tabWithResults !== null) {
+        navigate({
+          pathname: pathname.replace(tab, tabWithResults),
+          search,
+        })
+      }
+    }
   }
 
   return (
@@ -158,17 +136,18 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
               <StyledNavLi
                 key={key}
                 className={`me-4 pt-3 ${
-                  key === tab && isAdvancedSearch ? 'active' : ''
+                  key === tab && advancedSearch ? 'active' : ''
                 }`}
               >
                 <StyledLink
                   to={`/view/results/${key}?${
-                    isAdvancedSearch && !urlParams.has('qt') && key !== queryTab
+                    (advancedSearch && !urlParams.has('qt') && key !== qt) ||
+                    isSwitchToSimpleSearch
                       ? `${urlParams.toString()}&qt=${tab}`
                       : urlParams.toString()
                   }`}
                   className={({ isActive }) =>
-                    `link ${isAdvancedSearch ? 'advanced' : 'simple'}${
+                    `link ${advancedSearch ? 'advanced' : 'simple'}${
                       isActive ? ' active' : ''
                     }`
                   }
@@ -181,7 +160,7 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                       'Selected',
                       tabToLinkLabel[key],
                     )
-                    if (isAdvancedSearch && key !== tab) {
+                    if (advancedSearch && key !== tab) {
                       dispatch(resetState())
                       dispatch(resetHelpTextState())
                     }
@@ -189,9 +168,9 @@ const Navigation: React.FC<INavigation> = ({ urlParams, criteria }) => {
                   data-testid={`${key}-results-tab-button`}
                 >
                   {tabToLinkLabel[key]} (
-                  {(isSimpleSearch && simpleSearchIsLoading) ||
-                  simpleSearchIsFetching ||
-                  (isAdvancedSearch && advancedSearchIsLoading) ? (
+                  {(simpleSearch && isLoading) ||
+                  isFetching ||
+                  (advancedSearch && isLoading) ? (
                     <LoadingSpinner size="sm" />
                   ) : (
                     estimates[key]

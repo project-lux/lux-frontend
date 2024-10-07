@@ -12,7 +12,7 @@ import {
   addData,
   removeData,
   IArchiveHierarchy,
-} from '../../redux/slices/hierarchySlice'
+} from '../../redux/slices/archiveHierarchySlice'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'

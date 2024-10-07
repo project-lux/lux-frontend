@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
+import { Alert } from 'react-bootstrap'
 
 import useTitle from '../../lib/hooks/useTitle'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
@@ -8,6 +9,8 @@ import { useSearchQuery } from '../../redux/api/ml_api'
 import { ISearchResponse } from '../../types/ISearchResponse'
 import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
+import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
+import { tabToLinkLabel } from '../../config/results'
 
 import ConceptResults from './ConceptResults'
 // import ErrorPage from './ErrorPage'
@@ -59,11 +62,12 @@ const ResultsPage: React.FC = () => {
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
   const rnd = urlParams.get('rnd') || undefined
-
+  const isSwitchToSimpleSearch =
+    urlParams.get('fromAdvanced') === 'true' || false
   const facetSearchString = urlParams.get(`${paramPrefix}f`) || null
-  let actualSearchString = ''
+  let searchStringWithFacets = ''
 
-  actualSearchString = facetSearchString
+  searchStringWithFacets = facetSearchString
     ? `{"AND":[${queryString},${facetSearchString}]}`
     : queryString
 
@@ -82,7 +86,7 @@ const ResultsPage: React.FC = () => {
   */
   const searchResponse = useSearchQuery(
     {
-      q: actualSearchString,
+      q: searchStringWithFacets,
       page,
       tab,
       sort,
@@ -90,7 +94,11 @@ const ResultsPage: React.FC = () => {
       rnd,
     },
     {
-      skip: actualSearchString === '' || fromLandingPage || tab !== queryTab,
+      skip:
+        searchStringWithFacets === '' ||
+        fromLandingPage ||
+        tab !== queryTab ||
+        (isSwitchToSimpleSearch && tab !== queryTab),
     },
   )
 
@@ -104,9 +112,24 @@ const ResultsPage: React.FC = () => {
       <Navigation
         urlParams={urlParams}
         criteria={queryString !== '' ? JSON.parse(queryString) : null}
+        search={search}
+        isSwitchToSimpleSearch={isSwitchToSimpleSearch}
       />
       <div className="mx-3">
-        {getScopedResultsComponent(tab, searchResponse)}
+        {isSwitchToSimpleSearch && tab !== queryTab ? (
+          <StyledEntityPageSection>
+            <Alert
+              variant="info"
+              className="mt-2"
+              data-testid="results-info-alert"
+            >
+              Please enter a new simple search to being searching for{' '}
+              {tabToLinkLabel[tab]} results.
+            </Alert>
+          </StyledEntityPageSection>
+        ) : (
+          getScopedResultsComponent(tab, searchResponse)
+        )}
       </div>
     </React.Fragment>
   )
