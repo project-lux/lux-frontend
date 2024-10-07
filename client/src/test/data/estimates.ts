@@ -169,38 +169,6 @@ export const estimatesState = {
   fromNonResultsPage: true,
 }
 
-export const estimatesResultsWithRedirect: Array<
-  Record<string, IEstimateItems>
-> = [
-  {
-    objects: {
-      '@context': 'https://linked.art/ns/v1/search.json',
-      id: `${config.env.dataApiBaseUrl}api/search-estimate/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D`,
-      type: 'OrderedCollection',
-      label: {
-        en: ['Objects'],
-      },
-      summary: {
-        en: ['Objects'],
-      },
-      totalItems: 0,
-      first: {
-        id: `${config.env.dataApiBaseUrl}api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&pageLength=20`,
-        type: 'OrderedCollectionPage',
-      },
-      last: {
-        id: `${config.env.dataApiBaseUrl}api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=41&pageLength=20`,
-        type: 'OrderedCollectionPage',
-      },
-    },
-  },
-  workEstimates,
-  peopleEstimates,
-  placeEstimates,
-  conceptEstimates,
-  eventEstimates,
-]
-
 export const advancedSearchEstimates: Record<string, string | number> = {
   objects: 803,
   works: '-',

@@ -8,7 +8,6 @@ import {
   advancedSearchEstimates,
   estimatesErrorResults,
   estimatesResults,
-  estimatesResultsWithRedirect,
   estimatesState,
   objectEstimates,
 } from '../../../../data/estimates'
@@ -58,7 +57,14 @@ describe('estimatesParser', () => {
 
   describe('redirectToTabWithResults', () => {
     it('returns the results tab to redirect to', () => {
-      const mockSimpleSearchEstimatesResults = estimatesResultsWithRedirect
+      const mockSimpleSearchEstimatesResults = {
+        objects: 0,
+        works: 100,
+        people: 10,
+        places: 0,
+        concepts: 0,
+        events: 0,
+      }
       const mockState = estimatesState
       expect(
         redirectToTabWithResults(
