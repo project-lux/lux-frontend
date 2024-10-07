@@ -4,8 +4,6 @@ import { IEstimateItems } from '../../../types/ISearchEstimates'
 import { ISearchResultsErrorData } from '../../../types/ISearchResults'
 import { fetchSearchEstimates } from '../../util/fetchSearchEstimates'
 
-import { getScopeFromHalLink } from './halLinkHelper'
-
 export const isAdvancedSearch = (searchType: string): boolean =>
   searchType === 'advanced'
 
@@ -97,25 +95,18 @@ export const transformSimpleSearchEstimates = (
 }
 
 export const redirectToTabWithResults = (
-  estimates: Array<Record<string, IEstimateItems>>,
+  estimates: Record<string, number>,
   state: Record<string, boolean>,
   tab: string,
 ): string | null => {
   if (estimates) {
     if (state !== null && state !== undefined && state.fromNonResultsPage) {
-      for (const estimate of estimates) {
-        for (const key of Object.keys(estimate)) {
-          const { first, totalItems } = estimate[key] as IEstimateItems
-          const estimateResultScope = getScopeFromHalLink(first.id)
+      for (const key of Object.keys(estimates)) {
+        const total = estimates[key] as number
 
-          for (const [scopeKey, value] of Object.entries(searchScope)) {
-            if (
-              value === estimateResultScope &&
-              totalItems !== 0 &&
-              tab !== scopeKey
-            ) {
-              return scopeKey
-            }
+        for (const scopeKey of Object.keys(searchScope)) {
+          if (total !== 0 && tab !== scopeKey) {
+            return scopeKey
           }
         }
       }

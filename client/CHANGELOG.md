@@ -2,7 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.36.0 - Unreleased
+## v1.36.1 - 2024-10-7
+
+### Fixed
+- Fixed results tab redirect functionality ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
+
+## v1.36.0 - 2024-10-7
 
 ### Added
 
