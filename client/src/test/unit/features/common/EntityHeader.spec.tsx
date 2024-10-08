@@ -4,7 +4,6 @@ import React from 'react'
 import { entity as mockEntity } from '../../../data/entity'
 import { person as mockPerson } from '../../../data/person'
 import EntityHeader from '../../../../features/common/EntityHeader'
-import { objectsIcon } from '../../../../config/resources'
 
 jest.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
@@ -29,8 +28,6 @@ describe('EntityHeader', () => {
     render(
       <EntityHeader
         entity={mockEntity}
-        icon={objectsIcon}
-        entityTypeForIcon="physical object"
         primaryAgent=""
         start="2000"
         end="2024"
@@ -45,8 +42,6 @@ describe('EntityHeader', () => {
     render(
       <EntityHeader
         entity={mockEntity}
-        icon={objectsIcon}
-        entityTypeForIcon="physical object"
         primaryAgent=""
         start="2000"
         end="2024"
