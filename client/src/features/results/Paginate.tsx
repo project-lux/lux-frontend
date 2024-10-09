@@ -95,30 +95,20 @@ const Paginate: React.FC<IPagination> = ({
 
   const handlePageSelection = (pageNumber: number): void => {
     handleAnalytics()
-    navigate(
-      {
-        pathname: `${pathname}`,
-        search: `?${newURL}&${pageParam}=${pageNumber}`,
-      },
-      {
-        state: { targetName: 'Results Page' },
-      },
-    )
+    navigate({
+      pathname: `${pathname}`,
+      search: `?${newURL}&${pageParam}=${pageNumber}`,
+    })
   }
 
   // Go to the specified page
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     handleAnalytics()
-    navigate(
-      {
-        pathname: `${pathname}`,
-        search: `?${newURL}&${pageParam}=${pageValue}`,
-      },
-      {
-        state: { targetName: 'Results Page' },
-      },
-    )
+    navigate({
+      pathname: `${pathname}`,
+      search: `?${newURL}&${pageParam}=${pageValue}`,
+    })
   }
 
   const paginationRange = Paginator({

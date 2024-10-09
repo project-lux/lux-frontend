@@ -36,7 +36,6 @@ const Li: React.FC<IProps> = ({
         to={{
           pathname: `/view/${stripYaleIdPrefix(id)}`,
         }}
-        state={{ targetName: entityName }}
         aria-label={entityName || 'unknown name'}
         role="link"
         onClick={() =>

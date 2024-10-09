@@ -42,9 +42,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
     urlParams.set('fromAdvanced', 'true')
     // urlParams.delete('qt')
     pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
-    navigate(`${pathname}?${urlParams.toString()}`, {
-      state: { targetName: 'Results Page' },
-    })
+    navigate(`${pathname}?${urlParams.toString()}`)
   }
 
   return (

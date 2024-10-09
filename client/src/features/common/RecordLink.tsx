@@ -53,7 +53,6 @@ const RecordLink: React.FC<ISearchData> = ({
         to={{
           pathname: `/view/${strippedUrl}`,
         }}
-        state={{ targetName: entityName }}
         aria-label={entityName}
         role={ariaRoleDescription}
         className={className || ''}

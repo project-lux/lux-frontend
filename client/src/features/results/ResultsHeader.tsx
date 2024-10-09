@@ -85,15 +85,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     )
 
     queryString.set('view', selectedView)
-    navigate(
-      {
-        pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
-        search: `?${queryString.toString()}`,
-      },
-      {
-        state: { targetName: 'Results Page' },
-      },
-    )
+    navigate({
+      pathname: `/view/results/${tab !== undefined ? tab : 'objects'}`,
+      search: `?${queryString.toString()}`,
+    })
   }
 
   const handleSortDirectionSelection = (value: string): void => {
@@ -108,9 +103,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       // set query string params
       queryString.set(sortName, `${sortBySelection}:${value}`)
       const searchQ = queryString.toString()
-      navigate(`${pathname}?${searchQ}`, {
-        state: { targetName: 'Results Page' },
-      })
+      navigate(`${pathname}?${searchQ}`)
     }
   }
 
@@ -128,9 +121,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     queryString.set(sortName, `${value}:${selectedSortDirection}`)
     const searchQ = queryString.toString()
     setSortBySelection(value)
-    navigate(`${pathname}?${searchQ}`, {
-      state: { targetName: 'Results Page' },
-    })
+    navigate(`${pathname}?${searchQ}`)
   }
 
   return (

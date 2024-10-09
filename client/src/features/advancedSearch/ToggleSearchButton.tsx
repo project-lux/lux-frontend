@@ -53,9 +53,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
       dispatch(updateCurrentSearchState({ value: 'advanced' }))
       urlParams.delete('sq')
-      navigate(`${pathname}?${urlParams.toString()}`, {
-        state: { targetName: 'Results Page' },
-      })
+      navigate(`${pathname}?${urlParams.toString()}`)
       return
     }
     translate({
@@ -70,9 +68,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
         urlParams.delete('sq')
         urlParams.set('q', noScopeJSON)
         urlParams.set('qt', tab)
-        navigate(`${pathname}?${urlParams.toString()}`, {
-          state: { targetName: 'Results Page' },
-        })
+        navigate(`${pathname}?${urlParams.toString()}`)
       },
       onError: () => setIsError(true),
       onLoading: () => null,

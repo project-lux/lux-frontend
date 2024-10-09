@@ -125,9 +125,6 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
                 onClick={() =>
                   pushClientEvent('Search Link', 'Selected', searchLinkLabel)
                 }
-                state={{
-                  targetName: 'Results Page',
-                }}
                 className="fw-bold"
                 data-testid="image-link"
               >

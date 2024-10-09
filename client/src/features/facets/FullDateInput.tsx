@@ -202,9 +202,7 @@ const FullDateInput: React.FC<IFacets> = ({
     searchParams.set('facetRequest', 'true')
     searchParams.set(`${paramPrefix}p`, '1')
     const searchQ = searchParams.toString()
-    navigate(`${pathname}?${searchQ}`, {
-      state: { targetName: 'Results Page' },
-    })
+    navigate(`${pathname}?${searchQ}`)
   }
 
   function getUpdatedFacetQuery(): ICriteria {

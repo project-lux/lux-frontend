@@ -87,9 +87,7 @@ const Checkbox: React.FC<IProps> = ({
       }),
     )
     pushClientEvent('Facets Checkbox', 'Unchecked', `Facet ${label}`)
-    navigate(`${pathname}?${newSearchParams}`, {
-      state: { targetName: 'Results Page' },
-    })
+    navigate(`${pathname}?${newSearchParams}`)
   }
 
   const submitFacet = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -108,9 +106,7 @@ const Checkbox: React.FC<IProps> = ({
       addLastSelectedFacet({ facetName: facetSection, facetUri: strValue }),
     )
     pushClientEvent('Facets Checkbox', 'Checked', `Facet ${label}`)
-    navigate(`${pathname}?${params.toString()}`, {
-      state: { targetName: 'Results Page' },
-    })
+    navigate(`${pathname}?${params.toString()}`)
   }
 
   function updateFacetQuery(value: number | string): ICriteria {

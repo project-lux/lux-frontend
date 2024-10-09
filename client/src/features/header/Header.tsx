@@ -56,7 +56,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         <Container fluid className="mx-0">
           <NavLink
             to="/"
-            state={{ targetName: 'LUX Landing Page' }}
             className="navbar-brand"
             onClick={() => handlepushClientEvent('Landing Page')}
           >
@@ -73,7 +72,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             <Nav id="nav-links">
               <NavLink
                 to="/content/about-lux"
-                state={{ targetName: 'About LUX' }}
                 className="nav-link"
                 onClick={() => handlepushClientEvent('About LUX')}
               >
@@ -81,7 +79,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/open-access"
-                state={{ targetName: 'Open Access' }}
                 className="nav-link"
                 onClick={() => handlepushClientEvent('Open Access')}
               >
@@ -89,7 +86,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/simple-search"
-                state={{ targetName: 'Search Tips' }}
                 className="nav-link"
                 onClick={() => handlepushClientEvent('Search Tips')}
               >
@@ -97,7 +93,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               </NavLink>
               <NavLink
                 to="/content/faq"
-                state={{ targetName: 'Help' }}
                 className="nav-link"
                 onClick={() => handlepushClientEvent('Help')}
               >
