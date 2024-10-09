@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed rendering of entity headers ([#374](https://github.com/project-lux/lux-frontend/issues/374)).
+
 ## v1.36.1 - 2024-10-7
 
 ### Fixed
