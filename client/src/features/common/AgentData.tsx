@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -9,12 +11,22 @@ import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
  * @param {string} uri the URI of the agent
  * @returns {IAgentSnippet | null}
  */
-const AgentData = (uri: string): IAgentSnippet | null => {
-  const strippedUrl = stripYaleIdPrefix(uri)
-  const { data, isSuccess } = useGetItemQuery({
-    uri: strippedUrl,
-    profile: 'results',
-  })
+const AgentData = (uri: string | undefined): IAgentSnippet | null => {
+  const skip = isUndefined(uri)
+  const strippedUrl = !skip ? stripYaleIdPrefix(uri) : undefined
+  const { data, isSuccess } = useGetItemQuery(
+    {
+      uri: strippedUrl,
+      profile: 'results',
+    },
+    {
+      skip,
+    },
+  )
+
+  if (skip) {
+    return null
+  }
 
   if (isSuccess && data) {
     const agentData: IAgentSnippet = {

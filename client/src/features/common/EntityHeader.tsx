@@ -56,8 +56,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
   entityTypeForIcon,
   children,
 }) => {
-  const agentData =
-    primaryAgent !== undefined ? AgentData(primaryAgent) : undefined
+  const agentData = AgentData(primaryAgent)
 
   const element = new EntityParser(entity)
   const name = element.getPrimaryName(config.aat.langen)
