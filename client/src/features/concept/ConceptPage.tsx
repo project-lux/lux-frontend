@@ -31,14 +31,13 @@ import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import { useAppDispatch } from '../../app/hooks'
 import { addOrigin } from '../../redux/slices/hierarchySlice'
+import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
+const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
   const dispatch = useAppDispatch()
   const concept = new ConceptParser(data)
-  const [supertypeIcon, helperText] = concept.getSupertypeIcon()
 
   useEffect(() => {
     dispatch(addOrigin({ value: data }))
@@ -47,11 +46,7 @@ const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        >
+        <EntityHeader entity={data}>
           <GenericBreadcrumbHierarchy
             key={concept.json.id}
             entity={data}

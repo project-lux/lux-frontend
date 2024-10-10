@@ -19,13 +19,11 @@ import FeedbackButton from '../common/FeedbackButton'
 import ImageThumbnail from '../common/ImageThumbnail'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import TimelineContainer from '../timeline/TimelineContainer'
-// import Locations from '../common/Locations'
-// import WhatWeHave from '../common/WhatWeHave'
+import IAgent from '../../types/data/IAgent'
 
 import About from './About'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
+const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
   const agent = new PersonAndGroupParser(data)
   let startDate = ''
   let endDate = ''
@@ -37,18 +35,11 @@ const PersonAndGroupPage: React.FC<{ data: any }> = ({ data }) => {
     endDate = agent.getDissolutionDate()
   }
   const images = agent.getImages()
-  const [supertypeIcon, helperText] = agent.getSupertypeIcon()
 
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          start={startDate}
-          end={endDate}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        />
+        <EntityHeader entity={data} start={startDate} end={endDate} />
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
