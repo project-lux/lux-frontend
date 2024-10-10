@@ -34,10 +34,8 @@ import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const PlacePage: React.FC<{ data: any }> = ({ data }) => {
+const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
   const place = new EntityParser(data)
-  const [supertypeIcon, helperText] = place.getSupertypeIcon()
   const images = place.getImages()
 
   const mapConfig = {
@@ -48,11 +46,7 @@ const PlacePage: React.FC<{ data: any }> = ({ data }) => {
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        >
+        <EntityHeader entity={data}>
           <GenericBreadcrumbHierarchy
             key={place.json.id}
             entity={data}

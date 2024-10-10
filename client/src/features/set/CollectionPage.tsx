@@ -32,15 +32,10 @@ interface IProps {
 
 const CollectionPage: React.FC<IProps> = ({ data }) => {
   const collection = new WorkParser(data)
-  const [supertypeIcon, helperText] = collection.getSupertypeIcon()
 
   return (
     <React.Fragment>
-      <EntityHeader
-        entity={data}
-        icon={supertypeIcon}
-        entityTypeForIcon={helperText}
-      >
+      <EntityHeader entity={data}>
         <CollectionHierarchy entity={data} />
       </EntityHeader>
       <StyledEntityBody>
