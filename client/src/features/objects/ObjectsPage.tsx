@@ -21,15 +21,17 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
+import IObject from '../../types/data/IObject'
+import IDigitalObject from '../../types/data/IDigitalObject'
 
 import Carries from './Carries'
 import About from './About'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
+const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
+  data,
+}) => {
   const element = new ObjectParser(data)
   const personUri = element.getAgentFromProductionEvent() || undefined
-  const [supertypeIcon, helperText] = element.getSupertypeIcon()
   const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
@@ -38,12 +40,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-          primaryAgent={personUri}
-        >
+        <EntityHeader entity={data} primaryAgent={personUri}>
           {element.json.member_of && (
             <GenericBreadcrumbHierarchy
               key={element.json.id}

@@ -14,23 +14,18 @@ import { ErrorFallback } from '../error/ErrorFallback'
 import EventParser from '../../lib/parse/data/EventParser'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import ImageThumbnail from '../common/ImageThumbnail'
+import IEvent from '../../types/data/IEvent'
 
 import AboutPanel from './AboutPanel'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const EventPage: React.FC<{ data: any }> = ({ data }) => {
+const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
   const event = new EventParser(data)
-  const [supertypeIcon, helperText] = event.getSupertypeIcon()
   const images = event.getImages()
 
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        />
+        <EntityHeader entity={data} />
       </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>

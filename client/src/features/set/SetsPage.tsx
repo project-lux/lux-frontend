@@ -23,12 +23,12 @@ import { useAppDispatch } from '../../app/hooks'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
+import ISet from '../../types/data/ISet'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const SetsPage: React.FC<{ data: any }> = ({ data }) => {
+const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
   const setParser = new SetParser(data)
   const isCollectionPage =
     setParser.isClassifiedAs(config.aat.collection) ||
@@ -44,7 +44,6 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
     return <CollectionPage data={data} />
   }
   const isArchive = setParser.isArchive()
-  const [supertypeIcon, helperText] = setParser.getSupertypeIcon()
   const memberOf = setParser.getMemberOf()
   const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title
@@ -53,11 +52,7 @@ const SetsPage: React.FC<{ data: any }> = ({ data }) => {
     <React.Fragment>
       <div className="SetsPage">
         <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <EntityHeader
-            entity={data}
-            icon={supertypeIcon}
-            entityTypeForIcon={helperText}
-          >
+          <EntityHeader entity={data}>
             {isArchive && (
               <GenericBreadcrumbHierarchy
                 key={setParser.json.id}
