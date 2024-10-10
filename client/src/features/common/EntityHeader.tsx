@@ -16,11 +16,10 @@ import theme from '../../styles/theme'
 import Dates from './Dates'
 import AgentInHeader from './AgentInHeader'
 import AgentData from './AgentData'
+import Tooltip from './Tooltip'
 
 interface IEntityHeader {
   entity: IEntity
-  icon: string
-  entityTypeForIcon: string
   primaryAgent?: string
   start?: string
   end?: string
@@ -52,8 +51,6 @@ const EntityHeader: React.FC<IEntityHeader> = ({
   primaryAgent,
   start,
   end,
-  icon,
-  entityTypeForIcon,
   children,
 }) => {
   const agentData =
@@ -61,6 +58,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 
   const element = new EntityParser(entity)
   const name = element.getPrimaryName(config.aat.langen)
+  const [typeIcon, helperText] = element.getSupertypeIcon()
 
   const { displayName, isNameLong, showLongName, setShowLongName } =
     useResizableName(name)
@@ -107,15 +105,17 @@ const EntityHeader: React.FC<IEntityHeader> = ({
           {children}
         </Col>
         <Col xs={12} sm={12} md={1} className="px-0 text-end">
-          <StyledImg
-            src={icon}
-            alt={`icon for ${entityTypeForIcon}`}
-            id="icon"
-            height={70}
-            width={70}
-            className="mx-2"
-            data-testid="entity-icon-img"
-          />
+          <Tooltip html={helperText} placement="bottom">
+            <StyledImg
+              src={typeIcon}
+              alt={`icon for ${helperText}`}
+              id="icon"
+              height={70}
+              width={70}
+              className="mx-2"
+              data-testid="entity-icon-img"
+            />
+          </Tooltip>
         </Col>
       </StyledEntityHeader>
     </React.Fragment>

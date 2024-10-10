@@ -29,22 +29,17 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
+import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ConceptPage: React.FC<{ data: any }> = ({ data }) => {
+const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
   const concept = new ConceptParser(data)
-  const [supertypeIcon, helperText] = concept.getSupertypeIcon()
 
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        >
+        <EntityHeader entity={data}>
           <GenericBreadcrumbHierarchy
             key={concept.json.id}
             entity={data}

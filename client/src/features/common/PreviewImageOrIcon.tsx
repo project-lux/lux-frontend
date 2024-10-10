@@ -8,6 +8,7 @@ import IEntity from '../../types/data/IEntity'
 import StyledIconDiv from '../../styles/features/common/IconDiv'
 
 import ImageThumbnail from './ImageThumbnail'
+import Tooltip from './Tooltip'
 
 interface IObjectsBy {
   images: Array<IImages>
@@ -50,13 +51,15 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
       width={width}
       data-testid="entitiy-type-icon"
     >
-      <ResultsIconSvg
-        data={supertypeIcon}
-        width="50"
-        height="50"
-        aria-label={`${helperText} icon`}
-        data-testid="results-snippet-icon"
-      />
+      <Tooltip html={helperText} placement="top">
+        <ResultsIconSvg
+          data={supertypeIcon}
+          width="50"
+          height="50"
+          aria-label={`${helperText} icon`}
+          data-testid="results-snippet-icon"
+        />
+      </Tooltip>
     </StyledIconDiv>
   )
 }
