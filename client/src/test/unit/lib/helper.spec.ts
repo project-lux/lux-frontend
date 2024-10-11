@@ -25,6 +25,8 @@ import {
   getNestedCarriedOutBy,
   getEquivalentFromClassifiedAsArray,
   addOneToBceYear,
+  getEndOfTheEnd,
+  getBeginOfTheBegin,
 } from '../../../lib/parse/data/helper'
 import IAttribution from '../../../types/data/IAttribution'
 import IEntity from '../../../types/data/IEntity'
@@ -225,6 +227,72 @@ describe('helper functions', () => {
     it('returns an empty array', () => {
       const arr = getDateContent(undefined)
       expect(arr).toEqual([])
+    })
+  })
+
+  describe('getBeginOfTheBegin', () => {
+    it('returns the ISO date from epoch', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+        _seconds_since_epoch_begin_of_the_begin: -1306627200,
+        _seconds_since_epoch_end_of_the_end: -1306540801,
+      }
+      const date = getBeginOfTheBegin(mockTimespan)
+      expect(date).toEqual('1928-08-06T00:00:00.000Z')
+    })
+
+    it('returns the ISO date from string', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+        begin_of_the_begin: '1928-03-04T00:00:00',
+        end_of_the_end: '1928-12-31T23:59:59Z',
+      }
+      const date = getBeginOfTheBegin(mockTimespan)
+      expect(date).toEqual('1928-03-04T05:00:00.000Z')
+    })
+
+    it('returns an empty string', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+      }
+      const date = getBeginOfTheBegin(mockTimespan)
+      expect(date).toEqual('')
+    })
+  })
+
+  describe('getEndOfTheEnd', () => {
+    it('returns the ISO date from epoch', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+        _seconds_since_epoch_begin_of_the_begin: 540950400,
+        _seconds_since_epoch_end_of_the_end: 541036799,
+      }
+      const date = getEndOfTheEnd(mockTimespan)
+      expect(date).toEqual('1987-02-22T23:59:59.000Z')
+    })
+
+    it('returns the ISO date from string', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+        begin_of_the_begin: '1950-03-04T00:00:00',
+        end_of_the_end: '1950-12-31T23:59:59Z',
+      }
+      const date = getEndOfTheEnd(mockTimespan)
+      expect(date).toEqual('1950-12-31T23:59:59.000Z')
+    })
+
+    it('returns an empty string', () => {
+      const mockTimespan = {
+        id: '',
+        type: 'TimeSpan',
+      }
+      const date = getEndOfTheEnd(mockTimespan)
+      expect(date).toEqual('')
     })
   })
 

@@ -224,15 +224,67 @@ export const getDateContent = (
     .filter((cont) => cont !== undefined)
 }
 
+/**
+ * Returns the year plus one to adjust for incorrect BCE years
+ * @param {number} year the object from the /timespan property
+ * @returns {string}
+ */
 export const addOneToBceYear = (year: number): number => year + 1
+
+/**
+ * Returns the epoch number for conversion to dates
+ * @param {number} epoch the epoch date
+ * @returns {number}
+ */
+export const convertEpochTime = (epoch: number): number => epoch * 1000
+
+/**
+ * Returns the ISO date string value of the earliest date for the given timespan
+ * @param {ITimeSpan} timespan the object from the /timespan property
+ * @returns {string}
+ */
+export const getBeginOfTheBegin = (timespan: ITimeSpan): string => {
+  let date
+  if (timespan._seconds_since_epoch_begin_of_the_begin) {
+    date = convertEpochTime(timespan._seconds_since_epoch_begin_of_the_begin)
+  } else if (timespan.begin_of_the_begin) {
+    date = timespan.begin_of_the_begin
+  }
+
+  if (date === undefined) {
+    return ''
+  }
+
+  return new Date(date).toISOString()
+}
+
+/**
+ * Returns the ISO date string value of the latest date for the given timespan
+ * @param {ITimeSpan} timespan the object from the /timespan property
+ * @returns {string}
+ */
+export const getEndOfTheEnd = (timespan: ITimeSpan): string => {
+  let date
+  if (timespan._seconds_since_epoch_end_of_the_end) {
+    date = convertEpochTime(timespan._seconds_since_epoch_end_of_the_end)
+  } else if (timespan.end_of_the_end) {
+    date = timespan.end_of_the_end
+  }
+
+  if (date === undefined) {
+    return ''
+  }
+
+  return new Date(date).toISOString()
+}
 
 /**
  * Returns a date with proper formatting
  * @param {string | undefined} date the UTC date in ISOString format
  * @returns {string}
  */
-export const transformDate = (date: string | undefined): string => {
-  if (date === undefined) {
+export const transformDate = (date: string): string => {
+  if (date === '') {
     return ''
   }
 
