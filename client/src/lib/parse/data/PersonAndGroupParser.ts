@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { isUndefined } from 'lodash'
 
 import config from '../../../config/config'
