@@ -15,6 +15,7 @@ export interface IDateObj {
  * @param {string} year; the year to be converted
  * @returns {string}
  */
+// Used by timelines, facets, and advanced search
 export const convertYearToISOYear = (year: string): string => {
   const isoYear =
     year[0] === '-'
@@ -28,6 +29,7 @@ export const convertYearToISOYear = (year: string): string => {
  * @param {string} date; the date in LuxISOString format
  * @returns {string}
  */
+// Used by advanced search and getLUXTimestamp
 export const convertLuxISODateToISODate = (date: string): Date => {
   const { year, month, day } = getISOYearMonthDay(date)
   const dateObj = new Date(getLuxISOString(year, month, day))
@@ -39,6 +41,7 @@ export const convertLuxISODateToISODate = (date: string): Date => {
  * @param {string} date; the date in LuxISOString format
  * @returns {string}
  */
+// Used by facets
 export const getLUXTimestamp = (luxISODate: string): number => {
   const dateObj = convertLuxISODateToISODate(luxISODate)
   if (isValidDateObject(dateObj)) {
@@ -77,6 +80,7 @@ export const daysInMonth = (m: number, y: number): number => {
  * @param {number} y; the year selected
  * @returns {boolean}
  */
+// Used by facets and advanced search
 export const isValid = (d: number, m: number, y: number): boolean =>
   m >= 1 && m <= 12 && d > 0 && d <= daysInMonth(m, y)
 
@@ -85,6 +89,7 @@ export const isValid = (d: number, m: number, y: number): boolean =>
  * @param {string} date; the date string in a loose ISO format
  * @returns {IDateObj}
  */
+// Used by convertLuxISODateToISODate
 export const getISOYearMonthDay = (date: string): IDateObj => {
   let month = '0'
   let day = '1'
@@ -127,6 +132,7 @@ export const getISOYearMonthDay = (date: string): IDateObj => {
  * @param {string} date; the date string in a loose ISO format or an empty string
  * @returns {IDateObj}
  */
+// Used by facets and advanced search
 export const getDefaultDate = (date: string): IDateObj => {
   if (date === '') {
     return {
@@ -144,6 +150,7 @@ export const getDefaultDate = (date: string): IDateObj => {
  * @param {string} year; the year selected
  * @returns {string}
  */
+// Used by facets and advanced search
 export const getLuxYear = (year: string): string => {
   if (year === '' || year === '-') {
     return year
@@ -158,6 +165,7 @@ export const getLuxYear = (year: string): string => {
   return year
 }
 
+// Used by facets and advanced search
 export const getDaysInMonthArray = (
   month: string,
   year: string,
@@ -178,6 +186,7 @@ export const getDaysInMonthArray = (
  * @param {string} year; the year selected
  * @returns {string}
  */
+// Used by facets, advanced search, and timelines
 export const getLuxISOString = (
   year: string,
   month: string,
@@ -189,6 +198,7 @@ export const getLuxISOString = (
  * @param {string} month; the month selected
  * @returns {string}
  */
+// Used by facets
 export const getISOMonth = (month: string): string => month.padStart(2, '0')
 
 /**
@@ -202,6 +212,7 @@ export const getISODay = (date: string): string => date.padStart(2, '0')
  * @param {string | Date} date; the day selected
  * @returns {boolean}
  */
+// Used by facets
 export const isValidDateObject = (dateObj: string | Date): boolean =>
   dateObj instanceof Date && !isNaN(dateObj.getTime())
 
@@ -210,6 +221,7 @@ export const isValidDateObject = (dateObj: string | Date): boolean =>
  * @param {string} value; the month or day to check
  * @returns {string}
  */
+// Used by facets and advanced search
 export const isDayOrMonthToLuxNumberAsString = (dayOrMonth: string): string =>
   dayOrMonth[0] === '0' ? dayOrMonth.substring(1) : dayOrMonth
 
@@ -218,6 +230,7 @@ export const isDayOrMonthToLuxNumberAsString = (dayOrMonth: string): string =>
  * @param {string} value; the month or day to check
  * @returns {string}
  */
+// Used by facets and advanced search
 export const getYearToDisplay = (year: string): string => {
   if (year === '' || year === '-') {
     return year
@@ -234,6 +247,7 @@ export const getYearToDisplay = (year: string): string => {
  * @param {IDateObj} b; the date to check
  * @returns {number}
  */
+// Used by getDatesFromFacetValues
 const sortByYears = (a: IDateObj, b: IDateObj): number => {
   const aInt = parseInt(a.year, 10)
   const bInt = parseInt(b.year, 10)
@@ -254,6 +268,7 @@ const sortByYears = (a: IDateObj, b: IDateObj): number => {
  * @param {Array<IOrderedItems>} facetValues; array of ordered items containing facet values
  * @returns {Array<IDateObj>}
  */
+// Used by facets
 export const getDatesFromFacetValues = (
   facetValues: Array<IOrderedItems>,
 ): Array<IDateObj> => {
