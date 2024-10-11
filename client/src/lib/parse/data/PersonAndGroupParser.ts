@@ -2,17 +2,23 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable prefer-destructuring */
+import { isUndefined } from 'lodash'
+
 import config from '../../../config/config'
 import IEntity from '../../../types/data/IEntity'
 import IAgent from '../../../types/data/IAgent'
 import IEvent from '../../../types/data/IEvent'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
+import ITimeSpan from '../../../types/data/ITimeSpan'
 
 import EntityParser from './EntityParser'
 import {
   addOneToBceYear,
+  convertEpochTime,
   forceArray,
+  getBeginOfTheBegin,
   getClassifiedAs,
+  getEndOfTheEnd,
   hasData,
   isPlaceholderYear,
   transformDate,
@@ -27,6 +33,36 @@ export default class PersonAndGroupParser extends EntityParser {
     this.agent = json
   }
 
+  static getBeginOfTheBegin(timespan: ITimeSpan): string {
+    let date
+    if (timespan._seconds_since_epoch_begin_of_the_begin) {
+      date = convertEpochTime(timespan._seconds_since_epoch_begin_of_the_begin)
+    } else if (timespan.begin_of_the_begin) {
+      date = timespan.begin_of_the_begin
+    }
+
+    if (date === undefined) {
+      return ''
+    }
+
+    return new Date(date).toISOString()
+  }
+
+  static getEndOfTheEnd(timespan: ITimeSpan): string {
+    let date
+    if (timespan._seconds_since_epoch_end_of_the_end) {
+      date = convertEpochTime(timespan._seconds_since_epoch_end_of_the_end)
+    } else if (timespan.end_of_the_end) {
+      date = timespan.end_of_the_end
+    }
+
+    if (date === undefined) {
+      return ''
+    }
+
+    return new Date(date).toISOString()
+  }
+
   /**
    * Reusable date extractor
    * @param {IEvent} timeData date data
@@ -34,9 +70,13 @@ export default class PersonAndGroupParser extends EntityParser {
    */
   static getDates(timeData: IEvent): string {
     const { timespan } = timeData
-    const formattedDate = timespan
-      ? transformDate(timespan.begin_of_the_begin)
-      : ''
+
+    if (isUndefined(timespan)) {
+      return ''
+    }
+
+    const date = getBeginOfTheBegin(timespan)
+    const formattedDate = timespan ? transformDate(date) : ''
     return formattedDate
   }
 
@@ -59,11 +99,7 @@ export default class PersonAndGroupParser extends EntityParser {
    * Returns year transformed for BCE dates or AD dates
    * @returns {string}
    */
-  static transformYear(date: string | undefined): string {
-    if (date === undefined) {
-      return ''
-    }
-
+  static transformYear(date: string): string {
     const dateIsBc = date[0] === '-'
     const dateToParse = dateIsBc ? date.slice(1).padStart(4, '0') : date
     const year = new Date(dateToParse).getUTCFullYear()
@@ -102,9 +138,8 @@ export default class PersonAndGroupParser extends EntityParser {
   getBirthYear(): string {
     const { born } = this.agent
     if (born !== undefined && born.timespan !== undefined) {
-      return PersonAndGroupParser.transformYear(
-        born.timespan.begin_of_the_begin,
-      )
+      const date = getBeginOfTheBegin(born.timespan)
+      return PersonAndGroupParser.transformYear(date)
     }
     return ''
   }
@@ -140,9 +175,8 @@ export default class PersonAndGroupParser extends EntityParser {
   getDeathYear(): string {
     const { died } = this.agent
     if (died !== undefined && died.timespan !== undefined) {
-      return PersonAndGroupParser.transformYear(
-        died.timespan.begin_of_the_begin,
-      )
+      const date = getBeginOfTheBegin(died.timespan)
+      return PersonAndGroupParser.transformYear(date)
     }
     return ''
   }
@@ -178,9 +212,8 @@ export default class PersonAndGroupParser extends EntityParser {
   getFormationYear(): string {
     const formedBy = this.agent.formed_by
     if (formedBy !== undefined && formedBy.timespan !== undefined) {
-      return PersonAndGroupParser.transformYear(
-        formedBy.timespan.begin_of_the_begin,
-      )
+      const date = getBeginOfTheBegin(formedBy.timespan)
+      return PersonAndGroupParser.transformYear(date)
     }
     return ''
   }
@@ -229,9 +262,8 @@ export default class PersonAndGroupParser extends EntityParser {
   getDissolutionYear(): string {
     const dissolvedBy = this.agent.dissolved_by
     if (dissolvedBy !== undefined && dissolvedBy.timespan !== undefined) {
-      return PersonAndGroupParser.transformYear(
-        dissolvedBy.timespan.begin_of_the_begin,
-      )
+      const date = getBeginOfTheBegin(dissolvedBy.timespan)
+      return PersonAndGroupParser.transformYear(date)
     }
     return ''
   }
@@ -387,10 +419,10 @@ export default class PersonAndGroupParser extends EntityParser {
     carriedOut.map((activity) => {
       if (activity.timespan) {
         const { timespan } = activity
-        const startDate = timespan.begin_of_the_begin
+        const startDate = getBeginOfTheBegin(timespan)
           ? PersonAndGroupParser.transformYear(timespan.begin_of_the_begin)
           : ''
-        const endDate = timespan.end_of_the_end
+        const endDate = getEndOfTheEnd(timespan)
           ? PersonAndGroupParser.transformYear(timespan.end_of_the_end)
           : ''
         yearsActiveDates.push(`${startDate}-${endDate}`)
@@ -443,12 +475,10 @@ export default class PersonAndGroupParser extends EntityParser {
         }
 
         if (carried.timespan) {
-          startDate = PersonAndGroupParser.transformYear(
-            carried.timespan.begin_of_the_begin,
-          )
-          endDate = PersonAndGroupParser.transformYear(
-            carried.timespan.end_of_the_end,
-          )
+          const beginOfTheBegin = getBeginOfTheBegin(carried.timespan)
+          startDate = PersonAndGroupParser.transformYear(beginOfTheBegin)
+          const endOfTheEnd = getEndOfTheEnd(carried.timespan)
+          endDate = PersonAndGroupParser.transformYear(endOfTheEnd)
         }
 
         if (startDate !== '' && endDate !== '') {
