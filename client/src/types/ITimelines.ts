@@ -34,9 +34,6 @@ export interface IGraphTimelineData {
   [key: string]: ITimelineCriteria | string | number
 }
 
-export interface ITransformedData {
-  value: string | null
-  totalItems: number
-  searchTag: string
-  criteria: IAdvancedSearchState
-}
+export type TimelineSearchResult = Array<{
+  [key: string]: ISearchResults
+}>

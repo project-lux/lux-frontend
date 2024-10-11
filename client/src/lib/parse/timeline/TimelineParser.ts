@@ -78,7 +78,6 @@ export default class TimelineParser {
     const search = halLink.replace(re, '')
 
     const urlParams = new URLSearchParams(search)
-
     const searchTag = urlParams.get('name') || ''
     return searchTag
   }

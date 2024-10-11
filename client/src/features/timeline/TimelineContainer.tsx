@@ -6,8 +6,6 @@ import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
-import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
-import { ITimelinesTransformed } from '../../types/ITimelines'
 
 import List from './List'
 // import Graph from './Graph'
@@ -43,8 +41,9 @@ const TimelineContainer: React.FC<{
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
   if (isSuccess && data) {
-    const transformedData = transformTimelineData(data)
-    const sortedKeys = sortTimelineData(transformedData)
+    const timeline = new TimelineParser(data)
+    const transformedData = timeline.getTransformedTimelineData()
+    const sortedKeys = timeline.getSortedTimelineYears()
 
     if (sortedKeys.length !== 0) {
       return (
