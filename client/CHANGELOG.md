@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the labels for advanced search date comparator ([#402](https://github.com/project-lux/lux-frontend/issues/402)).
+- Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
+- Changed date parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
 
 ### Removed
 
@@ -36,8 +38,6 @@ All notable changes to this project will be documented in this file.
 - Added show all functionality to advanced search when following a search link ([#201](https://github.com/project-lux/lux-frontend/issues/201)).
 
 ### Changed
-
-- Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
 
 ### Removed
 
