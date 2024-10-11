@@ -37,6 +37,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
+
 ### Removed
 
 ### Fixed
