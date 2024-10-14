@@ -52,7 +52,6 @@ class App {
         maintenanceMode: env.maintenanceMode,
         maintenanceMessage: env.maintenanceMessage,
         cacheViewerMode: env.cacheViewerMode,
-        bugherdApiKey: env.bugherdApiKey,
       })
     })
 

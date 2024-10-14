@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
@@ -36,18 +36,6 @@ const App: React.FC = () => {
       : skipToken
 
   const asConfigResults = useGetAdvancedSearchConfigQuery(skip)
-
-  useEffect(() => {
-    if (envLoaded && !config.env.luxEnv.includes('production')) {
-      const script = document.createElement('script')
-
-      script.type = 'text/javascript'
-      script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
-      script.async = true
-
-      document.body.appendChild(script)
-    }
-  }, [envLoaded])
 
   if (!envLoaded && envResult.isSuccess && envResult.data) {
     config.setServerConfig(envResult.data)

@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed support for Bugherd ([#331](https://github.com/project-lux/lux-frontend/issues/331)).
+
 ### Fixed
 
 ## v1.36.1 - 2024-10-7

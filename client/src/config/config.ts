@@ -30,7 +30,6 @@ class Config {
       wikidataImagePathname: localEnv.wikidataImagePathname,
       luxWikidataManifestPrefix: localEnv.luxWikidataManifestPrefix,
       luxFeedbackUrl: localEnv.luxFeedbackUrl,
-      bugherdApiKey: localEnv.bugherdApiKey,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -49,7 +48,6 @@ class Config {
       wikidataImagePathname: data.wikidataImagePathname,
       luxWikidataManifestPrefix: data.luxWikidataManifestPrefix,
       luxFeedbackUrl: data.luxFeedbackUrl,
-      bugherdApiKey: data.bugherdApiKey,
     }
   }
 

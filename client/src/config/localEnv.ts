@@ -41,4 +41,3 @@ export const luxWikidataManifestPrefix = getString(
   process.env.REACT_APP_LUX_WIKIDATA_MANIFEST_PREFIX,
 )
 export const luxFeedbackUrl = getString(process.env.REACT_APP_LUX_FEEDBACK_URL)
-export const bugherdApiKey = getString(process.env.REACT_APP_BUGHERD_API_KEY)
