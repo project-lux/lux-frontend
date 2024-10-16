@@ -3,8 +3,9 @@
 import React from 'react'
 import { Col } from 'react-bootstrap'
 
+import OpenGraphHelmet from '../common/OpenGraphHelmet'
 import { PageKey } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import ContentPageParser from '../../lib/parse/cms/ContentPageParser'
 import { processHtml } from '../../lib/parse/cms/helper'
 import { useGetPageQuery } from '../../redux/api/cmsApi'
@@ -34,10 +35,11 @@ const AboutPage: React.FC<IProps> = ({ pageKey }) => {
     body = parser.getBody()
   }
 
-  useTitle(title)
+  // useTitle(title)
 
   return (
     <React.Fragment>
+      <OpenGraphHelmet title={title} />
       <StyledAboutPage className="mx-0" data-testid="about-page">
         <Col xs={12} className="px-0">
           <h1 data-testid="about-page-header">{title}</h1>

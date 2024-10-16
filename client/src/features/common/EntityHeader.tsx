@@ -7,7 +7,7 @@ import {
   useResizableName,
   shortenIfNeeded,
 } from '../../lib/hooks/useResizableName'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import IEntity from '../../types/data/IEntity'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
@@ -17,6 +17,7 @@ import Dates from './Dates'
 import AgentInHeader from './AgentInHeader'
 import AgentData from './AgentData'
 import Tooltip from './Tooltip'
+import OpenGraphHelmet from './OpenGraphHelmet'
 
 interface IEntityHeader {
   entity: IEntity
@@ -57,15 +58,17 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 
   const element = new EntityParser(entity)
   const name = element.getPrimaryName(config.aat.langen)
+  const images = element.getImages()
   const [typeIcon, helperText] = element.getSupertypeIcon()
 
   const { displayName, isNameLong, showLongName, setShowLongName } =
     useResizableName(name)
 
-  useTitle(shortenIfNeeded(displayName))
+  // useTitle(shortenIfNeeded(displayName))
 
   return (
     <React.Fragment>
+      <OpenGraphHelmet title={shortenIfNeeded(displayName)} images={images} />
       <StyledEntityHeader>
         <Col xs={12} sm={12} md={11}>
           <Row>

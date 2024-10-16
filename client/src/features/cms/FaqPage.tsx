@@ -3,7 +3,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import { IFaq, IFaqGroup } from '../../lib/parse/cms/Faqs'
 import { FaqParser } from '../../lib/parse/cms/FaqParser'
 import { processHtml } from '../../lib/parse/cms/helper'
@@ -13,6 +13,7 @@ import {
   StyledFaqPageHeader,
   StyledFaqGroupSection,
 } from '../../styles/features/cms/FaqPage'
+import OpenGraphHelmet from '../common/OpenGraphHelmet'
 
 import FaqSideBar from './FaqSideBar'
 
@@ -113,7 +114,7 @@ const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
   const result = useGetFaqQuery()
   let groups: JSX.Element[] = []
 
-  useTitle(title)
+  // useTitle(title)
 
   if (result.isSuccess && result.data) {
     const parser = new FaqParser(result.data)
@@ -124,6 +125,7 @@ const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
 
   return (
     <StyledFaqPage data-testid="faq-page">
+      <OpenGraphHelmet title={title} />
       <StyledFaqPageHeader>
         <h1 data-testid="faq-page-header">{title}</h1>
       </StyledFaqPageHeader>

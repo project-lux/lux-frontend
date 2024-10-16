@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the open graph card settings ([#41](https://github.com/project-lux/lux-frontend/issues/41)).
+
 ### Removed
 
 ### Fixed

@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap/dist/js/bootstrap.bundle'
 import { Provider } from 'react-redux'
+import { HelmetProvider } from 'react-helmet-async'
 
 import App from './App'
 import { store } from './app/store'
@@ -14,7 +15,9 @@ const root = createRoot(container!)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <HelmetProvider>
+        <App />
+      </HelmetProvider>
     </Provider>
   </React.StrictMode>,
 )

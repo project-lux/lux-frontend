@@ -3,11 +3,12 @@
 import React from 'react'
 
 import { PageKey } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import ContentPageParser from '../../lib/parse/cms/ContentPageParser'
 import { processHtml } from '../../lib/parse/cms/helper'
 import { useGetPageQuery } from '../../redux/api/cmsApi'
 import StyledContentPage from '../../styles/features/cms/ContentPage'
+import OpenGraphHelmet from '../common/OpenGraphHelmet'
 
 interface IProps {
   pageKey: PageKey
@@ -30,10 +31,11 @@ const ContentPage: React.FC<IProps> = ({ pageKey }) => {
     body = parser.getBody()
   }
 
-  useTitle(title)
+  // useTitle(title)
 
   return (
     <StyledContentPage className="row" data-testid="content-page">
+      <OpenGraphHelmet title={title} />
       <div className="col">
         {result.isSuccess && result.data && (
           <React.Fragment>

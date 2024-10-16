@@ -3,7 +3,7 @@ import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
 import { ISearchResponse } from '../../types/ISearchResponse'
@@ -11,6 +11,7 @@ import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { tabToLinkLabel } from '../../config/results'
+import OpenGraphHelmet from '../common/OpenGraphHelmet'
 
 import ConceptResults from './ConceptResults'
 // import ErrorPage from './ErrorPage'
@@ -103,10 +104,11 @@ const ResultsPage: React.FC = () => {
   )
 
   // Get title for accessibility purposes
-  useTitle(title)
+  // useTitle(title)
 
   return (
     <React.Fragment>
+      <OpenGraphHelmet title={title} />
       <h1 hidden>{title}</h1>
       <SearchContainer key={tab} isSimpleSearch={hasSimpleSearchQuery} />
       <Navigation
