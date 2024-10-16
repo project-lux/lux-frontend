@@ -17,6 +17,7 @@ import {
 } from '../../styles/features/landing/LandingPage'
 import StyledHeadingOne from '../../styles/features/landing/HeadingOne'
 import StickySearchContainer from '../search/StickySearchContainer'
+import OpenGraphHelmet from '../common/OpenGraphHelmet'
 
 import FeaturedCollectionsSection from './FeaturedCollectionsSection'
 import FooterBlocks from './FooterBlocksSection'
@@ -42,6 +43,7 @@ const Landing: React.FC = () => {
 
   return (
     <StyledLandingPage id="landing-body" className="mx-0">
+      <OpenGraphHelmet />
       <Col xs={12} className="px-0">
         <Row className="mx-0 bg-white">
           <HeaderContainerCol className="col-12 text-center">
