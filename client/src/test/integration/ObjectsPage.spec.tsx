@@ -279,35 +279,6 @@ describe('Objects page', () => {
       const links = screen.getByTestId('site-links')
       expect(links).toBeInTheDocument()
     })
-  })
-
-  describe('Can I reuse it', () => {
-    it('renders the component', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Can I re-use it/i)
-      const component = screen.getByTestId('can-i-reuse-it')
-      expect(component).toBeInTheDocument()
-    })
-
-    it('renders the copyright information', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Can I re-use it/i)
-      const copyright = screen.getByTestId('copyright-statement-text-note')
-      expect(copyright).toBeInTheDocument()
-    })
-  })
-
-  // Shared with objects and works
-  describe('Where is it at Yale', () => {
-    it('renders the component', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Where is it at Yale/i)
-      const component = screen.getByTestId('where-at-yale')
-      expect(component).toBeInTheDocument()
-    })
 
     it('renders the collection', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
@@ -331,6 +302,24 @@ describe('Objects page', () => {
       await findAllByText(/Plan Your Visit/i)
       const link = screen.getByTestId('plan-your-visit-link')
       expect(link).toBeInTheDocument()
+    })
+  })
+
+  describe('Can I reuse it', () => {
+    it('renders the component', async () => {
+      const { findAllByText } = render(<AppRender route={page} />)
+
+      await findAllByText(/Can I re-use it/i)
+      const component = screen.getByTestId('can-i-reuse-it')
+      expect(component).toBeInTheDocument()
+    })
+
+    it('renders the copyright information', async () => {
+      const { findAllByText } = render(<AppRender route={page} />)
+
+      await findAllByText(/Can I re-use it/i)
+      const copyright = screen.getByTestId('copyright-statement-text-note')
+      expect(copyright).toBeInTheDocument()
     })
   })
 
