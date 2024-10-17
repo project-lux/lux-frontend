@@ -5,7 +5,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import EntityHeader from '../common/EntityHeader'
-import UV from '../common/UV'
 import WhereAtYale from '../common/WhereAtYale'
 import FeedbackButton from '../common/FeedbackButton'
 import DataSources from '../common/DataSources'
@@ -23,6 +22,7 @@ import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
 import IObject from '../../types/data/IObject'
 import IDigitalObject from '../../types/data/IDigitalObject'
+import Images from '../common/Images'
 
 import Carries from './Carries'
 import About from './About'
@@ -32,7 +32,6 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
 }) => {
   const element = new ObjectParser(data)
   const personUri = element.getAgentFromProductionEvent() || undefined
-  const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title
@@ -55,7 +54,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
         </EntityHeader>
       </ErrorBoundary>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <UV key={manifestId} manifest={manifestId} />
+        <Images entity={data} />
       </ErrorBoundary>
       <StyledEntityBody>
         <Col>
