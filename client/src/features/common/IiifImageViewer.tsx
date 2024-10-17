@@ -4,7 +4,8 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import config from '../../config/config'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
-import UV from '../common/UV'
+
+import UV from './UV'
 
 const IiifImageViewer: React.FC<{ uri: string }> = ({ uri }) => {
   const { data, isSuccess, isError } = useGetItemQuery({

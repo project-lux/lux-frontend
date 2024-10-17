@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added on hover functionality to all icons ([#22](https://github.com/project-lux/lux-frontend/issues/22)).
+- Added support for wikidata images on object pages ([#390](https://github.com/project-lux/lux-frontend/issues/390)).
 
 ### Changed
 

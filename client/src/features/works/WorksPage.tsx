@@ -13,10 +13,10 @@ import HowDoISeeIt from '../common/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 import ILinguisticObject from '../../types/data/ILinguisticObject'
 import IVisualItem from '../../types/data/IVisualItem'
+import Images from '../common/Images'
 
 import CarriedBy from './CarriedBy'
 import About from './About'
-import Images from './Images'
 
 const WorksPage: React.FC<{ data: ILinguisticObject | IVisualItem }> = ({
   data,
