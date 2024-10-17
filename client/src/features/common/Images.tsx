@@ -2,7 +2,7 @@ import React from 'react'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import IEntity from '../../types/data/IEntity'
-import WorkParser from '../../lib/parse/data/WorkParser'
+import EntityParser from '../../lib/parse/data/EntityParser'
 import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import config from '../../config/config'
@@ -11,7 +11,7 @@ import IiifImageViewer from './IiifImageViewer'
 import WikiDataImageViewer from './WikiDataImageViewer'
 
 const Images: React.FC<{ entity: IEntity }> = ({ entity }) => {
-  const work = new WorkParser(entity)
+  const work = new EntityParser(entity)
   const workCarriedByQuery = work.getHalLink(carriedBy.searchTag)
   const skip = workCarriedByQuery === null
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
