@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed Archive Sort Value AAT ([#408](https://github.com/project-lux/lux-frontend/issues/408)).
+
 ### Removed
 
 ### Fixed
