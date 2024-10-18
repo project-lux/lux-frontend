@@ -6,7 +6,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import EntityHeader from '../common/EntityHeader'
 import UV from '../common/UV'
-import WhereAtYale from '../common/WhereAtYale'
 import FeedbackButton from '../common/FeedbackButton'
 import DataSources from '../common/DataSources'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -83,7 +82,6 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <StyledEntityPageSection className="row">
                   <HowDoISeeIt data={data} />
-                  <WhereAtYale data={data} />
                   <CanIReuseIt entity={data} entityType="object" />
                 </StyledEntityPageSection>
               </ErrorBoundary>

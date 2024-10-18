@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed Where is it at Yale? section and added its content to How do I see it? ([#249](https://github.com/project-lux/lux-frontend/issues/249)).
+
 ### Fixed
 
 - Fixed rendering of entity headers ([#374](https://github.com/project-lux/lux-frontend/issues/374)).

@@ -10,7 +10,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
-import WhereAtYale from '../common/WhereAtYale'
 import { ErrorFallback } from '../error/ErrorFallback'
 import UV from '../common/UV'
 import {
@@ -89,7 +88,6 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <StyledEntityPageSection className="row">
                 <HowDoISeeIt data={data} />
-                {isArchive && <WhereAtYale data={data} />}
               </StyledEntityPageSection>
               <Row>
                 <Col xs={12}>
