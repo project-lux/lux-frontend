@@ -1,6 +1,5 @@
 import React from 'react'
 
-import UV from '../common/UV'
 import IEntity from '../../types/data/IEntity'
 import WorkParser from '../../lib/parse/data/WorkParser'
 import {
@@ -8,6 +7,8 @@ import {
   getWikidataImage,
 } from '../../lib/parse/data/helper'
 import config from '../../config/config'
+
+import UV from './UV'
 
 const WikiDataImageViewer: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const work = new WorkParser(entity)

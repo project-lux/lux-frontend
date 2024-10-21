@@ -11,27 +11,24 @@ import FeedbackButton from '../common/FeedbackButton'
 import CanIReuseIt from '../common/CanIReuseIt'
 import HowDoISeeIt from '../common/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
+import ILinguisticObject from '../../types/data/ILinguisticObject'
+import IVisualItem from '../../types/data/IVisualItem'
+import Images from '../common/Images'
 
 import CarriedBy from './CarriedBy'
 import About from './About'
-import Images from './Images'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const WorksPage: React.FC<{ data: any }> = ({ data }) => {
+const WorksPage: React.FC<{ data: ILinguisticObject | IVisualItem }> = ({
+  data,
+}) => {
   const entity = new WorkParser(data)
   const personUri =
     entity.getProductionAgent() || entity.getPublicationAgent() || undefined
-  const [supertypeIcon, helperText] = entity.getSupertypeIcon()
 
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          primaryAgent={personUri}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-        />
+        <EntityHeader entity={data} primaryAgent={personUri} />
       </ErrorBoundary>
       <Images entity={data} />
       <StyledEntityBody>

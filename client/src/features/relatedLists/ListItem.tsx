@@ -89,9 +89,6 @@ const ListItem: React.FC<IProps> = ({
                 pathname: `/view/results/${tab}`,
                 search: `q=${searchQ}&openSearch=false`,
               }}
-              state={{
-                targetName: linkLabel,
-              }}
               onClick={() =>
                 pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
               }

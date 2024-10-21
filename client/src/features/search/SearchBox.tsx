@@ -125,7 +125,6 @@ const SearchBox: React.FC<{
             {
               state: {
                 fromNonResultsPage: !isResults,
-                targetName: 'Results Page',
               },
             },
           )

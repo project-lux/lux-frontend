@@ -168,16 +168,5 @@ describe('Set page', () => {
     })
   })
 
-  describe('Archives page', () => {
-    const setsPage = '/view/set/mock-archive'
-    it('renders the Where at Yale section', async () => {
-      const { findAllByText } = render(<AppRender route={setsPage} />)
-
-      await findAllByText(/Where is it at Yale/i)
-      const container = screen.getByTestId('where-at-yale')
-      expect(container).toBeInTheDocument()
-    })
-  })
-
   afterEach(cleanup)
 })

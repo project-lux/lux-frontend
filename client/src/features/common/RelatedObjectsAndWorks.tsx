@@ -1,5 +1,5 @@
 import React from 'react'
-import _ from 'lodash'
+import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -9,7 +9,7 @@ import ObjectsContainer from './ObjectsContainer'
 import Tabs from './Tabs'
 
 interface IRelated {
-  links: Record<string, { href: string; _estimate: number }>
+  links: Record<string, { href: string; _estimate: number }> | undefined
   relationships: IHalLinks
   type: string
 }
@@ -60,9 +60,11 @@ const RelatedObjectsAndWorks: React.FC<IRelated> = ({
   relationships,
   type,
 }) => {
-  const tabs = tabsChildren(links, relationships)
-  if (tabs.length !== 0) {
-    return <Tabs>{tabs}</Tabs>
+  if (!isUndefined(links)) {
+    const tabs = tabsChildren(links, relationships)
+    if (tabs.length !== 0) {
+      return <Tabs>{tabs}</Tabs>
+    }
   }
 
   return (

@@ -5,8 +5,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import EntityHeader from '../common/EntityHeader'
-import UV from '../common/UV'
-import WhereAtYale from '../common/WhereAtYale'
 import FeedbackButton from '../common/FeedbackButton'
 import DataSources from '../common/DataSources'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -21,16 +19,18 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
+import IObject from '../../types/data/IObject'
+import IDigitalObject from '../../types/data/IDigitalObject'
+import Images from '../common/Images'
 
 import Carries from './Carries'
 import About from './About'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
+const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
+  data,
+}) => {
   const element = new ObjectParser(data)
   const personUri = element.getAgentFromProductionEvent() || undefined
-  const [supertypeIcon, helperText] = element.getSupertypeIcon()
-  const manifestId = element.getManifestId()
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title
@@ -38,12 +38,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
   return (
     <React.Fragment>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <EntityHeader
-          entity={data}
-          icon={supertypeIcon}
-          entityTypeForIcon={helperText}
-          primaryAgent={personUri}
-        >
+        <EntityHeader entity={data} primaryAgent={personUri}>
           {element.json.member_of && (
             <GenericBreadcrumbHierarchy
               key={element.json.id}
@@ -58,7 +53,7 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
         </EntityHeader>
       </ErrorBoundary>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <UV key={manifestId} manifest={manifestId} />
+        <Images entity={data} />
       </ErrorBoundary>
       <StyledEntityBody>
         <Col>
@@ -86,7 +81,6 @@ const ObjectsPage: React.FC<{ data: any }> = ({ data }) => {
               <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <StyledEntityPageSection className="row">
                   <HowDoISeeIt data={data} />
-                  <WhereAtYale data={data} />
                   <CanIReuseIt entity={data} entityType="object" />
                 </StyledEntityPageSection>
               </ErrorBoundary>

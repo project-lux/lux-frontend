@@ -37,7 +37,7 @@ export function defaultAats(): IAat {
     plantSpecimens: 'http://vocab.getty.edu/aat/300430421',
     primaryName: 'http://vocab.getty.edu/aat/300404670',
     role: 'http://vocab.getty.edu/aat/300435108',
-    sortValue: 'http://vocab.getty.edu/aat/300451544',
+    sortValue: 'http://vocab.getty.edu/aat/300456575',
     typeOfPart: 'http://vocab.getty.edu/aat/300241583',
     visitors: 'http://vocab.getty.edu/aat/300025883',
     webPage: 'http://vocab.getty.edu/aat/300264578',
