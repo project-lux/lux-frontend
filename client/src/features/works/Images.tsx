@@ -6,9 +6,8 @@ import EntityParser from '../../lib/parse/data/EntityParser'
 import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import config from '../../config/config'
-
-import IiifImageViewer from './IiifImageViewer'
-import WikiDataImageViewer from './WikiDataImageViewer'
+import IiifImageViewer from '../common/IiifImageViewer'
+import WikiDataImageViewer from '../common/WikiDataImageViewer'
 
 const Images: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const element = new EntityParser(entity)

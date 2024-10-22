@@ -1,7 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 
-import Images from '../../../../features/common/Images'
+import Images from '../../../../features/works/Images'
 import { physicalObject as mockObject } from '../../../data/object'
 import { linguisticObject as mockWork } from '../../../data/linguisticObject'
 import { activityStreams as mockActivityStreams } from '../../../data/results'
