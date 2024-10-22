@@ -123,7 +123,7 @@ const ResultsPage: React.FC = () => {
               className="mt-2"
               data-testid="results-info-alert"
             >
-              Please enter a new simple search to being searching for{' '}
+              Please enter a new search to being searching for{' '}
               {tabToLinkLabel[tab]} results.
             </Alert>
           </StyledEntityPageSection>

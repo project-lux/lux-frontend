@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.37.0 - Unreleased
+## v1.37.1 - 2024-10-23
+
+### Fixed
+
+- Fixed image rendering on objects and works pages ([#390](https://github.com/project-lux/lux-frontend/issues/390)).
+
+## v1.37.0 - 2024-10-21
 
 ### Added
 

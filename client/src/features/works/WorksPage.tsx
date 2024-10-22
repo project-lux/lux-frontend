@@ -13,8 +13,8 @@ import HowDoISeeIt from '../common/HowDoISeeIt'
 import { ErrorFallback } from '../error/ErrorFallback'
 import ILinguisticObject from '../../types/data/ILinguisticObject'
 import IVisualItem from '../../types/data/IVisualItem'
-import Images from '../common/Images'
 
+import Images from './Images'
 import CarriedBy from './CarriedBy'
 import About from './About'
 
@@ -30,7 +30,9 @@ const WorksPage: React.FC<{ data: ILinguisticObject | IVisualItem }> = ({
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         <EntityHeader entity={data} primaryAgent={personUri} />
       </ErrorBoundary>
-      <Images entity={data} />
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Images entity={data} />
+      </ErrorBoundary>
       <StyledEntityBody>
         <Col lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
