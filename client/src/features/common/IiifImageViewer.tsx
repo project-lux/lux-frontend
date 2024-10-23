@@ -7,6 +7,13 @@ import ObjectParser from '../../lib/parse/data/ObjectParser'
 
 import UV from './UV'
 
+/**
+ * Extracts the IIIF manifest URI from the LUX document by looking
+ * for the digital access point specified with a IIIF protocol,
+ * and shows the image(s) using the UV component.
+ *
+ * @param {uri: string} - URI of the LUX document
+ */
 const IiifImageViewer: React.FC<{ uri: string }> = ({ uri }) => {
   const { data, isSuccess, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),

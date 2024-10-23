@@ -10,6 +10,15 @@ import config from '../../config/config'
 
 import UV from './UV'
 
+/**
+ * Extracts the WikiMedia Commons image from the LUX document by looking
+ * for a digital access point URI that follows the WikiMedia pattern,
+ * then builds the IIIF manifest URI from it to be passed to the UV component.
+ *
+ * The level-0 IIIF manifest is to be generated dynamically by the manifest
+ * server.
+ * @param {entity: IEntity} - an IEntity representing a LUX document
+ */
 const WikiDataImageViewer: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const element = new EntityParser(entity)
   const imageReps = element.getImages()
