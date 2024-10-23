@@ -7,6 +7,11 @@ type Params = {
   manifest: string
 }
 
+/**
+ * Wrapper around Universal Viewer (https://universalviewer.io/).
+ *
+ * @param {manifest: string} - URI of IIIF manifest fed to Universal Viewer
+ */
 const UV: React.FC<Params> = ({ manifest }) => {
   if (manifest === '') {
     return null
