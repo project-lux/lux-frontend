@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.37.2 - 2024-10-24
+
+### Fixed
+
+- Fixed typo: "numistatics" should be "numismatics"; Change "photography" label to "photograph" ([#22](https://github.com/project-lux/lux-frontend/issues/22)).
+
 ## v1.37.1 - 2024-10-23
 
 ### Fixed
