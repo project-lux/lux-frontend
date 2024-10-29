@@ -503,7 +503,10 @@ describe('helper functions', () => {
   describe('getIconFromUri', () => {
     it('returns array with icon and alt text', () => {
       const icons = getIconFromUri('/data/object/')
-      expect(icons).toEqual(['objects.svg', 'Physical Item'])
+      expect(icons).toEqual([
+        '/src/resources/images/entity/objects.svg',
+        'Physical Item',
+      ])
     })
 
     it('returns empty array', () => {

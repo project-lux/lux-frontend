@@ -1,5 +1,6 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import config from '../../config/config'
@@ -34,9 +35,9 @@ const mockEstimatesResults = [
 ]
 
 // Mock the request for collections
-jest.mock('../../lib/util/collectionHelper', () => ({
+vi.mock('../../lib/util/collectionHelper', () => ({
   __esModule: true,
-  getCollections: jest.fn(() => ({
+  getCollections: vi.fn(() => ({
     data: [
       'https://endpoint.yale.edu/data/set/member-of-collection-1',
       'https://endpoint.yale.edu/data/set/member-of-collection-2',
@@ -45,11 +46,11 @@ jest.mock('../../lib/util/collectionHelper', () => ({
 }))
 
 // Mock the request for collections
-jest.mock('../../lib/parse/search/estimatesParser', () => ({
+vi.mock('../../lib/parse/search/estimatesParser', () => ({
   __esModule: true,
-  getEstimatesRequests: jest.fn(),
-  isAdvancedSearch: jest.fn(),
-  isSimpleSearch: jest.fn(),
+  getEstimatesRequests: vi.fn(),
+  isAdvancedSearch: vi.fn(),
+  isSimpleSearch: vi.fn(),
 }))
 
 describe('Results page shared components', () => {

@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import { advancedSearch } from '../../../../config/advancedSearch/advancedSearch'
 import { QueryOption } from '../../../../config/advancedSearch/options'
 import config from '../../../../config/config'
@@ -15,9 +17,9 @@ import {
 import { getStateId } from '../../../../lib/advancedSearch/stateId'
 import { IAdvancedSearchState } from '../../../../redux/slices/advancedSearchSlice'
 
-jest.mock('../../../../lib/advancedSearch/stateId', () => ({
+vi.mock('../../../../lib/advancedSearch/stateId', () => ({
   __esModule: true,
-  getStateId: jest.fn(() => '1'),
+  getStateId: vi.fn(() => '1'),
 }))
 
 describe('stateManager functions', () => {
