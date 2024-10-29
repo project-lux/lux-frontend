@@ -1,5 +1,6 @@
 import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import config from '../../config/config'
 import { getTimelines } from '../../lib/util/fetchTimeline'
@@ -13,9 +14,9 @@ import eventTrackingMock from './utils/eventTrackingMock'
 import sharedMock from './utils/sharedMockApi'
 
 // Mock the request for timelines
-jest.mock('../../lib/util/fetchTimeline', () => ({
+vi.mock('../../lib/util/fetchTimeline', () => ({
   __esModule: true,
-  getTimelines: jest.fn(() => ({
+  getTimelines: vi.fn(() => ({
     data: mockTimeline,
   })),
 }))

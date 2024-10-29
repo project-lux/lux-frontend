@@ -1,4 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import { vi } from 'vitest'
+
 import config from '../../../config/config'
 import { unit } from '../../../config/objectsSearchTags'
 import EntityParser from '../../../lib/parse/data/EntityParser'
@@ -37,7 +39,7 @@ describe('EntityParser', () => {
   describe('getPrimaryName', () => {
     it('calls the getName function', () => {
       const parser = new EntityParser(mockEntity)
-      const spy = jest
+      const spy = vi
         .spyOn(helperFunctions, 'getName')
         .mockImplementation(() => 'primary name')
 
@@ -265,7 +267,7 @@ describe('EntityParser', () => {
   describe('getRepresents', () => {
     it('calls the getClassifiedAs function', () => {
       const parser = new EntityParser(mockEntity)
-      const spy = jest
+      const spy = vi
         .spyOn(helperFunctions, 'getClassifiedAs')
         .mockImplementation(() => ['id1', 'id2'])
 
@@ -287,7 +289,7 @@ describe('EntityParser', () => {
   describe('getAbout', () => {
     it('calls the getClassifiedAs function', () => {
       const parser = new EntityParser(mockEntity)
-      const spy = jest
+      const spy = vi
         .spyOn(helperFunctions, 'getClassifiedAs')
         .mockImplementation(() => ['id1', 'id2'])
 
@@ -461,13 +463,19 @@ describe('EntityParser', () => {
         type: 'Person',
       })
       const icons = element.getSupertypeIcon()
-      expect(icons).toEqual(['people-orgs.svg', 'person and group'])
+      expect(icons).toEqual([
+        '/src/resources/images/entity/people-orgs.svg',
+        'person and group',
+      ])
     })
 
     it('returns array with icon and alt text of specimen', () => {
       const element = new EntityParser(mockEntity)
       const icons = element.getSupertypeIcon()
-      expect(icons).toEqual(['specimens.svg', 'specimen'])
+      expect(icons).toEqual([
+        '/src/resources/images/entity/specimens.svg',
+        'specimen',
+      ])
     })
   })
 

@@ -1,6 +1,7 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import {
   useGetNameQuery,
@@ -15,9 +16,9 @@ import ApiAboutData from '../../../../features/common/ApiAboutData'
 
 const mockObject = reusableMinimalEntity('Mock')
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetSearchRelationshipQuery: jest.fn(),
-  useGetNameQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetSearchRelationshipQuery: vi.fn(),
+  useGetNameQuery: vi.fn(),
   useGetItemQuery: () => ({
     data: mockObject,
     isSuccess: true,
