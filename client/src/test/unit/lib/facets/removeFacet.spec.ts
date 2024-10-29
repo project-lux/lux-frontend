@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import {
   removeFacet,
   removeFacetFromQuery,
@@ -5,9 +7,9 @@ import {
 import { getParamPrefix } from '../../../../lib/util/params'
 
 // Mock getParamPrefix
-jest.mock('../../../../lib/util/params', () => ({
+vi.mock('../../../../lib/util/params', () => ({
   __esModule: true,
-  getParamPrefix: jest.fn(() => 'a'),
+  getParamPrefix: vi.fn(() => 'a'),
 }))
 
 describe('removeFacet exported functions', () => {

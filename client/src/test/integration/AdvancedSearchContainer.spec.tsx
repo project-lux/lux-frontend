@@ -1,5 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import { conditionals } from '../../config/advancedSearch/conditionals'
@@ -11,9 +12,9 @@ import { dimensions } from '../../config/advancedSearch/inputTypes'
 import AppRender from './utils/AppRender'
 import eventTrackingMock from './utils/eventTrackingMock'
 
-jest.mock('../../lib/advancedSearch/stateId', () => ({
+vi.mock('../../lib/advancedSearch/stateId', () => ({
   __esModule: true,
-  getStateId: jest.fn(() => '1'),
+  getStateId: vi.fn(() => '1'),
 }))
 
 describe('Advanced Search', () => {

@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import config from '../../../../config/config'
 import ApiText from '../../../../features/common/ApiText'
 import { useGetItemQuery } from '../../../../redux/api/ml_api'
@@ -19,18 +21,18 @@ const mockEntity = {
 }
 const mockPathname = `${config.env.dataApiBaseUrl}view/person/mock-person`
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetItemQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetItemQuery: vi.fn(),
 }))
 
-jest.mock('react-router-dom', () => ({
+vi.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: mockPathname,
   }),
 }))
 
-jest.mock('../../../../lib/parse/data/helper', () => ({
+vi.mock('../../../../lib/parse/data/helper', () => ({
   ...jest.requireActual('../../../../lib/parse/data/helper'),
   getLabelBasedOnEntityType: () => mockLabel,
 }))
