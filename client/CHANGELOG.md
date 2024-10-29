@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added priority to icon rendering ([#401](https://github.com/project-lux/lux-frontend/issues/401)).
+
 ### Changed
 
 ### Removed

@@ -506,16 +506,17 @@ export default class EntityParser {
    */
   getSupertypeIcon(): Array<string> {
     const classifiedAs = forceArray(this.json.classified_as)
-    const equivalent = getEquivalentFromClassifiedAsArray(classifiedAs)
-    const { type } = this.json
+    const equivalent = getEquivalentFromClassifiedAsArray(classifiedAs).map(
+      (obj) => obj.id,
+    )
 
-    for (const eq of equivalent) {
-      const id = eq.id as string
-      if (Object.keys(iconAats).includes(id)) {
-        return iconAats[id]
+    for (const [key, value] of iconAats) {
+      if (equivalent.includes(key)) {
+        return value
       }
     }
 
+    const { type } = this.json
     // For unspecified types
     switch (type) {
       case 'HumanMadeObject':
