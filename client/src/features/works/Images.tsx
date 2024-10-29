@@ -6,10 +6,14 @@ import EntityParser from '../../lib/parse/data/EntityParser'
 import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import config from '../../config/config'
+import IiifImageViewer from '../common/IiifImageViewer'
+import WikiDataImageViewer from '../common/WikiDataImageViewer'
 
-import IiifImageViewer from './IiifImageViewer'
-import WikiDataImageViewer from './WikiDataImageViewer'
-
+/**
+ * If an IIIF manifest is available from the document, feed it to a IIIF viewer.
+ * If a WikiMedia Commons image is available, show it using a IIIF viewer.
+ * Otherwise, show nothing.
+ */
 const Images: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const element = new EntityParser(entity)
   const elementCarriedByQuery = element.getHalLink(carriedBy.searchTag)

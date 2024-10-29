@@ -21,7 +21,8 @@ import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
 import IObject from '../../types/data/IObject'
 import IDigitalObject from '../../types/data/IDigitalObject'
-import Images from '../common/Images'
+import UV from '../common/UV'
+import WikiDataImageViewer from '../common/WikiDataImageViewer'
 
 import Carries from './Carries'
 import About from './About'
@@ -34,6 +35,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
   const memberOf = element.getMemberOf()
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title
+  const manifestId = element.getManifestId()
 
   return (
     <React.Fragment>
@@ -53,7 +55,11 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
         </EntityHeader>
       </ErrorBoundary>
       <ErrorBoundary FallbackComponent={ErrorFallback}>
-        <Images entity={data} />
+        {manifestId !== '' ? (
+          <UV manifest={manifestId} />
+        ) : (
+          <WikiDataImageViewer entity={data} />
+        )}
       </ErrorBoundary>
       <StyledEntityBody>
         <Col>
