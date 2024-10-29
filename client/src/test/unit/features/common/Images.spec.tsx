@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import Images from '../../../../features/works/Images'
 import { physicalObject as mockObject } from '../../../data/object'
@@ -11,8 +12,8 @@ import { useGetSearchRelationshipQuery } from '../../../../redux/api/ml_api'
 
 const mockResults = mockActivityStreams('/data/concept/concept', 1)
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetSearchRelationshipQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetSearchRelationshipQuery: vi.fn(),
   useGetItemQuery: () => ({
     data: mockObject,
     isSuccess: true,
