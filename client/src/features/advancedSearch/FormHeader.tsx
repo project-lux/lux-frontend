@@ -7,6 +7,7 @@ import { advancedSearchTitles } from '../../config/searchTypes'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
+import { changeClearedAdvancedSearch } from '../../redux/slices/currentSearchSlice'
 
 const StyledH3 = styled.h3`
   font-size: 24px;
@@ -27,6 +28,7 @@ const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
   const handleResetForm = (): void => {
     dispatch(resetHelpTextState())
     dispatch(resetState())
+    dispatch(changeClearedAdvancedSearch({ value: true }))
   }
 
   return (

@@ -16,7 +16,6 @@ interface IAdvancedSearchForm {
   parentScope: string
   parentStateId: string
   nestedLevel: number
-  openTopLevel?: boolean
   childInd?: number
   siblings?: Array<Record<string, any>>
 }
@@ -28,7 +27,6 @@ interface IAdvancedSearchForm {
  * @param {string} parentScope the scope of the parent object
  * @param {string} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
- * @param {boolean} openTopLevel optional; determines whether the groups and relationship containers should appeared open or collapsed
  * @param {number} childInd optional; the array index of the object within a group
  * @param {Array<Record<string, any>> | undefined} siblings optional; array containing the list of children in a group
  * @returns {JSX.Element}
@@ -38,7 +36,6 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   parentScope,
   parentStateId,
   nestedLevel,
-  openTopLevel = true,
   childInd = undefined,
   siblings = undefined,
 }) => {
@@ -84,7 +81,6 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
-        openTopLevel={openTopLevel}
       />
     )
   }
@@ -99,7 +95,6 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
-        openTopLevel={openTopLevel}
       />
     )
   }

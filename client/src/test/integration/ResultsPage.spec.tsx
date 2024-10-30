@@ -1,11 +1,10 @@
-import { cleanup, prettyDOM, render, screen } from '@testing-library/react'
+import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import config from '../../config/config'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
-import { searchEstimate } from '../data/results'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -15,22 +14,22 @@ import eventTrackingMock from './utils/eventTrackingMock'
 
 const mockEstimatesResults = [
   {
-    objects: searchEstimate(801),
+    objects: 801,
   },
   {
-    works: searchEstimate(1266),
+    works: 1266,
   },
   {
-    people: searchEstimate(64),
+    people: 64,
   },
   {
-    places: searchEstimate(10),
+    places: 10,
   },
   {
-    concepts: searchEstimate(55),
+    concepts: 55,
   },
   {
-    events: searchEstimate(6),
+    events: 6,
   },
 ]
 

@@ -9,7 +9,7 @@ import { translate } from '../../lib/util/translate'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import {
   ICurrentSearchState,
-  updateCurrentSearchState,
+  changeCurrentSearchState,
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -51,7 +51,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
     pushClientEvent('Search Switch', 'Selected', 'To Advanced Search')
     if (searchString === '') {
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
-      dispatch(updateCurrentSearchState({ value: 'advanced' }))
+      dispatch(changeCurrentSearchState({ value: 'advanced' }))
       urlParams.delete('sq')
       navigate(`${pathname}?${urlParams.toString()}`)
       return
@@ -60,7 +60,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
       query: searchString,
       scope,
       onSuccess: (translatedString) => {
-        dispatch(updateCurrentSearchState({ value: 'advanced' }))
+        dispatch(changeCurrentSearchState({ value: 'advanced' }))
         const translatedObject = JSON.parse(translatedString)
         delete translatedObject._scope
         const noScopeJSON = JSON.stringify(translatedObject)

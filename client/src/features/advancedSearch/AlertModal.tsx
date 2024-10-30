@@ -5,7 +5,7 @@ import { isNull } from 'lodash'
 
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { updateCurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
@@ -33,7 +33,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
   const dispatch = useAppDispatch()
 
   const handleContinueToSimpleSearch = (): void => {
-    dispatch(updateCurrentSearchState({ value: 'simple' }))
+    dispatch(changeCurrentSearchState({ value: 'simple' }))
     dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
     onClose()
     dispatch(resetState())

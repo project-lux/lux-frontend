@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added priority to icon rendering ([#401](https://github.com/project-lux/lux-frontend/issues/401)).
+- Added show all functionality to advanced search when following a search link ([#201](https://github.com/project-lux/lux-frontend/issues/201)).
 
 ### Changed
 
