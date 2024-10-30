@@ -98,7 +98,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     let searchString = ''
     if (objectsWithImagesHalLink !== null) {
       const searchQ = formatHalLink(objectsWithImagesHalLink, 'item')
-      searchString = `${searchQ}&openSearch=false`
+      searchString = `${searchQ}&searchLink=true`
     }
 
     const searchLinkLabel = !isUndefined(halLinkTitle)
