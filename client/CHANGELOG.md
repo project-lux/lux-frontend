@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added a wrapping AND query around advanced search search links ([#290](https://github.com/project-lux/lux-frontend/issues/290)).
+
 ### Changed
 
 ### Removed

@@ -5,6 +5,7 @@ import { HashLink as Link } from 'react-router-hash-link'
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { convertToANDQuery } from '../../lib/parse/search/queryParser'
 
 interface ILinkParams {
   scope: string
@@ -29,7 +30,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
     total !== 1 ? 's' : ''
   }`
 
-  const searchQ = JSON.stringify(criteria)
+  const searchQ = convertToANDQuery(JSON.stringify(criteria))
   return (
     <Link
       to={{

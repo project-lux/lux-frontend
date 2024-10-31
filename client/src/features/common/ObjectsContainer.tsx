@@ -76,7 +76,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
             <div className="col-12">
               <PrimaryButton
                 variant="link"
-                href={`/view/results/${tab}${formatHalLink(
+                href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
                 )}&searchLink=true`}
