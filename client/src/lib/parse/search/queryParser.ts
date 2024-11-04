@@ -41,5 +41,32 @@ export const isFromLandingPage = (state: { [key: string]: boolean }): boolean =>
  * @param {string} uri the HAL link
  * @returns {string}
  */
-export const formatHalLink = (uri: string, mlScope: string): string =>
-  uri.replace(`${config.env.dataApiBaseUrl}api/search/${mlScope}`, '')
+export const convertToANDQuery = (q: string): string => {
+  const jsonQ = JSON.parse(q)
+  // Wrap the search in an AND query if the top level group is not an AND query
+  if (!jsonQ.hasOwnProperty('AND')) {
+    return JSON.stringify({
+      AND: [jsonQ],
+    })
+  }
+
+  return q
+}
+
+/**
+ * Formats the search link for the HAL links
+ * @param {string} uri the HAL link
+ * @returns {string}
+ */
+export const formatHalLink = (uri: string, mlScope: string): string => {
+  const strippedUri = uri.replace(
+    `${config.env.dataApiBaseUrl}api/search/${mlScope}`,
+    '',
+  )
+  const params = new URLSearchParams(strippedUri)
+  const query = params.has('q') ? (params.get('q') as string) : ''
+  // Wrap the search in an AND query if the top level group is not an AND query
+  params.set('q', convertToANDQuery(query))
+
+  return params.toString()
+}
