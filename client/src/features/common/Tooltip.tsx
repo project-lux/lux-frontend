@@ -57,11 +57,7 @@ const Tooltip: React.FC<IProps> = ({
   )
 
   return (
-    <OverlayTrigger
-      placement={placement}
-      overlay={renderTooltip(placement)}
-      trigger="hover"
-    >
+    <OverlayTrigger placement={placement} overlay={renderTooltip(placement)}>
       {children}
     </OverlayTrigger>
   )

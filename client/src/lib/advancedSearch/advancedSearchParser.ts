@@ -333,3 +333,37 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
 
   return currentState
 }
+
+/**
+ * Check if state contains valid data for submitting
+ * @param state IAdvancedSearchState; current state
+ * @returns boolean
+ */
+export const getAdvancedSearchDepth = (state: IAdvancedSearchState): number => {
+  let depth = 1
+  if (depth > 6) {
+    return depth
+  }
+  const stateKeys = Object.keys(state)
+  const ind = stateKeys.indexOf('_stateId')
+  stateKeys.splice(ind, 1)
+
+  const property = getProperty(state)
+  const nested = state[property]
+
+  // If the nested property is text input and it is a string value that is not empty
+  if (isInput(property)) {
+    return depth
+  }
+
+  if (Array.isArray(nested)) {
+    // If the node is an array, iterate over its children
+    for (const child of nested) {
+      depth += getAdvancedSearchDepth(child)
+    }
+  } else if (typeof nested === 'object') {
+    depth += getAdvancedSearchDepth(nested)
+  }
+
+  return depth
+}

@@ -10,7 +10,7 @@ import SearchBoxContainer from '../search/SearchContainer'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   ICurrentSearchState,
-  updateCurrentSearchState,
+  changeCurrentSearchState,
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 
@@ -24,9 +24,9 @@ const ResultsSearchContainer: React.FC<IProps> = ({ isSimpleSearch }) => {
   const dispatch = useAppDispatch()
   useEffect(() => {
     if (!isSimpleSearch) {
-      dispatch(updateCurrentSearchState({ value: 'advanced' }))
+      dispatch(changeCurrentSearchState({ value: 'advanced' }))
     } else {
-      dispatch(updateCurrentSearchState({ value: 'simple' }))
+      dispatch(changeCurrentSearchState({ value: 'simple' }))
     }
   }, [isSimpleSearch, dispatch])
 

@@ -4,16 +4,28 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface ICurrentSearchState {
   searchType: 'advanced' | 'simple'
+  clearedAdvancedSearch: boolean
 }
 
-const initialState: ICurrentSearchState = { searchType: 'simple' }
+const initialState: ICurrentSearchState = {
+  searchType: 'simple',
+  clearedAdvancedSearch: false,
+}
 
 export const currentSearchSlice = createSlice({
   name: 'currentSearch',
   initialState,
   reducers: {
     // Updates the state.value onChange of user input
-    updateCurrentSearchState: (
+    changeClearedAdvancedSearch: (
+      state,
+      action: PayloadAction<{ value: boolean }>,
+    ) => {
+      const { value } = action.payload
+      state.clearedAdvancedSearch = value
+    },
+    // Updates the state.value onChange of user input
+    changeCurrentSearchState: (
       state,
       action: PayloadAction<{ value: 'advanced' | 'simple' }>,
     ) => {
@@ -24,7 +36,10 @@ export const currentSearchSlice = createSlice({
   },
 })
 
-export const { updateCurrentSearchState, resetState } =
-  currentSearchSlice.actions
+export const {
+  changeClearedAdvancedSearch,
+  changeCurrentSearchState,
+  resetState,
+} = currentSearchSlice.actions
 
 export default currentSearchSlice.reducer
