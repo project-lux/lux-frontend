@@ -2,17 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.39.0 - Unreleased
+## v1.38.1 - 2024-11-6
 
 ### Added
 
 - Added a wrapping AND query around advanced search search links ([#290](https://github.com/project-lux/lux-frontend/issues/290)).
-
-### Changed
-
-### Removed
-
-### Fixed
 
 ## v1.38.0 - 2024-11-4
 
