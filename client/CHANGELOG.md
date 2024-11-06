@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.39.0 - Unreleased
+
+### Added
+
+### Changed
+
+- Changed the labels for advanced search date comparator ([#402](https://github.com/project-lux/lux-frontend/issues/402)).
+
+### Removed
+
+### Fixed
+
 ## v1.38.1 - 2024-11-6
 
 ### Added
