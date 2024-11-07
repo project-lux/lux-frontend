@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row, Form } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { searchScope } from '../../config/searchTypes'
-import { filterAdvancedSearch } from '../../lib/advancedSearch/advancedSearchParser'
+import {
+  filterAdvancedSearch,
+  getAdvancedSearchDepth,
+} from '../../lib/advancedSearch/advancedSearchParser'
 import {
   addAqParamValue,
   IAdvancedSearchState,
@@ -19,7 +22,11 @@ import ErrorMessage from '../search/ErrorMessage'
 import { ErrorFallback } from '../error/ErrorFallback'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { changeClearedAdvancedSearch } from '../../redux/slices/currentSearchSlice'
+import StyledAddButton from '../../styles/features/advancedSearch/AddButton'
+import {
+  ICurrentSearchState,
+  changeClearedAdvancedSearch,
+} from '../../redux/slices/currentSearchSlice'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -27,7 +34,6 @@ import HelpText from './HelpText'
 import SubmitButton from './SubmitButton'
 import ToggleButton from './ToggleSearchButton'
 import AlertModal from './AlertModal'
-
 /**
  * Container for holding the advanced search components.
  * @returns
@@ -35,16 +41,18 @@ import AlertModal from './AlertModal'
 const AdvancedSearchContainer: React.FC = () => {
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
+  const [showAllRows, setShowAllRows] = useState<boolean>(true)
+  const formRef = useRef(null)
   const navigate = useNavigate()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
-  const query = urlParams.has('q') ? (urlParams.get('q') as string) : undefined
+  const query = urlParams.has('q') ? (urlParams.get('q') as string) : ''
   const queryTab = urlParams.get('qt') || tab
-  const openTopLevel = urlParams.has('openSearch')
-    ? urlParams.get('openSearch') === 'true'
-    : true
+  const fromSearchLink = urlParams.has('searchLink')
+    ? urlParams.get('searchLink') === 'true'
+    : false
 
   const dispatch = useAppDispatch()
 
@@ -60,7 +68,6 @@ const AdvancedSearchContainer: React.FC = () => {
       search: `?${newUrlParams.toString()}`,
     })
   }
-
   const handleCloseModal = (): void => {
     setShowModal(false)
     pushClientEvent(
@@ -70,8 +77,12 @@ const AdvancedSearchContainer: React.FC = () => {
     )
   }
 
+  const handleShowRows = (): void => {
+    setShowAllRows(!showAllRows)
+  }
+
   useEffect(() => {
-    if (query !== undefined && tab === queryTab) {
+    if (tab === queryTab) {
       if (query === '') {
         dispatch(resetState())
         dispatch(addSelectedHelpText({ value: 'fieldSelectRow' }))
@@ -82,10 +93,28 @@ const AdvancedSearchContainer: React.FC = () => {
       dispatch(changeClearedAdvancedSearch({ value: false }))
     }
   }, [dispatch, scope, query, tab, queryTab])
-
   const currentState = useAppSelector(
     (asState) => asState.advancedSearch as IAdvancedSearchState,
   )
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+
+  // Calculate the number of rows in the currently submitted search
+  const numberOfRows = getAdvancedSearchDepth(
+    query !== '' ? JSON.parse(query) : {},
+  )
+  const hideAdvancedSearch =
+    numberOfRows > 6 && fromSearchLink && !asSearchState.clearedAdvancedSearch
+  const formStyle = hideAdvancedSearch
+    ? {
+        minHeight: '150px',
+        maxHeight: showAllRows ? '340px' : 'none',
+        overflow: showAllRows ? 'clip' : 'visible',
+      }
+    : {
+        minHeight: '150px',
+      }
 
   return (
     <React.Fragment>
@@ -138,7 +167,8 @@ const AdvancedSearchContainer: React.FC = () => {
                   data-testid="testing"
                 >
                   <div
-                    style={{ minHeight: '150px' }}
+                    style={formStyle}
+                    ref={formRef}
                     id="advanced-search-form-content"
                     className="mt-3 mb-3 ps-2"
                   >
@@ -147,9 +177,28 @@ const AdvancedSearchContainer: React.FC = () => {
                       parentScope={scope}
                       parentStateId={currentState._stateId as string}
                       nestedLevel={0}
-                      openTopLevel={openTopLevel}
                     />
                   </div>
+                  {hideAdvancedSearch && (
+                    <div style={{ height: showAllRows ? '200px' : '75px' }}>
+                      <StyledAddButton
+                        type="button"
+                        onClick={handleShowRows}
+                        className={`show${
+                          showAllRows ? 'Less' : 'All'
+                        }AdvancedSearchRows w-auto`}
+                        value={`show${
+                          showAllRows ? 'Less' : 'All'
+                        }AdvancedSearchRows`}
+                        aria-label={`Show ${
+                          showAllRows ? 'less' : 'all'
+                        } advanced search rows`}
+                        data-testid="advanced-search-rows-button"
+                      >
+                        Show {showAllRows ? 'All' : 'Less'} Rows
+                      </StyledAddButton>
+                    </div>
+                  )}
                   <StyledHr width="100%" />
                   <SubmitButton state={currentState} />
                 </Form>
@@ -164,5 +213,4 @@ const AdvancedSearchContainer: React.FC = () => {
     </React.Fragment>
   )
 }
-
 export default AdvancedSearchContainer

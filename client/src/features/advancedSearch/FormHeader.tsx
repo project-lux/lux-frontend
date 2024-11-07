@@ -7,6 +7,7 @@ import { advancedSearchTitles } from '../../config/searchTypes'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
+import { changeClearedAdvancedSearch } from '../../redux/slices/currentSearchSlice'
 
 const StyledH3 = styled.h3`
   font-size: 24px;
@@ -15,7 +16,6 @@ const StyledH3 = styled.h3`
   line-height: 24px;
   font-weight: 500;
 `
-
 /**
  * The header to be displayed for the advanced search.
  * @param {string} tab the scope of the parent object
@@ -23,10 +23,10 @@ const StyledH3 = styled.h3`
  */
 const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
   const dispatch = useAppDispatch()
-
   const handleResetForm = (): void => {
     dispatch(resetHelpTextState())
     dispatch(resetState())
+    dispatch(changeClearedAdvancedSearch({ value: true }))
   }
 
   return (
@@ -55,5 +55,4 @@ const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
     </Row>
   )
 }
-
 export default FormHeader
