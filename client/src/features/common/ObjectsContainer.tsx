@@ -79,7 +79,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
-                )}&searchLink=true`}
+                )}&openSearch=false`}
                 onClick={() =>
                   pushClientEvent('Search Link', 'Selected', `Tab ${title}`)
                 }

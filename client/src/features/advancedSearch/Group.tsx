@@ -26,6 +26,7 @@ interface IGroup {
   parentScope: string
   parentStateId: string
   nestedLevel: number
+  openTopLevel: boolean
 }
 
 /**
@@ -36,6 +37,7 @@ interface IGroup {
  * @param {number} parentScope the scope of the parent object
  * @param {boolean} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
+ * @param {boolean} openTopLevel determines whether the groups and relationship containers should appeared open or collapsed
  * @returns {JSX.Element}
  */
 const Group: React.FC<IGroup> = ({
@@ -45,8 +47,9 @@ const Group: React.FC<IGroup> = ({
   parentScope,
   parentStateId,
   nestedLevel,
+  openTopLevel,
 }) => {
-  const [open, setOpen] = useState<boolean>(true)
+  const [open, setOpen] = useState<boolean>(openTopLevel)
 
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {

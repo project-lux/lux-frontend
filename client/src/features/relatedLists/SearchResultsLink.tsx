@@ -35,7 +35,7 @@ const SearchResultsLink: React.FC<IProps> = ({
     estimate !== 1 ? 's' : ''
   }`
   const searchQ = formatHalLink(url, searchScope[newScope])
-  const searchString = `${searchQ}&searchLink=true${
+  const searchString = `${searchQ}&openSearch=false${
     sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
   }`
 

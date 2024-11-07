@@ -53,7 +53,7 @@ const ListRow: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${searchQ}&searchLink=true`,
+              search: `q=${searchQ}&openSearch=false`,
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
