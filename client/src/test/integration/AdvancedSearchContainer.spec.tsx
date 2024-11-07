@@ -42,7 +42,7 @@ describe('Advanced Search', () => {
   })
 
   it('renders show all rows button', async () => {
-    const searchLinkPage = `/view/results/works?q={"AND":[{"OR":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"publishedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"creationInfluencedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}}]},{"publishedDate":"1975-12-31T00:00:00.000Z","_comp":"<="},{"publishedDate":"1975-01-01T00:00:00.000Z","_comp":">="}]}&searchLink=true`
+    const searchLinkPage = `/view/results/works?q={"AND":[{"OR":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"publishedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"creationInfluencedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}}]},{"publishedDate":"1975-12-31T00:00:00.000Z","_comp":"<="},{"publishedDate":"1975-01-01T00:00:00.000Z","_comp":">="}]}&openSearch=false`
     render(<AppRender route={searchLinkPage} />)
 
     const button = screen.getByTestId('advanced-search-rows-button')
