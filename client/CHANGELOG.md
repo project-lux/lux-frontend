@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed layout issues with Show More in advanced search ([#201](https://github.com/project-lux/lux-frontend/issues/201)).
+
 ## v1.38.2 - 2024-11-7
 
 ### Removed

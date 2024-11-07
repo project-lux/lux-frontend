@@ -16,11 +16,9 @@ interface IAdvancedSearchForm {
   parentScope: string
   parentStateId: string
   nestedLevel: number
-  openTopLevel?: boolean
   childInd?: number
   siblings?: Array<Record<string, any>>
 }
-
 /**
  * Container for holding all functionality related to rendering advanced search rows based on the current
  * advanced search state.
@@ -28,7 +26,6 @@ interface IAdvancedSearchForm {
  * @param {string} parentScope the scope of the parent object
  * @param {string} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
- * @param {boolean} openTopLevel optional; determines whether the groups and relationship containers should appeared open or collapsed
  * @param {number} childInd optional; the array index of the object within a group
  * @param {Array<Record<string, any>> | undefined} siblings optional; array containing the list of children in a group
  * @returns {JSX.Element}
@@ -38,7 +35,6 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   parentScope,
   parentStateId,
   nestedLevel,
-  openTopLevel = true,
   childInd = undefined,
   siblings = undefined,
 }) => {
@@ -56,9 +52,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
       />
     )
   }
-
   const property = getProperty(state)
-
   // The current state contains keys that are mapped as input
   if (containsInput(stateKeys)) {
     return (
@@ -72,7 +66,6 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
       />
     )
   }
-
   // Only groups contain arrays
   if (Array.isArray(state[property])) {
     const groupObjects: any = state[property]
@@ -84,11 +77,9 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
-        openTopLevel={openTopLevel}
       />
     )
   }
-
   // Nested relationships are always object types but not arrays
   if (typeof state[property] === 'object') {
     return (
@@ -99,12 +90,9 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
-        openTopLevel={openTopLevel}
       />
     )
   }
-
   return null
 }
-
 export default AdvancedSearchForm

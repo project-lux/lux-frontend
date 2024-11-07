@@ -28,7 +28,6 @@ interface IRelationshipRow {
   parentScope: string
   parentStateId: string
   nestedLevel: number
-  openTopLevel: boolean
 }
 
 /**
@@ -39,7 +38,6 @@ interface IRelationshipRow {
  * @param {number} parentScope the scope of the parent object
  * @param {boolean} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
- * @param {boolean} openTopLevel determines whether the groups and relationship containers should appeared open or collapsed
  * @returns {JSX.Element}
  */
 const RelationshipRow: React.FC<IRelationshipRow> = ({
@@ -49,18 +47,15 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   parentScope,
   parentStateId,
   nestedLevel,
-  openTopLevel,
 }) => {
-  const [open, setOpen] = useState<boolean>(openTopLevel)
+  const [open, setOpen] = useState<boolean>(true)
 
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
     dispatch(addFieldSelection({ scope: parentScope, selected, stateId }))
   }
-
   const scopeToPassToNestedForm =
     getFieldToEntityRelationship(parentScope, selectedKey) || ''
-
   const id = `field-dropdown-${stateId}`
   const parentLabels = getParentLabels(parentScope)
   const labelForAria = parentLabels ? parentLabels[selectedKey] : ''
@@ -68,7 +63,6 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
     scopeToPassToNestedForm !== ''
       ? scopeToAriaLabel[scopeToPassToNestedForm]
       : 'nested group'
-
   return (
     <div
       className="mb-3"
@@ -153,5 +147,4 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
     </div>
   )
 }
-
 export default RelationshipRow

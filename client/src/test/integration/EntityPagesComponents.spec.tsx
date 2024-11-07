@@ -69,7 +69,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('objects-container-show-all-button')
       expect(link).toHaveAttribute(
         'href',
-        '/view/results/objects?q=agentMadeDiscoveredInfluencedItem&openSearch=false',
+        '/view/results/objects?q=agentMadeDiscoveredInfluencedItem&searchLink=true',
       )
     })
 
@@ -148,7 +148,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('1983-itemProductionDate-search-link')
       expect(link).toHaveAttribute(
         'href',
-        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1983-12-31T00:00:00.000Z","_comp":"<="},{"producedDate":"1983-01-01T00:00:00.000Z","_comp":">="}]}&openSearch=false`,
+        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1983-12-31T00:00:00.000Z","_comp":"<="},{"producedDate":"1983-01-01T00:00:00.000Z","_comp":">="}]}&searchLink=true`,
       )
     })
   })
@@ -232,7 +232,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('list-item-link-0')
       expect(link).toHaveAttribute(
         'href',
-        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"classification":{"id":"${config.env.dataApiBaseUrl}data/concept/mock-facet-concept"}}]}&openSearch=false`,
+        `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"classification":{"id":"${config.env.dataApiBaseUrl}data/concept/mock-facet-concept"}}]}&searchLink=true`,
       )
     })
   })
@@ -284,7 +284,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('search-related-list-link')
       expect(link).toHaveAttribute(
         'href',
-        `/view/results/concepts?q=agentInfluencedConcepts&openSearch=false`,
+        `/view/results/concepts?q=agentInfluencedConcepts&searchLink=true`,
       )
     })
   })
@@ -335,7 +335,7 @@ describe('Entity pages relationship components', () => {
       const worksLink = screen.getByTestId('related-list-search-link-work-0')
       expect(worksLink).toHaveAttribute(
         'href',
-        `/view/results/works?q={"OR":[{"AND":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-2"}}]}]}&openSearch=false`,
+        `/view/results/works?q={"OR":[{"AND":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-2"}}]}]}&searchLink=true`,
       )
     })
 
@@ -353,7 +353,7 @@ describe('Entity pages relationship components', () => {
       const objectsLink = screen.getByTestId('related-list-search-link-item-1')
       expect(objectsLink).toHaveAttribute(
         'href',
-        `/view/results/objects?q={"OR":[{"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/group/mock-group"}}]}]}&openSearch=false`,
+        `/view/results/objects?q={"OR":[{"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/group/mock-group"}}]}]}&searchLink=true`,
       )
     })
 
