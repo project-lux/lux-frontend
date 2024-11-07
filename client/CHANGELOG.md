@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.38.2 - 2024-11-7
+
+### Removed
+
+- Removed Show All functionality in advanced search ([#201](https://github.com/project-lux/lux-frontend/issues/201)).
+
 ## v1.38.1 - 2024-11-6
 
 ### Added
