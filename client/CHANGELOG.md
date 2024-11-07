@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added caused_by data to events ([#309](https://github.com/project-lux/lux-frontend/issues/309)).
+
 ### Changed
 
 - Changed the labels for advanced search date comparator ([#402](https://github.com/project-lux/lux-frontend/issues/402)).
