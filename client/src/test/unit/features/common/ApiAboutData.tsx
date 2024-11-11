@@ -6,12 +6,12 @@ import {
   useGetNameQuery,
   useGetSearchRelationshipQuery,
 } from '../../../../redux/api/ml_api'
-import SetEvent from '../../../../features/set/SetEvent'
 import { activityStreams } from '../../../data/results'
 import config from '../../../../config/config'
 import { setEvent } from '../../../../config/collectionsSearchTags'
 import { event as mockEvent } from '../../../data/event'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
+import ApiAboutData from '../../../../features/common/ApiAboutData'
 
 const mockObject = reusableMinimalEntity('Mock')
 
@@ -63,7 +63,7 @@ describe('SetEvent', () => {
     }
     const { container } = render(
       <BrowserRouter>
-        <SetEvent providedLinks={mockLinks} configuredLink={setEvent} />
+        <ApiAboutData providedLinks={mockLinks} configuredLink={setEvent} />
       </BrowserRouter>,
     )
     expect(container).toHaveTextContent('Mock Event')

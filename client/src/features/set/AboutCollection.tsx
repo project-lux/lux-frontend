@@ -11,8 +11,7 @@ import LinkContainer from '../common/LinkContainer'
 import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
 import { setEvent } from '../../config/collectionsSearchTags'
-
-import SetEvent from './SetEvent'
+import ApiAboutData from '../common/ApiAboutData'
 
 interface IObject {
   data: IEntity
@@ -70,7 +69,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
             />
           ))}
         {data._links && (
-          <SetEvent providedLinks={data._links} configuredLink={setEvent} />
+          <ApiAboutData providedLinks={data._links} configuredLink={setEvent} />
         )}
       </div>
     </React.Fragment>
