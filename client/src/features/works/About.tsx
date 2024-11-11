@@ -17,7 +17,8 @@ import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
 import StyledHr from '../../styles/shared/Hr'
 import SubjectOf from '../common/SubjectOf'
-import { subjectOf } from '../../config/worksSearchTags'
+import { subjectOf, workContains } from '../../config/worksSearchTags'
+import ApiAboutData from '../common/ApiAboutData'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 
@@ -86,6 +87,12 @@ const About: React.FC<IObject> = ({ entity }) => {
             content={partOf}
             label="Part Of"
             id="works-part-of-link-container"
+          />
+        )}
+        {entity._links && (
+          <ApiAboutData
+            providedLinks={entity._links}
+            configuredLink={workContains}
           />
         )}
         {types.length > 0 && (

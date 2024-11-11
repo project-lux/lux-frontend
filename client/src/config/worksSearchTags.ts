@@ -23,3 +23,9 @@ export const subjectOf: IHalLink = {
   title: 'Subject Of',
   searchTag: 'lux:workWorksAbout',
 }
+
+// Works that contain other works
+export const workContains: IHalLink = {
+  title: 'Contains',
+  searchTag: 'lux:workIncludedWorks',
+}

@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added caused_by data to events ([#309](https://github.com/project-lux/lux-frontend/issues/309)).
+- Added Part Of inverse relationship data point to works ([#302](https://github.com/project-lux/lux-frontend/issues/302)).
 
 ### Changed
 
