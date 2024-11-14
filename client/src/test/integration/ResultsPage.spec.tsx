@@ -48,7 +48,9 @@ vi.mock('../../lib/util/collectionHelper', () => ({
 // Mock the request for collections
 vi.mock('../../lib/parse/search/estimatesParser', () => ({
   __esModule: true,
-  getEstimatesRequests: vi.fn(),
+  getEstimatesRequests:vi.fn(() => ({
+    data: mockEstimatesResults,
+  })),
   isAdvancedSearch: vi.fn(),
   isSimpleSearch: vi.fn(),
 }))
@@ -68,22 +70,22 @@ describe('Results page shared components', () => {
       objectsResultsMockApi()
       cmsMockApi()
 
-      const collection = getCollections as jest.MockedFunction<
-        typeof getCollections
-      >
-      collection.mockImplementation(() => ({
-        data: [
-          `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-          `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-        ],
-      }))
+      // const collection = getCollections as jest.MockedFunction<
+      //   typeof getCollections
+      // >
+      // collection.mockImplementation(() => ({
+      //   data: [
+      //     `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+      //     `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
+      //   ],
+      // }))
 
-      const estimates = getEstimatesRequests as jest.MockedFunction<
-        typeof getEstimatesRequests
-      >
-      estimates.mockImplementation(() => ({
-        data: mockEstimatesResults,
-      }))
+      // const estimates = getEstimatesRequests as jest.MockedFunction<
+      //   typeof getEstimatesRequests
+      // >
+      // estimates.mockImplementation(() => ({
+      //   data: mockEstimatesResults,
+      // }))
     })
 
     describe('Navigation', () => {

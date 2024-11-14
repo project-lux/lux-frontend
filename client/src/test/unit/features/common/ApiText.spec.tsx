@@ -22,20 +22,32 @@ const mockEntity = {
 const mockPathname = `${config.env.dataApiBaseUrl}view/person/mock-person`
 
 vi.mock('../../../../redux/api/ml_api', () => ({
-  useGetItemQuery: vi.fn(),
+  useGetItemQuery: vi.fn(() => ({
+    data: mockPerson,
+    isSuccess: true,
+    refetch(): void {
+      throw new Error('Function not implemented.')
+    },
+  })),
 }))
 
-vi.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: mockPathname,
-  }),
-}))
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: mockPathname,
+    }),
+  }
+})
 
-vi.mock('../../../../lib/parse/data/helper', () => ({
-  ...jest.requireActual('../../../../lib/parse/data/helper'),
-  getLabelBasedOnEntityType: () => mockLabel,
-}))
+vi.mock('../../../../lib/parse/data/helper', async (importOriginal) => {
+  const actual = await vi.importActual('../../../../lib/parse/data/helper')
+  return {
+    ...actual,
+    getLabelBasedOnEntityType: () => mockLabel,
+  }
+})
 
 describe('ApiText', () => {
   describe('returns primary name', () => {

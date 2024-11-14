@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import { entity as mockEntity } from '../../../data/entity'
 import { person as mockPerson } from '../../../data/person'
 import EntityHeader from '../../../../features/common/EntityHeader'
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockPerson,
     isSuccess: true,
@@ -16,12 +17,15 @@ jest.mock('../../../../redux/api/ml_api', () => ({
   }),
 }))
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'mock-path',
-  }),
-}))
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: 'mock-path',
+    }),
+  }
+})
 
 describe('EntityHeader', () => {
   it('renders the title', () => {

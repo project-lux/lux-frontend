@@ -13,7 +13,7 @@
     "clean": "rm -rf build",
     "compile": "tsc -sourcemap",
     "compile-watch": "tsc --sourcemap --watch",
-    "copy-client": "cp -r ../client/build build/public",
+    "copy-client": "cp -r ../client/dist build/public",
     "nodemon": "cd build && nodemon -r source-map-support/register -q index.js"
   },
   "dependencies": {

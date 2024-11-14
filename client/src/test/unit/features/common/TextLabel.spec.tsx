@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import TextLabel from '../../../../features/common/TextLabel'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
@@ -7,14 +8,17 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 const mockLabel = 'Mock Label'
 const mockEntity = reusableMinimalEntity(mockLabel)
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: '/mock/pathname',
-  }),
-}))
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: '/mock/pathname',
+    }),
+  }
+})
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,

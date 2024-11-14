@@ -59,20 +59,20 @@ describe('Objects page', () => {
     sharedMock()
     eventTrackingMock()
 
-    const collection = getCollections as jest.MockedFunction<
-      typeof getCollections
-    >
-    collection.mockImplementation(() => ({
-      data: [
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-      ],
-    }))
+    // const collection = getCollections as jest.MockedFunction<
+    //   typeof getCollections
+    // >
+    // collection.mockImplementation(() => ({
+    //   data: [
+    //     `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
+    //     `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
+    //   ],
+    // }))
 
-    const items = getItems as jest.MockedFunction<typeof getItems>
-    items.mockImplementation(() => ({
-      data: mockItems,
-    }))
+    // const items = getItems as jest.MockedFunction<typeof getItems>
+    // items.mockImplementation(() => ({
+    //   data: mockItems,
+    // }))
   })
 
   describe('Works included', () => {

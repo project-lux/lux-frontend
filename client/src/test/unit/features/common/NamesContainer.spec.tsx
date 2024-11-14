@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import NamesContainer from '../../../../features/common/NamesContainer'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
@@ -16,7 +17,7 @@ const mockNames = {
 }
 const mockEntity = reusableMinimalEntity('Primary Name')
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,
