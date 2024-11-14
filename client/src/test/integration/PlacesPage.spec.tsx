@@ -1,12 +1,13 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import AppRender from './utils/AppRender'
 import placeMockApi from './utils/placesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 import sharedMock from './utils/sharedMockApi'
 
-jest.mock('leaflet')
+vi.mock('leaflet')
 
 describe('Place page', () => {
   const page = '/view/place/mock-place'

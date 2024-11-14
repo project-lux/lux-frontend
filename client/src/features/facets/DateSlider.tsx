@@ -111,7 +111,10 @@ const DateSlider: React.FC<IProps> = ({
 
   // Convert to percentage
   const getPercent = useCallback(
-    (value) => Math.round(((value - min) / (max - min)) * 100),
+    (value: string) => {
+      const valueAsNumber = Number(value)
+      return Math.round(((valueAsNumber - min) / (max - min)) * 100)
+    },
     [min, max],
   )
 
@@ -119,7 +122,7 @@ const DateSlider: React.FC<IProps> = ({
   useEffect(() => {
     if (maxValRef.current) {
       const minPercent = getPercent(earliestVal)
-      const maxPercent = getPercent(Number(maxValRef.current.value))
+      const maxPercent = getPercent(maxValRef.current.value)
 
       if (range.current) {
         range.current.style.left = `${minPercent}%`
@@ -131,7 +134,7 @@ const DateSlider: React.FC<IProps> = ({
   // Set width of the range to decrease from the right side
   useEffect(() => {
     if (minValRef.current) {
-      const minPercent = getPercent(Number(minValRef.current.value))
+      const minPercent = getPercent(minValRef.current.value)
       const maxPercent = getPercent(latestVal)
 
       if (range.current) {

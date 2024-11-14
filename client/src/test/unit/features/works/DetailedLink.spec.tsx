@@ -1,12 +1,13 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import { person as mockPerson } from '../../../data/person'
 import DetailedLink from '../../../../features/works/DetailedLink'
 import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockPerson,
     isSuccess: true,
@@ -39,6 +40,9 @@ describe('DetailedLink', () => {
       </BrowserRouter>,
     )
     const icon = screen.getByTestId('entity-icon-img')
-    expect(icon).toHaveAttribute('src', 'people-orgs.svg')
+    expect(icon).toHaveAttribute(
+      'src',
+      '/src/resources/images/entity/people-orgs.svg',
+    )
   })
 })

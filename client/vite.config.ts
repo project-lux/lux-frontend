@@ -6,7 +6,7 @@ export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   // depending on your application, base can also be "/"
   return {
-    base: '',
+    base: '/',
     plugins: [react(), viteTsconfigPaths()],
     // vite config
     define: {

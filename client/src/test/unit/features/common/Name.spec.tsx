@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import Name from '../../../../features/common/Name'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
@@ -10,7 +11,7 @@ const mockLanguage = 'language'
 const mockLanguageId = 'languageId'
 const mockEntity = reusableMinimalEntity(mockLanguage)
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetNameQuery: () => ({
     data: mockEntity,
     isSuccess: true,
