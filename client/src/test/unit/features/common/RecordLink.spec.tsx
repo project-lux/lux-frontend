@@ -21,10 +21,7 @@ vi.mock('../../../../redux/api/ml_api', () => ({
 describe('RecordLink', () => {
   describe('successful calls', () => {
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
-      >
-      getName.mockReturnValueOnce({
+      useGetNameQuery.mockReturnValueOnce({
         data: mockEntity,
         isSuccess: true,
         refetch(): void {
@@ -83,10 +80,7 @@ describe('RecordLink', () => {
     const mockReturn404 = vi.fn()
 
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
-      >
-      getName.mockReturnValueOnce({
+      useGetNameQuery.mockReturnValueOnce({
         data: undefined,
         isSuccess: false,
         isError: true,

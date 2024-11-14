@@ -63,7 +63,7 @@ export default function entityMockApi(): void {
 
   // mock the request for related agents (semantic relationship)
   nock(apiUrl)
-    .get('/api/related-list/agent?name=relatedToAgent&uri=mockEntityUri')
+    .get('/api/related-list/agent?name=relatedToAgent&uri=https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba')
     .reply(200, JSON.stringify(mockRelatedListResults), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -117,7 +117,15 @@ export default function entityMockApi(): void {
 
   // mock the request for items made/discovered
   nock(apiUrl)
-    .get('/api/search/item?q=agentMadeDiscoveredInfluencedItem')
+    .get('/api/search/item?q=%7B%22OR%22%3A%5B%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22encounteredBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22productionInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D')
+    .reply(200, JSON.stringify(mockResults('data/object/mock-object', 1)), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the request for items influenced
+  nock(apiUrl)
+    .get('/api/search/concept?q=%7B%22influencedByAgent%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D')
     .reply(200, JSON.stringify(mockResults('data/object/mock-object', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
@@ -153,7 +161,7 @@ export default function entityMockApi(): void {
 
   // mock the request for works published
   nock(apiUrl)
-    .get('/api/search/work?q=agentCreatedPublishedInfluencedWork')
+    .get('/api/search/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22creationInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D')
     .reply(200, JSON.stringify(mockResults('data/text/mock-work', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

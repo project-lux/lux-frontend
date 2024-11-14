@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed results page facets and results layout ([#416](https://github.com/project-lux/lux-frontend/issues/416)).
+- Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
 
 ### Removed
 
@@ -33,7 +34,6 @@ All notable changes to this project will be documented in this file.
 - Changed the labels for advanced search date comparator ([#402](https://github.com/project-lux/lux-frontend/issues/402)).
 - Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
 - Changed date parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
-- Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
 
 ### Removed
 

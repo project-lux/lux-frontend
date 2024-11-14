@@ -96,22 +96,14 @@ const Navigation: React.FC<INavigation> = ({
 
   // set to estimates or set empty if no results
   const estimates: Record<string, number | string> =
-    isSuccess && data ? data : {}
-
-  // If there are any errors retrieving the endpoints set estimates to '-'
-  if (isError || !hasCriteria) {
-    Object.keys(searchScope).map((scope) => {
-      estimates[scope] = '-'
-      return null
-    })
-  }
-
-  if (Object.keys(estimates).length === 0) {
-    Object.keys(searchScope).map((key) => {
-      estimates[key] = '-'
-      return null
-    })
-  }
+    isSuccess && data ? data : {
+      'objects': '-',
+      'works': '-',
+      'people': '-',
+      'places': '-',
+      'concepts': '-',
+      'events': '-',
+    }
 
   // If performing a simple search, check if the current tab has results
   if (simpleSearch && !isError) {

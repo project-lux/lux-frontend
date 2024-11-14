@@ -11,7 +11,7 @@ export const cleanWkt = (wkt: string): string =>
     .replace(/\s+\)/, ')')
 
 export interface IWktParseResult {
-  geoJson: W.GeoJSONGeometry
+  geoJson: W.GeoJSONGeometryOrNull
   type: string
   center: L.LatLngExpression
   bounds: L.LatLngBoundsExpression
@@ -21,7 +21,7 @@ export interface IWktParseResult {
 
 export const parseWkt = (wktStr: string): IWktParseResult => {
   const s = cleanWkt(wktStr)
-  const geo: W.GeoJSONGeometry = W.parse(s)
+  const geo: W.GeoJSONGeometryOrNull = W.parse(s)
   const res = {
     geoJson: geo,
     type: geo === null ? 'Point' : geo.type,
@@ -38,7 +38,8 @@ export const parseWkt = (wktStr: string): IWktParseResult => {
     return res
   }
 
-  const c = centroid(geo).geometry.coordinates
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const c = centroid(geo as any).geometry.coordinates
   res.center = [c[1], c[0]]
 
   const bb = bbox(geo)

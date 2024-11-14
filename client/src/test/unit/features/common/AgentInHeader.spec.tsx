@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import AgentInHeader from '../../../../features/common/AgentInHeader'
 import { agentData as mockAgentData } from '../../../data/person'
@@ -7,19 +8,22 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockEntity = reusableMinimalEntity('American')
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockEntity,
     isSuccess: true,
   }),
 }))
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: 'mock-path',
-  }),
-}))
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: 'mock-path',
+    }),
+  }
+})
 
 describe('AgentInHeader', () => {
   it('returns agent name', () => {

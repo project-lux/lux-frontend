@@ -1,9 +1,9 @@
-import { cleanup, fireEvent, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, prettyDOM, render, screen } from '@testing-library/react'
 import React from 'react'
 import { vi } from 'vitest'
 
 import config from '../../config/config'
-import { getTimelines } from '../../lib/util/fetchTimeline'
+// import { getTimelines } from '../../lib/util/fetchTimeline'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
 import * as eventTracking from '../../lib/pushClientEvent'
 import { relatedObjectsAndWorks } from '../../config/personAndGroupSearchTags'
@@ -27,24 +27,12 @@ describe('Entity pages relationship components', () => {
   beforeEach(async () => {
     entityMockApi()
     sharedMock()
-
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promises: any[] = []
-    const timelines = getTimelines as jest.MockedFunction<typeof getTimelines>
-    timelines.mockImplementation(() =>
-      Promise.all(promises).then(() => ({
-        data: mockTimeline,
-      })),
-    )
-
     eventTrackingMock()
   })
 
   describe('Related Objects and Works', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the related objects tab', async () => {
@@ -70,8 +58,7 @@ describe('Entity pages relationship components', () => {
       const link = screen.getByTestId('objects-container-show-all-button')
       expect(link).toHaveAttribute(
         'href',
-        '/view/results/objects?q=agentMadeDiscoveredInfluencedItem&searchLink=true',
-      )
+        '/view/results/objects?q=%7B%22AND%22%3A%5B%7B%22OR%22%3A%5B%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22encounteredBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22productionInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D%5D%7D&searchLink=true',      )
     })
 
     it('renders the related works tab', async () => {
@@ -166,9 +153,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Related Facets list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the faceted lists accordion container', async () => {
@@ -240,9 +225,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Related search results list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the search results accordion container', async () => {
@@ -292,9 +275,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Semantic search results list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the semantic accordion item', async () => {
@@ -336,7 +317,7 @@ describe('Entity pages relationship components', () => {
       const worksLink = screen.getByTestId('related-list-search-link-work-0')
       expect(worksLink).toHaveAttribute(
         'href',
-        `/view/results/works?q={"OR":[{"AND":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-2"}}]}]}&searchLink=true`,
+        `/view/results/works?q={"AND":[{"OR":[{"AND":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-2"}}]}]}]}&searchLink=true`,
       )
     })
 
@@ -354,7 +335,7 @@ describe('Entity pages relationship components', () => {
       const objectsLink = screen.getByTestId('related-list-search-link-item-1')
       expect(objectsLink).toHaveAttribute(
         'href',
-        `/view/results/objects?q={"OR":[{"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/group/mock-group"}}]}]}&searchLink=true`,
+        `/view/results/objects?q={"AND":[{"OR":[{"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person"}},{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/group/mock-group"}}]}]}]}&searchLink=true`,
       )
     })
 

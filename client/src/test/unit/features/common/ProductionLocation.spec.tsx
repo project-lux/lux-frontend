@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import { place as mockPlace } from '../../../data/place'
 import { reusableMinimalEntity as mockEntity } from '../../../data/reusableMinimalEntity'
@@ -9,7 +10,7 @@ import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
 const strippedMockUrl = stripYaleIdPrefix(mockPlace.id)
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockPlace,
     isSuccess: true,
@@ -24,7 +25,7 @@ jest.mock('../../../../redux/api/ml_api', () => ({
   }),
 }))
 
-jest.mock('leaflet')
+vi.mock('leaflet')
 
 describe('ProductionLocation', () => {
   it('renders the record link', async () => {

@@ -42,7 +42,32 @@ describe('TimelineParser', () => {
   describe('getSortedTimelineYears', () => {
     it('returns the sorted years', () => {
       const timeline = new TimelineParser(mockTimelineResults)
-      const mockSortedData = ['-40', '-20', '0', '1', '4', '1000']
+      const mockSortedData = [
+        '1945',
+        '1958',
+        '1959',
+        '1964',
+        '1966',
+        '1967',
+        '1968',
+        '1971',
+        '1972',
+        '1973',
+        '1974',
+        '1976',
+        '1977',
+        '1978',
+        '1979',
+        '1980',
+        '1981',
+        '1982',
+        '1983',
+        '1984',
+        '1985',
+        '1986',
+        '1987',
+        '1998',
+      ]
       expect(timeline.getSortedTimelineYears()).toStrictEqual(mockSortedData)
     })
   })
