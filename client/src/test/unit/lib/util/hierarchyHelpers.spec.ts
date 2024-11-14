@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import config from '../../../../config/config'
 import {
   currentUriInHierarchy,
@@ -39,7 +41,7 @@ describe('hierarchyHelpers', () => {
   })
 
   describe('currentUriInHierarchy', () => {
-    jest.mock('../../../../lib/util/hierarchyHelpers', () => ({
+    vi.mock('../../../../lib/util/hierarchyHelpers', () => ({
       ...jest.requireActual('../../../../lib/util/hierarchyHelpers'),
       removeViewFromPathname: jest
         .fn()

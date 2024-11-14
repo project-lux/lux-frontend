@@ -3,7 +3,7 @@ import React from 'react'
 import { vi } from 'vitest'
 
 import config from '../../config/config'
-import { getTimelines } from '../../lib/util/fetchTimeline'
+// import { getTimelines } from '../../lib/util/fetchTimeline'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
 import * as eventTracking from '../../lib/pushClientEvent'
 import { relatedObjectsAndWorks } from '../../config/personAndGroupSearchTags'
@@ -29,22 +29,20 @@ describe('Entity pages relationship components', () => {
     sharedMock()
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const promises: any[] = []
-    const timelines = getTimelines as jest.MockedFunction<typeof getTimelines>
-    timelines.mockImplementation(() =>
-      Promise.all(promises).then(() => ({
-        data: mockTimeline,
-      })),
-    )
+    // const promises: any[] = []
+    // const timelines = getTimelines as jest.MockedFunction<typeof getTimelines>
+    // timelines.mockImplementation(() =>
+    //   Promise.all(promises).then(() => ({
+    //     data: mockTimeline,
+    //   })),
+    // )
 
     eventTrackingMock()
   })
 
   describe('Related Objects and Works', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the related objects tab', async () => {
@@ -166,9 +164,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Related Facets list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the faceted lists accordion container', async () => {
@@ -240,9 +236,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Related search results list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the search results accordion container', async () => {
@@ -292,9 +286,7 @@ describe('Entity pages relationship components', () => {
 
   describe('Semantic search results list when open', () => {
     beforeEach(() => {
-      jest
-        .spyOn(eventTracking, 'pushClientEvent')
-        .mockImplementation(() => null)
+      vi.spyOn(eventTracking, 'pushClientEvent').mockImplementation(() => null)
     })
 
     it('renders the semantic accordion item', async () => {

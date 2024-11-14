@@ -1,11 +1,12 @@
 import { fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import Carries from '../../../../features/objects/Carries'
 import { physicalObject as mockObject } from '../../../data/object'
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockObject,
     isSuccess: true,

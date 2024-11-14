@@ -33,3 +33,4 @@ package-lock.json
 !/public/index.html.template
 /public/index.html
 /src/lib/pushClientEvent.ts
+/dist/

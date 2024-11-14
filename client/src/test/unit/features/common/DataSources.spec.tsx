@@ -1,11 +1,12 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import DataSources from '../../../../features/common/DataSources'
 import { entity as mockEntity } from '../../../data/entity'
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetNameQuery: () => ({
     data: mockEntity,
     isSuccess: true,
@@ -16,7 +17,7 @@ jest.mock('../../../../redux/api/ml_api', () => ({
   }),
 }))
 
-jest.mock('react-router-dom', () => ({
+vi.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: 'mock-path',

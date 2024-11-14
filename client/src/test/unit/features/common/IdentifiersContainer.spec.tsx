@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 import IdentifiersContainer from '../../../../features/common/IdentifiersContainer'
@@ -14,14 +15,14 @@ const mockIdentifiers = [
   },
 ]
 
-jest.mock('react-router-dom', () => ({
+vi.mock('react-router-dom', () => ({
   ...jest.requireActual('react-router-dom'),
   useLocation: () => ({
     pathname: 'mock-path',
   }),
 }))
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetNameQuery: () => ({
     data: mockEntity,
     isSuccess: true,
