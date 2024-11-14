@@ -473,7 +473,7 @@ describe('EntityParser', () => {
       const element = new EntityParser(mockEntity)
       const icons = element.getSupertypeIcon()
       expect(icons).toEqual([
-        '/src/resources/images/entity/specimens.svg',
+        '/src/resources/images/type/specimens.svg',
         'specimen',
       ])
     })

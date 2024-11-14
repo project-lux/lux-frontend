@@ -2,7 +2,7 @@ import { vi } from 'vitest'
 
 import config from '../../../../config/config'
 import ApiText from '../../../../features/common/ApiText'
-import { useGetItemQuery } from '../../../../redux/api/ml_api'
+import { useGetItemQuery, useGetNameQuery } from '../../../../redux/api/ml_api'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockLabel = 'Name'
@@ -22,28 +22,37 @@ const mockEntity = {
 const mockPathname = `${config.env.dataApiBaseUrl}view/person/mock-person`
 
 vi.mock('../../../../redux/api/ml_api', () => ({
-  useGetItemQuery: vi.fn(),
+  useGetItemQuery: vi.fn(() => ({
+    data: mockPerson,
+    isSuccess: true,
+    refetch(): void {
+      throw new Error('Function not implemented.')
+    },
+  })),
 }))
 
-vi.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: mockPathname,
-  }),
-}))
+vi.mock('react-router-dom', async (importOriginal) => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: mockPathname,
+    }),
+  }
+})
 
-vi.mock('../../../../lib/parse/data/helper', () => ({
-  ...jest.requireActual('../../../../lib/parse/data/helper'),
-  getLabelBasedOnEntityType: () => mockLabel,
-}))
+vi.mock('../../../../lib/parse/data/helper', async (importOriginal) => {
+  const actual = await vi.importActual('../../../../lib/parse/data/helper')
+  return {
+    ...actual,
+    getLabelBasedOnEntityType: () => mockLabel,
+  }
+})
 
 describe('ApiText', () => {
   describe('returns primary name', () => {
     beforeEach(async () => {
-      const getName = useGetItemQuery as jest.MockedFunction<
-        typeof useGetItemQuery
-      >
-      getName.mockReturnValueOnce({
+      useGetItemQuery.mockReturnValueOnce({
         data: mockPerson,
         isSuccess: true,
         refetch(): void {
@@ -60,11 +69,7 @@ describe('ApiText', () => {
 
   describe('returns primary name label', () => {
     beforeEach(async () => {
-      const getName = useGetItemQuery as jest.MockedFunction<
-        typeof useGetItemQuery
-      >
-      // the api call is skipped
-      getName.mockReturnValueOnce({
+      useGetItemQuery.mockReturnValueOnce({
         currentData: undefined,
         data: mockEntity,
         isError: false,
@@ -89,12 +94,7 @@ describe('ApiText', () => {
 
   describe('returns the value', () => {
     beforeEach(async () => {
-      const getName = useGetItemQuery as jest.MockedFunction<
-        typeof useGetItemQuery
-      >
-      // the api call is skipped
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      getName.mockImplementation((skipToken: any) => ({
+      useGetItemQuery.mockImplementation((skipToken: any) => ({
         currentData: undefined,
         data: undefined,
         isError: false,

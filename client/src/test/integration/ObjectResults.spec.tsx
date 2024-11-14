@@ -32,16 +32,6 @@ describe('Object results page', () => {
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
-
-    const collection = getCollections as jest.MockedFunction<
-      typeof getCollections
-    >
-    collection.mockImplementation(() => ({
-      data: [
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-      ],
-    }))
   })
 
   describe('Results header', () => {

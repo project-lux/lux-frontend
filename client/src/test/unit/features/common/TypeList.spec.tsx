@@ -16,10 +16,7 @@ vi.mock('../../../../redux/api/ml_api', () => ({
 
 describe('TypeList', () => {
   beforeEach(async () => {
-    const getName = useGetNameQuery as jest.MockedFunction<
-      typeof useGetNameQuery
-    >
-    getName
+    useGetNameQuery
       .mockReturnValueOnce({
         data: mockTypeOne,
         isSuccess: true,

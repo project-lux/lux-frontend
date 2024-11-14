@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import config from '../../../../config/config'
 import AgentData from '../../../../features/common/AgentData'
 import {
@@ -5,7 +7,7 @@ import {
   agentData as mockAgentData,
 } from '../../../data/person'
 
-jest.mock('../../../../redux/api/ml_api', () => ({
+vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockPerson,
     isSuccess: true,

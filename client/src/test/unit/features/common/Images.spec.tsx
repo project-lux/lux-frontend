@@ -23,11 +23,7 @@ vi.mock('../../../../redux/api/ml_api', () => ({
 describe('Images', () => {
   describe('IiifImageViewer', () => {
     beforeEach(async () => {
-      const getSearchRelationship =
-        useGetSearchRelationshipQuery as jest.MockedFunction<
-          typeof useGetSearchRelationshipQuery
-        >
-      getSearchRelationship.mockReturnValueOnce({
+      useGetSearchRelationshipQuery.mockReturnValueOnce({
         data: mockResults,
         isSuccess: true,
         refetch(): void {
@@ -49,12 +45,8 @@ describe('Images', () => {
 
   describe('WikiDataImageViewer', () => {
     beforeEach(async () => {
-      const getSearchRelationship =
-        useGetSearchRelationshipQuery as jest.MockedFunction<
-          typeof useGetSearchRelationshipQuery
-        >
       // the api call is skipped
-      getSearchRelationship.mockReturnValueOnce({
+      useGetSearchRelationshipQuery.mockReturnValueOnce({
         currentData: undefined,
         data: undefined,
         isError: false,

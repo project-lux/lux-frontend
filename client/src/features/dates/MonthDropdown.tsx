@@ -7,7 +7,7 @@ interface IDropdown {
   options: Record<string, string>
   handleChange: (x: string) => void
   className: string
-  dropdownHeaderText: string | Element
+  dropdownHeaderText: string
   id: string
   ariaLabel: string
   selected?: string
@@ -18,7 +18,7 @@ interface IDropdown {
  * @param {Record<string, string>} options current dropdown options
  * @param {(x: string) => void} handleChange callback function for when the option is selected
  * @param {string} className dropdown class
- * @param {string | Element} dropdownHeaderText text to be displayed as the dropdown header
+ * @param {string} dropdownHeaderText text to be displayed as the dropdown header
  * @param {string} id id of the dropdown
  * @param {string} ariaLabel aria-label text
  * @param {string} scope optional; scope of the current parent object within the advanced search state

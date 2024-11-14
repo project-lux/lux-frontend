@@ -25,11 +25,6 @@ vi.mock('../../../../lib/advancedSearch/stateId', () => ({
 describe('stateManager functions', () => {
   config.advancedSearch = advancedSearch()
 
-  beforeEach(async () => {
-    const stateId = getStateId as jest.MockedFunction<typeof getStateId>
-    stateId.mockImplementation(() => '1')
-  })
-
   describe('removeObjectFromState', () => {
     it('returns state with array containing one object if only one object in a group', () => {
       const mockChildOne: IAdvancedSearchState = {
