@@ -26,7 +26,7 @@
 2. Copy the contents of [.env.template](https://github.com/project-lux/lux-frontend/blob/main/client/.env.template) and add the appropriate environment variable values based on the documentation in .env.template.
 
 ### Configure index.html file
-1. Create an index.html file in the [/public](https://github.com/project-lux/lux-frontend/tree/main/client/public) folder
+1. Create an index.html file in the [/client](https://github.com/project-lux/lux-frontend/tree/main/client) folder
 2. Copy the contents of [index.html.template](https://github.com/project-lux/lux-frontend/blob/main/client/public/index.html.template) and add any additional tags deemed necessary.
 
 ### Configure pushClientEvent.ts file
@@ -56,7 +56,7 @@ Runs [eslint](https://eslint.org/) for finding errors in the code.
 
 ### `yarn build`
 
-Builds the app for production to the `build` folder.<br />
+Builds the app for production to the `dist` folder.<br />
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.<br />

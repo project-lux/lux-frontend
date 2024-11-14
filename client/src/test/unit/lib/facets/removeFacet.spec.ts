@@ -4,7 +4,6 @@ import {
   removeFacet,
   removeFacetFromQuery,
 } from '../../../../lib/facets/removeFacet'
-import { getParamPrefix } from '../../../../lib/util/params'
 
 // Mock getParamPrefix
 vi.mock('../../../../lib/util/params', () => ({
@@ -14,14 +13,6 @@ vi.mock('../../../../lib/util/params', () => ({
 
 describe('removeFacet exported functions', () => {
   describe('removeFacet function', () => {
-    beforeEach(async () => {
-      // Call getParamPrefix mock
-      const prefix = getParamPrefix as jest.MockedFunction<
-        typeof getParamPrefix
-      >
-      prefix.mockImplementation(() => 'a')
-    })
-
     it('returns new query string', () => {
       const targetFacet = 'itemTypeId'
       const targetValue = 'https://endpoint.yale.edu/data/test1'

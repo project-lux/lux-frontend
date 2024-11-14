@@ -34,29 +34,29 @@ export const personLinks: IEntity = {
     },
     // related objects/works
     'lux:agentMadeDiscoveredInfluencedItem': {
-      href: `${config.env.dataApiBaseUrl}api/search/item?q=agentMadeDiscoveredInfluencedItem`,
+      href: `${config.env.dataApiBaseUrl}api/search/item?q=%7B%22OR%22%3A%5B%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22encounteredBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22productionInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D`,
       _estimate: 1,
     },
     'lux:agentCreatedPublishedInfluencedWork': {
-      href: `${config.env.dataApiBaseUrl}api/search/work?q=agentCreatedPublishedInfluencedWork`,
+      href: `${config.env.dataApiBaseUrl}api/search/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22creationInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D`,
       _estimate: 1,
     },
     // timeline
     'lux:agentItemMadeTime': {
-      href: `${config.env.dataApiBaseUrl}api/facets/item?q=agentItemMadeTime`,
+      href: `${config.env.dataApiBaseUrl}api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D&name=itemProductionDate`,
       _estimate: 1,
     },
     'lux:agentWorkCreatedTime': {
-      href: `${config.env.dataApiBaseUrl}api/facets/work?q=agentWorkCreatedTime`,
+      href: `${config.env.dataApiBaseUrl}api/facets/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%2C%7B%22creationInfluencedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D&name=workCreationDate`,
       _estimate: 1,
     },
     // Related accordions
     'lux:agentInfluencedConcepts': {
-      href: `${config.env.dataApiBaseUrl}api/search/concept?q=agentInfluencedConcepts`,
+      href: `${config.env.dataApiBaseUrl}api/search/concept?q=%7B%22influencedByAgent%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D`,
       _estimate: 1,
     },
     'lux:agentRelatedAgents': {
-      href: `${config.env.dataApiBaseUrl}api/related-list/agent?&name=relatedToAgent&uri=mockEntityUri`,
+      href: `${config.env.dataApiBaseUrl}api/related-list/agent?name=relatedToAgent&uri=https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba`,
       _estimate: 1,
     },
     'lux:agentRelatedItemTypes': {
