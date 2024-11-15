@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -28,15 +28,22 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import ImageThumbnail from '../common/ImageThumbnail'
-import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import HierarchyContainer from '../hierarchy/FullscreenContainer'
+import { useAppDispatch } from '../../app/hooks'
+import { addOrigin } from '../../redux/slices/hierarchySlice'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
 
 import AboutPanel from './AboutPanel'
 
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
+  const dispatch = useAppDispatch()
   const place = new EntityParser(data)
   const images = place.getImages()
+
+  useEffect(() => {
+    dispatch(addOrigin({ value: data }))
+  }, [data, dispatch])
 
   const mapConfig = {
     wkt: data.defined_by || '',
@@ -65,6 +72,8 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="place"
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               key={place.json.id}
               entity={data}
@@ -75,6 +84,8 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
                 ) => Array<string>
               }
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}

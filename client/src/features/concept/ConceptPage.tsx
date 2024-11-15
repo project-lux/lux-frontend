@@ -27,7 +27,7 @@ import {
   getAllNextConceptUris,
   getNextConceptUris,
 } from '../../lib/util/hierarchyHelpers'
-import HierarchyContainer from '../hierarchy/HierarchyContainer'
+import FullscreenContainer from '../hierarchy/FullscreenContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
 
@@ -58,16 +58,22 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="concept"
             />
-            <HierarchyContainer
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <FullscreenContainer
               key={concept.json.id}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
               searchTags={timeline}
               providedHalLinks={data._links}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}

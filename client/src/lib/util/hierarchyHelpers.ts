@@ -1,3 +1,5 @@
+import { Edge, Node } from 'reactflow'
+
 import IConcept from '../../types/data/IConcept'
 import IEntity from '../../types/data/IEntity'
 import ILinks from '../../types/data/ILinks'
@@ -5,6 +7,8 @@ import IPlace from '../../types/data/IPlace'
 import ConceptParser from '../parse/data/ConceptParser'
 import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
+import { ISearchResults } from '../../types/ISearchResults'
+import { IHalLink } from '../../types/IHalLink'
 
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
@@ -128,6 +132,28 @@ export const getNextSetUris = (entity: IEntity): Array<string> => {
 }
 
 /**
+ * Returns the requested HAL link
+ * @param {ILinks | undefined} links the current entity to parse
+ * @param {IHalLink} halLink the requested HAL link
+ * @returns {boolean}
+ */
+export const getHalLink = (
+  links: ILinks | undefined,
+  halLink: IHalLink,
+): string | null => {
+  if (links === undefined) {
+    return null
+  }
+
+  const { searchTag } = halLink
+  if (links.hasOwnProperty(searchTag)) {
+    return links[searchTag].href
+  }
+
+  return null
+}
+
+/**
  * Used exclusively in objects breadcrumb hierarchies and in all Explore hierarchies on sets, objects, and works pages
  * @param {IEntity} entity the current entity to parse
  * @returns {boolean}
@@ -160,3 +186,96 @@ export const getParentData = (
   }
   return data[0]
 }
+
+const DEFAULT_POSITION = { x: 0, y: 0 }
+const DEFAULT_MAX_NODE_WIDTH = '200px'
+/**
+ * Parses the data and returns nodes for react flow hierarchy
+ * @param {Array<any>} data the current entity to parse
+ * @returns {Array<Node>}
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getParentNodes = (data: Array<string>): Array<Node> =>
+  data.map((id) => ({
+    id: `${id}-parent`,
+    type: 'parentNode',
+    data: {
+      label: id, // this will be a RecordLink
+    },
+    style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
+    position: DEFAULT_POSITION,
+  }))
+
+/**
+ * Parses the data and returns nodes for react flow hierarchy
+ * @param {Array<any>} data the current entity to parse
+ * @returns {Array<Node>}
+ */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getChildNodes = (data: ISearchResults): Array<Node> => {
+  const { orderedItems } = data
+  if (orderedItems.length === 0) {
+    return []
+  }
+
+  return orderedItems.map((obj) => ({
+    id: `${obj.id}-child`,
+    type: 'childNode',
+    data: {
+      label: obj.id, // this will be a RecordLink
+    },
+    style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
+    position: DEFAULT_POSITION,
+  }))
+}
+
+/**
+ * Parses the nodes to get the correct data
+ * @param {Array<Node>} nodes the current nodes
+ * @param {string} currentUuid the current entity uuid
+ * @returns {Array<Edge>}
+ */
+export const getParentEdges = (
+  nodes: Array<Node>,
+  currentUuid: string,
+): Array<Edge> =>
+  nodes.map((node, ind) => ({
+    id: `e${ind}-${node.id}`, // the uuid of the parent
+    source: node.id, // the source is to the left of the target so the source is the parent
+    targetHandle: 'a', // handle on the target, a will be on the left of current
+    target: currentUuid,
+    // type: 'hierarchyEdge',
+  }))
+
+/**
+ * Parses the nodes to get the correct data
+ * @param {Array<Node>} nodes the current nodes
+ * @param {string} currentUuid the current entity uuid
+ * @returns {Array<Edge>}
+ */
+export const getChildEdges = (
+  nodes: Array<Node>,
+  currentUuid: string,
+): Array<Edge> =>
+  nodes.map((node, ind) => ({
+    id: `e${ind}-${node.id}`, // the uuid of the parent
+    source: currentUuid, // the source is to the left of the target so the source is the parent
+    sourceHandle: 'b', // handle on the target, a will be on the left of current
+    target: node.id,
+    // type: 'hierarchyEdge',
+  }))
+
+/**
+ * Returns the react flow node for the current entity
+ * @param {string} currentUuid the current entity uuid
+ * @returns {Node}
+ */
+export const getDefaultNode = (currentUuid: string): Node => ({
+  id: currentUuid,
+  type: 'originNode',
+  data: {
+    label: currentUuid, // this will be a RecordLink
+  },
+  style: { maxWidth: DEFAULT_MAX_NODE_WIDTH },
+  position: DEFAULT_POSITION,
+})
