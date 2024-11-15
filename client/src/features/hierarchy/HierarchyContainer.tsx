@@ -1,62 +1,71 @@
-import React, { useRef } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import 'reactflow/dist/style.css'
+import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { ReactFlowProvider } from 'reactflow'
 
-import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import ILinks from '../../types/data/ILinks'
-import { IHalLink } from '../../types/IHalLink'
-import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
-import { ISearchResults } from '../../types/ISearchResults'
-import IPlace from '../../types/data/IPlace'
-import IConcept from '../../types/data/IConcept'
 import { useAppSelector } from '../../app/hooks'
+import {
+  getChildEdges,
+  getChildNodes,
+  getDefaultNode,
+  getParentEdges,
+  getParentNodes,
+} from '../../lib/util/hierarchyHelpers'
+import SearchResultsLink from '../relatedLists/SearchResultsLink'
+import { ISearchResults } from '../../types/ISearchResults'
 import { IHierarchy } from '../../redux/slices/hierarchySlice'
+import IConcept from '../../types/data/IConcept'
+import IPlace from '../../types/data/IPlace'
+import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 
+// import Hierarchy from './Hierarchy'
+import ParentCustomNode from './ParentCustomNode'
+import ChildCustomNode from './ChildCustomNode'
 import ListContainer from './ListContainer'
+import Toolbar from './Toolbar'
 import MoreLessButton from './MoreLessButton'
+import OriginNode from './OriginNode'
+import ElkHierarchy from './Hierarchy'
 
 interface IProps {
   entity: IPlace | IConcept
-  halLink: IHalLink
-  getParentUris: (entity: IPlace | IConcept) => Array<string>
-}
-
-const getHalLink = (
-  links: ILinks | undefined,
-  halLink: IHalLink,
-): string | null => {
-  if (links === undefined) {
-    return null
-  }
-
-  const { searchTag } = halLink
-  if (links.hasOwnProperty(searchTag)) {
-    return links[searchTag].href
-  }
-
-  return null
+  view: string
+  parents: Array<string>
+  childrenHalLink: string | null
 }
 
 const HierarchyContainer: React.FC<IProps> = ({
   entity,
-  halLink,
-  getParentUris,
+  view,
+  parents,
+  childrenHalLink,
 }) => {
+  const { pathname } = useLocation()
+
   const currentState = useAppSelector(
     (hierarchyState) => hierarchyState.hierarchy as IHierarchy,
   )
-  const hierarchyRef = useRef<HTMLDivElement>(null)
-  const childrenUri = getHalLink(entity._links, halLink)
-  const parents = getParentUris(entity)
 
-  const skip = childrenUri === null
-  const { data, isSuccess, isError } = useGetSearchRelationshipQuery(
-    {
-      uri: childrenUri!,
-    },
-    {
-      skip,
-    },
-  )
+  let scope: null | string = null
+  if (pathname.includes('concept')) {
+    scope = 'concepts'
+  }
+
+  if (pathname.includes('place')) {
+    scope = 'places'
+  }
+
+  // get children based on HAL link
+  const skip = childrenHalLink === null
+  const { data, isSuccess, isError, isUninitialized } =
+    useGetSearchRelationshipQuery(
+      {
+        uri: childrenHalLink!,
+      },
+      {
+        skip,
+      },
+    )
 
   if (isError) {
     console.log(
@@ -69,29 +78,97 @@ const HierarchyContainer: React.FC<IProps> = ({
   }
 
   if ((isSuccess && data) || skip) {
+    // get nodes
+    const currentUuid: string = entity.id as string
+    const parentNodes = getParentNodes(parents).slice(
+      0,
+      currentState.currentPageLength,
+    )
+    const childNodes =
+      !isUninitialized && data ? getChildNodes(data).slice(0, 5) : []
+    const currentNode = getDefaultNode(currentUuid)
+
+    // get edges
+    const parentEdges = getParentEdges(parentNodes, currentUuid)
+    const childEdges = getChildEdges(childNodes, currentUuid)
+
+    // Format nodes with custom node components
+    parentNodes.map((parentNode) => {
+      parentNode.data.label = (
+        <ParentCustomNode entityId={parentNode.data.label} />
+      )
+      return null
+    })
+
+    childNodes.map((childNode) => {
+      childNode.data.label = <ChildCustomNode entityId={childNode.data.label} />
+      return null
+    })
+
+    currentNode.data.label = <OriginNode entityId={currentNode.data.label} />
+    // combine nodes and edges
+    const nodes = [currentNode, ...parentNodes, ...childNodes]
+    const edges = [...parentEdges, ...childEdges]
+
     return (
-      <StyledEntityPageSection
-        className="hierarchyContainer p-4"
-        ref={hierarchyRef}
-      >
-        <Row>
-          <Col xs={8}>
-            <h2>Explore</h2>
-          </Col>
-        </Row>
-        <ListContainer
-          parents={parents}
-          descendents={(data as ISearchResults) || {}}
-          currentEntity={entity}
-        >
-          {parents.length > currentState.defaultDisplayLength && (
-            <MoreLessButton
-              parentsArrayLength={parents.length}
-              displayLength={currentState.currentPageLength}
-            />
-          )}
-        </ListContainer>
-      </StyledEntityPageSection>
+      <React.Fragment>
+        {view === 'graph' ? (
+          <div
+            style={{
+              height: 600,
+              flexGrow: 1,
+            }}
+          >
+            <ReactFlowProvider>
+              <ElkHierarchy
+                luxNodes={nodes}
+                luxEdges={edges}
+                currentUuid={currentUuid}
+              >
+                {/* Toolbar associated with parent nodes */}
+                {parents.length > currentState.defaultDisplayLength ? (
+                  <Toolbar nodeIds={parentNodes.map((node) => node.id)}>
+                    <MoreLessButton
+                      parentsArrayLength={parents.length}
+                      displayLength={currentState.currentPageLength}
+                    />
+                  </Toolbar>
+                ) : (
+                  <React.Fragment />
+                )}
+                {childNodes.length > 0 ? (
+                  <Toolbar nodeIds={childNodes.map((node) => node.id)}>
+                    <strong>
+                      <SearchResultsLink
+                        data={(data as ISearchResults) || {}}
+                        eventTitle="Hierarchy Children"
+                        url={data ? data.id : ''}
+                        scope={scope !== null ? scope : 'places'}
+                        additionalLinkText="children"
+                      />
+                    </strong>
+                  </Toolbar>
+                ) : (
+                  <React.Fragment />
+                )}
+              </ElkHierarchy>
+            </ReactFlowProvider>
+          </div>
+        ) : (
+          <ListContainer
+            parents={parents}
+            descendents={(data as ISearchResults) || {}}
+            currentEntity={entity}
+          >
+            {parents.length > currentState.defaultDisplayLength && (
+              <MoreLessButton
+                parentsArrayLength={parents.length}
+                displayLength={currentState.currentPageLength}
+              />
+            )}
+          </ListContainer>
+        )}
+      </React.Fragment>
     )
   }
 
