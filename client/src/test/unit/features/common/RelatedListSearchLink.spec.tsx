@@ -51,7 +51,7 @@ describe('RelatedListSearchLink', () => {
     const link = screen.getByTestId(`related-list-search-link-${mockId}`)
     expect(link).toHaveAttribute(
       'href',
-      '/view/results/objects?q={"AND":[{"createdBy":{"id":"test"}}]}&openSearch=false',
+      '/view/results/objects?q={"AND":[{"createdBy":{"id":"test"}}]}&searchLink=true',
     )
   })
 

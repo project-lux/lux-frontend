@@ -9,6 +9,7 @@ export default interface IEvent extends IEntity {
   assigned_by?: IEntity[]
   attributed_by?: IEvent[]
   carried_out_by?: IAgent[]
+  caused_by?: IEvent[]
   influenced_by?: IEntity[]
   occurred_during?: IEntity[]
   part?: IEvent[]

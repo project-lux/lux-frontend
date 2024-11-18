@@ -38,11 +38,11 @@ export const nonSearchTermHelpText: {
   },
   '=': {
     helpText: 'Search for records that equal the given value.',
-    label: 'Equals',
+    label: 'Equal to',
   },
   '!=': {
     helpText: 'Search for records that do not equal the given value.',
-    label: 'Not Equals',
+    label: 'Not Equal to',
   },
   boosted: {
     helpText:

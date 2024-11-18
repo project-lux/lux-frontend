@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
-import { getYearWithLabel } from '../../lib/util/timelineHelper'
+import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
@@ -53,7 +53,7 @@ const List: React.FC<IProps> = ({
             <HoverableRow>
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                 <StyledDt data-testid={`${year}-label`}>
-                  {getYearWithLabel(year)}
+                  {TimelineParser.getYearWithLabel(year)}
                 </StyledDt>
               </Col>
               <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>

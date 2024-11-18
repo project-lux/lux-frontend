@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.39.0 - Unreleased
+
+### Added
+
+- Added caused_by data to events ([#309](https://github.com/project-lux/lux-frontend/issues/309)).
+- Added Part Of inverse relationship data point to works ([#302](https://github.com/project-lux/lux-frontend/issues/302)).
+
+### Changed
+
+- Changed the labels for advanced search date comparator ([#402](https://github.com/project-lux/lux-frontend/issues/402)).
+- Changed timeline parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
+- Changed date parsing ([#340](https://github.com/project-lux/lux-frontend/issues/340)).
+
+### Removed
+
+### Fixed
+
+- Fixed layout issues with Show More in advanced search ([#201](https://github.com/project-lux/lux-frontend/issues/201)).
+
 ## v1.38.2 - 2024-11-7
 
 ### Removed

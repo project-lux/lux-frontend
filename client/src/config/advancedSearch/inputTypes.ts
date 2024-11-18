@@ -58,8 +58,8 @@ export const comparators: Record<string, string> = {
   '<=': 'less than or equal to',
   '>': 'greater than',
   '>=': 'greater than or equal to',
-  '=': 'equals',
-  '!=': 'not equals',
+  '=': 'equal to',
+  '!=': 'not equal to',
 }
 
 export const numbersToMonths: Record<string, string> = {
