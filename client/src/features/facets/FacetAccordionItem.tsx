@@ -12,6 +12,7 @@ import {
 } from '../../types/ISearchResults'
 import { IFacetsPagination } from '../../types/IFacets'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
+import StyledHr from '../../styles/shared/Hr'
 
 import Checklist from './Checklist'
 import FullDateInput from './FullDateInput'
@@ -180,6 +181,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
               )}
             </div>
           </div>
+          <StyledHr />
         </div>
       )
     }

@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed results page facets and results layout ([#416](https://github.com/project-lux/lux-frontend/issues/416)).
+
 ### Removed
 
 ### Fixed

@@ -27,6 +27,7 @@ package-lock.json
 
 /src/samples
 .env
+index.html
 /src/lib/pushClientEvent.ts
 /public/
 !/public/uv/
