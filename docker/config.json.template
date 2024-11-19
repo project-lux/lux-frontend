@@ -9,11 +9,31 @@
   },
   {
     "key": "DATA_API_BASE_URL",
-    "value": "https://lux-front-dev.collections.yale.edu/"
+    "value": "",
+  },
+  {
+    "key": "FACETS_API_BASE_URL",
+    "value": "",
   },
   {
     "key": "CMS_API_BASE_URL",
-    "value": "https://dev-culturalheritage-sandbox-yale-edu.pantheonsite.io/jsonapi/"
+    "value": "",
+  },
+  {
+    "key": "WIKIDATA_IMAGE_PATHNAME",
+    "value": "",
+  },
+  {
+    "key": "LUX_WIKIDATA_MANIFEST_PREFIX",
+    "value": "",
+  },
+  {
+    "key": "LUX_FEEDBACK_URL",
+    "value": "",
+  },
+  {
+    "key": "LUX_ENVIRONMENT",
+    "value": "development"
   },
   {
     "key": "MAINTENANCE_MODE",
