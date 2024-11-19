@@ -73,7 +73,6 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
             <GenericBreadcrumbHierarchy
               key={place.json.id}
               entity={data}
-              columnClassName="px-0"
               maxLength={8}
               getNextEntityUri={getNextPlaceUris}
               id="place-snippet"
