@@ -42,6 +42,4 @@ export const oidcAuthority = getString(process.env.OIDC_AUTHORITY)
 export const oidcClientId = getString(process.env.OIDC_CLIENT_ID)
 export const oidcRedirectUri = getString(process.env.OIDC_REDIRECT_URI)
 
-export const featureMyCollections = getBool(
-  process.env.FEATURE_MY_COLLECTIONS,
-)
+export const featureMyCollections = getBool(process.env.FEATURE_MY_COLLECTIONS)
