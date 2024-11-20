@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
+import config from '../../config/config'
 import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
 import RoutingComponent from '../results/RoutingComponent'
@@ -68,6 +70,28 @@ const LuxRoutes: React.FC = () => {
     pushClientPageEvent(currentUrl, prevUrl, targetName)
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
+
+  const auth = useAuth()
+
+  console.log('Authenticated?', auth.isAuthenticated)
+  if (auth.isAuthenticated) {
+    if (
+      typeof auth.user === 'object' &&
+      auth.user !== null &&
+      typeof auth.user.access_token === 'string'
+    ) {
+      config.currentAccessToken = auth.user.access_token
+    } else {
+      console.error(
+        'Invalid user object or access token',
+        auth.user,
+        auth.user?.access_token,
+      )
+    }
+  } else {
+    config.currentAccessToken = ''
+  }
+  console.log('Current Access Token:', config.currentAccessToken)
 
   return (
     <React.Fragment>
