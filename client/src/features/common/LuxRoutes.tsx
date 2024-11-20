@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
+import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
 import RoutingComponent from '../results/RoutingComponent'
 import Landing from '../landing/LandingPage'
@@ -72,8 +74,6 @@ const LuxRoutes: React.FC = () => {
     pushClientPageEvent(currentUrl, prevUrl, targetName)
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
-
-  useResizeableWindow(setShowMobileAlert)
 
   return (
     <React.Fragment>

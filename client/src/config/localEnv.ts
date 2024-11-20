@@ -48,3 +48,15 @@ export const luxFeedbackUrl = getString(
 export const bugherdApiKey = getString(
   import.meta.env.REACT_APP_BUGHERD_API_KEY,
 )
+export const luxFeedbackUrl = getString(process.env.REACT_APP_LUX_FEEDBACK_URL)
+
+export const bugherdApiKey = getString(process.env.REACT_APP_BUGHERD_API_KEY)
+
+export const oidcAuthority = getString(process.env.REACT_APP_OIDC_AUTHORITY)
+export const oidcClientId = getString(process.env.REACT_APP_OIDC_CLIENT_ID)
+export const oidcRedirectUri = getString(
+  process.env.REACT_APP_OIDC_REDIRECT_URI,
+)
+export const myCollectionsUri = getString(
+  process.env.REACT_APP_MY_COLLECTIONS_URI,
+)
