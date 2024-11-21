@@ -16,6 +16,7 @@
     "browserslist-to-esbuild": "2.1.1",
     "css-what": "6.1.0",
     "hosted-git-info": "8.0.2",
+    "jose": "^5.9.6",
     "leaflet": "1.9.4",
     "lodash": "4.17.21",
     "oidc-client-ts": "^3.0.1",
