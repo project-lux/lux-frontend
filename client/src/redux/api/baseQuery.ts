@@ -18,7 +18,6 @@ export const baseQuery =
     unknown
   > =>
   async ({ url, method, data, params }) => {
-    console.log('BASE')
     try {
       const baseUrl = getBaseUrl()
       const headers: { [key: string]: string } = {}
