@@ -12,6 +12,13 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.39.2 - 2024-11-21
+
+### Fixed
+
+- Fixed typo in search results message ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
+- Fixed search scope for place page tabs ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
+
 ## v1.39.0 - 2024-11-18
 
 ### Added
