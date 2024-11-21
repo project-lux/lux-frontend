@@ -21,7 +21,7 @@ export const relatedObjectsAndWorks: IHalLinks = {
   worksPublishedAt: {
     title: 'Works Published At',
     searchTag: 'lux:placePublishedWork',
-    tab: 'objects',
+    tab: 'works',
   },
   worksAboutPlace: {
     title: 'Works About',
