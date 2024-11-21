@@ -4,11 +4,12 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
 
-import { signout } from '../../lib/my-collections/helper'
+import { signout } from '../../lib/auth/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { verifyToken } from '../../lib/auth/helper'
 
 import SearchButton from './SearchButton'
 
@@ -62,6 +63,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
 
   if (auth.isAuthenticated) {
     console.log('Authenticated', auth.user)
+    verifyToken(auth.user?.access_token || '')
   } else {
     console.log('Not authenticated')
   }

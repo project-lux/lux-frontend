@@ -13,5 +13,4 @@ export interface IServerConfig {
   oidcAuthority: string
   oidcClientId: string
   oidcRedirectUri: string
-  myCollectionsUri: string
 }
