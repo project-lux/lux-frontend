@@ -12,6 +12,21 @@ const font = {
     semiBold: 600,
     bold: 700,
   },
+  tabNavigation: {
+    weight: 'bold',
+    size: '16px',
+    lineHeight: '24px',
+  },
+  bodyRegular: {
+    weight: 'regular',
+    size: '16px',
+    lineHeight: '24px',
+  },
+  bodyLight: {
+    weight: '300',
+    size: '16px',
+    lineHeight: '24px',
+  },
 }
 
 const color = {

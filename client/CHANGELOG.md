@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed results page facets and results layout ([#416](https://github.com/project-lux/lux-frontend/issues/416)).
 - Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
+- Changed results simple search tab layout ([#417](https://github.com/project-lux/lux-frontend/issues/417)).
 
 ### Removed
 

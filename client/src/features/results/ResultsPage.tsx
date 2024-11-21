@@ -12,7 +12,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { tabToLinkLabel } from '../../config/results'
 
 import ConceptResults from './ConceptResults'
-// import ErrorPage from './ErrorPage'
 import EventResults from './EventResults'
 import Navigation from './Navigation'
 import ObjectResults from './ObjectResults'
