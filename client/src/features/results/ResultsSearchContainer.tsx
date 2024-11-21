@@ -42,7 +42,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({ isSimpleSearch }) => {
       screenWidth < theme.breakpoints.md ? (
         <SearchBoxContainer
           className="resultsSearchContainer"
-          bgColor={theme.color.white}
+          bgColor="transparent"
           id="results-search-container"
           isResultsPage
         />

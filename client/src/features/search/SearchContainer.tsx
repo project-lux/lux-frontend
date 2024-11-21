@@ -45,8 +45,13 @@ const SearchContainer: React.FC<IProps> = ({
         <SearchBox id={id} setIsError={setIsError} isResults={isResultsPage} />
       </Col>
       {isResultsPage ? (
-        <Col xs={12} className="w-75 d-flex justify-content-end">
-          <ToggleButton setIsError={setIsError} />
+        <Col xs={12} className="d-flex justify-content-center">
+          <div
+            className="d-flex justify-content-end"
+            style={{ width: theme.searchBox.width }}
+          >
+            <ToggleButton setIsError={setIsError} />
+          </div>
         </Col>
       ) : (
         <Col
