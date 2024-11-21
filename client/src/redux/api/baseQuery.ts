@@ -18,17 +18,13 @@ export const baseQuery =
     unknown
   > =>
   async ({ url, method, data, params }) => {
-    console.log('BASE')
     try {
       const baseUrl = getBaseUrl()
       const headers: { [key: string]: string } = {}
 
-      console.log('xx headers:', headers)
-
       if (config.currentAccessToken) {
         headers.Authorization = `Bearer ${config.currentAccessToken}`
       }
-      console.log('headers:', headers)
       const result = await axios({
         url: baseUrl + url,
         method,
