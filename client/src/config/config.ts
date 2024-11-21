@@ -37,7 +37,6 @@ class Config {
       oidcAuthority: localEnv.oidcAuthority,
       oidcClientId: localEnv.oidcClientId,
       oidcRedirectUri: localEnv.oidcRedirectUri,
-      myCollectionsUri: localEnv.myCollectionsUri,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -60,7 +59,6 @@ class Config {
       oidcAuthority: data.oidcAuthority,
       oidcClientId: data.oidcClientId,
       oidcRedirectUri: data.oidcRedirectUri,
-      myCollectionsUri: data.myCollectionsUri,
     }
   }
 
@@ -96,5 +94,7 @@ export const getCmsApiBaseUrl = (): string => config.env.cmsApiBaseUrl
 export const getOidcAuthority = (): string => config.env.oidcAuthority
 export const getOidcClientId = (): string => config.env.oidcClientId
 export const getOidcRedirectUri = (): string => config.env.oidcRedirectUri
+export const getOidcJwksUri = (): string =>
+  `${getOidcAuthority()}/.well-known/jwks.json`
 
 export default config

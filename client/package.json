@@ -16,6 +16,7 @@
     "css-what": "^5.0.1",
     "d3": "^7.6.1",
     "hosted-git-info": "^4.0.1",
+    "jose": "^5.9.6",
     "leaflet": "^1.7.1",
     "lodash": "^4.17.21",
     "oidc-client-ts": "^3.0.1",
