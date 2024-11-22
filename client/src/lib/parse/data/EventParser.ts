@@ -217,7 +217,6 @@ export default class EventParser extends EntityParser {
     let role = this.unidentifiedAgentRole
 
     if (classifiedAs.length > 0) {
-      // eslint-disable-next-line prefer-destructuring
       role = classifiedAs[0]
     }
 
@@ -260,7 +259,6 @@ export default class EventParser extends EntityParser {
     }
 
     if (assigned.length > 0) {
-      // eslint-disable-next-line no-loop-func
       const carried = assigned.map((assign) => {
         const carriedOut = forceArray(assign.carried_out_by)
         const ids = carriedOut.map((carries) => carries.id)

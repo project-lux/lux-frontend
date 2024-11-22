@@ -10,7 +10,6 @@ export const getPagination = (
   pageSize: number,
   siblingCount: number,
   currentPage: number,
-  // eslint-disable-next-line consistent-return
 ): Array<number | string> | undefined => {
   const totalPageCount = Math.ceil(estimate / pageSize)
 

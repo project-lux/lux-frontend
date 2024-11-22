@@ -1,5 +1,6 @@
-import { BaseQueryFn } from '@reduxjs/toolkit/query/react'
-import axios, { AxiosRequestConfig, AxiosError } from 'axios'
+import type { BaseQueryFn } from '@reduxjs/toolkit/query/react'
+import axios from 'axios'
+import type { AxiosRequestConfig, AxiosError } from 'axios'
 
 export const baseQuery =
   (

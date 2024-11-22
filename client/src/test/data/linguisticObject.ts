@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import config from '../../config/config'
 import IObject from '../../types/data/IObject'
 

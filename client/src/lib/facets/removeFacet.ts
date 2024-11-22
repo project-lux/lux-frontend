@@ -2,32 +2,6 @@ import { facetSearchTerms } from '../../config/facets'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../util/params'
 
-export const removeFacet = (
-  targetFacet: string,
-  targetValue: string | number,
-  search: string,
-  facetQuery: ICriteria,
-  scope: string,
-  tab: string,
-): string => {
-  const paramPrefix = getParamPrefix(tab)
-  const newQuery = removeFacetFromQuery(
-    targetFacet,
-    targetValue,
-    facetQuery,
-    scope,
-  )
-
-  const searchParams = new URLSearchParams(search)
-  if (newQuery === null) {
-    searchParams.delete(`${paramPrefix}f`)
-  } else {
-    searchParams.set(`${paramPrefix}f`, JSON.stringify(newQuery))
-  }
-  searchParams.set(`${paramPrefix}p`, '1')
-  return searchParams.toString()
-}
-
 export const removeFacetFromQuery = (
   targetFacet: string,
   targetValue: string | number,
@@ -99,4 +73,30 @@ export const removeFacetFromQuery = (
     return newQuery
   }
   return null
+}
+
+export const removeFacet = (
+  targetFacet: string,
+  targetValue: string | number,
+  search: string,
+  facetQuery: ICriteria,
+  scope: string,
+  tab: string,
+): string => {
+  const paramPrefix = getParamPrefix(tab)
+  const newQuery = removeFacetFromQuery(
+    targetFacet,
+    targetValue,
+    facetQuery,
+    scope,
+  )
+
+  const searchParams = new URLSearchParams(search)
+  if (newQuery === null) {
+    searchParams.delete(`${paramPrefix}f`)
+  } else {
+    searchParams.set(`${paramPrefix}f`, JSON.stringify(newQuery))
+  }
+  searchParams.set(`${paramPrefix}p`, '1')
+  return searchParams.toString()
 }

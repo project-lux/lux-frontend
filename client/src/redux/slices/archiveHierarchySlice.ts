@@ -1,9 +1,9 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 // import IEntity from '../../types/data/IEntity'
 
 export interface IArchiveHierarchy {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]: {
     requests: {
       [key: string]: Array<string>

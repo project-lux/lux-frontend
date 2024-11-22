@@ -1,4 +1,3 @@
-/* eslint-disable camelcase */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { IBase } from './ISearchEstimates'

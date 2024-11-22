@@ -14,4 +14,4 @@ export const fetchSearchEstimates = async (
         .text()
         .then((translatedString) => ({ [tab]: JSON.parse(translatedString) })),
     )
-    .catch((e) => new Error('The requested facets could not be returned.'))
+    .catch(() => new Error('The requested facets could not be returned.'))

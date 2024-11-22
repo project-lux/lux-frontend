@@ -36,7 +36,6 @@ const cmsRouteMap = new Map([
 export const getRouteNames = (): Map<string, string> => {
   const routeMap = new Map([['/', 'LUX Landing Page']])
 
-  // eslint-disable-next-line array-callback-return
   Object.keys(searchScope).map((key) => {
     routeMap.set(`/view/results/${key}`, 'Results Page')
   })

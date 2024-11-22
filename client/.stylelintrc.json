@@ -1,0 +1,10 @@
+{
+  "processors": [
+    "stylelint-config-standard"
+  ],
+  "plugins": ["stylelint-a11y"],
+  "extends": [
+    "stylelint-config-prettier",
+    "stylelint-config-recommended"
+  ]
+}

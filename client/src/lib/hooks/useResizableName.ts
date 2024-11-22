@@ -2,6 +2,13 @@ import React, { useState } from 'react'
 
 const MAX_SHORT_LENGTH = 100
 
+export function shortenIfNeeded(name: string): string {
+  if (name.length > MAX_SHORT_LENGTH) {
+    return `${name.substring(0, MAX_SHORT_LENGTH)}...`
+  }
+  return name
+}
+
 export function useResizableName(name: string): {
   displayName: string
   isNameLong: boolean
@@ -13,11 +20,4 @@ export function useResizableName(name: string): {
   const displayName = showLongName ? name : shortenIfNeeded(name)
 
   return { displayName, isNameLong, showLongName, setShowLongName }
-}
-
-export function shortenIfNeeded(name: string): string {
-  if (name.length > MAX_SHORT_LENGTH) {
-    return `${name.substring(0, MAX_SHORT_LENGTH)}...`
-  }
-  return name
 }

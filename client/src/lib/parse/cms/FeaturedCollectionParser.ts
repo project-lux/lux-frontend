@@ -36,24 +36,6 @@ export interface ICollection {
   searchUrl: string
 }
 
-export class FeaturedCollectionParser {
-  data: ICmsData[]
-
-  constructor(json: ICmsResponse) {
-    this.data = json.data
-  }
-
-  getCollections(units: UnitCode[]): ICollection[] {
-    const colls: ICollection[] = []
-    let candidates = this.data
-
-    for (let i = 0; i < 3; i += 1) {
-      ;[colls[i], candidates] = selectCollection(units[i], candidates)
-    }
-    return colls
-  }
-}
-
 const selectCollection = (
   unit: UnitCode,
   candidates: ICmsData[],
@@ -87,4 +69,22 @@ const selectCollection = (
     },
     remaining,
   ]
+}
+
+export class FeaturedCollectionParser {
+  data: ICmsData[]
+
+  constructor(json: ICmsResponse) {
+    this.data = json.data
+  }
+
+  getCollections(units: UnitCode[]): ICollection[] {
+    const colls: ICollection[] = []
+    let candidates = this.data
+
+    for (let i = 0; i < 3; i += 1) {
+      ;[colls[i], candidates] = selectCollection(units[i], candidates)
+    }
+    return colls
+  }
 }

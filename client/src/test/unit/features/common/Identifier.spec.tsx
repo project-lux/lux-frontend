@@ -8,7 +8,7 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockEntity = reusableMinimalEntity('Identifier Label')
 
-vi.mock('react-router-dom', async (importOriginal) => {
+vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,

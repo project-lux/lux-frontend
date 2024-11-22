@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
 
 /**
@@ -31,7 +30,9 @@ export const formatSortParameter = (sort: string | undefined): string => {
  * @param {Record<string, boolean>} state the state passed via React Router, not Redux state
  * @returns {boolean}
  */
-export const isFromLandingPage = (state: { [key: string]: boolean }): boolean =>
+export const isFromLandingPage = (state: {
+  [key: string]: boolean
+}): boolean =>
   state !== null && state !== undefined && state.fromLandingPage !== null
     ? state.fromLandingPage
     : false

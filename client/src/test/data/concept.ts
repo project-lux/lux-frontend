@@ -1,4 +1,3 @@
-/* eslint-disable import/prefer-default-export */
 import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
 import StyledExternalLinkIcon from '../../styles/features/common/ExternalLinkIcon'

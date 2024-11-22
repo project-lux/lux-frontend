@@ -18,7 +18,6 @@ const SubjectOf: React.FC<IProps> = ({ entity, halLinkConfig }) => {
   const skip = halLink === null
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       uri: halLink!,
     },
     {

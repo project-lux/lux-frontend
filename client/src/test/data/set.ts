@@ -1,8 +1,12 @@
-/* eslint-disable import/prefer-default-export */
 import config from '../../config/config'
 import ISet from '../../types/data/ISet'
 
-import { accessStatement, archives, descriptionStatement, primaryName } from './helperObjects'
+import {
+  accessStatement,
+  archives,
+  descriptionStatement,
+  primaryName,
+} from './helperObjects'
 import { productionEvent as mockProductionEvent } from './productionEvent'
 
 export const set: ISet = {

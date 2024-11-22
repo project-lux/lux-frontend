@@ -1,5 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-array-index-key */
 import React from 'react'
 
 import StyledDataRow from '../../styles/shared/DataRow'

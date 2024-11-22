@@ -42,7 +42,6 @@ const StyledDiv = styled.div`
   }
 `
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const RelatedListRow: React.FC<{
   uri: string
   results: IRelatedListResults

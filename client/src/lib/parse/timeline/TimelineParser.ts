@@ -78,7 +78,7 @@ export default class TimelineParser {
     const search = halLink.replace(re, '')
 
     const urlParams = new URLSearchParams(search)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
     const searchTag = urlParams.get('name') || ''
     return searchTag
   }
@@ -166,7 +166,6 @@ export default class TimelineParser {
 
       const gapBetweenYears = currVal - prevVal
       if (!isNaN(prevVal) && gapBetweenYears !== 1) {
-        // eslint-disable-next-line no-plusplus
         for (let i = 1; i < gapBetweenYears; i++) {
           const emptyYear = (prevVal + i).toString()
           allYears.push(emptyYear)

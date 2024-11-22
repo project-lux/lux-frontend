@@ -1,6 +1,4 @@
-/* eslint-disable prefer-destructuring */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
@@ -78,7 +76,6 @@ const FullDateInput: React.FC<IFacets> = ({
   currentTab,
   facetName,
   lastPage,
-  autoFocus = false,
 }) => {
   let earliestFacet = getDefaultDate('')
   let defaultLatestFacet = getDefaultDate('')

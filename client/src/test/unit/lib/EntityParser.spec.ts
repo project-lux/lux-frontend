@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { vi } from 'vitest'
 
 import config from '../../../config/config'

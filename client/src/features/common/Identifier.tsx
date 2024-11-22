@@ -44,7 +44,7 @@ const Identifier: React.FC<INames> = ({
         className={labelWidth}
       />
       <div className={contentWidth}>
-        {identifiers.map((id: string, ind: number) => (
+        {identifiers.map((id: string) => (
           <dd
             key={id}
             className="mb-0"

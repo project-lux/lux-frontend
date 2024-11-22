@@ -1,5 +1,3 @@
-/* eslint-disable react/no-danger */
-
 import React, { useEffect } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useNavigate } from 'react-router-dom'
@@ -66,7 +64,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
       <Col className="ps-0">
         <StyledDropdown
           drop="end"
-          onSelect={handleSelect}
+          onSelect={() => handleSelect}
           id="advanced-search-switch"
           data-testid={`${id}-advanced-search-switch-dropdown`}
         >

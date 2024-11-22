@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React, { useState } from 'react'
 import sanitizeHtml from 'sanitize-html'
 
@@ -43,7 +42,6 @@ const TextNote: React.FC<ITextNote> = ({
             <span className="d-flex">
               <p
                 dangerouslySetInnerHTML={{
-                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                   __html: sanitizeHtml(htmlContent || content),
                 }}
               />

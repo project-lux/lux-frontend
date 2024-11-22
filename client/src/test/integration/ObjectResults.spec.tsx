@@ -2,8 +2,6 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { vi } from 'vitest'
 
-import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
 import { sortBy } from '../../config/sortingOptions'
 
 import objectMockApi from './utils/objectResultsMockAPI'

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useRef, useState } from 'react'
 import { Row } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'

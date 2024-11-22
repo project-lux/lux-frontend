@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useCallback } from 'react'
 import { ToggleButton, ToggleButtonGroup } from 'react-bootstrap'
 import styled from 'styled-components'

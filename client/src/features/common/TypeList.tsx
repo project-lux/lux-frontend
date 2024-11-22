@@ -16,7 +16,6 @@ const TypeList: React.FC<IProps> = ({ types }) => (
       <StyledDt data-testid="types-label">Categorized As</StyledDt>
       <StyledDd data-testid="entity-type-list">
         {types.map((type, index) => (
-          // eslint-disable-next-line react/no-array-index-key
           <React.Fragment key={`${type}_${index}`}>
             <RecordLink url={type} linkCategory="Results Snippet" />
             {index === types.length - 1 ? '' : ', '}

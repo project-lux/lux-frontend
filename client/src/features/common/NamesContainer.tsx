@@ -37,7 +37,6 @@ const NamesContainer: React.FC<INames> = ({
 
       return (
         <Name
-          // eslint-disable-next-line react/no-array-index-key
           key={`${content}-${ind}`}
           content={content}
           language={language}

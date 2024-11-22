@@ -42,36 +42,11 @@ export const capitalizeLabels = (text: string): string => {
 }
 
 /**
- * Determines if notes array contains a specific note type
- * @param {IContentWithLanguage | null} notes Note content
- * @param {string} identifier Identifier to compare to each note to determine if it exists in notes
- * @returns {boolean}
- */
-export const containsSpecificNote = (
-  notes: IContentWithLanguage | null,
-  identifier: string,
-): boolean => {
-  if (notes === null) {
-    return false
-  }
-
-  for (const key of Object.keys(notes)) {
-    for (const obj of notes[key]) {
-      if (!isUndefined(obj.equivalent) && obj.equivalent.includes(identifier)) {
-        return true
-      }
-    }
-  }
-
-  return false
-}
-
-/**
  * Returns an array containing the content passed
  * @param {any} x the content to wrap in an array
  * @returns {Array<any>}
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 export const forceArray = (x: any): Array<any> => {
   if (x === null || x === undefined) {
     return []
@@ -80,32 +55,6 @@ export const forceArray = (x: any): Array<any> => {
     return x
   }
   return [x]
-}
-
-/**
- * Parses the provided data to return the data from the nested /carried_out_by object
- * @param {Array<IAttribution>} data the array of objects from a /attributed_by property
- * @returns {Array<string>}
- */
-export const getNestedCarriedOutBy = (
-  data: Array<IAttribution>,
-): Array<string> => {
-  if (data.length === 0) {
-    return []
-  }
-
-  const carriedOutByIds = data.map((attr) => {
-    const carriedOutBy = forceArray(attr.carried_out_by)
-
-    const ids = getClassifiedAs(carriedOutBy)
-    for (const id of ids) {
-      return id
-    }
-
-    return ''
-  })
-
-  return carriedOutByIds
 }
 
 /**
@@ -140,6 +89,57 @@ export const getClassifiedAs = (
     })
     .map((classification) => classification.id)
     .filter((id) => id !== null && id !== undefined)
+}
+
+/**
+ * Determines if notes array contains a specific note type
+ * @param {IContentWithLanguage | null} notes Note content
+ * @param {string} identifier Identifier to compare to each note to determine if it exists in notes
+ * @returns {boolean}
+ */
+export const containsSpecificNote = (
+  notes: IContentWithLanguage | null,
+  identifier: string,
+): boolean => {
+  if (notes === null) {
+    return false
+  }
+
+  for (const key of Object.keys(notes)) {
+    for (const obj of notes[key]) {
+      if (!isUndefined(obj.equivalent) && obj.equivalent.includes(identifier)) {
+        return true
+      }
+    }
+  }
+
+  return false
+}
+
+/**
+ * Parses the provided data to return the data from the nested /carried_out_by object
+ * @param {Array<IAttribution>} data the array of objects from a /attributed_by property
+ * @returns {Array<string>}
+ */
+export const getNestedCarriedOutBy = (
+  data: Array<IAttribution>,
+): Array<string> => {
+  if (data.length === 0) {
+    return []
+  }
+
+  const carriedOutByIds = data.map((attr) => {
+    const carriedOutBy = forceArray(attr.carried_out_by)
+
+    const ids = getClassifiedAs(carriedOutBy)
+    for (const id of ids) {
+      return id
+    }
+
+    return ''
+  })
+
+  return carriedOutByIds
 }
 
 /**
@@ -279,6 +279,14 @@ export const getEndOfTheEnd = (timespan: ITimeSpan): string => {
 }
 
 /**
+ * Checks if the year given is a placeholder year
+ * @param {number} year the year to check
+ * @returns {boolean}
+ */
+export const isPlaceholderYear = (year: number): boolean =>
+  year >= 9999 || year <= -9999
+
+/**
  * Returns a date with proper formatting
  * @param {string | undefined} date the UTC date in ISOString format
  * @returns {string}
@@ -315,14 +323,6 @@ export const transformDate = (date: string): string => {
 
   return returnDate.trim()
 }
-
-/**
- * Checks if the year given is a placeholder year
- * @param {number} year the year to check
- * @returns {boolean}
- */
-export const isPlaceholderYear = (year: number): boolean =>
-  year >= 9999 || year <= -9999
 
 /**
  * Returns the label to be displayed alongside the primary names of the entity
@@ -362,7 +362,6 @@ export const getName = (
   const alternativeNames: Array<string> = []
   const unclassifiedNames: Array<string> = []
 
-  // eslint-disable-next-line array-callback-return
   identifiers.map((identifier: IIdentifier) => {
     if (identifier.type === 'Name') {
       const hasClassifiedAs = identifier.classified_as !== undefined
@@ -430,7 +429,7 @@ export function hasHalLinks(
 ): boolean {
   let hasHalLinksBool = false
   Object.keys(providedHalLinks).map((link: string) =>
-    Object.keys(configuredHalLinks).map((tag, index) => {
+    Object.keys(configuredHalLinks).map((tag) => {
       // If the search tag contains results via the _estimate property, set to true
       if (
         configuredHalLinks[tag].searchTag === link &&

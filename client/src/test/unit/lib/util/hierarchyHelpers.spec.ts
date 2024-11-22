@@ -41,7 +41,7 @@ describe('hierarchyHelpers', () => {
   })
 
   describe('currentUriInHierarchy', () => {
-    vi.mock('../../../../lib/util/hierarchyHelpers', async (importOriginal) => {
+    vi.mock('../../../../lib/util/hierarchyHelpers', async () => {
       const actual = await vi.importActual(
         '../../../../lib/util/hierarchyHelpers',
       )

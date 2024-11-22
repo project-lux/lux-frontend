@@ -1,5 +1,3 @@
-/* eslint-disable react/no-danger */
-
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
