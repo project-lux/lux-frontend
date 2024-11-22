@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
@@ -28,7 +27,6 @@ interface IProps {
   halLinkTitle?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const ArchiveHierarchyContainer: React.FC<IProps> = ({
   entity,
   parentsOfCurrentEntity,

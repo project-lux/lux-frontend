@@ -4,11 +4,7 @@ import theme from '../../styles/theme'
 
 import SearchContainer from './SearchContainer'
 
-interface IProps {
-  className: string
-}
-
-const StickySearchContainer: React.FC<IProps> = ({ className }) => {
+const StickySearchContainer: React.FC = () => {
   const [bgColor, setBgColor] = useState<string>(theme.color.white)
   const [searchTipsStyle, setSearchTipsStyle] = useState<{
     color: string

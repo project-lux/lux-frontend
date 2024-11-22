@@ -10,7 +10,6 @@ interface ILinkParams {
   children?: JSX.Element
 }
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
 const InternalLink: React.FC<ILinkParams> = ({
   uri,
   name,

@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 import { useMemo } from 'react'
 
 import { getPagination } from '../../lib/util/paginationHelper'

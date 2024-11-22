@@ -1,6 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-array-index-key */
-
 import React from 'react'
 
 import { StyledTextValue } from '../../styles/features/common/TextValue'

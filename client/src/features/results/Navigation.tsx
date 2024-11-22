@@ -96,14 +96,16 @@ const Navigation: React.FC<INavigation> = ({
 
   // set to estimates or set empty if no results
   const estimates: Record<string, number | string> =
-    isSuccess && data ? data : {
-      'objects': '-',
-      'works': '-',
-      'people': '-',
-      'places': '-',
-      'concepts': '-',
-      'events': '-',
-    }
+    isSuccess && data
+      ? data
+      : {
+          objects: '-',
+          works: '-',
+          people: '-',
+          places: '-',
+          concepts: '-',
+          events: '-',
+        }
 
   // If performing a simple search, check if the current tab has results
   if (simpleSearch && !isError) {
@@ -124,7 +126,7 @@ const Navigation: React.FC<INavigation> = ({
         <StyledNavbar data-testid="results-page-navbar">
           <ul>
             {/* iterating over searchScopes to ensure the order the buttons are rendered */}
-            {Object.entries(searchScope).map(([key, value]) => (
+            {Object.keys(searchScope).map((key) => (
               <StyledNavLi
                 key={key}
                 className={`me-4 pt-3 ${

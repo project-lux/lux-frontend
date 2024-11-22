@@ -163,7 +163,6 @@ const FacetAccordionItem: React.FC<IProps> = ({
                   currentTab={tab}
                   facetName={facetName}
                   lastPage={facets.numberOfPages}
-                  autoFocus={facetName === facetsState.lastSelectedFacetName}
                 />
               ) : (
                 <Checklist

@@ -14,7 +14,6 @@ import {
   getUpdatedOptions,
   removeObjectFromState,
 } from '../../../../lib/advancedSearch/stateManager'
-import { getStateId } from '../../../../lib/advancedSearch/stateId'
 import { IAdvancedSearchState } from '../../../../redux/slices/advancedSearchSlice'
 
 vi.mock('../../../../lib/advancedSearch/stateId', () => ({

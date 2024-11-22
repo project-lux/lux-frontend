@@ -8,7 +8,6 @@ import cmsMockApi from './utils/cmsMockApi'
 import conceptResultsMockApi from './utils/conceptResultsMockApi'
 import estimatesMockApi from './utils/estimatesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
-import config from '../../config/config'
 
 describe('Concept results page', () => {
   const page =

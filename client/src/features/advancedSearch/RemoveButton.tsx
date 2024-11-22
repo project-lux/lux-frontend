@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { MouseEvent } from 'react'
 import { Button } from 'react-bootstrap'
 import styled from 'styled-components'

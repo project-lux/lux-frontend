@@ -45,9 +45,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result, ind) => (
-      <EventSnippet key={result.id} uri={result.id} />
-    ))
+    results.map((result) => <EventSnippet key={result.id} uri={result.id} />)
 
   let estimate = 0
   if (isSuccess && data) {

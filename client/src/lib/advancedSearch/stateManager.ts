@@ -119,7 +119,7 @@ export const addFieldSelectionHelper = (
       }
     } else {
       // Field with entity relationship
-      // eslint-disable-next-line no-lonely-if
+
       if (Array.isArray(existingValue) || typeof existingValue === 'string') {
         objectToUpdate[selected] = newObject
       } else {

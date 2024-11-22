@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IRelatedListEntryTransformed } from '../../../types/IRelatedLists'
 import { IBase } from '../../../types/ISearchEstimates'
 import { IOrderedItems } from '../../../types/ISearchResults'

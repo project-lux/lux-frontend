@@ -35,7 +35,6 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
   padding-left: 1rem;
 `
 
-/* eslint-disable jsx-a11y/anchor-is-valid */
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'

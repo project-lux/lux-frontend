@@ -1,6 +1,5 @@
-/* eslint-disable consistent-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable array-callback-return */
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Col from 'react-bootstrap/Col'

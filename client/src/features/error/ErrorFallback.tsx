@@ -1,14 +1,11 @@
 import React, { useEffect } from 'react'
-import { FallbackProps } from 'react-error-boundary'
+import type { FallbackProps } from 'react-error-boundary'
 
 import StyledErrorFallback from '../../styles/features/error/ErrorFallback'
 import FeedbackButton from '../common/FeedbackButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
-export const ErrorFallback: React.FC<FallbackProps> = ({
-  error,
-  resetErrorBoundary,
-}) => {
+export const ErrorFallback: React.FC<FallbackProps> = ({ error }) => {
   console.log(String(error))
 
   useEffect(() => {

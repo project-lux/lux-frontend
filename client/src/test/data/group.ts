@@ -9,7 +9,6 @@ import {
   webPage,
 } from './helperObjects'
 
-// eslint-disable-next-line import/prefer-default-export
 export const group: IAgent = {
   id: `${config.env.dataApiBaseUrl}data/group/mock-group`,
   type: 'Group',

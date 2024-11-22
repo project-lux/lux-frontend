@@ -1,4 +1,4 @@
-// This file is a template and should be used to begin configuration of the index.html
+<!-- This file is a template and should be used to begin configuration of the index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,8 +6,8 @@
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
-    <-- Place your optional additional elements here -->
-    <-- div with id="root" is necessary for React -->
+    <!-- Place your optional additional elements here -->
+    <!-- div with id="root" is necessary for React -->
     <div id="root"></div>
     <script type="module" src="/src/index.tsx"></script>
   </body>

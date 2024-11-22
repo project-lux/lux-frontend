@@ -29,7 +29,7 @@ const SortDropdown: React.FC<IDropdown> = ({
 
   return (
     <StyledDropdown
-      onSelect={handleOptionSelection}
+      onSelect={() => handleOptionSelection}
       className={`${className} me-2`}
       data-testid={id}
     >

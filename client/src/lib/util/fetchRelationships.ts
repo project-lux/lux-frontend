@@ -7,4 +7,4 @@ export const fetchHalLinkSearchRequest = (
     .then((response) =>
       response.text().then((translatedString) => JSON.parse(translatedString)),
     )
-    .catch((e) => new Error('The requested facets could not be returned.'))
+    .catch(() => new Error('The requested facets could not be returned.'))

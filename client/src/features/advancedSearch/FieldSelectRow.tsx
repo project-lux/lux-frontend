@@ -16,7 +16,7 @@ import TextInput from './TextInput'
 interface IFieldSelectRow {
   stateId: string
   scope: string
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
   state: Record<string, any>
   parentStateId: string
   childInd?: number | undefined

@@ -1,6 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable consistent-return */
-/* eslint-disable array-callback-return */
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'

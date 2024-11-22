@@ -40,11 +40,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     webPages,
     notes,
     part,
-  } = aboutData as Record<
-    string,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    any
-  >
+  } = aboutData as Record<string, any>
 
   return (
     <React.Fragment>
@@ -111,7 +107,6 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
             Object.keys(p).map((key: string, ind: number) => (
               <div
                 className="row"
-                // eslint-disable-next-line react/no-array-index-key
                 key={`${key}_${ind}`}
                 data-testid={`event-part-container-${ind}`}
               >

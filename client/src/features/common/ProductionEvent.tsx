@@ -1,7 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
 import StyledEntityEvent from '../../styles/shared/EntityEvent'

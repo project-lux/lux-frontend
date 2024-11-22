@@ -4,8 +4,6 @@ import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
-import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -48,7 +46,7 @@ vi.mock('../../lib/util/collectionHelper', () => ({
 // Mock the request for collections
 vi.mock('../../lib/parse/search/estimatesParser', () => ({
   __esModule: true,
-  getEstimatesRequests:vi.fn(() => ({
+  getEstimatesRequests: vi.fn(() => ({
     data: mockEstimatesResults,
   })),
   isAdvancedSearch: vi.fn(),

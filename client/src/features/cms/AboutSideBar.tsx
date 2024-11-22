@@ -14,7 +14,6 @@ const AboutSideBar: React.FC = () => (
       <NavLink
         to={key}
         className={({ isActive }) => `nav-link${isActive ? ' active' : ''}`}
-        // eslint-disable-next-line react/no-array-index-key
         key={key}
       >
         {value}

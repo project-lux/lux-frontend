@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 
@@ -34,7 +33,7 @@ const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
     <div className="mt-1 mb-3">
       <PrimaryButton
         href={`${config.env.luxFeedbackUrl}${currentURL}`}
-        type="link"
+        type="button"
         value="feedback"
         aria-label="Submit feedback about this record"
         className="feedbackButton w-100"
