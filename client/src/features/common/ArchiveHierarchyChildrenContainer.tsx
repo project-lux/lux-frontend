@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable react/destructuring-assignment */
 import React, { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
@@ -149,7 +147,6 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
       <React.Fragment>
         {children.map((child: string, ind: number) => (
           <ArchiveHierarchyChild
-            // eslint-disable-next-line react/no-array-index-key
             key={`${child}-${ind}`}
             child={child}
             skipApiCalls={skipApiCalls}

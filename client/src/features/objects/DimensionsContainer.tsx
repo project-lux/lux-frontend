@@ -1,6 +1,3 @@
-/* eslint-disable react/require-default-props */
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 
 import StyledHr from '../../styles/shared/Hr'

@@ -3,12 +3,7 @@ import styled from 'styled-components'
 
 import theme from '../../theme'
 
-interface IProps {
-  length: number
-  currentInd: number
-}
-
-const FeaturedCollection = styled(Col)<IProps>`
+const FeaturedCollection = styled(Col)`
   margin-bottom: 1.25em;
 
   &:first-child {

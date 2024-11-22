@@ -27,5 +27,5 @@ export function translate({
         onError()
       }
     })
-    .catch((e) => onError())
+    .catch(() => onError())
 }

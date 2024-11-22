@@ -17,7 +17,7 @@ const MoreAboutLux: React.FC<IProps> = ({ data }) => {
 
   return (
     <React.Fragment>
-      {/* eslint-disable-next-line react/no-danger */}
+      {}
       <StyledMoreAboutLuxSection
         dangerouslySetInnerHTML={{ __html: sanitizeHtml(moreAboutLux) }}
         id="more-about-section"

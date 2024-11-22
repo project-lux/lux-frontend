@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -65,11 +64,7 @@ const List: React.FC<IProps> = ({
             {Object.keys(transformedData[year]).map((searchTag, ind) => {
               if (searchTag !== 'total' && searchTag !== 'criteria') {
                 return (
-                  <dl
-                    className="my-0"
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${year}-${searchTag}-${ind}`}
-                  >
+                  <dl className="my-0" key={`${year}-${searchTag}-${ind}`}>
                     <ListRow
                       searchTags={searchTags}
                       data={transformedData}

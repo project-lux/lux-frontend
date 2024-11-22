@@ -3,10 +3,6 @@ import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 import { vi } from 'vitest'
 
-import {
-  useGetNameQuery,
-  useGetSearchRelationshipQuery,
-} from '../../../../redux/api/ml_api'
 import { activityStreams } from '../../../data/results'
 import config from '../../../../config/config'
 import { setEvent } from '../../../../config/collectionsSearchTags'

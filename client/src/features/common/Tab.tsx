@@ -1,6 +1,5 @@
 import React from 'react'
 
-/* eslint-disable react/no-unused-prop-types */
 interface ITab {
   title: string
   currentTab?: string

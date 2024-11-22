@@ -42,7 +42,7 @@ const WorksResults: React.FC<IProps> = ({ searchResponse }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result, ind) => (
+    results.map((result) => (
       <WorksSnippet key={result.id} uri={result.id} view={view} />
     ))
 

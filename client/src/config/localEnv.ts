@@ -23,7 +23,9 @@ export const dataApiBaseUrl = getString(import.meta.env.REACT_APP_API_BASE_URL)
 export const facetsApiBaseUrl = getString(
   import.meta.env.REACT_APP_FACETS_API_BASE_URL,
 )
-export const cmsApiBaseUrl = getString(import.meta.env.REACT_APP_CMS_API_BASE_URL)
+export const cmsApiBaseUrl = getString(
+  import.meta.env.REACT_APP_CMS_API_BASE_URL,
+)
 export const maintenanceMode = getBoolean(
   import.meta.env.REACT_APP_MAINTENANCE_MODE,
 )
@@ -40,5 +42,9 @@ export const wikidataImagePathname = getString(
 export const luxWikidataManifestPrefix = getString(
   import.meta.env.REACT_APP_LUX_WIKIDATA_MANIFEST_PREFIX,
 )
-export const luxFeedbackUrl = getString(import.meta.env.REACT_APP_LUX_FEEDBACK_URL)
-export const bugherdApiKey = getString(import.meta.env.REACT_APP_BUGHERD_API_KEY)
+export const luxFeedbackUrl = getString(
+  import.meta.env.REACT_APP_LUX_FEEDBACK_URL,
+)
+export const bugherdApiKey = getString(
+  import.meta.env.REACT_APP_BUGHERD_API_KEY,
+)

@@ -8,7 +8,7 @@ import config from '../../../../config/config'
 
 const mockPathname = `${config.env.dataApiBaseUrl}mock-path`
 
-vi.mock('react-router-dom', async (importOriginal) => {
+vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,

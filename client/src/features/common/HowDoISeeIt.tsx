@@ -1,4 +1,3 @@
-/* eslint-disable react/no-danger */
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
@@ -53,7 +52,6 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
   // get the responsible units via HAL link
   const { data: units, isSuccess: unitsIsSuccess } =
     useGetSearchRelationshipQuery(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       { uri: unitHalLink! },
       { skip: unitHalLink === null },
     )
@@ -142,7 +140,6 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
         planYourVisitLinks.map((link, ind) => {
           if (link._content_html !== undefined) {
             return (
-              // eslint-disable-next-line react/no-array-index-key
               <Row key={`plan-your-visit-${ind}`}>
                 <Col>
                   <span className="d-flex" data-testid="plan-your-visit-link">

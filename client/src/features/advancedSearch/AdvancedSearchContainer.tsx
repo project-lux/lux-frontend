@@ -58,6 +58,7 @@ const AdvancedSearchContainer: React.FC = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    // eslint-disable-next-line @typescript-eslint/no-use-before-define
     const filteredSearch = filterAdvancedSearch(scope, currentState)
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
@@ -93,6 +94,7 @@ const AdvancedSearchContainer: React.FC = () => {
       dispatch(changeClearedAdvancedSearch({ value: false }))
     }
   }, [dispatch, scope, query, tab, queryTab])
+
   const currentState = useAppSelector(
     (asState) => asState.advancedSearch as IAdvancedSearchState,
   )

@@ -7,8 +7,6 @@ import { ICriteria } from '../types/ISearchResults'
 
 import { recordTypes } from './advancedSearch/inputTypes'
 
-/* eslint-disable import/prefer-default-export */
-
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 

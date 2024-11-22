@@ -1,5 +1,3 @@
-/* eslint-disable consistent-return */
-/* eslint-disable array-callback-return */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
 import IWork from '../../../types/data/IWork'

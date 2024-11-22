@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Col, Row } from 'react-bootstrap'

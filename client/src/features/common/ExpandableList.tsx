@@ -1,6 +1,4 @@
-/* eslint-disable react/require-default-props */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react/no-array-index-key */
 
 // TODO refactor the code for iterated items have unique keys without using array indexes
 

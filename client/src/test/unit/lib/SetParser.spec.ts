@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import SetParser from '../../../lib/parse/data/SetParser'
 import { set as mockSet } from '../../data/set'
 import { archive as mockArchive } from '../../data/archive'

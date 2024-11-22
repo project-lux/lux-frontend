@@ -46,7 +46,6 @@ const Activity: React.FC<IEntity> = ({ data }) => (
         const { type, dates, location } = activity
         return (
           <ActivityColumn
-            // eslint-disable-next-line react/no-array-index-key
             key={ind}
             type={type}
             dates={dates}

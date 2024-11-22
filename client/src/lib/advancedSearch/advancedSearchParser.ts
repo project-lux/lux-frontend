@@ -1,7 +1,5 @@
-/* eslint-disable prefer-destructuring */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable array-callback-return */
-/* eslint-disable consistent-return */
+
 import _ from 'lodash'
 
 import { conditionals } from '../../config/advancedSearch/conditionals'
@@ -32,34 +30,6 @@ export const getProperty = (obj: IAdvancedSearchState): string => {
 
   return ''
 }
-
-/**
- * Determines if the properties given contains a property that requires user input
- * @param properties Array<string>; array of properties
- * @returns boolean
- */
-export const containsInput = (properties: Array<string>): boolean => {
-  for (const prop of properties) {
-    const isInputValue = isInput(prop)
-    if (isInputValue) {
-      return isInputValue
-    }
-  }
-
-  return false
-}
-
-/**
- * Determines if the property given requires user input
- * @param searchTerm string; string property from the state
- * @returns boolean
- */
-export const isInput = (searchTerm: string): boolean =>
-  isRangeInput(searchTerm) ||
-  isTextInput(searchTerm) ||
-  isBooleanInput(searchTerm) ||
-  isRecordTypeInput(searchTerm) ||
-  isDateInput(searchTerm)
 
 /**
  * Determines if the property given requires text input
@@ -94,14 +64,6 @@ export const isDateInput = (searchTerm: string): boolean =>
   searchTerm.toLowerCase().includes('date')
 
 /**
- * Determines if the property is a conditional
- * @param searchTerm string; string property from the state
- * @returns boolean
- */
-export const isGroup = (searchTerm: string): boolean =>
-  Object.keys(conditionals).includes(searchTerm)
-
-/**
  * Determines if the property given requires boolean checkbox input
  * @param searchTerm string; string property from the state
  * @returns boolean
@@ -110,6 +72,42 @@ export const isBooleanInput = (searchTerm: string): boolean =>
   searchTerm === 'hasDigitalImage' ||
   searchTerm === 'isOnline' ||
   searchTerm === 'isPublicDomain'
+
+/**
+ * Determines if the property given requires user input
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isInput = (searchTerm: string): boolean =>
+  isRangeInput(searchTerm) ||
+  isTextInput(searchTerm) ||
+  isBooleanInput(searchTerm) ||
+  isRecordTypeInput(searchTerm) ||
+  isDateInput(searchTerm)
+
+/**
+ * Determines if the properties given contains a property that requires user input
+ * @param properties Array<string>; array of properties
+ * @returns boolean
+ */
+export const containsInput = (properties: Array<string>): boolean => {
+  for (const prop of properties) {
+    const isInputValue = isInput(prop)
+    if (isInputValue) {
+      return isInputValue
+    }
+  }
+
+  return false
+}
+
+/**
+ * Determines if the property is a conditional
+ * @param searchTerm string; string property from the state
+ * @returns boolean
+ */
+export const isGroup = (searchTerm: string): boolean =>
+  Object.keys(conditionals).includes(searchTerm)
 
 /**
  * Check if state contains valid data for submitting

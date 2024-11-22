@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
@@ -161,6 +162,7 @@ const Checkbox: React.FC<IProps> = ({
         id={id}
         onChange={isFacetSelected ? handleRemoveFacet : submitFacet}
         checked={isFacetSelected}
+        // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={facetsState.lastSelectedFacetUri === facet.value}
       />
       <label className="form-check-label ms-2" htmlFor={id}>

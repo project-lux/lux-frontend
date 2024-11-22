@@ -14,7 +14,6 @@ const GROUP_ROW_TYPE = 'group'
 export { RELATIONSHIP_ROW_TYPE, INPUT_ROW_TYPE, GROUP_ROW_TYPE }
 
 interface IFieldSelectRow {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   state: Record<string, any>
   stateId: string
   ariaLabel: string
@@ -40,7 +39,7 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
 }) => {
   const dispatch = useAppDispatch()
 
-  const setHelpText = (e: string): void => {
+  const setHelpText = (): void => {
     dispatch(addSelectedHelpText({ value: 'options' }))
   }
   /* until a change is made related to ML#916, search options will not work as expected unless the user is searching using Anywhere or Name at the top level of the search. nestedLevel = 0  and  rowType = INPUT_ROW_TYPE help us disable search options where they won't work */

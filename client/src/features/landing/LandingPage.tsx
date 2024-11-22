@@ -48,7 +48,7 @@ const Landing: React.FC = () => {
             <StyledHeadingOne>Explore Yale Collections</StyledHeadingOne>
           </HeaderContainerCol>
         </Row>
-        <StickySearchContainer className="sticky-top" />
+        <StickySearchContainer />
         <Row id="srch-hero-container" className="mx-0">
           {imagesResult.isSuccess && units.length > 0 && (
             <ErrorBoundary FallbackComponent={ErrorFallback}>

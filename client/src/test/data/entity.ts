@@ -17,7 +17,6 @@ import {
   webPage,
 } from './helperObjects'
 
-// eslint-disable-next-line import/prefer-default-export
 export const entity: IEntity = {
   id: `${config.env.dataApiBaseUrl}data/object/1`,
   type: 'HumanMadeObject',

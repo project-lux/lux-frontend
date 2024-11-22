@@ -1,27 +1,53 @@
+/* eslint-disable import/no-unresolved */
+import { fixupConfigRules, fixupPluginRules } from "@eslint/compat"
+import typescriptEslint from "@typescript-eslint/eslint-plugin"
+import _import from "eslint-plugin-import"
+import jsxA11Y from "eslint-plugin-jsx-a11y"
+import prettier from "eslint-plugin-prettier"
+import react from "eslint-plugin-react"
+import tsParser from "@typescript-eslint/parser"
+import path from "node:path"
+import { fileURLToPath } from "node:url"
+import js from "@eslint/js"
+import { FlatCompat } from "@eslint/eslintrc"
+import stylistic from '@stylistic/eslint-plugin'
+
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+const compat = new FlatCompat({
+    baseDirectory: __dirname,
+    recommendedConfig: js.configs.recommended,
+    allConfig: js.configs.all
+})
+
 // eslint.config.js
 export default [
+  ...fixupConfigRules(compat.extends(
+    "plugin:import/errors",
+    "plugin:import/warnings",
+    "plugin:jsx-a11y/strict",
+    "prettier",
+  )), 
   {
-    root: true,
-    parser: "@typescript-eslint/parser",
-    extends: [
-      "airbnb",
-      "eslint:recommended",
-      "plugin:@typescript-eslint/eslint-recommended",
-      "plugin:@typescript-eslint/recommended",
-      "plugin:import/errors",
-      "plugin:import/warnings",
-      "plugin:jsx-a11y/strict",
-      "plugin:react/recommended",
-      "prettier",
-      "react-app"
-    ],
-    plugins: ["@typescript-eslint", "import", "jsx-a11y", "prettier", "react"],
-    parserOptions: {
+    languageOptions: {
+      parser: tsParser,
       ecmaVersion: 2018,
       sourceType: "module",
-      ecmaFeatures: {
-        jsx: true
-      }
+
+      parserOptions: {
+        requireConfigFile: false,
+        ecmaFeatures: {
+            jsx: true,
+        },
+      },
+    },
+    plugins: {
+      "@typescript-eslint": fixupPluginRules(typescriptEslint),
+      import: fixupPluginRules(_import),
+      "jsx-a11y": fixupPluginRules(jsxA11Y),
+      prettier,
+      react: fixupPluginRules(react),
+      "@stylistic": stylistic,
     },
     files: ["src/**/*.ts", "src/**/*.tsx"],
     ignores: [
@@ -32,6 +58,7 @@ export default [
       'package.json',
       '/src/serviceWorker.ts',
       'eslint.config.js',
+      'public/'
     ],
     rules: {
       "@typescript-eslint/consistent-type-assertions": [2],
@@ -42,7 +69,7 @@ export default [
           allowExpressions: true
         }
       ],
-      "@typescript-eslint/member-delimiter-style": [
+      "@stylistic/member-delimiter-style": [
         2,
         {
           multiline: {
@@ -88,6 +115,7 @@ export default [
           devDependencies: true
         }
       ],
+      "import/no-named-as-default": 0,
       "import/order": [
         "error",
         {
@@ -145,8 +173,5 @@ export default [
         }
       }
     },
-    scripts: {
-      "lint:ts": "ESLINT_USE_FLAT_CONFIG=false eslint --config eslint.config.js src/"
-    }
   }
 ]

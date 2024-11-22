@@ -2,7 +2,7 @@ import { vi } from 'vitest'
 
 import config from '../../../../config/config'
 import ApiText from '../../../../features/common/ApiText'
-import { useGetItemQuery, useGetNameQuery } from '../../../../redux/api/ml_api'
+import { useGetItemQuery } from '../../../../redux/api/ml_api'
 import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockLabel = 'Name'
@@ -31,7 +31,7 @@ vi.mock('../../../../redux/api/ml_api', () => ({
   })),
 }))
 
-vi.mock('react-router-dom', async (importOriginal) => {
+vi.mock('react-router-dom', async () => {
   const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
@@ -41,7 +41,7 @@ vi.mock('react-router-dom', async (importOriginal) => {
   }
 })
 
-vi.mock('../../../../lib/parse/data/helper', async (importOriginal) => {
+vi.mock('../../../../lib/parse/data/helper', async () => {
   const actual = await vi.importActual('../../../../lib/parse/data/helper')
   return {
     ...actual,
@@ -94,7 +94,7 @@ describe('ApiText', () => {
 
   describe('returns the value', () => {
     beforeEach(async () => {
-      useGetItemQuery.mockImplementation((skipToken: any) => ({
+      useGetItemQuery.mockImplementation(() => ({
         currentData: undefined,
         data: undefined,
         isError: false,

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../config/config'
 import IAgent from '../../types/data/IAgent'
 import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'

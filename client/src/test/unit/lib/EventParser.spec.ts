@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import config from '../../../config/config'
 import EventParser from '../../../lib/parse/data/EventParser'
 import { event as mockEvent } from '../../data/event'

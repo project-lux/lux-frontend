@@ -24,5 +24,5 @@ export function fetchRelatedLists({
         onError()
       }
     })
-    .catch((e) => onError())
+    .catch(() => onError())
 }

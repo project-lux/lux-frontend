@@ -3,9 +3,7 @@ import React from 'react'
 import { vi } from 'vitest'
 
 import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
 import { reusableMinimalEntity } from '../data/reusableMinimalEntity'
-import { getItems } from '../../lib/util/fetchItems'
 import { archive as mockArchive } from '../data/archive'
 
 import AppRender from './utils/AppRender'

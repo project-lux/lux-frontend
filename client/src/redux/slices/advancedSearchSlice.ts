@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable no-param-reassign */
-import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+
+import { createSlice } from '@reduxjs/toolkit'
+import type { PayloadAction } from '@reduxjs/toolkit'
 
 import { RootState } from '../../app/store'
 import {
@@ -22,7 +23,6 @@ import {
 import { getStateId } from '../../lib/advancedSearch/stateId'
 
 export interface IAdvancedSearchState {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [key: string]:
     | Array<Record<string, any>>
     | string

@@ -182,7 +182,6 @@ export default class EntityParser {
     if (removePrimaryName) {
       const primaryName = this.getPrimaryName(config.aat.langen)
       Object.keys(data).map((names) =>
-        // eslint-disable-next-line array-callback-return
         data[names].map((name) => {
           if (name.content === primaryName) {
             const ind = data[names].indexOf(name)
@@ -309,7 +308,6 @@ export default class EntityParser {
     }
 
     const recordId = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       'This Record': [this.json.id!],
     }
 
