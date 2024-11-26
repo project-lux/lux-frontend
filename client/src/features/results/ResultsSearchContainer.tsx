@@ -5,19 +5,32 @@ import { ErrorBoundary } from 'react-error-boundary'
 import theme from '../../styles/theme'
 import AdvancedSearchContainer from '../advancedSearch/AdvancedSearchContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
-import SearchBoxContainer from '../search/SearchContainer'
+import SearchContainer from '../search/SearchContainer'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   ICurrentSearchState,
   changeCurrentSearchState,
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
+import Header from '../advancedSearch/Header'
+
+import Navigation from './Navigation'
 
 interface IProps {
   isSimpleSearch: boolean
+  urlParams: URLSearchParams
+  queryString: string
+  search: string
+  isSwitchToSimpleSearch: boolean
 }
 
-const ResultsSearchContainer: React.FC<IProps> = ({ isSimpleSearch }) => {
+const ResultsSearchContainer: React.FC<IProps> = ({
+  isSimpleSearch,
+  urlParams,
+  queryString,
+  search,
+  isSwitchToSimpleSearch,
+}) => {
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
 
   const dispatch = useAppDispatch()
@@ -38,16 +51,35 @@ const ResultsSearchContainer: React.FC<IProps> = ({ isSimpleSearch }) => {
 
   return (
     <React.Fragment>
-      {currentSearchState.searchType === 'simple' ||
-      screenWidth < theme.breakpoints.md ? (
-        <SearchBoxContainer
-          className="resultsSearchContainer"
-          bgColor="transparent"
-          id="results-search-container"
-          isResultsPage
-        />
-      ) : (
+      {(currentSearchState.searchType === 'simple' ||
+        screenWidth < theme.breakpoints.md) && (
+        <React.Fragment>
+          <SearchContainer
+            className="resultsSearchContainer"
+            bgColor="transparent"
+            id="results-search-container"
+            isResultsPage
+          />
+          <Navigation
+            urlParams={urlParams}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
+        </React.Fragment>
+      )}
+      {!(
+        currentSearchState.searchType === 'simple' ||
+        screenWidth < theme.breakpoints.md
+      ) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Header />
+          <Navigation
+            urlParams={urlParams}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
           <AdvancedSearchContainer key={tab} />
         </ErrorBoundary>
       )}

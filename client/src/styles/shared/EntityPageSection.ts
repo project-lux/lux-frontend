@@ -2,10 +2,20 @@ import styled from 'styled-components'
 
 import theme from '../theme'
 
-const EntityPageSection = styled.div`
+interface IProps {
+  borderTopLeftRadius?: string
+  borderTopRightRadius?: string
+}
+
+const EntityPageSection = styled.div<IProps>`
   background: ${theme.color.white};
   box-shadow: 1px 1px 5px ${theme.color.black20};
-  border-radius: ${theme.border.radius};
+  border-top-left-radius: ${(props) =>
+    props.borderTopLeftRadius || theme.border.radius};
+  border-top-right-radius: ${(props) =>
+    props.borderTopRightRadius || theme.border.radius};
+  border-bottom-right-radius: ${theme.border.radius};
+  border-bottom-left-radius: ${theme.border.radius};
   margin: 0 0 ${theme.spacing.sectionGap};
   padding: 1rem;
 

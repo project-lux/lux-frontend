@@ -36,6 +36,7 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse }) => {
   const view: string = queryString.has('view')
     ? (queryString.get('view') as string)
     : 'list'
+  const hasSimpleSearchQuery = queryString.has('sq')
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -64,7 +65,10 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <StyledEntityPageSection className="row">
+    <StyledEntityPageSection
+      className="row"
+      borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
+    >
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader
