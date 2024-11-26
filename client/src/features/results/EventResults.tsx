@@ -32,6 +32,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
   const sort = queryString.get(`${tab}Sort`)
+  const hasSimpleSearchQuery = queryString.has('sq')
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -58,7 +59,10 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <StyledEntityPageSection className="row">
+    <StyledEntityPageSection
+      className="row"
+      borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
+    >
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader

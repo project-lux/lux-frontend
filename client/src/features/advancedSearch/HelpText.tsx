@@ -33,7 +33,12 @@ const HelpText: React.FC = () => {
       : helpTextState.selectedHoverKey
 
   return (
-    <Row style={{ position: 'sticky', top: '0' }}>
+    <Row
+      style={{
+        position: 'sticky',
+        top: '0',
+      }}
+    >
       <Col>
         <h3 style={{ wordWrap: 'break-word' }}>
           Help {helpTextKey !== '' && `for ${helpTextKey}`}

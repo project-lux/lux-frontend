@@ -13,10 +13,10 @@ import {
 import { IFacetsPagination } from '../../types/IFacets'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import StyledHr from '../../styles/shared/Hr'
+import theme from '../../styles/theme'
 
 import Checklist from './Checklist'
 import FullDateInput from './FullDateInput'
-// import DateInput from './DateInput'
 
 interface IProps {
   criteria: ICriteria
@@ -180,7 +180,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
               )}
             </div>
           </div>
-          <StyledHr />
+          <StyledHr color={theme.color.lightGray} width="100%" />
         </div>
       )
     }

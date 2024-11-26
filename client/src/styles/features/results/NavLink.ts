@@ -39,11 +39,11 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.active {
-    box-shadow: 0px -5px 5px ${theme.color.black20};
+    box-shadow: -1px -1px 5px ${theme.color.borderShadow};
     background: ${theme.color.white};
-    margin-bottom: -7px;
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
+    margin-bottom: -5px;
 
     & > div > img {
       filter: none;
