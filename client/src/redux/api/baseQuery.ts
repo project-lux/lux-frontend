@@ -1,6 +1,8 @@
 import { BaseQueryFn } from '@reduxjs/toolkit/query/react'
 import axios, { AxiosRequestConfig, AxiosError } from 'axios'
 
+import config from '../../config/config'
+
 export const baseQuery =
   (
     getBaseUrl: () => string,
@@ -17,7 +19,18 @@ export const baseQuery =
   async ({ url, method, data, params }) => {
     try {
       const baseUrl = getBaseUrl()
-      const result = await axios({ url: baseUrl + url, method, data, params })
+      const headers: { [key: string]: string } = {}
+
+      if (config.currentAccessToken) {
+        headers.Authorization = `Bearer ${config.currentAccessToken}`
+      }
+      const result = await axios({
+        url: baseUrl + url,
+        method,
+        data,
+        headers,
+        params,
+      })
       return { data: result.data }
     } catch (axiosError) {
       const err = axiosError as AxiosError
