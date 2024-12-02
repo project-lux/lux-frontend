@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added new non-semantic sort options ([#396](https://github.com/project-lux/lux-frontend/issues/396)).
+- Added new semantic sort options ([#80](https://github.com/project-lux/lux-frontend/issues/80)).
+
 ### Changed
 
 - Changed results page facets and results layout ([#416](https://github.com/project-lux/lux-frontend/issues/416)).
