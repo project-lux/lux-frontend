@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Brush,
 } from 'recharts'
+import { scaleLog } from 'd3-scale'
 
 import theme from '../../styles/theme'
 import {
@@ -81,6 +82,8 @@ const Graph: React.FC<IProps> = ({
     ['workPublicationDate', 'Works Published'],
   ])
 
+  const xScale = scaleLog().base(Math.E)
+
   return (
     <div
       className="highlight-bar-charts"
@@ -98,7 +101,7 @@ const Graph: React.FC<IProps> = ({
           accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="year" allowDataOverflow />
+          <XAxis dataKey="year" allowDataOverflow scale={xScale} />
           <YAxis dataKey="total" yAxisId="total" allowDataOverflow />
           <Tooltip
             trigger="click"
