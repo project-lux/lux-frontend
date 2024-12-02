@@ -28,7 +28,7 @@ const WhatIsLux = styled.div`
     letter-spacing: -2px;
     z-index: 2;
 
-    @media (min-width: ${theme.breakpoints.sm}px) {
+    @media (min-width: ${theme.breakpoints.md}px) {
       font-size: 3.1rem;
     }
   }

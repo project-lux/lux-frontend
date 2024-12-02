@@ -35,6 +35,7 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
+  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(false)
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
@@ -69,6 +70,21 @@ const LuxRoutes: React.FC = () => {
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
 
+  useEffect(() => {
+    const listenResizeEvent = (): void => {
+      if (window.innerWidth < theme.breakpoints.md) {
+        setShowMobileAlert(true)
+      }
+      if (window.innerWidth > theme.breakpoints.md) {
+        setShowMobileAlert(false)
+      }
+    }
+
+    window.addEventListener('resize', listenResizeEvent)
+
+    return () => window.removeEventListener('resize', listenResizeEvent)
+  }, [])
+
   return (
     <React.Fragment>
       <RedirectOldProd />
@@ -78,8 +94,12 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {window.innerWidth < theme.breakpoints.md && (
-          <Alert variant="info" className="d-flex justify-content-center">
+        {showMobileAlert && (
+          <Alert
+            dismissible
+            variant="info"
+            className="d-flex justify-content-center mb-0"
+          >
             LUX is optimized for desktop use. Some features are not available on
             mobile devices.
           </Alert>
