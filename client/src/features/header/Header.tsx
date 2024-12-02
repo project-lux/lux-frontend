@@ -52,10 +52,10 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         variant="dark"
         className="w-auto px-4 py-3"
       >
-        <Container fluid className="mx-0">
+        <Container fluid className="mx-0 navbarContainer">
           <NavLink
             to="/"
-            className="navbar-brand"
+            className="navbar-brand titleHeading"
             onClick={() => handlepushClientEvent('Landing Page')}
           >
             LUX: Yale Collections Discovery

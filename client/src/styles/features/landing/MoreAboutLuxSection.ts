@@ -12,20 +12,30 @@ const MoreAboutLux = styled(ToppedBorderedDiv)`
   background-color: ${theme.color.white};
 
   h2 {
-    font-size: 3.1rem;
-    font-weight: 200;
+    font-size: ${theme.font.mobile.h2.size};
+    font-weight: ${theme.font.mobile.h2.weight};
+    line-height: ${theme.font.mobile.h2.lineHeight};
     letter-spacing: -2px;
-    line-height: 72px;
-    color: #000;
+    color: ${theme.color.trueBlack};
     margin-bottom: 19px;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 3.1em;
+      line-height: ${theme.font.desktop.h1.lineHeight};
+      font-weight: ${theme.font.desktop.h2.weight};
+    }
   }
 
   h3 {
     font-family: Inter, sans-serif;
-    font-size: 1.5em;
-    font-weight: 700;
     letter-spacing: 0;
-    line-height: 32px;
+    font-weight: ${theme.font.mobile.h3.weight};
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 1.5em;
+      line-height: ${theme.font.desktop.h3.lineHeight};
+      font-weight: 700;
+    }
   }
 
   p,
@@ -37,7 +47,14 @@ const MoreAboutLux = styled(ToppedBorderedDiv)`
   }
 
   p {
-    font-weight: 200;
+    font-weight: ${theme.font.weight.extraLight};
+    font-size: ${theme.font.mobile.bodyRegular.size};
+    line-height: ${theme.font.mobile.bodyRegular.lineHeight};
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 1.5em;
+      line-height: 32px;
+    }
   }
 
   ul {

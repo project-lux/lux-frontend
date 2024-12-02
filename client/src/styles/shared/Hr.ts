@@ -15,6 +15,13 @@ const Hr = styled.hr<IProps>`
   padding: 0px 5px;
   width: ${(props) => (props.width ? props.width : '98%')};
   margin: auto;
+
+  &.footerBlocks {
+    margin-bottom: 1rem;
+    @media (min-width: ${theme.breakpoints.lg}px) {
+      display: none;
+    }
+  }
 `
 
 export default Hr
