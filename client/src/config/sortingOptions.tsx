@@ -21,7 +21,7 @@ export const sortBy: { [key: string]: Record<string, string> } = {
     itemProductionAgentName: 'Produced By',
     itemTechniqueConceptName: 'Technique',
     itemHasDigitalImage: 'Has Digital Image',
-    itemRecordType: 'Object Class	',
+    itemRecordType: 'Object Class',
     random: 'Shuffle Results',
     relevance: 'Relevance',
   },
