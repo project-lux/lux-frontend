@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { Col } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
@@ -13,6 +13,7 @@ import PageLoading from '../common/PageLoading'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
+import StyledResultsCol from '../../styles/features/results/ResultsCol'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -44,9 +45,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result, ind) => (
-      <PlaceSnippet key={result.id} uri={result.id} />
-    ))
+    results.map((result) => <PlaceSnippet key={result.id} uri={result.id} />)
 
   let estimate = 0
   if (isSuccess && data) {
@@ -59,21 +58,27 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <div className="row py-3">
-      <FacetContainer
-        facetsRequested={facetNamesLists.places}
-        scope={searchScope.places}
-      />
-      <Col xs={12} sm={12} md={12} lg={9}>
-        <StyledEntityPageSection>
+    <StyledEntityPageSection className="row">
+      {(isSuccess || isError) && (
+        <Col xs={12}>
+          <ResultsHeader
+            key={sort}
+            total={estimate}
+            label="Places"
+            overlay="places"
+          />
+        </Col>
+      )}
+      <Row className="mt-3">
+        <StyledResultsCol xs={12} sm={12} md={3} lg={3}>
+          <FacetContainer
+            facetsRequested={facetNamesLists.places}
+            scope={searchScope.places}
+          />
+        </StyledResultsCol>
+        <Col xs={12} sm={12} md={9} lg={9}>
           {!isFetching && isSuccess && data && (
             <React.Fragment>
-              <ResultsHeader
-                key={sort}
-                total={estimate}
-                label="Places"
-                overlay="places"
-              />
               {resultsList(data.orderedItems)}
               {estimate >= 20 && (
                 <Paginate
@@ -98,9 +103,9 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
               />
             )}
           {(isFetching || isLoading) && <PageLoading />}
-        </StyledEntityPageSection>
-      </Col>
-    </div>
+        </Col>
+      </Row>
+    </StyledEntityPageSection>
   )
 }
 

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 
@@ -6,7 +5,7 @@ import StyledDropdown from '../../styles/shared/Dropdown'
 
 interface IDropdown {
   options: Record<string, string>
-  handleChange: any
+  handleChange: (x: string) => void
   className: string
   id: string
   label: string
@@ -29,7 +28,7 @@ const SortDropdown: React.FC<IDropdown> = ({
 
   return (
     <StyledDropdown
-      onSelect={handleOptionSelection}
+      onSelect={(e) => handleOptionSelection(e as string)}
       className={`${className} me-2`}
       data-testid={id}
     >

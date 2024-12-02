@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion,
-@typescript-eslint/no-non-null-asserted-optional-chain */
 import ObjectParser from '../../../lib/parse/data/ObjectParser'
 import mockPhysicalObject from '../../data/object'
 import { digitalObject as mockDigitalObject } from '../../data/digitalObject'

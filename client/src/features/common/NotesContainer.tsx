@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from 'react'
 
 import { getColumnWidth } from '../../lib/util/ui'

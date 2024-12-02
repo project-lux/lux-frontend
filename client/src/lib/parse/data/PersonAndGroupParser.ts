@@ -1,7 +1,5 @@
-/* eslint-disable array-callback-return */
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable prefer-destructuring */
+
 import { isUndefined } from 'lodash'
 
 import config from '../../../config/config'

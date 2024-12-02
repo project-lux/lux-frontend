@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import RecordLink from '../../../../features/common/RecordLink'
 import config from '../../../../config/config'
@@ -13,17 +14,14 @@ const strippedMockUrl = stripYaleIdPrefix(mockUrl)
 const mockName = 'Mock Object'
 const mockEntity = reusableMinimalEntity(mockName)
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetNameQuery: vi.fn(),
 }))
 
 describe('RecordLink', () => {
   describe('successful calls', () => {
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
-      >
-      getName.mockReturnValueOnce({
+      useGetNameQuery.mockReturnValueOnce({
         data: mockEntity,
         isSuccess: true,
         refetch(): void {
@@ -79,13 +77,10 @@ describe('RecordLink', () => {
   })
 
   describe('failed calls', () => {
-    const mockReturn404 = jest.fn()
+    const mockReturn404 = vi.fn()
 
     beforeEach(async () => {
-      const getName = useGetNameQuery as jest.MockedFunction<
-        typeof useGetNameQuery
-      >
-      getName.mockReturnValueOnce({
+      useGetNameQuery.mockReturnValueOnce({
         data: undefined,
         isSuccess: false,
         isError: true,

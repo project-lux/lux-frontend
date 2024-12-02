@@ -1,5 +1,3 @@
-/* eslint-disable react/no-array-index-key */
-/* eslint-disable react/require-default-props */
 import React, { useState } from 'react'
 
 import StyledSup from '../../styles/features/common/Sup'

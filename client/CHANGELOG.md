@@ -2,9 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.39.2 - 2024-11-21
+## v1.40.0 - Unreleased
+
+### Added
+
+- Added new non-semantic sort options ([#396](https://github.com/project-lux/lux-frontend/issues/396)).
+- Added new semantic sort options ([#80](https://github.com/project-lux/lux-frontend/issues/80)).
 
 ### Changed
+
+- Changed results page facets and results layout ([#416](https://github.com/project-lux/lux-frontend/issues/416)).
+- Changed project builder from create-react-app to vite ([#412](https://github.com/project-lux/lux-frontend/issues/412)).
+- Changed results simple search tab layout ([#417](https://github.com/project-lux/lux-frontend/issues/417)).
+- Changed results advanced search tab layout ([#418](https://github.com/project-lux/lux-frontend/issues/418)).
+
+### Removed
+
+### Fixed
+
+## v1.39.2 - 2024-11-21
+
+### Fixed
 
 - Fixed typo in search results message ([#298](https://github.com/project-lux/lux-frontend/issues/298)).
 - Fixed search scope for place page tabs ([#298](https://github.com/project-lux/lux-frontend/issues/298)).

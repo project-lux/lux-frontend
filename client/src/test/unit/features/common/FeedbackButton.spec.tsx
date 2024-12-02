@@ -1,19 +1,23 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import FeedbackButton from '../../../../features/common/FeedbackButton'
 import config from '../../../../config/config'
 
 const mockPathname = `${config.env.dataApiBaseUrl}mock-path`
 
-jest.mock('react-router-dom', () => ({
-  ...jest.requireActual('react-router-dom'),
-  useLocation: () => ({
-    pathname: mockPathname,
-    search: '',
-  }),
-}))
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
+  return {
+    ...actual,
+    useLocation: () => ({
+      pathname: mockPathname,
+      search: '',
+    }),
+  }
+})
 
 describe('FeedbackButton', () => {
   it('renders', async () => {

@@ -12,6 +12,21 @@ const font = {
     semiBold: 600,
     bold: 700,
   },
+  tabNavigation: {
+    weight: 'bold',
+    size: '16px',
+    lineHeight: '24px',
+  },
+  bodyRegular: {
+    weight: 'regular',
+    size: '16px',
+    lineHeight: '24px',
+  },
+  bodyLight: {
+    weight: '300',
+    size: '16px',
+    lineHeight: '24px',
+  },
 }
 
 const color = {
@@ -23,14 +38,17 @@ const color = {
   darkBlue60: 'rgba(0, 53, 107, 0.6)', // 60% primary.darkBlue
   teal90: 'rgb(0, 123, 148, 0.9)', // 90% primary.teal
   gray: '#999',
+  lightBabyBlue: '#E7F1FF',
   lightGray: '#E1DFDF',
+  link: '#286DC0',
   offWhite: '#F7F7F7',
   white: '#FFF',
-  link: '#286DC0',
   tabButtonBgColor: '#E4E4E4',
   errorFg: 'FC0D1B',
   errorBg: '#FFF0F0',
   trueBlack: '#000',
+  barChartGreen: '#46813B',
+  barChartPurple: '#6b58A6',
 
   // Primary colors defined by POW design
   primary: {
@@ -45,6 +63,13 @@ const color = {
     lightBlue: '#AAD3DF',
     pacificBlue: '#00B5CA',
     cornflowerBlue: '#8095E8',
+  },
+
+  graphs: {
+    produced: '#7E761B',
+    encounter: '#007A1F',
+    published: '#49007A',
+    created: '#BA531C',
   },
 
   advancedSearch: {

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -77,6 +76,7 @@ const TextInput: React.FC<IInputType> = ({
           </label>
         )}
         <StyledInput
+          // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
           type="text"
           value={displayName !== currentValue ? displayName : currentValue}

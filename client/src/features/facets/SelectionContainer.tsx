@@ -1,8 +1,8 @@
-/* eslint-disable react/no-array-index-key */
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
+import theme from '../../styles/theme'
 import { useAppDispatch } from '../../app/hooks'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../../lib/util/params'
@@ -13,7 +13,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import SelectedFacet from './SelectedFacet'
 
 const StyledSelectionContainer = styled.div`
-  background: rgba(0, 147, 176, 0.15);
+  background: ${theme.color.lightBabyBlue};
 `
 
 const StyledRow = styled.div`
@@ -35,7 +35,7 @@ const StyledSpan = styled.span`
 
 const StyledClearAllButton = styled.button`
   font-size: 1em;
-  color: #006dc6;
+  color: ${theme.color.primary.blue};
   letter-spacing: 0;
   text-align: right;
   font-weight: 400;

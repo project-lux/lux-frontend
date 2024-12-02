@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useRef } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
@@ -37,7 +36,6 @@ const getHalLink = (
   return null
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const HierarchyContainer: React.FC<IProps> = ({
   entity,
   halLink,
@@ -53,7 +51,6 @@ const HierarchyContainer: React.FC<IProps> = ({
   const skip = childrenUri === null
   const { data, isSuccess, isError } = useGetSearchRelationshipQuery(
     {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       uri: childrenUri!,
     },
     {

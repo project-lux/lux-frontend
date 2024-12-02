@@ -1,3 +1,5 @@
+import { vi } from 'vitest'
+
 import config from '../../../../config/config'
 import {
   currentUriInHierarchy,
@@ -39,12 +41,17 @@ describe('hierarchyHelpers', () => {
   })
 
   describe('currentUriInHierarchy', () => {
-    jest.mock('../../../../lib/util/hierarchyHelpers', () => ({
-      ...jest.requireActual('../../../../lib/util/hierarchyHelpers'),
-      removeViewFromPathname: jest
-        .fn()
-        .mockReturnValue('set/13349366-80a1-454f-b17a-9490f70c9ad9'),
-    }))
+    vi.mock('../../../../lib/util/hierarchyHelpers', async () => {
+      const actual = await vi.importActual(
+        '../../../../lib/util/hierarchyHelpers',
+      )
+      return {
+        ...actual,
+        removeViewFromPathname: vi
+          .fn()
+          .mockReturnValue('set/13349366-80a1-454f-b17a-9490f70c9ad9'),
+      }
+    })
 
     it('returns true', () => {
       expect(currentUriInHierarchy(mockUri, mockPathname)).toBeTruthy()

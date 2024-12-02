@@ -78,9 +78,33 @@ export default class TimelineParser {
     const search = halLink.replace(re, '')
 
     const urlParams = new URLSearchParams(search)
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const searchTag = urlParams.get('name') || ''
     return searchTag
+  }
+
+  /**
+   * Returns the sorted years with years that were not returned with the data in order to fill gaps in between years
+   * @param {Array<string>} years; the sorted years
+   * @returns {Array<string>}
+   */
+  static addYearsWithNoData(years: Array<string>): Array<string> {
+    const allYears: Array<string> = []
+    years.map((year, ind) => {
+      const prevIndex = ind - 1
+      const prevVal = parseInt(years[prevIndex], 10)
+      const currVal = parseInt(year, 10)
+
+      const gapBetweenYears = currVal - prevVal
+      if (!isNaN(prevVal) && gapBetweenYears !== 1) {
+        for (let i = 1; i < gapBetweenYears; i++) {
+          const emptyYear = (prevVal + i).toString()
+          allYears.push(emptyYear)
+        }
+      }
+      allYears.push(year)
+      return null
+    })
+    return allYears
   }
 
   /**
@@ -166,7 +190,6 @@ export default class TimelineParser {
 
       const gapBetweenYears = currVal - prevVal
       if (!isNaN(prevVal) && gapBetweenYears !== 1) {
-        // eslint-disable-next-line no-plusplus
         for (let i = 1; i < gapBetweenYears; i++) {
           const emptyYear = (prevVal + i).toString()
           allYears.push(emptyYear)

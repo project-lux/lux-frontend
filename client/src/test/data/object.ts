@@ -15,7 +15,6 @@ import {
   webPage,
 } from './helperObjects'
 
-// eslint-disable-next-line import/prefer-default-export
 export const physicalObject: IObject = {
   id: `${config.env.dataApiBaseUrl}data/object/mock-object`,
   type: 'HumanMadeObject',

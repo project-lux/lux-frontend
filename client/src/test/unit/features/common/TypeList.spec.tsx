@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
 import TypeList from '../../../../features/common/TypeList'
 import { useGetNameQuery } from '../../../../redux/api/ml_api'
@@ -9,16 +10,13 @@ const mockTypeOne = 'mock type one'
 const mockTypeTwo = 'mock type two'
 const mockValues = [mockTypeOne, mockTypeTwo]
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetNameQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetNameQuery: vi.fn(),
 }))
 
 describe('TypeList', () => {
   beforeEach(async () => {
-    const getName = useGetNameQuery as jest.MockedFunction<
-      typeof useGetNameQuery
-    >
-    getName
+    useGetNameQuery
       .mockReturnValueOnce({
         data: mockTypeOne,
         isSuccess: true,

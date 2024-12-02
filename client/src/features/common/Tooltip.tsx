@@ -48,7 +48,6 @@ const Tooltip: React.FC<IProps> = ({
   const renderTooltip = (inPlacement: Placement): JSX.Element => (
     <StyledTooltip placement={inPlacement}>
       <span
-        // eslint-disable-next-line react/no-danger
         dangerouslySetInnerHTML={{
           __html: sanitizeHtml(html, { allowedTags: [] }),
         }}

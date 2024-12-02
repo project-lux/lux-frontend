@@ -1,11 +1,8 @@
 import { render } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
+import { vi } from 'vitest'
 
-import {
-  useGetNameQuery,
-  useGetSearchRelationshipQuery,
-} from '../../../../redux/api/ml_api'
 import { activityStreams } from '../../../data/results'
 import config from '../../../../config/config'
 import { setEvent } from '../../../../config/collectionsSearchTags'
@@ -15,9 +12,21 @@ import ApiAboutData from '../../../../features/common/ApiAboutData'
 
 const mockObject = reusableMinimalEntity('Mock')
 
-jest.mock('../../../../redux/api/ml_api', () => ({
-  useGetSearchRelationshipQuery: jest.fn(),
-  useGetNameQuery: jest.fn(),
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetSearchRelationshipQuery: vi.fn(() => ({
+    data: activityStreams('/data/activity/testing', 1),
+    isSuccess: true,
+    refetch(): void {
+      throw new Error('Function not implemented.')
+    },
+  })),
+  useGetNameQuery: vi.fn(() => ({
+    data: mockEvent,
+    isSuccess: true,
+    refetch(): void {
+      throw new Error('Function not implemented.')
+    },
+  })),
   useGetItemQuery: () => ({
     data: mockObject,
     isSuccess: true,
@@ -25,31 +34,6 @@ jest.mock('../../../../redux/api/ml_api', () => ({
 }))
 
 describe('SetEvent', () => {
-  beforeEach(async () => {
-    const getSearchRelationship =
-      useGetSearchRelationshipQuery as jest.MockedFunction<
-        typeof useGetSearchRelationshipQuery
-      >
-    getSearchRelationship.mockReturnValueOnce({
-      data: activityStreams('/data/activity/testing', 1),
-      isSuccess: true,
-      refetch(): void {
-        throw new Error('Function not implemented.')
-      },
-    })
-
-    const getName = useGetNameQuery as jest.MockedFunction<
-      typeof useGetNameQuery
-    >
-    getName.mockReturnValue({
-      data: mockEvent,
-      isSuccess: true,
-      refetch(): void {
-        throw new Error('Function not implemented.')
-      },
-    })
-  })
-
   it('renders the exhibition', async () => {
     const mockLinks = {
       curies: [],

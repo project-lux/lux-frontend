@@ -15,7 +15,6 @@ class Config {
 
   aat: IAat = {}
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   advancedSearch: IAdvancedSearchConfig = {}
 
   constructor() {
@@ -34,7 +33,7 @@ class Config {
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
-    this.setDefaultAats(this.env.dataApiBaseUrl)
+    this.setDefaultAats()
   }
 
   setServerConfig(data: IServerConfig): void {
@@ -53,13 +52,13 @@ class Config {
     }
   }
 
-  setDefaultAats(baseUrl: string): void {
+  setDefaultAats(): void {
     this.aat = defaultAats()
   }
 
   setAats(data: IAat): void {
     // Default must be set again with the new base URL from the server
-    this.setDefaultAats(this.env.dataApiBaseUrl)
+    this.setDefaultAats()
 
     this.aat = { ...this.aat, ...data }
   }

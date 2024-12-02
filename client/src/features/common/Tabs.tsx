@@ -16,6 +16,7 @@ const Tabs: React.FC<ITabChildren> = ({ children }) => {
     <StyledTabs>
       <ul
         className="nav nav-tabs border-bottom-0 d-flex"
+        // eslint-disable-next-line jsx-a11y/no-noninteractive-element-to-interactive-role
         role="tablist"
         data-testid="tabs-unordered-list"
       >
@@ -23,7 +24,6 @@ const Tabs: React.FC<ITabChildren> = ({ children }) => {
           if (item !== null) {
             return (
               <TabButton
-                // eslint-disable-next-line react/no-array-index-key
                 key={index}
                 title={item.props.title}
                 index={index}

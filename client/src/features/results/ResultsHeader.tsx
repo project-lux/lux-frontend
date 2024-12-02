@@ -1,5 +1,3 @@
-/* eslint-disable react/no-danger */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
@@ -126,11 +124,26 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   return (
     <React.Fragment>
-      <Row>
-        <Col xs={12} sm={12} md={6} lg={6} xl={6}>
-          <StyledResultsHeader data-testid="results-header-title">
-            {total} {label} results
-          </StyledResultsHeader>
+      <Row className="mb-2">
+        <Col>
+          <Row>
+            <Col xs={12} sm={12} md={6} lg={12} xl={12}>
+              <StyledResultsHeader
+                className="mb-0"
+                data-testid="results-header-title"
+              >
+                {total} {label} results
+              </StyledResultsHeader>
+            </Col>
+            <Col
+              xs={12}
+              className="descriptiveText"
+              dangerouslySetInnerHTML={{
+                __html: sanitizeHtml(descriptiveText),
+              }}
+              data-testid="results-page-cms-descriptor"
+            />
+          </Row>
         </Col>
         <StyledCol
           xs={12}
@@ -197,15 +210,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           </ButtonGroup>
         </StyledCol>
       </Row>
-      <Row className="row d-flex align-middle justify-content-between pb-2">
-        <Col
-          xs={12}
-          className="descriptiveText"
-          dangerouslySetInnerHTML={{ __html: sanitizeHtml(descriptiveText) }}
-          data-testid="results-page-cms-descriptor"
-        />
-      </Row>
-      <StyledHr />
+      <StyledHr width="100%" />
     </React.Fragment>
   )
 }

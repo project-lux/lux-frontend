@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -15,6 +14,7 @@ import ListRow from './ListRow'
 
 interface IProps {
   sortedKeys: Array<string>
+  yearsArray: Array<string>
   transformedData: ITimelinesTransformed
   searchTags: IHalLinks
 }
@@ -31,9 +31,19 @@ const HoverableRow = styled(Row)`
 
 const List: React.FC<IProps> = ({
   sortedKeys,
+  yearsArray,
   transformedData,
   searchTags,
 }) => {
+  // set the years to render based on user filtering
+  const sortedYearsRange: Array<string> = []
+
+  yearsArray.map((y) => {
+    if (sortedKeys.includes(y)) {
+      sortedYearsRange.push(y)
+    }
+  })
+
   const unitLength = 20
   const [displayLength, setDisplayLength] = useState<number>(unitLength)
 
@@ -48,7 +58,7 @@ const List: React.FC<IProps> = ({
   return (
     <React.Fragment>
       <dl>
-        {sortedKeys.slice(0, displayLength).map((year) => (
+        {sortedYearsRange.slice(0, displayLength).map((year) => (
           <div key={year} className="mb-2">
             <HoverableRow>
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -65,11 +75,7 @@ const List: React.FC<IProps> = ({
             {Object.keys(transformedData[year]).map((searchTag, ind) => {
               if (searchTag !== 'total' && searchTag !== 'criteria') {
                 return (
-                  <dl
-                    className="my-0"
-                    // eslint-disable-next-line react/no-array-index-key
-                    key={`${year}-${searchTag}-${ind}`}
-                  >
+                  <dl className="my-0" key={`${year}-${searchTag}-${ind}`}>
                     <ListRow
                       searchTags={searchTags}
                       data={transformedData}
@@ -84,15 +90,16 @@ const List: React.FC<IProps> = ({
           </div>
         ))}
       </dl>
-      {displayLength >= unitLength && displayLength < sortedKeys.length && (
-        <button
-          type="button"
-          className="btn btn-link show-more"
-          onClick={() => handleShowMore()}
-        >
-          Show More
-        </button>
-      )}
+      {displayLength >= unitLength &&
+        displayLength < sortedYearsRange.length && (
+          <button
+            type="button"
+            className="btn btn-link show-more"
+            onClick={() => handleShowMore()}
+          >
+            Show More
+          </button>
+        )}
       {displayLength > unitLength && (
         <button
           type="button"

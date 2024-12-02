@@ -10,9 +10,8 @@ export const fetchTimelineData = (
         .text()
         .then((translatedString) => ({ [uri]: JSON.parse(translatedString) })),
     )
-    .catch((e) => new Error('The requested facets could not be returned.'))
+    .catch(() => new Error('The requested facets could not be returned.'))
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getTimelines = (
   hrefs: Array<string>,
 ): Promise<{ data: (Error | { [x: string]: any })[] }> => {

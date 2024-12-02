@@ -31,7 +31,7 @@ export const getCriteriaFromHalLink = (
   const search = getAllParamsFromHalLink(halLink, endpoint)
 
   const urlParams = new URLSearchParams(search)
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+
   const criteria = JSON.parse(urlParams.get('q')!)
   return criteria
 }

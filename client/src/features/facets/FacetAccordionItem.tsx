@@ -12,10 +12,11 @@ import {
 } from '../../types/ISearchResults'
 import { IFacetsPagination } from '../../types/IFacets'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
+import StyledHr from '../../styles/shared/Hr'
+import theme from '../../styles/theme'
 
 import Checklist from './Checklist'
 import FullDateInput from './FullDateInput'
-// import DateInput from './DateInput'
 
 interface IProps {
   criteria: ICriteria
@@ -162,7 +163,6 @@ const FacetAccordionItem: React.FC<IProps> = ({
                   currentTab={tab}
                   facetName={facetName}
                   lastPage={facets.numberOfPages}
-                  autoFocus={facetName === facetsState.lastSelectedFacetName}
                 />
               ) : (
                 <Checklist
@@ -180,6 +180,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
               )}
             </div>
           </div>
+          <StyledHr color={theme.color.lightGray} width="100%" />
         </div>
       )
     }

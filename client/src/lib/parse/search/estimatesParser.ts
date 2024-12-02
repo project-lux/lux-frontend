@@ -10,49 +10,6 @@ export const isAdvancedSearch = (searchType: string): boolean =>
 export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
 
-export const getEstimatesRequests = (
-  searchType: string,
-  facetRequest: boolean,
-  params: Record<string, string> | string,
-  qt: string,
-  isSwitchToSimpleSearch: boolean,
-): any => {
-  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
-    return getAdvancedSearchEstimates(params as string, qt)
-  }
-
-  return getSimpleSearchEstimates(params as Record<string, string>)
-}
-
-export const getSimpleSearchEstimates = (
-  params: Record<string, string>,
-): Promise<
-  Record<string, any>[] | { data: Record<string, string | number> }
-> => {
-  const promises = Object.keys(params).map((key: string) => {
-    const urlParams = new URLSearchParams()
-    urlParams.set('q', params[key])
-    return fetchSearchEstimates(urlParams.toString(), key)
-  })
-  return Promise.all(promises).then((result) => ({
-    data: transformSimpleSearchEstimates(result),
-  }))
-}
-
-export const getAdvancedSearchEstimates = (
-  params: string,
-  qt: string,
-): Promise<
-  Record<string, string | number> | { data: Record<string, string | number> }
-> => {
-  const urlParams = new URLSearchParams()
-  urlParams.set('q', params)
-  const promises = fetchSearchEstimates(urlParams.toString(), qt)
-  return promises.then((est) => ({
-    data: transformAdvancedSearchEstimates(est, qt),
-  }))
-}
-
 export const transformAdvancedSearchEstimates = (
   data: { [key: string]: IEstimateItems } | undefined,
   tab: string,
@@ -92,6 +49,49 @@ export const transformSimpleSearchEstimates = (
     }
   }
   return estimates
+}
+
+export const getAdvancedSearchEstimates = (
+  params: string,
+  qt: string,
+): Promise<
+  Record<string, string | number> | { data: Record<string, string | number> }
+> => {
+  const urlParams = new URLSearchParams()
+  urlParams.set('q', params)
+  const promises = fetchSearchEstimates(urlParams.toString(), qt)
+  return promises.then((est) => ({
+    data: transformAdvancedSearchEstimates(est, qt),
+  }))
+}
+
+export const getSimpleSearchEstimates = (
+  params: Record<string, string>,
+): Promise<
+  Record<string, any>[] | { data: Record<string, string | number> }
+> => {
+  const promises = Object.keys(params).map((key: string) => {
+    const urlParams = new URLSearchParams()
+    urlParams.set('q', params[key])
+    return fetchSearchEstimates(urlParams.toString(), key)
+  })
+  return Promise.all(promises).then((result) => ({
+    data: transformSimpleSearchEstimates(result),
+  }))
+}
+
+export const getEstimatesRequests = (
+  searchType: string,
+  facetRequest: boolean,
+  params: Record<string, string> | string,
+  qt: string,
+  isSwitchToSimpleSearch: boolean,
+): any => {
+  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
+    return getAdvancedSearchEstimates(params as string, qt)
+  }
+
+  return getSimpleSearchEstimates(params as Record<string, string>)
 }
 
 export const redirectToTabWithResults = (

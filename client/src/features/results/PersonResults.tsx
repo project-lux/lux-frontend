@@ -13,6 +13,7 @@ import PageLoading from '../common/PageLoading'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
+import StyledResultsCol from '../../styles/features/results/ResultsCol'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -48,7 +49,7 @@ const PersonResults: React.FC<IProps> = ({ searchResponse }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result, ind) => (
+    results.map((result) => (
       <PersonSnippet key={result.id} uri={result.id} view={view} />
     ))
 
@@ -63,22 +64,28 @@ const PersonResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <div className="row py-3">
-      <FacetContainer
-        facetsRequested={facetNamesLists.peopleAndOrgs}
-        scope={searchScope.people}
-      />
-      <Col xs={12} sm={12} md={12} lg={9}>
-        <StyledEntityPageSection>
+    <StyledEntityPageSection className="row">
+      {(isSuccess || isError) && (
+        <Col xs={12}>
+          <ResultsHeader
+            key={sort}
+            total={estimate}
+            label="People & Groups"
+            overlay="peopleAndOrgs"
+            toggleView
+          />
+        </Col>
+      )}
+      <Row className="mt-3">
+        <StyledResultsCol xs={12} sm={3} md={3} lg={3}>
+          <FacetContainer
+            facetsRequested={facetNamesLists.peopleAndOrgs}
+            scope={searchScope.people}
+          />
+        </StyledResultsCol>
+        <Col xs={12} sm={9} md={9} lg={9}>
           {!isFetching && isSuccess && data && (
             <React.Fragment>
-              <ResultsHeader
-                key={sort}
-                total={estimate}
-                label="People & Groups"
-                overlay="peopleAndOrgs"
-                toggleView
-              />
               {view === 'list' && resultsList(data.orderedItems)}
               {view === 'grid' && (
                 <Row xs={1} sm={2} md={3} lg={4} className="g-4 mx-3 pt-2">
@@ -108,9 +115,9 @@ const PersonResults: React.FC<IProps> = ({ searchResponse }) => {
               />
             )}
           {(isFetching || isLoading) && <PageLoading />}
-        </StyledEntityPageSection>
-      </Col>
-    </div>
+        </Col>
+      </Row>
+    </StyledEntityPageSection>
   )
 }
 

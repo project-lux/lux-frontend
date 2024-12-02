@@ -1,8 +1,9 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 
+import { useAppDispatch } from '../../app/hooks'
+import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import useTitle from '../../lib/hooks/useTitle'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
@@ -13,14 +14,12 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { tabToLinkLabel } from '../../config/results'
 
 import ConceptResults from './ConceptResults'
-// import ErrorPage from './ErrorPage'
 import EventResults from './EventResults'
-import Navigation from './Navigation'
 import ObjectResults from './ObjectResults'
 import PersonResults from './PersonResults'
 import PlaceResults from './PlaceResults'
-import SearchContainer from './ResultsSearchContainer'
 import WorkResults from './WorksResults'
+import ResultsSearchContainer from './ResultsSearchContainer'
 
 const getScopedResultsComponent: React.FC<string> = (
   tab: string,
@@ -46,6 +45,7 @@ const getScopedResultsComponent: React.FC<string> = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
+  const dispatch = useAppDispatch()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
 
@@ -102,22 +102,34 @@ const ResultsPage: React.FC = () => {
     },
   )
 
+  useEffect(() => {
+    if (!hasSimpleSearchQuery) {
+      dispatch(changeCurrentSearchState({ value: 'advanced' }))
+    } else {
+      dispatch(changeCurrentSearchState({ value: 'simple' }))
+    }
+  }, [dispatch, hasSimpleSearchQuery])
+
   // Get title for accessibility purposes
   useTitle(title)
 
   return (
     <React.Fragment>
       <h1 hidden>{title}</h1>
-      <SearchContainer key={tab} isSimpleSearch={hasSimpleSearchQuery} />
-      <Navigation
+      <ResultsSearchContainer
+        key={tab}
+        isSimpleSearch={hasSimpleSearchQuery}
         urlParams={urlParams}
-        criteria={queryString !== '' ? JSON.parse(queryString) : null}
+        queryString={queryString}
         search={search}
         isSwitchToSimpleSearch={isSwitchToSimpleSearch}
       />
       <div className="mx-3">
         {isSwitchToSimpleSearch && tab !== queryTab ? (
-          <StyledEntityPageSection>
+          <StyledEntityPageSection
+            borderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
+            borderTopRightRadius={tab === 'events' ? '0px' : undefined}
+          >
             <Alert
               variant="info"
               className="mt-2"

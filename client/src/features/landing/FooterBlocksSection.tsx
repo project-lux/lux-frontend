@@ -19,7 +19,7 @@ const FooterBlocksSection: React.FC<IProps> = ({ data }) => {
       className="d-flex col-12 col-lg-4 px-0 block"
       key={blockHtml.slice(0, 10)}
     >
-      {/* eslint-disable-next-line react/no-danger */}
+      {}
       <div dangerouslySetInnerHTML={{ __html: sanitizeHtml(blockHtml) }} />
     </div>
   ))

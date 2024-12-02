@@ -51,7 +51,6 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
                 <dt>Subject To</dt>
               </Col>
               {subjectTo.map((subject, ind) => (
-                // eslint-disable-next-line react/no-array-index-key
                 <Col xs={12} key={`${subject.text}_${ind}`}>
                   <dd>
                     <ExternalLink

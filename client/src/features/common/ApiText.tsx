@@ -16,7 +16,7 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
  */
 const ApiText = (value: string, filterByAatValue?: string): string | null => {
   const { pathname } = useLocation()
-  // eslint-disable-next-line react/destructuring-assignment
+
   const containsBaseUrl = value.includes(getDataApiBaseUrl())
   const isEmpty = value === ''
   const uri = stripYaleIdPrefix(value)

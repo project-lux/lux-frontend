@@ -1,19 +1,19 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import { conditionals } from '../../config/advancedSearch/conditionals'
 import { nonSearchTermHelpText } from '../../config/advancedSearch/helpText'
 import config from '../../config/config'
-import { getStateId } from '../../lib/advancedSearch/stateId'
 import { dimensions } from '../../config/advancedSearch/inputTypes'
 
 import AppRender from './utils/AppRender'
 import eventTrackingMock from './utils/eventTrackingMock'
 
-jest.mock('../../lib/advancedSearch/stateId', () => ({
+vi.mock('../../lib/advancedSearch/stateId', () => ({
   __esModule: true,
-  getStateId: jest.fn(() => '1'),
+  getStateId: vi.fn(() => '1'),
 }))
 
 describe('Advanced Search', () => {
@@ -22,8 +22,6 @@ describe('Advanced Search', () => {
   const page = '/view/results/objects?q='
 
   beforeEach(async () => {
-    const stateId = getStateId as jest.MockedFunction<typeof getStateId>
-    stateId.mockImplementation(() => '1')
     eventTrackingMock()
   })
 
@@ -340,12 +338,12 @@ describe('Advanced Search', () => {
         fireEvent.click(dropdown)
       })
       // hover over option
-      jest.useFakeTimers()
+      vi.useFakeTimers()
       const dropdownOption = screen.getByTestId(/single-fields-1-name-option/i)
       await act(async () => {
         fireEvent.mouseOver(dropdownOption)
       })
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       expect(
         screen.getByText(config.advancedSearch.terms.item.name.helpText),
@@ -361,17 +359,17 @@ describe('Advanced Search', () => {
         fireEvent.click(dropdown)
       })
       // hover over option
-      jest.useFakeTimers()
+      vi.useFakeTimers()
       const dropdownOption = screen.getByTestId(/single-fields-1-name-option/i)
       await act(async () => {
         fireEvent.mouseOver(dropdownOption)
       })
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       await act(async () => {
         fireEvent.mouseLeave(dropdownOption)
       })
-      jest.runAllTimers()
+      vi.runAllTimers()
 
       expect(
         screen.getByText(nonSearchTermHelpText.fieldSelectRow.helpText),

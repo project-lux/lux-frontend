@@ -1,14 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
+import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
+import { ITimelinesTransformed } from '../../types/ITimelines'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 
-import List from './List'
-// import Graph from './Graph'
+import TimelineData from './TimelineData'
 
 const getHalLinks = (
   searchTags: IHalLinks,
@@ -36,16 +37,42 @@ const TimelineContainer: React.FC<{
   providedHalLinks: any
 }> = ({ searchTags, providedHalLinks }) => {
   const links = getHalLinks(searchTags, providedHalLinks)
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const timelineRef = useRef<HTMLDivElement>(null)
+  const [display, setDisplay] = useState<'list' | 'graph'>('graph')
+
+  const [timelineData, setTimelineData] =
+    useState<ITimelinesTransformed | null>(null)
+  const [sortedTimelineYears, setSortedTimelineYears] = useState<Array<string>>(
+    [],
+  )
 
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
 
-  if (isSuccess && data) {
-    const timeline = new TimelineParser(data)
-    const transformedData = timeline.getTransformedTimelineData()
-    const sortedKeys = timeline.getSortedTimelineYears()
+  const setFullscreen = (): void => {
+    setIsFullscreen(!isFullscreen)
+    const elem = timelineRef.current
+    if (isFullscreen) {
+      document.exitFullscreen()
+    } else if (!isFullscreen) {
+      if (elem !== null && elem.requestFullscreen) {
+        elem.requestFullscreen()
+      }
+    }
+  }
 
-    if (sortedKeys.length !== 0) {
+  useEffect(() => {
+    if (isSuccess && data) {
+      const timeline = new TimelineParser(data)
+      const transformedData = timeline.getTransformedTimelineData()
+      const sortedKeys = timeline.getSortedTimelineYears()
+      setTimelineData(transformedData)
+      setSortedTimelineYears(sortedKeys)
+    }
+  }, [data, isSuccess])
+
+  if (isSuccess && data) {
+    if (sortedTimelineYears.length !== 0) {
       return (
         <StyledEntityPageSection
           data-testid="timeline-container"
@@ -55,20 +82,54 @@ const TimelineContainer: React.FC<{
             <Col xs={8}>
               <h2>Timeline of Related Objects/Works</h2>
             </Col>
-          </Row>
-          <Row>
-            <Col xs={12}>
-              <List
-                sortedKeys={sortedKeys}
-                transformedData={transformedData}
-                searchTags={searchTags}
-              />
+            <Col xs={4} className="d-flex justify-content-end">
+              <div className="h-50">
+                <StyledDisplaySwitchButton
+                  onClick={() =>
+                    setDisplay(display === 'graph' ? 'list' : 'graph')
+                  }
+                  role="button"
+                  aria-label={`View the hierarchy ${
+                    display === 'graph' ? 'list' : 'graph'
+                  }`}
+                >
+                  <i
+                    className={`bi ${
+                      display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+                <StyledDisplaySwitchButton
+                  onClick={() => setFullscreen()}
+                  role="button"
+                  aria-label={
+                    isFullscreen
+                      ? 'Minimize the viewport'
+                      : 'Expand to fullscreen'
+                  }
+                >
+                  <i
+                    className={`bi ${
+                      isFullscreen
+                        ? 'bi-fullscreen-exit'
+                        : 'bi-arrows-fullscreen'
+                    }`}
+                    style={{ fontSize: '1.5rem' }}
+                  />
+                </StyledDisplaySwitchButton>
+              </div>
             </Col>
           </Row>
+          <TimelineData
+            display={display}
+            sortedKeys={sortedTimelineYears}
+            transformedData={timelineData}
+            searchTags={searchTags}
+          />
         </StyledEntityPageSection>
       )
     }
-    return null
   }
 
   if (isError) {

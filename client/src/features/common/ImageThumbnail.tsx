@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 import React, { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
@@ -31,7 +30,7 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
   const [show, setShow] = useState(false)
   const attribRef = useRef(null)
 
-  const onClick: React.MouseEventHandler<HTMLButtonElement> = (ev) => {
+  const onClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     setShow(!show)
   }
 
@@ -67,6 +66,11 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
             ref={attribRef}
             onClick={onClick}
             onMouseEnter={() => setShow(true)}
+            onMouseDown={() => {
+              if (show) {
+                setShow(false)
+              }
+            }}
             data-testid="image-attribution-overlay-button"
             aria-expanded={show}
             aria-label="Tooltip"
@@ -82,7 +86,8 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
             popperConfig={popperConfig}
             data-testid="image-attribution-overlay"
           >
-            {({ placement, arrowProps, show: _show, popper, ...props }) => (
+            {({ ...props }) => (
+              // eslint-disable-next-line jsx-a11y/no-static-element-interactions
               <div
                 onMouseLeave={() => setShow(false)}
                 {...props}
@@ -95,10 +100,9 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
                   borderRadius: 3,
                   wordBreak: 'break-all',
                   fontWeight: '350',
-                  // eslint-disable-next-line react/prop-types
+
                   ...props.style,
                 }}
-                /* eslint-disable-next-line react/no-danger */
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(imageInfo.attribution, {
                     transformTags: {

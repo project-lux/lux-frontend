@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any, camelcase, @typescript-eslint/no-non-null-assertion */
 import React from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 
@@ -163,7 +162,6 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
       } else if (hasCreatedBy) {
         events = created_by
       } else if (hasEncounteredBy) {
-        // eslint-disable-next-line prefer-destructuring
         events = encountered_by[0]
       }
 

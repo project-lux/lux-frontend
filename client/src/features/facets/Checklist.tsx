@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
@@ -12,7 +11,6 @@ interface IFacets {
   criteria: ICriteria
   facetValues: IFacetsPagination
   facetSection: string
-  length?: number
   facetQuery: ICriteria
   scope: string
   selectedFacets: Map<string, Set<string>> | null
@@ -26,7 +24,6 @@ const Checklist: React.FC<IFacets> = ({
   criteria,
   facetValues,
   facetSection,
-  length = 20,
   facetQuery,
   scope,
   selectedFacets,

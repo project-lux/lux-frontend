@@ -1,10 +1,9 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
-import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -34,9 +33,9 @@ const mockEstimatesResults = [
 ]
 
 // Mock the request for collections
-jest.mock('../../lib/util/collectionHelper', () => ({
+vi.mock('../../lib/util/collectionHelper', () => ({
   __esModule: true,
-  getCollections: jest.fn(() => ({
+  getCollections: vi.fn(() => ({
     data: [
       'https://endpoint.yale.edu/data/set/member-of-collection-1',
       'https://endpoint.yale.edu/data/set/member-of-collection-2',
@@ -45,11 +44,13 @@ jest.mock('../../lib/util/collectionHelper', () => ({
 }))
 
 // Mock the request for collections
-jest.mock('../../lib/parse/search/estimatesParser', () => ({
+vi.mock('../../lib/parse/search/estimatesParser', () => ({
   __esModule: true,
-  getEstimatesRequests: jest.fn(),
-  isAdvancedSearch: jest.fn(),
-  isSimpleSearch: jest.fn(),
+  getEstimatesRequests: vi.fn(() => ({
+    data: mockEstimatesResults,
+  })),
+  isAdvancedSearch: vi.fn(),
+  isSimpleSearch: vi.fn(),
 }))
 
 describe('Results page shared components', () => {
@@ -66,23 +67,6 @@ describe('Results page shared components', () => {
     beforeEach(async () => {
       objectsResultsMockApi()
       cmsMockApi()
-
-      const collection = getCollections as jest.MockedFunction<
-        typeof getCollections
-      >
-      collection.mockImplementation(() => ({
-        data: [
-          `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-          `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-        ],
-      }))
-
-      const estimates = getEstimatesRequests as jest.MockedFunction<
-        typeof getEstimatesRequests
-      >
-      estimates.mockImplementation(() => ({
-        data: mockEstimatesResults,
-      }))
     })
 
     describe('Navigation', () => {

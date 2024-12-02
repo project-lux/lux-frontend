@@ -1,4 +1,3 @@
-/* eslint-disable react/require-default-props */
 import React from 'react'
 
 import StyledDataRow from '../../styles/shared/DataRow'
@@ -6,6 +5,7 @@ import StyledDataRow from '../../styles/shared/DataRow'
 import TextLabel from './TextLabel'
 
 interface IContainer {
+  children: JSX.Element | Array<JSX.Element>
   label?: string | undefined
   additionalClassName?: string
   textLabelClassName?: string

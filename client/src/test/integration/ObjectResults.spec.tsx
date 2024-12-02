@@ -1,8 +1,7 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
-import config from '../../config/config'
-import { getCollections } from '../../lib/util/collectionHelper'
 import { sortBy } from '../../config/sortingOptions'
 
 import objectMockApi from './utils/objectResultsMockAPI'
@@ -12,9 +11,9 @@ import estimatesMockApi from './utils/estimatesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 
 // Mock the request for collections
-jest.mock('../../lib/util/collectionHelper', () => ({
+vi.mock('../../lib/util/collectionHelper', () => ({
   __esModule: true,
-  getCollections: jest.fn(() => ({
+  getCollections: vi.fn(() => ({
     data: [
       'https://endpoint.yale.edu/data/set/member-of-collection-1',
       'https://endpoint.yale.edu/data/set/member-of-collection-2',
@@ -31,16 +30,6 @@ describe('Object results page', () => {
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
-
-    const collection = getCollections as jest.MockedFunction<
-      typeof getCollections
-    >
-    collection.mockImplementation(() => ({
-      data: [
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-1`,
-        `${config.env.dataApiBaseUrl}data/set/member-of-collection-2`,
-      ],
-    }))
   })
 
   describe('Results header', () => {
