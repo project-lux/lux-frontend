@@ -64,7 +64,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
       <Col className="ps-0">
         <StyledDropdown
           drop="end"
-          onSelect={() => handleSelect}
+          onSelect={(e) => handleSelect(e as string)}
           id="advanced-search-switch"
           data-testid={`${id}-advanced-search-switch-dropdown`}
         >
