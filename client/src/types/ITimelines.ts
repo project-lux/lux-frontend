@@ -26,3 +26,10 @@ export interface ITransformedData {
 export type TimelineSearchResult = Array<{
   [key: string]: ISearchResults
 }>
+
+export interface IGraphTimelineData {
+  year: string
+  yearKey: string
+  total: number
+  [key: string]: ITimelineCriteria | string | number
+}

@@ -36,17 +36,19 @@ const color = {
   borderShadow: '#d9d9d9',
   button: '#767676',
   darkBlue60: 'rgba(0, 53, 107, 0.6)', // 60% primary.darkBlue
-  errorBg: '#FFF0F0',
-  errorFg: 'FC0D1B',
+  teal90: 'rgb(0, 123, 148, 0.9)', // 90% primary.teal
   gray: '#999',
   lightBabyBlue: '#E7F1FF',
   lightGray: '#E1DFDF',
   link: '#286DC0',
   offWhite: '#F7F7F7',
-  tabButtonBgColor: '#E4E4E4',
-  teal90: 'rgb(0, 123, 148, 0.9)', // 90% primary.teal
-  trueBlack: '#000',
   white: '#FFF',
+  tabButtonBgColor: '#E4E4E4',
+  errorFg: 'FC0D1B',
+  errorBg: '#FFF0F0',
+  trueBlack: '#000',
+  barChartGreen: '#46813B',
+  barChartPurple: '#6b58A6',
 
   // Primary colors defined by POW design
   primary: {
@@ -58,9 +60,16 @@ const color = {
   // Secondary colors defined by POW design
   secondary: {
     aeroBlue: '#CDEAD5',
-    cornflowerBlue: '#8095E8',
     lightBlue: '#AAD3DF',
     pacificBlue: '#00B5CA',
+    cornflowerBlue: '#8095E8',
+  },
+
+  graphs: {
+    produced: '#7E761B',
+    encounter: '#007A1F',
+    published: '#49007A',
+    created: '#BA531C',
   },
 
   advancedSearch: {
