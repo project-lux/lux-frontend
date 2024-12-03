@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
-import StyledSearchLink from '../../styles/shared/SearchLink'
+import StyledSearchLink from '../../styles/features/common/ObjectsContainerLinkRow'
 import StyledHr from '../../styles/shared/Hr'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
