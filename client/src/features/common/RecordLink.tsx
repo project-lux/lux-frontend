@@ -7,6 +7,7 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import theme from '../../styles/theme'
 
 interface ISearchData {
   url: string
@@ -21,6 +22,17 @@ const StyledLink = styled(Link)`
   &.active {
     font-weight: 500;
     text-decoration: underline;
+  }
+
+  &.relatedListEntityTitle {
+    font-size: 1.25em;
+    font-weight: ${theme.font.weight.medium};
+    margin-bottom: 0.5em;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 1em;
+      font-weight: ${theme.font.weight.bold};
+    }
   }
 `
 
