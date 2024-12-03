@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added mobile typography config ([#438](https://github.com/project-lux/lux-frontend/issues/438)).
+
 ### Changed
 
 ### Removed

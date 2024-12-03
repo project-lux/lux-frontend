@@ -1,31 +1,101 @@
-// Font parameters here are for "Inter" font
+const weight = {
+  thin: 100,
+  extraLight: 200,
+  light: 300,
+  regular: 400,
+  medium: 500,
+  semiBold: 600,
+  bold: 700,
+}
+
 const font = {
+  weight,
   size: {
     normal: '1em',
   },
-  weight: {
-    thin: 100,
-    extraLight: 200,
-    light: 300,
-    regular: 400,
-    medium: 500,
-    semiBold: 600,
-    bold: 700,
+  desktop: {
+    h1: {
+      weight: weight.extraLight,
+      size: '3.1em',
+      lineHeight: '72px',
+    },
+    h2: {
+      weight: weight.light,
+      size: '2em',
+      lineHeight: '56px',
+    },
+    h3: {
+      weight: weight.light,
+      size: '32px',
+      lineHeight: '40px',
+    },
+    h4: {
+      weight: weight.bold,
+      size: '24px',
+      lineHeight: '32px',
+    },
+    h5: {
+      weight: weight.medium,
+      size: '24px',
+      lineHeight: '32px',
+    },
+    h6: {
+      weight: weight.bold,
+      size: '20px',
+      lineHeight: '24px',
+    },
+    bodyRegular: {
+      weight: weight.regular,
+      size: '16px',
+      lineHeight: '24px',
+    },
+    bodyLight: {
+      weight: weight.light,
+      size: '16px',
+      lineHeight: '24px',
+    },
+    tabNavigation: {
+      weight: weight.bold,
+      size: '16px',
+      lineHeight: '24px',
+    },
   },
-  tabNavigation: {
-    weight: 'bold',
-    size: '16px',
-    lineHeight: '24px',
-  },
-  bodyRegular: {
-    weight: 'regular',
-    size: '16px',
-    lineHeight: '24px',
-  },
-  bodyLight: {
-    weight: '300',
-    size: '16px',
-    lineHeight: '24px',
+  mobile: {
+    h1: {
+      weight: weight.extraLight,
+      size: '40px',
+      lineHeight: '48px',
+    },
+    h2: {
+      weight: weight.light,
+      size: '32px',
+      lineHeight: '40px',
+    },
+    h3: {
+      weight: weight.light,
+      size: '22px',
+      lineHeight: '30px',
+    },
+    h4: {
+      weight: weight.medium,
+      size: '22px',
+      lineHeight: '30px',
+    },
+    h5: {
+      weight: weight.bold,
+      size: '16px',
+      lineHeight: '24px',
+    },
+    bodyRegular: {
+      weight: weight.regular,
+      size: '16px',
+      lineHeight: '24px',
+    },
+    bodyLight: {
+      weight: weight.light,
+      size: '16px',
+      lineHeight: '24px',
+    },
   },
 }
 
