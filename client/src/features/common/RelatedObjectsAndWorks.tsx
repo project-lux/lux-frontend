@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import ObjectsContainer from './ObjectsContainer'
 import Tabs from './Tabs'
@@ -17,6 +19,7 @@ interface IRelated {
 const tabsChildren = (
   links: Record<string, { href: string; _estimate: number }>,
   relationships: IHalLinks,
+  isMobile: boolean,
 ): Array<JSX.Element> =>
   Object.keys(relationships)
     .map((key) => {
@@ -41,6 +44,8 @@ const tabsChildren = (
               style={{ paddingTop: 0 }}
               title={tabSection.title as string}
               aria-labelledby={`tab-${id}`}
+              borderTopLeftRadius={isMobile ? '0px' : undefined}
+              borderTopRightRadius={isMobile ? '0px' : undefined}
             >
               <ObjectsContainer
                 uri={links[currentSearchTag].href}
@@ -60,8 +65,14 @@ const RelatedObjectsAndWorks: React.FC<IRelated> = ({
   relationships,
   type,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
+  useResizeableWindow(setIsMobile)
+
   if (!isUndefined(links)) {
-    const tabs = tabsChildren(links, relationships)
+    const tabs = tabsChildren(links, relationships, isMobile)
     if (tabs.length !== 0) {
       return <Tabs>{tabs}</Tabs>
     }
