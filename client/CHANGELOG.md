@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed mobile layout of landing page ([#428](https://github.com/project-lux/lux-frontend/issues/428)).
+- Changed mobile layout of search results accordions ([#440](https://github.com/project-lux/lux-frontend/issues/440)).
 
 ### Removed
 
