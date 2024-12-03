@@ -13,6 +13,7 @@ import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import Footer from './Footer'
 
@@ -35,7 +36,9 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(false)
+  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
