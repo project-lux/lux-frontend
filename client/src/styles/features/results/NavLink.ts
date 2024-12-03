@@ -22,15 +22,15 @@ const StyledNavLink = styled(NavLink)`
   }
 
   & > div > span.linkTitle {
-    font-size: ${theme.font.tabNavigation.size};
-    font-weight: ${theme.font.tabNavigation.weight};
-    line-height: ${theme.font.tabNavigation.lineHeight};
+    font-size: ${theme.font.desktop.tabNavigation.size};
+    font-weight: ${theme.font.desktop.tabNavigation.weight};
+    line-height: ${theme.font.desktop.tabNavigation.lineHeight};
   }
 
   & > div > span.linkSubtext {
-    font-size: ${theme.font.bodyLight.size};
-    font-weight: ${theme.font.bodyLight.weight} !important;
-    line-height: ${theme.font.bodyLight.lineHeight};
+    font-size: ${theme.font.desktop.bodyLight.size};
+    font-weight: ${theme.font.desktop.bodyLight.weight} !important;
+    line-height: ${theme.font.desktop.bodyLight.lineHeight};
   }
 
   &:hover {
