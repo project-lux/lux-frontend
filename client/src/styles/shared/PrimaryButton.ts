@@ -9,7 +9,7 @@ const PrimaryButton = styled(Button)`
   border-radius: 10px;
   border-color: ${theme.color.primary.teal};
   font-size: 16px;
-  font-weight: 700;
+  font-weight: ${theme.font.weight.bold};
   padding: 1rem;
   text-decoration: none;
 
@@ -27,6 +27,38 @@ const PrimaryButton = styled(Button)`
 
   &.feedbackButton {
     font-size: 1.25rem;
+  }
+
+  &.relatedListPaginationButton {
+    padding: 0.5rem;
+    margin: 0px;
+
+    &.previous {
+      border-top-left-radius: 10px;
+      border-bottom-left-radius: 10px;
+      border-top-right-radius: 0px;
+      border-bottom-right-radius: 0px;
+
+      @media (min-width: ${theme.breakpoints.md}px) {
+        border-radius: 10px;
+      }
+    }
+
+    &.next {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+      border-top-right-radius: 10px;
+      border-bottom-right-radius: 10px;
+
+      @media (min-width: ${theme.breakpoints.md}px) {
+        border-radius: 10px;
+      }
+    }
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      margin: 0.25em;
+      padding: 1rem;
+    }
   }
 `
 
