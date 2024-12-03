@@ -13,6 +13,7 @@ import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 interface IProps {
   url: string
@@ -56,7 +57,9 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   data,
   title,
 }) => {
-  const [showHr, setShowHr] = useState<boolean>(false)
+  const [showHr, setShowHr] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
 
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
