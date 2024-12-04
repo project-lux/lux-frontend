@@ -5,12 +5,9 @@ import { Col, Row } from 'react-bootstrap'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
-import { facetNamesLists } from '../../config/facets'
 import { ISearchResponse } from '../../types/ISearchResponse'
-import { searchScope } from '../../config/searchTypes'
 import { getParamPrefix } from '../../lib/util/params'
 import PageLoading from '../common/PageLoading'
-import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
@@ -32,7 +29,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
   const sort = queryString.get(`${tab}Sort`)
-  const hasSimpleSearchQuery = queryString.has('sq')
+  // const hasSimpleSearchQuery = queryString.has('sq')
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -58,11 +55,9 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
     return null
   }
 
+  // borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
   return (
-    <StyledEntityPageSection
-      className="row results"
-      borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
-    >
+    <Row className="p-4">
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader
@@ -74,13 +69,10 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
         </Col>
       )}
       <Row className="mt-3">
-        <StyledResultsCol xs={12} sm={12} md={3} lg={3}>
-          <FacetContainer
-            facetsRequested={facetNamesLists.events}
-            scope={searchScope.events}
-          />
+        <StyledResultsCol xs={12} sm={12} md={12} lg={3}>
+          <FacetContainer />
         </StyledResultsCol>
-        <Col xs={12} sm={12} md={9} lg={9}>
+        <Col xs={12} sm={12} md={12} lg={9}>
           {!isFetching && isSuccess && data && (
             <React.Fragment>
               {resultsList(data.orderedItems)}
@@ -109,7 +101,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
           {(isFetching || isLoading) && <PageLoading />}
         </Col>
       </Row>
-    </StyledEntityPageSection>
+    </Row>
   )
 }
 

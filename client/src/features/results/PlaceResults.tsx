@@ -5,12 +5,9 @@ import { Col, Row } from 'react-bootstrap'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
-import { facetNamesLists } from '../../config/facets'
 import { ISearchResponse } from '../../types/ISearchResponse'
-import { searchScope } from '../../config/searchTypes'
 import { getParamPrefix } from '../../lib/util/params'
 import PageLoading from '../common/PageLoading'
-import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
@@ -58,7 +55,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <StyledEntityPageSection className="row results">
+    <Row className="p-4">
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader
@@ -70,13 +67,10 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
         </Col>
       )}
       <Row className="mt-3">
-        <StyledResultsCol xs={12} sm={12} md={3} lg={3}>
-          <FacetContainer
-            facetsRequested={facetNamesLists.places}
-            scope={searchScope.places}
-          />
+        <StyledResultsCol xs={12} sm={12} md={12} lg={3}>
+          <FacetContainer />
         </StyledResultsCol>
-        <Col xs={12} sm={12} md={9} lg={9}>
+        <Col xs={12} sm={12} md={12} lg={9}>
           {!isFetching && isSuccess && data && (
             <React.Fragment>
               {resultsList(data.orderedItems)}
@@ -105,7 +99,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
           {(isFetching || isLoading) && <PageLoading />}
         </Col>
       </Row>
-    </StyledEntityPageSection>
+    </Row>
   )
 }
 

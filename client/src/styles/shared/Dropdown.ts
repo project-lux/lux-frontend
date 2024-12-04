@@ -9,6 +9,12 @@ const ReactBootstrapDropdown = styled(Dropdown)`
     background-color: ${theme.color.white};
     border: 1px solid ${theme.color.button};
     border-radius: 5px;
+
+    &.mobileNavigationDropdown {
+      color: ${theme.color.button};
+      border: none;
+      display: flex;
+    }
   }
 
   .dropdown-toggle.show {
