@@ -17,8 +17,14 @@ const TimelineData: React.FC<{
   // Add additional years that were not returned with the data
   const yearsRange = TimelineParser.addYearsWithNoData(sortedKeys)
 
-  const [startIndex, setStartIndex] = useState<number>(0)
-  const [endIndex, setEndIndex] = useState<number>(yearsRange.length - 1)
+  const { initialStart, initialEnd } = TimelineParser.getStartAndEndIndex(
+    sortedKeys,
+    transformedData,
+    yearsRange,
+  )
+
+  const [startIndex, setStartIndex] = useState<number>(initialStart)
+  const [endIndex, setEndIndex] = useState<number>(initialEnd)
 
   const handleIndexChange = (start: number, end: number): void => {
     setStartIndex(start)
