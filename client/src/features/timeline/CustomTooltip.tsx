@@ -44,7 +44,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
       }}
       data-testid="graph-tooltip-search-link"
     >
-      {obj.name}: {obj.value}
+      Show all {obj.value} {obj.name}
     </Link>
   )
 }
@@ -53,7 +53,12 @@ const CustomTooltip: React.FC<IProps> = ({ active, payload, searchTags }) => {
   if (active && payload && payload.length > 0) {
     return (
       <div
-        style={{ backgroundColor: theme.color.white, pointerEvents: 'auto' }}
+        style={{
+          backgroundColor: theme.color.white,
+          pointerEvents: 'auto',
+          border: `solid 1px ${theme.color.black}`,
+          borderRadius: theme.border.radius,
+        }}
         className="p-2"
       >
         {payload.length > 0 ? payload[0].payload.year : 'unknown year'}

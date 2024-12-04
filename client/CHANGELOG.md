@@ -2,7 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.40.0 - Unreleased
+## v1.40.1 - 2024-12-5
+
+### Changed
+
+- Changed timeline chart colors to be more accessible ([#15](https://github.com/project-lux/lux-frontend/issues/15)).
+- Changed default timeline view ([#15](https://github.com/project-lux/lux-frontend/issues/15)).
+
+### Added
+
+## v1.40.0 - 2024-12-2
 
 ### Added
 
