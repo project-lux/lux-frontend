@@ -2,6 +2,7 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -25,6 +26,15 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
 } from '../../lib/util/params'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
+import theme from '../../styles/theme'
+
+const ResponsiveRow = styled(Row)`
+  display: none;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    display: block;
+  }
+`
 
 interface INavigation {
   urlParams: URLSearchParams
@@ -121,7 +131,7 @@ const Navigation: React.FC<INavigation> = ({
   }
 
   return (
-    <Row className="mx-1 mt-3">
+    <ResponsiveRow className="mx-1 mt-3">
       <Col xs={12}>
         <StyledNavbar data-testid="results-page-navbar pb-0">
           <Nav className="w-100 h-100 justify-content-between flex-row">
@@ -197,7 +207,7 @@ const Navigation: React.FC<INavigation> = ({
           </Nav>
         </StyledNavbar>
       </Col>
-    </Row>
+    </ResponsiveRow>
   )
 }
 

@@ -147,7 +147,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationPlaceId',
     'workPublicationDate',
   ],
-  peopleAndOrgs: [
+  people: [
     'agentHasDigitalImage',
     'agentGenderId',
     'agentNationalityId',
@@ -164,7 +164,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'agentProfessionalActivityId',
   ],
   places: ['placeTypeId', 'placePartOfId'],
-  conceptsAndGroupings: [
+  concepts: [
     'conceptRecordType',
     'conceptTypeId',
     'conceptPartOfId',

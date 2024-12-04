@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
+import { Alert, Col } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
@@ -12,6 +13,7 @@ import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { tabToLinkLabel } from '../../config/results'
+import theme from '../../styles/theme'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -20,6 +22,15 @@ import PersonResults from './PersonResults'
 import PlaceResults from './PlaceResults'
 import WorkResults from './WorksResults'
 import ResultsSearchContainer from './ResultsSearchContainer'
+import MobileNavigation from './MobileNavigation'
+
+const ResponsiveCol = styled(Col)`
+  display: flex;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    display: none;
+  }
+`
 
 const getScopedResultsComponent: React.FC<string> = (
   tab: string,
@@ -124,13 +135,22 @@ const ResultsPage: React.FC = () => {
         search={search}
         isSwitchToSimpleSearch={isSwitchToSimpleSearch}
       />
-      <div className="mx-3">
+      <StyledEntityPageSection
+        className="row mx-3 resultsEntityPageSection results"
+        borderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
+        borderTopRightRadius={tab === 'events' ? '0px' : undefined}
+      >
+        <ResponsiveCol xs={12} className="px-0">
+          <MobileNavigation
+            isSimpleSearch={hasSimpleSearchQuery}
+            urlParams={urlParams}
+            queryString={queryString}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
+        </ResponsiveCol>
         {isSwitchToSimpleSearch && tab !== queryTab ? (
-          <StyledEntityPageSection
-            className="resultsAlert"
-            borderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
-            borderTopRightRadius={tab === 'events' ? '0px' : undefined}
-          >
+          <Col>
             <Alert
               variant="info"
               className="mt-2"
@@ -139,11 +159,11 @@ const ResultsPage: React.FC = () => {
               Please enter a new search to begin searching for{' '}
               {tabToLinkLabel[tab]} results.
             </Alert>
-          </StyledEntityPageSection>
+          </Col>
         ) : (
-          getScopedResultsComponent(tab, searchResponse)
+          <Col xs={12}>{getScopedResultsComponent(tab, searchResponse)}</Col>
         )}
-      </div>
+      </StyledEntityPageSection>
     </React.Fragment>
   )
 }

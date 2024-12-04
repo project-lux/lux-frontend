@@ -38,6 +38,10 @@ const EntityPageSection = styled.div<IProps>`
   &.resultsAlert {
     box-shadow: 0px 4px 5px 0px ${theme.color.black20};
   }
+
+  &.resultsEntityPageSection {
+    padding: 0px;
+  }
 `
 
 export default EntityPageSection

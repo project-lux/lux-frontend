@@ -6,14 +6,11 @@ import { getSelectedFacets } from '../../lib/facets/selectedFacets'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
+import { facetNamesLists } from '../../config/facets'
+import { searchScope } from '../../config/searchTypes'
 
 import FacetAccordion from './FacetAccordion'
 import SelectionContainer from './SelectionContainer'
-
-interface IFacets {
-  facetsRequested: Array<string>
-  scope: string
-}
 
 function getIfValidQuery(str: string): ICriteria | null {
   if (/^\{.*\}$/.test(str)) {
@@ -28,9 +25,11 @@ function getIfValidQuery(str: string): ICriteria | null {
   }
 }
 
-const FacetContainer: React.FC<IFacets> = ({ facetsRequested, scope }) => {
+const FacetContainer: React.FC = () => {
   const { search } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const facetsRequested = facetNamesLists[tab]
+  const scope = searchScope[tab]
   const paramPrefix = getParamPrefix(tab)
 
   const searchParams = new URLSearchParams(search)

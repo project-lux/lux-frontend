@@ -1,9 +1,10 @@
 export interface IFacetNamesLists {
+  [key: string]: Array<string>
   objects: Array<string>
   works: Array<string>
-  peopleAndOrgs: Array<string>
+  people: Array<string>
   places: Array<string>
-  conceptsAndGroupings: Array<string>
+  concepts: Array<string>
   events: Array<string>
 }
 
