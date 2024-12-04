@@ -29,6 +29,14 @@ const HoverableRow = styled(Row)`
   }
 `
 
+const StyledDiv = styled.div`
+  border-bottom: solid 1px rgb(128, 149, 232, 0.75);
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    border: none;
+  }
+`
+
 const List: React.FC<IProps> = ({
   sortedKeys,
   yearsArray,
@@ -59,7 +67,7 @@ const List: React.FC<IProps> = ({
     <React.Fragment>
       <dl>
         {sortedYearsRange.slice(0, displayLength).map((year) => (
-          <div key={year} className="mb-2">
+          <StyledDiv key={year} className="mb-2">
             <HoverableRow>
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                 <StyledDt data-testid={`${year}-label`}>
@@ -87,14 +95,14 @@ const List: React.FC<IProps> = ({
               }
               return null
             })}
-          </div>
+          </StyledDiv>
         ))}
       </dl>
       {displayLength >= unitLength &&
         displayLength < sortedYearsRange.length && (
           <button
             type="button"
-            className="btn btn-link show-more"
+            className="btn btn-link show-more ps-0 text-decoration-none"
             onClick={() => handleShowMore()}
           >
             Show More
@@ -103,7 +111,7 @@ const List: React.FC<IProps> = ({
       {displayLength > unitLength && (
         <button
           type="button"
-          className="btn btn-link show-less"
+          className="btn btn-link show-less ps-0 text-decoration-none"
           onClick={() => handleShowLess()}
         >
           Show Less
