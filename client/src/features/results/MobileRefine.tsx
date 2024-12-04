@@ -58,6 +58,7 @@ const MobileRefine: React.FC<{ selectedSortDirection?: string }> = ({
                       <SortCheckbox value={value} key={key} />
                     ))}
                   </div>
+<<<<<<< HEAD
                 </Accordion.Body>
               </Accordion.Item>
               <Accordion.Item eventKey="1">
@@ -66,6 +67,13 @@ const MobileRefine: React.FC<{ selectedSortDirection?: string }> = ({
                 </Accordion.Header>
                 <Accordion.Body className="px-0">
                   <div className="px-4">
+=======
+                  <div
+                    className="px-4 mt-3"
+                    style={{ borderTop: `solid 1px ${theme.color.lightGray}` }}
+                  >
+                    <h4 className="mt-3">Sort Direction</h4>
+>>>>>>> 3b3ad4c (429 changed mobile layout on results page)
                     {Object.entries(sortDirection).map(([key, value]) => (
                       <SortCheckbox value={value} key={key} />
                     ))}
