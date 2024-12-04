@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { Col, Row } from 'react-bootstrap'
 
 import theme from '../../styles/theme'
 import { useAppDispatch } from '../../app/hooks'
@@ -12,38 +13,45 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import SelectedFacet from './SelectedFacet'
 
-const StyledSelectionContainer = styled.div`
+const StyledSelectionContainer = styled(Col)`
   background: ${theme.color.lightBabyBlue};
 `
 
-const StyledRow = styled.div`
-  padding: 21px 20px;
-`
+const StyledClearAllContainer = styled(Col)`
+  display: flex;
+  justify-content: start;
 
-const StyledSpan = styled.span`
-  font-size: 1em;
-  color: #5d5d5d;
-  letter-spacing: 0;
-  text-align: left;
-  font-weight: 700;
-  top: 428px;
-  left: 48px;
-  max-width: 256px;
-  max-height: 20px;
-  display: inline-block;
+  @media (min-width: ${theme.breakpoints.lg}px) {
+    justify-content: end;
+  }
+
+  @media (min-width: ${theme.breakpoints.sm}px) and (max-width: ${theme
+      .breakpoints.md}px) {
+    justify-content: end;
+  }
 `
 
 const StyledClearAllButton = styled.button`
   font-size: 1em;
   color: ${theme.color.primary.blue};
   letter-spacing: 0;
-  text-align: right;
+  text-align: left;
   font-weight: 400;
   height: 25px;
   width: 100px;
   padding: 0px 0px;
   text-decoration: none;
+
+  @media (min-width: ${theme.breakpoints.lg}px) {
+    text-align: right;
+  }
+
+  @media (min-width: ${theme.breakpoints.sm}px) and (max-width: ${theme
+      .breakpoints.md}px) {
+    text-align: right;
+  }
 `
+
 interface IProps {
   facetQuery: ICriteria | null
   scope: string
@@ -102,9 +110,20 @@ const SelectionContainer: React.FC<IProps> = ({
   if (selectedFacets && selectedFacets.size > 0) {
     return (
       <StyledSelectionContainer>
-        <StyledRow className="row">
-          <StyledSpan style={{ whiteSpace: 'nowrap' }}>
-            Selected Filters
+        <Row className="px-1 py-3">
+          <Col xs={12} sm={6} md={12} lg={6} className="mb-2">
+            <div style={{ fontWeight: theme.font.weight.bold }}>
+              Selected Filters
+            </div>
+          </Col>
+          <StyledClearAllContainer
+            xs={12}
+            sm={6}
+            md={12}
+            lg={6}
+            xl={6}
+            className="mb-2"
+          >
             <StyledClearAllButton
               type="button"
               className="btn btn-link"
@@ -112,11 +131,16 @@ const SelectionContainer: React.FC<IProps> = ({
             >
               Clear All
             </StyledClearAllButton>
-          </StyledSpan>
-          <StyledRow className="row">
-            {selectedFacets ? getSelectedFacets() : null}
-          </StyledRow>
-        </StyledRow>
+          </StyledClearAllContainer>
+          <Col xs={12}>
+            <span
+              className="d-flex"
+              style={{ whiteSpace: 'nowrap', flexWrap: 'wrap' }}
+            >
+              {selectedFacets ? getSelectedFacets() : null}
+            </span>
+          </Col>
+        </Row>
       </StyledSelectionContainer>
     )
   }

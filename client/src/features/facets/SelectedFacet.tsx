@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import config from '../../config/config'
 import { getSelectedLabel } from '../../lib/facets/helper'
-import { removeFacet } from '../../lib/facets/removeFacet'
+import { removeFacet } from '../../lib/facets/removeFilter'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetNameQuery } from '../../redux/api/ml_api'
@@ -14,16 +14,23 @@ import { useAppDispatch } from '../../app/hooks'
 import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import theme from '../../styles/theme'
 
 const StyledSelectedFacetContainer = styled.div`
   background: #ffffff;
   border: 1px solid #cacaca;
   border-radius: 5px;
-  font-size: 1.125em;
-  color: #222222;
+  font-size: 1em;
+  color: ${theme.color.black};
   letter-spacing: 0;
   text-align: left;
   font-weight: 400;
+  white-space: nowrap;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    font-size: 1.125em;
+    white-space: break-spaces;
+  }
 `
 
 const StyledButton = styled.button`
@@ -77,7 +84,7 @@ const SelectedFacet: React.FC<ISelected> = ({
   }
 
   return (
-    <StyledSelectedFacetContainer>
+    <StyledSelectedFacetContainer className="me-1 px-1">
       <span className="pe-2">{label}</span>
       <StyledButton
         type="button"

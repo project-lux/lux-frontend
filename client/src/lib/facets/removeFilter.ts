@@ -100,3 +100,11 @@ export const removeFacet = (
   searchParams.set(`${paramPrefix}p`, '1')
   return searchParams.toString()
 }
+
+export const removeSorting = (search: string, tab: string): string => {
+  const paramPrefix = getParamPrefix(tab)
+
+  const searchParams = new URLSearchParams(search)
+  searchParams.delete(`${paramPrefix}s`)
+  return searchParams.toString()
+}

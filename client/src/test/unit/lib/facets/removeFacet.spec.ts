@@ -3,7 +3,7 @@ import { vi } from 'vitest'
 import {
   removeFacet,
   removeFacetFromQuery,
-} from '../../../../lib/facets/removeFacet'
+} from '../../../../lib/facets/removeFilter'
 
 // Mock getParamPrefix
 vi.mock('../../../../lib/util/params', () => ({

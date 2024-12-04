@@ -4,7 +4,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 import { facetSearchTerms } from '../../config/facets'
 import { buildQuery, getFacetLabel } from '../../lib/facets/helper'
-import { removeFacet } from '../../lib/facets/removeFacet'
+import { removeFacet } from '../../lib/facets/removeFilter'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import StyledCheckbox from '../../styles/features/facets/Checkbox'

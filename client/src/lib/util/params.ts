@@ -54,3 +54,24 @@ export const getFacetParamsForAdvancedSearchEstimatesRequest = (
   }
   return searchEstimatesParams
 }
+
+/**
+ * Function that returns the current query and if it is a facet request
+ * @param {URLSearchParams} urlParams the search params from the current url
+ * @param {string} currentTab the current tab
+ * @returns {Record<string, string | boolean>}
+ */
+export const getUrlState = (
+  urlParams: URLSearchParams,
+  currentTab: string,
+): {
+  qt: string
+  facetRequest: boolean
+} => {
+  const qt = urlParams.get('qt') || currentTab
+  const facetRequest = urlParams.get('facetRequest') === 'true'
+  return {
+    qt,
+    facetRequest,
+  }
+}
