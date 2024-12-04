@@ -5,9 +5,7 @@ import { Col, Row } from 'react-bootstrap'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
-import { facetNamesLists } from '../../config/facets'
 import { ISearchResponse } from '../../types/ISearchResponse'
-import { searchScope } from '../../config/searchTypes'
 import { getParamPrefix } from '../../lib/util/params'
 import PageLoading from '../common/PageLoading'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -77,13 +75,10 @@ const PersonResults: React.FC<IProps> = ({ searchResponse }) => {
         </Col>
       )}
       <Row className="mt-3">
-        <StyledResultsCol xs={12} sm={3} md={3} lg={3}>
-          <FacetContainer
-            facetsRequested={facetNamesLists.peopleAndOrgs}
-            scope={searchScope.people}
-          />
+        <StyledResultsCol xs={12} sm={12} md={12} lg={3}>
+          <FacetContainer />
         </StyledResultsCol>
-        <Col xs={12} sm={9} md={9} lg={9}>
+        <Col xs={12} sm={12} md={12} lg={9}>
           {!isFetching && isSuccess && data && (
             <React.Fragment>
               {view === 'list' && resultsList(data.orderedItems)}

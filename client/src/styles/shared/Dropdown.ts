@@ -32,6 +32,17 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       display: block;
     }
   }
+
+  .sortDropdown,
+  .sortDropdownMenu {
+    width: 100%;
+    border: none;
+    box-shadow: 0px 0px 10px ${theme.color.black20};
+  }
+
+  .mobileNavigationDropdown {
+    color: ${theme.color.button};
+  }
 `
 
 export default ReactBootstrapDropdown

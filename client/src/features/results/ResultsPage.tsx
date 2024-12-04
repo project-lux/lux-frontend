@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
+import { Alert, Col } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
@@ -20,6 +20,7 @@ import PersonResults from './PersonResults'
 import PlaceResults from './PlaceResults'
 import WorkResults from './WorksResults'
 import ResultsSearchContainer from './ResultsSearchContainer'
+import MobileNavigation from './MobileNavigation'
 
 const getScopedResultsComponent: React.FC<string> = (
   tab: string,
@@ -124,7 +125,10 @@ const ResultsPage: React.FC = () => {
         search={search}
         isSwitchToSimpleSearch={isSwitchToSimpleSearch}
       />
-      <div className="mx-3">
+      <StyledEntityPageSection className="row mx-3 resultsEntityPageSection">
+        <Col xs={12} className="px-0">
+          <MobileNavigation />
+        </Col>
         {isSwitchToSimpleSearch && tab !== queryTab ? (
           <StyledEntityPageSection
             className="resultsAlert"
@@ -141,9 +145,9 @@ const ResultsPage: React.FC = () => {
             </Alert>
           </StyledEntityPageSection>
         ) : (
-          getScopedResultsComponent(tab, searchResponse)
+          <Col xs={12}>{getScopedResultsComponent(tab, searchResponse)}</Col>
         )}
-      </div>
+      </StyledEntityPageSection>
     </React.Fragment>
   )
 }
