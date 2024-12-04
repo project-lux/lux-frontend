@@ -68,7 +68,7 @@ const font = {
     },
     h2: {
       weight: weight.extraLight,
-      size: '40px',
+      size: '32px',
       lineHeight: '40px',
     },
     h3: {

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
@@ -8,8 +9,18 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
 import { ITimelinesTransformed } from '../../types/ITimelines'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
+import theme from '../../styles/theme'
+import Hr from '../../styles/shared/Hr'
 
 import TimelineData from './TimelineData'
+
+const StyledButtonCol = styled(Col)`
+  justify-content: flex-start;
+
+  @media (min-width: ${theme.breakpoints.sm}px) {
+    justify-content: flex-end;
+  }
+`
 
 const getHalLinks = (
   searchTags: IHalLinks,
@@ -79,10 +90,17 @@ const TimelineContainer: React.FC<{
           ref={timelineRef}
         >
           <Row>
-            <Col xs={8}>
+            <Col xs={12} sm={8} md={8} lg={8} xl={8}>
               <h2>Timeline of Related Objects/Works</h2>
             </Col>
-            <Col xs={4} className="d-flex justify-content-end">
+            <StyledButtonCol
+              xs={12}
+              sm={4}
+              md={4}
+              lg={4}
+              xl={4}
+              className="d-flex"
+            >
               <div className="h-50">
                 <StyledDisplaySwitchButton
                   onClick={() =>
@@ -119,8 +137,9 @@ const TimelineContainer: React.FC<{
                   />
                 </StyledDisplaySwitchButton>
               </div>
-            </Col>
+            </StyledButtonCol>
           </Row>
+          <Hr hiddenOnDesktop width="100%" className="mb-2" />
           <TimelineData
             display={display}
             sortedKeys={sortedTimelineYears}
