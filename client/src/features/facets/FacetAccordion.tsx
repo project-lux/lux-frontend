@@ -1,12 +1,24 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
+import styled from 'styled-components'
 
 import { ICriteria } from '../../types/ISearchResults'
 import { ResultsTab } from '../../types/ResultsTab'
 import { ErrorFallback } from '../error/ErrorFallback'
+import theme from '../../styles/theme'
 
 import FacetAccordionItem from './FacetAccordionItem'
+
+const StyledDiv = styled.div`
+  width: 100%;
+  box-shadow: 0px 0px 10px ${theme.color.black20};
+  border-radius: ${theme.border.radius};
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    box-shadow: none;
+  }
+`
 
 interface IProps {
   criteria: ICriteria
@@ -53,7 +65,7 @@ const FacetAccordion: React.FC<IProps> = ({
   ))
 
   return (
-    <div className="accordion" id={`${tab}-facet-accordion`}>
+    <StyledDiv className="accordion" id={`${tab}-facet-accordion`}>
       {hasOnlyNullValues ? (
         <p className="ps-4 py-2 pe-2">
           There are no facets available for the current search.
@@ -61,7 +73,7 @@ const FacetAccordion: React.FC<IProps> = ({
       ) : (
         elems
       )}
-    </div>
+    </StyledDiv>
   )
 }
 

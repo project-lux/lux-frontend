@@ -99,7 +99,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               )}
             </div>
           </div>
-          <StyledHr />
+          <StyledHr width="100%" />
         </React.Fragment>
       )
     }

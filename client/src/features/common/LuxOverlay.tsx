@@ -6,6 +6,7 @@ import sanitizeHtml from 'sanitize-html'
 
 import theme from '../../styles/theme'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 const StyledButton = styled(Button)`
   color: ${theme.color.link};
@@ -23,6 +24,9 @@ const StyledButton = styled(Button)`
 `
 
 const LuxOverlay: React.FC = () => {
+  const [showFullscreenModal, setShowFullscreenModal] = useState(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const [show, setShow] = useState(false)
   const attribRef = useRef(null)
 
@@ -36,6 +40,8 @@ const LuxOverlay: React.FC = () => {
   const onClose = (): void => {
     setShow(false)
   }
+
+  useResizeableWindow(setShowFullscreenModal)
 
   return (
     <React.Fragment>
@@ -54,7 +60,8 @@ const LuxOverlay: React.FC = () => {
         show={show}
         size="lg"
         onHide={() => onClose()}
-        animation={false}
+        animation={showFullscreenModal ? true : false}
+        fullscreen={showFullscreenModal ? 'md-down' : undefined}
         aria-describedby="modalBody"
         aria-labelledby="modalTitle"
       >

@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
+import { Alert, Col } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
@@ -12,6 +13,8 @@ import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { tabToLinkLabel } from '../../config/results'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -20,24 +23,45 @@ import PersonResults from './PersonResults'
 import PlaceResults from './PlaceResults'
 import WorkResults from './WorksResults'
 import ResultsSearchContainer from './ResultsSearchContainer'
+import MobileNavigation from './MobileNavigation'
 
-const getScopedResultsComponent: React.FC<string> = (
+const ResponsiveCol = styled(Col)`
+  display: flex;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    display: none;
+  }
+`
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getScopedResultsComponent: any = (
   tab: string,
   searchResponse: ISearchResponse,
+  isMobile: boolean,
 ) => {
   switch (tab) {
     case 'objects':
-      return <ObjectResults searchResponse={searchResponse} />
+      return (
+        <ObjectResults searchResponse={searchResponse} isMobile={isMobile} />
+      )
     case 'works':
-      return <WorkResults searchResponse={searchResponse} />
+      return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'people':
-      return <PersonResults searchResponse={searchResponse} />
+      return (
+        <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
+      )
     case 'places':
-      return <PlaceResults searchResponse={searchResponse} />
+      return (
+        <PlaceResults searchResponse={searchResponse} isMobile={isMobile} />
+      )
     case 'concepts':
-      return <ConceptResults searchResponse={searchResponse} />
+      return (
+        <ConceptResults searchResponse={searchResponse} isMobile={isMobile} />
+      )
     case 'events':
-      return <EventResults searchResponse={searchResponse} />
+      return (
+        <EventResults searchResponse={searchResponse} isMobile={isMobile} />
+      )
   }
   return null
 }
@@ -48,6 +72,9 @@ const ResultsPage: React.FC = () => {
   const dispatch = useAppDispatch()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
 
   const { search, state } = useLocation() as {
     search: string
@@ -113,6 +140,9 @@ const ResultsPage: React.FC = () => {
   // Get title for accessibility purposes
   useTitle(title)
 
+  // Get width of window
+  useResizeableWindow(setIsMobile)
+
   return (
     <React.Fragment>
       <h1 hidden>{title}</h1>
@@ -124,13 +154,23 @@ const ResultsPage: React.FC = () => {
         search={search}
         isSwitchToSimpleSearch={isSwitchToSimpleSearch}
       />
-      <div className="mx-3">
+      <StyledEntityPageSection
+        className="row mx-3 resultsEntityPageSection results"
+        borderTopLeftRadius={tab === 'objects' && !isMobile ? '0px' : undefined}
+        borderTopRightRadius={tab === 'events' && !isMobile ? '0px' : undefined}
+      >
+        <ResponsiveCol xs={12} className="px-0">
+          <MobileNavigation
+            isSimpleSearch={hasSimpleSearchQuery}
+            urlParams={urlParams}
+            queryString={queryString}
+            search={search}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
+        </ResponsiveCol>
         {isSwitchToSimpleSearch && tab !== queryTab ? (
-          <StyledEntityPageSection
-            className="resultsAlert"
-            borderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
-            borderTopRightRadius={tab === 'events' ? '0px' : undefined}
-          >
+          <Col>
             <Alert
               variant="info"
               className="mt-2"
@@ -139,11 +179,13 @@ const ResultsPage: React.FC = () => {
               Please enter a new search to begin searching for{' '}
               {tabToLinkLabel[tab]} results.
             </Alert>
-          </StyledEntityPageSection>
+          </Col>
         ) : (
-          getScopedResultsComponent(tab, searchResponse)
+          <Col xs={12} className={isMobile ? '' : 'px-0'}>
+            {getScopedResultsComponent(tab, searchResponse, isMobile)}
+          </Col>
         )}
-      </div>
+      </StyledEntityPageSection>
     </React.Fragment>
   )
 }

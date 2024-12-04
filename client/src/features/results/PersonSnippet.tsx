@@ -107,7 +107,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledDl>
             </div>
           </div>
-          <StyledHr />
+          <StyledHr width="100%" />
         </React.Fragment>
       )
     }
