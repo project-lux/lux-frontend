@@ -136,10 +136,10 @@ const color = {
   },
 
   graphs: {
-    produced: '#7E761B',
-    encounter: '#007A1F',
-    published: '#49007A',
-    created: '#BA531C',
+    produced: '#AD1457',
+    encounter: '#6A1B9A',
+    published: '#8D6E63',
+    created: '#2E7D32',
   },
 
   advancedSearch: {
