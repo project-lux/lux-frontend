@@ -154,34 +154,44 @@ const Navigation: React.FC<INavigation> = ({
                 style={{
                   marginRight: key !== 'events' ? '10px' : '0px',
                 }}
+                id={key}
                 data-testid={`${key}-results-tab-button`}
               >
-                <div className="float-start">
-                  <span className="linkTitle float-start">
-                    {tabToLinkLabel[key]}
-                  </span>
-                  <br />
-                  <span className="linkSubtext">
-                    {(simpleSearch && isLoading) ||
-                    isFetching ||
-                    (advancedSearch && isLoading) ? (
-                      <LoadingSpinner size="sm" />
-                    ) : (
-                      estimates[key]
-                    )}{' '}
-                    results
-                  </span>
-                </div>
-                <div className="float-end">
-                  <img
-                    className="float-end navIcon"
-                    src={getIcon(value)}
-                    alt="icon"
-                    aria-label="icon"
-                    height={45}
-                    width={45}
-                  />
-                </div>
+                <Row className="pe-3">
+                  <Col xs={12} sm={12} md={12} lg={9}>
+                    <Row className="d-flex float-start">
+                      <Col xs={12} className="linkTitle d-flex float-start">
+                        {tabToLinkLabel[key]}
+                      </Col>
+                      <Col xs={12} className="linkSubtext d-flex float-start">
+                        {(simpleSearch && isLoading) ||
+                        isFetching ||
+                        (advancedSearch && isLoading) ? (
+                          <LoadingSpinner size="sm" />
+                        ) : (
+                          estimates[key]
+                        )}{' '}
+                        results
+                      </Col>
+                    </Row>
+                  </Col>
+                  <Col
+                    xs={12}
+                    sm={12}
+                    md={12}
+                    lg={3}
+                    className="d-flex float-end"
+                  >
+                    <img
+                      className="float-end navIcon"
+                      src={getIcon(value)}
+                      alt="icon"
+                      aria-label="icon"
+                      height={45}
+                      width={45}
+                    />
+                  </Col>
+                </Row>
               </StyledNavLink>
             ))}
           </Nav>

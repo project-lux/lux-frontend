@@ -25,7 +25,6 @@ import {
   ICurrentSearchState,
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
-import theme from '../../styles/theme'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -107,71 +106,65 @@ const AdvancedSearchContainer: React.FC = () => {
       }
 
   return (
-    <Row className="mx-3 mb-3 bg-white" style={{ flexWrap: 'nowrap' }}>
+    <Row className="mx-3 mb-3" style={{ flexWrap: 'nowrap' }}>
       <StyledContainer
         className="advancedSearchBody"
         asBodyBorderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
         data-testid="advanced-search-form-container"
       >
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <FormHeader tab={tab} />
-          <StyledHr width="100%" />
-          <Row className="mb-2">
-            <Col xs={12} sm={12}>
-              <Form
-                onSubmit={handleSubmit}
-                className="mt-3"
-                aria-describedby="help-text"
-                data-testid="testing"
-              >
-                <div
-                  style={formStyle}
-                  ref={formRef}
-                  id="advanced-search-form-content"
-                  className="mt-3 mb-3 ps-2"
+        <div>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <FormHeader tab={tab} />
+            <StyledHr width="100%" />
+            <Row className="mb-2">
+              <Col xs={12} sm={12}>
+                <Form
+                  onSubmit={handleSubmit}
+                  className="mt-3"
+                  aria-describedby="help-text"
+                  data-testid="testing"
                 >
-                  <AdvancedSearchForm
-                    state={currentState}
-                    parentScope={scope}
-                    parentStateId={currentState._stateId as string}
-                    nestedLevel={0}
-                  />
-                </div>
-                {hideAdvancedSearch && (
-                  <div style={{ height: showAllRows ? '200px' : '75px' }}>
-                    <StyledAddButton
-                      type="button"
-                      onClick={handleShowRows}
-                      className={`show${
-                        showAllRows ? 'Less' : 'All'
-                      }AdvancedSearchRows w-auto`}
-                      value={`show${
-                        showAllRows ? 'Less' : 'All'
-                      }AdvancedSearchRows`}
-                      aria-label={`Show ${
-                        showAllRows ? 'less' : 'all'
-                      } advanced search rows`}
-                      data-testid="advanced-search-rows-button"
-                    >
-                      Show {showAllRows ? 'All' : 'Less'} Rows
-                    </StyledAddButton>
+                  <div
+                    style={formStyle}
+                    ref={formRef}
+                    id="advanced-search-form-content"
+                    className="mt-3 mb-3 ps-2"
+                  >
+                    <AdvancedSearchForm
+                      state={currentState}
+                      parentScope={scope}
+                      parentStateId={currentState._stateId as string}
+                      nestedLevel={0}
+                    />
                   </div>
-                )}
-                <StyledHr width="100%" />
-                <SubmitButton state={currentState} />
-              </Form>
-            </Col>
-          </Row>
-        </ErrorBoundary>
+                  {hideAdvancedSearch && (
+                    <div style={{ height: showAllRows ? '200px' : '75px' }}>
+                      <StyledAddButton
+                        type="button"
+                        onClick={handleShowRows}
+                        className={`show${
+                          showAllRows ? 'Less' : 'All'
+                        }AdvancedSearchRows w-auto`}
+                        value={`show${
+                          showAllRows ? 'Less' : 'All'
+                        }AdvancedSearchRows`}
+                        aria-label={`Show ${
+                          showAllRows ? 'less' : 'all'
+                        } advanced search rows`}
+                        data-testid="advanced-search-rows-button"
+                      >
+                        Show {showAllRows ? 'All' : 'Less'} Rows
+                      </StyledAddButton>
+                    </div>
+                  )}
+                  <StyledHr width="100%" />
+                  <SubmitButton state={currentState} />
+                </Form>
+              </Col>
+            </Row>
+          </ErrorBoundary>
+        </div>
       </StyledContainer>
-      <div
-        className="px-0 my-4"
-        style={{
-          borderLeft: `1px solid ${theme.color.lightGray}`,
-          width: '0.5px',
-          backgroundColor: theme.color.white,
-        }}
-      />
       <StyledContainer
         className="helpText"
         helpTextBorderTopRightRadius={tab === 'events' ? '0px' : undefined}
