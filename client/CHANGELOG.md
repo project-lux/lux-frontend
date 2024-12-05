@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.40.2 - 2024-12-5
+
+### Fixed
+
+- Fixed the simple search tab button styling ([#417](https://github.com/project-lux/lux-frontend/issues/417)).
+
 ## v1.40.1 - 2024-12-5
 
 ### Changed

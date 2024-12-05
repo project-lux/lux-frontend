@@ -60,7 +60,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse }) => {
 
   return (
     <StyledEntityPageSection
-      className="row"
+      className="row results"
       borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
     >
       {(isSuccess || isError) && (
