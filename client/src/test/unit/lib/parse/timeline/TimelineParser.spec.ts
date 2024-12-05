@@ -102,3 +102,19 @@ describe('TimelineParser', () => {
     })
   })
 })
+
+describe('getStartAndEndIndex', () => {
+  it('returns start and end index', () => {
+    const timelineParser = new TimelineParser(mockTimelineResults)
+    const transformedResults = timelineParser.getTransformedTimelineData()
+    const sortedTimelineYears = timelineParser.getSortedTimelineYears()
+    const yearsRange = TimelineParser.addYearsWithNoData(sortedTimelineYears)
+    const { initialStart, initialEnd } = TimelineParser.getStartAndEndIndex(
+      sortedTimelineYears,
+      transformedResults,
+      yearsRange,
+    )
+    expect(initialStart).toEqual(16)
+    expect(initialEnd).toEqual(52)
+  })
+})
