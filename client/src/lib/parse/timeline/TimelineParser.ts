@@ -3,6 +3,7 @@ import config from '../../../config/config'
 import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
 import { IOrderedItems } from '../../../types/ISearchResults'
 import {
+  ITimelinesTransformed,
   ITransformedData,
   TimelineSearchResult,
 } from '../../../types/ITimelines'
@@ -10,9 +11,11 @@ import { getCriteriaFromHalLink } from '../search/halLinkHelper'
 
 export default class TimelineParser {
   timeline: TimelineSearchResult
+  transformedTimelineData: { [key: string]: any } | null
 
   constructor(data: TimelineSearchResult) {
     this.timeline = data
+    this.transformedTimelineData = null
   }
 
   /**
@@ -108,11 +111,70 @@ export default class TimelineParser {
   }
 
   /**
+   * Returns the start and end index of the yearsRange to use for the timeline graph's brush.
+   * Calculated based on Interquartile Range (IQR)
+   *
+   * @param { Array<string> } sortedKeys
+   * @param { ITimelinesTransformed | null } transformedData
+   * @param { Array<string> } yearsRange
+   * @returns { initialStart: number; initialEnd: number }
+   */
+  static getStartAndEndIndex(
+    sortedKeys: Array<string>,
+    transformedData: ITimelinesTransformed | null,
+    yearsRange: Array<string>,
+  ): { initialStart: number; initialEnd: number } {
+    // create an array of years where each year is repeated based on its total
+    const proportionalYearArray = []
+    for (const year of sortedKeys) {
+      const totalForYear = transformedData ? transformedData[year].total : 0
+      for (let i = 0; i < totalForYear; i++) {
+        proportionalYearArray.push(year)
+      }
+    }
+
+    // find the indexes that split the proportional data into lowest quarter and highest quarters
+    const q1Index = Math.floor(proportionalYearArray.length / 4)
+    const q3Index = Math.floor((proportionalYearArray.length / 4) * 3)
+
+    // get the values at those indexes
+    const q1 = parseInt(proportionalYearArray[q1Index], 10)
+    const q3 = parseInt(proportionalYearArray[q3Index], 10)
+
+    // calculate interquartile range (span of middle 50% of data)
+    const iqr = q3 - q1
+
+    // set a multiplication factor for iqr (larger means less datapoints are considered outliers, less means more data points are considered outliers)
+    const factor = 1.5
+    // calculate limits (quartiles +/- factor * iqr)
+    const lowerLimit = Math.round(q1 - factor * iqr)
+    const upperLimit = Math.round(q3 + factor * iqr)
+
+    const earliestYear = parseInt(yearsRange[0], 10)
+    const latestYear = parseInt(yearsRange[yearsRange.length - 1], 10)
+
+    const output = {
+      initialStart: lowerLimit < earliestYear ? 0 : lowerLimit - earliestYear,
+      initialEnd:
+        upperLimit > latestYear
+          ? yearsRange.length - 1
+          : upperLimit - earliestYear,
+    }
+    return output
+  }
+
+  /**
    * Returns the transformed timeline data for rendering
    * @param {Array<{[key: string]: ISearchResults}>} data; the data from the HAL link requests
    * @returns {ITimelinesTransformed}
    */
   getTransformedTimelineData(): { [key: string]: any } {
+    // if we have already generated the transformedTimelineData, just return it
+    if (this.transformedTimelineData !== null) {
+      return this.transformedTimelineData
+    }
+    // otherwise, we haven't already generated the transformedTimelineData, we need to generated it
+
     let transformedData: Array<ITransformedData> = []
 
     for (const result of this.timeline) {
@@ -163,12 +225,13 @@ export default class TimelineParser {
       }
     }
 
+    this.transformedTimelineData = dateCounts
     return dateCounts
   }
 
   /**
-   * Gets the data to be displayed in the About section
-   * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
+   * Gets the sorted timeline years
+   * @returns {Array<string>}
    */
   getSortedTimelineYears(): Array<string> {
     return Object.keys(this.getTransformedTimelineData()).sort(
