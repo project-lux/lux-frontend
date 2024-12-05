@@ -127,6 +127,7 @@ const ResultsPage: React.FC = () => {
       <div className="mx-3">
         {isSwitchToSimpleSearch && tab !== queryTab ? (
           <StyledEntityPageSection
+            className="resultsAlert"
             borderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
             borderTopRightRadius={tab === 'events' ? '0px' : undefined}
           >

@@ -33,6 +33,11 @@ const EntityPageSection = styled.div<IProps>`
     border-bottom-left-radius: 8px;
     border-bottom-right-radius: 8px;
   }
+
+  &.results,
+  &.resultsAlert {
+    box-shadow: 0px 4px 5px 0px ${theme.color.black20};
+  }
 `
 
 export default EntityPageSection

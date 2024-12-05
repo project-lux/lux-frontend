@@ -44,6 +44,7 @@ const StyledNavLink = styled(NavLink)`
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     margin-bottom: -5px;
+    z-index: -1;
 
     & > div > img {
       filter: none;
