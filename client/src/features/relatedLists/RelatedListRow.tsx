@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useLocation } from 'react-router-dom'
@@ -15,13 +15,15 @@ import RecordLink from '../common/RecordLink'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import StyledHr from '../../styles/shared/Hr'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import RelatedListSearchLink from './RelatedListSearchLink'
 
 const StyledRow = styled(Row)`
   line-height: 20px;
   align-items: center;
-  margin-bottom: 0.5em;
+  margin-bottom: 1em;
 
   &:hover {
     background-color: ${theme.color.lightGray};
@@ -29,6 +31,10 @@ const StyledRow = styled(Row)`
 
   &:focus-within {
     background-color: ${theme.color.lightGray};
+  }
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    margin-bottom: 0.5em;
   }
 `
 
@@ -48,9 +54,16 @@ const RelatedListRow: React.FC<{
   index: number
   title: string
 }> = ({ uri, results, index, title }) => {
+  const [showHr, setShowHr] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
   const { pathname } = useLocation()
   const pageScope = pathname.replace('/view/', '').split('/')
   const isDevEnvironment = pathname.includes('lux-front-dev')
+
+  useResizeableWindow(setShowHr)
+
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -80,6 +93,7 @@ const RelatedListRow: React.FC<{
                   url={uri}
                   name={primaryName}
                   linkCategory="Accordion"
+                  className="relatedListEntityTitle"
                 />
               </dt>
             </Col>
@@ -156,6 +170,7 @@ const RelatedListRow: React.FC<{
             )}
           </dl>
         </Col>
+        {showHr && <StyledHr className="mb-3" />}
       </Row>
     )
   }

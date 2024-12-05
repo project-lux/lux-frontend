@@ -67,7 +67,7 @@ const ExpandableList: React.FC<IList> = ({
       {displayLength > length && (
         <button
           type="button"
-          className="btn btn-link show-less"
+          className="btn btn-link show-less ps-0"
           onClick={() => setDisplayLength(length)}
           data-testid="expandable-list-show-less"
         >

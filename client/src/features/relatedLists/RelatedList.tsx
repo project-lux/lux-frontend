@@ -83,14 +83,14 @@ const RelatedList: React.FC<IProps> = ({ results, halLink, title, next }) => {
           data-testid="related-list-pagination"
         >
           <PrimaryButton
-            className="m-1"
+            className="relatedListPaginationButton previous"
             disabled={currentPage === 1}
             onClick={() => handleClick(currentPage - 1)}
           >
             Previous
           </PrimaryButton>
           <PrimaryButton
-            className="m-1"
+            className="relatedListPaginationButton next"
             disabled={!hasMore}
             onClick={() => handleClick(currentPage + 1)}
           >

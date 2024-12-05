@@ -3,7 +3,6 @@ import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
-import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
 import RoutingComponent from '../results/RoutingComponent'
 import Landing from '../landing/LandingPage'
@@ -13,6 +12,8 @@ import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import Footer from './Footer'
 
@@ -35,7 +36,9 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(false)
+  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
@@ -70,20 +73,7 @@ const LuxRoutes: React.FC = () => {
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
 
-  useEffect(() => {
-    const listenResizeEvent = (): void => {
-      if (window.innerWidth < theme.breakpoints.md) {
-        setShowMobileAlert(true)
-      }
-      if (window.innerWidth > theme.breakpoints.md) {
-        setShowMobileAlert(false)
-      }
-    }
-
-    window.addEventListener('resize', listenResizeEvent)
-
-    return () => window.removeEventListener('resize', listenResizeEvent)
-  }, [])
+  useResizeableWindow(setShowMobileAlert)
 
   return (
     <React.Fragment>
