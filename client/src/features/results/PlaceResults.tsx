@@ -58,7 +58,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse }) => {
   }
 
   return (
-    <StyledEntityPageSection className="row">
+    <StyledEntityPageSection className="row results">
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader
