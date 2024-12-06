@@ -44,7 +44,6 @@ const LuxOverlay: React.FC = () => {
         variant="link"
         onClick={onClick}
         data-testid="image-attribution-overlay-button"
-        aria-expanded={show as unknown as string}
         aria-label="Learn more about Objects and Works"
         className="px-0"
       >
