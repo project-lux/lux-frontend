@@ -17,17 +17,17 @@ const StyledNavLink = styled(NavLink)`
   flex-direction: column;
   margin-bottom: 10px;
 
-  & > div > img {
+  & > div > div > img {
     filter: grayscale(100%);
   }
 
-  & > div > span.linkTitle {
+  & > div > div > div > div.linkTitle {
     font-size: ${theme.font.tabNavigation.size};
     font-weight: ${theme.font.tabNavigation.weight};
     line-height: ${theme.font.tabNavigation.lineHeight};
   }
 
-  & > div > span.linkSubtext {
+  & > div > div > div > div.linkSubtext {
     font-size: ${theme.font.bodyLight.size};
     font-weight: ${theme.font.bodyLight.weight} !important;
     line-height: ${theme.font.bodyLight.lineHeight};
@@ -39,15 +39,26 @@ const StyledNavLink = styled(NavLink)`
   }
 
   &.active {
-    box-shadow: -1px -1px 5px ${theme.color.borderShadow};
+    box-shadow: -1px -1px 5px ${theme.color.black20};
     background: ${theme.color.white};
     border-bottom-right-radius: 0px;
     border-bottom-left-radius: 0px;
     margin-bottom: -5px;
     z-index: -1;
 
-    & > div > img {
+    & > div > div > img {
       filter: none;
+    }
+
+    &#events {
+      box-shadow: 4px -1px 5px ${theme.color.black20};
+    }
+
+    &#works,
+    $#people,
+    &#places,
+    &#concepts {
+      box-shadow: -1px -1px 5px ${theme.color.black20};
     }
   }
 

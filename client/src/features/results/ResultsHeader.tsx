@@ -12,6 +12,7 @@ import { sortBy, sortDirection } from '../../config/sortingOptions'
 import { getParamPrefix } from '../../lib/util/params'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
 import { ResultsTab } from '../../types/ResultsTab'
+import LuxOverlay from '../common/LuxOverlay'
 
 import SortDropdown from './SortDropdown'
 
@@ -124,26 +125,26 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   return (
     <React.Fragment>
-      <Row className="mb-2">
+      <Row>
         <Col>
-          <Row>
-            <Col xs={12} sm={12} md={6} lg={12} xl={12}>
-              <StyledResultsHeader
-                className="mb-0"
-                data-testid="results-header-title"
-              >
-                {total} {label} results
-              </StyledResultsHeader>
-            </Col>
-            <Col
-              xs={12}
-              className="descriptiveText"
-              dangerouslySetInnerHTML={{
-                __html: sanitizeHtml(descriptiveText),
-              }}
-              data-testid="results-page-cms-descriptor"
-            />
-          </Row>
+          <StyledResultsHeader
+            className="mb-0"
+            data-testid="results-header-title"
+          >
+            {total} {label} results
+            {(tab === 'objects' || tab === 'works') && <LuxOverlay />}
+          </StyledResultsHeader>
+        </Col>
+      </Row>
+      <Row>
+        <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+          <div
+            className="descriptiveText"
+            dangerouslySetInnerHTML={{
+              __html: sanitizeHtml(descriptiveText),
+            }}
+            data-testid="results-page-cms-descriptor"
+          />
         </Col>
         <StyledCol
           xs={12}
@@ -210,7 +211,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           </ButtonGroup>
         </StyledCol>
       </Row>
-      <StyledHr width="100%" />
+      <StyledHr width="100%" className="my-2" />
     </React.Fragment>
   )
 }
