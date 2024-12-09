@@ -60,6 +60,7 @@ export type OverlayKey =
   | 'places'
   | 'conceptsAndGroupings'
   | 'events'
+  | 'objectsWorksHelp'
 
 export const overlays = {
   objects: 'node/overlays/55538b06-19eb-4826-9e7d-bd65cf520277',
@@ -68,6 +69,7 @@ export const overlays = {
   places: 'node/overlays/a3f82f9d-441a-43b7-b29d-ca267d2cdb08',
   conceptsAndGroupings: 'node/overlays/7498936d-708d-4f69-b14b-58e6256615df',
   events: 'node/overlays/2ae8cde4-1218-412f-9eb3-b58c328da20c',
+  objectsWorksHelp: 'node/overlays/427b2feb-ffe9-4a12-9624-d45f9356b5e0',
 }
 
 export const aboutPageRouteToKey: { [key: string]: PageKey } = {

@@ -113,7 +113,7 @@ const color = {
   link: '#286DC0',
   offWhite: '#F7F7F7',
   white: '#FFF',
-  tabButtonBgColor: '#E4E4E4',
+  tabButtonBgColor: '#C2C2C2',
   errorFg: 'FC0D1B',
   errorBg: '#FFF0F0',
   trueBlack: '#000',

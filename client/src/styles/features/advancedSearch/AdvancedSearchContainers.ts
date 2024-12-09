@@ -17,7 +17,7 @@ export const StyledContainer = styled(Col)<IProps>`
   z-index: 0;
 
   &.advancedSearchBody {
-    box-shadow: -4px 5px 6px 0px ${theme.color.borderShadow};
+    box-shadow: 0px 4px 5px 0px ${theme.color.black20};
     background: ${theme.color.white};
     border-top-left-radius: ${(props) =>
       props.asBodyBorderTopLeftRadius || theme.border.radius};
@@ -28,13 +28,13 @@ export const StyledContainer = styled(Col)<IProps>`
   }
 
   &.helpText {
-    box-shadow: 3px 4px 6px 0px ${theme.color.borderShadow};
+    box-shadow: 4px 4px 5px 0px ${theme.color.black20};
     background: ${theme.color.white};
     border-top-right-radius: ${(props) =>
       props.helpTextBorderTopRightRadius || theme.border.radius};
     border-bottom-right-radius: ${theme.border.radius};
-    margin-bottom: 1rem;
-    margin-top: 1rem;
+    // margin-bottom: 1rem;
+    // margin-top: 1rem;
     width: 25% !important;
 
     @media (min-width: ${theme.breakpoints.md}px) {
