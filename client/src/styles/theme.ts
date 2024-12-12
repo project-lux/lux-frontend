@@ -26,7 +26,7 @@ const font = {
     },
     h3: {
       weight: weight.light,
-      size: '32px',
+      size: '1.5em',
       lineHeight: '40px',
     },
     h4: {
@@ -72,7 +72,7 @@ const font = {
       lineHeight: '40px',
     },
     h3: {
-      weight: weight.regular,
+      weight: weight.light,
       size: '22px',
       lineHeight: '30px',
     },
