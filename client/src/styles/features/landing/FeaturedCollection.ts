@@ -45,7 +45,7 @@ const FeaturedCollection = styled(Col)`
     margin-bottom: 0.5rem;
     font-family: Inter, sans-serif;
     font-size: 1.5em;
-    color: #222222;
+    color: ${theme.color.black};
     letter-spacing: 0;
     line-height: 32px;
     font-weight: ${theme.font.weight.bold};

@@ -148,7 +148,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               )}
             </div>
           </div>
-          <StyledHr width="100%" className="my-3" />
+          <StyledHr width="100%" className="my-3 objectSnippetHr" />
         </React.Fragment>
       )
     }

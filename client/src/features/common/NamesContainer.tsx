@@ -69,7 +69,7 @@ const NamesContainer: React.FC<INames> = ({
                 className={textValueWidth}
               />
             </ExpandableList>
-            {showBreakline && <StyledHr />}
+            {showBreakline && <StyledHr className="namesHr" />}
           </StyledDataRow>
         )
       })}

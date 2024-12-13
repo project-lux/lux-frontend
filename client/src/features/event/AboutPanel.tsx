@@ -15,6 +15,7 @@ import { IEventPart } from '../../types/derived-data/events'
 import IdentifiersList from '../common/IdentifiersList'
 import TextContainer from '../common/TextContainer'
 import ExternalLink from '../common/ExternalLink'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IProps {
   entity: IEntity
@@ -100,6 +101,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
                 ),
               )}
             />
+            <StyledHr hiddenOnDesktop className="eventWebPagesHr" />
           </TextContainer>
         )}
         {part.length > 0 &&

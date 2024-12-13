@@ -76,7 +76,7 @@ const About: React.FC<IObject> = ({ entity }) => {
         {titles !== null && <NamesContainer names={titles} showBreakline />}
         <TextContainer label="Work Class" textLabelClassName="col-md-3">
           <TextValue values={[entityClass]} className="col-md-9" />
-          <StyledHr />
+          <StyledHr className="workClassHr" />
         </TextContainer>
         {identifiers.length > 0 && (
           <IdentifiersContainer identifiers={identifiers} id="works" />

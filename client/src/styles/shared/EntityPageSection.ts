@@ -17,7 +17,11 @@ const EntityPageSection = styled.div<IProps>`
   border-bottom-right-radius: ${theme.border.radius};
   border-bottom-left-radius: ${theme.border.radius};
   margin: 0 0 ${theme.spacing.sectionGap};
-  padding: 1rem;
+  padding: 0.5rem;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    padding: 1rem;
+  }
 
   .accordion-item {
     border-radius: ${theme.border.radius};

@@ -6,8 +6,6 @@ import StyledSearchLink from '../../styles/features/common/ObjectsContainerLinkR
 import StyledHr from '../../styles/shared/Hr'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import RecordLink from '../common/RecordLink'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import theme from '../../styles/theme'
 
 import SearchResultsLink from './SearchResultsLink'
 
@@ -53,10 +51,6 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   data,
   title,
 }) => {
-  const [showHr, setShowHr] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
@@ -65,12 +59,14 @@ const SearchResultRelatedList: React.FC<IProps> = ({
 
   const { orderedItems } = data
 
-  useResizeableWindow(setShowHr)
-
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
-      {showHr && <StyledHr width="100%" className="mt-3" />}
+      <StyledHr
+        width="100%"
+        className="mt-3 searchResultRelatedListHr"
+        hiddenOnDesktop
+      />
       <StyledSearchLink className="row py-2 text-start">
         <Col xs={12} className="mt-1">
           <SearchResultsLink

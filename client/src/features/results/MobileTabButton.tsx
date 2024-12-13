@@ -93,7 +93,12 @@ const MobileTabButton: React.FC<IProps> = ({
           </Col>
         )}
       </Row>
-      <StyledHr width="100%" color={theme.color.lightGray} hiddenOnDesktop />
+      <StyledHr
+        width="100%"
+        color={theme.color.lightGray}
+        hiddenOnDesktop
+        className="mobileTabButtonHr"
+      />
     </SecondaryButton>
   )
 }

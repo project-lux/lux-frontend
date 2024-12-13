@@ -4,10 +4,12 @@ import LinkContainer from '../common/LinkContainer'
 import NotesContainer from '../common/NotesContainer'
 import NamesContainer from '../common/NamesContainer'
 import TextValue from '../common/TextValue'
-import TextContainer from '../common/TextContainer'
 import PlaceParser from '../../lib/parse/data/PlaceParser'
 import IPlace from '../../types/data/IPlace'
 import ExternalLink from '../common/ExternalLink'
+import StyledDataRow from '../../styles/shared/DataRow'
+import ExpandableList from '../common/ExpandableList'
+import TextLabel from '../common/TextLabel'
 
 interface IProps {
   entity: IPlace
@@ -44,18 +46,21 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           />
         )}
         {webPages.length > 0 && (
-          <TextContainer label="Web Pages">
-            <TextValue
-              values={webPages.map((url: string, ind: number) => (
-                <ExternalLink
-                  key={url}
-                  url={url}
-                  name={url}
-                  id={`place-web-pages-${ind}`}
-                />
-              ))}
-            />
-          </TextContainer>
+          <StyledDataRow className="row">
+            <TextLabel label="Web Pages" className="col-md-12" />
+            <ExpandableList className="col-md-12">
+              <TextValue
+                values={webPages.map((url: string, ind: number) => (
+                  <ExternalLink
+                    key={url}
+                    url={url}
+                    name={url}
+                    id={`place-web-pages-${ind}`}
+                  />
+                ))}
+              />
+            </ExpandableList>
+          </StyledDataRow>
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>

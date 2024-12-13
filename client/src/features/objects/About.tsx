@@ -62,7 +62,7 @@ const About: React.FC<IObject> = ({ data }) => {
         )}
         <TextContainer label="Object Class" textLabelClassName="col-md-3">
           <TextValue values={[entityClass]} className="col-md-9" />
-          <StyledHr />
+          <StyledHr className="objectClassHr" />
         </TextContainer>
         {identifiers.length > 0 && (
           <IdentifiersContainer identifiers={identifiers} id="objects" />

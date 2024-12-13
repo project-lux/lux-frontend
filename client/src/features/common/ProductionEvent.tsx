@@ -46,7 +46,7 @@ const ProductionEvent: React.FC<IProps> = ({
             stackKeyValuePairs={stackKeyValuePairs}
           />
         </div>
-        <StyledHr />
+        <StyledHr className="productionEventHr" />
       </StyledDataRow>
     </StyledEntityEvent>
   )

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 
 import StyledHr from '../../styles/shared/Hr'
 import DescriptionList from '../../styles/shared/DescriptionList'
@@ -9,8 +9,6 @@ import {
 } from '../../lib/parse/search/halLinkHelper'
 import { IFacetsPagination } from '../../types/IFacets'
 import { IOrderedItems } from '../../types/ISearchResults'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import theme from '../../styles/theme'
 
 import ListItem from './ListItem'
 
@@ -35,14 +33,8 @@ const FacetsRelatedList: React.FC<IProps> = ({
   setPage,
   setFacets,
 }) => {
-  const [showHr, setShowHr] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-
   const criteria = getCriteriaFromHalLink(url, 'facets')
   const scope = getResultTabFromHalLink(url)
-
-  useResizeableWindow(setShowHr)
 
   const handleShowLess = (): void => {
     const currentRequest = `call${page}`
@@ -85,7 +77,11 @@ const FacetsRelatedList: React.FC<IProps> = ({
             />
           )
         })}
-        {showHr && <StyledHr width="100%" className="mt-3" />}
+        <StyledHr
+          width="100%"
+          className="mt-3 facetsRelatedListHr"
+          hiddenOnDesktop
+        />
         {page !== lastPage && (
           <button
             type="button"

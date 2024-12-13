@@ -64,7 +64,7 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
             />
           </div>
         </div>
-        <StyledHr width="100%" />
+        <StyledHr width="100%" className="conceptSnippetHr" />
       </React.Fragment>
     )
   }
