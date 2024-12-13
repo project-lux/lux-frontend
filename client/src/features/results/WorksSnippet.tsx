@@ -99,7 +99,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               )}
             </div>
           </div>
-          <StyledHr width="100%" />
+          <StyledHr width="100%" className="workSnippetHr" />
         </React.Fragment>
       )
     }

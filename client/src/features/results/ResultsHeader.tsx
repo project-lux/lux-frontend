@@ -17,15 +17,7 @@ import LuxOverlay from '../common/LuxOverlay'
 import MobileSelectedFacets from '../facets/MobileSelectedFacets'
 import { searchScope } from '../../config/searchTypes'
 
-<<<<<<< HEAD
 import Sort from './Sort'
-=======
-import SortDropdown from './SortDropdown'
-import MobileRefine from './MobileRefine'
-
-// Sequence number used to create a different URL for a random shuffle query
-let seq = 0
->>>>>>> 3b3ad4c (429 changed mobile layout on results page)
 
 const StyledCol = styled(Col)`
   margin-bottom: 12px;
@@ -195,7 +187,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           />
         )}
       </Row>
-      <StyledHr width="100%" className="my-2" />
+      <StyledHr width="100%" className="my-2 resultsHeaderHr" />
     </React.Fragment>
   )
 }

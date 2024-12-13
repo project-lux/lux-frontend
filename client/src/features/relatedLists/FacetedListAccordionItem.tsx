@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import styled from 'styled-components'
 
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
@@ -9,6 +8,7 @@ import theme from '../../styles/theme'
 import { IFacetsPagination } from '../../types/IFacets'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
+import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
 
 import FacetsRelatedList from './FacetsRelatedList'
 
@@ -17,15 +17,6 @@ interface IProps {
   halLink: string
   index: number
 }
-
-const StyledAccordionButton = styled.button`
-  color: #222222;
-  letter-spacing: 0;
-  text-align: left;
-  line-height: 56px;
-  font-weight: 200;
-  font-size: 1.5rem;
-`
 
 /**
  * Renders the accordion item containing the accordion header and retrieves the HAL link data
@@ -149,7 +140,10 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
           </div>
         </div>
       </div>
-      <StyledHr className="w-100" color={theme.color.lightGray} />
+      <StyledHr
+        className="w-100 facetedListAccordionHr"
+        color={theme.color.lightGray}
+      />
     </React.Fragment>
   )
 }

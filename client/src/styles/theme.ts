@@ -21,7 +21,7 @@ const font = {
     },
     h2: {
       weight: weight.extraLight,
-      size: '2em',
+      size: '1.5rem',
       lineHeight: '56px',
     },
     h3: {
@@ -68,12 +68,12 @@ const font = {
     },
     h2: {
       weight: weight.extraLight,
-      size: '32px',
+      size: '1.5em',
       lineHeight: '40px',
     },
     h3: {
-      weight: weight.light,
-      size: '22px',
+      weight: weight.extraLight,
+      size: '1.25em',
       lineHeight: '30px',
     },
     h4: {

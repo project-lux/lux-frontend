@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { useLocation } from 'react-router-dom'
@@ -16,7 +16,6 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import StyledHr from '../../styles/shared/Hr'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import RelatedListSearchLink from './RelatedListSearchLink'
 
@@ -54,15 +53,9 @@ const RelatedListRow: React.FC<{
   index: number
   title: string
 }> = ({ uri, results, index, title }) => {
-  const [showHr, setShowHr] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-
   const { pathname } = useLocation()
   const pageScope = pathname.replace('/view/', '').split('/')
   const isDevEnvironment = pathname.includes('lux-front-dev')
-
-  useResizeableWindow(setShowHr)
 
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
@@ -170,7 +163,7 @@ const RelatedListRow: React.FC<{
             )}
           </dl>
         </Col>
-        {showHr && <StyledHr className="mb-3" />}
+        <StyledHr className="mb-3 relatedListRowHr" hiddenOnDesktop />
       </Row>
     )
   }

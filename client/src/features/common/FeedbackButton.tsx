@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import ExternalLink from './ExternalLink'
 
@@ -12,10 +14,15 @@ interface IEntityPageBoolean {
 }
 
 const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const { pathname, search } = useLocation()
   const currentURL = encodeURIComponent(
     `${config.env.dataApiBaseUrl}${pathname.substring(1)}${search}`,
   )
+
+  useResizeableWindow(setIsMobile)
 
   // This should only appear on non-entity pages sich as landing page, results, etc
   if (linkName !== undefined) {
@@ -47,7 +54,7 @@ const FeedbackButton: React.FC<IEntityPageBoolean> = ({ linkName }) => {
           )
         }
       >
-        Submit feedback about this record
+        {isMobile ? 'Give feedback' : 'Submit feedback about this record'}
         <i className="bi bi-box-arrow-up-right ms-1" />
       </PrimaryButton>
     </div>

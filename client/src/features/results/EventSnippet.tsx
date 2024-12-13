@@ -84,7 +84,7 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
             </StyledDl>
           </div>
         </div>
-        <StyledHr width="100%" />
+        <StyledHr width="100%" className="eventSnippetHr" />
       </React.Fragment>
     )
   }

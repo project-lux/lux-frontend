@@ -1,8 +1,10 @@
 import styled from 'styled-components'
 
+import theme from '../theme'
+
 const Term = styled.dt`
   font-size: 1em;
-  color: #222222;
+  color: ${theme.color.black};
   letter-spacing: 0;
   line-height: 24px;
   font-weight: 700;

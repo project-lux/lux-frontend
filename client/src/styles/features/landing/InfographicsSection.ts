@@ -74,7 +74,7 @@ const InfographicsSection = styled(ToppedBorderedDiv)`
     font-family: Inter, sans-serif;
     font-size: 1.5em;
     font-weight: ${theme.font.weight.medium};
-    color: #222222;
+    color: ${theme.color.black};
     letter-spacing: 0;
     text-align: left;
     line-height: 32px;

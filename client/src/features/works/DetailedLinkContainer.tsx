@@ -42,7 +42,7 @@ const DetailedLinkContainer: React.FC<ILinkData> = ({
             itemSpacing="double"
           />
         </ExpandableList>
-        {!expandColumns && <StyledHr />}
+        {!expandColumns && <StyledHr className="detailedLinkContainerHr" />}
       </StyledDataRow>
     )
   }
