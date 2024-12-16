@@ -8,8 +8,7 @@ import {
   workIcon,
 } from '../../config/resources'
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getIcon = (scope: string): any => {
+export const getIcon = (scope: string): string => {
   switch (scope) {
     case 'item':
       return objectsIcon

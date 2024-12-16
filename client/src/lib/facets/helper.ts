@@ -1,5 +1,12 @@
 import { IFacet, LabelFunc, Scope, facets } from '../../config/facets'
-import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
+import {
+  ICriteria,
+  IOrderedItems,
+  ISearchResults,
+} from '../../types/ISearchResults'
+import { getParamPrefix } from '../util/params'
+
+import { getSelectedFacets } from './selectedFacets'
 
 export const getLabel = (
   scope: string,
@@ -57,4 +64,44 @@ export const getFacetValues = (data: ISearchResults): Array<string> => {
         )
   }
   return []
+}
+
+const getIfValidQuery = (str: string): ICriteria | null => {
+  if (/^\{.*\}$/.test(str)) {
+    try {
+      return JSON.parse(str)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e) {
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
+export const getFacetData = (
+  tab: string,
+  search: string,
+  scope: string,
+): {
+  mainQuery: null | ICriteria
+  facetQuery: null | ICriteria
+  selectedFacets: null | Map<string, Set<string>>
+} | null => {
+  const paramPrefix = getParamPrefix(tab)
+
+  const searchParams = new URLSearchParams(search)
+  const mainQueryString = searchParams.get('q') || ''
+  const mainQuery = getIfValidQuery(mainQueryString)
+  if (mainQuery !== null) {
+    const facetQueryString = searchParams.get(`${paramPrefix}f`)
+    const facetQuery = facetQueryString ? JSON.parse(facetQueryString) : null
+    const selectedFacets = facetQuery
+      ? getSelectedFacets(facetQuery, scope)
+      : null
+
+    return { mainQuery, facetQuery, selectedFacets }
+  }
+
+  return null
 }

@@ -3,10 +3,6 @@ import styled from 'styled-components'
 import theme from '../../theme'
 
 const StyledTabs = styled.div`
-  ul.nav-tabs {
-    padding: 0;
-  }
-
   ul > *:not(:last-child) {
     margin-right: 20px;
   }

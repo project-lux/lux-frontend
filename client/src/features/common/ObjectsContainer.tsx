@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { Col, Row } from 'react-bootstrap'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
-import StyledSearchLink from '../../styles/shared/SearchLink'
+import StyledObjectsContainerLinkRow from '../../styles/features/common/ObjectsContainerLinkRow'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import ObjectSnippet from '../results/ObjectSnippet'
 import WorksSnippet from '../results/WorksSnippet'
@@ -37,9 +38,9 @@ export const resultsData = (
   orderedItems.slice(0, 5).map((item) => {
     const { id } = item
     return (
-      <div key={id} className="row">
-        <div className="col-12">{getSnippet(id, tab)}</div>
-      </div>
+      <Row key={id}>
+        <Col xs={12}>{getSnippet(id, tab)}</Col>
+      </Row>
     )
   })
 
@@ -72,10 +73,11 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
       return (
         <React.Fragment>
           {resultsData(orderedItems, tab)}
-          <StyledSearchLink className="row p-2">
-            <div className="col-12">
+          <StyledObjectsContainerLinkRow className="p-2">
+            <Col xs={12}>
               <PrimaryButton
                 variant="link"
+                className="objectsContainerSearchLink"
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
@@ -88,8 +90,8 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                 Show all {estimate} result
                 {estimate !== 1 && `s`}
               </PrimaryButton>
-            </div>
-          </StyledSearchLink>
+            </Col>
+          </StyledObjectsContainerLinkRow>
         </React.Fragment>
       )
     }

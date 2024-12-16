@@ -1,20 +1,50 @@
 import styled from 'styled-components'
+import { Row } from 'react-bootstrap'
 
 import theme from '../../theme'
 
-const ExploreHierarchy = styled.div`
+const ExploreHierarchy = styled(Row)`
   background-color: #fff;
 
   h2 {
     margin-bottom: 10px;
   }
 
-  ul {
+  .hierarchyUl,
+  .parentUl,
+  .childrenUl {
     list-style-position: inside;
   }
 
-  li {
-    margin-left: 28px;
+  .parentUl,
+  .childrenUl {
+    margin-left: 1rem;
+    list-style-type: disc;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      list-style-type: circle;
+    }
+  }
+
+  .parentLi,
+  .childrenLi {
+    margin-left: 0px;
+    list-style-type: none;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      margin-left: 28px;
+      list-style-type: disc;
+    }
+
+    .parentMoreLessButton,
+    .searchResultsLink {
+      margin-left: 0rem;
+      font-weight: ${theme.font.weight.regular};
+
+      @media (min-width: ${theme.breakpoints.md}px) {
+        margin-left: 1rem;
+      }
+    }
   }
 
   button {

@@ -1,16 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
-import StyledSearchLink from '../../styles/shared/SearchLink'
-import { formatHalLink } from '../../lib/parse/search/queryParser'
+import StyledSearchLink from '../../styles/features/common/ObjectsContainerLinkRow'
+import StyledHr from '../../styles/shared/Hr'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
-import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import RecordLink from '../common/RecordLink'
-import { searchScope } from '../../config/searchTypes'
-import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
-import { pushClientEvent } from '../../lib/pushClientEvent'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
+
+import SearchResultsLink from './SearchResultsLink'
 
 interface IProps {
   url: string
@@ -54,6 +53,10 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   data,
   title,
 }) => {
+  const [showHr, setShowHr] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
@@ -61,36 +64,21 @@ const SearchResultRelatedList: React.FC<IProps> = ({
     })
 
   const { orderedItems } = data
-  const estimate = getEstimates(data)
-  const newScope = scope !== undefined ? scope : 'objects'
-  const resultsEndpoint = searchScope[newScope]
 
-  const params = getAllParamsFromHalLink(url, 'search')
-  const sort = new URLSearchParams(params).get('sort')
-
-  const linkLabel = `Show all ${estimate} result${estimate !== 1 ? 's' : ''}`
-  const searchQ = formatHalLink(url, searchScope[newScope])
-  const searchString = `${searchQ}&searchLink=true${
-    sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-  }`
+  useResizeableWindow(setShowHr)
 
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
+      {showHr && <StyledHr width="100%" className="mt-3" />}
       <StyledSearchLink className="row py-2 text-start">
         <Col xs={12} className="mt-1">
-          <Link
-            to={{
-              pathname: `/view/results/${newScope}`,
-              search: searchString,
-            }}
-            onClick={() =>
-              pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
-            }
-            data-testid="search-related-list-link"
-          >
-            {linkLabel}
-          </Link>
+          <SearchResultsLink
+            data={data}
+            eventTitle={`Accordion ${title}`}
+            url={url}
+            scope={scope}
+          />
         </Col>
       </StyledSearchLink>
     </React.Fragment>

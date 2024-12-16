@@ -40,6 +40,7 @@ const SearchResultsLink: React.FC<IProps> = ({
 
   return (
     <Link
+      className="searchResultsLink"
       to={{
         pathname: `/view/results/${newScope}`,
         search: searchString,

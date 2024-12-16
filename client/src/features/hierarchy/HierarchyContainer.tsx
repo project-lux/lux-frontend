@@ -75,7 +75,7 @@ const HierarchyContainer: React.FC<IProps> = ({
         ref={hierarchyRef}
       >
         <Row>
-          <Col xs={8}>
+          <Col xs={12}>
             <h2>Explore</h2>
           </Col>
         </Row>

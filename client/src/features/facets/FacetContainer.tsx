@@ -1,65 +1,44 @@
 import React from 'react'
-// import { Col } from 'react-bootstrap'
 import { useLocation, useParams } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap'
 
-import { getSelectedFacets } from '../../lib/facets/selectedFacets'
-import { ICriteria } from '../../types/ISearchResults'
-import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
+import { facetNamesLists } from '../../config/facets'
+import { searchScope } from '../../config/searchTypes'
+import { getFacetData } from '../../lib/facets/helper'
+import { ICriteria } from '../../types/ISearchResults'
 
 import FacetAccordion from './FacetAccordion'
 import SelectionContainer from './SelectionContainer'
 
-interface IFacets {
-  facetsRequested: Array<string>
-  scope: string
-}
-
-function getIfValidQuery(str: string): ICriteria | null {
-  if (/^\{.*\}$/.test(str)) {
-    try {
-      return JSON.parse(str)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e) {
-      return null
-    }
-  } else {
-    return null
-  }
-}
-
-const FacetContainer: React.FC<IFacets> = ({ facetsRequested, scope }) => {
+const FacetContainer: React.FC = () => {
   const { search } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(tab)
-
-  const searchParams = new URLSearchParams(search)
-  const mainQueryString = searchParams.get('q') || ''
-  const mainQuery = getIfValidQuery(mainQueryString)
-  if (mainQuery) {
-    const facetQueryString = searchParams.get(`${paramPrefix}f`)
-    const facetQuery = facetQueryString ? JSON.parse(facetQueryString) : null
-    const selectedFacets = facetQuery
-      ? getSelectedFacets(facetQuery, scope)
-      : null
+  const facetsRequested = facetNamesLists[tab]
+  const scope = searchScope[tab]
+  const facetData = getFacetData(tab, search, scope)
+  if (facetData !== null && facetData.mainQuery !== null) {
+    const { mainQuery, facetQuery, selectedFacets } = facetData
 
     return (
-      <React.Fragment>
+      <Row className="px-3">
         <SelectionContainer
-          key={facetQuery}
+          key={JSON.stringify(facetQuery)}
           facetQuery={facetQuery}
           scope={scope}
           selectedFacets={selectedFacets}
         />
-        <FacetAccordion
-          key={search}
-          criteria={mainQuery}
-          requestedFacets={facetsRequested}
-          facetQuery={facetQuery}
-          scope={scope}
-          selectedFacets={selectedFacets}
-        />
-      </React.Fragment>
+        <Col xs={12} className="px-0">
+          <FacetAccordion
+            key={search}
+            criteria={mainQuery}
+            requestedFacets={facetsRequested}
+            facetQuery={facetQuery as ICriteria}
+            scope={scope}
+            selectedFacets={selectedFacets}
+          />
+        </Col>
+      </Row>
     )
   }
   return null

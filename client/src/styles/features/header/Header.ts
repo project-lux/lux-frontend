@@ -13,11 +13,24 @@ const Header = styled.div`
     }
   }
 
+  .navbarContainer {
+    justify-content: start;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      justify-content: space-between;
+    }
+  }
+
   .navbar-brand {
     font-family: YaleDesign, serif;
     font-weight: 400;
     color: ${theme.color.white};
     white-space: pre-wrap;
+    order: 2;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      order: 1;
+    }
   }
 
   #nav-links a {
@@ -29,14 +42,23 @@ const Header = styled.div`
     color: ${theme.color.white};
     border: none;
     font-weight: ${theme.font.weight.medium};
+    order: 1;
 
     @media (min-width: ${theme.breakpoints.lg}px) {
       float: right;
       padding: 0;
     }
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      order: 2;
+    }
   }
 
-  @media (min-width: 576px) {
+  .navbar-collapse {
+    order: 3;
+  }
+
+  @media (min-width: ${theme.breakpoints.sm}px) {
     &.navbar-collapse {
       display: block;
       flex-basis: auto;

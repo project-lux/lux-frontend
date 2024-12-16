@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.41.0 - Unreleased
+
+### Added
+
+- Added mobile typography config ([#438](https://github.com/project-lux/lux-frontend/issues/438)).
+
+### Changed
+
+- Changed mobile layout of landing page ([#428](https://github.com/project-lux/lux-frontend/issues/428)).
+- Changed mobile layout of search results accordions ([#440](https://github.com/project-lux/lux-frontend/issues/440)).
+- Changed mobile layout of facet accordions ([#441](https://github.com/project-lux/lux-frontend/issues/441)).
+- Changed mobile layout of related list accordions ([#443](https://github.com/project-lux/lux-frontend/issues/443)).
+- Changed mobile layout of timelines ([#442](https://github.com/project-lux/lux-frontend/issues/442)).
+- Changed mobile layout of results page ([#429](https://github.com/project-lux/lux-frontend/issues/429)).
+- Changed mobile layout of related objects/works ([#433](https://github.com/project-lux/lux-frontend/issues/433)).
+- Changed mobile layout of hierarchy lists ([#434](https://github.com/project-lux/lux-frontend/issues/434)).
+
+### Removed
+
+### Fixed
+
 ## v1.40.3 - 2024-12-6
 
 ### Fixed
@@ -20,8 +41,6 @@ All notable changes to this project will be documented in this file.
 
 - Changed timeline chart colors to be more accessible ([#15](https://github.com/project-lux/lux-frontend/issues/15)).
 - Changed default timeline view ([#15](https://github.com/project-lux/lux-frontend/issues/15)).
-
-### Added
 
 ## v1.40.0 - 2024-12-2
 
