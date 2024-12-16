@@ -78,8 +78,8 @@ const font = {
     },
     h4: {
       weight: weight.medium,
-      size: '22px',
-      lineHeight: '30px',
+      size: '18px',
+      lineHeight: '26px',
     },
     h5: {
       weight: weight.bold,

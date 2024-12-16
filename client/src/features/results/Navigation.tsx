@@ -2,6 +2,7 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -12,6 +13,7 @@ import StyledNavLink from '../../styles/features/results/NavLink'
 import StyledNavbar from '../../styles/features/results/Navbar'
 import LoadingSpinner from '../common/LoadingSpinner'
 import {
+  defaultEstimates,
   isAdvancedSearch,
   isSimpleSearch,
   redirectToTabWithResults,
@@ -23,29 +25,24 @@ import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import {
   getFacetParamsForAdvancedSearchEstimatesRequest,
   getFacetParamsForSimpleSearchEstimatesRequest,
+  getUrlState,
 } from '../../lib/util/params'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
+import theme from '../../styles/theme'
+
+const ResponsiveRow = styled(Row)`
+  display: none;
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    display: block;
+  }
+`
 
 interface INavigation {
   urlParams: URLSearchParams
   criteria: any
   search: string
   isSwitchToSimpleSearch: boolean
-}
-
-const getUrlState = (
-  urlParams: URLSearchParams,
-  currentTab: string,
-): {
-  qt: string
-  facetRequest: boolean
-} => {
-  const qt = urlParams.get('qt') || currentTab
-  const facetRequest = urlParams.get('facetRequest') === 'true'
-  return {
-    qt,
-    facetRequest,
-  }
 }
 
 const Navigation: React.FC<INavigation> = ({
@@ -95,17 +92,10 @@ const Navigation: React.FC<INavigation> = ({
     )
 
   // set to estimates or set empty if no results
-  const estimates: Record<string, number | string> =
-    isSuccess && data
-      ? data
-      : {
-          objects: '-',
-          works: '-',
-          people: '-',
-          places: '-',
-          concepts: '-',
-          events: '-',
-        }
+  const estimates: Record<string, number | string> = defaultEstimates(
+    isSuccess,
+    data,
+  )
 
   // If performing a simple search, check if the current tab has results
   if (simpleSearch && !isError) {
@@ -121,7 +111,7 @@ const Navigation: React.FC<INavigation> = ({
   }
 
   return (
-    <Row className="mx-1 mt-3">
+    <ResponsiveRow className="mx-1 mt-3">
       <Col xs={12}>
         <StyledNavbar data-testid="results-page-navbar pb-0">
           <Nav className="w-100 h-100 justify-content-between flex-row">
@@ -197,7 +187,7 @@ const Navigation: React.FC<INavigation> = ({
           </Nav>
         </StyledNavbar>
       </Col>
-    </Row>
+    </ResponsiveRow>
   )
 }
 

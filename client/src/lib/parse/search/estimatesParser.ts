@@ -114,3 +114,25 @@ export const redirectToTabWithResults = (
   }
   return null
 }
+
+/**
+ * Returns the object containing the default estimates for each tab
+ * @param {boolean} isSuccess; value determining if the estimates requests was successful
+ * @param {any} data; the data returned from the request to get estimates
+ * @returns {Record<string, number | string>}
+ */
+export const defaultEstimates = (
+  isSuccess: boolean,
+  data: any,
+): Record<string, number | string> => {
+  return isSuccess && data
+    ? data
+    : {
+        objects: '-',
+        works: '-',
+        people: '-',
+        places: '-',
+        concepts: '-',
+        events: '-',
+      }
+}
