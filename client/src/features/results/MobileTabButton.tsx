@@ -7,7 +7,6 @@ import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 import SecondaryButton from '../../styles/shared/SecondaryButton'
 import LoadingSpinner from '../common/LoadingSpinner'
-import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 
 interface IProps {
   estimate: number | string
@@ -15,7 +14,6 @@ interface IProps {
   tab: string
   handleClick: () => void
   role: string
-  isSimpleSearch: boolean
   requestState: { isFetching: boolean; isLoading: boolean }
   showArrow?: boolean
   isCurrentTab?: boolean
@@ -27,7 +25,6 @@ const MobileTabButton: React.FC<IProps> = ({
   tab,
   handleClick,
   role,
-  isSimpleSearch,
   requestState,
   showArrow = false,
   isCurrentTab = false,
@@ -58,9 +55,7 @@ const MobileTabButton: React.FC<IProps> = ({
               <h3>{tabToLinkLabel[tab]}</h3>
             </Col>
             <Col xs={12} className="linkSubtext d-flex float-start">
-              {(isSimpleSearch && isLoading) ||
-              isFetching ||
-              (advancedSearch && isLoading) ? (
+              {isLoading || isFetching ? (
                 <LoadingSpinner size="sm" />
               ) : (
                 estimate

@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 - Changed mobile layout of timelines ([#442](https://github.com/project-lux/lux-frontend/issues/442)).
 - Changed mobile layout of results page ([#429](https://github.com/project-lux/lux-frontend/issues/429)).
 - Changed mobile layout of related objects/works ([#433](https://github.com/project-lux/lux-frontend/issues/433)).
+- Changed mobile layout of hierarchy lists ([#434](https://github.com/project-lux/lux-frontend/issues/434)).
 
 ### Removed
 

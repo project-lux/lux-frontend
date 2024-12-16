@@ -22,29 +22,29 @@ const MoreLessButton: React.FC<IProps> = ({
   )
 
   return (
-    <div className="ms-4">
+    <div className="parentMoreLessButton">
       {currentState.currentPageLength <= parentsArrayLength && (
         <button
           type="button"
-          className="btn btn-link show-more"
+          className="btn btn-link show-more me-3"
           onClick={() =>
             dispatch(addShowMore({ currentPageLength: displayLength }))
           }
           style={{ textDecoration: 'none' }}
         >
-          <strong>Show More</strong>
+          Show More
         </button>
       )}
       {currentState.currentPageLength > currentState.defaultDisplayLength && (
         <button
           type="button"
-          className="btn btn-link show-less ms-3"
+          className="btn btn-link show-less"
           onClick={() =>
             dispatch(addShowLess({ currentPageLength: displayLength }))
           }
           style={{ textDecoration: 'none' }}
         >
-          <strong>Show Less</strong>
+          Show Less
         </button>
       )}
     </div>

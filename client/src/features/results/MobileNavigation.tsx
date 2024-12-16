@@ -138,7 +138,6 @@ const MobileNavigation: React.FC<IProps> = ({
           isLoading,
           isFetching,
         }}
-        isSimpleSearch={simpleSearch}
         role="button"
         estimate={estimates[tab]}
         icon={getIcon(tabToLinkLabel[tab])}
@@ -155,7 +154,6 @@ const MobileNavigation: React.FC<IProps> = ({
                 isLoading,
                 isFetching,
               }}
-              isSimpleSearch={simpleSearch}
               estimate={estimates[key]}
               icon={value}
               tab={key}

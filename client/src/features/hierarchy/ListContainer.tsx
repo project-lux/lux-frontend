@@ -50,14 +50,14 @@ const ListContainer: React.FC<IProps> = ({
     : currentPageLength
 
   return (
-    <StyledExploreHierarchy className="row">
+    <StyledExploreHierarchy>
       <Col>
-        <strong>{primaryName}</strong>
-        <ul>
+        <h3>{primaryName}</h3>
+        <ul className="hierarchyUl">
           {parents.length > 0 && (
-            <li>
+            <li className="parentLi">
               Parents
-              <ul>
+              <ul className="parentUl">
                 {parents.slice(0, currentPageLength).map((parent, ind) => (
                   <Li
                     key={parent}
@@ -74,24 +74,22 @@ const ListContainer: React.FC<IProps> = ({
           <StyledHr width="100%" className="my-3" />
           {descendents.hasOwnProperty('orderedItems') &&
             descendents.orderedItems.length > 0 && (
-              <li>
+              <li className="childrenLi">
                 Children
-                <ul>
+                <ul className="childrenUl">
                   {descendents.orderedItems
                     .slice(0, defaultDisplayLength)
                     .map((item) => (
                       <Li key={item.id} id={item.id} />
                     ))}
                 </ul>
-                <strong className="ms-4">
-                  <SearchResultsLink
-                    data={descendents}
-                    eventTitle="Hierarchy Children"
-                    url={descendents.id}
-                    scope={scope !== null ? scope : 'places'}
-                    additionalLinkText="child"
-                  />
-                </strong>
+                <SearchResultsLink
+                  data={descendents}
+                  eventTitle="Hierarchy Children"
+                  url={descendents.id}
+                  scope={scope !== null ? scope : 'places'}
+                  additionalLinkText="child"
+                />
               </li>
             )}
         </ul>
