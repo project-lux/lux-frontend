@@ -86,7 +86,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
           </Col>
           <Col lg={4}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <StyledEntityPageSection className="row">
+              <StyledEntityPageSection>
                 <HowDoISeeIt data={data} />
               </StyledEntityPageSection>
               <Row>

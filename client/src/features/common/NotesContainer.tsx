@@ -20,6 +20,7 @@ interface INotes {
   showBreakline?: boolean
   expandColumns?: boolean
   labelTooltipText?: string
+  hrClassName?: string
 }
 
 const NotesContainer: React.FC<INotes> = ({
@@ -28,6 +29,7 @@ const NotesContainer: React.FC<INotes> = ({
   showBreakline,
   expandColumns = false,
   labelTooltipText = '',
+  hrClassName = '',
 }) => {
   const [showHr, setShowHr] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -54,7 +56,10 @@ const NotesContainer: React.FC<INotes> = ({
               label={noteLabel}
               tooltipText={labelTooltipText}
             />
-            <ExpandableList className={textValueWidth}>
+            <ExpandableList
+              className={textValueWidth}
+              hrClassName={hrClassName}
+            >
               <TextValue
                 values={formattedNotes}
                 className={

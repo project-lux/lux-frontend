@@ -9,17 +9,27 @@ interface IProps {
   label: string
   entityClass: string
   className: string
+  hideBreaklineOnDesktop?: boolean
+  textLabelClassName?: string
+  textValueClassName?: string
 }
 
 const ClassContainer: React.FC<IProps> = ({
   label,
   entityClass,
   className,
+  textLabelClassName = 'col-12',
+  textValueClassName = 'col-12',
+  hideBreaklineOnDesktop = false,
 }) => (
-  <TextContainer label={label}>
-    <TextValue values={[entityClass]} />
+  <TextContainer label={label} textLabelClassName={textLabelClassName}>
+    <TextValue values={[entityClass]} className={textValueClassName} />
     <Col xs={12}>
-      <StyledHr className={className} width="100%" hiddenOnDesktop />
+      <StyledHr
+        className={className}
+        width="100%"
+        hiddenOnDesktop={hideBreaklineOnDesktop}
+      />
     </Col>
   </TextContainer>
 )

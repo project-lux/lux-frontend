@@ -62,6 +62,7 @@ const About: React.FC<IProps> = ({ data }) => {
           label="Person or Group Class"
           entityClass={entityClass}
           className="personOrGroupClassHr"
+          hideBreaklineOnDesktop
         />
         <Dates
           date={birthDate}
