@@ -55,6 +55,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           label="Event Class"
           entityClass={entityClass}
           className="eventClassHr"
+          hideBreaklineOnDesktop
         />
         <LinkContainer
           label="Carried Out By"

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 
 import StyledHr from '../../styles/shared/Hr'
 import StyledDataRow from '../../styles/shared/DataRow'
@@ -8,6 +9,9 @@ import {
 } from '../../types/IContentWithLanguage'
 import { getColumnWidth } from '../../lib/util/ui'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
+import { isObjectOrWork } from '../../lib/util/uri'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import TextLabel from './TextLabel'
 import TextValue from './TextValue'
@@ -27,7 +31,14 @@ const NamesContainer: React.FC<INames> = ({
   expandColumns = false,
   length,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const [textValueWidth, textLabelWidth] = getColumnWidth(expandColumns)
+
+  const { pathname } = useLocation()
+
+  useResizeableWindow(setIsMobile)
 
   const name = (namesData: Array<INoteContent>): JSX.Element[] =>
     namesData.map((nameData, ind) => {
@@ -69,7 +80,10 @@ const NamesContainer: React.FC<INames> = ({
                 className={textValueWidth}
               />
             </ExpandableList>
-            {showBreakline && <StyledHr className="namesHr" />}
+            <StyledHr
+              className="namesHr"
+              hidden={!showBreakline || (isObjectOrWork(pathname) && isMobile)}
+            />
           </StyledDataRow>
         )
       })}

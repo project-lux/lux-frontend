@@ -1,4 +1,5 @@
 import React from 'react'
+import { Col } from 'react-bootstrap'
 
 import StyledEntityEvent from '../../styles/shared/EntityEvent'
 import StyledDataRow from '../../styles/shared/DataRow'
@@ -46,7 +47,9 @@ const ProductionEvent: React.FC<IProps> = ({
             stackKeyValuePairs={stackKeyValuePairs}
           />
         </div>
-        <StyledHr className="productionEventHr" />
+        <Col xs={12}>
+          <StyledHr className="productionEventHr" width="100%" />
+        </Col>
       </StyledDataRow>
     </StyledEntityEvent>
   )

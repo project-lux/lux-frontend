@@ -11,7 +11,7 @@ const AccordionButton = styled.button`
   font-weight: ${theme.font.mobile.h2.weight};
 
   @media (min-width: ${theme.breakpoints.md}px) {
-    font-size: ${theme.font.desktop.h2.size};
+    font-size: 1.5rem;
     line-height: ${theme.font.desktop.h2.lineHeight};
     font-weight: ${theme.font.desktop.h2.weight};
   }
