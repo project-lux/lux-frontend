@@ -1,4 +1,5 @@
 import React from 'react'
+import { Col } from 'react-bootstrap'
 
 import NamesContainer from '../common/NamesContainer'
 import NotesContainer from '../common/NotesContainer'
@@ -7,6 +8,7 @@ import IEntity from '../../types/data/IEntity'
 import LinkContainer from '../common/LinkContainer'
 import TextContainer from '../common/TextContainer'
 import TextValue from '../common/TextValue'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IProps {
   entity: IEntity
@@ -36,6 +38,13 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         )}
         <TextContainer label="Concept Class">
           <TextValue values={[entityClass]} />
+          <Col xs={12}>
+            <StyledHr
+              className="personOrGroupClassHr"
+              width="100%"
+              hiddenOnDesktop
+            />
+          </Col>
         </TextContainer>
         {types.length > 0 && (
           <LinkContainer
