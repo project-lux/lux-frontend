@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Col } from 'react-bootstrap'
 
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
 import LinkContainer from '../common/LinkContainer'
@@ -8,12 +7,11 @@ import NotesContainer from '../common/NotesContainer'
 import IEntity from '../../types/data/IEntity'
 import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
-import TextContainer from '../common/TextContainer'
 import ExternalLink from '../common/ExternalLink'
 import TextLabel from '../common/TextLabel'
 import ExpandableList from '../common/ExpandableList'
 import StyledDataRow from '../../styles/shared/DataRow'
-import StyledHr from '../../styles/shared/Hr'
+import ClassContainer from '../common/ClassContainer'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -60,16 +58,11 @@ const About: React.FC<IProps> = ({ data }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Person or Group Class">
-          <TextValue values={[entityClass]} />
-          <Col xs={12}>
-            <StyledHr
-              className="personOrGroupClassHr"
-              width="100%"
-              hiddenOnDesktop
-            />
-          </Col>
-        </TextContainer>
+        <ClassContainer
+          label="Person or Group Class"
+          entityClass={entityClass}
+          className="personOrGroupClassHr"
+        />
         <Dates
           date={birthDate}
           place={birthPlace}

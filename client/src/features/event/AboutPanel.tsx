@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import { Col } from 'react-bootstrap'
 
 import ExpandableList from '../common/ExpandableList'
 import LinkContainer from '../common/LinkContainer'
@@ -17,6 +16,7 @@ import IdentifiersList from '../common/IdentifiersList'
 import TextContainer from '../common/TextContainer'
 import ExternalLink from '../common/ExternalLink'
 import StyledHr from '../../styles/shared/Hr'
+import ClassContainer from '../common/ClassContainer'
 
 interface IProps {
   entity: IEntity
@@ -51,16 +51,11 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Event Class">
-          <TextValue values={[entityClass]} />
-          <Col xs={12}>
-            <StyledHr
-              className="personOrGroupClassHr"
-              width="100%"
-              hiddenOnDesktop
-            />
-          </Col>
-        </TextContainer>
+        <ClassContainer
+          label="Event Class"
+          entityClass={entityClass}
+          className="eventClassHr"
+        />
         <LinkContainer
           label="Carried Out By"
           content={agents}
