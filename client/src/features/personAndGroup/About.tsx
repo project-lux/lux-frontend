@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React from 'react'
+import { Col } from 'react-bootstrap'
 
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
 import LinkContainer from '../common/LinkContainer'
@@ -10,6 +10,10 @@ import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
 import TextContainer from '../common/TextContainer'
 import ExternalLink from '../common/ExternalLink'
+import TextLabel from '../common/TextLabel'
+import ExpandableList from '../common/ExpandableList'
+import StyledDataRow from '../../styles/shared/DataRow'
+import StyledHr from '../../styles/shared/Hr'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -58,6 +62,13 @@ const About: React.FC<IProps> = ({ data }) => {
         )}
         <TextContainer label="Person or Group Class">
           <TextValue values={[entityClass]} />
+          <Col xs={12}>
+            <StyledHr
+              className="personOrGroupClassHr"
+              width="100%"
+              hiddenOnDesktop
+            />
+          </Col>
         </TextContainer>
         <Dates
           date={birthDate}
@@ -133,18 +144,21 @@ const About: React.FC<IProps> = ({ data }) => {
           <Activity data={professionalActivity} />
         )}
         {webPages.length > 0 && (
-          <TextContainer label="Web Pages">
-            <TextValue
-              values={webPages.map((url: string, ind: number) => (
-                <ExternalLink
-                  key={url}
-                  url={url}
-                  name={url}
-                  id={`person-group-web-page-${ind}`}
-                />
-              ))}
-            />
-          </TextContainer>
+          <StyledDataRow className="row">
+            <TextLabel label="Web Pages" className="col-md-12" />
+            <ExpandableList className="col-md-12">
+              <TextValue
+                values={webPages.map((url: string, ind: number) => (
+                  <ExternalLink
+                    key={url}
+                    url={url}
+                    name={url}
+                    id={`person-group-web-page-${ind}`}
+                  />
+                ))}
+              />
+            </ExpandableList>
+          </StyledDataRow>
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>

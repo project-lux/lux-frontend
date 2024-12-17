@@ -1,8 +1,10 @@
 import React from 'react'
+import { Col } from 'react-bootstrap'
 
 import TextValue from '../common/TextValue'
 import TextContainer from '../common/TextContainer'
 import LinkContainer from '../common/LinkContainer'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IDatesData {
   date: string
@@ -21,9 +23,18 @@ const Dates: React.FC<IDatesData> = ({
 }) => (
   <React.Fragment>
     {date !== '' && (
-      <TextContainer label={dateLabel}>
-        <TextValue values={[date]} />
-      </TextContainer>
+      <React.Fragment>
+        <TextContainer label={dateLabel}>
+          <TextValue values={[date]} />
+        </TextContainer>
+        <Col xs={12}>
+          <StyledHr
+            className="personOrGroupClassHr"
+            width="100%"
+            hiddenOnDesktop
+          />
+        </Col>
+      </React.Fragment>
     )}
     {place !== '' && (
       <LinkContainer
