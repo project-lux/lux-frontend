@@ -13,6 +13,8 @@ interface IList {
   length?: number
   className?: string
   itemSpacing?: string
+  hideBreakline?: boolean
+  hrClassName?: string
 }
 
 /**
@@ -28,6 +30,7 @@ const ExpandableList: React.FC<IList> = ({
   length = 20,
   className = 'col-md-9',
   itemSpacing = 'single',
+  hrClassName = 'expandableListMobileHr',
 }) => {
   const [displayLength, setDisplayLength] = useState(length)
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -40,11 +43,7 @@ const ExpandableList: React.FC<IList> = ({
     return (
       <div className={`${className} col-sm-12`}>
         {children}
-        <StyledHr
-          width="100%"
-          hiddenOnDesktop
-          className="expandableListMobileHr"
-        />
+        <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
       </div>
     )
   }
@@ -91,11 +90,7 @@ const ExpandableList: React.FC<IList> = ({
           Show Less
         </button>
       )}
-      <StyledHr
-        width="100%"
-        hiddenOnDesktop
-        className="expandableListMobileHr"
-      />
+      <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
     </div>
   )
 }

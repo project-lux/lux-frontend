@@ -85,7 +85,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
             </Col>
             <Col lg={4}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <StyledEntityPageSection className="row">
+                <StyledEntityPageSection>
                   <HowDoISeeIt data={data} />
                   <CanIReuseIt entity={data} entityType="object" />
                 </StyledEntityPageSection>

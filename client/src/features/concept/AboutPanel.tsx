@@ -37,6 +37,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           label="Concept Class"
           entityClass={entityClass}
           className="conceptClassHr"
+          hideBreaklineOnDesktop
         />
         {types.length > 0 && (
           <LinkContainer

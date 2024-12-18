@@ -5,6 +5,7 @@ import IEntity from '../../types/data/IEntity'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import WorksSnippet from '../results/WorksSnippet'
 import theme from '../../styles/theme'
+import StyledObjectWorkHeader from '../../styles/shared/ObjectWorkHeader'
 
 interface IApiText {
   entity: IEntity
@@ -27,7 +28,9 @@ const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
 
   return (
     <StyledEntityPageSection data-testid="carries-container">
-      <h2>This object includes the following works</h2>
+      <StyledObjectWorkHeader>
+        This object includes the following works
+      </StyledObjectWorkHeader>
       {/* uri is not needed in this case */}
       {carries.slice(0, displayLength).map((work) => (
         <div key={work} className="row">

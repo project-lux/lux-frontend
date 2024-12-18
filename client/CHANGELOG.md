@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Changed mobile layout of person page ([#435](https://github.com/project-lux/lux-frontend/issues/435)).
 - Changed mobile layout of event page ([#436](https://github.com/project-lux/lux-frontend/issues/436)).
 - Changed mobile layout of concept page ([#437](https://github.com/project-lux/lux-frontend/issues/437)).
+- Changed mobile layout of works, sets, and objects pages ([#430](https://github.com/project-lux/lux-frontend/issues/430)).
 
 ### Removed
 

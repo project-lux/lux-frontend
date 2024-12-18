@@ -42,7 +42,7 @@ const WorksPage: React.FC<{ data: ILinguisticObject | IVisualItem }> = ({
         </Col>
         <Col lg={4}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <StyledEntityPageSection className="row">
+            <StyledEntityPageSection>
               <HowDoISeeIt data={data} />
               <CanIReuseIt entity={data} entityType="work" />
             </StyledEntityPageSection>

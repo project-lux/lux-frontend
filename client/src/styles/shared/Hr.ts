@@ -24,6 +24,13 @@ const Hr = styled.hr<IProps>`
     }
   }
 
+  &.productionBodyEventHr,
+  &.collectionHr,
+  &.responsibleUnitHr,
+  &.accessStatementHr {
+    display: none;
+  }
+
   @media (min-width: ${theme.breakpoints.md}px) {
     display: ${(props) => (props.hiddenOnDesktop ? 'none' : 'block')};
   }

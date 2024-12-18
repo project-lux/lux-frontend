@@ -23,7 +23,9 @@ const IdentifiersContainer: React.FC<IIdentifiers> = ({ identifiers, id }) => (
     <Col xs={12} sm={12} md={9}>
       <IdentifiersList identifiers={identifiers} />
     </Col>
-    <StyledHr />
+    <Col xs={12}>
+      <StyledHr width="100%" className="identifiersContainerHr" />
+    </Col>
   </StyledDataRow>
 )
 

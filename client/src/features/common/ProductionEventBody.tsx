@@ -45,6 +45,7 @@ const AgentsRow: React.FC<{
           id={`${id}-agent-link-container`}
           expandColumns
           rowClassName="mb-0 mt-0"
+          hrClassName="productionBodyEventHr"
         />
       </div>
     </StyledAgents>
