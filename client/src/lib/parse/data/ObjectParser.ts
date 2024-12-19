@@ -157,19 +157,33 @@ export default class ObjectParser extends EntityParser {
   }
 
   /**
-   * Gets the uuid for the production event
-   * @returns {string | null}
+   * Returns the agents from the production event
+   * @returns {Array<string>}
    */
-  getAgentFromProductionEvent(): string | null {
+  getAgentsFromProductionEvent(): Array<string> {
     // This only requires snippet data as there is not a need to parse all of the possible events
     const prod = this.getRawProductionEventSnippet()
 
     if (prod) {
       const agents = new EventParser(prod).getAgentMap()
       if (agents.length > 0) {
-        return agents[0].id
+        return agents.map((agent) => agent.id)
       }
     }
+    return []
+  }
+
+  /**
+   * Gets the uuid for the production event
+   * @returns {string | null}
+   */
+  getAgentFromProductionEvent(): string | null {
+    // This only requires snippet data as there is not a need to parse all of the possible events
+    const agents = this.getAgentsFromProductionEvent()
+    if (agents.length > 0) {
+      return agents[0]
+    }
+
     return null
   }
 

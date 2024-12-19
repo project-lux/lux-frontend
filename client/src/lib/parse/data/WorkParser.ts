@@ -86,7 +86,16 @@ export default class WorkParser extends EntityParser {
    */
   getProductionAgent(): string | null {
     const createdBy = this.work.created_by
-    return createdBy ? new EventParser(createdBy).getAgentIds() : null
+    return createdBy ? new EventParser(createdBy).getAgentId() : null
+  }
+
+  /**
+   * Returns the list of agent ids responsible for production from /created_by
+   * @returns {string | null}
+   */
+  getProductionAgents(): Array<string> {
+    const createdBy = this.work.created_by
+    return createdBy ? new EventParser(createdBy).getAgentIds() : []
   }
 
   /**
@@ -114,7 +123,7 @@ export default class WorkParser extends EntityParser {
     if (usedFor !== undefined) {
       // Only one agent is needed
       for (const obj of usedFor) {
-        return new EventParser(obj).getAgentIds()
+        return new EventParser(obj).getAgentId()
       }
     }
 

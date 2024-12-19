@@ -275,11 +275,25 @@ export default class EventParser extends EntityParser {
    * Returns array of transformed event agent data from /carried_out_by
    * @returns {Array<IEventAgent>}
    */
-  getAgentIds(): string | null {
+  getAgentIds(): Array<string> {
     const agents = this.getAgentMap()
 
     if (agents.length > 0) {
-      return agents[0].id
+      return agents.map((agent) => agent.id)
+    }
+
+    return []
+  }
+
+  /**
+   * Returns array of transformed event agent data from /carried_out_by
+   * @returns {Array<IEventAgent>}
+   */
+  getAgentId(): string | null {
+    const agents = this.getAgentIds()
+
+    if (agents.length > 0) {
+      return agents[0]
     }
 
     return null

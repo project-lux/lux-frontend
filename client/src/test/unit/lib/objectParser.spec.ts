@@ -74,7 +74,9 @@ describe('ObjectParser', () => {
         label: null,
       })
     })
+  })
 
+  describe('getAgentFromProductionEvent', () => {
     it('returns production event agent', () => {
       const agent = new ObjectParser(
         mockPhysicalObject,
@@ -83,14 +85,29 @@ describe('ObjectParser', () => {
         `${config.env.dataApiBaseUrl}data/person/production-carried-out-by`,
       )
     })
+  })
 
+  describe('getAgentsFromProductionEvent', () => {
+    it('returns an array of production event agent', () => {
+      const agent = new ObjectParser(
+        mockPhysicalObject,
+      ).getAgentsFromProductionEvent()
+      expect(agent).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/person/production-carried-out-by`,
+      ])
+    })
+  })
+
+  describe('getDateFromProductionEvent', () => {
     it('returns production event date', () => {
       const date = new ObjectParser(
         mockPhysicalObject,
       ).getDateFromProductionEvent()
       expect(date).toEqual('1983')
     })
+  })
 
+  describe('getLocationFromProductionEvent', () => {
     it('returns production event location', () => {
       const date = new ObjectParser(
         mockPhysicalObject,

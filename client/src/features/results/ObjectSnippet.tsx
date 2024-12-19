@@ -47,7 +47,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const images = object.getImages()
     const identifiers = object.getIdentifiers()
     const callNumber = object.getCallNumber()
-    const eventAgent = object.getAgentFromProductionEvent()
+    const eventAgents = object.getAgentsFromProductionEvent()
     const eventDate = object.getDateFromProductionEvent()
     let label = 'Produced By'
     let locationLabel
@@ -102,7 +102,7 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledSnippetTitle>
               <StyledDl>
                 <ProductionSnippet
-                  agent={eventAgent}
+                  agents={eventAgents}
                   date={eventDate}
                   label={label}
                   location={location}
