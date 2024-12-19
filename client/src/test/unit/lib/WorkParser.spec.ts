@@ -11,20 +11,20 @@ describe('WorkParser', () => {
       expect(productionEvent).toEqual({
         agents: [
           {
-            role: 'https://endpoint.yale.edu/data/concept/created-by-classified-as-1',
-            id: 'https://endpoint.yale.edu/data/group/created-by-carried-out-by-1',
+            role: `${config.env.dataApiBaseUrl}data/concept/created-by-classified-as-1`,
+            id: `${config.env.dataApiBaseUrl}data/group/created-by-carried-out-by-1`,
             references: [],
           },
           {
-            role: 'https://endpoint.yale.edu/data/concept/created-by-classified-as-2',
-            id: 'https://endpoint.yale.edu/data/group/created-by-carried-out-by-2',
+            role: `${config.env.dataApiBaseUrl}data/concept/created-by-classified-as-2`,
+            id: `${config.env.dataApiBaseUrl}data/group/created-by-carried-out-by-2`,
             references: [],
           },
         ],
         dates: ['2009-01-01'],
-        locations: ['https://endpoint.yale.edu/data/place/mock-place-entity'],
+        locations: [`${config.env.dataApiBaseUrl}data/place/mock-place-entity`],
         techniques: [
-          'https://endpoint.yale.edu/data/concept/created-by-technique-1',
+          `${config.env.dataApiBaseUrl}data/concept/created-by-technique-1`,
         ],
         timePeriods: [],
         influences: [],
@@ -35,7 +35,7 @@ describe('WorkParser', () => {
 
     it('returns null', () => {
       const mockWorkWithoutEvent = {
-        id: 'https://endpoint.yale.edu/data/text/3351ad0b-eb0a-409b-b359-fe2cc442dd81',
+        id: `${config.env.dataApiBaseUrl}data/text/3351ad0b-eb0a-409b-b359-fe2cc442dd81`,
         type: 'LinguisticObject',
       }
       const work = new WorkParser(mockWorkWithoutEvent)
@@ -83,8 +83,19 @@ describe('WorkParser', () => {
       const work = new WorkParser(mockObject)
       const createdByAgents = work.getProductionAgent()
       expect(createdByAgents).toEqual(
-        'https://endpoint.yale.edu/data/group/created-by-carried-out-by-1',
+        `${config.env.dataApiBaseUrl}data/group/created-by-carried-out-by-1`,
       )
+    })
+  })
+
+  describe('getProductionAgents', () => {
+    it('returns created_by agents', () => {
+      const work = new WorkParser(mockObject)
+      const createdByAgents = work.getProductionAgents()
+      expect(createdByAgents).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/group/created-by-carried-out-by-1`,
+        `${config.env.dataApiBaseUrl}data/group/created-by-carried-out-by-2`,
+      ])
     })
   })
 
@@ -93,7 +104,7 @@ describe('WorkParser', () => {
       const work = new WorkParser(mockObject)
       const usedForAgents = work.getPublicationAgent()
       expect(usedForAgents).toEqual(
-        'https://endpoint.yale.edu/data/person/carried-out-agent',
+        `${config.env.dataApiBaseUrl}data/person/carried-out-agent`,
       )
     })
   })

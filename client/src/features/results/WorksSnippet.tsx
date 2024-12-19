@@ -30,7 +30,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const work = new WorkParser(data)
     const types = work.getTypes()
     const imprint = work.getImprint()
-    const agent = work.getProductionAgent() || null
+    const agents = work.getProductionAgents() || null
     const date = work.getProductionDate() || null
     const languages = work.getLanguages()
     const languageNotes = work.getLanguageNotes()
@@ -51,7 +51,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               >
                 <RecordLink url={data.id} linkCategory="Results Snippet" />
               </StyledSnippetTitle>
-              <ProductionSnippet agent={agent} date={date} label="Creator" />
+              <ProductionSnippet agents={agents} date={date} label="Creator" />
               {types.length > 0 && <TypeList types={types} />}
               {imprint.length > 0 && (
                 <Row>
@@ -132,7 +132,7 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               <Card.Text>
                 <StyledDl>
                   <ProductionSnippet
-                    agent={agent}
+                    agents={agents}
                     date={date}
                     label="Creator"
                   />
