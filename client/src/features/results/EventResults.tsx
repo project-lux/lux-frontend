@@ -73,7 +73,13 @@ const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
       )}
       <Row className="mt-3">
         {!isMobile && (
-          <StyledResultsCol xs={12} sm={12} md={3} lg={3}>
+          <StyledResultsCol
+            xs={12}
+            sm={12}
+            md={3}
+            lg={3}
+            className="desktop-facets-col"
+          >
             <FacetContainer />
           </StyledResultsCol>
         )}
