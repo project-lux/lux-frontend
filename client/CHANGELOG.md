@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.41.0 - Unreleased
+## v1.41.0 - 2024-12-19
+
+### Fixed
+
+- Fixed facets desktop layout ([#441](https://github.com/project-lux/lux-frontend/issues/441)).
+
+## v1.41.0 - 2024-12-16
 
 ### Added
 

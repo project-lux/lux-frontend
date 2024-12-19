@@ -21,7 +21,7 @@ const FacetContainer: React.FC = () => {
     const { mainQuery, facetQuery, selectedFacets } = facetData
 
     return (
-      <Row className="px-3">
+      <Row className="ps-3 w-100" style={{ height: 'max-content' }}>
         <SelectionContainer
           key={JSON.stringify(facetQuery)}
           facetQuery={facetQuery}
