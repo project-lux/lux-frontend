@@ -9,6 +9,7 @@ import theme from '../../styles/theme'
 import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
 
 import RelatedList from './RelatedList'
+import HiddenLinks from './HiddenLinks'
 
 interface IProps {
   searchTermConfig: IHalLink
@@ -90,6 +91,9 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
           aria-labelledby={`#heading-related-${index}-${searchTerm}`}
         >
           <div className="accordion-body">
+            {isSuccess && data && (
+              <HiddenLinks data={Object.keys(data.results)} />
+            )}
             {/* Render list of results against facets API endpoint */}
             {activeAccordion && isSuccess && data && data.results !== null && (
               <RelatedList

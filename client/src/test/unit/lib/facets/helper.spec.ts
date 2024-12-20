@@ -1,7 +1,7 @@
 import config from '../../../../config/config'
 import {
   buildQuery,
-  getFacetValues,
+  getFacetsOrderedItems,
   getLabel,
 } from '../../../../lib/facets/helper'
 import { facets as mockFacets } from '../../../data/facets'
@@ -31,9 +31,9 @@ describe('facet helper functions', () => {
     })
   })
 
-  describe('getFacetValues', () => {
+  describe('getFacetsOrderedItems', () => {
     it('returns values array', () => {
-      const values = getFacetValues(mockFacets)
+      const values = getFacetsOrderedItems(mockFacets)
       expect(values).toStrictEqual([
         `${config.env.dataApiBaseUrl}data/group/d07b9b86-0a1e-4026-aa4c-8ecba8bbd9c9`,
       ])

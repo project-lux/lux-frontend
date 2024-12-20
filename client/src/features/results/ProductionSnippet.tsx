@@ -19,42 +19,36 @@ const ProductionSnippet: React.FC<IProducedBy> = ({
   label,
   location,
   locationLabel,
-}) => {
-  console.log(agents, agents.length)
-  if (agents.length > 3) {
-    console.log('... ')
-  }
-  return (
-    <React.Fragment>
-      {agents.length > 0 && (
-        <Row>
-          <Col>
-            <StyledDt>{label}</StyledDt>
-            <StyledDd data-testid="production-snippet-agent-data">
-              {agents.slice(0, 3).map((agent, ind) => (
-                <span>
-                  <RecordLink url={agent} />
-                  {ind !== 2 ? ', ' : ' '}
-                </span>
-              ))}
-              {agents.length > 3 ? '... ' : ' '}
-              {date !== null && `in ${date}`}
-            </StyledDd>
-          </Col>
-        </Row>
-      )}
-      {location !== undefined && location !== null && (
-        <Row>
-          <Col>
-            <StyledDt>{locationLabel || 'Location'}</StyledDt>
-            <StyledDd data-testid="production-snippet-location-data">
-              <RecordLink url={location} />
-            </StyledDd>
-          </Col>
-        </Row>
-      )}
-    </React.Fragment>
-  )
-}
+}) => (
+  <React.Fragment>
+    {agents.length > 0 && (
+      <Row>
+        <Col>
+          <StyledDt>{label}</StyledDt>
+          <StyledDd data-testid="production-snippet-agent-data">
+            {agents.slice(0, 3).map((agent, ind) => (
+              <span>
+                <RecordLink url={agent} />
+                {ind !== 2 ? ', ' : ' '}
+              </span>
+            ))}
+            {agents.length > 3 ? '... ' : ' '}
+            {date !== null && `in ${date}`}
+          </StyledDd>
+        </Col>
+      </Row>
+    )}
+    {location !== undefined && location !== null && (
+      <Row>
+        <Col>
+          <StyledDt>{locationLabel || 'Location'}</StyledDt>
+          <StyledDd data-testid="production-snippet-location-data">
+            <RecordLink url={location} />
+          </StyledDd>
+        </Col>
+      </Row>
+    )}
+  </React.Fragment>
+)
 
 export default ProductionSnippet

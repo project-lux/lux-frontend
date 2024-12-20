@@ -6,8 +6,10 @@ import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
+import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 
 import SearchResultRelatedList from './SearchResultRelatedList'
+import HiddenLinks from './HiddenLinks'
 
 interface IProps {
   searchTermConfig: IHalLink
@@ -86,6 +88,9 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
           data-testid={`collapse-${index}-${searchTerm}`}
         >
           <div className="accordion-body">
+            {isSuccess && data && (
+              <HiddenLinks data={getOrderedItemsIds(data)} />
+            )}
             {/* Render list based on results list */}
             {activeAccordion && isSuccess && data && (
               <SearchResultRelatedList

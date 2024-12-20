@@ -9,8 +9,10 @@ import { IFacetsPagination } from '../../types/IFacets'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
+import { getFacetsOrderedItems } from '../../lib/facets/helper'
 
 import FacetsRelatedList from './FacetsRelatedList'
+import HiddenLinks from './HiddenLinks'
 
 interface IProps {
   searchTermConfig: IHalLink
@@ -124,6 +126,9 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
           aria-labelledby={`#heading-related-${index}-${searchTerm}`}
         >
           <div className="accordion-body" data-testid="accordion-body">
+            {isSuccess && data && (
+              <HiddenLinks data={getFacetsOrderedItems(data)} />
+            )}
             {/* Render list based on facets returned */}
             {activeAccordion && isSuccess && data && (
               <FacetsRelatedList
