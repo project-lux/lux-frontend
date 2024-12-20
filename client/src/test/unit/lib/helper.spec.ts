@@ -14,7 +14,6 @@ import {
   replaceBaseUrl,
   stripYaleIdPrefix,
   validateClassifiedAsIdMatches,
-  getIconFromUri,
   sortDataSources,
   hasData,
   getWikiDataImageName,
@@ -497,21 +496,6 @@ describe('helper functions', () => {
         config.aat.displayName,
       ])
       expect(classifierMatches).toBeFalsy()
-    })
-  })
-
-  describe('getIconFromUri', () => {
-    it('returns array with icon and alt text', () => {
-      const icons = getIconFromUri('/data/object/')
-      expect(icons).toEqual([
-        '/src/resources/images/entity/objects.svg',
-        'Physical Item',
-      ])
-    })
-
-    it('returns empty array', () => {
-      const icons = getIconFromUri('/data/event/')
-      expect(icons).toEqual([])
     })
   })
 

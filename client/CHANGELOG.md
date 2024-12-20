@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added hidden HTML containing UUIDs in accordions ([#394](https://github.com/project-lux/lux-frontend/issues/394)).
+
 ### Changed
 
 - Changed mobile layout of place page ([#432](https://github.com/project-lux/lux-frontend/issues/432)).

@@ -1,3 +1,5 @@
+import { isNull } from 'lodash'
+
 import { IPartOf, ISearchResults } from '../../../types/ISearchResults'
 
 export const getEstimates = (data: ISearchResults): number => {
@@ -19,4 +21,20 @@ export const getEstimates = (data: ISearchResults): number => {
     }
   }
   return 0
+}
+
+/**
+ * Returns array of ids from the results
+ * @param {ISearchResults | null} data the data returned from the API request
+ * @returns {Array<string>}
+ */
+export const getOrderedItemsIds = (
+  data: ISearchResults | null,
+): Array<string> => {
+  if (isNull(data)) {
+    return []
+  }
+
+  const { orderedItems } = data
+  return orderedItems.map((item) => item.id)
 }
