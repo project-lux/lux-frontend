@@ -17,7 +17,7 @@ import {
   useGetCollectionQuery,
   useGetSearchRelationshipQuery,
 } from '../../redux/api/ml_api'
-import { getFacetValues } from '../../lib/facets/helper'
+import { getFacetsOrderedItems } from '../../lib/facets/helper'
 
 import ExternalLink from './ExternalLink'
 import NotesContainer from './NotesContainer'
@@ -55,7 +55,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
       { uri: unitHalLink! },
       { skip: unitHalLink === null },
     )
-  const unitUris = unitsIsSuccess && units ? getFacetValues(units) : []
+  const unitUris = unitsIsSuccess && units ? getFacetsOrderedItems(units) : []
 
   if (searchTypes.objects.includes(entity.json.type)) {
     const object = new ObjectParser(data)

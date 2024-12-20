@@ -125,8 +125,9 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
         >
           <div className="accordion-body" data-testid="accordion-body">
             {/* Render list based on facets returned */}
-            {activeAccordion && isSuccess && data && (
+            {isSuccess && data && (
               <FacetsRelatedList
+                activeAccordion={activeAccordion}
                 url={halLink}
                 searchTerm={jsonSearchTerm || ''}
                 data={facets}

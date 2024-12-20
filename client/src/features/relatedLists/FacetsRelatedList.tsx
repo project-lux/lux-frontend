@@ -13,6 +13,7 @@ import { IOrderedItems } from '../../types/ISearchResults'
 import ListItem from './ListItem'
 
 interface IProps {
+  activeAccordion: boolean
   url: string
   searchTerm: string
   data: IFacetsPagination
@@ -24,6 +25,7 @@ interface IProps {
 }
 
 const FacetsRelatedList: React.FC<IProps> = ({
+  activeAccordion,
   url,
   searchTerm,
   data,
@@ -66,6 +68,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
           return (
             <ListItem
               key={value}
+              activeAccordion={activeAccordion}
               uri={value as string}
               count={totalItems || 0}
               title={title}

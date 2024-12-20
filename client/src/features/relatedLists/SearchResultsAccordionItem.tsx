@@ -87,8 +87,9 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
         >
           <div className="accordion-body">
             {/* Render list based on results list */}
-            {activeAccordion && isSuccess && data && (
+            {isSuccess && data && (
               <SearchResultRelatedList
+                activeAccordion={activeAccordion}
                 url={halLink}
                 scope={tab}
                 data={data}

@@ -10,16 +10,18 @@ import RecordLink from '../common/RecordLink'
 import SearchResultsLink from './SearchResultsLink'
 
 interface IProps {
+  activeAccordion: boolean
   url: string
   data: ISearchResults
   title: string
   scope?: string
 }
 
-const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
-  uri,
-  index,
-}) => {
+const QueryRelationsListRow: React.FC<{
+  activeAccordion: boolean
+  uri: string
+  index: number
+}> = ({ activeAccordion, uri, index }) => {
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
 
   if (recordLinkHas404) {
@@ -37,6 +39,7 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
       >
         <RecordLink
           url={uri}
+          name={!activeAccordion ? ' ' : undefined}
           returns404={setRecordLinkHas404}
           linkCategory="Accordion"
         />
@@ -46,6 +49,7 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
 }
 
 const SearchResultRelatedList: React.FC<IProps> = ({
+  activeAccordion,
   url,
   scope,
   data,
@@ -54,7 +58,14 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
-      return <QueryRelationsListRow key={id} uri={id} index={ind} />
+      return (
+        <QueryRelationsListRow
+          key={id}
+          activeAccordion={activeAccordion}
+          uri={id}
+          index={ind}
+        />
+      )
     })
 
   const { orderedItems } = data
