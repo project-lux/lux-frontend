@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 import { Alert } from 'react-bootstrap'
-import { useAuth } from 'react-oidc-context'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
-import theme from '../../styles/theme'
 import ErrorPage from '../error/ErrorPage'
 import RoutingComponent from '../results/RoutingComponent'
 import Landing from '../landing/LandingPage'
@@ -14,7 +12,6 @@ import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
 
 import Footer from './Footer'
@@ -38,7 +35,7 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(
+  const [showMobileAlert] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
   const routes = getRouteNames()
