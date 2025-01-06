@@ -4,13 +4,28 @@ import { activityStreams as mockResults } from '../../data/results'
 import { linguisticObject as mockWork } from '../../data/linguisticObject'
 import { person as mockPerson } from '../../data/person'
 import { concept as mockConcept } from '../../data/concept'
-import { facetNamesLists } from '../../../config/facets'
 import config from '../../../config/config'
 
 export default function workResultsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
   const facetsApiUrl = config.env.facetsApiBaseUrl || ''
   const mockWorkUri = 'data/text/mock-linguistic-object'
+  const facetsList = [
+    'workHasDigitalImage',
+    'workIsOnline',
+    'workRecordType',
+    'workTypeId',
+    'workLanguageId',
+    'workAboutAgentId',
+    'workAboutPlaceId',
+    'workAboutConceptId',
+    'workCreationAgentId',
+    'workCreationPlaceId',
+    'workCreationDate',
+    'workPublicationAgentId',
+    'workPublicationPlaceId',
+    'workPublicationDate',
+  ]
 
   // Mock work search with the query "andy warhol"
   nock(apiUrl)
@@ -23,7 +38,7 @@ export default function workResultsMockApi(): void {
     })
 
   // Mock the facets requests and return since they are not being tested with this mock api
-  for (const facet of facetNamesLists.works) {
+  for (const facet of facetsList) {
     nock(facetsApiUrl)
       .get(
         `/api/facets/work?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}`,
@@ -50,9 +65,17 @@ export default function workResultsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for Creator
+  // mock the api call for Creator 1
   nock(apiUrl)
     .get('/data/group/created-by-carried-out-by-1?profile=name')
+    .reply(200, JSON.stringify(mockPerson), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // mock the api call for Creator 2
+  nock(apiUrl)
+    .get('/data/group/created-by-carried-out-by-2?profile=name')
     .reply(200, JSON.stringify(mockPerson), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

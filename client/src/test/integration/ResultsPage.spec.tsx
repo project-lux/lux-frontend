@@ -44,14 +44,18 @@ vi.mock('../../lib/util/collectionHelper', () => ({
 }))
 
 // Mock the request for collections
-vi.mock('../../lib/parse/search/estimatesParser', () => ({
-  __esModule: true,
-  getEstimatesRequests: vi.fn(() => ({
-    data: mockEstimatesResults,
-  })),
-  isAdvancedSearch: vi.fn(),
-  isSimpleSearch: vi.fn(),
-}))
+vi.mock('../../lib/parse/search/estimatesParser', async () => {
+  const actual = await vi.importActual('../../lib/parse/search/estimatesParser')
+  return {
+    __esModule: true,
+    ...actual,
+    getEstimatesRequests: vi.fn(() => ({
+      data: mockEstimatesResults,
+    })),
+    isAdvancedSearch: vi.fn(),
+    isSimpleSearch: vi.fn(),
+  }
+})
 
 describe('Results page shared components', () => {
   config.advancedSearch = advancedSearch()
@@ -81,9 +85,9 @@ describe('Results page shared components', () => {
       it('renders the correct estimate for the current tab', async () => {
         const { findByText } = render(<AppRender route={page} />)
 
-        await findByText(/801 Objects results/i)
+        await findByText(/801 results/i)
         const tabButton = screen.getByTestId('objects-results-tab-button')
-        expect(tabButton).toHaveTextContent('Objects (801)')
+        expect(tabButton).toHaveTextContent('801 results')
       })
     })
 
@@ -110,7 +114,7 @@ describe('Results page shared components', () => {
       it('renders the simple search', async () => {
         const { findAllByText } = render(<AppRender route={page} />)
 
-        await findAllByText(/Objects results/i)
+        await findAllByText(/Objects/i)
         const simpleSearch = screen.getByTestId(
           'results-search-container-simple-search-form',
         )

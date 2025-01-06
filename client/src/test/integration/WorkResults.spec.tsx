@@ -120,7 +120,9 @@ describe('Work results page', () => {
 
       await findAllByText(/Mock Work/i)
       const creation = screen.getByTestId('production-snippet-agent-data')
-      expect(creation).toHaveTextContent('Mock Person in 2009-01-01')
+      expect(creation).toHaveTextContent(
+        'Mock Person, Mock Person, in 2009-01-01',
+      )
     })
 
     it('renders work types', async () => {
