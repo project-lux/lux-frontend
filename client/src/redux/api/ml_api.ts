@@ -145,7 +145,7 @@ export const mlApi: any = createApi({
     getEstimates: builder.query<
       any,
       {
-        searchType: string
+        searchType: 'advanced' | 'simple'
         facetRequest: boolean
         qt: string
         params: Record<string, string> | string

@@ -67,11 +67,14 @@ export const getUrlState = (
 ): {
   qt: string
   facetRequest: boolean
+  isFromSearchLink: boolean
 } => {
   const qt = urlParams.get('qt') || currentTab
   const facetRequest = urlParams.get('facetRequest') === 'true'
+  const isFromSearchLink = urlParams.has('searchLink')
   return {
     qt,
     facetRequest,
+    isFromSearchLink,
   }
 }
