@@ -12,6 +12,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import RelatedListRow from './RelatedListRow'
 
 interface IProps {
+  activeAccordion: boolean
   results: IRelatedListResults
   halLink: string
   title: string
@@ -21,7 +22,13 @@ interface IProps {
   }
 }
 
-const RelatedList: React.FC<IProps> = ({ results, halLink, title, next }) => {
+const RelatedList: React.FC<IProps> = ({
+  activeAccordion,
+  results,
+  halLink,
+  title,
+  next,
+}) => {
   const [currentResults, setCurrentResults] =
     useState<IRelatedListResults>(results)
   const [currentPage, setCurrentPage] = useState<number>(1)
@@ -67,6 +74,7 @@ const RelatedList: React.FC<IProps> = ({ results, halLink, title, next }) => {
         <dl>
           {Object.keys(currentResults).map((uri, ind: number) => (
             <RelatedListRow
+              activeAccordion={activeAccordion}
               key={uri}
               uri={uri}
               results={currentResults}
