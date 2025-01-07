@@ -20,6 +20,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed header alignment on mobile view ([#525](https://github.com/project-lux/lux-frontend/issues/525)).
+- Fixed search estimates to not make additional API calls ([#429](https://github.com/project-lux/lux-frontend/issues/429)).
 
 ## v1.41.1 - 2024-12-19
 
