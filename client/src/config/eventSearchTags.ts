@@ -17,6 +17,11 @@ export const relatedObjects: IHalLinks = {
     searchTag: 'lux:eventWorksAbout',
     tab: 'works',
   },
+  worksCausedBy: {
+    title: 'Works Caused By',
+    searchTag: 'lux:eventCausedWorks',
+    tab: 'works',
+  },
 }
 
 // Used for rendering related types accordions
