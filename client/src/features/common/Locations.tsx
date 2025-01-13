@@ -67,6 +67,7 @@ const Locations: React.FC<ILocationsProps> = ({ halLink }) => {
             <div className="col-12">
               {data !== null && (
                 <SemanticRelatedList
+                  activeAccordion={false}
                   results={data}
                   halLink={href}
                   next={undefined}
