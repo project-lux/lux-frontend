@@ -1,5 +1,3 @@
-import { isNull } from 'lodash'
-
 import { IPartOf, ISearchResults } from '../../../types/ISearchResults'
 
 export const getEstimates = (data: ISearchResults): number => {
