@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added Works Caused By or Influenced By to Event pages ([#324](https://github.com/project-lux/lux-frontend/issues/324)).
+- Added Works Caused By to Event pages ([#324](https://github.com/project-lux/lux-frontend/issues/324)).
+- Added hidden HTML containing UUIDs in accordions ([#394](https://github.com/project-lux/lux-frontend/issues/394)).
 
 ### Changed
 

@@ -91,8 +91,9 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
         >
           <div className="accordion-body">
             {/* Render list of results against facets API endpoint */}
-            {activeAccordion && isSuccess && data && data.results !== null && (
+            {isSuccess && data && data.results !== null && (
               <RelatedList
+                activeAccordion={activeAccordion}
                 results={data.results}
                 halLink={halLink}
                 next={data.next}
