@@ -77,7 +77,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
             />
           </div>
         </div>
-        <StyledHr width="100%" />
+        <StyledHr width="100%" className="placeSnippetHr" />
       </React.Fragment>
     )
   }

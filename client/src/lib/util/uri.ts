@@ -30,3 +30,18 @@ export function getTargetName(
 
   return isUndefined(targetName) ? '404 Page Not Found' : targetName
 }
+
+/**
+ * Checks if the current pathname is an object or work
+ * @param {string} pathname current pathname
+ * @returns {boolean}
+ */
+export const isObjectOrWork = (pathname: string): boolean => {
+  const tabs = ['object', 'digital', 'visual', 'set', 'text']
+  for (const tab of tabs) {
+    if (pathname.includes(tab)) {
+      return true
+    }
+  }
+  return false
+}

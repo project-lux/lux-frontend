@@ -18,6 +18,7 @@ import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 
 interface IProps {
+  activeAccordion: boolean
   uri: string
   count: number
   criteria: any
@@ -39,6 +40,7 @@ const StyledRow = styled(Row)`
 `
 
 const ListItem: React.FC<IProps> = ({
+  activeAccordion,
   uri,
   count,
   criteria,
@@ -48,60 +50,71 @@ const ListItem: React.FC<IProps> = ({
   title,
   itemSpacing = 'single',
 }) => {
-  const { data, isSuccess } = useGetItemQuery({
-    uri: stripYaleIdPrefix(uri),
-    profile: 'results',
-  })
+  const { data, isSuccess } = useGetItemQuery(
+    {
+      uri: stripYaleIdPrefix(uri),
+      profile: 'results',
+    },
+    {
+      skip: !activeAccordion,
+    },
+  )
+
+  let entity = null
+  let primaryName = null
+  let equivalent = null
 
   if (isSuccess && data) {
-    const entity = new EntityParser(data)
-    const primaryName = entity.getPrimaryName(config.aat.langen)
-    const equivalent = entity.getEquivalent()
+    entity = new EntityParser(data)
+    primaryName = entity.getPrimaryName(config.aat.langen)
+    equivalent = entity.getEquivalent()
 
     // filter out entities that are collection items
     if (equivalent.includes(config.aat.collectionItem)) {
       return null
     }
-
-    const linkLabel = `Show all ${count} result${count !== 1 ? 's' : ''}`
-    const searchQ = formatFacetedSearchJson(criteria, searchTerm, uri)
-
-    return (
-      <StyledRow
-        key={uri}
-        style={{
-          marginBottom:
-            itemSpacing === 'double'
-              ? theme.spacing.verticalItemDoubleSpacing
-              : theme.spacing.verticalItemSingleSpacing,
-        }}
-      >
-        <Col md={9} lg={8} xl={9}>
-          <DescriptionTerm>
-            <RecordLink url={uri} name={primaryName} linkCategory="Accordion" />
-          </DescriptionTerm>
-        </Col>
-        <Col md={3} lg={4} xl={3}>
-          <DescriptionDetail>
-            <Link
-              to={{
-                pathname: `/view/results/${tab}`,
-                search: `q=${searchQ}&searchLink=true`,
-              }}
-              onClick={() =>
-                pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
-              }
-              data-testid={`list-item-link-${index}`}
-            >
-              {linkLabel}
-            </Link>
-          </DescriptionDetail>
-        </Col>
-      </StyledRow>
-    )
   }
 
-  return null
+  const linkLabel = `Show all ${count} result${count !== 1 ? 's' : ''}`
+  const searchQ = formatFacetedSearchJson(criteria, searchTerm, uri)
+
+  return (
+    <StyledRow
+      key={uri}
+      style={{
+        marginBottom:
+          itemSpacing === 'double'
+            ? theme.spacing.verticalItemDoubleSpacing
+            : theme.spacing.verticalItemSingleSpacing,
+      }}
+    >
+      <Col md={9} lg={8} xl={9}>
+        <DescriptionTerm>
+          <RecordLink
+            url={uri}
+            name={primaryName || ' '}
+            linkCategory="Accordion"
+          />
+        </DescriptionTerm>
+      </Col>
+      <Col md={3} lg={4} xl={3}>
+        <DescriptionDetail>
+          <Link
+            to={{
+              pathname: `/view/results/${tab}`,
+              search: `q=${searchQ}&searchLink=true`,
+            }}
+            onClick={() =>
+              pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
+            }
+            data-testid={`list-item-link-${index}`}
+          >
+            {linkLabel}
+          </Link>
+        </DescriptionDetail>
+      </Col>
+    </StyledRow>
+  )
 }
 
 export default ListItem

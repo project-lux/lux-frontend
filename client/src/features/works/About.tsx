@@ -12,12 +12,10 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import { IEventInfo } from '../../types/derived-data/events'
 import { hasData } from '../../lib/parse/data/helper'
-import TextContainer from '../common/TextContainer'
-import TextValue from '../common/TextValue'
-import StyledHr from '../../styles/shared/Hr'
 import SubjectOf from '../common/SubjectOf'
 import { subjectOf, workContains } from '../../config/worksSearchTags'
 import ApiAboutData from '../common/ApiAboutData'
+import ClassContainer from '../common/ClassContainer'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 
@@ -66,89 +64,92 @@ const About: React.FC<IObject> = ({ entity }) => {
   } = aboutData as Record<string, any>
 
   return (
-    <StyledEntityPageSection>
-      <Row>
-        <Col>
-          <h2>About</h2>
-        </Col>
-      </Row>
-      <dl>
-        {titles !== null && <NamesContainer names={titles} showBreakline />}
-        <TextContainer label="Work Class" textLabelClassName="col-md-3">
-          <TextValue values={[entityClass]} className="col-md-9" />
-          <StyledHr />
-        </TextContainer>
-        {identifiers.length > 0 && (
-          <IdentifiersContainer identifiers={identifiers} id="works" />
-        )}
-        {partOf.length > 0 && (
-          <LinkContainer
-            content={partOf}
-            label="Part Of"
-            id="works-part-of-link-container"
+    <StyledEntityPageSection className="row">
+      <Col xs={12}>
+        <h2>About</h2>
+      </Col>
+      <Col xs={12}>
+        <dl>
+          {titles !== null && <NamesContainer names={titles} showBreakline />}
+          <ClassContainer
+            label="Work Class"
+            entityClass={entityClass}
+            className="workClassHr"
+            textLabelClassName="col-md-3"
+            textValueClassName="col-md-9"
           />
-        )}
-        {entity._links && (
-          <ApiAboutData
-            providedLinks={entity._links}
-            configuredLink={workContains}
-          />
-        )}
-        {types.length > 0 && (
-          <LinkContainer
-            content={types}
-            label="Categorized As"
-            id="works-types-link-container"
-          />
-        )}
-        {languages.length > 0 && (
-          <LinkContainer
-            content={languages}
-            label="Language"
-            id="works-languages-link-container"
-          />
-        )}
-        {publications.length > 0 &&
-          publications.map((publication: IEventInfo, ind: number) => (
-            <ProductionEvent
-              key={`publication_${ind}`}
-              event={publication}
-              label={
-                publication.label !== null ? publication.label : 'Publication'
-              }
-              id="works-publication"
+          {identifiers.length > 0 && (
+            <IdentifiersContainer identifiers={identifiers} id="works" />
+          )}
+          {partOf.length > 0 && (
+            <LinkContainer
+              content={partOf}
+              label="Part Of"
+              id="works-part-of-link-container"
             />
-          ))}
-        {production !== null && hasData(production) && (
-          <ProductionEvent
-            event={production}
-            label="Creation"
-            id="works-creation"
-          />
-        )}
-        {about.length > 0 && (
-          <DetailedLinkContainer
-            content={about}
-            label="About"
-            id="works-about-link-container"
-          />
-        )}
-        {represents.length > 0 && (
-          <DetailedLinkContainer
-            content={represents}
-            label="Depicts"
-            id="works-represents-link-container"
-          />
-        )}
-        <SubjectOf entity={entity} halLinkConfig={subjectOf} />
-        {notes !== null && (
-          <NotesContainer
-            notes={notes}
-            showBreakline
-            id="works-notes-container"
-          />
-        )}
-      </dl>
+          )}
+          {entity._links && (
+            <ApiAboutData
+              providedLinks={entity._links}
+              configuredLink={workContains}
+            />
+          )}
+          {types.length > 0 && (
+            <LinkContainer
+              content={types}
+              label="Categorized As"
+              id="works-types-link-container"
+            />
+          )}
+          {languages.length > 0 && (
+            <LinkContainer
+              content={languages}
+              label="Language"
+              id="works-languages-link-container"
+            />
+          )}
+          {publications.length > 0 &&
+            publications.map((publication: IEventInfo, ind: number) => (
+              <ProductionEvent
+                key={`publication_${ind}`}
+                event={publication}
+                label={
+                  publication.label !== null ? publication.label : 'Publication'
+                }
+                id="works-publication"
+              />
+            ))}
+          {production !== null && hasData(production) && (
+            <ProductionEvent
+              event={production}
+              label="Creation"
+              id="works-creation"
+            />
+          )}
+          {about.length > 0 && (
+            <DetailedLinkContainer
+              content={about}
+              label="About"
+              id="works-about-link-container"
+            />
+          )}
+          {represents.length > 0 && (
+            <DetailedLinkContainer
+              content={represents}
+              label="Depicts"
+              id="works-represents-link-container"
+            />
+          )}
+          <SubjectOf entity={entity} halLinkConfig={subjectOf} />
+          {notes !== null && (
+            <NotesContainer
+              notes={notes}
+              showBreakline
+              id="works-notes-container"
+            />
+          )}
+        </dl>
+      </Col>
     </StyledEntityPageSection>
   )
 }

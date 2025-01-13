@@ -8,13 +8,6 @@ import IEntity from '../../../types/data/IEntity'
 import ILinks from '../../../types/data/ILinks'
 import ITimeSpan from '../../../types/data/ITimeSpan'
 import {
-  collectionsIcon,
-  objectsIcon,
-  softwareElectronicMediaIcon,
-  textualWorksIcon,
-  visualWorksIcon,
-} from '../../../config/resources'
-import {
   IContentWithLanguage,
   INoteContent,
 } from '../../../types/IContentWithLanguage'
@@ -488,30 +481,6 @@ export const validateClassifiedAsIdMatches = (
     }
   }
   return false
-}
-
-/**
- * Returns the correct icon to display for the uri given and its alt text
- * @param {string} uri uri of the entity
- * @returns {Array<string>}
- */
-export const getIconFromUri = (uri: string): Array<string> => {
-  if (uri.includes('object')) {
-    return [objectsIcon, 'Physical Item']
-  }
-  if (uri.includes('digital')) {
-    return [softwareElectronicMediaIcon, 'Digital Item']
-  }
-  if (uri.includes('visual')) {
-    return [visualWorksIcon, 'Visual Item']
-  }
-  if (uri.includes('set')) {
-    return [collectionsIcon, 'Set']
-  }
-  if (uri.includes('text')) {
-    return [textualWorksIcon, 'Textual Work']
-  }
-  return []
 }
 
 /**

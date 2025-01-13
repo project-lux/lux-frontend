@@ -159,16 +159,18 @@ const ResultsPage: React.FC = () => {
         borderTopLeftRadius={tab === 'objects' && !isMobile ? '0px' : undefined}
         borderTopRightRadius={tab === 'events' && !isMobile ? '0px' : undefined}
       >
-        <ResponsiveCol xs={12} className="px-0">
-          <MobileNavigation
-            isSimpleSearch={hasSimpleSearchQuery}
-            urlParams={urlParams}
-            queryString={queryString}
-            search={search}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-        </ResponsiveCol>
+        {isMobile && (
+          <ResponsiveCol xs={12} className="px-0">
+            <MobileNavigation
+              isSimpleSearch={hasSimpleSearchQuery}
+              urlParams={urlParams}
+              queryString={queryString}
+              search={search}
+              criteria={queryString !== '' ? JSON.parse(queryString) : null}
+              isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            />
+          </ResponsiveCol>
+        )}
         {isSwitchToSimpleSearch && tab !== queryTab ? (
           <Col>
             <Alert

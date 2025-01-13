@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
-import styled from 'styled-components'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -29,14 +28,7 @@ import {
 } from '../../lib/util/params'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import theme from '../../styles/theme'
-
-const ResponsiveRow = styled(Row)`
-  display: none;
-
-  @media (min-width: ${theme.breakpoints.md}px) {
-    display: block;
-  }
-`
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 interface INavigation {
   urlParams: URLSearchParams
@@ -51,6 +43,9 @@ const Navigation: React.FC<INavigation> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
   )
@@ -64,12 +59,13 @@ const Navigation: React.FC<INavigation> = ({
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const { qt, facetRequest } = getUrlState(urlParams, tab)
-  const { searchType } = currentSearchState
+  const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
+  const searchType = isFromSearchLink
+    ? 'advanced'
+    : currentSearchState.searchType
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
-  // const isSwitchToSimpleSearch = urlParams.get('fromAdvanced') === 'true'
 
   // Simple search estimates request
   const params =
@@ -97,6 +93,9 @@ const Navigation: React.FC<INavigation> = ({
     data,
   )
 
+  // Get width of window
+  useResizeableWindow(setIsMobile)
+
   // If performing a simple search, check if the current tab has results
   if (simpleSearch && !isError) {
     if (estimates[tab] === 0) {
@@ -110,85 +109,89 @@ const Navigation: React.FC<INavigation> = ({
     }
   }
 
-  return (
-    <ResponsiveRow className="mx-1 mt-3">
-      <Col xs={12}>
-        <StyledNavbar data-testid="results-page-navbar pb-0">
-          <Nav className="w-100 h-100 justify-content-between flex-row">
-            {/* iterating over searchScopes to ensure the order the buttons are rendered */}
-            {Object.entries(searchScope).map(([key, value]) => (
-              <StyledNavLink
-                key={key}
-                to={`/view/results/${key}?${
-                  (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                  isSwitchToSimpleSearch
-                    ? `${urlParams.toString()}&qt=${tab}`
-                    : urlParams.toString()
-                }`}
-                className={({ isActive }) =>
-                  `link ${advancedSearch ? 'advanced' : 'simple'}${
-                    isActive ? ' active' : ''
-                  }`
-                }
-                onClick={() => {
-                  pushClientEvent(
-                    'Results Tab',
-                    'Selected',
-                    tabToLinkLabel[key],
-                  )
-                  if (advancedSearch && key !== tab) {
-                    dispatch(resetState())
-                    dispatch(resetHelpTextState())
+  if (!isMobile) {
+    return (
+      <Row className="mx-1 mt-3 d-block">
+        <Col xs={12}>
+          <StyledNavbar data-testid="results-page-navbar pb-0">
+            <Nav className="w-100 h-100 justify-content-between flex-row">
+              {/* iterating over searchScopes to ensure the order the buttons are rendered */}
+              {Object.entries(searchScope).map(([key, value]) => (
+                <StyledNavLink
+                  key={key}
+                  to={`/view/results/${key}?${
+                    (advancedSearch && !urlParams.has('qt') && key !== qt) ||
+                    isSwitchToSimpleSearch
+                      ? `${urlParams.toString()}&qt=${tab}`
+                      : urlParams.toString()
+                  }`}
+                  className={({ isActive }) =>
+                    `link ${advancedSearch ? 'advanced' : 'simple'}${
+                      isActive ? ' active' : ''
+                    }`
                   }
-                }}
-                style={{
-                  marginRight: key !== 'events' ? '10px' : '0px',
-                }}
-                id={key}
-                data-testid={`${key}-results-tab-button`}
-              >
-                <Row className="pe-3">
-                  <Col xs={12} sm={12} md={12} lg={9}>
-                    <Row className="d-flex float-start">
-                      <Col xs={12} className="linkTitle d-flex float-start">
-                        {tabToLinkLabel[key]}
-                      </Col>
-                      <Col xs={12} className="linkSubtext d-flex float-start">
-                        {(simpleSearch && isLoading) ||
-                        isFetching ||
-                        (advancedSearch && isLoading) ? (
-                          <LoadingSpinner size="sm" />
-                        ) : (
-                          estimates[key]
-                        )}{' '}
-                        results
-                      </Col>
-                    </Row>
-                  </Col>
-                  <Col
-                    xs={12}
-                    sm={12}
-                    md={12}
-                    lg={3}
-                    className="d-flex float-end"
-                  >
-                    <img
-                      className="float-end navIcon"
-                      src={getIcon(value)}
-                      alt="icon"
-                      aria-label="icon"
-                      height={45}
-                      width={45}
-                    />
-                  </Col>
-                </Row>
-              </StyledNavLink>
-            ))}
-          </Nav>
-        </StyledNavbar>
-      </Col>
-    </ResponsiveRow>
-  )
+                  onClick={() => {
+                    pushClientEvent(
+                      'Results Tab',
+                      'Selected',
+                      tabToLinkLabel[key],
+                    )
+                    if (advancedSearch && key !== tab) {
+                      dispatch(resetState())
+                      dispatch(resetHelpTextState())
+                    }
+                  }}
+                  style={{
+                    marginRight: key !== 'events' ? '10px' : '0px',
+                  }}
+                  id={key}
+                  data-testid={`${key}-results-tab-button`}
+                >
+                  <Row className="pe-3">
+                    <Col xs={12} sm={12} md={12} lg={9}>
+                      <Row className="d-flex float-start">
+                        <Col xs={12} className="linkTitle d-flex float-start">
+                          {tabToLinkLabel[key]}
+                        </Col>
+                        <Col xs={12} className="linkSubtext d-flex float-start">
+                          {(simpleSearch && isLoading) ||
+                          isFetching ||
+                          (advancedSearch && isLoading) ? (
+                            <LoadingSpinner size="sm" />
+                          ) : (
+                            estimates[key]
+                          )}{' '}
+                          results
+                        </Col>
+                      </Row>
+                    </Col>
+                    <Col
+                      xs={12}
+                      sm={12}
+                      md={12}
+                      lg={3}
+                      className="d-flex float-end"
+                    >
+                      <img
+                        className="float-end navIcon"
+                        src={getIcon(value)}
+                        alt="icon"
+                        aria-label="icon"
+                        height={45}
+                        width={45}
+                      />
+                    </Col>
+                  </Row>
+                </StyledNavLink>
+              ))}
+            </Nav>
+          </StyledNavbar>
+        </Col>
+      </Row>
+    )
+  }
+
+  return null
 }
 
 export default Navigation

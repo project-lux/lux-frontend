@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
+import theme from '../../styles/theme'
 
 import ApiText from './ApiText'
 
@@ -11,7 +12,7 @@ interface IAgents {
 
 const StyledSpan = styled.span`
   font-size: 24px;
-  color: #222222;
+  color: ${theme.color.black};
   letter-spacing: 0;
   text-align: left;
   font-weight: 500;

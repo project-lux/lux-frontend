@@ -21,7 +21,7 @@ const DimensionsContainer: React.FC<IDimensions> = ({ dimensions }) => (
           value={dimension.value}
           unit={dimension.unit}
         />
-        <StyledHr />
+        <StyledHr className="dimensionsHr" />
       </React.Fragment>
     ))}
   </div>

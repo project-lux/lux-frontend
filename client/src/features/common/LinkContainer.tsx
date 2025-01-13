@@ -1,8 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useLocation } from 'react-router-dom'
+import { Col } from 'react-bootstrap'
 
 import { getColumnWidth } from '../../lib/util/ui'
 import StyledDataRow from '../../styles/shared/DataRow'
 import StyledHr from '../../styles/shared/Hr'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { isObjectOrWork } from '../../lib/util/uri'
 
 import RecordLink from './RecordLink'
 import ExpandableList from './ExpandableList'
@@ -19,6 +24,7 @@ interface ILinkData {
   length?: number
   rowClassName?: string
   id?: string
+  hrClassName?: string
 }
 
 // Show an expandable list of links with a label in the left column
@@ -32,7 +38,12 @@ const LinkContainer: React.FC<ILinkData> = ({
   length,
   rowClassName = '',
   id = 'link-container',
+  hrClassName = '',
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  const { pathname } = useLocation()
   const [textValueWidth, textLabelWidth] = getColumnWidth(
     expandColumns || false,
   )
@@ -47,6 +58,8 @@ const LinkContainer: React.FC<ILinkData> = ({
     expandableListLength = length
   }
 
+  useResizeableWindow(setIsMobile)
+
   const formatRecordLinks = (links: Array<string>): JSX.Element[] =>
     links.map((link, ind) => <RecordLink key={`${link}_${ind}`} url={link} />)
 
@@ -60,6 +73,7 @@ const LinkContainer: React.FC<ILinkData> = ({
           className={textValueWidth}
           length={expandableListLength}
           itemSpacing={itemSpacing}
+          hrClassName={hrClassName}
         >
           <TextValue
             values={formatRecordLinks(content)}
@@ -67,7 +81,13 @@ const LinkContainer: React.FC<ILinkData> = ({
             itemSpacing={itemSpacing}
           />
         </ExpandableList>
-        {!expandColumns && <StyledHr />}
+        <Col xs={12}>
+          <StyledHr
+            className="linkContainerHr"
+            width="100%"
+            hidden={expandColumns || (isObjectOrWork(pathname) && isMobile)}
+          />
+        </Col>
       </StyledDataRow>
     )
   }

@@ -55,8 +55,10 @@ const MobileNavigation: React.FC<IProps> = ({
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const { qt, facetRequest } = getUrlState(urlParams, tab)
-  const { searchType } = currentSearchState
+  const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
+  const searchType = isFromSearchLink
+    ? 'advanced'
+    : currentSearchState.searchType
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined

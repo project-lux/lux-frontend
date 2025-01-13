@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React from 'react'
 
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
@@ -8,8 +7,11 @@ import NotesContainer from '../common/NotesContainer'
 import IEntity from '../../types/data/IEntity'
 import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
-import TextContainer from '../common/TextContainer'
 import ExternalLink from '../common/ExternalLink'
+import TextLabel from '../common/TextLabel'
+import ExpandableList from '../common/ExpandableList'
+import StyledDataRow from '../../styles/shared/DataRow'
+import ClassContainer from '../common/ClassContainer'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -56,9 +58,12 @@ const About: React.FC<IProps> = ({ data }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Person or Group Class">
-          <TextValue values={[entityClass]} />
-        </TextContainer>
+        <ClassContainer
+          label="Person or Group Class"
+          entityClass={entityClass}
+          className="personOrGroupClassHr"
+          hideBreaklineOnDesktop
+        />
         <Dates
           date={birthDate}
           place={birthPlace}
@@ -133,18 +138,21 @@ const About: React.FC<IProps> = ({ data }) => {
           <Activity data={professionalActivity} />
         )}
         {webPages.length > 0 && (
-          <TextContainer label="Web Pages">
-            <TextValue
-              values={webPages.map((url: string, ind: number) => (
-                <ExternalLink
-                  key={url}
-                  url={url}
-                  name={url}
-                  id={`person-group-web-page-${ind}`}
-                />
-              ))}
-            />
-          </TextContainer>
+          <StyledDataRow className="row">
+            <TextLabel label="Web Pages" className="col-md-12" />
+            <ExpandableList className="col-md-12">
+              <TextValue
+                values={webPages.map((url: string, ind: number) => (
+                  <ExternalLink
+                    key={url}
+                    url={url}
+                    name={url}
+                    id={`person-group-web-page-${ind}`}
+                  />
+                ))}
+              />
+            </ExpandableList>
+          </StyledDataRow>
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>

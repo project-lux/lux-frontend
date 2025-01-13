@@ -185,9 +185,28 @@ describe('EventParser', () => {
   })
 
   describe('getAgentIds', () => {
-    it('returns a uuid', () => {
+    it('returns an array of uuids', () => {
       const event = new EventParser(mockEventWithAllAgents)
       const agentIds = event.getAgentIds()
+      expect(agentIds).toStrictEqual([
+        `${config.env.dataApiBaseUrl}data/person/carried-out-agent`,
+        `${config.env.dataApiBaseUrl}data/person/part-agent-1`,
+        `${config.env.dataApiBaseUrl}data/person/attributed-by-agent-1`,
+        `${config.env.dataApiBaseUrl}data/person/attributed-by-agent-2`,
+      ])
+    })
+
+    it('returns empty array', () => {
+      const event = new EventParser(mockProductionEvent)
+      const agentIds = event.getAgentIds()
+      expect(agentIds.length).toBe(0)
+    })
+  })
+
+  describe('getAgentId', () => {
+    it('returns a uuid', () => {
+      const event = new EventParser(mockEventWithAllAgents)
+      const agentIds = event.getAgentId()
       expect(agentIds).toEqual(
         `${config.env.dataApiBaseUrl}data/person/carried-out-agent`,
       )
@@ -195,7 +214,7 @@ describe('EventParser', () => {
 
     it('returns null', () => {
       const event = new EventParser(mockProductionEvent)
-      const agentIds = event.getAgentIds()
+      const agentIds = event.getAgentId()
       expect(agentIds).toBeNull()
     })
   })

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
+import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
 
 import SearchResultRelatedList from './SearchResultRelatedList'
 
@@ -14,15 +14,6 @@ interface IProps {
   halLink: string
   index: number
 }
-
-const StyledAccordionButton = styled.button`
-  color: #222222;
-  letter-spacing: 0;
-  text-align: left;
-  line-height: 56px;
-  font-weight: 200;
-  font-size: 1.5rem;
-`
 
 /**
  * Renders the accordion item containing the accordion header and retrieves the HAL link data
@@ -96,8 +87,9 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
         >
           <div className="accordion-body">
             {/* Render list based on results list */}
-            {activeAccordion && isSuccess && data && (
+            {isSuccess && data && (
               <SearchResultRelatedList
+                activeAccordion={activeAccordion}
                 url={halLink}
                 scope={tab}
                 data={data}
@@ -107,7 +99,10 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
           </div>
         </div>
       </div>
-      <StyledHr className="w-100" color={theme.color.lightGray} />
+      <StyledHr
+        className="w-100 searchResultsAccordionItemHr"
+        color={theme.color.lightGray}
+      />
     </React.Fragment>
   )
 }

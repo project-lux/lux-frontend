@@ -2,7 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.41.0 - 2024-12-19
+## v1.42.0 - Unreleased
+
+### Added
+
+- Added Works Caused By to Event pages ([#324](https://github.com/project-lux/lux-frontend/issues/324)).
+- Added hidden HTML containing UUIDs in accordions ([#394](https://github.com/project-lux/lux-frontend/issues/394)).
+
+### Changed
+
+- Changed mobile layout of place page ([#432](https://github.com/project-lux/lux-frontend/issues/432)).
+- Changed mobile layout of person page ([#435](https://github.com/project-lux/lux-frontend/issues/435)).
+- Changed mobile layout of event page ([#436](https://github.com/project-lux/lux-frontend/issues/436)).
+- Changed mobile layout of concept page ([#437](https://github.com/project-lux/lux-frontend/issues/437)).
+- Changed mobile layout of works, sets, and objects pages ([#430](https://github.com/project-lux/lux-frontend/issues/430)).
+- Changed the object snippets agents list to expand beyong one ([#407](https://github.com/project-lux/lux-frontend/issues/407)).
+
+### Removed
+
+### Fixed
+
+- Fixed header alignment on mobile view ([#525](https://github.com/project-lux/lux-frontend/issues/525)).
+- Fixed search estimates to not make additional API calls ([#429](https://github.com/project-lux/lux-frontend/issues/429)).
+
+## v1.41.1 - 2024-12-19
 
 ### Fixed
 

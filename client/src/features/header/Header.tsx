@@ -35,6 +35,20 @@ const HeaderExpander = styled.div<{ displaySearch: boolean }>`
   padding-left: 1rem;
 `
 
+const StyledSpan = styled.span`
+  justify-content: start;
+  width: 100%;
+
+  @media (min-width: ${theme.breakpoints.md}px) and (max-width: ${theme
+      .breakpoints.lg}px) {
+    justify-content: space-between;
+  }
+
+  @media (min-width: ${theme.breakpoints.lg}px) {
+    width: auto;
+  }
+`
+
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
@@ -53,17 +67,19 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
         className="w-auto px-4 py-3"
       >
         <Container fluid className="mx-0 navbarContainer">
-          <NavLink
-            to="/"
-            className="navbar-brand titleHeading"
-            onClick={() => handlepushClientEvent('Landing Page')}
-          >
-            LUX: Yale Collections Discovery
-          </NavLink>
-          <Navbar.Toggle
-            aria-controls="responsive-navbar-nav"
-            className="show-menu"
-          />
+          <StyledSpan className="d-flex">
+            <NavLink
+              to="/"
+              className="navbar-brand titleHeading float-right"
+              onClick={() => handlepushClientEvent('Landing Page')}
+            >
+              LUX: Yale Collections Discovery
+            </NavLink>
+            <Navbar.Toggle
+              aria-controls="responsive-navbar-nav"
+              className="show-menu float-left"
+            />
+          </StyledSpan>
           <Navbar.Collapse
             id="responsive-navbar-nav"
             className="justify-content-end"

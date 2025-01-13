@@ -54,7 +54,7 @@ export const buildQuery = (
   return null
 }
 
-export const getFacetValues = (data: ISearchResults): Array<string> => {
+export const getFacetsOrderedItems = (data: ISearchResults): Array<string> => {
   if (data !== null) {
     const { orderedItems } = data
     return orderedItems === null || orderedItems.length === 0

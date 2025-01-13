@@ -5,12 +5,16 @@
 import React, { useState } from 'react'
 
 import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IList {
   children: any
   length?: number
   className?: string
   itemSpacing?: string
+  hideBreakline?: boolean
+  hrClassName?: string
 }
 
 /**
@@ -26,12 +30,22 @@ const ExpandableList: React.FC<IList> = ({
   length = 20,
   className = 'col-md-9',
   itemSpacing = 'single',
+  hrClassName = 'expandableListMobileHr',
 }) => {
   const [displayLength, setDisplayLength] = useState(length)
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
   const numChildren = children.props.values.length
 
   if (children.props.values.length < length || length === 0) {
-    return <div className={`${className} col-sm-12`}>{children}</div>
+    return (
+      <div className={`${className} col-sm-12`}>
+        {children}
+        <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
+      </div>
+    )
   }
 
   const rowStyle = {
@@ -40,6 +54,8 @@ const ExpandableList: React.FC<IList> = ({
         ? theme.spacing.verticalItemDoubleSpacing
         : theme.spacing.verticalItemSingleSpacing,
   }
+
+  useResizeableWindow(setIsMobile)
 
   return (
     <div className={`${className} col-sm-12`} data-testid="expandable-list">
@@ -57,7 +73,7 @@ const ExpandableList: React.FC<IList> = ({
       {displayLength < numChildren && (
         <button
           type="button"
-          className="btn btn-link show-more"
+          className={`btn btn-link show-more ${isMobile ? 'ps-0' : ''}`}
           onClick={() => setDisplayLength(numChildren)}
           data-testid="expandable-list-show-all"
         >
@@ -67,13 +83,14 @@ const ExpandableList: React.FC<IList> = ({
       {displayLength > length && (
         <button
           type="button"
-          className="btn btn-link show-less ps-0"
+          className={`btn btn-link show-less ${isMobile ? 'ps-0' : ''}`}
           onClick={() => setDisplayLength(length)}
           data-testid="expandable-list-show-less"
         >
           Show Less
         </button>
       )}
+      <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
     </div>
   )
 }

@@ -10,10 +10,14 @@ interface IProps {
 export const StyledTextValue = styled.div<IProps>`
   dd {
     display: ${(props) => props.displayType};
-    margin-bottom: ${(props) =>
-      props.itemSpacing === 'double'
-        ? theme.spacing.verticalItemDoubleSpacing
-        : theme.spacing.verticalItemSingleSpacing};
     overflow-wrap: break-word;
+    margin-bottom: ${theme.spacing.verticalItemSingleSpacing};
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      margin-bottom: ${(props) =>
+        props.itemSpacing === 'double'
+          ? theme.spacing.verticalItemDoubleSpacing
+          : theme.spacing.verticalItemSingleSpacing};
+    }
   }
 `

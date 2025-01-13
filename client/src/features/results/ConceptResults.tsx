@@ -69,47 +69,49 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
           />
         </Col>
       )}
-      <Row className="mt-3">
-        {!isMobile && (
-          <StyledResultsCol
-            xs={12}
-            sm={12}
-            md={3}
-            lg={3}
-            className="desktop-facets-col"
-          >
-            <FacetContainer />
-          </StyledResultsCol>
-        )}
-        <Col xs={12} sm={12} md={12} lg={9}>
-          {!isFetching && isSuccess && data && (
-            <React.Fragment>
-              {resultsList(data.orderedItems)}
-              {estimate >= 20 && (
-                <Paginate
-                  estimate={estimate}
-                  currentPage={parseInt(page, 10)}
-                  pageSize={20}
+      <Col xs={12}>
+        <Row className="mt-3">
+          {!isMobile && (
+            <StyledResultsCol
+              xs={12}
+              sm={12}
+              md={3}
+              lg={3}
+              className="desktop-facets-col"
+            >
+              <FacetContainer />
+            </StyledResultsCol>
+          )}
+          <Col xs={12} sm={12} md={9} lg={9}>
+            {!isFetching && isSuccess && data && (
+              <React.Fragment>
+                {resultsList(data.orderedItems)}
+                {estimate >= 20 && (
+                  <Paginate
+                    estimate={estimate}
+                    currentPage={parseInt(page, 10)}
+                    pageSize={20}
+                  />
+                )}
+              </React.Fragment>
+            )}
+            {!isFetching &&
+              !isLoading &&
+              (isError ||
+                (isSuccess && data && data.orderedItems.length === 0)) && (
+                <NoResultsAlert
+                  message={errorMessage}
+                  variant={
+                    isSuccess && data && data.orderedItems.length === 0
+                      ? 'danger'
+                      : 'warning'
+                  }
                 />
               )}
-            </React.Fragment>
-          )}
-          {!isFetching &&
-            !isLoading &&
-            (isError ||
-              (isSuccess && data && data.orderedItems.length === 0)) && (
-              <NoResultsAlert
-                message={errorMessage}
-                variant={
-                  isSuccess && data && data.orderedItems.length === 0
-                    ? 'danger'
-                    : 'warning'
-                }
-              />
-            )}
-          {(isFetching || isLoading) && <PageLoading />}
-        </Col>
-      </Row>
+            {(isFetching || isLoading) && <PageLoading />}
+          </Col>
+        </Row>
+      </Col>
     </StyledEntityResultsRow>
   )
 }

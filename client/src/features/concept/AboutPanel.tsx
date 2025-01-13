@@ -5,8 +5,7 @@ import NotesContainer from '../common/NotesContainer'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
 import IEntity from '../../types/data/IEntity'
 import LinkContainer from '../common/LinkContainer'
-import TextContainer from '../common/TextContainer'
-import TextValue from '../common/TextValue'
+import ClassContainer from '../common/ClassContainer'
 
 interface IProps {
   entity: IEntity
@@ -34,9 +33,12 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
-        <TextContainer label="Concept Class">
-          <TextValue values={[entityClass]} />
-        </TextContainer>
+        <ClassContainer
+          label="Concept Class"
+          entityClass={entityClass}
+          className="conceptClassHr"
+          hideBreaklineOnDesktop
+        />
         {types.length > 0 && (
           <LinkContainer
             content={types}

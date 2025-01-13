@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
 
 import StyledSup from '../../styles/features/common/Sup'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import RecordLink from './RecordLink'
 
@@ -16,14 +18,29 @@ const LanguageSuperscript: React.FC<IProps> = ({
   className = '',
 }) => {
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
 
   if (recordLinkHas404) {
     return null
   }
 
+  useResizeableWindow(setIsMobile)
+
+  const link = <RecordLink url={language} returns404={setRecordLinkHas404} />
+
+  if (isMobile) {
+    return (
+      <span className={className} data-testid={`${id}-language-superscript`}>
+        ({link})
+      </span>
+    )
+  }
+
   return (
     <StyledSup className={className} data-testid={`${id}-language-superscript`}>
-      (<RecordLink url={language} returns404={setRecordLinkHas404} />)
+      ({link})
     </StyledSup>
   )
 }

@@ -25,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
 
   h1 {
     font-size: 3.1em;
-    color: #222222;
+    color:  ${theme.color.black};
     letter-spacing: -2px;
     font-size: ${theme.font.mobile.h1.size};
     line-height: ${theme.font.mobile.h1.lineHeight};
@@ -39,7 +39,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    color: #222222;
+    color:  ${theme.color.black};
     letter-spacing: 0;
     text-align: left;
     font-size: ${theme.font.mobile.h2.size};
@@ -54,7 +54,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h3 {
-    color: #222222;
+    color:  ${theme.color.black};
     letter-spacing: 0;
     text-align: left;
     font-size: ${theme.font.mobile.h3.size};
@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h4 {
-    color: #222222;
+    color:  ${theme.color.black};
     letter-spacing: 0;
     text-align: left;
     font-size: ${theme.font.mobile.h4.size};

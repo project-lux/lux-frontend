@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { getColumnWidth } from '../../lib/util/ui'
 import StyledHr from '../../styles/shared/Hr'
@@ -6,6 +6,8 @@ import {
   IContentWithLanguage,
   INoteContent,
 } from '../../types/IContentWithLanguage'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import ExpandableList from './ExpandableList'
 import TextLabel from './TextLabel'
@@ -18,6 +20,7 @@ interface INotes {
   showBreakline?: boolean
   expandColumns?: boolean
   labelTooltipText?: string
+  hrClassName?: string
 }
 
 const NotesContainer: React.FC<INotes> = ({
@@ -26,7 +29,11 @@ const NotesContainer: React.FC<INotes> = ({
   showBreakline,
   expandColumns = false,
   labelTooltipText = '',
+  hrClassName = '',
 }) => {
+  const [showHr, setShowHr] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const [textValueWidth, textLabelWidth] = getColumnWidth(expandColumns)
 
   const formatTextNote = (noteData: Array<INoteContent>): JSX.Element[] =>
@@ -34,6 +41,8 @@ const NotesContainer: React.FC<INotes> = ({
     noteData.map((note, ind) => <TextNote key={ind} content={note.content} id={`${id}-${ind}`} language={note.language} htmlContent={note._content_html} />)
 
   const length = 20
+
+  useResizeableWindow(setShowHr)
 
   return (
     <React.Fragment>
@@ -47,7 +56,10 @@ const NotesContainer: React.FC<INotes> = ({
               label={noteLabel}
               tooltipText={labelTooltipText}
             />
-            <ExpandableList className={textValueWidth}>
+            <ExpandableList
+              className={textValueWidth}
+              hrClassName={hrClassName}
+            >
               <TextValue
                 values={formattedNotes}
                 className={
@@ -55,7 +67,7 @@ const NotesContainer: React.FC<INotes> = ({
                 }
               />
             </ExpandableList>
-            {showBreakline && <StyledHr />}
+            {showBreakline && <StyledHr className="notesHr" hidden={showHr} />}
           </div>
         )
       })}

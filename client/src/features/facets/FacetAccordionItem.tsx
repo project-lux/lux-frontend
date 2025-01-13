@@ -180,7 +180,11 @@ const FacetAccordionItem: React.FC<IProps> = ({
               )}
             </div>
           </div>
-          <StyledHr color={theme.color.lightGray} width="100%" />
+          <StyledHr
+            color={theme.color.lightGray}
+            width="100%"
+            className="facetAccordionItemHr"
+          />
         </div>
       )
     }

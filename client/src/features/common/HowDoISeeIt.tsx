@@ -17,7 +17,7 @@ import {
   useGetCollectionQuery,
   useGetSearchRelationshipQuery,
 } from '../../redux/api/ml_api'
-import { getFacetValues } from '../../lib/facets/helper'
+import { getFacetsOrderedItems } from '../../lib/facets/helper'
 
 import ExternalLink from './ExternalLink'
 import NotesContainer from './NotesContainer'
@@ -55,7 +55,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
       { uri: unitHalLink! },
       { skip: unitHalLink === null },
     )
-  const unitUris = unitsIsSuccess && units ? getFacetValues(units) : []
+  const unitUris = unitsIsSuccess && units ? getFacetsOrderedItems(units) : []
 
   if (searchTypes.objects.includes(entity.json.type)) {
     const object = new ObjectParser(data)
@@ -76,9 +76,9 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
 
   return (
     <StyledDataRow className="row" data-testid="how-do-i-see-it">
-      <div className="col-12">
+      <Col xs={12}>
         <h2>How do I see it?</h2>
-      </div>
+      </Col>
       {accessStatement.length > 0 && (
         <StyledDl data-testid="access-statement-dl mb-0">
           <NotesContainer
@@ -86,6 +86,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
             id="access-statement"
             expandColumns
             labelTooltipText={access}
+            hrClassName="accessStatementHr"
           />
         </StyledDl>
       )}
@@ -124,6 +125,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
             expandColumns
             itemSpacing="single"
             id="collection-container"
+            hrClassName="collectionHr"
           />
         )}
         {unitUris.length > 0 && (
@@ -133,6 +135,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
             expandColumns
             itemSpacing="single"
             id="campus-division-container"
+            hrClassName="responsibleUnitHr"
           />
         )}
       </dl>
@@ -156,7 +159,9 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
           }
           return null
         })}
-      <StyledHr />
+      <Col xs={12}>
+        <StyledHr className="howDoISeeItHr" width="100%" />
+      </Col>
     </StyledDataRow>
   )
 }

@@ -71,7 +71,7 @@ const ListContainer: React.FC<IProps> = ({
               {children}
             </li>
           )}
-          <StyledHr width="100%" className="my-3" />
+          <StyledHr width="100%" className="my-3 hierarchyListContainerHr" />
           {descendents.hasOwnProperty('orderedItems') &&
             descendents.orderedItems.length > 0 && (
               <li className="childrenLi">

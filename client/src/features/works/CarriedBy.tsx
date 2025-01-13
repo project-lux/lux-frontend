@@ -5,6 +5,7 @@ import WorkParser from '../../lib/parse/data/WorkParser'
 import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectsContainer from '../common/ObjectsContainer'
+import StyledObjectWorkHeader from '../../styles/shared/ObjectWorkHeader'
 
 const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const work = new WorkParser(entity)
@@ -18,7 +19,7 @@ const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
 
   return (
     <StyledEntityPageSection data-testid="carried-by-container">
-      <h2>{title}</h2>
+      <StyledObjectWorkHeader>{title}</StyledObjectWorkHeader>
       <ObjectsContainer uri={workCarriedByQuery} tab="objects" title={title} />
     </StyledEntityPageSection>
   )

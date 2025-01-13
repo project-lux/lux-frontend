@@ -6,22 +6,22 @@ import StyledSearchLink from '../../styles/features/common/ObjectsContainerLinkR
 import StyledHr from '../../styles/shared/Hr'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import RecordLink from '../common/RecordLink'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import theme from '../../styles/theme'
 
 import SearchResultsLink from './SearchResultsLink'
 
 interface IProps {
+  activeAccordion: boolean
   url: string
   data: ISearchResults
   title: string
   scope?: string
 }
 
-const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
-  uri,
-  index,
-}) => {
+const QueryRelationsListRow: React.FC<{
+  activeAccordion: boolean
+  uri: string
+  index: number
+}> = ({ activeAccordion, uri, index }) => {
   const [recordLinkHas404, setRecordLinkHas404] = useState<boolean>(false)
 
   if (recordLinkHas404) {
@@ -39,6 +39,7 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
       >
         <RecordLink
           url={uri}
+          name={!activeAccordion ? ' ' : undefined}
           returns404={setRecordLinkHas404}
           linkCategory="Accordion"
         />
@@ -48,29 +49,35 @@ const QueryRelationsListRow: React.FC<{ uri: string; index: number }> = ({
 }
 
 const SearchResultRelatedList: React.FC<IProps> = ({
+  activeAccordion,
   url,
   scope,
   data,
   title,
 }) => {
-  const [showHr, setShowHr] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-
   const recordLinks = (orderedItems: Array<IOrderedItems>): any =>
     orderedItems.map((item, ind: number) => {
       const { id } = item
-      return <QueryRelationsListRow key={id} uri={id} index={ind} />
+      return (
+        <QueryRelationsListRow
+          key={id}
+          activeAccordion={activeAccordion}
+          uri={id}
+          index={ind}
+        />
+      )
     })
 
   const { orderedItems } = data
 
-  useResizeableWindow(setShowHr)
-
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
-      {showHr && <StyledHr width="100%" className="mt-3" />}
+      <StyledHr
+        width="100%"
+        className="mt-3 searchResultRelatedListHr"
+        hiddenOnDesktop
+      />
       <StyledSearchLink className="row py-2 text-start">
         <Col xs={12} className="mt-1">
           <SearchResultsLink

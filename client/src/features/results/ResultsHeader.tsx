@@ -187,7 +187,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           />
         )}
       </Row>
-      <StyledHr width="100%" className="my-2" />
+      <StyledHr width="100%" className="my-2 resultsHeaderHr" />
     </React.Fragment>
   )
 }
