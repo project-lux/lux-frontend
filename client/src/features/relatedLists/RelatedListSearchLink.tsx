@@ -30,6 +30,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
   }`
 
   const searchQ = convertToANDQuery(JSON.stringify(criteria))
+
   return (
     <Link
       to={{

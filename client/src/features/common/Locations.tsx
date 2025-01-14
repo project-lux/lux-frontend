@@ -62,7 +62,6 @@ const Locations: React.FC<ILocationsProps> = ({ halLink }) => {
           </div> */}
         </div>
         <React.Fragment>
-          {/* {view === 'List' ? ( */}
           <div className="row">
             <div className="col-12">
               {data !== null && (

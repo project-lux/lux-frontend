@@ -78,6 +78,20 @@ const PrimaryButton = styled(Button)`
       text-decoration: none;
     }
   }
+
+  &.viewMapButton {
+    padding: 8px;
+    border: none;
+    margin-bottom: 0.5rem;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      border-radius: 10px;
+      border-color: ${theme.color.primary.teal};
+      font-size: 16px;
+      font-weight: ${theme.font.weight.bold};
+      text-decoration: none;
+    }
+  }
 `
 
 export default PrimaryButton

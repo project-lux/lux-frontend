@@ -7,6 +7,7 @@ import {
   relatedAccordions,
   relatedObjectsAndWorks,
   timelines,
+  locations,
 } from '../../config/personAndGroupSearchTags'
 import { ErrorFallback } from '../error/ErrorFallback'
 import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
@@ -20,6 +21,7 @@ import ImageThumbnail from '../common/ImageThumbnail'
 import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IAgent from '../../types/data/IAgent'
+import MapContainer from '../map/Container'
 
 import About from './About'
 
@@ -55,6 +57,12 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
               searchTags={timelines}
               providedHalLinks={agent.json._links}
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            {data._links &&
+              Object.keys(data._links).includes(locations.searchTag) && (
+                <MapContainer halLink={data._links[locations.searchTag]} />
+              )}
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <AccordionContainer

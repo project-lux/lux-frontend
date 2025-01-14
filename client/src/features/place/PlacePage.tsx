@@ -75,9 +75,10 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
                 ) => Array<string>
               }
             />
-            {/* {Object.keys(data._links).includes(locations.searchTag) && (
-                  <Locations halLink={data._links[locations.searchTag]} />
-                )} */}
+            {/* {data._links &&
+              Object.keys(data._links).includes(locations.searchTag) && (
+                <MapContainer halLink={data._links[locations.searchTag]} />
+              )} */}
             <Row className="my-3">
               <Col xs={12}>
                 <AccordionContainer
