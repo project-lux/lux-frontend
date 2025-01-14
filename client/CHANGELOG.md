@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed advanced search Show Less Rows to Show Fewer Rows ([#485](https://github.com/project-lux/lux-frontend/issues/485)).
+
 ### Removed
 
 ### Fixed
