@@ -10,12 +10,13 @@
   margin: 0 auto;
 }
 
-#uv .zoomIn {
+#uv .zoomIn.viewportNavButton {
   display: inline-block !important;
   cursor: pointer !important;
   background-image: url('img/zoom_in.png') !important;
   width: 28px;
   height: 28px;
+  margin-right: 2px !important;
 }
 
 #uv .zoomIn img {
@@ -28,12 +29,15 @@
   outline-offset: -2px;
 }
 
-#uv .zoomOut {
+#uv .zoomOut.viewportNavButton {
   display: inline-block !important;
   cursor: pointer !important;
   background-image: url('img/zoom_out.png') !important;
   width: 28px;
   height: 28px;
+  border: solid 1px white;
+  margin-right: 2px !important;
+  margin-left: 2px !important;
 }
 
 #uv .zoomOut:focus {
@@ -46,12 +50,98 @@
   display: none;
 }
 
-#uv .rotate {
+
+@media screen and (max-width: 768px) {
+  #uv .imageBtn.zoomOut {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.zoomOut i {
+    border-radius: 50%;
+  }
+
+  #uv .imageBtn.zoomIn {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.zoomIn i {
+    border-radius: 50%;
+  }
+
+  #uv .imageBtn.rotate {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.rotate i {
+    border-radius: 50%;
+  }
+
+  #uv .imageBtn.download {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.download i {
+    border-radius: 50%;
+  }
+
+  #uv .imageBtn.fullScreen {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.fullScreen i {
+    border-radius: 50%;
+  }
+
+  #uv .imageBtn.moreInfo {
+    display: inline-block;
+    border: solid 1px white;
+    border-radius: 50%;
+    background-color: black;
+  }
+
+  #uv .imageBtn.moreInfo i {
+    border-radius: 50%;
+  }
+
+  #uv .attribution {
+    display: none !important;
+  }
+
+  #uv .zoomIn.viewportNavButton {
+    display: none !important;
+  }
+
+  #uv .zoomOut.viewportNavButton {
+    display: none !important;
+  }
+
+  #uv div.rotate.viewportNavButton {
+    display: none !important;
+  }
+}
+
+#uv .rotate.viewportNavButton {
   display: inline-block !important;
   cursor: pointer !important;
   background-image: url('img/rotate_right.png') !important;
   width: 28px;
   height: 28px;
+  margin-left: 2px !important;
 }
 
 #uv .rotate img {
