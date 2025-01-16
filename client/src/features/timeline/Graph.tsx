@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React, { useState, ReactElement } from 'react'
 import {
   BarChart,
   Bar,
@@ -91,6 +91,20 @@ const Graph: React.FC<IProps> = ({
     <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
   )
 
+  const getShape = (props: any): ReactElement<any, any> => {
+    const { fill, x, y, width, height } = props
+
+    return (
+      <rect
+        fill={fill}
+        x={x}
+        y={y}
+        width={width}
+        height={height ? height - 2 : 0}
+      />
+    )
+  }
+
   return (
     <div
       className="highlight-bar-charts"
@@ -132,6 +146,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="itemEncounteredDate.totalItems"
@@ -141,6 +156,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="workCreationDate.totalItems"
@@ -148,6 +164,7 @@ const Graph: React.FC<IProps> = ({
             fill={theme.color.graphs.created}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="workPublicationDate.totalItems"
@@ -157,6 +174,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Brush
             dataKey="year"
