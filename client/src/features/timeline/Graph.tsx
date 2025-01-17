@@ -87,7 +87,7 @@ const Graph: React.FC<IProps> = ({
 
   useResizeableWindow(setIsMobile)
 
-  const renderColorfulLegendText = (value: string): any => (
+  const renderLegendText = (value: string): any => (
     <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
   )
 
@@ -122,7 +122,7 @@ const Graph: React.FC<IProps> = ({
           />
           <Legend
             layout={isMobile ? 'vertical' : 'horizontal'}
-            formatter={renderColorfulLegendText}
+            formatter={renderLegendText}
           />
           <Bar
             dataKey="itemProductionDate.totalItems"
