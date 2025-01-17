@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
 import {
   BarChart,
   Bar,
@@ -19,6 +19,7 @@ import {
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import CustomTooltip from './CustomTooltip'
 
@@ -63,6 +64,9 @@ const Graph: React.FC<IProps> = ({
   startIndex,
   endIndex,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
     const barData = timelineData.hasOwnProperty(year)
       ? timelineData[year]
@@ -80,6 +84,12 @@ const Graph: React.FC<IProps> = ({
     ['workCreationDate', 'Works Created'],
     ['workPublicationDate', 'Works Published'],
   ])
+
+  useResizeableWindow(setIsMobile)
+
+  const renderColorfulLegendText = (value: string): any => (
+    <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
+  )
 
   return (
     <div
@@ -110,7 +120,10 @@ const Graph: React.FC<IProps> = ({
               />
             }
           />
-          <Legend />
+          <Legend
+            layout={isMobile ? 'vertical' : 'horizontal'}
+            formatter={renderColorfulLegendText}
+          />
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
