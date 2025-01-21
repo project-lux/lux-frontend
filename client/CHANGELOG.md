@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed advanced search Show Less Rows to Show Fewer Rows ([#485](https://github.com/project-lux/lux-frontend/issues/485)).
+- Changed the timeline legend text color ([#486](https://github.com/project-lux/lux-frontend/issues/486)).
+- Changed the timeline legend to stack vertically on mobile view ([#533](https://github.com/project-lux/lux-frontend/issues/533)).
 
 ### Removed
 
