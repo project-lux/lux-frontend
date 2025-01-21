@@ -1,4 +1,5 @@
 import { vi } from 'vitest'
+import { cleanup } from '@testing-library/react'
 
 import { advancedSearch } from '../../../../config/advancedSearch/advancedSearch'
 import { QueryOption } from '../../../../config/advancedSearch/options'
@@ -6,6 +7,7 @@ import config from '../../../../config/config'
 import {
   addChildHelper,
   addFieldSelectionHelper,
+  addOptions,
   convertAqSearchParam,
   findObjectInState,
   getExistingValue,
@@ -436,5 +438,43 @@ describe('stateManager functions', () => {
         ],
       })
     })
+  })
+
+  describe('addOptions', () => {
+    const options = [
+      'case-insensitive',
+      'diacritic-insensitive',
+      'punctuation-insensitive',
+      'whitespace-insensitive',
+      'stemmed',
+      'wildcarded',
+    ]
+
+    it('returns the object with default options', () => {
+      expect(addOptions({ _state: 1, name: '' }, 'item', 'name')).toEqual({
+        _state: 1,
+        name: '',
+        _options: options,
+      })
+    })
+
+    it('returns the object with currently selected options', () => {
+      const mockOptions = [
+        'case-sensitive',
+        'diacritic-insensitive',
+        'punctuation-sensitive',
+        'whitespace-sensitive',
+        'stemmed',
+        'wildcarded',
+      ]
+      const mockObject = {
+        _state: 2,
+        name: 'a',
+        _options: mockOptions,
+      }
+      expect(addOptions(mockObject, 'item', 'name')).toEqual(mockObject)
+    })
+
+    afterEach(cleanup)
   })
 })

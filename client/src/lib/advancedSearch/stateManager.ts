@@ -339,3 +339,34 @@ export const convertAqSearchParam = (
 
   return jsonAqParamValue
 }
+
+/**
+ * Adds _options to the text field being edited
+ * @param objectToUpdate object; object to update
+ * @param scope string; the scope of the field
+ * @param field string; the field being updated
+ * @returns IAdvancedSearchState
+ */
+export const addOptions = (
+  objectToUpdate: IAdvancedSearchState,
+  scope: string,
+  field: string,
+): IAdvancedSearchState => {
+  if (!Object.keys(objectToUpdate).includes('_options')) {
+    let options = getDefaultSearchOptions(scope, field)
+    if (options !== null) {
+      if (options.includes('exact')) {
+        options = [
+          'case-sensitive',
+          'diacritic-sensitive',
+          'punctuation-sensitive',
+          'whitespace-sensitive',
+          'unstemmed',
+          'unwildcarded',
+        ]
+      }
+      objectToUpdate._options = options
+    }
+  }
+  return objectToUpdate
+}
