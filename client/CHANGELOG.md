@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added advanced search warning to all non-active tabs ([#456](https://github.com/project-lux/lux-frontend/issues/456)).
+
 ### Changed
 
 - Changed advanced search Show Less Rows to Show Fewer Rows ([#485](https://github.com/project-lux/lux-frontend/issues/485)).

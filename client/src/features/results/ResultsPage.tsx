@@ -122,10 +122,7 @@ const ResultsPage: React.FC = () => {
     },
     {
       skip:
-        searchStringWithFacets === '' ||
-        fromLandingPage ||
-        tab !== queryTab ||
-        (isSwitchToSimpleSearch && tab !== queryTab),
+        searchStringWithFacets === '' || fromLandingPage || tab !== queryTab,
     },
   )
 
@@ -171,11 +168,11 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {isSwitchToSimpleSearch && tab !== queryTab ? (
+        {tab !== queryTab ? (
           <Col>
             <Alert
               variant="info"
-              className="mt-2"
+              className="mt-3"
               data-testid="results-info-alert"
             >
               Please enter a new search to begin searching for{' '}
