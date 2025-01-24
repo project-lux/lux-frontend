@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed advanced search gear options state management ([#403](https://github.com/project-lux/lux-frontend/issues/403)).
+
 ## v1.42.0 - 2025-1-13
 
 ### Added
