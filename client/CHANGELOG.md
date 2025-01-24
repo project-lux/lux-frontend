@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed horizontal breakline on accordions if there are no further entities to render ([#527](https://github.com/project-lux/lux-frontend/issues/527)).
+
 ### Fixed
 
 - Fixed advanced search gear options state management ([#403](https://github.com/project-lux/lux-frontend/issues/403)).

@@ -80,11 +80,13 @@ const FacetsRelatedList: React.FC<IProps> = ({
             />
           )
         })}
-        <StyledHr
-          width="100%"
-          className="mt-3 facetsRelatedListHr"
-          hiddenOnDesktop
-        />
+        {data.total > 20 && (
+          <StyledHr
+            width="100%"
+            className="mt-3 facetsRelatedListHr"
+            hiddenOnDesktop
+          />
+        )}
         {page !== lastPage && (
           <button
             type="button"
