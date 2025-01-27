@@ -153,7 +153,7 @@ const AdvancedSearchContainer: React.FC = () => {
                         } advanced search rows`}
                         data-testid="advanced-search-rows-button"
                       >
-                        Show {showAllRows ? 'All' : 'Less'} Rows
+                        Show {showAllRows ? 'All' : 'Fewer'} Rows
                       </StyledAddButton>
                     </div>
                   )}

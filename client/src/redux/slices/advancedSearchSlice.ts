@@ -11,11 +11,9 @@ import {
   findObjectInState,
   getUpdatedOptions,
   removeObjectFromState,
+  addOptions,
 } from '../../lib/advancedSearch/stateManager'
-import {
-  getDefaultSearchOptions,
-  QueryOption,
-} from '../../config/advancedSearch/options'
+import { QueryOption } from '../../config/advancedSearch/options'
 import {
   getProperty,
   isGroup,
@@ -115,20 +113,8 @@ export const advancedSearchSlice = createSlice({
       const objectInState = findObjectInState(state, stateId)
       if (objectInState !== null) {
         objectInState[field] = value
-        let options = getDefaultSearchOptions(scope, field)
-        if (options !== null) {
-          if (options.includes('exact')) {
-            options = [
-              'case-sensitive',
-              'diacritic-sensitive',
-              'punctuation-sensitive',
-              'whitespace-sensitive',
-              'unstemmed',
-              'unwildcarded',
-            ]
-          }
-          objectInState._options = options
-        }
+        // if the current entity doesn't have an _options
+        addOptions(objectInState, scope, field)
       }
     },
     // New

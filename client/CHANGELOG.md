@@ -2,7 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.42.0 - Unreleased
+## v1.43.0 - Unreleased
+
+### Added
+
+- Added advanced search warning to all non-active tabs ([#456](https://github.com/project-lux/lux-frontend/issues/456)).
+
+### Changed
+
+- Changed advanced search Show Less Rows to Show Fewer Rows ([#485](https://github.com/project-lux/lux-frontend/issues/485)).
+- Changed the timeline legend text color ([#486](https://github.com/project-lux/lux-frontend/issues/486)).
+- Changed the timeline legend to stack vertically on mobile view ([#533](https://github.com/project-lux/lux-frontend/issues/533)).
+
+### Removed
+
+- Removed horizontal breakline on accordions if there are no further entities to render ([#527](https://github.com/project-lux/lux-frontend/issues/527)).
+
+### Fixed
+
+- Fixed advanced search gear options state management ([#403](https://github.com/project-lux/lux-frontend/issues/403)).
+
+## v1.42.0 - 2025-1-13
 
 ### Added
 

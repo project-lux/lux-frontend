@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState, ReactElement } from 'react'
 import {
   BarChart,
   Bar,
@@ -19,6 +19,7 @@ import {
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import CustomTooltip from './CustomTooltip'
 
@@ -63,6 +64,9 @@ const Graph: React.FC<IProps> = ({
   startIndex,
   endIndex,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
   const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
     const barData = timelineData.hasOwnProperty(year)
       ? timelineData[year]
@@ -80,6 +84,26 @@ const Graph: React.FC<IProps> = ({
     ['workCreationDate', 'Works Created'],
     ['workPublicationDate', 'Works Published'],
   ])
+
+  useResizeableWindow(setIsMobile)
+
+  const renderLegendText = (value: string): any => (
+    <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
+  )
+
+  const getShape = (props: any): ReactElement<any, any> => {
+    const { fill, x, y, width, height } = props
+
+    return (
+      <rect
+        fill={fill}
+        x={x}
+        y={y}
+        width={width}
+        height={height ? height - 2 : 0}
+      />
+    )
+  }
 
   return (
     <div
@@ -110,7 +134,10 @@ const Graph: React.FC<IProps> = ({
               />
             }
           />
-          <Legend />
+          <Legend
+            layout={isMobile ? 'vertical' : 'horizontal'}
+            formatter={renderLegendText}
+          />
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
@@ -119,6 +146,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="itemEncounteredDate.totalItems"
@@ -128,6 +156,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="workCreationDate.totalItems"
@@ -135,6 +164,7 @@ const Graph: React.FC<IProps> = ({
             fill={theme.color.graphs.created}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Bar
             dataKey="workPublicationDate.totalItems"
@@ -144,6 +174,7 @@ const Graph: React.FC<IProps> = ({
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
             yAxisId="total"
+            shape={(p: any) => getShape(p)}
           />
           <Brush
             dataKey="year"
