@@ -2,69 +2,32 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledCheckbox from '../../styles/features/facets/Checkbox'
-import { IAdvancedSearchConfig } from '../../config/advancedSearch/advancedSearch'
 
 const relationships = {
   'Is the Place of Creation of Works Created By this Person': {
-    scope: 'work',
+    scope: 'place',
     query: JSON.stringify({
-      AND: [
-        {
-          createdAt: {
-            id: 'https://lux.collections.yale.edu/data/place/82be5302-2c55-4921-a3a5-9bdb9fc96342',
-          },
+      createdHere: {
+        createdBy: {
+          id: 'https://lux.collections.yale.edu/data/person/95195aa1-7d50-40a3-906b-848d73556df6',
         },
-        {
-          createdBy: {
-            id: 'https://lux.collections.yale.edu/data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba',
-          },
-        },
-      ],
+      },
     }),
   },
   'Produced Here this Person': {
-    scope: 'item',
+    scope: 'place',
     query: JSON.stringify({
-      AND: [
-        {
-          OR: [
-            {
-              AND: [
-                {
-                  producedAt: {
-                    id: 'https://lux.collections.yale.edu/data/place/f14804ea-6bd1-4bfb-9394-6f5428c83c34',
-                  },
-                },
-                {
-                  producedBy: {
-                    id: 'https://lux.collections.yale.edu/data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba',
-                  },
-                },
-              ],
-            },
-            {
-              AND: [
-                {
-                  producedAt: {
-                    id: 'https://lux.collections.yale.edu/data/place/f14804ea-6bd1-4bfb-9394-6f5428c83c34',
-                  },
-                },
-                {
-                  productionInfluencedBy: {
-                    id: 'https://lux.collections.yale.edu/data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba',
-                  },
-                },
-              ],
-            },
-          ],
+      producedHere: {
+        producedBy: {
+          id: 'https://lux.collections.yale.edu/data/person/95195aa1-7d50-40a3-906b-848d73556df6',
         },
-      ],
+      },
     }),
   },
 }
 
 interface IProps {
-  onSelect: (query: IAdvancedSearchConfig, scope: string) => void
+  onSelect: (query: string, scope: string) => void
 }
 
 const Checklist: React.FC<IProps> = ({ onSelect }) => (
