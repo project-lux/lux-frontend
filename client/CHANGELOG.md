@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added hover functionality to timeline legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
+
 ### Changed
 
 ### Removed

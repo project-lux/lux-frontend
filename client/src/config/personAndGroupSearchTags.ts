@@ -77,6 +77,13 @@ export const timelines: IHalLinks = {
   },
 }
 
+export const timelineGraph: Map<string, string> = new Map([
+  ['itemProductionDate', 'Objects Produced'],
+  ['itemEncounteredDate', 'Objects Encountered'],
+  ['workCreationDate', 'Works Created'],
+  ['workPublicationDate', 'Works Published'],
+])
+
 // Used for rendering accordions
 export const relatedAccordions: IHalLinks = {
   agents: {

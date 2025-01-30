@@ -67,6 +67,8 @@ const Graph: React.FC<IProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  const [selectedField, setSelectedField] = useState<string | null>(null)
+
   const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
     const barData = timelineData.hasOwnProperty(year)
       ? timelineData[year]
@@ -87,13 +89,35 @@ const Graph: React.FC<IProps> = ({
 
   useResizeableWindow(setIsMobile)
 
+  const setHoverableBars = (legendName: string): void => {
+    let barDataKey = selectedField
+    for (let [key, value] of facetNameMap.entries()) {
+      if (value === legendName) {
+        barDataKey = `${key}.totalItems`
+      }
+    }
+    setSelectedField(barDataKey)
+  }
+
   const renderLegendText = (value: string): any => (
-    <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <span
+      style={{ color: 'black', fontWeight: '300' }}
+      onFocus={() => setHoverableBars(value)}
+      onMouseOver={() => setHoverableBars(value)}
+    >
+      {value}
+    </span>
   )
 
   const getShape = (props: any): ReactElement<any, any> => {
-    const { fill, x, y, width, height } = props
-
+    const { dataKey, fill, x, y, width, height } = props
+    let opacity = 1
+    if (selectedField !== null) {
+      if (selectedField !== dataKey) {
+        opacity = 0.3
+      }
+    }
     return (
       <rect
         fill={fill}
@@ -101,6 +125,7 @@ const Graph: React.FC<IProps> = ({
         y={y}
         width={width}
         height={height ? height - 2 : 0}
+        opacity={opacity}
       />
     )
   }
@@ -136,7 +161,7 @@ const Graph: React.FC<IProps> = ({
           />
           <Legend
             layout={isMobile ? 'vertical' : 'horizontal'}
-            formatter={renderLegendText}
+            formatter={(e) => renderLegendText(e)}
           />
           <Bar
             dataKey="itemProductionDate.totalItems"
