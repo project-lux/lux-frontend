@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed timeline list in fullscreen view ([#510](https://github.com/project-lux/lux-frontend/issues/510)).
+
 ## v1.43.0 - 1015-1-27
 
 ### Added
