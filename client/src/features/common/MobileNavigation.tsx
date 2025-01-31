@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
+import { isNull, isUndefined } from 'lodash'
 
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
@@ -26,7 +27,7 @@ const MobileNavigation: React.FC<{
   const [show, setShow] = useState(false)
 
   const handleButtonClick = (i?: number): void => {
-    if (i) {
+    if (!isNull(i) && !isUndefined(i)) {
       setSelectedTab(i)
     }
     setShow(!show)
@@ -47,7 +48,7 @@ const MobileNavigation: React.FC<{
         handleOnClick={handleButtonClick}
         tab={config[selectedTab].props.children.props.tab}
         showArrow
-        index={0}
+        index={selectedTab}
         isActive={false}
         className="p-3"
       />
