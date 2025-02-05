@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
 
+import config from '../../config/config'
 import { unit } from '../../config/objectsSearchTags'
 import { setUnit } from '../../config/worksSearchTags'
 import { access } from '../../config/tooltips'
@@ -42,9 +43,13 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
     data: collections,
     isSuccess: collectionsIsSuccess,
     isLoading: collectionsIsLoading,
-  } = useGetCollectionQuery(data, {
-    skip: data === undefined || data.member_of === undefined,
-  })
+  } = useGetCollectionQuery(
+    { entity: data, aat: config.aat.collection },
+    {
+      skip: data === undefined || data.member_of === undefined,
+    },
+  )
+  console.log(collections)
   const collectionData = collections
     ? collections.filter((collection: string) => collection !== null)
     : []

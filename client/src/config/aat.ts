@@ -38,6 +38,7 @@ export function defaultAats(): IAat {
     primaryName: 'http://vocab.getty.edu/aat/300404670',
     role: 'http://vocab.getty.edu/aat/300435108',
     sortValue: 'http://vocab.getty.edu/aat/300456575',
+    namedCollection: 'https://vocab.getty.edu/aat/300456764',
     typeOfPart: 'http://vocab.getty.edu/aat/300241583',
     visitors: 'http://vocab.getty.edu/aat/300025883',
     webPage: 'http://vocab.getty.edu/aat/300264578',

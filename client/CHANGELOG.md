@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added named collections to objects About section ([#300](https://github.com/project-lux/lux-frontend/issues/300)).
+
 ### Changed
 
 ### Removed

@@ -17,6 +17,7 @@ import ClassContainer from '../common/ClassContainer'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
+import Collections from './Collections'
 
 interface IObject {
   data: any
@@ -119,6 +120,7 @@ const About: React.FC<IObject> = ({ data }) => {
                 />
               ),
             )}
+          <Collections entity={data} />
           <SubjectOf entity={data} halLinkConfig={subjectOf} />
           {notes !== null && (
             <NotesContainer
