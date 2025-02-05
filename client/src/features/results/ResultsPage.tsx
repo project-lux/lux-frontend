@@ -12,7 +12,7 @@ import { ISearchResponse } from '../../types/ISearchResponse'
 import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import { tabToLinkLabel } from '../../config/results'
+import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
@@ -24,6 +24,7 @@ import PlaceResults from './PlaceResults'
 import WorkResults from './WorksResults'
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
+import SetResults from './SetsResults'
 
 const ResponsiveCol = styled(Col)`
   display: flex;
@@ -46,6 +47,8 @@ const getScopedResultsComponent: any = (
       )
     case 'works':
       return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
+    case 'collections':
+      return <SetResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'people':
       return (
         <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
@@ -176,7 +179,7 @@ const ResultsPage: React.FC = () => {
               data-testid="results-info-alert"
             >
               Please enter a new search to begin searching for{' '}
-              {tabToLinkLabel[tab]} results.
+              {advancedSearchTitles[tab]} results.
             </Alert>
           </Col>
         ) : (

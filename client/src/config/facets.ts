@@ -147,6 +147,8 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationPlaceId',
     'workPublicationDate',
   ],
+  // TODO: this is a place holder, remove at later date
+  collections: ['setHasDigitalImage'],
   people: [
     'agentHasDigitalImage',
     'agentGenderId',

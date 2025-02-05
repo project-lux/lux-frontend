@@ -2,9 +2,8 @@ import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 
-import { searchScope } from '../../config/searchTypes'
+import { searchScope, advancedSearchTitles } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
-import { tabToLinkLabel } from '../../config/results'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -109,7 +108,7 @@ const MobileNavigation: React.FC<IProps> = ({
   }
 
   const handleOnLinkSelect = (key: string): void => {
-    pushClientEvent('Results Tab', 'Selected', tabToLinkLabel[key])
+    pushClientEvent('Results Tab', 'Selected', advancedSearchTitles[key])
     if (advancedSearch && key !== tab) {
       dispatch(resetState())
       dispatch(resetHelpTextState())
@@ -142,7 +141,7 @@ const MobileNavigation: React.FC<IProps> = ({
         }}
         role="button"
         estimate={estimates[tab]}
-        icon={getIcon(tabToLinkLabel[tab])}
+        icon={getIcon(advancedSearchTitles[tab])}
         tab={tab}
         handleClick={handleShow}
         showArrow

@@ -8,7 +8,8 @@
  */
 export const searchTypes: Record<string, string> = {
   objects: 'HumanMadeObject,DigitalObject',
-  works: 'LinguisticObject,VisualItem,Set',
+  works: 'LinguisticObject,VisualItem',
+  collections: 'Set',
   people: 'Person,Group',
   places: 'Place',
   concepts: 'Currency,Language,Material,MeasurementUnit,Type',
@@ -23,6 +24,7 @@ export const searchTypes: Record<string, string> = {
 export const searchScope: Record<string, string> = {
   objects: 'item',
   works: 'work',
+  collections: 'set',
   people: 'agent',
   places: 'place',
   concepts: 'concept',
@@ -36,6 +38,7 @@ export const searchScope: Record<string, string> = {
 export const scopeToTabTranslation: Record<string, string> = {
   item: 'objects',
   work: 'works',
+  set: 'collections',
   agent: 'people',
   place: 'places',
   concept: 'concepts',
@@ -48,6 +51,7 @@ export const scopeToTabTranslation: Record<string, string> = {
 export const advancedSearchTitles: Record<string, string> = {
   objects: 'Objects',
   works: 'Works',
+  collections: 'Collections',
   people: 'People & Groups',
   places: 'Places',
   concepts: 'Concepts',
@@ -60,6 +64,7 @@ export const advancedSearchTitles: Record<string, string> = {
 export const scopeToAriaLabel: Record<string, string> = {
   item: 'objects',
   work: 'works',
+  set: 'collections',
   agent: 'people and groups',
   place: 'places',
   concept: 'concepts',
