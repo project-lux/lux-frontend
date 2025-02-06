@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed timeline list in fullscreen view ([#510](https://github.com/project-lux/lux-frontend/issues/510)).
+- Fixed timeline list in fullscreen view exit button ([#508](https://github.com/project-lux/lux-frontend/issues/508)).
 
 ## v1.43.0 - 1015-1-27
 
