@@ -7,6 +7,8 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added sets infographics to landing page ([#554](https://github.com/project-lux/lux-frontend/issues/554)).
+- Added sets results page ([#551](https://github.com/project-lux/lux-frontend/issues/551)).
+- Added sets infographics to landing page ([#552](https://github.com/project-lux/lux-frontend/issues/552)).
 
 ### Changed
 

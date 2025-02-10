@@ -1,7 +1,7 @@
 import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-import { tabToLinkLabel } from '../../config/results'
+import { advancedSearchTitles } from '../../config/searchTypes'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
@@ -52,7 +52,7 @@ const MobileTabButton: React.FC<IProps> = ({
         <Col xs={showArrow || isCurrentTab ? 8 : 10}>
           <Row className="d-flex float-start">
             <Col xs={12} className="linkTitle d-flex float-start">
-              <h3>{tabToLinkLabel[tab]}</h3>
+              <h3>{advancedSearchTitles[tab]}</h3>
             </Col>
             <Col xs={12} className="linkSubtext d-flex float-start">
               {isLoading || isFetching ? (

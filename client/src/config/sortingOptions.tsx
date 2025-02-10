@@ -38,6 +38,10 @@ export const sortBy: { [key: string]: Record<string, string> } = {
     workHasDigitalImage: 'Has Digital Image',
     workRecordType: 'Work Class',
   },
+  // TODO: this is a place holder, remove at later date
+  collections: {
+    anySortName: 'Name',
+  },
   people: {
     anySortName: 'Name',
     agentEndDate: 'Died/Dissolved Date',
