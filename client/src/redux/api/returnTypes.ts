@@ -12,6 +12,7 @@ export interface IStats {
     searchScopes: {
       item: number
       work: number
+      set: number
       agent: number
       place: number
       concept: number
