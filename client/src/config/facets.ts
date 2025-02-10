@@ -10,7 +10,7 @@ import { recordTypes } from './advancedSearch/inputTypes'
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'item' | 'work' | 'concept' | 'event'
+export type Scope = 'agent' | 'item' | 'work' | 'set' | 'concept' | 'event'
 
 export interface IFacet {
   sectionLabel: string
@@ -88,6 +88,21 @@ export const facets: IFacetConfig = {
       buildQuery: (value) => ({ recordType: value }),
     },
   },
+  set: {
+    setHasDigitalImage: {
+      sectionLabel: 'Has Digital Image',
+      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
+      selectedLabel: (value) =>
+        value === 1 ? 'Has Digital Image' : 'No Digital Image',
+      buildQuery: (value) => ({ hasDigitalImage: value }),
+    },
+    setIsOnline: {
+      sectionLabel: 'Is Online',
+      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
+      selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
+      buildQuery: (value) => ({ isOnline: value }),
+    },
+  },
   agent: {
     agentHasDigitalImage: {
       sectionLabel: 'Has Digital Image',
@@ -147,8 +162,24 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationPlaceId',
     'workPublicationDate',
   ],
-  // TODO: this is a place holder, remove at later date
-  collections: ['setHasDigitalImage'],
+  collections: [
+    'setAboutAgentId',
+    'setAboutConceptId',
+    'setAboutEventId',
+    'setAboutPlaceId',
+    'setAboutSetId',
+    'setAboutWorkId',
+    'setCreationAgentId',
+    'setCreationDate',
+    'setCreationPlaceId',
+    'setCreationCausedById',
+    'setCreationInfluencedById',
+    'setHasDigitalImage',
+    'setIdentifier',
+    'setIsOnline',
+    'setPartOfId',
+    'setTypeId',
+  ],
   people: [
     'agentHasDigitalImage',
     'agentGenderId',
@@ -228,6 +259,15 @@ export const facetLabels: { [key: string]: string } = {
   placeTypeId: 'Categorized As',
   responsibleCollections: 'Collection',
   responsibleUnits: 'Responsible Unit',
+  setAboutAgentId: 'About People & Groups',
+  setAboutConceptId: 'About Concept',
+  setAboutPlaceId: 'About Place',
+  setCreationAgentId: 'Created By',
+  setCreationDate: 'Creation Date',
+  setCreationPlaceId: 'Created At',
+  setHasDigitalImage: 'Has Digital Image',
+  setIsOnline: 'Is Online',
+  setTypeId: 'Categorized As',
   workHasDigitalImage: 'Has Digital Image',
   workIsOnline: 'Is Online',
   workTypeId: 'Categorized As',
@@ -347,6 +387,64 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     workRecordType: {
       searchTermName: 'recordType',
       idFacet: false,
+    },
+  },
+  set: {
+    setAboutAgentId: {
+      searchTermName: 'aboutAgent',
+      idFacet: true,
+    },
+    setAboutConceptId: {
+      searchTermName: 'aboutConcept',
+      idFacet: true,
+    },
+    setAboutEventId: {
+      searchTermName: 'aboutEvent',
+      idFacet: true,
+    },
+    setAboutPlaceId: {
+      searchTermName: 'aboutPlace',
+      idFacet: true,
+    },
+    setAboutSetId: {
+      searchTermName: 'aboutSet',
+      idFacet: true,
+    },
+    setAboutWorkId: {
+      searchTermName: 'aboutWork',
+      idFacet: true,
+    },
+    setCreationAgentId: {
+      searchTermName: 'createdBy',
+      idFacet: true,
+    },
+    setCreationDate: {
+      searchTermName: 'createdDate',
+      idFacet: false,
+    },
+    setCreationPlaceId: {
+      searchTermName: 'createdAt',
+      idFacet: true,
+    },
+    setCreationCausedById: {
+      searchTermName: 'creationCausedBy',
+      idFacet: true,
+    },
+    setCreationInfluencedById: {
+      searchTermName: 'creationInfluencedBy',
+      idFacet: true,
+    },
+    setHasDigitalImage: {
+      searchTermName: 'hasDigitalImage',
+      idFacet: false,
+    },
+    setIsOnline: {
+      searchTermName: 'isOnline',
+      idFacet: false,
+    },
+    setTypeId: {
+      searchTermName: 'classification',
+      idFacet: true,
     },
   },
   agent: {
@@ -610,6 +708,64 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       idFacet: false,
     },
   },
+  set: {
+    aboutAgent: {
+      facetName: 'setAboutAgentId',
+      idFacet: true,
+    },
+    aboutConcept: {
+      facetName: 'setAboutConceptId',
+      idFacet: true,
+    },
+    aboutEvent: {
+      facetName: 'setAboutEventId',
+      idFacet: true,
+    },
+    aboutPlace: {
+      facetName: 'setAboutPlaceId',
+      idFacet: true,
+    },
+    aboutSet: {
+      facetName: 'setAboutSetId',
+      idFacet: true,
+    },
+    aboutWork: {
+      facetName: 'setAboutWorkId',
+      idFacet: true,
+    },
+    createdBy: {
+      facetName: 'setCreationAgentId',
+      idFacet: true,
+    },
+    createdDate: {
+      facetName: 'setCreationDate',
+      idFacet: false,
+    },
+    createdAt: {
+      facetName: 'setCreationPlaceId',
+      idFacet: true,
+    },
+    creationCausedBy: {
+      facetName: 'setCreationCausedById',
+      idFacet: true,
+    },
+    creationInfluencedBy: {
+      facetName: 'setCreationInfluencedById',
+      idFacet: true,
+    },
+    hasDigitalImage: {
+      facetName: 'setHasDigitalImage',
+      idFacet: false,
+    },
+    isOnline: {
+      facetName: 'setIsOnline',
+      idFacet: false,
+    },
+    classification: {
+      facetName: 'setTypeId',
+      idFacet: true,
+    },
+  },
   agent: {
     hasDigitalImage: {
       facetName: 'agentHasDigitalImage',
@@ -731,7 +887,9 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
 export const booleanFacetNames = new Set([
   'itemIsOnline',
   'workIsOnline',
+  'setIsOnline',
   'itemHasDigitalImage',
   'workHasDigitalImage',
+  'setHasDigitalImage',
   'agentHasDigitalImage',
 ])
