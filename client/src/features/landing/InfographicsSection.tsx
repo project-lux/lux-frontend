@@ -2,6 +2,7 @@ import React from 'react'
 import { Row } from 'react-bootstrap'
 
 import {
+  collectionsIcon,
   conceptsIcon,
   eventsIcon,
   objectsIcon,
@@ -30,10 +31,11 @@ const InfographicsSection: React.FC<IProps> = ({ data }) => {
           number={stats.item}
           label="Objects"
         />
+        <InfographicsCard icon={workIcon} number={stats.work} label="Works" />
         <InfographicsCard
-          icon={conceptsIcon}
-          number={stats.concept}
-          label="Concepts"
+          icon={collectionsIcon}
+          number={stats.set}
+          label="Collections"
         />
         <InfographicsCard
           icon={peopleOrgsIcon}
@@ -41,16 +43,20 @@ const InfographicsSection: React.FC<IProps> = ({ data }) => {
           label="People & Groups"
         />
         <InfographicsCard
-          icon={eventsIcon}
-          number={stats.event}
-          label="Events"
-        />
-        <InfographicsCard
           icon={placesIcon}
           number={stats.place}
           label="Places"
         />
-        <InfographicsCard icon={workIcon} number={stats.work} label="Works" />
+        <InfographicsCard
+          icon={conceptsIcon}
+          number={stats.concept}
+          label="Concepts"
+        />
+        <InfographicsCard
+          icon={eventsIcon}
+          number={stats.event}
+          label="Events"
+        />
       </Row>
     </StyledInfographicsSection>
   )
