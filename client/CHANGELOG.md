@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added sets results page ([#551](https://github.com/project-lux/lux-frontend/issues/551)).
 - Added sets infographics to landing page ([#552](https://github.com/project-lux/lux-frontend/issues/552)).
 - Added sets facets to the results page ([#553](https://github.com/project-lux/lux-frontend/issues/553)).
+- Added sets sorting options to the results page ([#555](https://github.com/project-lux/lux-frontend/issues/555)).
 
 ### Changed
 
