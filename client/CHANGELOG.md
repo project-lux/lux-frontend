@@ -2,7 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.43.0 - Unreleased
+## v1.44.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+- Fixed timeline list in fullscreen view ([#510](https://github.com/project-lux/lux-frontend/issues/510)).
+- Fixed timeline list in fullscreen view exit button ([#508](https://github.com/project-lux/lux-frontend/issues/508)).
+- Fixed mobile tab dropdown functionality ([#536](https://github.com/project-lux/lux-frontend/issues/536)).
+
+## v1.43.0 - 1015-1-27
 
 ### Added
 
