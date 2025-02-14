@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
+import { Row, Col } from 'react-bootstrap'
 
 import StyledHr from '../../styles/shared/Hr'
 import DescriptionList from '../../styles/shared/DescriptionList'
@@ -9,6 +10,8 @@ import {
 } from '../../lib/parse/search/halLinkHelper'
 import { IFacetsPagination } from '../../types/IFacets'
 import { IOrderedItems } from '../../types/ISearchResults'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import ListItem from './ListItem'
 
@@ -35,6 +38,12 @@ const FacetsRelatedList: React.FC<IProps> = ({
   setPage,
   setFacets,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
+  useResizeableWindow(setIsMobile)
+
   const criteria = getCriteriaFromHalLink(url, 'facets')
   const scope = getResultTabFromHalLink(url)
 
@@ -63,6 +72,16 @@ const FacetsRelatedList: React.FC<IProps> = ({
     }
     return (
       <React.Fragment>
+        {!isMobile && (
+          <Row className="mb-2">
+            <Col md={9} lg={8} xl={9}>
+              <strong>Concepts</strong>
+            </Col>
+            <Col md={3} lg={4} xl={3}>
+              <strong>Related Results</strong>
+            </Col>
+          </Row>
+        )}
         {filteredFacets.map((facet: IOrderedItems, ind: number) => {
           const { value, totalItems } = facet
           return (
