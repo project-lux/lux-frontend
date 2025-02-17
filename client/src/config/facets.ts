@@ -174,10 +174,13 @@ export const facetNamesLists: IFacetNamesLists = {
     'setCreationPlaceId',
     'setCreationCausedById',
     'setCreationInfluencedById',
+    'setCurationAgentId',
     'setHasDigitalImage',
-    'setIdentifier',
     'setIsOnline',
     'setPartOfId',
+    'setPublicationAgentId',
+    'setPublicationPlaceId',
+    'setPublicationDate',
     'setTypeId',
   ],
   people: [
@@ -261,12 +264,21 @@ export const facetLabels: { [key: string]: string } = {
   responsibleUnits: 'Responsible Unit',
   setAboutAgentId: 'About People & Groups',
   setAboutConceptId: 'About Concept',
+  setAboutEventId: 'About Event',
+  setAboutItemId: 'About Object',
   setAboutPlaceId: 'About Place',
+  setAboutSetId: 'About Collection',
+  setAboutWorkId: 'About Work',
   setCreationAgentId: 'Created By',
   setCreationDate: 'Creation Date',
   setCreationPlaceId: 'Created At',
+  setCurationAgentId: 'Curated By',
   setHasDigitalImage: 'Has Digital Image',
   setIsOnline: 'Is Online',
+  setPartOfId: 'Part Of',
+  setPublicationAgentId: 'Published By',
+  setPublicationPlaceId: 'Published At',
+  setPublicationDate: 'Published Date',
   setTypeId: 'Categorized As',
   workHasDigitalImage: 'Has Digital Image',
   workIsOnline: 'Is Online',
@@ -402,6 +414,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'aboutEvent',
       idFacet: true,
     },
+    setAboutItemId: {
+      searchTermName: 'aboutItem',
+      idFacet: true,
+    },
     setAboutPlaceId: {
       searchTermName: 'aboutPlace',
       idFacet: true,
@@ -434,12 +450,32 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'creationInfluencedBy',
       idFacet: true,
     },
+    setCurationAgentId: {
+      searchTermName: 'curatedBy',
+      idFacet: true,
+    },
     setHasDigitalImage: {
       searchTermName: 'hasDigitalImage',
       idFacet: false,
     },
     setIsOnline: {
       searchTermName: 'isOnline',
+      idFacet: false,
+    },
+    setPartOfId: {
+      searchTermName: 'partOf',
+      idFacet: true,
+    },
+    setPublicationAgentId: {
+      searchTermName: 'publishedBy',
+      idFacet: true,
+    },
+    setPublicationPlaceId: {
+      searchTermName: 'publishedAt',
+      idFacet: true,
+    },
+    setPublicationDate: {
+      searchTermName: 'publishedDate',
       idFacet: false,
     },
     setTypeId: {
@@ -721,6 +757,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'setAboutEventId',
       idFacet: true,
     },
+    aboutItem: {
+      facetName: 'setAboutItemId',
+      idFacet: true,
+    },
     aboutPlace: {
       facetName: 'setAboutPlaceId',
       idFacet: true,
@@ -753,12 +793,32 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'setCreationInfluencedById',
       idFacet: true,
     },
+    curatedBy: {
+      facetName: 'setCurationAgentId',
+      idFacet: true,
+    },
     hasDigitalImage: {
       facetName: 'setHasDigitalImage',
       idFacet: false,
     },
     isOnline: {
       facetName: 'setIsOnline',
+      idFacet: false,
+    },
+    partOf: {
+      facetName: 'setPartOfId',
+      idFacet: true,
+    },
+    publishedBy: {
+      facetName: 'setPublicationAgentId',
+      idFacet: true,
+    },
+    publishedAt: {
+      facetName: 'setPublicationPlaceId',
+      idFacet: true,
+    },
+    publicationDate: {
+      facetName: 'setPublicationDate',
       idFacet: false,
     },
     classification: {

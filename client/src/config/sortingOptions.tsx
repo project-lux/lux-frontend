@@ -38,9 +38,19 @@ export const sortBy: { [key: string]: Record<string, string> } = {
     workHasDigitalImage: 'Has Digital Image',
     workRecordType: 'Work Class',
   },
-  // TODO: this is a place holder, remove at later date
   collections: {
+    relevance: 'Relevance',
     anySortName: 'Name',
+    setClassificationConceptName: 'Categorized As',
+    setCreationAgentName: 'Created By',
+    setCreationPlaceName: 'Created At',
+    setCreationDate: 'Creation Date',
+    setCuratedAgentName: 'Curated By',
+    setHasDigitalImage: 'Has Digital Image',
+    setPublicationAgentName: 'Published By',
+    setPublicationPlaceName: 'Published At',
+    setPublicationDate: 'Publication Date',
+    random: 'Shuffle Results',
   },
   people: {
     anySortName: 'Name',
