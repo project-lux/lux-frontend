@@ -37,3 +37,5 @@ export const maintenanceMode = getBool(process.env.MAINTENANCE_MODE) || false
 export const maintenanceMessage = getString(process.env.MAINTENANCE_MESSAGE)
 export const cacheViewerMode = getBool(process.env.CACHE_VIEWER_MODE)
 export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
+export const redirectFromDomain = getString(process.env.REDIRECT_FROM_DOMAIN)
+export const redirectToBaseUrl = getString(process.env.REDIRECT_TO_BASE_URL)

@@ -32,6 +32,20 @@ class App {
     const { port } = this
     const exp = express()
     exp.use(cors())
+    exp.get(
+      '/*',
+      (
+        req: express.Request,
+        res: express.Response,
+        next: express.NextFunction,
+      ) => {
+        if (req.hostname === env.redirectFromDomain) {
+          res.redirect(301, `${env.redirectToBaseUrl}${req.originalUrl}`)
+        } else {
+          next()
+        }
+      },
+    )
     exp.use(express.static('public'))
 
     exp.get('/health', (req: express.Request, res: express.Response) => {
