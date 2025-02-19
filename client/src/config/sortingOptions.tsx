@@ -45,7 +45,7 @@ export const sortBy: { [key: string]: Record<string, string> } = {
     setCreationAgentName: 'Created By',
     setCreationPlaceName: 'Created At',
     setCreationDate: 'Creation Date',
-    setCuratedAgentName: 'Curated By',
+    setCurationAgentName: 'Curated By',
     setHasDigitalImage: 'Has Digital Image',
     setPublicationAgentName: 'Published By',
     setPublicationPlaceName: 'Published At',

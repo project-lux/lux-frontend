@@ -163,25 +163,24 @@ export const facetNamesLists: IFacetNamesLists = {
     'workPublicationDate',
   ],
   collections: [
-    'setAboutAgentId',
-    'setAboutConceptId',
-    'setAboutEventId',
-    'setAboutPlaceId',
-    'setAboutSetId',
-    'setAboutWorkId',
-    'setCreationAgentId',
-    'setCreationDate',
-    'setCreationPlaceId',
-    'setCreationCausedById',
-    'setCreationInfluencedById',
-    'setCurationAgentId',
     'setHasDigitalImage',
     'setIsOnline',
-    'setPartOfId',
+    'setTypeId',
+    'setAboutItemId',
+    'setAboutWorkId',
+    'setAboutSetId',
+    'setAboutAgentId',
+    'setAboutPlaceId',
+    'setAboutConceptId',
+    'setAboutEventId',
+    'setCreationAgentId',
+    'setCreationPlaceId',
+    'setCreationDate',
     'setPublicationAgentId',
     'setPublicationPlaceId',
     'setPublicationDate',
-    'setTypeId',
+    'setCurationAgentId',
+    'setPartOfId',
   ],
   people: [
     'agentHasDigitalImage',
@@ -440,14 +439,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
     setCreationPlaceId: {
       searchTermName: 'createdAt',
-      idFacet: true,
-    },
-    setCreationCausedById: {
-      searchTermName: 'creationCausedBy',
-      idFacet: true,
-    },
-    setCreationInfluencedById: {
-      searchTermName: 'creationInfluencedBy',
       idFacet: true,
     },
     setCurationAgentId: {
@@ -783,14 +774,6 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
     createdAt: {
       facetName: 'setCreationPlaceId',
-      idFacet: true,
-    },
-    creationCausedBy: {
-      facetName: 'setCreationCausedById',
-      idFacet: true,
-    },
-    creationInfluencedBy: {
-      facetName: 'setCreationInfluencedById',
       idFacet: true,
     },
     curatedBy: {
