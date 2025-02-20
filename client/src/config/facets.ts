@@ -152,9 +152,13 @@ export const facetNamesLists: IFacetNamesLists = {
     'workRecordType',
     'workTypeId',
     'workLanguageId',
+    'workAboutItemId',
+    'workAboutWorkId',
+    'workAboutSetId',
     'workAboutAgentId',
     'workAboutPlaceId',
     'workAboutConceptId',
+    'workAboutEventId',
     'workCreationAgentId',
     'workCreationPlaceId',
     'workCreationDate',
@@ -282,6 +286,9 @@ export const facetLabels: { [key: string]: string } = {
   workHasDigitalImage: 'Has Digital Image',
   workIsOnline: 'Is Online',
   workTypeId: 'Categorized As',
+  workAboutItemId: 'About Object',
+  workAboutWorkId: 'About Work',
+  workAboutSetId: 'About Collection',
   workAboutAgentId: 'About People & Groups',
   workPublicationAgentId: 'Published By',
   workCreationAgentId: 'Created By',
@@ -289,6 +296,7 @@ export const facetLabels: { [key: string]: string } = {
   workPublicationPlaceId: 'Published At',
   workCreationPlaceId: 'Created At',
   workAboutConceptId: 'About Concept',
+  workAboutEventId: 'About Event',
   workPublicationDate: 'Published Date',
   workCreationDate: 'Created Date',
   workLanguageId: 'Language',
@@ -355,6 +363,18 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'classification',
       idFacet: true,
     },
+    workAboutItemId: {
+      searchTermName: 'aboutItem',
+      idFacet: true,
+    },
+    workAboutWorkId: {
+      searchTermName: 'aboutWork',
+      idFacet: true,
+    },
+    workAboutSetId: {
+      searchTermName: 'aboutSet',
+      idFacet: true,
+    },
     workAboutAgentId: {
       searchTermName: 'aboutAgent',
       idFacet: true,
@@ -381,6 +401,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     },
     workAboutConceptId: {
       searchTermName: 'aboutConcept',
+      idFacet: true,
+    },
+    workAboutEventId: {
+      searchTermName: 'aboutEvent',
       idFacet: true,
     },
     workPublicationDate: {
@@ -690,6 +714,18 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'workTypeId',
       idFacet: true,
     },
+    aboutItem: {
+      facetName: 'workAboutItemId',
+      idFacet: true,
+    },
+    aboutWork: {
+      facetName: 'workAboutWorkId',
+      idFacet: true,
+    },
+    aboutSet: {
+      facetName: 'workAboutSetId',
+      idFacet: true,
+    },
     aboutAgent: {
       facetName: 'workAboutAgentId',
       idFacet: true,
@@ -716,6 +752,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     },
     aboutConcept: {
       facetName: 'workAboutConceptId',
+      idFacet: true,
+    },
+    aboutEvent: {
+      facetName: 'workAboutEventId',
       idFacet: true,
     },
     publishedDate: {
