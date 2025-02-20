@@ -800,7 +800,7 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'setPublicationPlaceId',
       idFacet: true,
     },
-    publicationDate: {
+    publishedDate: {
       facetName: 'setPublicationDate',
       idFacet: false,
     },
