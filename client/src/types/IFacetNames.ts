@@ -18,6 +18,7 @@ export interface ISearchTermToFacet {
 export interface ISearchTermToFacetConfig {
   item: ISearchTermToFacet
   work: ISearchTermToFacet
+  set: ISearchTermToFacet
   agent: ISearchTermToFacet
   place: ISearchTermToFacet
   concept: ISearchTermToFacet
@@ -34,6 +35,7 @@ export interface IFacetToSearchTerm {
 export interface IFacetToSearchTermConfig {
   item: IFacetToSearchTerm
   work: IFacetToSearchTerm
+  set: IFacetToSearchTerm
   agent: IFacetToSearchTerm
   place: IFacetToSearchTerm
   concept: IFacetToSearchTerm
