@@ -56,6 +56,7 @@ export const pagePaths = {
 export type OverlayKey =
   | 'objects'
   | 'works'
+  | 'collections'
   | 'peopleAndOrgs'
   | 'places'
   | 'conceptsAndGroupings'
