@@ -70,8 +70,8 @@ describe('hierarchyHelpers', () => {
           templated: true,
         },
       ],
-      'lux:setIncludedWorks': {
-        href: 'https://endpoint.yale.edu/api/facets/work?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
+      'lux:setIncludedSets': {
+        href: 'https://endpoint.yale.edu/api/facets/set?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
         _estimate: 1,
       },
       'lux:setIncludedItems': {

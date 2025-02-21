@@ -73,7 +73,7 @@ export default class SetParser extends EntityParser {
     const halLinks = this.getHalLinks()
     if (
       halLinks !== null &&
-      (halLinks.hasOwnProperty(`lux:setIncludedWorks`) ||
+      (halLinks.hasOwnProperty(`lux:setIncludedSets`) ||
         halLinks.hasOwnProperty(`lux:setIncludedItems`))
     ) {
       return true

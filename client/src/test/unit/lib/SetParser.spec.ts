@@ -88,7 +88,7 @@ describe('SetParser', () => {
           self: {
             href: `${config.env.dataApiBaseUrl}data/object/3ba2c43e-e63d-49ba-8cae-46e1af2ebe48`,
           },
-          'lux:setIncludedWorks': {
+          'lux:setIncludedSets': {
             href: `${config.env.dataApiBaseUrl}api/facets/item?q=%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fobject%2F3ba2c43e-e63d-49ba-8cae-46e1af2ebe48%22%7D&name=responsibleCollections`,
             _estimate: 1,
           },
