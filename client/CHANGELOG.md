@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed archives to use HAL links for Collections rather than Works ([#590](https://github.com/project-lux/lux-frontend/issues/590)).
+
 ### Removed
 
 ### Fixed

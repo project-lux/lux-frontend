@@ -13,7 +13,7 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import {
   currentUriInHierarchy,
   getItemChildren,
-  getWorkChildren,
+  getSetChildren,
   hasHierarchyHalLinks,
   isInHierarchy,
 } from '../../lib/util/hierarchyHelpers'
@@ -98,7 +98,7 @@ const ArchiveHierarchyChild: React.FC<{
                 parentsOfCurrentEntity={parentsOfCurrentEntity}
                 ancestors={ancestors}
                 setIncludedItems={getItemChildren(data._links)}
-                setIncludedWorks={getWorkChildren(data._links)}
+                setIncludedSets={getSetChildren(data._links)}
               />
             </CollapseContainer>
           </Col>

@@ -22,8 +22,8 @@ export const hasHierarchyHalLinks = (providedLinks: ILinks): Array<string> => {
     halLinks.push(providedLinks['lux:setIncludedItems'].href)
   }
 
-  if (providedLinks.hasOwnProperty('lux:setIncludedWorks')) {
-    halLinks.push(providedLinks['lux:setIncludedWorks'].href)
+  if (providedLinks.hasOwnProperty('lux:setIncludedSets')) {
+    halLinks.push(providedLinks['lux:setIncludedSets'].href)
   }
 
   return halLinks
@@ -43,15 +43,15 @@ export const getItemChildren = (
   return null
 }
 
-export const getWorkChildren = (
+export const getSetChildren = (
   providedLinks: ILinks | undefined,
 ): string | null => {
   if (providedLinks === undefined) {
     return null
   }
 
-  if (providedLinks.hasOwnProperty('lux:setIncludedWorks')) {
-    return providedLinks['lux:setIncludedWorks'].href
+  if (providedLinks.hasOwnProperty('lux:setIncludedSets')) {
+    return providedLinks['lux:setIncludedSets'].href
   }
 
   return null
