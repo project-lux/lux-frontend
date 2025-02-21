@@ -66,6 +66,7 @@ export type OverlayKey =
 export const overlays = {
   objects: 'node/overlays/55538b06-19eb-4826-9e7d-bd65cf520277',
   works: 'node/overlays/bb17aee7-9ea4-4b6b-98ab-2aa42c18eb42',
+  collections: '',
   peopleAndOrgs: 'node/overlays/76db9289-5023-421a-9f22-f3057d0f87cc',
   places: 'node/overlays/a3f82f9d-441a-43b7-b29d-ca267d2cdb08',
   conceptsAndGroupings: 'node/overlays/7498936d-708d-4f69-b14b-58e6256615df',
