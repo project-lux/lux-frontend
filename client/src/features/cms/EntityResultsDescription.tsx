@@ -12,7 +12,10 @@ const EntityResultsDescription = (value: OverlayKey): string | null => {
   })
 
   if (isSuccess && data) {
-    return data.data.attributes.body
+    if (data.data.hasOwnProperty('attributes')) {
+      return data.data.attributes.body
+    }
+    return null
   }
 
   return null
