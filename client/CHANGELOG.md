@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 - Added sets sorting options to the results page ([#555](https://github.com/project-lux/lux-frontend/issues/555)).
 - Added additional facets to Works results ([#586](https://github.com/project-lux/lux-frontend/issues/586)).
 - Added config for sets CMS content ([#589](https://github.com/project-lux/lux-frontend/issues/589)).
+- Added list labels to facets accordions ([#95](https://github.com/project-lux/lux-frontend/issues/95)).
 
 ### Changed
 
