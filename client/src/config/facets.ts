@@ -964,6 +964,14 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'eventRecordType',
       idFacet: false,
     },
+    startDate: {
+      facetName: 'eventStartDate',
+      idFacet: false,
+    },
+    endDate: {
+      facetName: 'eventEndDate',
+      idFacet: false,
+    },
   },
 }
 
@@ -976,3 +984,17 @@ export const booleanFacetNames = new Set([
   'setHasDigitalImage',
   'agentHasDigitalImage',
 ])
+
+export const selectedDateFacetLabels: Record<string, string> = {
+  agentStartDate: 'Born/Formed in',
+  agentEndDate: 'Died/Dissolved in',
+  agentActiveDate: 'Professionally Active in',
+  eventEndDate: 'Ended in',
+  eventStartDate: 'Started in',
+  itemEncounteredDate: 'Encountered in',
+  itemProductionDate: 'Created in',
+  setCreationDate: 'Created in',
+  setPublicationDate: 'Published in',
+  workPublicationDate: 'Published in',
+  workCreationDate: 'Created in',
+}
