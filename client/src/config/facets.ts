@@ -10,7 +10,7 @@ import { recordTypes } from './advancedSearch/inputTypes'
 export type LabelFunc = (value: number | string) => string
 export type QueryFunc = (value: number | string) => object
 
-export type Scope = 'agent' | 'item' | 'work' | 'concept' | 'event'
+export type Scope = 'agent' | 'item' | 'work' | 'set' | 'concept' | 'event'
 
 export interface IFacet {
   sectionLabel: string
@@ -88,6 +88,21 @@ export const facets: IFacetConfig = {
       buildQuery: (value) => ({ recordType: value }),
     },
   },
+  set: {
+    setHasDigitalImage: {
+      sectionLabel: 'Has Digital Image',
+      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
+      selectedLabel: (value) =>
+        value === 1 ? 'Has Digital Image' : 'No Digital Image',
+      buildQuery: (value) => ({ hasDigitalImage: value }),
+    },
+    setIsOnline: {
+      sectionLabel: 'Is Online',
+      facetLabel: (value) => (value === 1 ? 'Yes' : 'No'),
+      selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
+      buildQuery: (value) => ({ isOnline: value }),
+    },
+  },
   agent: {
     agentHasDigitalImage: {
       sectionLabel: 'Has Digital Image',
@@ -137,15 +152,39 @@ export const facetNamesLists: IFacetNamesLists = {
     'workRecordType',
     'workTypeId',
     'workLanguageId',
+    'workAboutItemId',
+    'workAboutWorkId',
+    'workAboutSetId',
     'workAboutAgentId',
     'workAboutPlaceId',
     'workAboutConceptId',
+    'workAboutEventId',
     'workCreationAgentId',
     'workCreationPlaceId',
     'workCreationDate',
     'workPublicationAgentId',
     'workPublicationPlaceId',
     'workPublicationDate',
+  ],
+  collections: [
+    'setHasDigitalImage',
+    'setIsOnline',
+    'setTypeId',
+    'setAboutItemId',
+    'setAboutWorkId',
+    'setAboutSetId',
+    'setAboutAgentId',
+    'setAboutPlaceId',
+    'setAboutConceptId',
+    'setAboutEventId',
+    'setCreationAgentId',
+    'setCreationPlaceId',
+    'setCreationDate',
+    'setPublicationAgentId',
+    'setPublicationPlaceId',
+    'setPublicationDate',
+    'setCurationAgentId',
+    'setPartOfId',
   ],
   people: [
     'agentHasDigitalImage',
@@ -226,9 +265,30 @@ export const facetLabels: { [key: string]: string } = {
   placeTypeId: 'Categorized As',
   responsibleCollections: 'Collection',
   responsibleUnits: 'Responsible Unit',
+  setAboutAgentId: 'About People & Groups',
+  setAboutConceptId: 'About Concept',
+  setAboutEventId: 'About Event',
+  setAboutItemId: 'About Object',
+  setAboutPlaceId: 'About Place',
+  setAboutSetId: 'About Collection',
+  setAboutWorkId: 'About Work',
+  setCreationAgentId: 'Created By',
+  setCreationDate: 'Creation Date',
+  setCreationPlaceId: 'Created At',
+  setCurationAgentId: 'Curated By',
+  setHasDigitalImage: 'Has Digital Image',
+  setIsOnline: 'Is Online',
+  setPartOfId: 'Part Of',
+  setPublicationAgentId: 'Published By',
+  setPublicationPlaceId: 'Published At',
+  setPublicationDate: 'Published Date',
+  setTypeId: 'Categorized As',
   workHasDigitalImage: 'Has Digital Image',
   workIsOnline: 'Is Online',
   workTypeId: 'Categorized As',
+  workAboutItemId: 'About Object',
+  workAboutWorkId: 'About Work',
+  workAboutSetId: 'About Collection',
   workAboutAgentId: 'About People & Groups',
   workPublicationAgentId: 'Published By',
   workCreationAgentId: 'Created By',
@@ -236,6 +296,7 @@ export const facetLabels: { [key: string]: string } = {
   workPublicationPlaceId: 'Published At',
   workCreationPlaceId: 'Created At',
   workAboutConceptId: 'About Concept',
+  workAboutEventId: 'About Event',
   workPublicationDate: 'Published Date',
   workCreationDate: 'Created Date',
   workLanguageId: 'Language',
@@ -302,6 +363,18 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'classification',
       idFacet: true,
     },
+    workAboutItemId: {
+      searchTermName: 'aboutItem',
+      idFacet: true,
+    },
+    workAboutWorkId: {
+      searchTermName: 'aboutWork',
+      idFacet: true,
+    },
+    workAboutSetId: {
+      searchTermName: 'aboutSet',
+      idFacet: true,
+    },
     workAboutAgentId: {
       searchTermName: 'aboutAgent',
       idFacet: true,
@@ -330,6 +403,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'aboutConcept',
       idFacet: true,
     },
+    workAboutEventId: {
+      searchTermName: 'aboutEvent',
+      idFacet: true,
+    },
     workPublicationDate: {
       searchTermName: 'publishedDate',
       idFacet: false,
@@ -345,6 +422,80 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     workRecordType: {
       searchTermName: 'recordType',
       idFacet: false,
+    },
+  },
+  set: {
+    setAboutAgentId: {
+      searchTermName: 'aboutAgent',
+      idFacet: true,
+    },
+    setAboutConceptId: {
+      searchTermName: 'aboutConcept',
+      idFacet: true,
+    },
+    setAboutEventId: {
+      searchTermName: 'aboutEvent',
+      idFacet: true,
+    },
+    setAboutItemId: {
+      searchTermName: 'aboutItem',
+      idFacet: true,
+    },
+    setAboutPlaceId: {
+      searchTermName: 'aboutPlace',
+      idFacet: true,
+    },
+    setAboutSetId: {
+      searchTermName: 'aboutSet',
+      idFacet: true,
+    },
+    setAboutWorkId: {
+      searchTermName: 'aboutWork',
+      idFacet: true,
+    },
+    setCreationAgentId: {
+      searchTermName: 'createdBy',
+      idFacet: true,
+    },
+    setCreationDate: {
+      searchTermName: 'createdDate',
+      idFacet: false,
+    },
+    setCreationPlaceId: {
+      searchTermName: 'createdAt',
+      idFacet: true,
+    },
+    setCurationAgentId: {
+      searchTermName: 'curatedBy',
+      idFacet: true,
+    },
+    setHasDigitalImage: {
+      searchTermName: 'hasDigitalImage',
+      idFacet: false,
+    },
+    setIsOnline: {
+      searchTermName: 'isOnline',
+      idFacet: false,
+    },
+    setPartOfId: {
+      searchTermName: 'partOf',
+      idFacet: true,
+    },
+    setPublicationAgentId: {
+      searchTermName: 'publishedBy',
+      idFacet: true,
+    },
+    setPublicationPlaceId: {
+      searchTermName: 'publishedAt',
+      idFacet: true,
+    },
+    setPublicationDate: {
+      searchTermName: 'publishedDate',
+      idFacet: false,
+    },
+    setTypeId: {
+      searchTermName: 'classification',
+      idFacet: true,
     },
   },
   agent: {
@@ -563,6 +714,18 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'workTypeId',
       idFacet: true,
     },
+    aboutItem: {
+      facetName: 'workAboutItemId',
+      idFacet: true,
+    },
+    aboutWork: {
+      facetName: 'workAboutWorkId',
+      idFacet: true,
+    },
+    aboutSet: {
+      facetName: 'workAboutSetId',
+      idFacet: true,
+    },
     aboutAgent: {
       facetName: 'workAboutAgentId',
       idFacet: true,
@@ -591,6 +754,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'workAboutConceptId',
       idFacet: true,
     },
+    aboutEvent: {
+      facetName: 'workAboutEventId',
+      idFacet: true,
+    },
     publishedDate: {
       facetName: 'workPublicationDate',
       idFacet: false,
@@ -606,6 +773,80 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     recordType: {
       facetName: 'workRecordType',
       idFacet: false,
+    },
+  },
+  set: {
+    aboutAgent: {
+      facetName: 'setAboutAgentId',
+      idFacet: true,
+    },
+    aboutConcept: {
+      facetName: 'setAboutConceptId',
+      idFacet: true,
+    },
+    aboutEvent: {
+      facetName: 'setAboutEventId',
+      idFacet: true,
+    },
+    aboutItem: {
+      facetName: 'setAboutItemId',
+      idFacet: true,
+    },
+    aboutPlace: {
+      facetName: 'setAboutPlaceId',
+      idFacet: true,
+    },
+    aboutSet: {
+      facetName: 'setAboutSetId',
+      idFacet: true,
+    },
+    aboutWork: {
+      facetName: 'setAboutWorkId',
+      idFacet: true,
+    },
+    createdBy: {
+      facetName: 'setCreationAgentId',
+      idFacet: true,
+    },
+    createdDate: {
+      facetName: 'setCreationDate',
+      idFacet: false,
+    },
+    createdAt: {
+      facetName: 'setCreationPlaceId',
+      idFacet: true,
+    },
+    curatedBy: {
+      facetName: 'setCurationAgentId',
+      idFacet: true,
+    },
+    hasDigitalImage: {
+      facetName: 'setHasDigitalImage',
+      idFacet: false,
+    },
+    isOnline: {
+      facetName: 'setIsOnline',
+      idFacet: false,
+    },
+    partOf: {
+      facetName: 'setPartOfId',
+      idFacet: true,
+    },
+    publishedBy: {
+      facetName: 'setPublicationAgentId',
+      idFacet: true,
+    },
+    publishedAt: {
+      facetName: 'setPublicationPlaceId',
+      idFacet: true,
+    },
+    publishedDate: {
+      facetName: 'setPublicationDate',
+      idFacet: false,
+    },
+    classification: {
+      facetName: 'setTypeId',
+      idFacet: true,
     },
   },
   agent: {
@@ -723,13 +964,37 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
       facetName: 'eventRecordType',
       idFacet: false,
     },
+    startDate: {
+      facetName: 'eventStartDate',
+      idFacet: false,
+    },
+    endDate: {
+      facetName: 'eventEndDate',
+      idFacet: false,
+    },
   },
 }
 
 export const booleanFacetNames = new Set([
   'itemIsOnline',
   'workIsOnline',
+  'setIsOnline',
   'itemHasDigitalImage',
   'workHasDigitalImage',
+  'setHasDigitalImage',
   'agentHasDigitalImage',
 ])
+
+export const selectedDateFacetLabels: Record<string, string> = {
+  agentStartDate: 'Born/Formed in',
+  agentEndDate: 'Died/Dissolved in',
+  agentActiveDate: 'Professionally Active in',
+  eventEndDate: 'Ended in',
+  eventStartDate: 'Started in',
+  itemEncounteredDate: 'Encountered in',
+  itemProductionDate: 'Created in',
+  setCreationDate: 'Created in',
+  setPublicationDate: 'Published in',
+  workPublicationDate: 'Published in',
+  workCreationDate: 'Created in',
+}

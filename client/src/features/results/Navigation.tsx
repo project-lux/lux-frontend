@@ -7,7 +7,7 @@ import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
-import { searchScope } from '../../config/searchTypes'
+import { searchScope, advancedSearchTitles } from '../../config/searchTypes'
 import StyledNavLink from '../../styles/features/results/NavLink'
 import StyledNavbar from '../../styles/features/results/Navbar'
 import LoadingSpinner from '../common/LoadingSpinner'
@@ -19,7 +19,6 @@ import {
 } from '../../lib/parse/search/estimatesParser'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
-import { tabToLinkLabel } from '../../config/results'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import {
   getFacetParamsForAdvancedSearchEstimatesRequest,
@@ -134,7 +133,7 @@ const Navigation: React.FC<INavigation> = ({
                     pushClientEvent(
                       'Results Tab',
                       'Selected',
-                      tabToLinkLabel[key],
+                      advancedSearchTitles[key],
                     )
                     if (advancedSearch && key !== tab) {
                       dispatch(resetState())
@@ -151,7 +150,7 @@ const Navigation: React.FC<INavigation> = ({
                     <Col xs={12} sm={12} md={12} lg={9}>
                       <Row className="d-flex float-start">
                         <Col xs={12} className="linkTitle d-flex float-start">
-                          {tabToLinkLabel[key]}
+                          {advancedSearchTitles[key]}
                         </Col>
                         <Col xs={12} className="linkSubtext d-flex float-start">
                           {(simpleSearch && isLoading) ||

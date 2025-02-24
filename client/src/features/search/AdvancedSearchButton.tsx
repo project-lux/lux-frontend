@@ -113,6 +113,23 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
             </Dropdown.Item>
             <Dropdown.Item
               as="button"
+              eventKey="collections"
+              data-testid={`${id}-collections-dropdown-item`}
+            >
+              Collections
+              <Tooltip
+                html={EntityResultsDescription('collections') || ''}
+                placement="bottom"
+              >
+                <i
+                  className="bi bi-question-circle"
+                  style={{ fontSize: '1rem', marginLeft: '0.2rem' }}
+                  data-testid={`${id}-collections-react-overlay-icon`}
+                />
+              </Tooltip>
+            </Dropdown.Item>
+            <Dropdown.Item
+              as="button"
               eventKey="people"
               data-testid={`${id}-people-and-groups-dropdown-item`}
             >

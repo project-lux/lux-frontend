@@ -13,7 +13,6 @@ import { IEventInfo } from '../../types/derived-data/events'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import DetailedLinkContainer from '../works/DetailedLinkContainer'
 import { hasData } from '../../lib/parse/data/helper'
-import ClassContainer from '../common/ClassContainer'
 
 interface IObject {
   data: IEntity
@@ -29,7 +28,6 @@ const About: React.FC<IObject> = ({ data }) => {
 
   const {
     names,
-    entityClass,
     itemType,
     identifiers,
     setCreationEvent,
@@ -57,13 +55,6 @@ const About: React.FC<IObject> = ({ data }) => {
               />
             </React.Fragment>
           )}
-          <ClassContainer
-            label="Work Class"
-            entityClass={entityClass}
-            className="setClassHr"
-            textLabelClassName="col-md-3"
-            textValueClassName="col-md-9"
-          />
           {identifiers.length > 0 && (
             <IdentifiersContainer identifiers={identifiers} id="sets" />
           )}

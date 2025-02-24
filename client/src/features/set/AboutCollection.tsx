@@ -7,8 +7,6 @@ import IEntity from '../../types/data/IEntity'
 import { IEventInfo } from '../../types/derived-data/events'
 import WorkParser from '../../lib/parse/data/WorkParser'
 import LinkContainer from '../common/LinkContainer'
-import TextContainer from '../common/TextContainer'
-import TextValue from '../common/TextValue'
 import { setEvent } from '../../config/collectionsSearchTags'
 import ApiAboutData from '../common/ApiAboutData'
 
@@ -24,10 +22,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
     return null
   }
 
-  const { name, names, entityClass, types, publications } = aboutData as Record<
-    string,
-    any
-  >
+  const { name, names, types, publications } = aboutData as Record<string, any>
 
   return (
     <React.Fragment>
@@ -40,9 +35,6 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
             <NamesContainer names={names} />
           </div>
         )}
-        <TextContainer label="Work Class">
-          <TextValue values={[entityClass]} />
-        </TextContainer>
         {types.length > 0 && (
           <React.Fragment>
             <LinkContainer

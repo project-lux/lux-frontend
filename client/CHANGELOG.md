@@ -2,7 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.44.0 - Unreleased
+## v1.45.0 - Unreleased
+
+### Added
+
+- Added sets infographics to landing page ([#554](https://github.com/project-lux/lux-frontend/issues/554)).
+- Added sets results page ([#551](https://github.com/project-lux/lux-frontend/issues/551)).
+- Added sets results snippets ([#552](https://github.com/project-lux/lux-frontend/issues/552)).
+- Added sets infographics to landing page ([#554](https://github.com/project-lux/lux-frontend/issues/554)).
+- Added sets facets to the results page ([#553](https://github.com/project-lux/lux-frontend/issues/553)).
+- Added sets sorting options to the results page ([#555](https://github.com/project-lux/lux-frontend/issues/555)).
+- Added additional facets to Works results ([#586](https://github.com/project-lux/lux-frontend/issues/586)).
+- Added config for sets CMS content ([#589](https://github.com/project-lux/lux-frontend/issues/589)).
+- Added list labels to facets accordions ([#95](https://github.com/project-lux/lux-frontend/issues/95)).
+- Added label to selected date facets ([#204](https://github.com/project-lux/lux-frontend/issues/204)).
+
+### Changed
+
+- Changed archives to use HAL links for Collections rather than Works ([#590](https://github.com/project-lux/lux-frontend/issues/590)).
+
+### Removed
+
+### Fixed
+
+## v1.44.0 - 2025-2-10
 
 ### Added
 

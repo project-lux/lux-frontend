@@ -15,6 +15,7 @@ import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import theme from '../../styles/theme'
+import { selectedDateFacetLabels } from '../../config/facets'
 
 const StyledSelectedFacetContainer = styled.div`
   background: #ffffff;
@@ -83,9 +84,16 @@ const SelectedFacet: React.FC<ISelected> = ({
     }
   }
 
+  const additionalLabel = searchTag.includes('Date')
+    ? selectedDateFacetLabels[searchTag]
+    : ''
+
   return (
     <StyledSelectedFacetContainer className="me-1 px-1">
-      <span className="pe-2">{label}</span>
+      <span className="pe-2">
+        {additionalLabel !== '' ? `${additionalLabel} ` : ''}
+        {label}
+      </span>
       <StyledButton
         type="button"
         className="btn-close"
