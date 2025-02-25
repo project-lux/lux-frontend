@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap'
 import sanitizeHtml from 'sanitize-html'
 
 import { unit } from '../../config/objectsSearchTags'
-import { setUnit } from '../../config/worksSearchTags'
+import { setUnit } from '../../config/setsSearchTags'
 import { access } from '../../config/tooltips'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import ObjectParser from '../../lib/parse/data/ObjectParser'

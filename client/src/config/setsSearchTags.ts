@@ -5,3 +5,10 @@ export const archive: IHalLink = {
   title: 'View records from this archive with images',
   searchTag: 'lux:setItemsWithImages',
 }
+
+// Used for retrieving and rendering the set's unit
+export const setUnit: IHalLink = {
+  title: 'Collection',
+  searchTag: 'lux:setUnit',
+  facetName: 'responsibleUnits',
+}
