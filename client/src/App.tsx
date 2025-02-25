@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
+import { AuthProvider } from 'react-oidc-context'
 
 import config from './config/config'
 import Routes from './features/common/LuxRoutes'
@@ -28,6 +29,13 @@ const App: React.FC = () => {
   const [envLoaded, setEnvLoaded] = useState(false)
   const [asConfigLoaded, setAsConfigLoaded] = useState(false)
   const envResult = useGetEnvQuery()
+
+  const removeTokenFromUrl = (): void => {
+    const url = new URL(window.location.href)
+    url.searchParams.delete('code')
+    url.searchParams.delete('state')
+    window.history.replaceState({}, '', url.toString())
+  }
 
   // Skip will be passed to config query endpoints if local env exists or if it hasn't loaded
   const skip =
@@ -93,7 +101,14 @@ const App: React.FC = () => {
 
   if (envReady || config.env.cacheViewerMode) {
     return (
-      <React.Fragment>
+      <AuthProvider
+        authority={config.env.oidcAuthority}
+        client_id={config.env.oidcClientId}
+        redirect_uri={config.env.oidcRedirectUri}
+        revokeTokenTypes={['refresh_token']}
+        scope="openid email"
+        onSigninCallback={removeTokenFromUrl}
+      >
         <GlobalStyle />
         <Router>
           <ScrollRestoration />
@@ -107,7 +122,7 @@ const App: React.FC = () => {
           )}
           <Routes />
         </Router>
-      </React.Fragment>
+      </AuthProvider>
     )
   }
 

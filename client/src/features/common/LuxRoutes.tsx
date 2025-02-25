@@ -12,7 +12,6 @@ import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
 
 import Footer from './Footer'
@@ -36,7 +35,7 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(
+  const [showMobileAlert] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
   const routes = getRouteNames()
@@ -72,8 +71,6 @@ const LuxRoutes: React.FC = () => {
     pushClientPageEvent(currentUrl, prevUrl, targetName)
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
-
-  useResizeableWindow(setShowMobileAlert)
 
   return (
     <React.Fragment>
