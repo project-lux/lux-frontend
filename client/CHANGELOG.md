@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.45.0 - Unreleased
+## v1.45.1 - 2025-2-25
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+- Responsible Unit is shown on Set pages ([#594](https://github.com/project-lux/lux-frontend/issues/594)).
+
+## v1.45.0 - 2025-2-24
 
 ### Added
 
@@ -39,7 +51,7 @@ All notable changes to this project will be documented in this file.
 - Fixed timeline list in fullscreen view exit button ([#508](https://github.com/project-lux/lux-frontend/issues/508)).
 - Fixed mobile tab dropdown functionality ([#536](https://github.com/project-lux/lux-frontend/issues/536)).
 
-## v1.43.0 - 1015-1-27
+## v1.43.0 - 2025-1-27
 
 ### Added
 

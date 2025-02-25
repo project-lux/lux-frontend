@@ -11,13 +11,6 @@ export const carriedBy: IHalLink = {
   searchTag: 'lux:workCarriedBy',
 }
 
-// Used for retrieving and rendering the set's unit
-export const setUnit: IHalLink = {
-  title: 'Collection',
-  searchTag: 'lux:setUnit',
-  facetName: 'responsibleUnits',
-}
-
 // Used to request and display works that are the subject of a work
 export const subjectOf: IHalLink = {
   title: 'Subject Of',
