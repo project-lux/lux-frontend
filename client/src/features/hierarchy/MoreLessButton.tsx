@@ -23,7 +23,7 @@ const MoreLessButton: React.FC<IProps> = ({
 
   return (
     <div className="parentMoreLessButton">
-      {currentState.currentPageLength <= parentsArrayLength && (
+      {currentState.currentPageLength < parentsArrayLength && (
         <button
           type="button"
           className="btn btn-link show-more me-3"
