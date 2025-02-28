@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.45.2 - 2025-2-28
+
+### Added
+
+### Changed
+
+- Changed the Show all set results button to Show all collection results ([#598](https://github.com/project-lux/lux-frontend/issues/598)).
+
+### Removed
+
+### Fixed
+
 ## v1.45.1 - 2025-2-25
 
 ### Added
