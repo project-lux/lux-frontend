@@ -137,7 +137,7 @@ const AdvancedSearchContainer: React.FC = () => {
                       nestedLevel={0}
                     />
                   </div>
-                  {hideAdvancedSearch && (
+                  {hideAdvancedSearch && queryTab === tab && (
                     <div style={{ height: showAllRows ? '200px' : '75px' }}>
                       <StyledAddButton
                         type="button"
