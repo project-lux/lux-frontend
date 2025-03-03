@@ -8,6 +8,7 @@ const SnippetTitle = styled.span`
   letter-spacing: 0;
   text-align: left;
   font-weight: 500;
+  overflow-wrap: anywhere;
 `
 
 export default SnippetTitle
