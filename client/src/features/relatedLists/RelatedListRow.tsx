@@ -16,6 +16,7 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import StyledHr from '../../styles/shared/Hr'
+import { scopeToTabTranslation } from '../../config/searchTypes'
 
 import RelatedListSearchLink from './RelatedListSearchLink'
 
@@ -108,7 +109,10 @@ const RelatedListRow: React.FC<{
                   <RelatedListSearchLink
                     scope={scope}
                     criteria={results[uri][scope].criteria}
-                    label={scope === 'item' ? 'object' : scope}
+                    label={scopeToTabTranslation[scope].substring(
+                      0,
+                      scopeToTabTranslation[scope].length - 1,
+                    )}
                     id={`${scope}-${ind}`}
                     title={title}
                   />
