@@ -8,7 +8,11 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the switch to timeline graph button to a bar chart icon ([#507](https://github.com/project-lux/lux-frontend/issues/507)).
+
 ### Removed
+
+### Fixed
 
 ## v1.45.2 - 2025-2-28
 
