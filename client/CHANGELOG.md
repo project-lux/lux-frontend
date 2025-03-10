@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the Show More rendering in the explore hierarchy ([#537](https://github.com/project-lux/lux-frontend/issues/537)).
+
 ## v1.45.1 - 2025-2-25
 
 ### Added
