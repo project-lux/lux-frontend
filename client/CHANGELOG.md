@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.46.0 - Unreleased
+
+### Added
+
+### Changed
+
+- Changed the switch to timeline graph button to a bar chart icon ([#507](https://github.com/project-lux/lux-frontend/issues/507)).
+
+### Removed
+
+### Fixed
+
+- Fixed the results snippet titles from expanding outside of their container ([#573](https://github.com/project-lux/lux-frontend/issues/573)).
+- Fixed the Show More rendering in the explore hierarchy ([#537](https://github.com/project-lux/lux-frontend/issues/537)).
+- Fixed the Show All Rows button from appearing on all results pages ([#504](https://github.com/project-lux/lux-frontend/issues/504)).
+
 ## v1.45.2 - 2025-2-28
 
 ### Added

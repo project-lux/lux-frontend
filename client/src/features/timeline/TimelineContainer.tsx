@@ -126,7 +126,7 @@ const TimelineContainer: React.FC<{
                 >
                   <i
                     className={`bi ${
-                      display === 'graph' ? 'bi-list-ul' : 'bi-diagram-3'
+                      display === 'graph' ? 'bi-list-ul' : 'bi-bar-chart-line'
                     }`}
                     style={{ fontSize: '1.5rem' }}
                   />
