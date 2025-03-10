@@ -1,98 +1,150 @@
 import React from 'react'
-import styled from 'styled-components'
+import { Col, Row } from 'react-bootstrap'
 
-import theme from '../../styles/theme'
-import config from '../../config/config'
+import useTitle from '../../lib/hooks/useTitle'
 import {
-  searchScope,
-  scopeToTabTranslation,
   advancedSearchTitles,
+  scopeToTabTranslation,
+  searchScope,
 } from '../../config/searchTypes'
+import { useGetFaqQuery } from '../../redux/api/cmsApi'
+import {
+  StyledFaqPage,
+  StyledFaqPageHeader,
+  StyledFaqGroupSection,
+} from '../../styles/features/cms/FaqPage'
+import FaqSideBar from '../cms/FaqSideBar'
+import config from '../../config/config'
 
-const StyledH1 = styled.h1`
-  background-color: ${theme.color.white};
-  text-align: center;
-`
-const StyledDiv = styled.div`
-  width: 100%;
-  padding-left: 20px;
-  padding-right: 20px;
-  /* background-color: ${theme.color.lightGray}; */
-`
-const StyledUl = styled.ul`
-  margin-left: 20px;
-`
+const createAccordionItem = (scope: string): JSX.Element => {
+  const headingId = `heading-${scope}`
+  const collapseId = `collapse-${scope}`
+  const advancedSearchName = advancedSearchTitles[scopeToTabTranslation[scope]]
 
-const StyledSummary = styled.summary`
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-  font-size: 2rem;
-  &::marker {
-    font-size: 1rem;
-  }
-`
-const StyledDetailsContainer = styled.div``
-const StyledDetails = styled.details`
-  margin-bottom: 2px;
-  background-color: ${theme.color.white};
-  box-shadow: ${theme.color.borderShadow} 1px 1px 5px;
-  &:first-of-type {
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
-  &:last-of-type {
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-  }
-`
+  return (
+    <div
+      className="accordion-item"
+      key={scope}
+      data-testid={`${scope}-accordion-item`}
+    >
+      <h3 className="accordion-header" id={headingId}>
+        <button
+          className="accordion-button collapsed"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target={`#${collapseId}`}
+          aria-expanded="false"
+          aria-controls={collapseId}
+        >
+          {advancedSearchName}
+        </button>
+      </h3>
+      <div
+        id={collapseId}
+        className="accordion-collapse collapse"
+        aria-labelledby={headingId}
+      >
+        <ul>
+          {Object.keys(config.advancedSearch.terms[scope])
+            .sort((a, b) =>
+              config.advancedSearch.terms[scope][a].label.localeCompare(
+                config.advancedSearch.terms[scope][b].label,
+              ),
+            )
+            .map((term) => {
+              return (
+                <React.Fragment key={term}>
+                  <li>
+                    <b>{config.advancedSearch.terms[scope][term].label}</b>{' '}
+                    {' - '}
+                    {config.advancedSearch.terms[scope][term].helpText}
+                  </li>
+                </React.Fragment>
+              )
+            })}
+        </ul>
+      </div>
+    </div>
+  )
+}
+
+const createAccordion = (groupName: string): JSX.Element => {
+  const id = `accordion-${groupName}`
+
+  const items = Object.values(searchScope).map((scope) => {
+    const item = createAccordionItem(scope)
+
+    return item
+  })
+
+  return (
+    <div className="accordion" id={id}>
+      {items}
+    </div>
+  )
+}
+
+const createGroupElemId = (scope: string): string => `group-${scope}`
+
+const scrollToTop = (): void => {
+  window.scrollTo(0, 0)
+}
+
+const createGroupElems = (): JSX.Element[] =>
+  ['Advanced Search Terms'].map((groupName, ind) => {
+    const accordion = createAccordion(groupName)
+    const groupKey = groupName
+
+    return (
+      <React.Fragment key={groupKey}>
+        <StyledFaqGroupSection
+          id={createGroupElemId(groupName)}
+          data-testid={`faq-page-body-${ind}`}
+        >
+          <h2 id="faq-header">Advanced Search Terms</h2>
+          {accordion}
+        </StyledFaqGroupSection>
+        <div className="d-flex justify-content-end">
+          <button type="button" className="back-to-top" onClick={scrollToTop}>
+            Back to Top
+          </button>
+        </div>
+      </React.Fragment>
+    )
+  })
+
+const title = 'Frequently Asked Questions'
 
 const AdvancedSearchConfig: React.FC = () => {
-  return (
-    <React.Fragment>
-      <StyledH1>Advanced Search Terms</StyledH1>
+  const result = useGetFaqQuery()
+  let groups: JSX.Element[] = []
 
-      <StyledDiv>
-        <StyledDetailsContainer>
-          {Object.values(searchScope).map((scope) => {
-            const advancedSearchName =
-              advancedSearchTitles[scopeToTabTranslation[scope]]
-            return (
-              <React.Fragment key={advancedSearchName}>
-                <StyledDetails>
-                  <StyledSummary>{advancedSearchName}</StyledSummary>
-                  <StyledUl>
-                    {Object.keys(config.advancedSearch.terms[scope])
-                      .sort((a, b) =>
-                        config.advancedSearch.terms[scope][
-                          a
-                        ].label.localeCompare(
-                          config.advancedSearch.terms[scope][b].label,
-                        ),
-                      )
-                      .map((term) => {
-                        return (
-                          <React.Fragment key={term}>
-                            <li>
-                              <b>
-                                {config.advancedSearch.terms[scope][term].label}
-                              </b>{' '}
-                              {' - '}
-                              {
-                                config.advancedSearch.terms[scope][term]
-                                  .helpText
-                              }
-                            </li>
-                          </React.Fragment>
-                        )
-                      })}
-                  </StyledUl>
-                </StyledDetails>
-              </React.Fragment>
-            )
-          })}
-        </StyledDetailsContainer>
-      </StyledDiv>
-    </React.Fragment>
+  useTitle(title)
+
+  if (result.isSuccess && result.data) {
+    groups = createGroupElems()
+  }
+
+  return (
+    <StyledFaqPage data-testid="faq-page">
+      <StyledFaqPageHeader>
+        <h1 data-testid="faq-page-header">{title}</h1>
+      </StyledFaqPageHeader>
+      <Row className="mx-0">
+        <Col xs={12} sm={12} md={12} lg={3} className="side-column order-lg-2">
+          <FaqSideBar />
+        </Col>
+        <Col
+          xs={12}
+          sm={12}
+          md={12}
+          lg={9}
+          className="d-xl-flex faq-body order-lg-1"
+        >
+          <div className="main-column flex-fill">{groups}</div>
+        </Col>
+      </Row>
+    </StyledFaqPage>
   )
 }
 
