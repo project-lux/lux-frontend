@@ -14,6 +14,7 @@ import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
+import AdvancedSearchConfig from '../advancedSearchConfig/AdvancedSearchConfig'
 
 import Footer from './Footer'
 
@@ -107,6 +108,10 @@ const LuxRoutes: React.FC = () => {
           {/* BEGIN CMS pages */}
           <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
           {/* END CMS pages */}
+          <Route
+            path="/view/advanced-search-config"
+            element={<AdvancedSearchConfig />}
+          />
 
           <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>
