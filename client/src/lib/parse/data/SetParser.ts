@@ -66,23 +66,6 @@ export default class SetParser extends EntityParser {
   }
 
   /**
-   * Determines if the current entity has child works or items based on its provided HAL links
-   * @returns {boolean}
-   */
-  hasChildren(): boolean {
-    const halLinks = this.getHalLinks()
-    if (
-      halLinks !== null &&
-      (halLinks.hasOwnProperty(`lux:setIncludedSets`) ||
-        halLinks.hasOwnProperty(`lux:setIncludedItems`))
-    ) {
-      return true
-    }
-
-    return false
-  }
-
-  /**
    * Returns array of transformed publication event data
    * @returns {Array<IEventInfo>}
    */

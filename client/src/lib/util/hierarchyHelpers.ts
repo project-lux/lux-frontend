@@ -1,3 +1,4 @@
+import { setWithMemberOf } from '../../config/setsSearchTags'
 import IConcept from '../../types/data/IConcept'
 import IEntity from '../../types/data/IEntity'
 import ILinks from '../../types/data/ILinks'
@@ -17,41 +18,25 @@ export const currentUriInHierarchy = (uri: string, pathname: string): boolean =>
 
 export const hasHierarchyHalLinks = (providedLinks: ILinks): Array<string> => {
   const halLinks = []
+  const halLinkToCheck = setWithMemberOf.searchTag
 
-  if (providedLinks.hasOwnProperty('lux:setIncludedItems')) {
-    halLinks.push(providedLinks['lux:setIncludedItems'].href)
-  }
-
-  if (providedLinks.hasOwnProperty('lux:setIncludedSets')) {
-    halLinks.push(providedLinks['lux:setIncludedSets'].href)
+  if (providedLinks.hasOwnProperty(halLinkToCheck)) {
+    halLinks.push(providedLinks[halLinkToCheck].href)
   }
 
   return halLinks
 }
 
-export const getItemChildren = (
+export const getChildren = (
   providedLinks: ILinks | undefined,
 ): string | null => {
   if (providedLinks === undefined) {
     return null
   }
+  const halLink = setWithMemberOf.searchTag
 
-  if (providedLinks.hasOwnProperty('lux:setIncludedItems')) {
-    return providedLinks['lux:setIncludedItems'].href
-  }
-
-  return null
-}
-
-export const getSetChildren = (
-  providedLinks: ILinks | undefined,
-): string | null => {
-  if (providedLinks === undefined) {
-    return null
-  }
-
-  if (providedLinks.hasOwnProperty('lux:setIncludedSets')) {
-    return providedLinks['lux:setIncludedSets'].href
+  if (providedLinks.hasOwnProperty(halLink)) {
+    return providedLinks[halLink].href
   }
 
   return null

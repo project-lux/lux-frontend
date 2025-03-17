@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { isNull, isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
@@ -15,39 +14,30 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
-const isHalLinkForSets = (link: string | null): boolean =>
-  !isNull(link) && link.includes('/set')
-
 const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestor: IEntity
   skipApiCalls?: boolean
   parentsOfCurrentEntity: Array<string>
   ancestors: Array<string>
-  setIncludedItems: string | null
-  setIncludedSets: string | null
+  objectOrSetMemberOfSet: string | null
 }> = ({
   ancestor,
   skipApiCalls = false,
   parentsOfCurrentEntity,
   ancestors,
-  setIncludedItems,
-  setIncludedSets,
+  objectOrSetMemberOfSet,
 }) => {
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
-  const [setPage, setSetPage] = useState<number>(1)
-  const [itemPage, setItemPage] = useState<number>(1)
-  const [halLink, setHalLink] = useState<string | null>(
-    setIncludedSets || setIncludedItems,
-  )
+  const [page, setPage] = useState<number>(1)
 
-  const skip = halLink === null
+  const skip = objectOrSetMemberOfSet === null
   const { data, isSuccess, isLoading, isFetching } =
     useGetSearchRelationshipQuery(
       {
-        uri: halLink,
-        page: isHalLinkForSets(halLink) ? setPage : itemPage,
+        uri: objectOrSetMemberOfSet,
+        page,
       },
       {
         skip,
@@ -55,42 +45,17 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     )
 
   const handleShowLess = (): void => {
-    const page = isHalLinkForSets(halLink) ? setPage : itemPage
-    if (isHalLinkForSets(halLink)) {
-      setSetPage(setPage - 1)
-    } else {
-      if (itemPage === 1 && !isUndefined(setIncludedSets)) {
-        setHalLink(setIncludedSets)
-      }
-      setItemPage(itemPage > 1 ? itemPage - 1 : 1)
-    }
+    setPage(page - 1)
     dispatch(
       removeData({
         id: ancestor.id!,
         page,
-        halLinkType: halLink?.includes('/set') ? 'sets' : 'items',
       }),
     )
   }
 
-  const handleShowMore = (next: string | null): void => {
-    // If there are no more set results
-    if (
-      !data.hasOwnProperty('next') &&
-      halLink?.includes('/set') &&
-      !isNull(setIncludedItems)
-    ) {
-      setHalLink(setIncludedItems)
-    } else if (!isNull(next) && !isUndefined(next)) {
-      // If the results returned contains more data
-      if (isHalLinkForSets(halLink)) {
-        setSetPage(setPage + 1)
-      } else {
-        setItemPage(itemPage + 1)
-      }
-    } else {
-      setHalLink(null)
-    }
+  const handleShowMore = (): void => {
+    setPage(page + 1)
   }
 
   useEffect(() => {
@@ -102,14 +67,12 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
         const { id } = item
         children.push(id)
       }
-      const page = isHalLinkForSets(halLink) ? setPage : itemPage
       dispatch(
         addData({
           id: ancestor.id!,
           values: children,
           total: totalResults,
           page,
-          halLinkType: halLink?.includes('/set') ? 'sets' : 'items',
         }),
       )
     }
@@ -117,13 +80,11 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     ancestor.id,
     data,
     dispatch,
-    halLink,
     isSuccess,
-    itemPage,
     parentsOfCurrentEntity,
     pathname,
     skip,
-    setPage,
+    page,
   ])
 
   const currentState = useAppSelector(
@@ -149,14 +110,11 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           />
         ))}
         <Col xs={12} className="d-flex justify-content-start">
-          {(data.hasOwnProperty('next') ||
-            (!data.hasOwnProperty('next') &&
-              halLink?.includes('/set') &&
-              !isNull(setIncludedItems))) && (
+          {data.hasOwnProperty('next') && (
             <button
               type="button"
               className="btn btn-link show-more"
-              onClick={() => handleShowMore(data.next)}
+              onClick={() => handleShowMore()}
             >
               Show More
             </button>

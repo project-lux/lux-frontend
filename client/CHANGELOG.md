@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Archive Hierarchies display mixed Collections and Objects results (rather than Collections first, then Objects) ([#458](https://github.com/project-lux/lux-frontend/issues/458)).
+
 ### Removed
 
 ### Fixed
