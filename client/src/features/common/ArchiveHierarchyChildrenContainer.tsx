@@ -23,24 +23,20 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   skipApiCalls?: boolean
   parentsOfCurrentEntity: Array<string>
   ancestors: Array<string>
-  setIncludedItems: string | null
-  setIncludedSets: string | null
+  objectOrSetMemberOfSet: string | null
 }> = ({
   ancestor,
   skipApiCalls = false,
   parentsOfCurrentEntity,
   ancestors,
-  setIncludedItems,
-  setIncludedSets,
+  objectOrSetMemberOfSet,
 }) => {
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
   const [setPage, setSetPage] = useState<number>(1)
   const [itemPage, setItemPage] = useState<number>(1)
-  const [halLink, setHalLink] = useState<string | null>(
-    setIncludedSets || setIncludedItems,
-  )
+  const [halLink, setHalLink] = useState<string | null>(objectOrSetMemberOfSet)
 
   const skip = halLink === null
   const { data, isSuccess, isLoading, isFetching } =
@@ -59,8 +55,8 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     if (isHalLinkForSets(halLink)) {
       setSetPage(setPage - 1)
     } else {
-      if (itemPage === 1 && !isUndefined(setIncludedSets)) {
-        setHalLink(setIncludedSets)
+      if (itemPage === 1 && !isUndefined(objectOrSetMemberOfSet)) {
+        setHalLink(objectOrSetMemberOfSet)
       }
       setItemPage(itemPage > 1 ? itemPage - 1 : 1)
     }
@@ -78,9 +74,9 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
     if (
       !data.hasOwnProperty('next') &&
       halLink?.includes('/set') &&
-      !isNull(setIncludedItems)
+      !isNull(objectOrSetMemberOfSet)
     ) {
-      setHalLink(setIncludedItems)
+      setHalLink(objectOrSetMemberOfSet)
     } else if (!isNull(next) && !isUndefined(next)) {
       // If the results returned contains more data
       if (isHalLinkForSets(halLink)) {
@@ -152,7 +148,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           {(data.hasOwnProperty('next') ||
             (!data.hasOwnProperty('next') &&
               halLink?.includes('/set') &&
-              !isNull(setIncludedItems))) && (
+              !isNull(objectOrSetMemberOfSet))) && (
             <button
               type="button"
               className="btn btn-link show-more"
