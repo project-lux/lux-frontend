@@ -8,7 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Changed HAL link for display archive hierarchies ([#458](https://github.com/project-lux/lux-frontend/issues/458)).
+- Archive Hierarchies display mixed Collections and Objects results (rather than Collections first, then Objects) ([#458](https://github.com/project-lux/lux-frontend/issues/458)).
 
 ### Removed
 
