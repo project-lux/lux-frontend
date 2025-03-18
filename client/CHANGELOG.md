@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the advanced search dropdown menu from overlapping other elements ([#511](https://github.com/project-lux/lux-frontend/issues/511)).
+
 ## v1.46.0 - 2025-3-10
 
 ### Added

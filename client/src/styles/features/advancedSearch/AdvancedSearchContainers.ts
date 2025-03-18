@@ -14,7 +14,6 @@ export const StyledContainer = styled(Col)<IProps>`
   display: inline-table;
   position: relative;
   flex: 0 0 auto;
-  z-index: 0;
 
   &.advancedSearchBody {
     box-shadow: 0px 4px 5px 0px ${theme.color.black20};
