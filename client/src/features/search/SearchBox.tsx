@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { searchScope } from '../../config/searchTypes'
-import { translate } from '../../lib/util/translate'
+import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
   ISimpleSearchState,
@@ -100,15 +100,16 @@ const SearchBox: React.FC<{
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     if (validateInput()) {
+      const valueToSubmit = checkForStopWords(currentState.value!)
       translate({
-        query: currentState.value!,
+        query: valueToSubmit,
         scope: searchScope[tab],
         onSuccess: (translatedString) => {
           const newUrlParams = new URLSearchParams()
           const query = JSON.parse(translatedString)
           delete query._scope
           newUrlParams.set('q', JSON.stringify(query))
-          newUrlParams.set('sq', currentState.value as string)
+          newUrlParams.set('sq', valueToSubmit)
           if (closeSearchBox) {
             closeSearchBox()
           }

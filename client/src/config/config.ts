@@ -15,7 +15,11 @@ class Config {
 
   aat: IAat = {}
 
-  advancedSearch: IAdvancedSearchConfig = {}
+  advancedSearch: IAdvancedSearchConfig = {
+    terms: undefined,
+    options: undefined,
+    stopWords: [],
+  }
 
   constructor() {
     this.env = {

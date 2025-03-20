@@ -1,4 +1,4 @@
-import { getDataApiBaseUrl } from '../../config/config'
+import config, { getDataApiBaseUrl } from '../../config/config'
 
 interface ITranslateParameters {
   query: string
@@ -7,6 +7,7 @@ interface ITranslateParameters {
   onError: () => void
   onLoading: () => void
 }
+
 export function translate({
   query,
   scope,
@@ -28,4 +29,15 @@ export function translate({
       }
     })
     .catch(() => onError())
+}
+
+export function checkForStopWords(queryString: string): string {
+  const queryStringWords = queryString.split(/[\s\W]+/)
+  for (const word of queryStringWords) {
+    if (!config.advancedSearch.stopWords.includes(word)) {
+      return queryString
+    }
+  }
+
+  return `"${queryString}"`
 }
