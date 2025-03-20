@@ -1,8 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
 
-// import IEntity from '../../types/data/IEntity'
-
 export interface IArchiveHierarchy {
   [key: string]: {
     requests: {
