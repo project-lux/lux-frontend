@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import { Col, Form, InputGroup, Pagination, Row } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import { getParamPrefix } from '../../lib/util/params'
@@ -17,7 +18,9 @@ interface IPagination {
   estimate: number
   currentPage: number
   pageSize: number
+  handleSelectionOfPage?: (pageValue: number) => void
   siblingCount?: number
+  isArchive?: boolean
 }
 
 const StyledPagination = styled(Pagination)`
@@ -65,6 +68,7 @@ const StyledInputGroupDiv = styled(InputGroup)`
  * @param {number} estimate the estimate of the total number of results returned
  * @param {number} currentPage the current result page a user is viewing
  * @param {number} pageSize the number of results per page
+ * @param {(x: number) => void} handleSelectionOfPage optional; the function to use when selecting a page - used ONLY for archive hierarchy
  * @param {number} siblingCount optional; known configuration for the given search tag
  * @returns {JSX.Element}
  */
@@ -72,7 +76,9 @@ const Paginate: React.FC<IPagination> = ({
   estimate,
   currentPage,
   pageSize,
+  handleSelectionOfPage,
   siblingCount = 2,
+  isArchive = false,
 }) => {
   const inputRef = useRef<HTMLInputElement>(null)
   const [pageValue, setPageValue] = useState<number>(currentPage)
@@ -82,7 +88,7 @@ const Paginate: React.FC<IPagination> = ({
   const { pathname, search } = useLocation()
   const URL = new URLSearchParams(search)
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(tab)
+  const paramPrefix = isUndefined(tab) ? 'i' : getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
   // remove page so that the paginator can assign the page number
   URL.delete(pageParam)
@@ -105,10 +111,14 @@ const Paginate: React.FC<IPagination> = ({
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     handleAnalytics()
-    navigate({
-      pathname: `${pathname}`,
-      search: `?${newURL}&${pageParam}=${pageValue}`,
-    })
+    if (!isUndefined(handleSelectionOfPage)) {
+      handleSelectionOfPage(pageValue)
+    } else {
+      navigate({
+        pathname: `${pathname}`,
+        search: `?${newURL}&${pageParam}=${pageValue}`,
+      })
+    }
   }
 
   const paginationRange = Paginator({
@@ -197,38 +207,40 @@ const Paginate: React.FC<IPagination> = ({
           )}
         </StyledPagination>
       </Col>
-      <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={4}>
-        <Form
-          className="d-flex justify-content-center"
-          onSubmit={submitHandler}
-          data-testid="pagination-page-input"
-        >
-          <StyledInputGroupDiv className="mb-3 w-auto">
-            <InputGroup.Text id="page-input">Go to page</InputGroup.Text>
-            <Form.Control
-              id="page-input"
-              type="number"
-              placeholder={currentPage.toString()}
-              onChange={(e) =>
-                setPageValue(parseInt(e.currentTarget.value, 10))
-              }
-              min={1}
-              max={lastPage}
-              ref={inputRef}
-              value={pageValue.toString()}
-              aria-label="Go to specific page"
-              aria-describedby="page-input"
-            />
-            <InputGroup.Text id="page-input">of {lastPage}</InputGroup.Text>
-          </StyledInputGroupDiv>
-          <PrimaryButton
-            type="submit"
-            className="d-flex align-items-center py-1 h-75 mx-1"
+      {!isArchive && (
+        <Col xs={12} sm={12} md={12} lg={12} xl={12} xxl={4}>
+          <Form
+            className="d-flex justify-content-center"
+            onSubmit={submitHandler}
+            data-testid="pagination-page-input"
           >
-            Go
-          </PrimaryButton>
-        </Form>
-      </Col>
+            <StyledInputGroup className="mb-3 w-auto">
+              <InputGroup.Text id="page-input">Go to page</InputGroup.Text>
+              <Form.Control
+                id="page-input"
+                type="number"
+                placeholder={currentPage.toString()}
+                onChange={(e) =>
+                  setPageValue(parseInt(e.currentTarget.value, 10))
+                }
+                min={1}
+                max={lastPage}
+                ref={inputRef}
+                value={pageValue.toString()}
+                aria-label="Go to specific page"
+                aria-describedby="page-input"
+              />
+              <InputGroup.Text id="page-input">of {lastPage}</InputGroup.Text>
+            </StyledInputGroup>
+            <PrimaryButton
+              type="submit"
+              className="d-flex align-items-center py-1 h-75 mx-1"
+            >
+              Go
+            </PrimaryButton>
+          </Form>
+        </Col>
+      )}
     </Row>
   )
 }

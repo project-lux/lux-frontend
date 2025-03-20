@@ -111,6 +111,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
           key={pathname}
           parentsOfCurrentEntity={parentsOfCurrentEntity}
           ancestors={ancestorIds}
+          currentEntity={entity}
         />
         {objectsWithImagesHalLink !== null && (
           <Row className="mt-3">
