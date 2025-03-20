@@ -11,7 +11,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import { ErrorFallback } from '../error/ErrorFallback'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
-import ArchiveHierarchyContainer from '../common/ArchiveHierarchyContainer'
+import ArchiveHierarchyContainer from '../archiveHierarchy/ArchiveHierarchyContainer'
 import CanIReuseIt from '../common/CanIReuseIt'
 import {
   getNextSetUris,
