@@ -16,9 +16,10 @@ import {
   hasHierarchyHalLinks,
   isInHierarchy,
 } from '../../lib/util/hierarchyHelpers'
+import IEntity from '../../types/data/IEntity'
+import RecordLink from '../common/RecordLink'
 
 import ArchiveHierarchyChildrenContainer from './ArchiveHierarchyChildrenContainer'
-import RecordLink from './RecordLink'
 
 const StyledCol = styled(Col)`
   &:hover {
@@ -35,7 +36,14 @@ const ArchiveHierarchyChild: React.FC<{
   skipApiCalls: boolean
   parentsOfCurrentEntity: Array<string>
   ancestors: Array<string>
-}> = ({ child, skipApiCalls, parentsOfCurrentEntity, ancestors }) => {
+  currentEntity: IEntity
+}> = ({
+  child,
+  skipApiCalls,
+  parentsOfCurrentEntity,
+  ancestors,
+  currentEntity,
+}) => {
   const [open, setOpen] = useState<boolean>(false)
   const { pathname } = useLocation()
 
@@ -97,6 +105,7 @@ const ArchiveHierarchyChild: React.FC<{
                 parentsOfCurrentEntity={parentsOfCurrentEntity}
                 ancestors={ancestors}
                 objectOrSetMemberOfSet={getChildren(data._links)}
+                currentEntity={currentEntity}
               />
             </CollapseContainer>
           </Col>

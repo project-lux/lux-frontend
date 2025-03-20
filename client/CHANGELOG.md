@@ -118,6 +118,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added quotes around search strings containing only stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
+- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
 
 ### Changed
 
