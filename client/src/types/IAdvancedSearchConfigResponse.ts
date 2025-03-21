@@ -2,4 +2,5 @@
 export interface IAdvancedSearchConfigResponse {
   terms: any
   options: any
+  stopWords: Array<string>
 }
