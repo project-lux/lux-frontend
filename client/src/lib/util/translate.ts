@@ -32,9 +32,15 @@ export function translate({
 }
 
 export function checkForStopWords(queryString: string): string {
-  const queryStringWords = queryString.split(/[\s\W]+/)
+  if (queryString.includes('"')) {
+    return queryString
+  }
+  const queryStringWords = queryString.split(/\W+/)
+  if (queryStringWords.length === 1) {
+    return queryString
+  }
   for (const word of queryStringWords) {
-    if (!config.advancedSearch.stopWords.includes(word)) {
+    if (word !== '' && !config.advancedSearch.stopWords.includes(word)) {
       return queryString
     }
   }
