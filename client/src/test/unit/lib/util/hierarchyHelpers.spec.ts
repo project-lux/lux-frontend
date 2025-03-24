@@ -70,12 +70,12 @@ describe('hierarchyHelpers', () => {
           templated: true,
         },
       ],
-      'lux:setIncludedSets': {
+      'lux:random': {
         href: 'https://endpoint.yale.edu/api/facets/set?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
         _estimate: 1,
       },
-      'lux:setIncludedItems': {
-        href: 'https://endpoint.yale.edu/api/search/item?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
+      'lux:objectOrSetMemberOfSet': {
+        href: 'https://endpoint.yale.edu/api/search/multi?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
         _estimate: 1,
       },
     }

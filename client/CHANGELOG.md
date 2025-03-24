@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.46.0 - Unreleased
+## v1.47.0 - Unreleased
+
+### Added
+
+- Added quotes around search strings containing only stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
+
+### Changed
+
+- Archive Hierarchies display mixed Collections and Objects results (rather than Collections first, then Objects) ([#458](https://github.com/project-lux/lux-frontend/issues/458)).
+
+### Removed
+
+### Fixed
+
+- Fixed the advanced search dropdown menu from overlapping other elements ([#511](https://github.com/project-lux/lux-frontend/issues/511)).
+
+## v1.46.0 - 2025-3-10
 
 ### Added
 
