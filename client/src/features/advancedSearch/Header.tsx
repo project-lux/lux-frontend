@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Alert, Col, Row } from 'react-bootstrap'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import StyledTitleHeader from '../../styles/features/advancedSearch/TitleHeader'
@@ -7,7 +7,7 @@ import { ErrorFallback } from '../error/ErrorFallback'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import ErrorMessage from '../search/ErrorMessage'
 
-import ToggleButton from './ToggleSearchButton'
+// import ToggleButton from './ToggleSearchButton'
 import AlertModal from './AlertModal'
 
 /**
@@ -40,7 +40,12 @@ const Header: React.FC = () => {
         )}
         <Col xs={12} className="px-0">
           <StyledTitleHeader className="mb-3 mx-0">
-            <Col sm={9} xs={12}>
+            <Col>
+              <Alert variant="info">
+                The advanced search is not available on mobile devices.
+              </Alert>
+            </Col>
+            {/* <Col sm={9} xs={12}>
               <h2>Advanced Search</h2>
             </Col>
             <Col
@@ -52,7 +57,7 @@ const Header: React.FC = () => {
                 setIsError={setIsError}
                 setShowModal={setShowModal}
               />
-            </Col>
+            </Col> */}
           </StyledTitleHeader>
         </Col>
       </ErrorBoundary>

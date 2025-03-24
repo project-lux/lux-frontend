@@ -30,14 +30,6 @@ const ReactBootstrapDropdown = styled(Dropdown)`
   .dropdown-item.active {
     background-color: ${theme.color.primary.blue};
   }
-
-  &#advanced-search-switch {
-    display: none;
-
-    @media (min-width: ${theme.breakpoints.md}px) {
-      display: block;
-    }
-  }
 `
 
 export default ReactBootstrapDropdown

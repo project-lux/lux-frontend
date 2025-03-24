@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import ErrorPage from '../error/ErrorPage'
@@ -12,8 +11,6 @@ import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import theme from '../../styles/theme'
 
 import Footer from './Footer'
 
@@ -36,9 +33,7 @@ const RedirectOldProd: React.FC = () => {
 const LuxRoutes: React.FC = () => {
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert, setShowMobileAlert] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
+
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
@@ -73,8 +68,6 @@ const LuxRoutes: React.FC = () => {
     setPrevUrl(currentUrl)
   }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
 
-  useResizeableWindow(setShowMobileAlert)
-
   return (
     <React.Fragment>
       <RedirectOldProd />
@@ -84,16 +77,6 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {showMobileAlert && (
-          <Alert
-            dismissible
-            variant="info"
-            className="d-flex justify-content-center mb-0"
-          >
-            LUX is optimized for desktop use. Some features are not available on
-            mobile devices.
-          </Alert>
-        )}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />

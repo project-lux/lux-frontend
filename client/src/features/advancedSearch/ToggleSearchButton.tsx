@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -13,6 +13,8 @@ import {
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 interface IToggleSearchButton {
   setIsError: (x: boolean) => void
@@ -29,6 +31,12 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
   setIsError,
   setShowModal = () => null,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
+  useResizeableWindow(setIsMobile)
+
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const { pathname, search } = useLocation()
   const navigate = useNavigate()
@@ -98,6 +106,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
           : handleSwitchToSimpleSearch()
       }
       data-testid="search-toggle-button"
+      disabled={isMobile}
     >
       Switch to {buttonText}
     </LinkButton>

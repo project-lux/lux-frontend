@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
 import { useNavigate } from 'react-router-dom'
 import { Row, Col } from 'react-bootstrap'
@@ -12,6 +12,8 @@ import { getParamPrefix } from '../../lib/util/params'
 import Tooltip from '../common/Tooltip'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 interface IProps {
   setIsError: (x: boolean) => void
@@ -19,11 +21,17 @@ interface IProps {
 }
 
 const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+
   const simpleSearchState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
   const { value } = simpleSearchState
   const navigate = useNavigate()
+
+  useResizeableWindow(setIsMobile)
 
   const handleSelect = (entityType: string): void => {
     const searchString = value || ''
@@ -71,6 +79,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
           <Dropdown.Toggle
             id="advanced-search-dropdown-toggle"
             data-testid={`${id}-advanced-search-switch-dropdown-toggle`}
+            disabled={isMobile}
           >
             Advanced Search
           </Dropdown.Toggle>

@@ -68,21 +68,21 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
         </React.Fragment>
       )}
-      {!(
+      {/* {!(
         currentSearchState.searchType === 'simple' ||
         screenWidth < theme.breakpoints.md
-      ) && (
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Header />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-          <AdvancedSearchContainer key={tab} />
-        </ErrorBoundary>
-      )}
+      ) && ( */}
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        <Header />
+        <Navigation
+          urlParams={urlParams}
+          criteria={queryString !== '' ? JSON.parse(queryString) : null}
+          search={search}
+          isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+        />
+        <AdvancedSearchContainer key={tab} />
+      </ErrorBoundary>
+      {/* )} */}
     </React.Fragment>
   )
 }
