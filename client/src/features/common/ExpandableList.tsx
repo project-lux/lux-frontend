@@ -36,6 +36,7 @@ const ExpandableList: React.FC<IList> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  useResizeableWindow(setIsMobile)
 
   const numChildren = children.props.values.length
 
@@ -54,8 +55,6 @@ const ExpandableList: React.FC<IList> = ({
         ? theme.spacing.verticalItemDoubleSpacing
         : theme.spacing.verticalItemSingleSpacing,
   }
-
-  useResizeableWindow(setIsMobile)
 
   return (
     <div className={`${className} col-sm-12`} data-testid="expandable-list">
