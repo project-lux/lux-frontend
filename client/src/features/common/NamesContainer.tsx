@@ -42,7 +42,7 @@ const NamesContainer: React.FC<INames> = ({
 
   const name = (namesData: Array<INoteContent>): JSX.Element[] =>
     namesData.map((nameData, ind) => {
-      const { content, language } = nameData
+      const { content, language, notation } = nameData
       const languageSuperscriptId =
         transformStringForTestId(content).toLowerCase()
 
@@ -52,6 +52,7 @@ const NamesContainer: React.FC<INames> = ({
           content={content}
           language={language}
           languageId={languageSuperscriptId}
+          notation={notation}
         />
       )
     })
