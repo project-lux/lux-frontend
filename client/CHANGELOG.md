@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the mobile hook placement to prevent React error boundaries ([#574](https://github.com/project-lux/lux-frontend/issues/574)).
+
 ## v1.47.0 - 2025-3-24
 
 ### Added
