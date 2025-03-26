@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.47.0 - Unreleased
+## v1.47.1 - 2025-3-27
+
+### Fixed
+
+- Fixed the advanced search text input validation to add quotes around text only containing stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
+
+## v1.47.0 - 2025-3-24
 
 ### Added
 
