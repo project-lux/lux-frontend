@@ -8,10 +8,10 @@ import { getDefaultSearchOptions } from '../../config/advancedSearch/options'
 // import config from '../../config/config'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import {
-  convertYearToISOYear,
-  isValidDateObject,
   convertLuxISODateToISODate,
+  isValidDateObject,
 } from '../facets/dateParser'
+import { checkForStopWords } from '../util/translate'
 
 import { getFieldToEntityRelationship } from './stateManager'
 
@@ -193,6 +193,10 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
     if (currentState[propertyToCheck].replace(/"/g, '').trim() === '') {
       return null
     }
+
+    currentState[propertyToCheck] = checkForStopWords(
+      currentState[propertyToCheck],
+    )
   }
 
   // is boolean
@@ -204,20 +208,6 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
 
   if (isDateInput(propertyToCheck)) {
     const value = currentState[propertyToCheck]
-    const isoYear = convertYearToISOYear(value)
-    currentState[propertyToCheck] = isoYear
-  }
-
-  // Is range
-  if (isRangeInput(propertyToCheck)) {
-    if (currentState[propertyToCheck] === '') {
-      return null
-    }
-  }
-
-  // Is date
-  if (isDateInput(propertyToCheck)) {
-    const value = currentState[propertyToCheck]
     const dateObj = new Date(value)
     // Ensure that the date is valid before submitting
     // Change it if needed
@@ -227,6 +217,13 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
       if (isValidDateObject(dateToSubmit)) {
         currentState[propertyToCheck] = dateToSubmit.toISOString()
       }
+    }
+  }
+
+  // Is range
+  if (isRangeInput(propertyToCheck)) {
+    if (currentState[propertyToCheck] === '') {
+      return null
     }
   }
 

@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 
 - Fixed the mobile hook placement to prevent React error boundaries ([#574](https://github.com/project-lux/lux-frontend/issues/574)).
 
+## v1.47.1 - 2025-3-27
+
+### Fixed
+
+- Fixed the advanced search text input validation to add quotes around text only containing stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
+
 ## v1.47.0 - 2025-3-24
 
 ### Added
