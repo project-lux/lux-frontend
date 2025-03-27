@@ -7,7 +7,10 @@ import { dimensions, text } from '../../config/advancedSearch/inputTypes'
 import { getDefaultSearchOptions } from '../../config/advancedSearch/options'
 // import config from '../../config/config'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
-import { convertYearToISOYear } from '../facets/dateParser'
+import {
+  convertLuxISODateToISODate,
+  isValidDateObject,
+} from '../facets/dateParser'
 import { checkForStopWords } from '../util/translate'
 
 import { getFieldToEntityRelationship } from './stateManager'
@@ -205,8 +208,16 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
 
   if (isDateInput(propertyToCheck)) {
     const value = currentState[propertyToCheck]
-    const isoYear = convertYearToISOYear(value)
-    currentState[propertyToCheck] = isoYear
+    const dateObj = new Date(value)
+    // Ensure that the date is valid before submitting
+    // Change it if needed
+    if (!isValidDateObject(dateObj)) {
+      // value should be a LUX ISO string format
+      const dateToSubmit = convertLuxISODateToISODate(value)
+      if (isValidDateObject(dateToSubmit)) {
+        currentState[propertyToCheck] = dateToSubmit.toISOString()
+      }
+    }
   }
 
   // Is range
