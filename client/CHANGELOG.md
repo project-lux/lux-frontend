@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the color of language superscripts for contrast purposes ([#292](https://github.com/project-lux/lux-frontend/issues/292)).
+
 ### Removed
 
 ### Fixed
