@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { forwardRef } from 'react'
+import React, { ChangeEvent, forwardRef } from 'react'
 import { Form } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -7,6 +7,7 @@ import {
   addHoverHelpText,
   resetHoverHelpText,
 } from '../../redux/slices/helpTextSlice'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 let timeout: NodeJS.Timeout
 
@@ -35,6 +36,18 @@ const DropdownCheckbox = forwardRef<
     dispatch(addHoverHelpText({ value }))
   }
 
+  const handleOnCheck = (e: ChangeEvent<HTMLInputElement>): void => {
+    e.stopPropagation()
+    pushClientEvent('Options', 'Checked', e.target.id)
+    onCheck()
+  }
+
+  const handleOnUncheck = (e: ChangeEvent<HTMLInputElement>): void => {
+    e.stopPropagation()
+    pushClientEvent('Options', 'Unchecked', e.target.id)
+    onUncheck()
+  }
+
   const handleOnMouseEnter = (e: any): void => {
     e.preventDefault()
     clearTimeout(timeout)
@@ -60,7 +73,9 @@ const DropdownCheckbox = forwardRef<
         type="checkbox"
         className="d-flex align-top mt-0"
         checked={checked}
-        onChange={checked ? onUncheck : onCheck}
+        onChange={(e: ChangeEvent<HTMLInputElement>) =>
+          checked ? handleOnUncheck(e) : handleOnCheck(e)
+        }
       />
       <Form.Label column="sm" value={label} className="py-0 ps-2 pe-1 d-inline">
         {label}

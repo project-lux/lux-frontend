@@ -5,6 +5,7 @@ import { Dropdown } from 'react-bootstrap'
 import { useAppDispatch } from '../../app/hooks'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
 import StyledDropdown from '../../styles/shared/Dropdown'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import DropdownCheckboxList from './DropdownCheckBoxList'
 
@@ -39,9 +40,15 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
 }) => {
   const dispatch = useAppDispatch()
 
-  const setHelpText = (): void => {
+  const handleClick = (e: any): void => {
+    pushClientEvent(
+      'Options',
+      e.target.classList.contains('show') ? 'Closed' : 'Opened',
+      'Dropdown Menu',
+    )
     dispatch(addSelectedHelpText({ value: 'options' }))
   }
+
   /* until a change is made related to ML#916, search options will not work as expected unless the user is searching using Anywhere or Name at the top level of the search. nestedLevel = 0  and  rowType = INPUT_ROW_TYPE help us disable search options where they won't work */
   if (
     state &&
@@ -50,7 +57,7 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
     rowType === INPUT_ROW_TYPE
   ) {
     return (
-      <StyledDropdown onClick={setHelpText}>
+      <StyledDropdown onSelect={handleClick}>
         <Dropdown.Toggle
           id={`gear-toggle-${stateId}`}
           data-testid={`gear-toggle-${stateId}`}
