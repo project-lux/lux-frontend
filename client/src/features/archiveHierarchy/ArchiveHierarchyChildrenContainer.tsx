@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Button, Col } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
-import { isNull, isUndefined } from 'lodash'
+// import { isNull, isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
@@ -12,8 +12,8 @@ import {
   IArchiveHierarchy,
 } from '../../redux/slices/archiveHierarchySlice'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
-import EntityParser from '../../lib/parse/data/EntityParser'
-import config from '../../config/config'
+// import EntityParser from '../../lib/parse/data/EntityParser'
+// import config from '../../config/config'
 import Paginate from '../results/Paginate'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
@@ -22,7 +22,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   ancestor: IEntity
   skipApiCalls?: boolean
   parentsOfCurrentEntity: Array<string>
-  ancestors: Array<string>
+  ancestors: Array<{ id: string; currentPageHalLink: string | null }>
   objectOrSetMemberOfSet: string | null
   currentEntity: IEntity
 }> = ({
@@ -33,6 +33,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   objectOrSetMemberOfSet,
   currentEntity,
 }) => {
+  console.log(ancestors)
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
@@ -85,32 +86,27 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
 
   if (isSuccess && data && currentState.hasOwnProperty(ancestor.id!)) {
     const state = currentState[ancestor.id!]
-    const children: Array<string> = []
+    const childrenOfCurrentAncestor: Array<string> = []
     Object.values(state.requests).map((value) =>
-      value.map((v) => children.push(v)),
+      value.map((v) => childrenOfCurrentAncestor.push(v)),
     )
     // get the HAL link that will return the page where the current entity is
-    const currentEntityHalLinks = !isUndefined(currentEntity._links)
-      ? currentEntity._links
-      : null
-    console.log(currentEntityHalLinks)
-    const getCurrentEntityPage =
-      !isNull(currentEntityHalLinks) &&
-      currentEntityHalLinks.hasOwnProperty('lux:currentHierarchyPage')
-        ? currentEntityHalLinks['lux:currentHierarchyPage']
-        : null
-    const currentEntityPrimaryName = new EntityParser(
-      currentEntity,
-    ).getPrimaryName(config.aat.primaryName)
+    // const currentEntityHalLinks = !isUndefined(currentEntity._links)
+    //   ? currentEntity._links
+    //   : null
+    // const getCurrentEntityPage =
+    //   !isNull(currentEntityHalLinks) &&
+    //   currentEntityHalLinks.hasOwnProperty('lux:currentHierarchyPage')
+    //     ? currentEntityHalLinks['lux:currentHierarchyPage']
+    //     : null
+    // const currentEntityPrimaryName = new EntityParser(
+    //   currentEntity,
+    // ).getPrimaryName(config.aat.primaryName)
 
     return (
       <React.Fragment>
-        {isNull(getCurrentEntityPage) ? (
-          <Button variant="link" className="px-0" onClick={() => alert('hi')}>
-            Go to {currentEntityPrimaryName}
-          </Button>
-        ) : null}
-        {children.map((child: string, ind: number) => (
+        {/* render all children of the current ancestor */}
+        {childrenOfCurrentAncestor.map((child: string, ind: number) => (
           <ArchiveHierarchyChild
             key={`${child}-${ind}`}
             child={child}

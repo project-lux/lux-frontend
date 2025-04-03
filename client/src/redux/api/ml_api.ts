@@ -12,10 +12,10 @@ import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/fetchTimeline'
-// import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { getItems } from '../../lib/util/fetchItems'
 import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
+import { getAncestors } from '../../lib/util/fetchArchiveAncestors'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -62,9 +62,9 @@ export const mlApi: any = createApi({
         }
       },
     }),
-    getItems: builder.query<any, Array<string>>({
-      queryFn(uris) {
-        return getItems(uris)
+    getItems: builder.query<any, { uris: Array<string>; profile?: string }>({
+      queryFn({ uris, profile }) {
+        return getItems(uris, profile)
       },
     }),
     getName: builder.query<IEntity, IItemParams>({
@@ -168,6 +168,32 @@ export const mlApi: any = createApi({
         )
       },
     }),
+    getAncestors: builder.query<
+      any,
+      {
+        searchType: 'advanced' | 'simple'
+        facetRequest: boolean
+        qt: string
+        params: Record<string, string> | string
+        isSwitchToSimpleSearch: boolean
+      }
+    >({
+      queryFn({
+        searchType,
+        facetRequest,
+        qt,
+        params,
+        isSwitchToSimpleSearch,
+      }) {
+        return getAncestors(
+          searchType,
+          facetRequest,
+          params,
+          qt,
+          isSwitchToSimpleSearch,
+        )
+      },
+    }),
   }),
 })
 
@@ -183,4 +209,5 @@ export const {
   useSearchQuery,
   useGetRelatedListsQuery,
   useGetEstimatesQuery,
+  useGetAncestorsQuery,
 } = mlApi
