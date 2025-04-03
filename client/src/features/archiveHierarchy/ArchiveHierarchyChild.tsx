@@ -35,7 +35,7 @@ const ArchiveHierarchyChild: React.FC<{
   child: string
   skipApiCalls: boolean
   parentsOfCurrentEntity: Array<string>
-  ancestors: Array<string>
+  ancestors: Array<{ id: string; currentPageHalLink: string | null }>
   currentEntity: IEntity
 }> = ({
   child,
@@ -54,7 +54,12 @@ const ArchiveHierarchyChild: React.FC<{
 
   useEffect(() => {
     if (isSuccess && data && !currentUriInHierarchy(data.id, pathname)) {
-      setOpen(isInHierarchy(data.id, ancestors))
+      setOpen(
+        isInHierarchy(
+          data.id,
+          ancestors.map((ancestor) => ancestor.id),
+        ),
+      )
     }
   }, [data, isSuccess, pathname, ancestors])
 

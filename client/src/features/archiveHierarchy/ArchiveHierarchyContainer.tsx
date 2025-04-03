@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { skipToken } from '@reduxjs/toolkit/query/react'
 import { isUndefined } from 'lodash'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
-import { useGetItemsQuery } from '../../redux/api/ml_api'
+import { useGetAncestorsQuery, useGetItemsQuery } from '../../redux/api/ml_api'
 import {
   hasHierarchyHalLinks,
   getNextSetUris,
@@ -16,6 +15,7 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
+import EntityParser from '../../lib/parse/data/EntityParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
@@ -36,55 +36,52 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
 }) => {
   const { pathname } = useLocation()
 
-  const [done, setDone] = useState(false)
   const [archives, setArchives] = useState<Array<IEntity>>([entity])
   const [topLevelAncestor, setTopLevelAncestor] = useState<string>(entity.id!)
 
-  useEffect(() => {
-    setDone(false)
-    setArchives([entity])
-  }, [entity])
-
   const uris = getNextSetUris(archives[0])
-  const queryInput = uris.length > 0 ? uris : skipToken
+  const skip = uris.length > 0 ? false : true
 
   const { data, isSuccess, isError, isFetching, isLoading } =
-    useGetItemsQuery(queryInput)
+    useGetAncestorsQuery(
+      {
+        uris,
+      },
+      {
+        skip,
+      },
+    )
+  console.log(data)
 
-  if (isSuccess && !done) {
-    const parent = getParentData(data, isEntityAnArchive)
-
-    if (
-      parent === null ||
-      getNextSetUris(parent).length === 0 ||
-      archives.length > 8
-    ) {
-      setDone(true)
-    }
-
-    if (parent !== null && isEntityAnArchive(parent)) {
-      setArchives([parent, ...archives])
-      setTopLevelAncestor(parent.id as string)
-    }
-  }
-
-  if (isSuccess || isError || done || uris.length === 0) {
-    const ancestorIds: Array<string> = archives
-      .map((archive) => archive.id!)
+  if (isSuccess || isError || uris.length === 0) {
+    const ancestors: Array<{
+      id: string
+      currentPageHalLink: string | null
+    }> = archives
+      .map((archive) => {
+        const a = new EntityParser(archive)
+        const halLink =
+          a.getHalLink('lux:setCurrentHierarchyPage') ||
+          a.getHalLink('lux:itemCurrentHierarchyPage')
+        return {
+          id: archive.id!,
+          currentPageHalLink: halLink,
+        }
+      })
       .filter((id) => id !== undefined)
 
-    if (ancestorIds.length === 1) {
+    if (ancestors.length === 1) {
       // if there is only one ancestor and it is an object, do not display hierarchy
       if (
-        ancestorIds[0].includes('digital') ||
-        ancestorIds[0].includes('object')
+        ancestors[0].id.includes('digital') ||
+        ancestors[0].id.includes('object')
       ) {
         return null
       }
       // If there is only one element in the archive and it is the current entity and that entity
       // does not have children, do not render the hierarchy.
       if (
-        ancestorIds[0].includes(removeViewFromPathname(pathname)) &&
+        ancestors[0].id.includes(removeViewFromPathname(pathname)) &&
         entity._links !== undefined &&
         hasHierarchyHalLinks(entity._links).length === 0
       ) {
@@ -110,7 +107,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
           skipApiCalls={false}
           key={pathname}
           parentsOfCurrentEntity={parentsOfCurrentEntity}
-          ancestors={ancestorIds}
+          ancestors={ancestors}
           currentEntity={entity}
         />
         {objectsWithImagesHalLink !== null && (
