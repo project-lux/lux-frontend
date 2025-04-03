@@ -7,6 +7,7 @@ import ConceptParser from '../parse/data/ConceptParser'
 import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
 
+// Check if the current uri is in the list of ancestors for the current entity
 export const isInHierarchy = (uri: string, ancestors: Array<string>): boolean =>
   ancestors.includes(uri)
 
