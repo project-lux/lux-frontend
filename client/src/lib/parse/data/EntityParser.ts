@@ -141,6 +141,8 @@ export default class EntityParser {
         const identifiedByChild = forceArray(identifier.identified_by)
         const languages = forceArray(identifier.language)
         const language = languages.length > 0 ? languages[0].id : ''
+        const notation =
+          languages.length > 0 ? languages[0].notation : undefined
         let label = ''
 
         // The label will be an empty string if it does not come from the data
@@ -166,9 +168,13 @@ export default class EntityParser {
 
         if (identifier.content !== undefined) {
           if (data.hasOwnProperty(label)) {
-            data[label].push({ content: identifier.content, language })
+            data[label].push({
+              content: identifier.content,
+              language,
+              notation,
+            })
           } else {
-            data[label] = [{ content: identifier.content, language }]
+            data[label] = [{ content: identifier.content, language, notation }]
           }
         }
         return null
@@ -434,6 +440,7 @@ export default class EntityParser {
       const isEnglish = nestedElement.isInLanguage(config.aat.langen)
       const languages = forceArray(el.language)
       const language = languages.length > 0 ? languages[0].id : ''
+      const notation = languages.length > 0 ? languages[0].notation : undefined
 
       // used the /identified_by/[content] as the default label
       const nestedIdentifiedBy = forceArray(el.identified_by)
@@ -467,6 +474,7 @@ export default class EntityParser {
               language,
               _content_html: htmlContent,
               equivalent,
+              notation,
             })
           } else {
             data[label].push({
@@ -474,6 +482,7 @@ export default class EntityParser {
               language,
               _content_html: htmlContent,
               equivalent,
+              notation,
             })
           }
         } else {
@@ -483,6 +492,7 @@ export default class EntityParser {
               language,
               _content_html: htmlContent,
               equivalent,
+              notation,
             },
           ]
         }

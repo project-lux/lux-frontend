@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.48.0 - Unreleased
+
+### Added
+
+- Added a Site Improve event to the advanced search gear button and its options ([#424](https://github.com/project-lux/lux-frontend/issues/424)).
+
+### Changed
+
+- Changed the color of language superscripts for contrast purposes ([#292](https://github.com/project-lux/lux-frontend/issues/292)).
+
+### Removed
+
+### Fixed
+
+- Fixed the mobile hook placement to prevent React error boundaries ([#574](https://github.com/project-lux/lux-frontend/issues/574)).
+
 ## v1.47.1 - 2025-3-27
 
 ### Fixed

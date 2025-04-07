@@ -16,6 +16,7 @@ interface ISearchData {
   className?: string
   name?: string
   ariaRoleDescription?: string
+  style?: Record<string, string>
 }
 
 const StyledLink = styled(Link)`
@@ -43,6 +44,7 @@ const RecordLink: React.FC<ISearchData> = ({
   className,
   name,
   ariaRoleDescription = 'link',
+  style,
 }) => {
   const skip = url === undefined || name !== undefined
   const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
@@ -74,6 +76,7 @@ const RecordLink: React.FC<ISearchData> = ({
             `${linkCategory !== undefined ? linkCategory : 'Entity'} Link`,
           )
         }
+        style={style}
         data-testid={`${strippedUrl}-record-link`}
       >
         {entityName.length > 200

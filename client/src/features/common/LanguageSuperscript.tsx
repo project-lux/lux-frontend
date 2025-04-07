@@ -22,13 +22,19 @@ const LanguageSuperscript: React.FC<IProps> = ({
     window.innerWidth < theme.breakpoints.md,
   )
 
+  useResizeableWindow(setIsMobile)
+
   if (recordLinkHas404) {
     return null
   }
 
-  useResizeableWindow(setIsMobile)
-
-  const link = <RecordLink url={language} returns404={setRecordLinkHas404} />
+  const link = (
+    <RecordLink
+      url={language}
+      returns404={setRecordLinkHas404}
+      style={{ color: '#225ba1' }}
+    />
+  )
 
   if (isMobile) {
     return (
