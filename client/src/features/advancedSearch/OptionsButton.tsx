@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -39,6 +39,7 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
   rowType,
 }) => {
   const dispatch = useAppDispatch()
+  const [show, setShow] = useState<boolean>(false)
 
   const handleClick = (e: any): void => {
     pushClientEvent(
@@ -46,6 +47,8 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
       e.target.classList.contains('show') ? 'Closed' : 'Opened',
       'Dropdown Menu',
     )
+    // Set the dropdown to open or close
+    setShow(!show)
     dispatch(addSelectedHelpText({ value: 'options' }))
   }
 
@@ -57,12 +60,13 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
     rowType === INPUT_ROW_TYPE
   ) {
     return (
-      <StyledDropdown onSelect={handleClick}>
+      <StyledDropdown show={show}>
         <Dropdown.Toggle
           id={`gear-toggle-${stateId}`}
           data-testid={`gear-toggle-${stateId}`}
           className="gearOptions me-2"
           aria-label={`${ariaLabel} options`}
+          onClick={handleClick}
         >
           <i className="bi bi-gear me-2" />
         </Dropdown.Toggle>
