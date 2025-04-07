@@ -6,15 +6,16 @@ interface IName {
   content: string
   language: string | undefined
   languageId: string
+  notation?: string
 }
 
-const Name: React.FC<IName> = ({ content, language, languageId }) => (
-  <React.Fragment>
-    {content}{' '}
+const Name: React.FC<IName> = ({ content, language, languageId, notation }) => (
+  <p className="mb-0">
+    <span lang={notation}>{content} </span>
     {language !== undefined && language !== '' && (
       <LanguageSuperscript language={language} id={languageId} />
     )}
-  </React.Fragment>
+  </p>
 )
 
 export default Name

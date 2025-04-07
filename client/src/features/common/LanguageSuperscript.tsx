@@ -28,7 +28,13 @@ const LanguageSuperscript: React.FC<IProps> = ({
     return null
   }
 
-  const link = <RecordLink url={language} returns404={setRecordLinkHas404} />
+  const link = (
+    <RecordLink
+      url={language}
+      returns404={setRecordLinkHas404}
+      style={{ color: '#225ba1' }}
+    />
+  )
 
   if (isMobile) {
     return (
