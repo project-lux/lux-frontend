@@ -171,27 +171,11 @@ export const mlApi: any = createApi({
     getAncestors: builder.query<
       any,
       {
-        searchType: 'advanced' | 'simple'
-        facetRequest: boolean
-        qt: string
-        params: Record<string, string> | string
-        isSwitchToSimpleSearch: boolean
+        entities: Array<IEntity>
       }
     >({
-      queryFn({
-        searchType,
-        facetRequest,
-        qt,
-        params,
-        isSwitchToSimpleSearch,
-      }) {
-        return getAncestors(
-          searchType,
-          facetRequest,
-          params,
-          qt,
-          isSwitchToSimpleSearch,
-        )
+      queryFn({ entities }) {
+        return getAncestors(entities)
       },
     }),
   }),
