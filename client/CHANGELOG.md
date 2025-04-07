@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added a Site Improve event to the advanced search gear button and its options ([#424](https://github.com/project-lux/lux-frontend/issues/424)).
+
 ### Changed
 
 - Changed the color of language superscripts for contrast purposes ([#292](https://github.com/project-lux/lux-frontend/issues/292)).

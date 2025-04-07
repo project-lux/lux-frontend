@@ -95,6 +95,7 @@ const DropdownCheckboxList = forwardRef<
     (selectedOption: QueryOption): (() => void) =>
     () =>
       dispatch(updateOptions({ stateId, selectedOption }))
+
   return (
     <React.Fragment>
       <DropdownCheckbox

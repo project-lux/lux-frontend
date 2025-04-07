@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react'
+import React, { useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
 import StyledDropdown from '../../styles/shared/Dropdown'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import DropdownCheckboxList from './DropdownCheckBoxList'
 
@@ -38,10 +39,19 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
   rowType,
 }) => {
   const dispatch = useAppDispatch()
+  const [show, setShow] = useState<boolean>(false)
 
-  const setHelpText = (): void => {
+  const handleClick = (e: any): void => {
+    pushClientEvent(
+      'Options',
+      e.target.classList.contains('show') ? 'Closed' : 'Opened',
+      'Dropdown Menu',
+    )
+    // Set the dropdown to open or close
+    setShow(!show)
     dispatch(addSelectedHelpText({ value: 'options' }))
   }
+
   /* until a change is made related to ML#916, search options will not work as expected unless the user is searching using Anywhere or Name at the top level of the search. nestedLevel = 0  and  rowType = INPUT_ROW_TYPE help us disable search options where they won't work */
   if (
     state &&
@@ -50,12 +60,13 @@ const OptionsButton: React.FC<IFieldSelectRow> = ({
     rowType === INPUT_ROW_TYPE
   ) {
     return (
-      <StyledDropdown onClick={setHelpText}>
+      <StyledDropdown show={show}>
         <Dropdown.Toggle
           id={`gear-toggle-${stateId}`}
           data-testid={`gear-toggle-${stateId}`}
           className="gearOptions me-2"
           aria-label={`${ariaLabel} options`}
+          onClick={handleClick}
         >
           <i className="bi bi-gear me-2" />
         </Dropdown.Toggle>
