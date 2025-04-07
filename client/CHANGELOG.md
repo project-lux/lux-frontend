@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added the timeline on place pages ([#517](https://github.com/project-lux/lux-frontend/issues/517)).
+
 ### Changed
 
 - Changed the color of language superscripts for contrast purposes ([#292](https://github.com/project-lux/lux-frontend/issues/292)).
