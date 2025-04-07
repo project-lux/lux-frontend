@@ -7,7 +7,6 @@ import { ITimelineCriteria } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { IHalLinks } from '../../types/IHalLinks'
 import theme from '../../styles/theme'
-import { formatDateJsonSearch } from '../../lib/parse/timeline/timelineHelper'
 
 interface IProps {
   active: boolean
@@ -28,7 +27,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `q=${searchQ}&collapseSearch=true`,
+        search: `${searchQ}&collapseSearch=true`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
@@ -64,17 +63,17 @@ const CustomTooltip: React.FC<IProps> = ({ active, payload, searchTags }) => {
         {payload.length > 0 ? payload[0].payload.year : 'unknown year'}
         {payload.map((obj: Record<string, any>, ind: number) => {
           const searchTag = obj.dataKey.replace('.totalItems', '')
-          const { tab, jsonSearchTerm } = searchTags[searchTag]
-          const { criteria } = obj.payload[searchTag] as ITimelineCriteria
-          const searchQ = formatDateJsonSearch(
-            obj.payload.yearKey,
-            jsonSearchTerm as string,
-            criteria,
-          )
+          const { tab } = searchTags[searchTag]
+          const { searchParams } = obj.payload[searchTag] as ITimelineCriteria
+
           return (
             <Row key={ind}>
               <Col>
-                <TooltipLink obj={obj} tab={tab as string} searchQ={searchQ} />
+                <TooltipLink
+                  obj={obj}
+                  tab={tab as string}
+                  searchQ={searchParams}
+                />
               </Col>
             </Row>
           )

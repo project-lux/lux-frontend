@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
-import { IAdvancedSearchState } from '../../../redux/slices/advancedSearchSlice'
 import { IOrderedItems } from '../../../types/ISearchResults'
 import {
   ITimelinesTransformed,
   ITransformedData,
   TimelineSearchResult,
 } from '../../../types/ITimelines'
-import { getCriteriaFromHalLink } from '../search/halLinkHelper'
 
 export default class TimelineParser {
   timeline: TimelineSearchResult
@@ -45,6 +43,16 @@ export default class TimelineParser {
 
   /**
    * Returns an array of the timeline data transformed from the results for rendering
+   * @param {string} id; the id returned with each orderedItem
+   * @returns {string}
+   */
+  static convertIdToSearchQueryParams(id: string): string {
+    const idUrl = new URL(id)
+    return idUrl.search
+  }
+
+  /**
+   * Returns an array of the timeline data transformed from the results for rendering
    * @param {Array<IOrderedItems>} items; the results array
    * @param {ICriteria} criteria; the HAL link
    * @param {string} searchTag; the HAL link
@@ -52,18 +60,17 @@ export default class TimelineParser {
    */
   static addSearchTagToFacetValues(
     items: Array<IOrderedItems>,
-    criteria: IAdvancedSearchState,
     searchTag: string,
   ): Array<ITransformedData> {
     const transformedFacets: Array<ITransformedData> = []
     for (const item of items) {
-      const { value, totalItems } = item
+      const { value, totalItems, id } = item
       if (value !== null) {
         transformedFacets.push({
           value: TimelineParser.getYearFromSingleFacetValue(value as string),
           totalItems: totalItems as number,
           searchTag,
-          criteria,
+          id: this.convertIdToSearchQueryParams(id),
         })
       }
     }
@@ -181,7 +188,6 @@ export default class TimelineParser {
       // the key is the api endpoint to retreive the facet values
       for (const key of Object.keys(result)) {
         const { orderedItems } = result[key]
-        const criteria = getCriteriaFromHalLink(key, 'facets')
         const searchTag = TimelineParser.getSearchTagFromFacetedSearch(key)
 
         if (orderedItems !== null && orderedItems.length > 0) {
@@ -189,7 +195,6 @@ export default class TimelineParser {
             ...transformedData,
             ...TimelineParser.addSearchTagToFacetValues(
               orderedItems,
-              criteria,
               searchTag,
             ),
           ]
@@ -201,15 +206,15 @@ export default class TimelineParser {
 
     const dateCounts: { [key: string]: any } = {}
     for (const tData of transformedData) {
-      const { value, totalItems, searchTag, criteria } =
-        tData as ITransformedData
+      const { value, totalItems, searchTag, id } = tData as ITransformedData
       const date = String(value)
+      const individualDate = dateCounts[date]
       if (dateCounts.hasOwnProperty(date)) {
-        dateCounts[date].total += totalItems
-        if (!dateCounts[date].hasOwnProperty(searchTag)) {
-          dateCounts[date][searchTag] = {
+        individualDate.total += totalItems
+        if (!individualDate.hasOwnProperty(searchTag)) {
+          individualDate[searchTag] = {
             totalItems,
-            criteria,
+            searchParams: id,
           }
         } else {
           dateCounts[date][searchTag].totalItems += totalItems
@@ -219,7 +224,7 @@ export default class TimelineParser {
           total: totalItems,
           [searchTag]: {
             totalItems,
-            criteria,
+            searchParams: id,
           },
         }
       }

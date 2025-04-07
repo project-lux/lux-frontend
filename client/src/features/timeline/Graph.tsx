@@ -83,6 +83,7 @@ const Graph: React.FC<IProps> = ({
     ['itemEncounteredDate', 'Objects Encountered'],
     ['workCreationDate', 'Works Created'],
     ['workPublicationDate', 'Works Published'],
+    ['workCreationOrPublicationDate', 'Works About'],
   ])
 
   useResizeableWindow(setIsMobile)
@@ -100,7 +101,7 @@ const Graph: React.FC<IProps> = ({
         x={x}
         y={y}
         width={width}
-        height={height ? height - 2 : 0}
+        height={height ? Math.round(height - 2) : 0}
       />
     )
   }
@@ -172,6 +173,17 @@ const Graph: React.FC<IProps> = ({
             fill={theme.color.graphs.published}
             name={
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
+            }
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
+            dataKey="workCreationOrPublicationDate.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.about}
+            name={
+              facetNameMap.get('workCreationOrPublicationDate') ||
+              'workCreationOrPublicationDate'
             }
             yAxisId="total"
             shape={(p: any) => getShape(p)}

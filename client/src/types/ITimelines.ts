@@ -1,10 +1,8 @@
-import { IAdvancedSearchState } from '../redux/slices/advancedSearchSlice'
-
 import { ISearchResults } from './ISearchResults'
 
 export interface ITimelineCriteria {
   totalItems: number
-  criteria: IAdvancedSearchState
+  searchParams: string
 }
 
 export interface IYear {
@@ -20,7 +18,7 @@ export interface ITransformedData {
   value: string | null
   totalItems: number
   searchTag: string
-  criteria: IAdvancedSearchState
+  id: string
 }
 
 export type TimelineSearchResult = Array<{
