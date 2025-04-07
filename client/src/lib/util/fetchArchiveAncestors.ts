@@ -1,23 +1,37 @@
+import { isUndefined } from 'lodash'
+
 import IEntity from '../../types/data/IEntity'
 
 import {
   getNextSetUris,
-  getParentData,
+  // getParentData,
   isEntityAnArchive,
 } from './hierarchyHelpers'
-import { getItems } from './fetchItems'
 
-export function getAncestors(entities: Array<IEntity>): {
-  ancestors: Array<IEntity>
-  highestAncestorId: string
-} {
+/* eslint-disable @typescript-eslint/no-explicit-any */
+export const fetchItem = async (uri: string, profile?: string): Promise<any> =>
+  fetch(`${uri}${isUndefined(profile) ? '' : '?profile=results'}`)
+    .then((response) =>
+      response.text().then((translatedString) => JSON.parse(translatedString)),
+    )
+    .catch(() => new Error('An error occurred retrieving the data from the '))
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function getAncestors(entities: Array<IEntity>): Promise<any> {
   let ancestors = entities
   let highestAncestorId = entities[0].id as string
   const urisOfParents = getNextSetUris(entities[0])
   // Get the parent records of the current entity
-  const parents = getItems(urisOfParents)
+  const parents = urisOfParents.map(async (uri: string) => await fetchItem(uri))
+  console.log(parents)
   // Get the parent that is an archive
-  const parent = getParentData(parents.data, isEntityAnArchive)
+  let parent: IEntity | null = null
+  // parents.then(
+  //   (p: { data: Array<IEntity> }) =>
+  //     (parent = getParentData(p.data, isEntityAnArchive)),
+  // )
+  console.log(parents)
+  console.log(parent)
 
   if (parent !== null && isEntityAnArchive(parent)) {
     ancestors = [parent as IEntity, ...ancestors]
