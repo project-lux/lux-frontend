@@ -106,7 +106,9 @@ const App: React.FC = () => {
         client_id={config.env.oidcClientId}
         redirect_uri={config.env.oidcRedirectUri}
         revokeTokenTypes={['refresh_token']}
+        response_type="code"
         scope="openid email"
+        pkce="true"
         onSigninCallback={removeTokenFromUrl}
       >
         <GlobalStyle />

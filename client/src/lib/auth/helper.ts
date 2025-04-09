@@ -16,7 +16,7 @@ export function signout(auth: AuthContextProps | null): void {
     id_token_hint: auth.user?.id_token,
     extraQueryParams: {
       client_id: config.env.oidcClientId,
-      redirect_uri: config.env.oidcRedirectUri,
+      logout_uri: config.env.oidcRedirectUri,
       response_type: 'code',
     },
   })
