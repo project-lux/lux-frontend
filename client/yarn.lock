@@ -7172,16 +7172,22 @@ react-lifecycles-compat@^3.0.4:
   integrity sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> e516c74 (Remove pkce option because it is apparently the wrong syntax. Default is true anyway.)
 react-oidc-context@^3.3.0:
   version "3.3.0"
   resolved "https://registry.yarnpkg.com/react-oidc-context/-/react-oidc-context-3.3.0.tgz#ccca8c25c7ba04ca4ec4e3b229b39c122100988f"
   integrity sha512-302T/ma4AOVAxrHdYctDSKXjCq9KNHT564XEO2yOPxRfxEP58xa4nz+GQinNl8x7CnEXECSM5JEjQJk3Cr5BvA==
+<<<<<<< HEAD
 =======
 react-oidc-context@^3.1.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/react-oidc-context/-/react-oidc-context-3.2.0.tgz#a7466d25c982fbafe26b9ec0a287a0bf77e788ec"
   integrity sha512-ZLaCRLWV84Cn9pFdsatmblqxLMv0np69GWVXq9RWGqAjppdOGXNIbIxWMByIio0oSCVUwdeqwYRnJme0tjqd8A==
 >>>>>>> 6b6ea70 (Fix yarn.lock)
+=======
+>>>>>>> e516c74 (Remove pkce option because it is apparently the wrong syntax. Default is true anyway.)
 
 react-paginate@8.2.0:
   version "8.2.0"
