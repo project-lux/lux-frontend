@@ -108,7 +108,6 @@ const App: React.FC = () => {
         revokeTokenTypes={['refresh_token']}
         response_type="code"
         scope="openid email"
-        pkce="true"
         onSigninCallback={removeTokenFromUrl}
       >
         <GlobalStyle />
