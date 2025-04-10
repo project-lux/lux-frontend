@@ -33,7 +33,6 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
   objectOrSetMemberOfSet,
   currentEntity,
 }) => {
-  console.log(ancestors)
   const dispatch = useAppDispatch()
 
   const { pathname } = useLocation()
