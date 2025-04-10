@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added code for MyCollections, plus feature flag ([#683](https://github.com/project-lux/lux-frontend/issues/683)).
+- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
 
 ### Changed
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
@@ -118,7 +119,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added quotes around search strings containing only stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
-- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
 
 ### Changed
 

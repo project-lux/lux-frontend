@@ -174,8 +174,14 @@ export const mlApi: any = createApi({
         entities: Array<IEntity>
       }
     >({
-      queryFn({ entities }) {
-        return getAncestors(entities)
+      queryFn: async ({ entities }) => {
+        try {
+          const ancestors = await getAncestors(entities)
+          return { data: ancestors }
+        } catch (error) {
+          // Catch any errors and return them as an object with an `error` field
+          return { error }
+        }
       },
     }),
   }),

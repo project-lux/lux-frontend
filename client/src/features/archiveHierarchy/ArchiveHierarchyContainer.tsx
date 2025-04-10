@@ -6,16 +6,13 @@ import { Col, Row } from 'react-bootstrap'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
 import { useGetAncestorsQuery } from '../../redux/api/ml_api'
-// import {
-//   hasHierarchyHalLinks,
-//   getNextSetUris,
-//   getParentData,
-//   isEntityAnArchive,
-//   removeViewFromPathname,
-// } from '../../lib/util/hierarchyHelpers'
+import {
+  hasHierarchyHalLinks,
+  removeViewFromPathname,
+} from '../../lib/util/hierarchyHelpers'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
-// import EntityParser from '../../lib/parse/data/EntityParser'
+import EntityParser from '../../lib/parse/data/EntityParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
@@ -40,42 +37,47 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     useGetAncestorsQuery({
       entities: [entity],
     })
-  console.log(data)
-  if (isSuccess || isError) {
-    // const ancestors: Array<{
-    //   id: string
-    //   currentPageHalLink: string | null
-    // }> = archives
-    //   .map((archive) => {
-    //     const a = new EntityParser(archive)
-    //     const halLink =
-    //       a.getHalLink('lux:setCurrentHierarchyPage') ||
-    //       a.getHalLink('lux:itemCurrentHierarchyPage')
-    //     return {
-    //       id: archive.id!,
-    //       currentPageHalLink: halLink,
-    //     }
-    //   })
-    //   .filter((id) => id !== undefined)
 
-    // if (ancestors.length === 1) {
-    //   // if there is only one ancestor and it is an object, do not display hierarchy
-    //   if (
-    //     ancestors[0].id.includes('digital') ||
-    //     ancestors[0].id.includes('object')
-    //   ) {
-    //     return null
-    //   }
-    //   // If there is only one element in the archive and it is the current entity and that entity
-    //   // does not have children, do not render the hierarchy.
-    //   if (
-    //     ancestors[0].id.includes(removeViewFromPathname(pathname)) &&
-    //     entity._links !== undefined &&
-    //     hasHierarchyHalLinks(entity._links).length === 0
-    //   ) {
-    //     return null
-    //   }
-    // }
+  if (isSuccess || isError) {
+    // get the data needed from the ancestors
+    const ancestors: Array<{
+      id: string
+      currentPageHalLink: string | null
+    }> = data.ancestors
+      .map((ancestor: IEntity) => {
+        const a = new EntityParser(ancestor)
+        const halLink =
+          a.getHalLink('lux:setCurrentHierarchyPage') ||
+          a.getHalLink('lux:itemCurrentHierarchyPage')
+        console.log('HAL: ', halLink)
+        return {
+          id: ancestor.id!,
+          currentPageHalLink: halLink,
+        }
+      })
+      .filter(
+        (ancestor: { id: string; currentPageHalLink: string }) =>
+          ancestor.id !== undefined,
+      )
+
+    if (ancestors.length === 1) {
+      // if there is only one ancestor and it is an object, do not display hierarchy
+      if (
+        ancestors[0].id.includes('digital') ||
+        ancestors[0].id.includes('object')
+      ) {
+        return null
+      }
+      // If there is only one element in the archive and it is the current entity and that entity
+      // does not have children, do not render the hierarchy.
+      if (
+        ancestors[0].id.includes(removeViewFromPathname(pathname)) &&
+        entity._links !== undefined &&
+        hasHierarchyHalLinks(entity._links).length === 0
+      ) {
+        return null
+      }
+    }
 
     // format search link for objects in the archive with images
     let searchString = ''
@@ -91,11 +93,11 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
         <ArchiveHierarchyChild
-          child={'' as string}
+          child={data.highestAncestorId as string}
           skipApiCalls={false}
           key={pathname}
           parentsOfCurrentEntity={parentsOfCurrentEntity}
-          ancestors={[]}
+          ancestors={ancestors}
           currentEntity={entity}
         />
         {objectsWithImagesHalLink !== null && (
