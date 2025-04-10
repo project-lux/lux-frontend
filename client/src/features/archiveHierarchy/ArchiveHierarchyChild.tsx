@@ -47,12 +47,14 @@ const ArchiveHierarchyChild: React.FC<{
   const [open, setOpen] = useState<boolean>(false)
   const { pathname } = useLocation()
 
+  // get the child entity
   const { data, isSuccess, isLoading, isFetching } = useGetItemQuery(
     { uri: stripYaleIdPrefix(child) },
     { skip: skipApiCalls },
   )
 
   useEffect(() => {
+    // set the dropdown to open if the entity is in the current hierarchy
     if (isSuccess && data && !currentUriInHierarchy(data.id, pathname)) {
       setOpen(
         isInHierarchy(

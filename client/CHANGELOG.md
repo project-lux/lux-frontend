@@ -33,6 +33,7 @@ All notable changes to this project will be documented in this file.
 
 - Added Collections Caused By, Collections About, and Collection Types to Event pages ([#622](https://github.com/project-lux/lux-frontend/issues/622)).
 - Added archival materials icon for objects ([#611](https://github.com/project-lux/lux-frontend/issues/611)).
+- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
 
 ### Changed
 
@@ -96,7 +97,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added quotes around search strings containing only stop words ([#373](https://github.com/project-lux/lux-frontend/issues/373)).
-- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
 
 ### Changed
 
