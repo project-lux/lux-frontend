@@ -40,7 +40,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     useGetAncestorsQuery({
       entities: [entity],
     })
-  console.log(data)
+  console.log(data, isSuccess, isError, isFetching, isLoading)
   if (isSuccess || isError) {
     // const ancestors: Array<{
     //   id: string

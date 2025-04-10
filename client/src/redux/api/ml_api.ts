@@ -175,7 +175,9 @@ export const mlApi: any = createApi({
       }
     >({
       queryFn({ entities }) {
-        return getAncestors(entities)
+        const a = getAncestors(entities)
+        console.log(a)
+        return a
       },
     }),
   }),
