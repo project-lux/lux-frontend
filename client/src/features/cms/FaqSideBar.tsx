@@ -25,12 +25,6 @@ const FaqSideBar: React.FC = () => (
     <HashLink to="/content/item-records#faq-header">
       {faqGroupLabels[FaqGroupKey.ITEM_RECORDS]}
     </HashLink>
-    <HashLink to="/content/access-to-collections#faq-header">
-      {faqGroupLabels[FaqGroupKey.ACCESS_TO_COLLECTIONS]}
-    </HashLink>
-    <HashLink to="/content/rights-info#faq-header">
-      {faqGroupLabels[FaqGroupKey.RIGHTS_USAGE]}
-    </HashLink>
   </StyledFaqSideBar>
 )
 

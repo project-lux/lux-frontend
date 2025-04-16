@@ -3,25 +3,42 @@ import { useParams } from 'react-router-dom'
 
 import {
   aboutPageRouteToKey,
-  contentPageRouteToKey,
+  termsOfUseRouteToKey,
   faqPageRouteToKey,
+  openAccessPageRouteToKey,
 } from '../../config/cms'
 import ErrorPage from '../error/ErrorPage'
+import { aboutPagesMap, openAccessRouteMap } from '../../config/routerPages'
 
-import AboutPage from './AboutPage'
 import ContentPage from './ContentPage'
 import FaqPage from './FaqPage'
+import TermsOfUsePage from './TermsOfUsePage'
 
 const CmsRoutingComponent: React.FC = () => {
   const { pageKey } = useParams<{ pageKey: string }>()
 
   const key = pageKey as string
+
+  // About pages with sidebar menu
   if (aboutPageRouteToKey.hasOwnProperty(key)) {
-    return <AboutPage pageKey={aboutPageRouteToKey[key]} />
+    return (
+      <ContentPage pageKey={aboutPageRouteToKey[key]} pages={aboutPagesMap} />
+    )
   }
 
-  if (contentPageRouteToKey.hasOwnProperty(key)) {
-    return <ContentPage pageKey={contentPageRouteToKey[key]} />
+  // Open Access pages with sidebar menu
+  if (openAccessPageRouteToKey.hasOwnProperty(key)) {
+    return (
+      <ContentPage
+        pageKey={openAccessPageRouteToKey[key]}
+        pages={openAccessRouteMap}
+      />
+    )
+  }
+
+  // Terms of Use page without sidebar menu
+  if (termsOfUseRouteToKey.hasOwnProperty(key)) {
+    return <TermsOfUsePage pageKey={termsOfUseRouteToKey[key]} />
   }
 
   if (faqPageRouteToKey.hasOwnProperty(key)) {

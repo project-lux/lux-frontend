@@ -28,11 +28,14 @@ export const unitCodeFromNumString = (s: string): UnitCode => {
 
 export type PageKey =
   | 'aboutLux'
+  | 'accessToCollections'
   | 'collabHistory'
   | 'landAck'
   | 'openAccess'
-  | 'openAccessPolicy2011'
+  | 'openAccessFaq'
+  | 'openAccessImagePolicy'
   | 'rightsInfo'
+  | 'rightsUsage'
   | 'searchTips'
   | 'sharableOutcomes'
   | 'technology'
@@ -41,11 +44,13 @@ export type PageKey =
 
 export const pagePaths = {
   aboutLux: 'node/page/502d21b5-2176-46b3-8990-bde1b681502f',
+  accessToCollections: 'node/page/fd262a93-4f11-4140-9c2b-d4b0276d2065',
   collabHistory: 'node/page/58710c9b-5dbc-4266-9868-22edcff358be',
   landAck: 'node/page/5567909d-a297-4e9d-b396-f06ab33198fe',
   openAccess: 'node/page/d1883671-2d9e-4d9c-a50c-faa3c2281ec7',
-  openAccessPolicy2011: 'node/page/e4cbcaa1-eb68-4492-aff6-2bfbf46693d8',
-  rightsInfo: 'node/page/0aebbc66-791c-43e8-9ea8-f8c5174fc587',
+  openAccessFaq: 'node/page/11a76954-b54b-4ef7-86d5-89a766b3efd1',
+  openAccessImagePolicy: 'node/page/e4cbcaa1-eb68-4492-aff6-2bfbf46693d8',
+  rightsUsage: 'node/page/305c7064-83f7-4fca-bc82-b335df1eb7de',
   searchTips: 'node/page/11868202-066a-4f6a-8bdb-e7389177ee3a',
   sharableOutcomes: 'node/page/dab80fb8-6836-42e2-a423-aa3db71dd1d4',
   technology: 'node/page/876f1eb2-c403-42e0-98d0-0d348c4961eb',
@@ -83,9 +88,15 @@ export const aboutPageRouteToKey: { [key: string]: PageKey } = {
   'land-acknowledgement': 'landAck',
 }
 
-export const contentPageRouteToKey: { [key: string]: PageKey } = {
+export const openAccessPageRouteToKey: { [key: string]: PageKey } = {
   'open-access': 'openAccess',
-  'open-access-policy-2011': 'openAccessPolicy2011',
+  'collections-access': 'accessToCollections',
+  'rights-usage': 'rightsUsage',
+  'open-access-faq': 'openAccessFaq',
+  'open-access-policy-2011': 'openAccessImagePolicy',
+}
+
+export const termsOfUseRouteToKey: { [key: string]: PageKey } = {
   'terms-of-use': 'termsOfUse',
 }
 
@@ -96,8 +107,6 @@ export enum FaqGroupKey {
   ADVANCED_SEARCH = '3',
   RESULT_VIEWS = '4',
   ITEM_RECORDS = '5',
-  ACCESS_TO_COLLECTIONS = '6',
-  RIGHTS_USAGE = '7',
 }
 
 export const faqPageRouteToKey: { [key: string]: Array<FaqGroupKey> } = {
@@ -106,8 +115,6 @@ export const faqPageRouteToKey: { [key: string]: Array<FaqGroupKey> } = {
   'advanced-search': [FaqGroupKey.ADVANCED_SEARCH],
   'result-views': [FaqGroupKey.RESULT_VIEWS],
   'item-records': [FaqGroupKey.ITEM_RECORDS],
-  'access-to-collections': [FaqGroupKey.ACCESS_TO_COLLECTIONS],
-  'rights-info': [FaqGroupKey.RIGHTS_USAGE],
 }
 
 export function faqGroupKeyFromString(s: string): FaqGroupKey {
@@ -122,10 +129,6 @@ export function faqGroupKeyFromString(s: string): FaqGroupKey {
       return FaqGroupKey.RESULT_VIEWS
     case '5':
       return FaqGroupKey.ITEM_RECORDS
-    case '6':
-      return FaqGroupKey.ACCESS_TO_COLLECTIONS
-    case '7':
-      return FaqGroupKey.RIGHTS_USAGE
   }
   return FaqGroupKey.NO_GROUP
 }
@@ -137,8 +140,6 @@ export const faqGroupKeys = [
   FaqGroupKey.ADVANCED_SEARCH,
   FaqGroupKey.RESULT_VIEWS,
   FaqGroupKey.ITEM_RECORDS,
-  FaqGroupKey.ACCESS_TO_COLLECTIONS,
-  FaqGroupKey.RIGHTS_USAGE,
 ]
 
 // Labels to show for FAQ group tags
@@ -149,6 +150,4 @@ export const faqGroupLabels: { [key in FaqGroupKey]: string } = {
   [FaqGroupKey.ADVANCED_SEARCH]: 'Advanced Search',
   [FaqGroupKey.RESULT_VIEWS]: 'Result Views',
   [FaqGroupKey.ITEM_RECORDS]: 'Item Records',
-  [FaqGroupKey.ACCESS_TO_COLLECTIONS]: 'Access to Collections',
-  [FaqGroupKey.RIGHTS_USAGE]: 'Rights and Usage',
 }
