@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed CMS content page rendering ([#645](https://github.com/project-lux/lux-frontend/issues/645)).
+
 ### Removed
 
 ### Fixed

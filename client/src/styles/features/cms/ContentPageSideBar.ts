@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import theme from '../../theme'
 
-const AboutSideBar = styled.div`
+const ContentPageSideBar = styled.div`
   border-radius: ${theme.border.radius};
   box-shadow: 1px 1px 5px ${theme.color.black20};
 
@@ -63,4 +63,4 @@ const AboutSideBar = styled.div`
   }
 `
 
-export default AboutSideBar
+export default ContentPageSideBar

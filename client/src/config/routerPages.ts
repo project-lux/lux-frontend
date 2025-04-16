@@ -15,8 +15,19 @@ export const aboutPagesMap = new Map([
   [`${CMS_PREFIX}/land-acknowledgement`, 'Land Acknowledgement'],
 ])
 
-const cmsRouteMap = new Map([
+export const openAccessRouteMap = new Map([
   [`${CMS_PREFIX}/open-access`, 'Open Access'],
+  [`${CMS_PREFIX}/collections-access`, 'Access to Collections'],
+  [`${CMS_PREFIX}/rights-usage`, 'Rights and Usage'],
+  [`${CMS_PREFIX}/open-access-faq`, 'Open Access FAQ'],
+  [`${CMS_PREFIX}/open-access-policy-2011`, 'Open Access Image Policy'],
+])
+
+const termsOfUseRouteMap = new Map([
+  [`${CMS_PREFIX}/terms-of-use`, 'Terms of Use'],
+])
+
+const faqRouteMap = new Map([
   [`${CMS_PREFIX}/faq`, faqGroupLabels[FaqGroupKey.GENERAL_INFO]],
   [`${CMS_PREFIX}/simple-search`, faqGroupLabels[FaqGroupKey.SIMPLE_SEARCH]],
   [
@@ -25,12 +36,6 @@ const cmsRouteMap = new Map([
   ],
   [`${CMS_PREFIX}/result-views`, faqGroupLabels[FaqGroupKey.RESULT_VIEWS]],
   [`${CMS_PREFIX}/item-records`, faqGroupLabels[FaqGroupKey.ITEM_RECORDS]],
-  [
-    `${CMS_PREFIX}/access-to-collections`,
-    faqGroupLabels[FaqGroupKey.ACCESS_TO_COLLECTIONS],
-  ],
-  [`${CMS_PREFIX}/rights-info`, faqGroupLabels[FaqGroupKey.RIGHTS_USAGE]],
-  [`${CMS_PREFIX}/terms-of-use`, 'Terms of Use'],
 ])
 
 export const getRouteNames = (): Map<string, string> => {
@@ -40,7 +45,15 @@ export const getRouteNames = (): Map<string, string> => {
     routeMap.set(`/view/results/${key}`, 'Results Page')
   })
 
-  cmsRouteMap.forEach((value, key) => {
+  faqRouteMap.forEach((value, key) => {
+    routeMap.set(key, value)
+  })
+
+  openAccessRouteMap.forEach((value, key) => {
+    routeMap.set(key, value)
+  })
+
+  termsOfUseRouteMap.forEach((value, key) => {
     routeMap.set(key, value)
   })
 
