@@ -3,6 +3,7 @@ import { ErrorBoundary } from 'react-error-boundary'
 import Col from 'react-bootstrap/Col'
 import { Row } from 'react-bootstrap'
 
+import config from '../../config/config'
 import {
   relatedAccordions,
   relatedObjectsAndWorks,
@@ -25,6 +26,7 @@ import About from './About'
 
 const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
   const agent = new PersonAndGroupParser(data)
+  const name = agent.getPrimaryName(config.aat.primaryName)
   let startDate = ''
   let endDate = ''
   if (agent.json.id?.includes('person')) {
@@ -69,7 +71,7 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
               <Col xs={12}>
                 {images.length > 0 && (
                   <div style={{ height: '20rem' }}>
-                    <ImageThumbnail imageInfo={images[0]} />
+                    <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
                 <About data={data} />
