@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added the timeline on place pages ([#517](https://github.com/project-lux/lux-frontend/issues/517)).
 - Added Collections Created At, Collections About, and Collection Types to Place pages ([#623](https://github.com/project-lux/lux-frontend/issues/623)).
 - Added alt text to images for accessibility purposes ([#616](https://github.com/project-lux/lux-frontend/issues/616)).
+- Added images to concept pages and results snippets ([#602](https://github.com/project-lux/lux-frontend/issues/602)).
 
 ### Changed
 
