@@ -6,6 +6,7 @@ import StyledImageContainer from '../../styles/shared/ImageDiv'
 import ResultsIconSvg from '../../styles/features/common/ResultsIconSvg'
 import IEntity from '../../types/data/IEntity'
 import StyledIconDiv from '../../styles/features/common/IconDiv'
+import config from '../../config/config'
 
 import ImageThumbnail from './ImageThumbnail'
 import Tooltip from './Tooltip'
@@ -28,6 +29,9 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
   height,
 }) => {
   if (images.length > 0) {
+    const entityParser = new EntityParser(entity)
+    const name = entityParser.getPrimaryName(config.aat.primaryName)
+
     return (
       <StyledImageContainer
         className={className || ''}
@@ -35,7 +39,7 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
         width={width}
         data-testid="results-snippet-preview-image"
       >
-        <ImageThumbnail imageInfo={images[0]} linkUrl={entity.id} />
+        <ImageThumbnail imageInfo={images[0]} linkUrl={entity.id} name={name} />
       </StyledImageContainer>
     )
   }

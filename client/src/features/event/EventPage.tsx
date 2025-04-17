@@ -3,6 +3,7 @@ import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
+import config from '../../config/config'
 import { relatedObjects, relatedAccordions } from '../../config/eventSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -21,6 +22,7 @@ import AboutPanel from './AboutPanel'
 const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
   const event = new EventParser(data)
   const images = event.getImages()
+  const name = event.getPrimaryName(config.aat.primaryName)
 
   return (
     <React.Fragment>
@@ -49,7 +51,7 @@ const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
               <Col xs={12}>
                 {images.length > 0 && (
                   <div style={{ height: '20rem' }}>
-                    <ImageThumbnail imageInfo={images[0]} />
+                    <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
                 <AboutPanel entity={data} />
