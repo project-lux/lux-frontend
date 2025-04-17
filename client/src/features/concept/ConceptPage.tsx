@@ -30,11 +30,13 @@ import {
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
+import ImageThumbnail from '../common/ImageThumbnail'
 
 import AboutPanel from './AboutPanel'
 
 const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
   const concept = new ConceptParser(data)
+  const images = concept.getImages()
 
   return (
     <React.Fragment>
@@ -84,11 +86,14 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
         <Col lg={4}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <StyledEntityPageSection className="row">
-              <AboutPanel entity={data} />
-              {/* <WhatWeHave
-                    configuredHalLinks={relatedItems}
-                    providedHalLinks={data._links}
-                  /> */}
+              <Col xs={12}>
+                {images.length > 0 && (
+                  <div style={{ height: '20rem' }}>
+                    <ImageThumbnail imageInfo={images[0]} />
+                  </div>
+                )}
+                <AboutPanel entity={data} />
+              </Col>
             </StyledEntityPageSection>
             <Row>
               <Col xs={12}>
