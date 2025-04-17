@@ -28,6 +28,16 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:placeWorkAbout',
     tab: 'works',
   },
+  collectionsCreatedAt: {
+    title: 'Collections Created At',
+    searchTag: 'lux:setCreatedAtPlace',
+    tab: 'collections',
+  },
+  collectionsAboutPlace: {
+    title: 'Collections About',
+    searchTag: 'lux:setAboutPlace',
+    tab: 'collections',
+  },
 }
 
 // Related item and work types
@@ -42,6 +52,12 @@ export const relatedTypes: IHalLinks = {
     title: 'Work Types',
     searchTag: 'lux:placeWorkTypes',
     tab: 'works',
+    jsonSearchTerm: 'classification',
+  },
+  collectionTypes: {
+    title: 'Collection Types',
+    searchTag: 'lux:placeSetTypes',
+    tab: 'collections',
     jsonSearchTerm: 'classification',
   },
 }

@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added the timeline on place pages ([#517](https://github.com/project-lux/lux-frontend/issues/517)).
+- Added Collections Created At, Collections About, and Collection Types to Place pages ([#623](https://github.com/project-lux/lux-frontend/issues/623)).
 
 ### Changed
 
