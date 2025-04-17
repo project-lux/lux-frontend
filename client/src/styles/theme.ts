@@ -140,6 +140,7 @@ const color = {
     encounter: '#6A1B9A',
     published: '#8D6E63',
     created: '#2E7D32',
+    about: '#000000',
   },
 
   advancedSearch: {

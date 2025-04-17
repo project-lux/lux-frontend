@@ -100,3 +100,32 @@ export const hierarchyChildren: IHalLink = {
   searchTag: 'lux:placeParts',
   tab: 'places',
 }
+
+// Used for rendering timelines
+export const timelines: IHalLinks = {
+  itemProductionDate: {
+    searchTag: 'lux:placeItemMadeTime',
+    tab: 'objects',
+    jsonSearchTerm: 'producedDate',
+  },
+  itemEncounteredDate: {
+    searchTag: 'lux:placeItemEncounteredTime',
+    tab: 'objects',
+    jsonSearchTerm: 'encounteredDate',
+  },
+  workCreationDate: {
+    searchTag: 'lux:placeWorkCreatedTime',
+    tab: 'works',
+    jsonSearchTerm: 'createdDate',
+  },
+  workPublicationDate: {
+    searchTag: 'lux:placeWorkPublishedTime',
+    tab: 'works',
+    jsonSearchTerm: 'publishedDate',
+  },
+  workCreationOrPublicationDate: {
+    searchTag: 'lux:placeWorkAboutTime',
+    tab: 'works',
+    jsonSearchTerm: 'publishedDate,createdDate',
+  },
+}
