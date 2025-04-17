@@ -33,12 +33,14 @@ import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
 import TimelineContainer from '../timeline/TimelineContainer'
+import config from '../../config/config'
 
 import AboutPanel from './AboutPanel'
 
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
   const place = new EntityParser(data)
   const images = place.getImages()
+  const name = place.getPrimaryName(config.aat.primaryName)
 
   const mapConfig = {
     wkt: data.defined_by || '',
@@ -107,7 +109,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
                 {/* Render images if they exist and there is no map data */}
                 {mapConfig.wkt === '' && images.length > 0 && (
                   <div style={{ height: '20rem' }}>
-                    <ImageThumbnail imageInfo={images[0]} />
+                    <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
               </ErrorBoundary>
