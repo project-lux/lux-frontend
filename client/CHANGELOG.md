@@ -7,7 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added the timeline on place pages ([#517](https://github.com/project-lux/lux-frontend/issues/517)).
-- Added alt text to images for accessibility purposes ([#613](https://github.com/project-lux/lux-frontend/issues/613)).
+- Added alt text to images for accessibility purposes ([#616](https://github.com/project-lux/lux-frontend/issues/616)).
 
 ### Changed
 
