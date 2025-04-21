@@ -13,7 +13,7 @@ describe('ImageThumbnail', () => {
   it('renders', async () => {
     render(
       <BrowserRouter>
-        <ImageThumbnail imageInfo={mockImageInfo} />
+        <ImageThumbnail imageInfo={mockImageInfo} name="" />
       </BrowserRouter>,
     )
 
@@ -24,7 +24,7 @@ describe('ImageThumbnail', () => {
   it('renders the image as a link', async () => {
     render(
       <BrowserRouter>
-        <ImageThumbnail imageInfo={mockImageInfo} linkUrl="test" />
+        <ImageThumbnail imageInfo={mockImageInfo} linkUrl="test" name="" />
       </BrowserRouter>,
     )
 
@@ -35,7 +35,7 @@ describe('ImageThumbnail', () => {
   it('renders the image', async () => {
     render(
       <BrowserRouter>
-        <ImageThumbnail imageInfo={mockImageInfo} />
+        <ImageThumbnail imageInfo={mockImageInfo} name="" />
       </BrowserRouter>,
     )
 
@@ -46,7 +46,7 @@ describe('ImageThumbnail', () => {
   it('renders the image with correct src', async () => {
     render(
       <BrowserRouter>
-        <ImageThumbnail imageInfo={mockImageInfo} />
+        <ImageThumbnail imageInfo={mockImageInfo} name="" />
       </BrowserRouter>,
     )
 
@@ -57,7 +57,7 @@ describe('ImageThumbnail', () => {
   it('renders the image attribution button', async () => {
     render(
       <BrowserRouter>
-        <ImageThumbnail imageInfo={mockImageInfo} />
+        <ImageThumbnail imageInfo={mockImageInfo} name="" />
       </BrowserRouter>,
     )
 

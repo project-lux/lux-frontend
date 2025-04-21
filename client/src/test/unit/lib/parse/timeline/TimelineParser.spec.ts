@@ -4,7 +4,6 @@ import {
   timelineResults as mockTimelineResults,
   itemProductionDateFacetsTransformed as mockItemFacetsTransformed,
   itemProductionDateFacets as mockItemFacets,
-  productionDateCriteria as mockCriteria,
   transformedTimelineFacets as mockTransformedResults,
 } from '../../../../data/timelineResults'
 
@@ -13,7 +12,6 @@ describe('TimelineParser', () => {
     it('converts related lists results correctly', () => {
       const transformedResults = TimelineParser.addSearchTagToFacetValues(
         mockItemFacets,
-        mockCriteria,
         'itemProductionDate',
       )
       expect(transformedResults).toStrictEqual(mockItemFacetsTransformed)
