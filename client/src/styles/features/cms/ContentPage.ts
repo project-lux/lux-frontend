@@ -1,30 +1,29 @@
+import { Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import theme from '../../theme'
-import { BorderedDiv } from '../../shared/BorderedDiv'
 
-const { h2, ul } = theme.contentPage
-
-const ContentPage = styled(BorderedDiv)`
-  margin-top: ${theme.contentPage.headerGap};
-  margin-bottom: ${theme.contentPage.footerGap};
-  margin-left: ${theme.spacing.sectionAbsMarginX};
-  margin-right: ${theme.spacing.sectionAbsMarginX};
-
-  padding: ${theme.spacing.sectionPaddingX};
-  background-color: ${theme.color.white};
-
-  h2 {
-    font-size: ${h2.fontSize};
-    font-weight: ${h2.fontWeight};
-    letter-spacing: ${h2.letterSpacing};
-    line-height: ${h2.lineHeight};
-    color: black;
-    margin-bottom: ${h2.marginBottom};
+const ContentPage = styled(Row)`
+  h1 {
+    margin-bottom: 0;
+    padding-top: 33px;
+    padding-bottom: 33px;
+    padding-left: ${theme.spacing.contentAbsMarginX};
+    padding-right: ${theme.spacing.contentAbsMarginX};
+    background-color: ${theme.color.white};
   }
 
   ul {
-    padding-left: ${ul.paddingLeft};
+    padding-left: 32px;
+  }
+
+  .lower-block {
+    display: flex;
+    padding-top: ${theme.contentPage.headerGap};
+    padding-bottom: ${theme.contentPage.footerGap};
+    padding-left: ${theme.spacing.sectionAbsMarginX};
+    padding-right: ${theme.spacing.sectionAbsMarginX};
+    background-color: ${theme.color.offWhite};
   }
 `
 

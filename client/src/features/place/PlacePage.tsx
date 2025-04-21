@@ -9,6 +9,7 @@ import {
   // relatedTypes,
   // locations,
   relatedObjectsAndWorks,
+  timelines,
 } from '../../config/placeSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -31,12 +32,15 @@ import ImageThumbnail from '../common/ImageThumbnail'
 import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import IPlace from '../../types/data/IPlace'
 import IConcept from '../../types/data/IConcept'
+import TimelineContainer from '../timeline/TimelineContainer'
+import config from '../../config/config'
 
 import AboutPanel from './AboutPanel'
 
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
   const place = new EntityParser(data)
   const images = place.getImages()
+  const name = place.getPrimaryName(config.aat.primaryName)
 
   const mapConfig = {
     wkt: data.defined_by || '',
@@ -65,6 +69,14 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
               relationships={relatedObjectsAndWorks}
               type="place"
             />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <TimelineContainer
+              searchTags={timelines}
+              providedHalLinks={place.json._links}
+            />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
               key={place.json.id}
               entity={data}
@@ -78,14 +90,12 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
             {/* {Object.keys(data._links).includes(locations.searchTag) && (
                   <Locations halLink={data._links[locations.searchTag]} />
                 )} */}
-            <Row className="my-3">
-              <Col xs={12}>
-                <AccordionContainer
-                  searchTags={relatedAccordions}
-                  providedHalLinks={data._links}
-                />
-              </Col>
-            </Row>
+            <ErrorBoundary FallbackComponent={ErrorFallback}>
+              <AccordionContainer
+                searchTags={relatedAccordions}
+                providedHalLinks={data._links}
+              />
+            </ErrorBoundary>
           </ErrorBoundary>
         </Col>
         <Col lg={4}>
@@ -99,7 +109,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
                 {/* Render images if they exist and there is no map data */}
                 {mapConfig.wkt === '' && images.length > 0 && (
                   <div style={{ height: '20rem' }}>
-                    <ImageThumbnail imageInfo={images[0]} />
+                    <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
               </ErrorBoundary>

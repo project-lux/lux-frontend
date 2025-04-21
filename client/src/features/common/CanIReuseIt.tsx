@@ -89,7 +89,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         ))}
       <Col xs={12}>
         <InternalLink
-          uri="/content/rights-info"
+          uri="/content/rights-usage"
           name="For more information about Rights and Usage, visit the LUX Frequently
           Asked Questions."
           linkCategory="FAQ Rights Info"

@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { formatDateJsonSearch } from '../../lib/parse/timeline/timelineHelper'
 import {
   ITimelineCriteria,
   ITimelinesTransformed,
@@ -36,11 +35,14 @@ const ListRow: React.FC<{
     ['itemEncounteredDate', 'Objects Encountered'],
     ['workCreationDate', 'Works Created'],
     ['workPublicationDate', 'Works Published'],
+    ['workCreationOrPublicationDate', 'Works About'],
   ])
 
-  const { tab, jsonSearchTerm } = searchTags[searchTag]
-  const { criteria, totalItems } = data[year][searchTag] as ITimelineCriteria
-  const searchQ = formatDateJsonSearch(year, jsonSearchTerm as string, criteria)
+  const { tab } = searchTags[searchTag]
+  const { searchParams, totalItems } = data[year][
+    searchTag
+  ] as ITimelineCriteria
+
   return (
     <HoverableRow key={`${searchTag}-${year}`}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -53,7 +55,7 @@ const ListRow: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${searchQ}&searchLink=true`,
+              search: `${searchParams}&searchLink=true`,
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')

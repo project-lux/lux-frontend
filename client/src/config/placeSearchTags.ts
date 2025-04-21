@@ -28,6 +28,16 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:placeWorkAbout',
     tab: 'works',
   },
+  collectionsCreatedAt: {
+    title: 'Collections Created At',
+    searchTag: 'lux:setCreatedAtPlace',
+    tab: 'collections',
+  },
+  collectionsAboutPlace: {
+    title: 'Collections About',
+    searchTag: 'lux:setAboutPlace',
+    tab: 'collections',
+  },
 }
 
 // Related item and work types
@@ -42,6 +52,12 @@ export const relatedTypes: IHalLinks = {
     title: 'Work Types',
     searchTag: 'lux:placeWorkTypes',
     tab: 'works',
+    jsonSearchTerm: 'classification',
+  },
+  collectionTypes: {
+    title: 'Collection Types',
+    searchTag: 'lux:placeSetTypes',
+    tab: 'collections',
     jsonSearchTerm: 'classification',
   },
 }
@@ -99,4 +115,33 @@ export const hierarchyChildren: IHalLink = {
   title: '',
   searchTag: 'lux:placeParts',
   tab: 'places',
+}
+
+// Used for rendering timelines
+export const timelines: IHalLinks = {
+  itemProductionDate: {
+    searchTag: 'lux:placeItemMadeTime',
+    tab: 'objects',
+    jsonSearchTerm: 'producedDate',
+  },
+  itemEncounteredDate: {
+    searchTag: 'lux:placeItemEncounteredTime',
+    tab: 'objects',
+    jsonSearchTerm: 'encounteredDate',
+  },
+  workCreationDate: {
+    searchTag: 'lux:placeWorkCreatedTime',
+    tab: 'works',
+    jsonSearchTerm: 'createdDate',
+  },
+  workPublicationDate: {
+    searchTag: 'lux:placeWorkPublishedTime',
+    tab: 'works',
+    jsonSearchTerm: 'publishedDate',
+  },
+  workCreationOrPublicationDate: {
+    searchTag: 'lux:placeWorkAboutTime',
+    tab: 'works',
+    jsonSearchTerm: 'publishedDate,createdDate',
+  },
 }

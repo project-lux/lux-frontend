@@ -12,6 +12,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 
 interface IProps {
   imageInfo: IImages
+  name: string
   linkUrl?: string
 }
 
@@ -26,13 +27,16 @@ const popperConfig = {
   ],
 }
 
-const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
+const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl, name }) => {
   const [show, setShow] = useState(false)
   const attribRef = useRef(null)
 
   const onClick: React.MouseEventHandler<HTMLButtonElement> = () => {
     setShow(!show)
   }
+
+  // Alt text for images
+  const alt = imageInfo.attribution ? imageInfo.attribution : name
 
   return (
     <StyledImageThumbnail data-testid="image-thumbnail-container">
@@ -48,7 +52,7 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
             key={imageInfo.imageUrls[0]}
             className="img-thumbnail"
             src={imageInfo.imageUrls[0]}
-            alt=""
+            alt={alt}
           />
         </Link>
       ) : (
@@ -56,7 +60,7 @@ const ImageThumbnail: React.FC<IProps> = ({ imageInfo, linkUrl }) => {
           key={imageInfo.imageUrls[0]}
           className="img-thumbnail"
           src={imageInfo.imageUrls[0]}
-          alt=""
+          alt={alt}
           data-testid="img-thumbnail"
         />
       )}
