@@ -9,6 +9,7 @@ import { baseQuery } from './baseQuery'
 import { ICmsPage } from './returnTypes'
 
 export interface IPageInput {
+  [key: string]: PageKey
   pageKey: PageKey
 }
 
