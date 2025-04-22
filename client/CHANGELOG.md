@@ -6,7 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added Collections Caused By, Collections About, and Collection Types to Event pages ([#622](https://github.com/project-lux/lux-frontend/issues/622)).
+- Added Collections Caused By, Collections About, and Collection Types to People and Groups pages ([#622](https://github.com/project-lux/lux-frontend/issues/622)).
+- Added Collections Caused By, Collections About, and Collection Types to Event pages ([#624](https://github.com/project-lux/lux-frontend/issues/624)).
 
 ### Changed
 
