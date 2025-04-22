@@ -31,12 +31,14 @@ import HierarchyContainer from '../hierarchy/HierarchyContainer'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IConcept from '../../types/data/IConcept'
 import ImageThumbnail from '../common/ImageThumbnail'
+import config from '../../config/config'
 
 import AboutPanel from './AboutPanel'
 
 const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
   const concept = new ConceptParser(data)
   const images = concept.getImages()
+  const name = concept.getPrimaryName(config.aat.primaryName)
 
   return (
     <React.Fragment>
@@ -89,7 +91,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
               <Col xs={12}>
                 {images.length > 0 && (
                   <div style={{ height: '20rem' }}>
-                    <ImageThumbnail imageInfo={images[0]} />
+                    <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
                 <AboutPanel entity={data} />

@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.49.1 - 2025-4-21
+
+### Fixed
+
+- Fixed Typescript errors and added alt text to Concept images ([#616](https://github.com/project-lux/lux-frontend/issues/616)).
+
 ## v1.49.0 - 2025-4-21
 
 ### Added
