@@ -18,7 +18,7 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import ImageThumbnail from '../common/ImageThumbnail'
-import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../common/RelatedObjectsWorksAndCollections'
 import TimelineContainer from '../timeline/TimelineContainer'
 import IAgent from '../../types/data/IAgent'
 
@@ -46,7 +46,7 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
       <StyledEntityBody>
         <Col lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RelatedObjectsAndWorks
+            <RelatedObjectsWorksAndCollections
               links={data._links}
               relationships={relatedObjectsAndWorks}
               type={agent.json.id?.includes('person') ? 'Person' : 'Group'}

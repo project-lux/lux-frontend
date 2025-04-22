@@ -18,7 +18,7 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import { ErrorFallback } from '../error/ErrorFallback'
-import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../common/RelatedObjectsWorksAndCollections'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
 import ConceptParser from '../../lib/parse/data/ConceptParser'
@@ -57,7 +57,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
       <StyledEntityBody>
         <Col lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RelatedObjectsAndWorks
+            <RelatedObjectsWorksAndCollections
               links={data._links}
               relationships={relatedObjectsAndWorks}
               type="concept"

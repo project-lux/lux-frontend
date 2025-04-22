@@ -18,7 +18,7 @@ import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
 import Map from '../common/Map'
-import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../common/RelatedObjectsWorksAndCollections'
 import { ErrorFallback } from '../error/ErrorFallback'
 // import Locations from '../common/Locations'
 // import WhatWeHave from '../common/WhatWeHave'
@@ -64,7 +64,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
       <StyledEntityBody>
         <Col xs={12} lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RelatedObjectsAndWorks
+            <RelatedObjectsWorksAndCollections
               links={data._links}
               relationships={relatedObjectsAndWorks}
               type="place"

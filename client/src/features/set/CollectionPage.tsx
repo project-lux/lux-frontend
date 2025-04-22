@@ -16,7 +16,7 @@ import IEntity from '../../types/data/IEntity'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
-import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../common/RelatedObjectsWorksAndCollections'
 import TimelineContainer from '../timeline/TimelineContainer'
 // import WhatWeHave from '../common/WhatWeHave'
 import AccordionContainer from '../relatedLists/AccordionContainer'
@@ -40,7 +40,7 @@ const CollectionPage: React.FC<IProps> = ({ data }) => {
       <StyledEntityBody>
         <Col lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RelatedObjectsAndWorks
+            <RelatedObjectsWorksAndCollections
               links={data._links || {}}
               relationships={objectsIncluded}
               type="collection"

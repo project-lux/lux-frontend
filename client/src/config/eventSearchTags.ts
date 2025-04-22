@@ -6,7 +6,7 @@ import { IHalLinks } from '../types/IHalLinks'
  */
 
 // Tab content for related objects
-export const relatedObjects: IHalLinks = {
+export const relatedEntites: IHalLinks = {
   objects: {
     title: 'Objects in Exhibition',
     searchTag: 'lux:eventIncludedItems',
@@ -22,10 +22,20 @@ export const relatedObjects: IHalLinks = {
     searchTag: 'lux:eventCausedWorks',
     tab: 'works',
   },
+  collectionsCausedBy: {
+    title: 'Collections Caused By',
+    searchTag: 'lux:setCausedByEvent',
+    tab: 'collections',
+  },
+  collectionsAboutEvent: {
+    title: 'Collections About',
+    searchTag: 'lux:setAboutEvent',
+    tab: 'collections',
+  },
 }
 
 // Used for rendering related types accordions
-export const itemAndWorkTypes: IHalLinks = {
+export const relatedTypes: IHalLinks = {
   itemTypes: {
     title: 'Object Types',
     searchTag: 'lux:eventObjectTypesUsed',
@@ -48,6 +58,12 @@ export const itemAndWorkTypes: IHalLinks = {
     title: 'Work Types',
     searchTag: 'lux:eventWorkTypesAbout',
     tab: 'works',
+    jsonSearchTerm: 'classification',
+  },
+  collectionTypes: {
+    title: 'Collection Types',
+    searchTag: 'lux:eventSetTypes',
+    tab: 'collections',
     jsonSearchTerm: 'classification',
   },
 }
@@ -80,5 +96,5 @@ export const relatedAccordions: IHalLinks = {
     searchTag: 'lux:eventRelatedConcepts',
     tab: 'concepts',
   },
-  ...itemAndWorkTypes,
+  ...relatedTypes,
 }
