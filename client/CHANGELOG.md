@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.49.2 - 2025-4-22
+
+### Fixed
+
+- Fixed Collections Created At and Collection About snippet rendering ([#623](https://github.com/project-lux/lux-frontend/issues/623)).
+
 ## v1.49.1 - 2025-4-21
 
 ### Fixed

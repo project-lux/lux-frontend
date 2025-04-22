@@ -12,6 +12,7 @@ import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import SetSnippet from '../results/SetSnippet'
 
 interface IObjectsBy {
   uri: string // URI which is the argument of the search tag
@@ -26,6 +27,10 @@ export const getSnippet = (uri: string, tab: string): JSX.Element | null => {
 
   if (tab === 'works') {
     return <WorksSnippet uri={uri} view="list" />
+  }
+
+  if (tab === 'collections') {
+    return <SetSnippet uri={uri} view="list" />
   }
 
   return null
