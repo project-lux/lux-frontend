@@ -1,9 +1,9 @@
 import config from './config'
 import {
+  archivalMaterialIcon,
   audioIcon,
   cartographyIcon,
   clothingIcon,
-  collectionsIcon,
   furnitureIcon,
   journalsAndNewpapersIcon,
   numismaticsIcon,
@@ -195,11 +195,15 @@ export const iconAats: Map<string, Array<string>> = new Map([
   ['http://vocab.getty.edu/aat/300310465', [specimensIcon, 'specimen']],
   ['http://vocab.getty.edu/aat/300310170', [specimensIcon, 'specimen']],
   ['http://vocab.getty.edu/aat/300380087', [specimensIcon, 'specimen']],
-  ['http://vocab.getty.edu/aat/300379505', [collectionsIcon, 'collection']],
+  [
+    'http://vocab.getty.edu/aat/300379505',
+    [archivalMaterialIcon, 'archival material'],
+  ],
 ])
 
 // Currently unused but could be useful in the future
 export const icons: IIcons = {
+  archivalMaterial: ['http://vocab.getty.edu/aat/300379505'],
   audio: [
     'http://vocab.getty.edu/aat/300265849',
     'http://vocab.getty.edu/aat/300056060',
@@ -219,7 +223,6 @@ export const icons: IIcons = {
     'http://vocab.getty.edu/aat/300055811',
     'http://vocab.getty.edu/aat/300266639',
   ],
-  collections: ['http://vocab.getty.edu/aat/300379505'],
   fossil: [
     config.aat.fossil,
     'http://vocab.getty.edu/aat/300265973',
