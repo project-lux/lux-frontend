@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added Collections Caused By, Collections About, and Collection Types to Event pages ([#622](https://github.com/project-lux/lux-frontend/issues/622)).
+- Added archival materials icon for objects ([#611](https://github.com/project-lux/lux-frontend/issues/611)).
 
 ### Changed
 
