@@ -4,13 +4,13 @@ import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import config from '../../config/config'
-import { relatedObjects, relatedAccordions } from '../../config/eventSearchTags'
+import { relatedEntites, relatedAccordions } from '../../config/eventSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import DataSources from '../common/DataSources'
 import EntityHeader from '../common/EntityHeader'
 import FeedbackButton from '../common/FeedbackButton'
-import RelatedObjectsAndWorks from '../common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../common/RelatedObjectsWorksAndCollections'
 import { ErrorFallback } from '../error/ErrorFallback'
 import EventParser from '../../lib/parse/data/EventParser'
 import AccordionContainer from '../relatedLists/AccordionContainer'
@@ -32,9 +32,9 @@ const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
       <StyledEntityBody>
         <Col lg={8}>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <RelatedObjectsAndWorks
+            <RelatedObjectsWorksAndCollections
               links={data._links}
-              relationships={relatedObjects}
+              relationships={relatedEntites}
               type="event"
             />
           </ErrorBoundary>

@@ -2,7 +2,7 @@ import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
 
-import RelatedObjectsAndWorks from '../../../../features/common/RelatedObjectsAndWorks'
+import RelatedObjectsWorksAndCollections from '../../../../features/common/RelatedObjectsWorksAndCollections'
 import { entity as mockEntity } from '../../../data/entity'
 import ILinks from '../../../../types/data/ILinks'
 
@@ -14,11 +14,11 @@ const mockRelationships = {
   },
 }
 
-describe('RelatedObjectsAndWorks', () => {
+describe('RelatedObjectsWorksAndCollections', () => {
   it('renders the error message', async () => {
     render(
       <BrowserRouter>
-        <RelatedObjectsAndWorks
+        <RelatedObjectsWorksAndCollections
           links={mockEntity._links as ILinks}
           relationships={mockRelationships}
           type="event"
