@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col, FormGroup, Row } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import { conditionals } from '../../config/advancedSearch/conditionals'
 import { scopeToAriaLabel } from '../../config/searchTypes'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
-import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
 
 import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
@@ -56,11 +56,31 @@ const Group: React.FC<IGroup> = ({
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
   return (
-    <Row>
-      <div className="mb-3" data-testid={`${selectedKey}-${stateId}-group-row`}>
-        <AlignedDiv>
-          <div className="form-group col-11 w-auto">
-            <div className="input-group">
+    <Col className="mb-3" data-testid={`${selectedKey}-${stateId}-group-row`}>
+      <FormGroup className="w-auto">
+        <StyledInputGroup>
+          <span className="w-100 d-flex ps-2">
+            <div className="d-flex w-100 py-2">
+              <CollapseButton
+                onClick={() => {
+                  pushClientEvent(
+                    'Collapse Button',
+                    open ? 'Open' : 'Close',
+                    'Advanced Search',
+                  )
+                  setOpen(!open)
+                }}
+                aria-controls="group-collapse-text"
+                aria-expanded={open}
+                aria-label={
+                  open
+                    ? `close ${labelForAria} group`
+                    : `open ${labelForAria} group`
+                }
+                className="collapseNestedAdvancedSearch float-left mx-2"
+              >
+                {open ? '-' : '+'}
+              </CollapseButton>
               <label htmlFor={id} hidden>
                 {selectedKey}
               </label>
@@ -73,6 +93,9 @@ const Group: React.FC<IGroup> = ({
                 selected={selectedKey}
                 id={id}
               />
+              <p className="d-flex mb-0 justify-content-center align-items-center">
+                the following
+              </p>
               <OptionsButton
                 state={state}
                 stateId={stateId}
@@ -80,62 +103,40 @@ const Group: React.FC<IGroup> = ({
                 nestedLevel={nestedLevel}
                 rowType={GROUP_ROW_TYPE}
               />
-              <RemoveButton stateId={stateId} parentStateId={parentStateId} />
             </div>
-          </div>
-        </AlignedDiv>
-        <VerticalLine className="groupVerticalLine">
-          <CollapseButton
-            onClick={() => {
-              pushClientEvent(
-                'Collapse Button',
-                open ? 'Open' : 'Close',
-                'Advanced Search',
-              )
-              setOpen(!open)
+            <RemoveButton stateId={stateId} parentStateId={parentStateId} />
+          </span>
+        </StyledInputGroup>
+      </FormGroup>
+      <VerticalLine className="groupVerticalLine">
+        <CollapseContainer open={open} id={`group-${stateId}`}>
+          {state.map((obj: Record<string, any>, ind) => (
+            <AdvancedSearchForm
+              key={obj._stateId}
+              state={obj}
+              parentScope={parentScope}
+              parentStateId={stateId}
+              nestedLevel={nestedLevel}
+              childInd={ind}
+              siblings={state}
+            />
+          ))}
+        </CollapseContainer>
+      </VerticalLine>
+      <Row className="mt-2" style={{ paddingLeft: '4px' }}>
+        <Col xs={12} className="px-0">
+          {/* Horizontal line */}
+          <div
+            style={{
+              width: '26px',
+              borderBottom: '1px solid #8095E8',
+              display: 'inline-block',
             }}
-            aria-controls="group-collapse-text"
-            aria-expanded={open}
-            aria-label={
-              open
-                ? `close ${labelForAria} group`
-                : `open ${labelForAria} group`
-            }
-            className="collapseNestedAdvancedSearch float-left"
-          >
-            {open ? '-' : '+'}
-          </CollapseButton>
-          <CollapseContainer open={open} id={`group-${stateId}`}>
-            <Row className="ms-2">
-              {state.map((obj: Record<string, any>, ind) => (
-                <AdvancedSearchForm
-                  key={obj._stateId}
-                  state={obj}
-                  parentScope={parentScope}
-                  parentStateId={stateId}
-                  nestedLevel={nestedLevel}
-                  childInd={ind}
-                  siblings={state}
-                />
-              ))}
-            </Row>
-            <Row className="mt-2" style={{ paddingLeft: '4px' }}>
-              <Col xs={12} className="px-0">
-                {/* Horizontal line */}
-                <div
-                  style={{
-                    width: '26px',
-                    borderBottom: '1px solid #8095E8',
-                    display: 'inline-block',
-                  }}
-                />
-                <AddButton stateId={stateId} ariaLabel={labelForAria} />
-              </Col>
-            </Row>
-          </CollapseContainer>
-        </VerticalLine>
-      </div>
-    </Row>
+          />
+          <AddButton stateId={stateId} ariaLabel={labelForAria} />
+        </Col>
+      </Row>
+    </Col>
   )
 }
 export default Group
