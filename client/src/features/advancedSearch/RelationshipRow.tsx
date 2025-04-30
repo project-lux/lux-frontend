@@ -69,7 +69,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
     <Row>
       <FormGroup className="col-12">
         <StyledInputGroup
-          className="mb-3 jusify-content-between flex-nowrap"
+          className="jusify-content-between flex-nowrap mb-3"
           data-testid={`${selectedKey}-${stateId}-relationship-row`}
         >
           <span className="w-100 d-flex ps-2">
@@ -96,11 +96,11 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
               />
               {hasNestedInputFields && (
                 <React.Fragment>
-                  <p className="d-flex w-auto mb-0 me-2 justify-content-center align-items-center">
+                  <p className="d-flex text-nowrap w-auto mb-0 me-2 justify-content-center align-items-center">
                     {legendText}
                   </p>
                   <InputFieldSet
-                    stateId={state._stateId}
+                    stateId={state._stateId as string}
                     scope={parentScope}
                     selectedKey={getProperty(state)}
                     state={state}
@@ -115,17 +115,15 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
         </StyledInputGroup>
       </FormGroup>
       {!hasNestedInputFields && (
-        <Row className="row ps-4">
-          <Col xs={12}>
-            <AdvancedSearchForm
-              key={stateId}
-              state={state}
-              parentScope={scopeToPassToNestedForm}
-              parentStateId={stateId}
-              nestedLevel={nestedLevel + 1}
-            />
-          </Col>
-        </Row>
+        <Col xs={12} style={{ paddingLeft: '3rem' }} className="nestedCol">
+          <AdvancedSearchForm
+            key={stateId}
+            state={state}
+            parentScope={scopeToPassToNestedForm}
+            parentStateId={stateId}
+            nestedLevel={nestedLevel + 1}
+          />
+        </Col>
       )}
     </Row>
   )

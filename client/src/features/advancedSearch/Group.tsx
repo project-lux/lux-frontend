@@ -7,7 +7,6 @@ import { conditionals } from '../../config/advancedSearch/conditionals'
 import { scopeToAriaLabel } from '../../config/searchTypes'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import CollapseButton from '../../styles/shared/CollapseButton'
-import VerticalLine from '../../styles/features/advancedSearch/VerticalLine'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
 
@@ -56,8 +55,8 @@ const Group: React.FC<IGroup> = ({
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
   return (
-    <Col className="mb-3" data-testid={`${selectedKey}-${stateId}-group-row`}>
-      <FormGroup className="w-auto">
+    <React.Fragment>
+      <FormGroup>
         <StyledInputGroup>
           <span className="w-100 d-flex ps-2">
             <div className="d-flex w-100 py-2">
@@ -77,7 +76,7 @@ const Group: React.FC<IGroup> = ({
                     ? `close ${labelForAria} group`
                     : `open ${labelForAria} group`
                 }
-                className="collapseNestedAdvancedSearch float-left mx-2"
+                className="collapseNestedAdvancedSearch float-left ms-2 me-3"
               >
                 {open ? '-' : '+'}
               </CollapseButton>
@@ -93,7 +92,7 @@ const Group: React.FC<IGroup> = ({
                 selected={selectedKey}
                 id={id}
               />
-              <p className="d-flex mb-0 justify-content-center align-items-center">
+              <p className="d-flex mb-0 text-nowrap justify-content-center align-items-center">
                 the following
               </p>
               <OptionsButton
@@ -108,35 +107,43 @@ const Group: React.FC<IGroup> = ({
           </span>
         </StyledInputGroup>
       </FormGroup>
-      <VerticalLine className="groupVerticalLine">
-        <CollapseContainer open={open} id={`group-${stateId}`}>
-          {state.map((obj: Record<string, any>, ind) => (
-            <AdvancedSearchForm
-              key={obj._stateId}
-              state={obj}
-              parentScope={parentScope}
-              parentStateId={stateId}
-              nestedLevel={nestedLevel}
-              childInd={ind}
-              siblings={state}
-            />
-          ))}
-        </CollapseContainer>
-      </VerticalLine>
-      <Row className="mt-2" style={{ paddingLeft: '4px' }}>
-        <Col xs={12} className="px-0">
-          {/* Horizontal line */}
-          <div
-            style={{
-              width: '26px',
-              borderBottom: '1px solid #8095E8',
-              display: 'inline-block',
-            }}
-          />
-          <AddButton stateId={stateId} ariaLabel={labelForAria} />
+      <Row className="ps-4">
+        <Col xs={12}>
+          <CollapseContainer open={open} id={`group-${stateId}`}>
+            <Row className="pe-2">
+              <Col xs={12} className="border rounded-2 px-0 pt-3">
+                {state.map((obj: Record<string, any>, ind) => (
+                  <div className="mx-3 nestedAdvancedSearchDivFromGroup">
+                    <AdvancedSearchForm
+                      key={obj._stateId}
+                      state={obj}
+                      parentScope={parentScope}
+                      parentStateId={stateId}
+                      nestedLevel={nestedLevel}
+                      childInd={ind}
+                      siblings={state}
+                    />
+                  </div>
+                ))}
+              </Col>
+              {/* <Row className="mt-2" style={{ paddingLeft: '4px' }}> */}
+              <Col xs={12} className="px-0">
+                {/* Horizontal line */}
+                <div
+                  style={{
+                    width: '26px',
+                    borderBottom: '1px solid #8095E8',
+                    display: 'inline-block',
+                  }}
+                />
+                <AddButton stateId={stateId} ariaLabel={labelForAria} />
+              </Col>
+              {/* </Row> */}
+            </Row>
+          </CollapseContainer>
         </Col>
       </Row>
-    </Col>
+    </React.Fragment>
   )
 }
 export default Group

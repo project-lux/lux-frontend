@@ -1,4 +1,5 @@
 import React from 'react'
+import { Row, Col } from 'react-bootstrap'
 
 import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
 
@@ -33,20 +34,24 @@ const InputRow: React.FC<IFieldSelectRow> = ({
   parentStateId,
   nestedLevel,
 }) => (
-  <StyledInputGroup className="col-12 px-0 w-100 mb-3">
-    <span className="w-100 d-flex ps-2">
-      <InputFieldSet
-        stateId={stateId}
-        scope={scope}
-        selectedKey={selectedKey}
-        state={state}
-        parentStateId={stateId}
-        nestedLevel={nestedLevel}
-        className="py-2"
-      />
-      <RemoveButton stateId={stateId} parentStateId={parentStateId} />
-    </span>
-  </StyledInputGroup>
+  <Row>
+    <Col xs={12}>
+      <StyledInputGroup className="px-0 w-100 mb-3">
+        <span className="w-100 d-flex ps-2">
+          <InputFieldSet
+            stateId={stateId}
+            scope={scope}
+            selectedKey={selectedKey}
+            state={state}
+            parentStateId={stateId}
+            nestedLevel={nestedLevel}
+            className="py-2"
+          />
+          <RemoveButton stateId={stateId} parentStateId={parentStateId} />
+        </span>
+      </StyledInputGroup>
+    </Col>
+  </Row>
 )
 
 export default InputRow
