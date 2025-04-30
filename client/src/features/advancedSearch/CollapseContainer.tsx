@@ -1,5 +1,8 @@
 import React from 'react'
 import { Collapse } from 'react-bootstrap'
+import styled from 'styled-components'
+
+import theme from '../../styles/theme'
 
 interface ICollapseContainer {
   open: boolean
@@ -7,6 +10,9 @@ interface ICollapseContainer {
   children: JSX.Element | JSX.Element[]
 }
 
+const StyledCollapse = styled(Collapse)`
+  border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
+`
 /**
  * Collapsible container that holds relationships or groups and their children
  * @param {boolean} open open or close the container
@@ -19,18 +25,15 @@ const CollapseContainer: React.FC<ICollapseContainer> = ({
   id,
   children,
 }) => (
-  <Collapse
-    in={open}
-    className="collapseContainer float-left ms-3 px-4 py-3 border rounded-2"
-  >
+  <StyledCollapse in={open} className="collapseContainer float-left">
     <div
       id={`${id}-collapse-component`}
-      className="w-100"
+      className="w-100 ps-4 pt-4"
       data-testid={`${id}-collapse-component`}
     >
       {children}
     </div>
-  </Collapse>
+  </StyledCollapse>
 )
 
 export default CollapseContainer

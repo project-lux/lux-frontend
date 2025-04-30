@@ -32,6 +32,12 @@ const StyledButton = styled(Button)`
   }
 `
 
+const StyledInputGroupText = styled(InputGroup.Text)`
+  background-color: ${theme.color.white};
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+`
+
 interface IRemoveButton {
   stateId: string
   parentStateId: string
@@ -77,7 +83,7 @@ const RemoveButton: React.FC<IRemoveButton> = ({
   }
 
   return (
-    <InputGroup.Text className="removeButtonInputGroup">
+    <StyledInputGroupText className="removeButtonInputGroup">
       <StyledButton
         id={`remove-${stateId}`}
         aria-label="remove row"
@@ -94,7 +100,7 @@ const RemoveButton: React.FC<IRemoveButton> = ({
       >
         <i className="bi bi-trash3 fs-4" />
       </StyledButton>
-    </InputGroup.Text>
+    </StyledInputGroupText>
   )
 }
 

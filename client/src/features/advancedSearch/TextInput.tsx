@@ -69,7 +69,7 @@ const TextInput: React.FC<IInputType> = ({
 
   return (
     <div className="form-group me-2">
-      <div className="input-group" style={{ minWidth: '100px' }}>
+      <div className="input-group h-100" style={{ minWidth: '100px' }}>
         {label && (
           <label htmlFor={id} hidden>
             {label}

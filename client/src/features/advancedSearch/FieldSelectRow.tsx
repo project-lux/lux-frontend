@@ -66,7 +66,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
 
   return (
     <Col
-      className="mb-2"
+      className="mb-3"
       data-testid={`field-select-row-${stateId}${
         childInd ? `-${childInd}` : ''
       }`}
@@ -83,7 +83,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             id={`multiple-fields-${stateId}`}
           />
           <div className="d-flex w-auto align-items-center">
-            <p className="mx-2 mb-0">or</p>
+            <p className="mx-2 mb-0 text-nowrap">or</p>
           </div>
           <AdvancedSearchDropdown
             options={getParentLabels(scope)}
@@ -95,7 +95,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             scope={scope}
           />
           <div className="d-flex w-auto align-items-center">
-            <p className="mx-2 mb-0">or Have Name</p>
+            <p className="mx-2 mb-0 text-nowrap">or Have Name</p>
           </div>
           <TextInput
             key={state.name}
