@@ -135,11 +135,7 @@ const Group: React.FC<IGroup> = ({
                 ))}
               </Col>
               <Col xs={12} className="px-0">
-                <AddButton
-                  stateId={stateId}
-                  ariaLabel={labelForAria}
-                  bgColor={bgColor === 'bg-white' ? 'bg-light' : 'bg-white'}
-                />
+                <AddButton stateId={stateId} ariaLabel={labelForAria} />
               </Col>
             </Row>
           </CollapseContainer>

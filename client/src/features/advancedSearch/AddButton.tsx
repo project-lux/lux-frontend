@@ -8,17 +8,15 @@ import StyledAddButton from '../../styles/features/advancedSearch/AddButton'
 interface IAddButton {
   stateId: string
   ariaLabel: string
-  bgColor: string
 }
 
 /**
  * Button for adding a row to the advanced search form.
  * @param {string} stateId id for the current advanced search state object
  * @param {string} ariaLabel string to be used for aria-label value of the button
- * @param {string} bgColor the background color to be used for the button so it blends with its background element
  * @returns {JSX.Element}
  */
-const AddButton: React.FC<IAddButton> = ({ stateId, ariaLabel, bgColor }) => {
+const AddButton: React.FC<IAddButton> = ({ stateId, ariaLabel }) => {
   const dispatch = useAppDispatch()
   const handleAddRow = (): void => {
     dispatch(addSelectedHelpText({ value: 'fieldSelectRow' }))
@@ -38,7 +36,7 @@ const AddButton: React.FC<IAddButton> = ({ stateId, ariaLabel, bgColor }) => {
       <StyledAddButton
         type="button"
         onClick={handleAddRow}
-        className={`addNewQueryButton ps-0 pb-0 ${bgColor}`}
+        className="addNewQueryButton ps-0 pb-0"
         aria-label={`add new line to ${ariaLabel} query`}
         data-testid={`${stateId}-add-row-button`}
       >
