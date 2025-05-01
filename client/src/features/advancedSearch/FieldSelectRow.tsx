@@ -22,6 +22,7 @@ interface IFieldSelectRow {
   parentStateId: string
   childInd?: number | undefined
   siblings?: Array<Record<string, any>> | undefined
+  parentBgColor?: 'bg-white' | 'bg-light'
 }
 
 /**
@@ -41,10 +42,11 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
   parentStateId,
   childInd = undefined,
   siblings = undefined,
+  parentBgColor,
 }) => {
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
-    dispatch(addFieldSelection({ scope, selected, stateId }))
+    dispatch(addFieldSelection({ scope, selected, stateId, parentBgColor }))
   }
 
   const ariaLabel = scopeToAriaLabel[scope]
@@ -66,7 +68,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
 
   return (
     <Col
-      className="mb-3"
+      className="mb-3 bg-white"
       data-testid={`field-select-row-${stateId}${
         childInd ? `-${childInd}` : ''
       }`}

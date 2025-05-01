@@ -5,7 +5,6 @@ import theme from '../../theme'
 
 const AddButton = styled(Button)`
   width: auto;
-  background-color: ${theme.color.white};
   border: none;
   border-radius: ${theme.border.radius};
   color: ${theme.color.link};

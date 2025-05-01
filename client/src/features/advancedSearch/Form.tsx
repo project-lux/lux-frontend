@@ -18,6 +18,7 @@ interface IAdvancedSearchForm {
   nestedLevel: number
   childInd?: number
   siblings?: Array<Record<string, any>>
+  parentBgColor?: 'bg-white' | 'bg-light'
 }
 /**
  * Container for holding all functionality related to rendering advanced search rows based on the current
@@ -37,6 +38,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   nestedLevel,
   childInd = undefined,
   siblings = undefined,
+  parentBgColor = 'bg-white',
 }) => {
   const stateKeys = Object.keys(state)
   // The current state object is empty
@@ -49,6 +51,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentStateId={parentStateId}
         childInd={childInd}
         siblings={siblings}
+        parentBgColor={parentBgColor}
       />
     )
   }
@@ -77,6 +80,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
+        bgColor={state._bgColor}
       />
     )
   }
