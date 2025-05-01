@@ -93,15 +93,19 @@ export const addFieldSelectionHelper = (
   objectToUpdate: Record<string, any> | null,
   scope: string,
   selected: string,
+  parentBgColor?: 'bg-white' | 'bg-light',
 ): Record<string, any> | null => {
   if (objectToUpdate !== null) {
     const existingValue = getExistingValue(objectToUpdate)
-    const newObject = {
+    const newObject: IAdvancedSearchState = {
       _stateId: getStateId(),
     }
 
     if (Object.keys(conditionals).includes(selected)) {
       // Group selected
+      // add _bgColor for rendering purposes
+      objectToUpdate._bgColor =
+        parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
       objectToUpdate[selected] =
         existingValue !== null ? existingValue : [newObject]
     } else if (isInput(selected)) {
@@ -127,6 +131,8 @@ export const addFieldSelectionHelper = (
           existingValue !== null ? existingValue : newObject
       }
     }
+
+    // update options with default
     let options = getDefaultSearchOptions(scope, selected)
     if (options !== null) {
       if (options.includes('exact')) {
@@ -142,6 +148,7 @@ export const addFieldSelectionHelper = (
       objectToUpdate._options = options
     }
   }
+
   return objectToUpdate
 }
 
@@ -244,12 +251,12 @@ export const removeObjectFromState = (
 
 /**
  * Find the matching parent object
- * @param {Record<string, any>} parent object to parse
+ * @param {IAdvancedSearchState} parent object to parse
  * @param {string} id id of the object to find
  * @returns {Record<string, any>}
  */
 export const findObjectInState = (
-  parent: any,
+  parent: IAdvancedSearchState,
   id: string,
 ): Record<string, any> | null => {
   // if the _stateId matches the provided id, return the object it matches
@@ -281,17 +288,27 @@ export const findObjectInState = (
  * Parses the aq param from the URL and adds _stateIds for component rendering
  * @param {string} scope entity scope of the current search, such as item, work, places, etc
  * @param {IAdvancedSearchState} jsonAqParamValue object to convert
+ * @param {string} parentBgColor the parent object's background color
  * @returns {IAdvancedSearchState}
  */
 export const convertAqSearchParam = (
   scope: string,
   jsonAqParamValue: IAdvancedSearchState,
+  parentBgColor: 'bg-light' | 'bg-white',
 ): IAdvancedSearchState => {
   const keys = Object.keys(jsonAqParamValue)
-
+  let newBgColor = parentBgColor
   // Remove scope as it is not needed for rendering and scope gets passed via the current tab
   if (keys.includes('_scope')) {
     delete jsonAqParamValue._scope
+  }
+
+  // Check if object contains a conditional and add _bgColor
+  for (const key of keys) {
+    if (Object.keys(conditionals).includes(key)) {
+      newBgColor = parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
+      jsonAqParamValue._bgColor = newBgColor
+    }
   }
 
   if (!jsonAqParamValue.hasOwnProperty('_stateId')) {
@@ -326,12 +343,13 @@ export const convertAqSearchParam = (
         jsonAqParamValue[key] = convertAqSearchParam(
           getFieldToEntityRelationship(scope, key) || '',
           nestedObject,
+          newBgColor,
         )
       }
 
       if (Array.isArray(nestedObject)) {
         jsonAqParamValue[key] = nestedObject.map((obj) =>
-          convertAqSearchParam(scope, obj),
+          convertAqSearchParam(scope, obj, newBgColor),
         )
       }
     }

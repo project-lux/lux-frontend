@@ -11,7 +11,15 @@ interface ICollapseContainer {
 }
 
 const StyledCollapse = styled(Collapse)`
-  border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
+  position: relative;
+
+  .borderLeft {
+    border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
+    position: absolute;
+    top: 0%;
+    bottom: 22px;
+    left: -1px;
+  }
 `
 /**
  * Collapsible container that holds relationships or groups and their children
@@ -28,7 +36,10 @@ const CollapseContainer: React.FC<ICollapseContainer> = ({
   <StyledCollapse in={open} className="collapseContainer float-left">
     <div
       id={`${id}-collapse-component`}
-      className="w-100 ps-4 pt-4"
+      className="w-100 pt-4"
+      style={{
+        paddingLeft: '2.5rem',
+      }}
       data-testid={`${id}-collapse-component`}
     >
       {children}

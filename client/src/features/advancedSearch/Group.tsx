@@ -24,6 +24,7 @@ interface IGroup {
   parentScope: string
   parentStateId: string
   nestedLevel: number
+  bgColor: 'bg-light' | 'bg-white'
 }
 
 /**
@@ -34,6 +35,7 @@ interface IGroup {
  * @param {number} parentScope the scope of the parent object
  * @param {boolean} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
+ * @param {string} bgColor the background color of the child container
  * @returns {JSX.Element}
  */
 const Group: React.FC<IGroup> = ({
@@ -43,6 +45,7 @@ const Group: React.FC<IGroup> = ({
   parentScope,
   parentStateId,
   nestedLevel,
+  bgColor,
 }) => {
   const [open, setOpen] = useState<boolean>(true)
 
@@ -57,7 +60,10 @@ const Group: React.FC<IGroup> = ({
   return (
     <React.Fragment>
       <FormGroup>
-        <StyledInputGroup>
+        <StyledInputGroup
+          className="bg-white advancedSearchGroupRow"
+          data-testid="advanced-search-group-row"
+        >
           <span className="w-100 d-flex ps-2">
             <div className="d-flex w-100 py-2">
               <CollapseButton
@@ -107,11 +113,12 @@ const Group: React.FC<IGroup> = ({
           </span>
         </StyledInputGroup>
       </FormGroup>
-      <Row className="ps-4">
+      <Row className={`ps-4 ${open ? '' : 'pb-3'}`}>
         <Col xs={12}>
           <CollapseContainer open={open} id={`group-${stateId}`}>
+            <div className="borderLeft" />
             <Row className="pe-2">
-              <Col xs={12} className="border rounded-2 px-0 pt-3">
+              <Col xs={12} className={`border rounded-2 px-0 pt-3 ${bgColor}`}>
                 {state.map((obj: Record<string, any>, ind) => (
                   <div className="mx-3 nestedAdvancedSearchDivFromGroup">
                     <AdvancedSearchForm
@@ -122,23 +129,18 @@ const Group: React.FC<IGroup> = ({
                       nestedLevel={nestedLevel}
                       childInd={ind}
                       siblings={state}
+                      parentBgColor={bgColor}
                     />
                   </div>
                 ))}
               </Col>
-              {/* <Row className="mt-2" style={{ paddingLeft: '4px' }}> */}
               <Col xs={12} className="px-0">
-                {/* Horizontal line */}
-                <div
-                  style={{
-                    width: '26px',
-                    borderBottom: '1px solid #8095E8',
-                    display: 'inline-block',
-                  }}
+                <AddButton
+                  stateId={stateId}
+                  ariaLabel={labelForAria}
+                  bgColor={bgColor === 'bg-white' ? 'bg-light' : 'bg-white'}
                 />
-                <AddButton stateId={stateId} ariaLabel={labelForAria} />
               </Col>
-              {/* </Row> */}
             </Row>
           </CollapseContainer>
         </Col>

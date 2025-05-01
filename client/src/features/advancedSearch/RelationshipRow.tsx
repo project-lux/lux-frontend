@@ -69,7 +69,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
     <Row>
       <FormGroup className="col-12">
         <StyledInputGroup
-          className="jusify-content-between flex-nowrap mb-3"
+          className="jusify-content-between flex-nowrap mb-3 bg-white"
           data-testid={`${selectedKey}-${stateId}-relationship-row`}
         >
           <span className="w-100 d-flex ps-2">

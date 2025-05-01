@@ -44,11 +44,12 @@ export const advancedSearchSlice = createSlice({
         scope: string
         selected: string
         stateId: string
+        parentBgColor?: 'bg-white' | 'bg-light'
       }>,
     ) => {
-      const { scope, selected, stateId } = action.payload
+      const { scope, selected, stateId, parentBgColor } = action.payload
       const objectInState = findObjectInState(state, stateId)
-      addFieldSelectionHelper(objectInState, scope, selected)
+      addFieldSelectionHelper(objectInState, scope, selected, parentBgColor)
     },
     // New from Peter
     updateOptions: (
@@ -214,7 +215,11 @@ export const advancedSearchSlice = createSlice({
           AND: [AqParamValueToJson],
         }
       }
-      const convertedAqParam = convertAqSearchParam(scope, AqParamValueToJson)
+      const convertedAqParam = convertAqSearchParam(
+        scope,
+        AqParamValueToJson,
+        'bg-white',
+      )
       return convertedAqParam
     },
     remove: (

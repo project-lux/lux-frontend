@@ -2,6 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import type { ThunkAction, Action } from '@reduxjs/toolkit'
 
 import advancedSearchReducer from '../redux/slices/advancedSearchSlice'
+import advancedSearchStyleReducer from '../redux/slices/advancedSearchStyleSlice'
 import simpleSearchReducer from '../redux/slices/simpleSearchSlice'
 import helpTextReducer from '../redux/slices/helpTextSlice'
 import archiveHierarchyReducer from '../redux/slices/archiveHierarchySlice'
@@ -16,6 +17,7 @@ import { mlFacetsApi } from '../redux/api/ml_facets_api'
 export const store = configureStore({
   reducer: {
     advancedSearch: advancedSearchReducer,
+    advancedSearchStyle: advancedSearchStyleReducer,
     simpleSearch: simpleSearchReducer,
     helpTextKey: helpTextReducer,
     archiveHierarchy: archiveHierarchyReducer,
