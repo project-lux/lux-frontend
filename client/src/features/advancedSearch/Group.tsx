@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+// import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { conditionals } from '../../config/advancedSearch/conditionals'
@@ -9,6 +10,7 @@ import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
+// import theme from '../../styles/theme'
 
 import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
@@ -16,6 +18,20 @@ import AdvancedSearchDropdown from './Dropdown'
 import AdvancedSearchForm from './Form'
 import OptionsButton, { GROUP_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
+// import Connector from './Connector'
+
+// const StyledSpan = styled.span`
+//   margin: 0 auto;
+//   text-align: center;
+//   width: auto;
+//   height: auto;
+//   background: ${theme.color.lightBabyBlue};
+//   color: ${theme.color.primary.blue};
+//   display: inline-block;
+//   position: relative;
+//   top: 20px;
+//   z-index: 2;
+// `
 
 interface IGroup {
   stateId: string
@@ -58,7 +74,7 @@ const Group: React.FC<IGroup> = ({
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
   return (
-    <React.Fragment>
+    <div className={`groupContainer ${bgColor} p-3 border rounded-2 mb-3`}>
       <FormGroup>
         <StyledInputGroup
           className="bg-white advancedSearchGroupRow"
@@ -118,9 +134,9 @@ const Group: React.FC<IGroup> = ({
           <CollapseContainer open={open} id={`group-${stateId}`}>
             <div className="borderLeft" />
             <Row className="pe-2">
-              <Col xs={12} className={`border rounded-2 px-0 pt-3 ${bgColor}`}>
+              <Col xs={12} className="px-0">
                 {state.map((obj: Record<string, any>, ind) => (
-                  <div className="mx-3 nestedAdvancedSearchDivFromGroup">
+                  <div className="ms-3 me-1 nestedAdvancedSearchDivFromGroup">
                     <AdvancedSearchForm
                       key={obj._stateId}
                       state={obj}
@@ -141,7 +157,7 @@ const Group: React.FC<IGroup> = ({
           </CollapseContainer>
         </Col>
       </Row>
-    </React.Fragment>
+    </div>
   )
 }
 export default Group

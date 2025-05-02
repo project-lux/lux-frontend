@@ -80,7 +80,7 @@ const TextInput: React.FC<IInputType> = ({
           autoFocus={autoFocus}
           type="text"
           value={displayName !== currentValue ? displayName : currentValue}
-          className="form-control advancedSearchInput"
+          className="form-control advancedSearchInput bg-white"
           placeholder={label}
           onChange={(e) => handleOnChange(e.currentTarget.value)}
           onSelect={() => handleOnSelect()}
