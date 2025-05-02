@@ -15,6 +15,11 @@ const AddButton = styled(Button)`
     color: ${theme.color.link};
   }
 
+  &.btn:active {
+    background-color: ${theme.color.link};
+    color: ${theme.color.white};
+  }
+
   &:focus {
     background-color: inherit;
     color: ${theme.color.link};

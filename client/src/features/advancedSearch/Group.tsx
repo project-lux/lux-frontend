@@ -67,7 +67,14 @@ const Group: React.FC<IGroup> = ({
 
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
-    dispatch(addFieldSelection({ scope: parentScope, selected, stateId }))
+    dispatch(
+      addFieldSelection({
+        scope: parentScope,
+        selected,
+        stateId,
+        parentBgColor: bgColor,
+      }),
+    )
   }
   const id = `group-dropdown-${stateId}`
   const labelForAria = conditionals[selectedKey]
