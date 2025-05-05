@@ -1,3 +1,4 @@
+import archivalMaterialIcon from '../resources/images/type/archive.svg'
 import audioIcon from '../resources/images/type/audio.svg'
 import cartographyIcon from '../resources/images/type/cartography.svg'
 import clothingIcon from '../resources/images/type/clothing.svg'
@@ -25,6 +26,7 @@ import workIcon from '../resources/images/entity/work.svg'
  */
 
 export {
+  archivalMaterialIcon,
   audioIcon,
   cartographyIcon,
   clothingIcon,

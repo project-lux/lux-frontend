@@ -60,7 +60,7 @@ const tabsChildren = (
     })
     .filter((entry) => entry !== null) as Array<JSX.Element>
 
-const RelatedObjectsAndWorks: React.FC<IRelated> = ({
+const RelatedObjectsWorksAndCollections: React.FC<IRelated> = ({
   links,
   relationships,
   type,
@@ -87,4 +87,4 @@ const RelatedObjectsAndWorks: React.FC<IRelated> = ({
   )
 }
 
-export default RelatedObjectsAndWorks
+export default RelatedObjectsWorksAndCollections
