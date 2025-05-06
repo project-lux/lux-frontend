@@ -32,6 +32,14 @@ export const getProperty = (obj: IAdvancedSearchState): string => {
 }
 
 /**
+ * Returns the property that is a search term for the provided object
+ * @param stateKeys Array<string>; object for which to parse keys
+ * @returns string
+ */
+export const isEmptyObj = (stateKeys: Array<string>): boolean =>
+  stateKeys.length === 1 && stateKeys[0] === '_stateId'
+
+/**
  * Determines if the property given requires text input
  * @param searchTerm string; string property from the state
  * @returns boolean
