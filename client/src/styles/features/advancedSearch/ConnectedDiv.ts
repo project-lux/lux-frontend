@@ -1,6 +1,10 @@
 import styled from 'styled-components'
 
-const ConnectedDiv = styled.div`
+interface IProps {
+  display: string
+}
+
+const ConnectedDiv = styled.div<IProps>`
   position: relative;
 
   &:first-child {
@@ -13,9 +17,9 @@ const ConnectedDiv = styled.div`
     right: 0;
     width: 0;
     height: 50px;
-    display: block;
+    display: ${(props) => props.display};
     content: '';
-    margin-left: 25px;
+    margin-left: 38px;
   }
 
   &:last-child:after {

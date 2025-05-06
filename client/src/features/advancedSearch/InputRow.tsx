@@ -37,7 +37,7 @@ const InputRow: React.FC<IFieldSelectRow> = ({
   <Row>
     <Col xs={12}>
       <StyledInputGroup
-        className="px-0 w-100 mb-3 bg-white advancedSearchInputRow"
+        className="px-0 w-100 bg-white advancedSearchInputRow"
         data-testid="advanced-search-input-row"
       >
         <span className="w-100 d-flex ps-2">

@@ -68,7 +68,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
 
   return (
     <Col
-      className="mb-3 bg-white"
+      className="bg-white"
       data-testid={`field-select-row-${stateId}${
         childInd ? `-${childInd}` : ''
       }`}

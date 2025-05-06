@@ -1,5 +1,6 @@
 import React from 'react'
 import { Col, FormGroup, Row } from 'react-bootstrap'
+import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { scopeToAriaLabel } from '../../config/searchTypes'
@@ -16,12 +17,41 @@ import {
   containsInput,
   getProperty,
 } from '../../lib/advancedSearch/advancedSearchParser'
+// import theme from '../../styles/theme'
 
 import AdvancedSearchDropdown from './Dropdown'
 import AdvancedSearchForm from './Form'
 import OptionsButton, { RELATIONSHIP_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
 import InputFieldSet from './InputFieldset'
+
+// const StyledBorderDiv = styled.div`
+//   position: absolute;
+//   border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
+//   height: 100%;
+//   left: 26px;
+//   top: 55px;
+//   padding-left: 2rem;
+// `
+
+interface IProps {
+  display: boolean
+}
+
+const StyledFormGroup = styled(FormGroup)<IProps>`
+  &:after {
+    border: 0.5px solid #8095e8;
+    left: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    min-height: 100px;
+    display: ${(props) => (props.display ? 'block' : 'none')};
+    content: '';
+    margin-left: 38px;
+    position: absolute;
+  }
+`
 
 interface IRelationshipRow {
   stateId: string
@@ -30,6 +60,8 @@ interface IRelationshipRow {
   parentScope: string
   parentStateId: string
   nestedLevel: number
+  bgColor: 'bg-light' | 'bg-white'
+  hasYoungerSiblings?: boolean
 }
 
 /**
@@ -40,6 +72,8 @@ interface IRelationshipRow {
  * @param {string} parentScope the scope of the parent object
  * @param {string} parentStateId id of the parent object within the advanced search state
  * @param {number} nestedLevel level of depth within the advanced search state
+ * @param {string} bgColor the background color of the child container
+ * @param {boolean} hasYoungerSiblings the background color of the child container
  * @returns {JSX.Element}
  */
 const RelationshipRow: React.FC<IRelationshipRow> = ({
@@ -49,6 +83,8 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   parentScope,
   parentStateId,
   nestedLevel,
+  bgColor,
+  hasYoungerSiblings = false,
 }) => {
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
@@ -59,17 +95,20 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   const id = `field-dropdown-${stateId}`
   const parentLabels = getParentLabels(parentScope)
   const labelForAria = parentLabels ? parentLabels[selectedKey] : ''
-  const hasNestedInputFields = containsInput(Object.keys(state))
+  const hasChildInputField = containsInput(Object.keys(state))
   const legendText =
     scopeToPassToNestedForm !== ''
       ? `${scopeToAriaLabel[scopeToPassToNestedForm]} that`
       : 'that'
 
   return (
-    <Row>
-      <FormGroup className="col-12">
+    <Row className="relationship-row">
+      <StyledFormGroup
+        display={hasYoungerSiblings}
+        className={`col-12 ${!hasChildInputField ? 'mb-3' : ''}`}
+      >
         <StyledInputGroup
-          className="jusify-content-between flex-nowrap mb-3 bg-white"
+          className="jusify-content-between flex-nowrap bg-white"
           data-testid={`${selectedKey}-${stateId}-relationship-row`}
         >
           <span className="w-100 d-flex ps-2">
@@ -94,7 +133,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 nestedLevel={nestedLevel}
                 rowType={RELATIONSHIP_ROW_TYPE}
               />
-              {hasNestedInputFields && (
+              {hasChildInputField && (
                 <React.Fragment>
                   <p className="d-flex text-nowrap w-auto mb-0 me-2 justify-content-center align-items-center">
                     {legendText}
@@ -113,17 +152,25 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
             <RemoveButton stateId={stateId} parentStateId={parentStateId} />
           </span>
         </StyledInputGroup>
-      </FormGroup>
-      {!hasNestedInputFields && (
-        <Col xs={12} style={{ paddingLeft: '3rem' }} className="nestedCol">
-          <AdvancedSearchForm
-            key={stateId}
-            state={state}
-            parentScope={scopeToPassToNestedForm}
-            parentStateId={stateId}
-            nestedLevel={nestedLevel + 1}
-          />
-        </Col>
+      </StyledFormGroup>
+      {!hasChildInputField && (
+        <React.Fragment>
+          <Col
+            xs={12}
+            style={{ paddingLeft: '4rem', zIndex: '2' }}
+            className="mb-3"
+          >
+            <AdvancedSearchForm
+              key={stateId}
+              state={state}
+              parentScope={scopeToPassToNestedForm}
+              parentStateId={stateId}
+              nestedLevel={nestedLevel + 1}
+              parentBgColor={bgColor}
+            />
+          </Col>
+          {/* <StyledBorderDiv /> */}
+        </React.Fragment>
       )}
     </Row>
   )
