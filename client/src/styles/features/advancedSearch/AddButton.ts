@@ -4,9 +4,9 @@ import styled from 'styled-components'
 import theme from '../../theme'
 
 const AddButton = styled(Button)`
-  width: 100px;
+  width: auto;
   background-color: ${theme.color.white};
-  border: 1px solid ${theme.color.advancedSearch.addRowText};
+  border: none;
   border-radius: ${theme.border.radius};
   color: ${theme.color.link};
 
