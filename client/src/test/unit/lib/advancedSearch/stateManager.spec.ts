@@ -289,6 +289,7 @@ describe('stateManager functions', () => {
               ],
             },
           ],
+          _bgColor: 'bg-light',
         },
         _options: [
           'case-insensitive',
@@ -345,6 +346,7 @@ describe('stateManager functions', () => {
             _stateId: '1',
           },
         ],
+        _bgColor: 'bg-white',
       })
     })
 

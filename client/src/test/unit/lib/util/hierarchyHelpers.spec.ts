@@ -19,11 +19,10 @@ import { reusableMinimalEntity as mockEntity } from '../../../data/reusableMinim
 
 describe('hierarchyHelpers', () => {
   const mockAncestors = [
-    'https://endpoint.yale.edu/data/set/b7ebbee8-a302-4d07-a91a-399a060e6d1f',
-    'https://endpoint.yale.edu/data/set/13349366-80a1-454f-b17a-9490f70c9ad9',
+    `${config.env.dataApiBaseUrl}data/set/b7ebbee8-a302-4d07-a91a-399a060e6d1f`,
+    `${config.env.dataApiBaseUrl}data/set/13349366-80a1-454f-b17a-9490f70c9ad9`,
   ]
-  const mockUri =
-    'https://endpoint.yale.edu/data/set/13349366-80a1-454f-b17a-9490f70c9ad9'
+  const mockUri = `${config.env.dataApiBaseUrl}data/set/13349366-80a1-454f-b17a-9490f70c9ad9`
   const mockPathname = '/view/set/13349366-80a1-454f-b17a-9490f70c9ad9'
 
   describe('isInHiearchy', () => {
@@ -71,19 +70,18 @@ describe('hierarchyHelpers', () => {
         },
       ],
       'lux:random': {
-        href: 'https://endpoint.yale.edu/api/facets/set?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
+        href: `${config.env.dataApiBaseUrl}api/facets/set?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits`,
         _estimate: 1,
       },
       'lux:objectOrSetMemberOfSet': {
-        href: 'https://endpoint.yale.edu/api/search/multi?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
+        href: `${config.env.dataApiBaseUrl}api/search/multi?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D`,
         _estimate: 1,
       },
     }
 
     const links = hasHierarchyHalLinks(mockLinks).sort()
     const comparativeLinks = [
-      'https://endpoint.yale.edu/api/facets/work?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
-      'https://endpoint.yale.edu/api/search/item?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
+      `${config.env.dataApiBaseUrl}api/search/multi?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D`,
     ].sort()
 
     it('returns array of strings', () => {

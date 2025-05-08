@@ -172,6 +172,7 @@ export const estimatesState = {
 export const advancedSearchEstimates: Record<string, string | number> = {
   objects: 803,
   works: '-',
+  collections: '-',
   people: '-',
   places: '-',
   concepts: '-',

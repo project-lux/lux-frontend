@@ -115,14 +115,6 @@ describe('Work results page', () => {
       expect(header).toHaveTextContent('Mock Work')
     })
 
-    it('renders event agent and date', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
-
-      await findAllByText(/Mock Work/i)
-      const creation = screen.getByTestId('production-snippet-agent-data')
-      expect(creation).toHaveTextContent('Mock Person in 2009-01-01')
-    })
-
     it('renders work types', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 

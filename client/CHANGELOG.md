@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed unit tests ([#644](https://github.com/project-lux/lux-frontend/issues/644)).
+
 ## v1.50.0 - 2025-5-5
 
 ### Added

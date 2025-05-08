@@ -14,8 +14,6 @@ const mockStore = {
   3: [mockData],
   4: [],
   5: [],
-  6: [],
-  7: [],
 }
 
 describe('Faqs exported functions', () => {

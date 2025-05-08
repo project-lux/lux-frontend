@@ -117,9 +117,9 @@ describe('Linguistic Object page', () => {
     })
 
     it('renders the linguistic object notes', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Local Note/i)
+      await findByTestId(/works-notes-container-0/i)
       const notes = screen.getByTestId('works-notes-container-0')
       expect(notes).toBeInTheDocument()
     })
