@@ -20,6 +20,8 @@ class Config {
     options: undefined,
     stopWords: [],
   }
+  // JWT access token from OIDC provider
+  currentAccessToken = ''
 
   constructor() {
     this.env = {
@@ -34,6 +36,9 @@ class Config {
       luxWikidataManifestPrefix: localEnv.luxWikidataManifestPrefix,
       luxFeedbackUrl: localEnv.luxFeedbackUrl,
       bugherdApiKey: localEnv.bugherdApiKey,
+      oidcAuthority: localEnv.oidcAuthority,
+      oidcClientId: localEnv.oidcClientId,
+      oidcRedirectUri: localEnv.oidcRedirectUri,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -53,6 +58,9 @@ class Config {
       luxWikidataManifestPrefix: data.luxWikidataManifestPrefix,
       luxFeedbackUrl: data.luxFeedbackUrl,
       bugherdApiKey: data.bugherdApiKey,
+      oidcAuthority: data.oidcAuthority,
+      oidcClientId: data.oidcClientId,
+      oidcRedirectUri: data.oidcRedirectUri,
     }
   }
 
@@ -85,5 +93,10 @@ const config = new Config()
 export const getDataApiBaseUrl = (): string => config.env.dataApiBaseUrl
 export const getFacetsApiBaseUrl = (): string => config.env.facetsApiBaseUrl
 export const getCmsApiBaseUrl = (): string => config.env.cmsApiBaseUrl
+export const getOidcAuthority = (): string => config.env.oidcAuthority
+export const getOidcClientId = (): string => config.env.oidcClientId
+export const getOidcRedirectUri = (): string => config.env.oidcRedirectUri
+export const getOidcJwksUri = (): string =>
+  `${getOidcAuthority()}/.well-known/jwks.json`
 
 export default config

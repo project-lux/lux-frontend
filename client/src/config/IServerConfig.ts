@@ -10,4 +10,7 @@ export interface IServerConfig {
   luxWikidataManifestPrefix: string
   luxFeedbackUrl: string
   bugherdApiKey: string
+  oidcAuthority: string
+  oidcClientId: string
+  oidcRedirectUri: string
 }
