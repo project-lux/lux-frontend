@@ -9,14 +9,7 @@ const ReactBootstrapDropdown = styled(Dropdown)`
     background-color: ${theme.color.white};
     border: 1px solid ${theme.color.button};
     border-radius: 5px;
-
-    .multipleFieldSelection .input-group .btn {
-      z-index: 0;
-    }
-
-    .singleFieldSelection {
-      z-index: 0;
-    }
+    z-index: 1 !important;
 
     &.mobileNavigationDropdown {
       color: ${theme.color.button};

@@ -21,6 +21,7 @@ interface IAdvancedSearchForm {
   siblings?: Array<Record<string, any>>
   parentBgColor?: 'bg-white' | 'bg-light'
   hasYoungerSiblings?: boolean
+  parentGroupName?: string
 }
 /**
  * Container for holding all functionality related to rendering advanced search rows based on the current
@@ -33,6 +34,7 @@ interface IAdvancedSearchForm {
  * @param {Array<Record<string, any>> | undefined} siblings optional; array containing the list of children in a group
  * @param {string} parentBgColor optional; the background color of a group entity
  * @param {boolean} hasYoungerSiblings optional; used to determine if a relationship row should have a connecting line
+ * @param {string} parentGroupName optional; the group name of the parent element (and, or, not)
  * @returns {JSX.Element}
  */
 const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
@@ -42,6 +44,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   nestedLevel,
   childInd = undefined,
   siblings = undefined,
+  parentGroupName = undefined,
   parentBgColor = 'bg-white',
   hasYoungerSiblings = false,
 }) => {
@@ -102,6 +105,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         nestedLevel={nestedLevel}
         bgColor={parentBgColor}
         hasYoungerSiblings={hasYoungerSiblings}
+        parentGroupName={parentGroupName}
       />
     )
   }

@@ -296,8 +296,9 @@ export const convertAqSearchParam = (
   jsonAqParamValue: IAdvancedSearchState,
   parentBgColor: 'bg-light' | 'bg-white',
 ): IAdvancedSearchState => {
+  console.log('color: ', parentBgColor)
+  console.log('')
   const keys = Object.keys(jsonAqParamValue)
-  let newBgColor = parentBgColor
   // Remove scope as it is not needed for rendering and scope gets passed via the current tab
   if (keys.includes('_scope')) {
     delete jsonAqParamValue._scope
@@ -306,8 +307,8 @@ export const convertAqSearchParam = (
   // Check if object contains a conditional and add _bgColor
   for (const key of keys) {
     if (Object.keys(conditionals).includes(key)) {
-      newBgColor = parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
-      jsonAqParamValue._bgColor = newBgColor
+      jsonAqParamValue._bgColor =
+        parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
     }
   }
 
@@ -343,13 +344,13 @@ export const convertAqSearchParam = (
         jsonAqParamValue[key] = convertAqSearchParam(
           getFieldToEntityRelationship(scope, key) || '',
           nestedObject,
-          newBgColor,
+          parentBgColor,
         )
       }
 
       if (Array.isArray(nestedObject)) {
         jsonAqParamValue[key] = nestedObject.map((obj) =>
-          convertAqSearchParam(scope, obj, newBgColor),
+          convertAqSearchParam(scope, obj, parentBgColor),
         )
       }
     }

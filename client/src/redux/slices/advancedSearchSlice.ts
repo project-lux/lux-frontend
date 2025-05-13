@@ -218,7 +218,7 @@ export const advancedSearchSlice = createSlice({
       const convertedAqParam = convertAqSearchParam(
         scope,
         AqParamValueToJson,
-        'bg-white',
+        AqParamValueToJson._bgColor || 'bg-light',
       )
       return convertedAqParam
     },
