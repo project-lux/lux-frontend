@@ -18,6 +18,8 @@ import {
   getProperty,
 } from '../../lib/advancedSearch/advancedSearchParser'
 // import theme from '../../styles/theme'
+import theme from '../../styles/theme'
+import { conditionalsLabeling } from '../../config/advancedSearch/conditionals'
 
 import AdvancedSearchDropdown from './Dropdown'
 import AdvancedSearchForm from './Form'
@@ -35,7 +37,8 @@ import InputFieldSet from './InputFieldset'
 // `
 
 interface IProps {
-  display: boolean
+  display: string
+  content: string
 }
 
 const StyledFormGroup = styled(FormGroup)<IProps>`
@@ -46,10 +49,32 @@ const StyledFormGroup = styled(FormGroup)<IProps>`
     width: 0;
     height: 100%;
     min-height: 100px;
-    display: ${(props) => (props.display ? 'block' : 'none')};
+    display: ${(props) => props.display};
     content: '';
     margin-left: 38px;
     position: absolute;
+  }
+
+  &:before {
+    border: 0.5px solid #8095e8;
+    content: '${(props) => props.content}';
+    display: ${(props) => props.display};
+    top: 60%;
+    position: absolute;
+    background: ${theme.color.lightBabyBlue};
+    color: ${theme.color.primary.blue};
+    position: absolute;
+    z-index: 2;
+    margin: 0 auto;
+    border-radius: 5px;
+    font-weight: 400;
+    border: none;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  &:last-child:before {
+    display: none;
   }
 `
 
@@ -62,6 +87,7 @@ interface IRelationshipRow {
   nestedLevel: number
   bgColor: 'bg-light' | 'bg-white'
   hasYoungerSiblings?: boolean
+  parentGroupName?: string
 }
 
 /**
@@ -85,7 +111,9 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   nestedLevel,
   bgColor,
   hasYoungerSiblings = false,
+  parentGroupName = undefined,
 }) => {
+  console.log(selectedKey, ': ', hasYoungerSiblings)
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
     dispatch(addFieldSelection({ scope: parentScope, selected, stateId }))
@@ -104,7 +132,10 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   return (
     <Row className="relationship-row">
       <StyledFormGroup
-        display={hasYoungerSiblings}
+        display={hasYoungerSiblings ? 'block' : 'none'}
+        content={
+          parentGroupName ? conditionalsLabeling[parentGroupName] : 'And'
+        }
         className={`col-12 ${!hasChildInputField ? 'mb-3' : ''}`}
       >
         <StyledInputGroup

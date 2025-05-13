@@ -2,6 +2,8 @@ import styled from 'styled-components'
 
 interface IProps {
   display: string
+  transformX?: string
+  transformY?: string
 }
 
 const ConnectedDiv = styled.div<IProps>`

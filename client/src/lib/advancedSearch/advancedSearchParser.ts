@@ -32,12 +32,20 @@ export const getProperty = (obj: IAdvancedSearchState): string => {
 }
 
 /**
- * Returns the property that is a search term for the provided object
- * @param stateKeys Array<string>; object for which to parse keys
- * @returns string
+ * Returns if the object does not contain needed data
+ * @param stateKeys Array<string>; the keys of the current state object
+ * @returns boolean
  */
 export const isEmptyObj = (stateKeys: Array<string>): boolean =>
   stateKeys.length === 1 && stateKeys[0] === '_stateId'
+
+/**
+ * Determines if the provided search term is a group/conditional
+ * @param {string} searchTerm the search term from the advanced search state
+ * @returns boolean
+ */
+const isAGroup = (searchTerm: string): boolean =>
+  Object.keys(conditionals).includes(searchTerm)
 
 /**
  * Determines if the property given requires text input
@@ -92,6 +100,50 @@ export const isInput = (searchTerm: string): boolean =>
   isBooleanInput(searchTerm) ||
   isRecordTypeInput(searchTerm) ||
   isDateInput(searchTerm)
+
+/**
+ * Returns whether the object has any child objects that are groups
+ * @param {IAdvancedSearch} obj the advanced search object to check
+ * @returns boolean
+ */
+export const isChildAGroup = (obj: IAdvancedSearchState): boolean => {
+  if (isEmptyObj(Object.keys(obj))) {
+    return false
+  }
+  const property = getProperty(obj)
+  const childObj = obj[property] as IAdvancedSearchState
+  const childProperty = getProperty(childObj)
+  return Array.isArray(childObj[childProperty])
+}
+
+/**
+ * Returns whether the object has any child objects that are input fields
+ * @param {IAdvancedSearch} obj the advanced search object to check
+ * @returns boolean
+ */
+export const isChildAnInputField = (obj: IAdvancedSearchState): boolean => {
+  if (isEmptyObj(Object.keys(obj))) {
+    return false
+  }
+  const property = getProperty(obj)
+  const childObj = obj[property] as IAdvancedSearchState
+  const childProperty = getProperty(childObj)
+  return isInput(childProperty)
+}
+
+/**
+ * Determines if the object contains a single relationship field
+ * @param {IAdvancedSearchState} obj advanced search state object
+ * @returns boolean
+ */
+export const isSingleRelationshipField = (
+  obj: IAdvancedSearchState,
+): boolean => {
+  const property = getProperty(obj)
+  return (
+    !isInput(property) && !isAGroup(property) && !isEmptyObj(Object.keys(obj))
+  )
+}
 
 /**
  * Determines if the properties given contains a property that requires user input
