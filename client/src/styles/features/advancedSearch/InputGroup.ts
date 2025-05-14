@@ -1,15 +1,17 @@
+import { InputGroup } from 'react-bootstrap'
 import styled from 'styled-components'
-import Dropdown from 'react-bootstrap/Dropdown'
 
-import theme from '../theme'
+import theme from '../../theme'
 
-const ReactBootstrapDropdown = styled(Dropdown)`
+const StyledInputGroup = styled(InputGroup)`
+  border: solid 1px ${theme.color.gray};
+  border-radius: ${theme.border.radius};
+
   .dropdown-toggle {
     color: ${theme.color.button};
     background-color: ${theme.color.white};
     border: 1px solid ${theme.color.button};
     border-radius: 5px;
-    z-index: 1 !important;
 
     &.mobileNavigationDropdown {
       color: ${theme.color.button};
@@ -41,4 +43,4 @@ const ReactBootstrapDropdown = styled(Dropdown)`
   }
 `
 
-export default ReactBootstrapDropdown
+export default StyledInputGroup

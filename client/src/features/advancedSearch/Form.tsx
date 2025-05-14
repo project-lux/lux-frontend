@@ -4,6 +4,7 @@ import React from 'react'
 import {
   containsInput,
   getProperty,
+  isEmptyObj,
 } from '../../lib/advancedSearch/advancedSearchParser'
 
 import FieldSelectRow from './FieldSelectRow'
@@ -18,6 +19,9 @@ interface IAdvancedSearchForm {
   nestedLevel: number
   childInd?: number
   siblings?: Array<Record<string, any>>
+  parentBgColor?: 'bg-white' | 'bg-light'
+  hasYoungerSiblings?: boolean
+  parentGroupName?: string
 }
 /**
  * Container for holding all functionality related to rendering advanced search rows based on the current
@@ -28,6 +32,9 @@ interface IAdvancedSearchForm {
  * @param {number} nestedLevel level of depth within the advanced search state
  * @param {number} childInd optional; the array index of the object within a group
  * @param {Array<Record<string, any>> | undefined} siblings optional; array containing the list of children in a group
+ * @param {string} parentBgColor optional; the background color of a group entity
+ * @param {boolean} hasYoungerSiblings optional; used to determine if a relationship row should have a connecting line
+ * @param {string} parentGroupName optional; the group name of the parent element (and, or, not)
  * @returns {JSX.Element}
  */
 const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
@@ -37,10 +44,13 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   nestedLevel,
   childInd = undefined,
   siblings = undefined,
+  parentGroupName = undefined,
+  parentBgColor = 'bg-white',
+  hasYoungerSiblings = false,
 }) => {
   const stateKeys = Object.keys(state)
   // The current state object is empty
-  if (stateKeys.length === 1 && stateKeys[0] === '_stateId') {
+  if (isEmptyObj(stateKeys)) {
     return (
       <FieldSelectRow
         stateId={state._stateId as string}
@@ -49,9 +59,11 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentStateId={parentStateId}
         childInd={childInd}
         siblings={siblings}
+        parentBgColor={parentBgColor}
       />
     )
   }
+
   const property = getProperty(state)
   // The current state contains keys that are mapped as input
   if (containsInput(stateKeys)) {
@@ -77,6 +89,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
+        bgColor={state._bgColor}
       />
     )
   }
@@ -90,6 +103,9 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
+        bgColor={parentBgColor}
+        hasYoungerSiblings={hasYoungerSiblings}
+        parentGroupName={parentGroupName}
       />
     )
   }

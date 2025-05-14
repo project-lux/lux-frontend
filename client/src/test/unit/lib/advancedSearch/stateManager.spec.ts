@@ -299,9 +299,9 @@ describe('stateManager functions', () => {
           'wildcarded',
         ],
       }
-      expect(convertAqSearchParam('item', mockStateWithOptions)).toEqual(
-        mockConvertedState,
-      )
+      expect(
+        convertAqSearchParam('item', mockStateWithOptions, 'bg-white'),
+      ).toEqual(mockConvertedState)
     })
   })
 

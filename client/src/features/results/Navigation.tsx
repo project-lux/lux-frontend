@@ -147,7 +147,7 @@ const Navigation: React.FC<INavigation> = ({
                   data-testid={`${key}-results-tab-button`}
                 >
                   <Row className="pe-3">
-                    <Col xs={12} sm={12} md={12} lg={9}>
+                    <Col xs={12} sm={12} md={12} lg={12} xl={9}>
                       <Row className="d-flex float-start">
                         <Col xs={12} className="linkTitle d-flex float-start">
                           {advancedSearchTitles[key]}
@@ -168,7 +168,8 @@ const Navigation: React.FC<INavigation> = ({
                       xs={12}
                       sm={12}
                       md={12}
-                      lg={3}
+                      lg={12}
+                      xl={3}
                       className="d-flex float-end"
                     >
                       <img
