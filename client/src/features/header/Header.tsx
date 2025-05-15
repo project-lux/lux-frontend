@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
 
+import config from '../../config/config'
 import { signout, verifyToken } from '../../lib/auth/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
@@ -62,7 +63,8 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
 
   if (auth.isAuthenticated) {
     console.log('Authenticated', auth.user)
-    verifyToken(auth.user?.id_token || '')
+    config.currentAccessToken = auth.user.access_token
+    // verifyToken(auth.user?.id_token || '')
     verifyToken(auth.user?.access_token || '')
   } else {
     console.log('Not authenticated')

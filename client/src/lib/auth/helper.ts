@@ -8,10 +8,10 @@ interface ITokenObject {
 }
 
 export function signout(auth: AuthContextProps | null): void {
+  config.currentAccessToken = null
   if (!auth) {
     return
   }
-
   auth.signoutRedirect({
     id_token_hint: auth.user?.id_token,
     extraQueryParams: {
@@ -29,7 +29,8 @@ export async function verifyToken(token: string): Promise<ITokenObject> {
     const jwks = jose.createRemoteJWKSet(new URL(jwksUri))
 
     const { payload } = await jose.jwtVerify(token, jwks, {})
-    console.log('Verified token:', payload, JSON.stringify(payload, null, 2))
+    console.log('raw token:', token)
+    console.log('parsed token:', payload, JSON.stringify(payload, null, 2))
     return payload as ITokenObject
   } catch (error) {
     console.error('Failed to verify token:', error)
