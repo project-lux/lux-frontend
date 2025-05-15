@@ -104,8 +104,10 @@ export const addFieldSelectionHelper = (
     if (Object.keys(conditionals).includes(selected)) {
       // Group selected
       // add _bgColor for rendering purposes
-      objectToUpdate._bgColor =
-        parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
+      if (!objectToUpdate.hasOwnProperty('_bgColor')) {
+        objectToUpdate._bgColor =
+          parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
+      }
       objectToUpdate[selected] =
         existingValue !== null ? existingValue : [newObject]
     } else if (isInput(selected)) {
