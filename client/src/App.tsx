@@ -31,7 +31,7 @@ const App: React.FC = () => {
   const [asConfigLoaded, setAsConfigLoaded] = useState(false)
   const envResult = useGetEnvQuery()
 
-  const removeTokenFromUrl = (): void => {
+  const onSignIn = (): void => {
     const url = new URL(window.location.href)
     url.searchParams.delete('code')
     url.searchParams.delete('state')
