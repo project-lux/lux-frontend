@@ -12,7 +12,7 @@ import {
   IAdvancedSearchState,
   addFieldSelection,
 } from '../../redux/slices/advancedSearchSlice'
-import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 import {
   containsInput,
   getProperty,
@@ -64,7 +64,7 @@ const StyledFormGroup = styled(FormGroup)<IProps>`
     background: ${theme.color.lightBabyBlue};
     color: ${theme.color.primary.blue};
     position: absolute;
-    z-index: 2;
+    z-index: 1;
     margin: 0 auto;
     border-radius: 5px;
     font-weight: 400;
@@ -137,7 +137,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
         }
         className={`col-12 ${!hasChildInputField ? 'mb-3' : ''}`}
       >
-        <StyledInputGroup
+        <StyledInputGroupDiv
           className="jusify-content-between flex-nowrap bg-white"
           data-testid={`${selectedKey}-${stateId}-relationship-row`}
         >
@@ -181,15 +181,11 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
             </fieldset>
             <RemoveButton stateId={stateId} parentStateId={parentStateId} />
           </span>
-        </StyledInputGroup>
+        </StyledInputGroupDiv>
       </StyledFormGroup>
       {!hasChildInputField && (
         <React.Fragment>
-          <Col
-            xs={12}
-            style={{ paddingLeft: '4rem', zIndex: '2' }}
-            className="mb-3"
-          >
+          <Col xs={12} style={{ paddingLeft: '4rem' }} className="mb-3">
             <AdvancedSearchForm
               key={stateId}
               state={state}

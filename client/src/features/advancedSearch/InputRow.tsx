@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 
-import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 
 import RemoveButton from './RemoveButton'
 import InputFieldSet from './InputFieldset'
@@ -36,7 +36,7 @@ const InputRow: React.FC<IFieldSelectRow> = ({
 }) => (
   <Row>
     <Col xs={12}>
-      <StyledInputGroup
+      <StyledInputGroupDiv
         className="px-0 w-100 bg-white advancedSearchInputRow"
         data-testid="advanced-search-input-row"
       >
@@ -52,7 +52,7 @@ const InputRow: React.FC<IFieldSelectRow> = ({
           />
           <RemoveButton stateId={stateId} parentStateId={parentStateId} />
         </span>
-      </StyledInputGroup>
+      </StyledInputGroupDiv>
     </Col>
   </Row>
 )

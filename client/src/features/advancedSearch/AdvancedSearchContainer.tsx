@@ -170,19 +170,15 @@ const AdvancedSearchContainer: React.FC = () => {
         className="helpText"
         helpTextBorderTopRightRadius={tab === 'events' ? '0px' : undefined}
       >
-        <Row style={{ height: '90%' }}>
-          <Col>
-            <HelpText key={tab as string} />
-          </Col>
-          <div
-            style={{
-              borderLeft: `1px solid ${theme.color.black20}`,
-              height: '95%',
-              position: 'absolute',
-              width: '0%',
-            }}
-          />
-        </Row>
+        <div
+          style={{
+            borderLeft: `0.5px solid ${theme.color.black65}`,
+            height: '95%',
+            position: 'absolute',
+            width: '0%',
+          }}
+        />
+        <HelpText key={tab as string} />
       </StyledContainer>
     </Row>
   )

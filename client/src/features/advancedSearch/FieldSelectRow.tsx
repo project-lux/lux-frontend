@@ -8,7 +8,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getProperty } from '../../lib/advancedSearch/advancedSearchParser'
 import { getParentLabels } from '../../lib/advancedSearch/stateManager'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
-import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 
 import AdvancedSearchDropdown from './Dropdown'
 import RemoveButton from './RemoveButton'
@@ -74,7 +74,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
       }`}
       aria-describedby="help-text"
     >
-      <StyledInputGroup className="px-0 d-flex align-content-start flex-nowrap">
+      <StyledInputGroupDiv className="px-0 d-flex align-content-start flex-nowrap">
         <span className="w-100 d-flex py-2 ps-2">
           <AdvancedSearchDropdown
             options={conditionals}
@@ -116,7 +116,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
               childInd={childInd}
             />
           )}
-      </StyledInputGroup>
+      </StyledInputGroupDiv>
     </Col>
   )
 }

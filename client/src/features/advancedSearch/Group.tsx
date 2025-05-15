@@ -12,7 +12,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import StyledInputGroup from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 import theme from '../../styles/theme'
 import StyledConnectedDiv from '../../styles/features/advancedSearch/ConnectedDiv'
 import {
@@ -44,7 +44,6 @@ const StyledSpan = styled.span<IProps>`
   color: ${theme.color.primary.blue};
   display: ${(props) => props.display};
   position: absolute;
-  z-index: 2;
   left: 10px;
   border-radius: 5px;
   font-weight: 400;
@@ -108,7 +107,7 @@ const Group: React.FC<IGroup> = ({
       style={{ minHeight: '100px' }}
     >
       <FormGroup>
-        <StyledInputGroup
+        <StyledInputGroupDiv
           className="bg-white advancedSearchGroupRow"
           data-testid="advanced-search-group-row"
         >
@@ -159,7 +158,7 @@ const Group: React.FC<IGroup> = ({
             </div>
             <RemoveButton stateId={stateId} parentStateId={parentStateId} />
           </span>
-        </StyledInputGroup>
+        </StyledInputGroupDiv>
       </FormGroup>
       <Row className={`ps-4 ${open ? '' : 'pb-3'}`}>
         <Col xs={12}>

@@ -37,6 +37,7 @@ const HelpText: React.FC = () => {
       style={{
         position: 'sticky',
         top: '0',
+        marginLeft: '10px',
       }}
     >
       <Col>

@@ -1,9 +1,8 @@
-import { InputGroup } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import theme from '../../theme'
 
-const StyledInputGroup = styled(InputGroup)`
+const StyledInputGroupDiv = styled.div`
   border: solid 1px ${theme.color.gray};
   border-radius: ${theme.border.radius};
 
@@ -43,4 +42,4 @@ const StyledInputGroup = styled(InputGroup)`
   }
 `
 
-export default StyledInputGroup
+export default StyledInputGroupDiv
