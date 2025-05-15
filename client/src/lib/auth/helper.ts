@@ -8,7 +8,7 @@ interface ITokenObject {
 }
 
 export function signout(auth: AuthContextProps | null): void {
-  config.currentAccessToken = null
+  config.currentAccessToken = ''
   if (!auth) {
     return
   }

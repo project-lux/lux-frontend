@@ -63,7 +63,9 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
 
   if (auth.isAuthenticated) {
     console.log('Authenticated', auth.user)
-    config.currentAccessToken = auth.user.access_token
+    if (auth.user) {
+      config.currentAccessToken = auth.user.access_token
+    }
     // verifyToken(auth.user?.id_token || '')
     verifyToken(auth.user?.access_token || '')
   } else {
