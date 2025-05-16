@@ -7,6 +7,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import {
   getParentLabels,
   getFieldToEntityRelationship,
+  getSingleFieldDropdownOptions,
 } from '../../lib/advancedSearch/stateManager'
 import {
   IAdvancedSearchState,
@@ -147,7 +148,8 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 {selectedKey}
               </label>
               <AdvancedSearchDropdown
-                options={parentLabels || {}}
+                dropdownType="singleFieldSelection"
+                options={getSingleFieldDropdownOptions(parentScope)}
                 handleChange={addOption}
                 className="singleFieldSelection"
                 dropdownHeaderText="Has single field"

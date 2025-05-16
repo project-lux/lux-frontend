@@ -137,6 +137,7 @@ const Group: React.FC<IGroup> = ({
                 {selectedKey}
               </label>
               <AdvancedSearchDropdown
+                dropdownType="multipleFieldSelection"
                 options={conditionals}
                 handleChange={addOption}
                 className="multipleFieldSelection"

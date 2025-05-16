@@ -7,6 +7,7 @@ import {
   QueryOption,
 } from '../../config/advancedSearch/options'
 import config from '../../config/config'
+import { scopeToAriaLabel } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 
 import {
@@ -20,6 +21,11 @@ import {
 } from './advancedSearchParser'
 import { getStateId } from './stateId'
 
+/**
+ * Returns the labels of dropdown options
+ * @param {string} parentScope the scope of the parent object
+ * @returns {Record<string, string>}
+ */
 export const getParentLabels = (
   parentScope: string,
 ): Record<string, string> => {
@@ -32,6 +38,41 @@ export const getParentLabels = (
     ([key, value]) => {
       const valueObj = value as Record<string, string>
       parentLabels[key] = valueObj.label
+      return null
+    },
+  )
+
+  return parentLabels
+}
+
+/**
+ * Returns the dropdown options for single fields organized based on scope
+ * @param {string} parentScope the scope of the parent object
+ * @returns {Record<string, Record<string, string>>}
+ */
+export const getSingleFieldDropdownOptions = (
+  parentScope: string,
+): Record<string, Record<string, string>> => {
+  if (parentScope === '') {
+    return {}
+  }
+
+  const parentLabels: Record<string, Record<string, string>> = {}
+  Object.entries(config.advancedSearch.terms[parentScope]).map(
+    ([key, value]) => {
+      const valueObj = value as Record<string, string>
+      // If the search term is not specific to one scope
+      if (!Object.keys(scopeToAriaLabel).includes(valueObj.relation)) {
+        parentLabels.general = {
+          ...parentLabels.general,
+          [key]: valueObj.label,
+        }
+      } else {
+        parentLabels[valueObj.relation] = {
+          ...parentLabels[valueObj.relation],
+          [key]: valueObj.label,
+        }
+      }
       return null
     },
   )

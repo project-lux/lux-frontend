@@ -6,7 +6,7 @@ import { useAppDispatch } from '../../app/hooks'
 import { conditionals } from '../../config/advancedSearch/conditionals'
 import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getProperty } from '../../lib/advancedSearch/advancedSearchParser'
-import { getParentLabels } from '../../lib/advancedSearch/stateManager'
+import { getSingleFieldDropdownOptions } from '../../lib/advancedSearch/stateManager'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 
@@ -77,6 +77,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
       <StyledInputGroupDiv className="px-0 d-flex align-content-start flex-nowrap">
         <span className="w-100 d-flex py-2 ps-2">
           <AdvancedSearchDropdown
+            dropdownType="multipleFieldSelection"
             options={conditionals}
             handleChange={addOption}
             className="multipleFieldSelection mx-0"
@@ -88,7 +89,8 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             <p className="mx-2 mb-0 text-nowrap">or</p>
           </div>
           <AdvancedSearchDropdown
-            options={getParentLabels(scope)}
+            dropdownType="singleFieldSelection"
+            options={getSingleFieldDropdownOptions(scope)}
             handleChange={addOption}
             className="singleFieldSelection ms-2"
             dropdownHeaderText="Have a single field"
