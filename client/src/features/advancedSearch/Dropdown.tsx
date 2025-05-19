@@ -9,7 +9,7 @@ import {
   resetHoverHelpText,
 } from '../../redux/slices/helpTextSlice'
 import StyledDropdown from '../../styles/shared/Dropdown'
-import { scopeToAriaLabel } from '../../config/searchTypes'
+import { dropdownGroupings, scopeToAriaLabel } from '../../config/searchTypes'
 import { capitalizeLabels } from '../../lib/parse/data/helper'
 
 interface IDropdown {
@@ -115,16 +115,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
         )}
         {dropdownType === 'singleFieldSelection' ? (
           <React.Fragment>
-            {[
-              'general',
-              'item',
-              'work',
-              'set',
-              'agent',
-              'place',
-              'concept',
-              'event',
-            ].map((scopeName) => {
+            {dropdownGroupings.map((scopeName) => {
               if (!isUndefined(options[scopeName])) {
                 return (
                   <React.Fragment>
