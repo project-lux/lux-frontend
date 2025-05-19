@@ -10,7 +10,10 @@ import {
   isTextInput,
 } from '../../lib/advancedSearch/advancedSearchParser'
 import { scopeToAriaLabel } from '../../config/searchTypes'
-import { getParentLabels } from '../../lib/advancedSearch/stateManager'
+import {
+  getParentLabels,
+  getSingleFieldDropdownOptions,
+} from '../../lib/advancedSearch/stateManager'
 import Legend from '../../styles/features/advancedSearch/Legend'
 
 import RangeInput from './RangeInput'
@@ -68,7 +71,8 @@ const InputFieldSet: React.FC<IFieldSelectRow> = ({
         {selectedKey}
       </label>
       <AdvancedSearchDropdown
-        options={parentLabels}
+        dropdownType="singleFieldSelection"
+        options={getSingleFieldDropdownOptions(scope)}
         handleChange={addOption}
         className="singleFieldSelection"
         dropdownHeaderText="Has single field"
