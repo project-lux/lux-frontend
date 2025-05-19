@@ -70,3 +70,17 @@ export const scopeToAriaLabel: Record<string, string> = {
   concept: 'concepts',
   event: 'events',
 }
+
+/**
+ * Used in advanced search for rendering dropdown menu options
+ */
+export const dropdownGroupings: Array<string> = [
+  'general',
+  'item',
+  'work',
+  'set',
+  'agent',
+  'place',
+  'concept',
+  'event',
+]

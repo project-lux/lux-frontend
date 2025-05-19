@@ -52,6 +52,7 @@ const RecordTypeInput: React.FC<IInputType> = ({
           </label>
         )}
         <AdvancedSearchDropdown
+          dropdownType="classSelection"
           options={options}
           handleChange={handleOnChange}
           className="recordTypeSelection"

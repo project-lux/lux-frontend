@@ -25,6 +25,7 @@ import {
   ICurrentSearchState,
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
+import theme from '../../styles/theme'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
@@ -169,6 +170,14 @@ const AdvancedSearchContainer: React.FC = () => {
         className="helpText"
         helpTextBorderTopRightRadius={tab === 'events' ? '0px' : undefined}
       >
+        <div
+          style={{
+            borderLeft: `0.5px solid ${theme.color.black65}`,
+            height: '95%',
+            position: 'absolute',
+            width: '0%',
+          }}
+        />
         <HelpText key={tab as string} />
       </StyledContainer>
     </Row>

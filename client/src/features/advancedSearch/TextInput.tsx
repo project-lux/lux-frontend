@@ -69,7 +69,7 @@ const TextInput: React.FC<IInputType> = ({
 
   return (
     <div className="form-group me-2">
-      <div className="input-group" style={{ minWidth: '100px' }}>
+      <div className="input-group h-100" style={{ minWidth: '100px' }}>
         {label && (
           <label htmlFor={id} hidden>
             {label}
@@ -80,7 +80,7 @@ const TextInput: React.FC<IInputType> = ({
           autoFocus={autoFocus}
           type="text"
           value={displayName !== currentValue ? displayName : currentValue}
-          className="form-control advancedSearchInput"
+          className="form-control advancedSearchInput bg-white"
           placeholder={label}
           onChange={(e) => handleOnChange(e.currentTarget.value)}
           onSelect={() => handleOnSelect()}

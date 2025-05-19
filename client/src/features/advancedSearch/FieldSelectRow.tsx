@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
+import { Col } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import { conditionals } from '../../config/advancedSearch/conditionals'
 import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getProperty } from '../../lib/advancedSearch/advancedSearchParser'
-import { getParentLabels } from '../../lib/advancedSearch/stateManager'
+import { getSingleFieldDropdownOptions } from '../../lib/advancedSearch/stateManager'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
-import AlignedDiv from '../../styles/features/advancedSearch/AlignedDiv'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 
 import AdvancedSearchDropdown from './Dropdown'
 import RemoveButton from './RemoveButton'
@@ -21,6 +22,7 @@ interface IFieldSelectRow {
   parentStateId: string
   childInd?: number | undefined
   siblings?: Array<Record<string, any>> | undefined
+  parentBgColor?: 'bg-white' | 'bg-light'
 }
 
 /**
@@ -40,10 +42,11 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
   parentStateId,
   childInd = undefined,
   siblings = undefined,
+  parentBgColor,
 }) => {
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
-    dispatch(addFieldSelection({ scope, selected, stateId }))
+    dispatch(addFieldSelection({ scope, selected, stateId, parentBgColor }))
   }
 
   const ariaLabel = scopeToAriaLabel[scope]
@@ -64,45 +67,49 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
   }
 
   return (
-    <AlignedDiv
-      className="mb-2 px-0"
+    <Col
+      className="bg-white"
       data-testid={`field-select-row-${stateId}${
         childInd ? `-${childInd}` : ''
       }`}
       aria-describedby="help-text"
     >
-      <div className="col d-flex align-content-start">
-        <AdvancedSearchDropdown
-          options={conditionals}
-          handleChange={addOption}
-          className="multipleFieldSelection mx-0"
-          dropdownHeaderText="Have multiple fields"
-          ariaLabel={`${ariaLabel} Have multiple fields`}
-          id={`multiple-fields-${stateId}`}
-        />
-        <div className="d-flex w-auto align-items-center">
-          <p className="mx-2 mb-0">or</p>
-        </div>
-        <AdvancedSearchDropdown
-          options={getParentLabels(scope)}
-          handleChange={addOption}
-          className="singleFieldSelection ms-2"
-          dropdownHeaderText="Have a single field"
-          ariaLabel={`${ariaLabel} single field selection`}
-          id={`single-fields-${stateId}`}
-          scope={scope}
-        />
-        <div className="d-flex w-auto align-items-center">
-          <p className="mx-2 mb-0">or Have Name</p>
-        </div>
-        <TextInput
-          key={state.name}
-          label="Enter a name"
-          currentValue={state.name}
-          field="name"
-          stateId={stateId}
-          scope={scope}
-        />
+      <StyledInputGroupDiv className="px-0 d-flex align-content-start flex-nowrap">
+        <span className="w-100 d-flex py-2 ps-2">
+          <AdvancedSearchDropdown
+            dropdownType="multipleFieldSelection"
+            options={conditionals}
+            handleChange={addOption}
+            className="multipleFieldSelection mx-0"
+            dropdownHeaderText="Have multiple fields"
+            ariaLabel={`${ariaLabel} Have multiple fields`}
+            id={`multiple-fields-${stateId}`}
+          />
+          <div className="d-flex w-auto align-items-center">
+            <p className="mx-2 mb-0 text-nowrap">or</p>
+          </div>
+          <AdvancedSearchDropdown
+            dropdownType="singleFieldSelection"
+            options={getSingleFieldDropdownOptions(scope)}
+            handleChange={addOption}
+            className="singleFieldSelection ms-2"
+            dropdownHeaderText="Have a single field"
+            ariaLabel={`${ariaLabel} single field selection`}
+            id={`single-fields-${stateId}`}
+            scope={scope}
+          />
+          <div className="d-flex w-auto align-items-center">
+            <p className="mx-2 mb-0 text-nowrap">or Have Name</p>
+          </div>
+          <TextInput
+            key={state.name}
+            label="Enter a name"
+            currentValue={state.name}
+            field="name"
+            stateId={stateId}
+            scope={scope}
+          />
+        </span>
         {childInd !== undefined &&
           (childInd > 0 || siblingHasData(siblings)) && (
             <RemoveButton
@@ -111,8 +118,8 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
               childInd={childInd}
             />
           )}
-      </div>
-    </AlignedDiv>
+      </StyledInputGroupDiv>
+    </Col>
   )
 }
 

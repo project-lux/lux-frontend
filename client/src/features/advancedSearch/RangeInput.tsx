@@ -58,6 +58,7 @@ const RangeInput: React.FC<IRangeInput> = ({
         Select a comparator
       </label>
       <AdvancedSearchDropdown
+        dropdownType="comparatorSelection"
         options={comparators}
         handleChange={handleAddComparator}
         className="comparatorSelection me-2"
