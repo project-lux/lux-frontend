@@ -5,7 +5,6 @@ import styled from 'styled-components'
 import { useAppSelector } from '../../app/hooks'
 import { IHelpTextKey } from '../../redux/slices/helpTextSlice'
 import InternalLink from '../common/InternalLink'
-import theme from '../../styles/theme'
 
 const StyledP = styled.p`
   text-wrap: initial;
@@ -38,14 +37,10 @@ const HelpText: React.FC = () => {
       style={{
         position: 'sticky',
         top: '0',
+        marginLeft: '10px',
       }}
     >
-      <Col
-        style={{
-          borderBottom: `1px solid ${theme.color.lightGray}`,
-          borderLeft: `1px solid ${theme.color.lightGray}`,
-        }}
-      >
+      <Col>
         <h3 style={{ wordWrap: 'break-word' }}>
           Help {helpTextKey !== '' && `for ${helpTextKey}`}
         </h3>

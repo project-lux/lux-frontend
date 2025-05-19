@@ -2,11 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.51.0 - 2025-5-5
+## v1.51.0 - Unreleased
 
 ### Added
 
 ### Changed
+
+- Changed Add Row button styling in Advanced Search ([#642](https://github.com/project-lux/lux-frontend/issues/642)).
+- Changed the input row and relationship row styling in advanced search ([#643](https://github.com/project-lux/lux-frontend/issues/643)).
+- Changed the multi-field row styling in advanced search ([#644](https://github.com/project-lux/lux-frontend/issues/644)).
+- Changed the advanced search dropdown layout ([#338](https://github.com/project-lux/lux-frontend/issues/338)).
 
 ### Removed
 
@@ -20,8 +25,6 @@ All notable changes to this project will be documented in this file.
 - Added archival materials icon for objects ([#611](https://github.com/project-lux/lux-frontend/issues/611)).
 
 ### Changed
-
-- Changed Add Row button styling in Advanced Search ([#642](https://github.com/project-lux/lux-frontend/issues/642)).
 
 ### Removed
 

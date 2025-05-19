@@ -1,5 +1,6 @@
 import React, { MouseEvent } from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
+import { isUndefined } from 'lodash'
 
 import { useAppDispatch } from '../../app/hooks'
 import {
@@ -8,9 +9,16 @@ import {
   resetHoverHelpText,
 } from '../../redux/slices/helpTextSlice'
 import StyledDropdown from '../../styles/shared/Dropdown'
+import { dropdownGroupings, scopeToAriaLabel } from '../../config/searchTypes'
+import { capitalizeLabels } from '../../lib/parse/data/helper'
 
 interface IDropdown {
-  options: Record<string, string>
+  dropdownType:
+    | 'multipleFieldSelection'
+    | 'singleFieldSelection'
+    | 'comparatorSelection'
+    | 'classSelection'
+  options: Record<string, string | Record<string, string>>
   handleChange: (x: string) => void
   className: string
   dropdownHeaderText: string
@@ -24,7 +32,8 @@ let timeout: NodeJS.Timeout
 
 /**
  * Dropdown button used for selecting advanced search fields
- * @param {Record<string, string>} options current dropdown options
+ * @param {string} dropdownType current dropdown options
+ * @param {Record<string, string | Record<string, string>>} options current dropdown options
  * @param {(x: string) => void} handleChange callback function for when the option is selected
  * @param {string} className dropdown class
  * @param {string} dropdownHeaderText text to be displayed as the dropdown header
@@ -35,6 +44,7 @@ let timeout: NodeJS.Timeout
  * @returns {JSX.Element}
  */
 const AdvancedSearchDropdown: React.FC<IDropdown> = ({
+  dropdownType,
   options,
   handleChange,
   className,
@@ -70,10 +80,23 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
     dispatch(addSelectedHelpText({ value: target.id, scope }))
   }
 
-  const selectedValue =
-    selected !== undefined && selected !== ''
-      ? options[selected]
-      : dropdownHeaderText
+  let selectedValue: string | undefined = undefined
+
+  Object.keys(options).map((key: string) => {
+    if (dropdownType === 'singleFieldSelection') {
+      const singleFieldOptions = options as Record<
+        string,
+        Record<string, string>
+      >
+      Object.keys(singleFieldOptions[key]).map((term: string) => {
+        if (term === selected) {
+          selectedValue = singleFieldOptions[key][term] as string
+        }
+      })
+    } else if (key === selected) {
+      selectedValue = options[key] as string
+    }
+  })
 
   return (
     <StyledDropdown id={id}>
@@ -83,36 +106,80 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
         className={`${className} me-2`}
         data-testid={`${id}-dropdown-toggle`}
       >
-        {selectedValue !== undefined ? selectedValue : selected}
+        {selectedValue !== undefined ? selectedValue : dropdownHeaderText}
       </Dropdown.Toggle>
 
       <Dropdown.Menu data-testid={`${id}-menu`} id={`${id}-menu`}>
         {typeof dropdownHeaderText === 'string' && (
           <Dropdown.Header>{dropdownHeaderText}</Dropdown.Header>
         )}
-        {Object.entries(options).map(([key, value]) => (
-          <Dropdown.Item
-            key={key}
-            as="button"
-            eventKey={key}
-            id={key}
-            aria-label={value}
-            aria-describedby="help-text"
-            data-testid={`${id}-${key}-option`}
-            active={selected === key}
-            onClick={(e: MouseEvent<HTMLButtonElement>) =>
-              handleOptionSelection(e)
-            }
-            onMouseEnter={(e: MouseEvent<HTMLButtonElement>) =>
-              handleOnMouseEnter(e)
-            }
-            onMouseLeave={(e: MouseEvent<HTMLButtonElement>) =>
-              handleOnMouseLeave(e)
-            }
-          >
-            {value}
-          </Dropdown.Item>
-        ))}
+        {dropdownType === 'singleFieldSelection' ? (
+          <React.Fragment>
+            {dropdownGroupings.map((scopeName) => {
+              if (!isUndefined(options[scopeName])) {
+                return (
+                  <React.Fragment>
+                    <Dropdown.ItemText className="border-bottom fw-bold">
+                      {scopeToAriaLabel[scopeName] !== undefined
+                        ? capitalizeLabels(scopeToAriaLabel[scopeName])
+                        : capitalizeLabels(scopeName)}
+                    </Dropdown.ItemText>
+                    {Object.entries(options[scopeName]).map(([term, label]) => (
+                      <Dropdown.Item
+                        key={term}
+                        className="ps-4"
+                        as="button"
+                        eventKey={term}
+                        id={term}
+                        aria-label={label}
+                        aria-describedby="help-text"
+                        data-testid={`${id}-${term}-option`}
+                        active={selected === term}
+                        onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                          handleOptionSelection(e)
+                        }
+                        onMouseEnter={(e: MouseEvent<HTMLButtonElement>) =>
+                          handleOnMouseEnter(e)
+                        }
+                        onMouseLeave={(e: MouseEvent<HTMLButtonElement>) =>
+                          handleOnMouseLeave(e)
+                        }
+                      >
+                        {label}
+                      </Dropdown.Item>
+                    ))}
+                  </React.Fragment>
+                )
+              }
+            })}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            {Object.entries(options).map(([key, value]) => (
+              <Dropdown.Item
+                key={key}
+                as="button"
+                eventKey={key}
+                id={key}
+                aria-label={value as string}
+                aria-describedby="help-text"
+                data-testid={`${id}-${key}-option`}
+                active={selected === key}
+                onClick={(e: MouseEvent<HTMLButtonElement>) =>
+                  handleOptionSelection(e)
+                }
+                onMouseEnter={(e: MouseEvent<HTMLButtonElement>) =>
+                  handleOnMouseEnter(e)
+                }
+                onMouseLeave={(e: MouseEvent<HTMLButtonElement>) =>
+                  handleOnMouseLeave(e)
+                }
+              >
+                {value as string}
+              </Dropdown.Item>
+            ))}
+          </React.Fragment>
+        )}
       </Dropdown.Menu>
     </StyledDropdown>
   )

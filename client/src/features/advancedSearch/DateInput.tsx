@@ -95,6 +95,7 @@ const DateInput: React.FC<IDateInput> = ({
         Select a comparator
       </label>
       <AdvancedSearchDropdown
+        dropdownType="comparatorSelection"
         options={comparators}
         handleChange={handleAddComparator}
         className="comparatorSelection me-2"

@@ -24,17 +24,27 @@ const AddButton: React.FC<IAddButton> = ({ stateId, ariaLabel }) => {
   }
 
   return (
-    <StyledAddButton
-      type="button"
-      onClick={handleAddRow}
-      className="addNewQueryButton px-0 pb-0"
-      aria-label={`add new line to ${ariaLabel} query`}
-      data-testid={`${stateId}-add-row-button`}
-    >
-      <div className="d-flex align-items-center justify-content-center">
-        <i className="bi bi-plus fs-2 me-1" /> <strong>Add Row</strong>
-      </div>
-    </StyledAddButton>
+    <div style={{ left: '-29px', position: 'relative' }}>
+      {/* Horizontal line */}
+      <div
+        style={{
+          width: '26px',
+          borderBottom: '1px solid #8095E8',
+          display: 'inline-block',
+        }}
+      />
+      <StyledAddButton
+        type="button"
+        onClick={handleAddRow}
+        className="addNewQueryButton ps-0 pb-0"
+        aria-label={`add new line to ${ariaLabel} query`}
+        data-testid={`${stateId}-add-row-button`}
+      >
+        <div className="d-flex align-items-center justify-content-center">
+          <i className="bi bi-plus fs-2 me-1" /> <strong>Add Row</strong>
+        </div>
+      </StyledAddButton>
+    </div>
   )
 }
 

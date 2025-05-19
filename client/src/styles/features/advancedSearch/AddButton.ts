@@ -5,18 +5,23 @@ import theme from '../../theme'
 
 const AddButton = styled(Button)`
   width: auto;
-  background-color: ${theme.color.white};
   border: none;
+  background: transparent;
   border-radius: ${theme.border.radius};
   color: ${theme.color.link};
 
   &:hover {
-    background-color: ${theme.color.white};
+    background-color: inherit;
     color: ${theme.color.link};
   }
 
+  &.btn:active {
+    background-color: ${theme.color.link};
+    color: ${theme.color.white};
+  }
+
   &:focus {
-    background-color: ${theme.color.white};
+    background-color: inherit;
     color: ${theme.color.link};
   }
 `

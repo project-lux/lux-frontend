@@ -9,13 +9,15 @@ interface IProps {
 }
 
 export const StyledContainer = styled(Col)<IProps>`
-  padding: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
   height: auto;
   display: inline-table;
   position: relative;
   flex: 0 0 auto;
 
   &.advancedSearchBody {
+    padding-left: 1rem;
     box-shadow: 0px 4px 5px 0px ${theme.color.black20};
     background: ${theme.color.white};
     border-top-left-radius: ${(props) =>
@@ -27,6 +29,8 @@ export const StyledContainer = styled(Col)<IProps>`
   }
 
   &.helpText {
+    padding-right: 1rem;
+    padding-left: 1rem;
     box-shadow: 4px 4px 5px 0px ${theme.color.black20};
     background: ${theme.color.white};
     border-top-right-radius: ${(props) =>

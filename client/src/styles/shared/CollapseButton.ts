@@ -14,7 +14,6 @@ const CollapseButton = styled(Button)<IProps>`
     props.borderRadius ? props.borderRadius : '5px'};
   background-color: ${theme.color.white};
   color: ${theme.color.black};
-  margin-left: -0.75rem;
   margin-top: ${(props) => (props.marginTop ? props.marginTop : '10px')};
   height: 22px;
   width: 20px;
