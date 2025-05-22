@@ -101,10 +101,14 @@ const Paginate: React.FC<IPagination> = ({
 
   const handlePageSelection = (pageNumber: number): void => {
     handleAnalytics()
-    navigate({
-      pathname: `${pathname}`,
-      search: `?${newURL}&${pageParam}=${pageNumber}`,
-    })
+    if (!isUndefined(handleSelectionOfPage)) {
+      handleSelectionOfPage(pageNumber)
+    } else {
+      navigate({
+        pathname: `${pathname}`,
+        search: `?${newURL}&${pageParam}=${pageNumber}`,
+      })
+    }
   }
 
   // Go to the specified page
@@ -214,7 +218,7 @@ const Paginate: React.FC<IPagination> = ({
             onSubmit={submitHandler}
             data-testid="pagination-page-input"
           >
-            <StyledInputGroup className="mb-3 w-auto">
+            <StyledInputGroupDiv className="mb-3 w-auto">
               <InputGroup.Text id="page-input">Go to page</InputGroup.Text>
               <Form.Control
                 id="page-input"
@@ -231,7 +235,7 @@ const Paginate: React.FC<IPagination> = ({
                 aria-describedby="page-input"
               />
               <InputGroup.Text id="page-input">of {lastPage}</InputGroup.Text>
-            </StyledInputGroup>
+            </StyledInputGroupDiv>
             <PrimaryButton
               type="submit"
               className="d-flex align-items-center py-1 h-75 mx-1"

@@ -17,30 +17,43 @@ export const removeViewFromPathname = (pathname: string): string =>
 export const currentUriInHierarchy = (uri: string, pathname: string): boolean =>
   uri.includes(removeViewFromPathname(pathname))
 
-export const hasHierarchyHalLinks = (providedLinks: ILinks): Array<string> => {
-  const halLinks = []
+/**
+ * Parses the concept entity to determine if the /broader property exists
+ * Used for the breadcrumb hierarchy component on concept pages
+ * @param {IEntity} concept the current entity to parse
+ * @returns {string | null}
+ */
+export const hasHierarchyHalLinks = (providedLinks: ILinks): string | null => {
   const halLinkToCheck = setWithMemberOf.searchTag
 
   if (providedLinks.hasOwnProperty(halLinkToCheck)) {
-    halLinks.push(providedLinks[halLinkToCheck].href)
-  }
-
-  return halLinks
-}
-
-export const getChildren = (
-  providedLinks: ILinks | undefined,
-): string | null => {
-  if (providedLinks === undefined) {
-    return null
-  }
-  const halLink = setWithMemberOf.searchTag
-
-  if (providedLinks.hasOwnProperty(halLink)) {
-    return providedLinks[halLink].href
+    return providedLinks[halLinkToCheck].href
   }
 
   return null
+}
+
+/**
+ * Returns the HAL link for the children of the entity passed
+ * @param {IEntity} entity the entity to parse
+ * @param {Array<{ id: string; currentPageHalLink: string | null }>} ancestors the entity to parse
+ * @returns {string | null}
+ */
+export const getHalLinkForChildren = (
+  entity: IEntity,
+  ancestors: Array<{ id: string; currentPageHalLink: string | null }>,
+): string | null => {
+  let childrenHalLink = entity._links
+    ? hasHierarchyHalLinks(entity._links)
+    : null
+  for (const ancestor of ancestors) {
+    // if the current entity from the data is an ancestor, set it's childrenHalLink to the HAL link with the results page of its child within the current hierarchy
+    if (ancestor.id === entity.id) {
+      return ancestor.currentPageHalLink
+    }
+  }
+
+  return childrenHalLink
 }
 
 /**

@@ -1,6 +1,7 @@
 import { isUndefined } from 'lodash'
 
 import IEntity from '../../types/data/IEntity'
+import EntityParser from '../parse/data/EntityParser'
 
 import {
   getNextSetUris,
@@ -16,10 +17,21 @@ export const fetchItem = (uri: string, profile?: string): Promise<any> =>
     )
     .catch(() => new Error('An error occurred retrieving the data from the '))
 
-export async function getAncestors(entities: Array<IEntity>): Promise<any> {
+export async function getAncestors(
+  entities: Array<{
+    entity: IEntity
+    currentPageOfChildHalLink: null | string
+  }>,
+): Promise<any> {
   let ancestors = entities
-  let highestAncestorId = entities[0].id as string
-  const urisOfParents = getNextSetUris(entities[0])
+  let highestAncestorId = entities[0].entity.id as string
+  // Get the HAL link of the child entity in order to render the results page where the child entity exists
+  // This is relevant if the child entity is not on page one of the normal HAL link results
+  const el = new EntityParser(entities[0].entity)
+  const halLinkToPassToAncestor =
+    el.getHalLink('lux:setCurrentHierarchyPage') ||
+    el.getHalLink('lux:itemCurrentHierarchyPage')
+  const urisOfParents = getNextSetUris(entities[0].entity)
   // Get the parent records of the current entity
   const parents = urisOfParents.map((uri: string) => fetchItem(uri))
 
@@ -33,7 +45,10 @@ export async function getAncestors(entities: Array<IEntity>): Promise<any> {
   // if the parent is valid and an archive add it to the existing list of ancestors
   if (parent !== null && isEntityAnArchive(parent)) {
     const p = parent as IEntity
-    ancestors = [p, ...ancestors]
+    ancestors = [
+      { entity: p, currentPageOfChildHalLink: halLinkToPassToAncestor },
+      ...ancestors,
+    ]
     highestAncestorId = p.id as string
     return await getAncestors(ancestors)
   }

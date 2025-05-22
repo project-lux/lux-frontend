@@ -20,3 +20,13 @@ export const getEstimates = (data: ISearchResults): number => {
   }
   return 0
 }
+
+/**
+ * Returns the page number for the current results
+ * @param {ISearchResults} data the data from the search results
+ * @returns {number}
+ */
+export const getPageNumber = (data: ISearchResults): number => {
+  const queryString = new URLSearchParams(data.id)
+  return queryString.has('page') ? parseInt(queryString.get('page')!, 10) : 1
+}

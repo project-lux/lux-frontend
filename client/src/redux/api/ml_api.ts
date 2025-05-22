@@ -88,6 +88,7 @@ export const mlApi: any = createApi({
         if (page !== undefined) {
           pageParam = `&page=${page}`
         }
+        console.log('here: ', `${halLink}${pageParam}`)
         return {
           url: `${halLink}${pageParam}`,
           method: 'GET',
@@ -171,7 +172,10 @@ export const mlApi: any = createApi({
     getAncestors: builder.query<
       any,
       {
-        entities: Array<IEntity>
+        entities: Array<{
+          entity: IEntity
+          currentPageOfChildHalLink: null | string
+        }>
       }
     >({
       queryFn: async ({ entities }) => {
