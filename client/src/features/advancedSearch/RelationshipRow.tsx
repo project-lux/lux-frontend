@@ -172,7 +172,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                   </p>
                   <InputFieldSet
                     stateId={state._stateId as string}
-                    scope={parentScope}
+                    scope={scopeToPassToNestedForm}
                     selectedKey={getProperty(state)}
                     state={state}
                     parentStateId={stateId}
