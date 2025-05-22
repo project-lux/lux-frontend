@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Col from 'react-bootstrap/Col'
 import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
@@ -17,12 +17,11 @@ import {
   isEntityAnArchive,
 } from '../../lib/util/hierarchyHelpers'
 import ArchiveHierarchyContainer from '../archiveHierarchy/ArchiveHierarchyContainer'
-import { reset } from '../../redux/slices/archiveHierarchySlice'
-import { useAppDispatch } from '../../app/hooks'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
 import ISet from '../../types/data/ISet'
+import IEntity from '../../types/data/IEntity'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
@@ -33,11 +32,15 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
     setParser.isClassifiedAs(config.aat.collection) ||
     setParser.isClassifiedAs(config.aat.exhibition)
   const manifestId = setParser.getManifestId()
-  const dispatch = useAppDispatch()
-
-  useEffect(() => {
-    dispatch(reset())
-  }, [dispatch])
+  const hierarchyData: {
+    entity: IEntity
+    currentPageWithinParentResultsHalLink: null | string
+  } = {
+    entity: data as IEntity,
+    currentPageWithinParentResultsHalLink: setParser.getHalLink(
+      'lux:itemCurrentHierarchyPage',
+    ),
+  }
 
   if (isCollectionPage) {
     return <CollectionPage data={data} />
@@ -74,14 +77,15 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
               <About data={data} />
             </ErrorBoundary>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <ArchiveHierarchyContainer
-                key={data.id}
-                entity={data}
-                parentsOfCurrentEntity={memberOf}
-                currentEntityIsArchive={isArchive}
-                objectsWithImagesHalLink={objectsWithImagesHalLink}
-                halLinkTitle={halLinkTitle}
-              />
+              {memberOf.length > 0 && (
+                <ArchiveHierarchyContainer
+                  key={data.id}
+                  entityData={hierarchyData}
+                  currentEntityIsArchive={isArchive}
+                  objectsWithImagesHalLink={objectsWithImagesHalLink}
+                  halLinkTitle={halLinkTitle}
+                />
+              )}
             </ErrorBoundary>
           </Col>
           <Col lg={4}>

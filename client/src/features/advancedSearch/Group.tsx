@@ -163,7 +163,11 @@ const Group: React.FC<IGroup> = ({
       </FormGroup>
       <Row className={`ps-4 ${open ? '' : 'pb-3'}`}>
         <Col xs={12}>
-          <CollapseContainer open={open} id={`group-${stateId}`}>
+          <CollapseContainer
+            open={open}
+            id={`group-${stateId}`}
+            className="pt-4"
+          >
             <div className="borderLeft" />
             <Row className="pe-2">
               <Col xs={12} className="px-0">

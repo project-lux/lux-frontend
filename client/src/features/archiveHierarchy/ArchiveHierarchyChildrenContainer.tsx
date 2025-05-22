@@ -1,48 +1,37 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Col } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
-// import { isNull, isUndefined } from 'lodash'
+import { isUndefined } from 'lodash'
 
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import IEntity from '../../types/data/IEntity'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import {
-  addData,
-  // removeData,
-  IArchiveHierarchy,
-} from '../../redux/slices/archiveHierarchySlice'
-import { getEstimates } from '../../lib/parse/search/searchResultParser'
-// import EntityParser from '../../lib/parse/data/EntityParser'
-// import config from '../../config/config'
+  getEstimates,
+  getPageNumber,
+} from '../../lib/parse/search/searchResultParser'
 import Paginate from '../results/Paginate'
+import { IOrderedItems } from '../../types/ISearchResults'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
 const ArchiveHierarchyChildrenContainer: React.FC<{
-  ancestor: IEntity
   skipApiCalls?: boolean
-  parentsOfCurrentEntity: Array<string>
   ancestors: Array<{ id: string; currentPageHalLink: string | null }>
-  objectOrSetMemberOfSet: string | null
+  objectOrSetMemberOfSet: string
   currentEntity: IEntity
 }> = ({
-  ancestor,
   skipApiCalls = false,
-  parentsOfCurrentEntity,
   ancestors,
   objectOrSetMemberOfSet,
   currentEntity,
 }) => {
-  const dispatch = useAppDispatch()
-
-  const { pathname } = useLocation()
-  const [page, setPage] = useState<number>(1)
+  const [page, setPage] = useState<number | undefined>(undefined)
+  const [halLink, setHalLink] = useState<string>(objectOrSetMemberOfSet)
 
   const skip = objectOrSetMemberOfSet === null
   const { data, isSuccess, isLoading, isFetching } =
     useGetSearchRelationshipQuery(
       {
-        uri: objectOrSetMemberOfSet,
+        uri: halLink,
         page,
       },
       {
@@ -50,67 +39,31 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
       },
     )
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      let totalResults = 0
-      const children: Array<string> = []
-      totalResults += getEstimates(data)
-      for (const item of data.orderedItems) {
-        const { id } = item
-        children.push(id)
-      }
-      dispatch(
-        addData({
-          id: ancestor.id!,
-          values: children,
-          total: totalResults,
-          page,
-        }),
-      )
+  // handle pagination of the children list
+  const handlePagination = (pageNumber: number): void => {
+    const searchParams = halLink.split('q')
+    const params = new URLSearchParams(`q${searchParams[1]}`)
+
+    // remove the pageWith param if it exists
+    if (params.has('pageWith')) {
+      params.delete('pageWith')
     }
-  }, [
-    ancestor.id,
-    data,
-    dispatch,
-    isSuccess,
-    parentsOfCurrentEntity,
-    pathname,
-    skip,
-    page,
-  ])
+    setHalLink(`${searchParams[0]}${params.toString()}`)
+    setPage(pageNumber)
+  }
 
-  const currentState = useAppSelector(
-    (state) => state.archiveHierarchy as IArchiveHierarchy,
-  )
-
-  if (isSuccess && data && currentState.hasOwnProperty(ancestor.id!)) {
-    const state = currentState[ancestor.id!]
-    const childrenOfCurrentAncestor: Array<string> = []
-    Object.values(state.requests).map((value) =>
-      value.map((v) => childrenOfCurrentAncestor.push(v)),
-    )
-    // get the HAL link that will return the page where the current entity is
-    // const currentEntityHalLinks = !isUndefined(currentEntity._links)
-    //   ? currentEntity._links
-    //   : null
-    // const getCurrentEntityPage =
-    //   !isNull(currentEntityHalLinks) &&
-    //   currentEntityHalLinks.hasOwnProperty('lux:currentHierarchyPage')
-    //     ? currentEntityHalLinks['lux:currentHierarchyPage']
-    //     : null
-    // const currentEntityPrimaryName = new EntityParser(
-    //   currentEntity,
-    // ).getPrimaryName(config.aat.primaryName)
+  if (isSuccess && data) {
+    const pageOfEntity = getPageNumber(data)
+    const children = data.orderedItems.map((item: IOrderedItems) => item.id)
 
     return (
       <React.Fragment>
         {/* render all children of the current ancestor */}
-        {childrenOfCurrentAncestor.map((child: string, ind: number) => (
+        {children.map((child: string, ind: number) => (
           <ArchiveHierarchyChild
             key={`${child}-${ind}`}
             child={child}
             skipApiCalls={skipApiCalls}
-            parentsOfCurrentEntity={parentsOfCurrentEntity}
             ancestors={ancestors}
             currentEntity={currentEntity}
           />
@@ -118,10 +71,11 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
         <Col xs={12} className="d-flex justify-content-start">
           <Paginate
             estimate={getEstimates(data)}
-            currentPage={page}
+            currentPage={isUndefined(page) ? pageOfEntity : page}
             pageSize={20}
-            handleSelectionOfPage={setPage}
+            handleSelectionOfPage={handlePagination}
             isArchive
+            xxlGridSize={12}
           />
         </Col>
       </React.Fragment>

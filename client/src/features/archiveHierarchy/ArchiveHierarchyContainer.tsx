@@ -1,6 +1,6 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { isUndefined } from 'lodash'
+import { isNull, isUndefined } from 'lodash'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -12,54 +12,56 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
-import EntityParser from '../../lib/parse/data/EntityParser'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
 interface IProps {
-  entity: IEntity
-  parentsOfCurrentEntity: Array<string>
+  entityData: {
+    entity: IEntity
+    currentPageWithinParentResultsHalLink: null | string
+  }
   objectsWithImagesHalLink: string | null
   currentEntityIsArchive?: boolean
   halLinkTitle?: string
 }
 
 const ArchiveHierarchyContainer: React.FC<IProps> = ({
-  entity,
-  parentsOfCurrentEntity,
+  entityData,
   objectsWithImagesHalLink,
   currentEntityIsArchive = false,
   halLinkTitle,
 }) => {
   const { pathname } = useLocation()
-
+  // Retrieve all the ancestors of the current entity
   const { data, isSuccess, isError, isFetching, isLoading } =
     useGetAncestorsQuery({
-      entities: [entity],
+      entities: [entityData],
     })
 
-  if (isSuccess || isError) {
+  if (isSuccess && data) {
     // get the data needed from the ancestors
     const ancestors: Array<{
       id: string
       currentPageHalLink: string | null
     }> = data.ancestors
-      .map((ancestor: IEntity) => {
-        const a = new EntityParser(ancestor)
-        const halLink =
-          a.getHalLink('lux:setCurrentHierarchyPage') ||
-          a.getHalLink('lux:itemCurrentHierarchyPage')
-        console.log('HAL: ', halLink)
-        return {
-          id: ancestor.id!,
-          currentPageHalLink: halLink,
-        }
-      })
+      .map(
+        (ancestor: {
+          entity: IEntity
+          currentPageWithinParentResultsHalLink: null | string
+        }) => {
+          // the id of the ancestor and the results HAL link with the correct page of it's child within the hierarchy
+          return {
+            id: ancestor.entity.id!,
+            currentPageHalLink: ancestor.currentPageWithinParentResultsHalLink,
+          }
+        },
+      )
       .filter(
         (ancestor: { id: string; currentPageHalLink: string }) =>
           ancestor.id !== undefined,
       )
 
+    // return null for the entire hierarchy if certain conditions are met
     if (ancestors.length === 1) {
       // if there is only one ancestor and it is an object, do not display hierarchy
       if (
@@ -72,34 +74,37 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       // does not have children, do not render the hierarchy.
       if (
         ancestors[0].id.includes(removeViewFromPathname(pathname)) &&
-        entity._links !== undefined &&
-        hasHierarchyHalLinks(entity._links).length === 0
+        entityData.entity._links !== undefined &&
+        isNull(hasHierarchyHalLinks(entityData.entity._links))
       ) {
         return null
       }
     }
 
-    // format search link for objects in the archive with images
+    // format search link for entities in the archive with images
     let searchString = ''
     if (objectsWithImagesHalLink !== null) {
       const searchQ = formatHalLink(objectsWithImagesHalLink, 'item')
       searchString = `${searchQ}&searchLink=true`
     }
 
+    // label for the entities with images search results link
     const searchLinkLabel = !isUndefined(halLinkTitle)
       ? halLinkTitle
       : 'View records from this archive with images'
+
     return (
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
+        {/* Render the collapsible child componentstarting with the oldest ancestor */}
         <ArchiveHierarchyChild
           child={data.highestAncestorId as string}
           skipApiCalls={false}
           key={pathname}
-          parentsOfCurrentEntity={parentsOfCurrentEntity}
           ancestors={ancestors}
-          currentEntity={entity}
+          currentEntity={entityData.entity}
         />
+        {/* Render the search link for users to view entities with images on the results page */}
         {objectsWithImagesHalLink !== null && (
           <Row className="mt-3">
             <Col>
@@ -128,6 +133,14 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     return (
       <StyledEntityPageSection>
         <p>Loading...</p>
+      </StyledEntityPageSection>
+    )
+  }
+
+  if (isError) {
+    return (
+      <StyledEntityPageSection>
+        <p>An error occurred trying to load the data.</p>
       </StyledEntityPageSection>
     )
   }

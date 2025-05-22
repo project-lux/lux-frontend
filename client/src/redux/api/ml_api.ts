@@ -171,7 +171,10 @@ export const mlApi: any = createApi({
     getAncestors: builder.query<
       any,
       {
-        entities: Array<IEntity>
+        entities: Array<{
+          entity: IEntity
+          currentPageWithinParentResultsHalLink: null | string
+        }>
       }
     >({
       queryFn: async ({ entities }) => {

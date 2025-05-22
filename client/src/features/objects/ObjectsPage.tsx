@@ -23,6 +23,7 @@ import IObject from '../../types/data/IObject'
 import IDigitalObject from '../../types/data/IDigitalObject'
 import UV from '../common/UV'
 import WikiDataImageViewer from '../common/WikiDataImageViewer'
+import IEntity from '../../types/data/IEntity'
 
 import Carries from './Carries'
 import About from './About'
@@ -36,6 +37,15 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
   const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
   const halLinkTitle = archive.title
   const manifestId = element.getManifestId()
+  const hierarchyData: {
+    entity: IEntity
+    currentPageWithinParentResultsHalLink: null | string
+  } = {
+    entity: data as IEntity,
+    currentPageWithinParentResultsHalLink: element.getHalLink(
+      'lux:itemCurrentHierarchyPage',
+    ),
+  }
 
   return (
     <React.Fragment>
@@ -75,8 +85,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
                 {memberOf.length > 0 && (
                   <ArchiveHierarchyContainer
                     key={data.id}
-                    entity={data}
-                    parentsOfCurrentEntity={memberOf}
+                    entityData={hierarchyData}
                     objectsWithImagesHalLink={objectsWithImagesHalLink}
                     halLinkTitle={halLinkTitle}
                   />
