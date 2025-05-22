@@ -81,7 +81,6 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
   }
 
   let selectedValue: string | undefined = undefined
-
   Object.keys(options).map((key: string) => {
     if (dropdownType === 'singleFieldSelection') {
       const singleFieldOptions = options as Record<
