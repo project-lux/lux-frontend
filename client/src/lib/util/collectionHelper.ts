@@ -3,6 +3,8 @@ import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 import EntityParser from '../parse/data/EntityParser'
 
+import { fetchWithToken } from './fetchWithToken'
+
 function transformPath(uri: string): string {
   return uri.replace('/view/', '/data/')
 }
@@ -13,7 +15,7 @@ export function getMemberOfUris(entity: IEntity): Array<string> {
 }
 
 export const fetchCollection = (entityId: string): Promise<any> =>
-  fetch(transformPath(entityId))
+  fetchWithToken(transformPath(entityId))
     .then((response) => {
       if (response.ok) {
         return response.json().then((data) => {

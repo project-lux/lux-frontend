@@ -19,6 +19,7 @@ export default defineConfig(({ command, mode }) => {
       open: true,
       // this sets a default port to 3000
       port: 3000,
+      hmr: true,
     },
     test: {
       environment: 'jsdom',
