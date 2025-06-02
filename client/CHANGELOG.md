@@ -2,7 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.51.0 - Unreleased
+## v1.52.0 - Unreleased
+
+### Added
+- Added Collections Caused By, Collections About, and Collection Types to People and Groups pages ([#624](https://github.com/project-lux/lux-frontend/issues/624)).
+
+### Changed
+
+### Removed
+
+### Fixed
+
+## v1.51.0 - 5/19/2025
 
 ### Added
 
@@ -23,6 +34,7 @@ All notable changes to this project will be documented in this file.
 
 - Added Collections Caused By, Collections About, and Collection Types to Event pages ([#622](https://github.com/project-lux/lux-frontend/issues/622)).
 - Added archival materials icon for objects ([#611](https://github.com/project-lux/lux-frontend/issues/611)).
+- Added Collections Caused By, Collections About, and Collection Types to Event pages ([#624](https://github.com/project-lux/lux-frontend/issues/624)).
 
 ### Changed
 

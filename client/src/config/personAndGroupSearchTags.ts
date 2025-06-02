@@ -28,6 +28,16 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:agentWorkAbout',
     tab: 'works',
   },
+  collectionsCreatedBy: {
+    title: 'Collections Created By',
+    searchTag: 'lux:setCreatedAtAgent',
+    tab: 'collections',
+  },
+  collectionsAboutEvent: {
+    title: 'Collections About',
+    searchTag: 'lux:setAboutAgent',
+    tab: 'collections',
+  },
 }
 
 // Used for rendering related types accordions
@@ -75,6 +85,11 @@ export const timelines: IHalLinks = {
     tab: 'works',
     jsonSearchTerm: 'publishedDate',
   },
+  setAboutDate: {
+    searchTag: 'lux:agentSetAboutTime',
+    tab: 'collections',
+    jsonSearchTerm: 'publishedDate,createdDate',
+  },
 }
 
 // Used for rendering accordions
@@ -119,6 +134,12 @@ export const relatedAccordions: IHalLinks = {
     title: 'Members',
     searchTag: 'lux:agentAgentMemberOf',
     tab: 'people',
+  },
+  collectionTypes: {
+    title: 'Collection Types',
+    searchTag: 'lux:agentSetTypes',
+    tab: 'collections',
+    jsonSearchTerm: 'classification',
   },
   ...itemAndWorkTypes,
   locations,
