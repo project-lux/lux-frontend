@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.52.0 - Unreleased
+## v1.53.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+## v1.52.0 - 2025-6-2
 
 ### Added
 - Added Collections Caused By, Collections About, and Collection Types to People and Groups pages ([#624](https://github.com/project-lux/lux-frontend/issues/624)).
@@ -13,7 +23,7 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
-## v1.51.0 - 5/19/2025
+## v1.51.0 - 2025-5-19
 
 ### Added
 
