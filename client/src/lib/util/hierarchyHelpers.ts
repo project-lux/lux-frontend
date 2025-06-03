@@ -4,6 +4,7 @@ import IEntity from '../../types/data/IEntity'
 import ILinks from '../../types/data/ILinks'
 import IPlace from '../../types/data/IPlace'
 import ConceptParser from '../parse/data/ConceptParser'
+import EntityParser from '../parse/data/EntityParser'
 import PlaceParser from '../parse/data/PlaceParser'
 import SetParser from '../parse/data/SetParser'
 
@@ -41,7 +42,7 @@ export const hasHierarchyHalLinks = (providedLinks: ILinks): string | null => {
  */
 export const getHalLinkForChildren = (
   entity: IEntity,
-  ancestors: Array<{ id: string; currentPageHalLink: string | null }>,
+  ancestors: Array<{ id: string; childrenHalLink: string | null }>,
 ): string | null => {
   let childrenHalLink = entity._links
     ? hasHierarchyHalLinks(entity._links)
@@ -49,11 +50,48 @@ export const getHalLinkForChildren = (
   for (const ancestor of ancestors) {
     // if the current entity from the data is an ancestor, set it's childrenHalLink to the HAL link with the results page of its child within the current hierarchy
     if (ancestor.id === entity.id) {
-      return ancestor.currentPageHalLink
+      return ancestor.childrenHalLink
     }
   }
 
   return childrenHalLink
+}
+
+/**
+ * Returns the HAL link for the children of the entity passed
+ * @param {IEntity} entity the entity to parse
+ * @param {Array<{ id: string; currentPageHalLink: string | null }>} ancestors the entity to parse
+ * @returns {string | null}
+ */
+export const getAncestorData = (data: {
+  ancestors: Array<{
+    entity: IEntity
+    currentPageWithinParentResultsHalLink: null | string
+  }>
+}): Array<{
+  id: string
+  childrenHalLink: string | null
+}> => {
+  return data.ancestors
+    .map(
+      (ancestor: {
+        entity: IEntity
+        currentPageWithinParentResultsHalLink: null | string
+      }) => {
+        const parser = new EntityParser(ancestor.entity)
+        // the id of the ancestor and the results HAL link with the correct page of it's child within the hierarchy or the HAL link to get its children
+        return {
+          id: ancestor.entity.id!,
+          childrenHalLink:
+            ancestor.currentPageWithinParentResultsHalLink ||
+            parser.getHalLink(setWithMemberOf.searchTag),
+        }
+      },
+    )
+    .filter(
+      (ancestor: { id: string; childrenHalLink: string | null }) =>
+        ancestor.id !== undefined,
+    )
 }
 
 /**

@@ -7,6 +7,7 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
 import { useGetAncestorsQuery } from '../../redux/api/ml_api'
 import {
+  getAncestorData,
   hasHierarchyHalLinks,
   removeViewFromPathname,
 } from '../../lib/util/hierarchyHelpers'
@@ -42,24 +43,8 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     // get the data needed from the ancestors
     const ancestors: Array<{
       id: string
-      currentPageHalLink: string | null
-    }> = data.ancestors
-      .map(
-        (ancestor: {
-          entity: IEntity
-          currentPageWithinParentResultsHalLink: null | string
-        }) => {
-          // the id of the ancestor and the results HAL link with the correct page of it's child within the hierarchy
-          return {
-            id: ancestor.entity.id!,
-            currentPageHalLink: ancestor.currentPageWithinParentResultsHalLink,
-          }
-        },
-      )
-      .filter(
-        (ancestor: { id: string; currentPageHalLink: string }) =>
-          ancestor.id !== undefined,
-      )
+      childrenHalLink: string | null
+    }> = getAncestorData(data)
 
     // return null for the entire hierarchy if certain conditions are met
     if (ancestors.length === 1) {

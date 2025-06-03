@@ -15,7 +15,7 @@ import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
 const ArchiveHierarchyChildrenContainer: React.FC<{
   skipApiCalls?: boolean
-  ancestors: Array<{ id: string; currentPageHalLink: string | null }>
+  ancestors: Array<{ id: string; childrenHalLink: string | null }>
   objectOrSetMemberOfSet: string
   currentEntity: IEntity
 }> = ({

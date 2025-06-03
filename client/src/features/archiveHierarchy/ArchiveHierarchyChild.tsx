@@ -36,14 +36,14 @@ const StyledCol = styled(Col)`
  * Renders the child within the hierarchy
  * @param {string} child the child entity being processed
  * @param {boolean} skipApiCalls the current result page a user is viewing
- * @param {Array<{ id: string; currentPageHalLink: string | null }>} ancestors
+ * @param {Array<{ id: string; childrenHalLink: string | null }>} ancestors
  * @param {IEntity} currentEntity the currently view entity data
  * @returns {JSX.Element}
  */
 const ArchiveHierarchyChild: React.FC<{
   child: string
   skipApiCalls: boolean
-  ancestors: Array<{ id: string; currentPageHalLink: string | null }>
+  ancestors: Array<{ id: string; childrenHalLink: string | null }>
   currentEntity: IEntity
 }> = ({ child, skipApiCalls, ancestors, currentEntity }) => {
   const [open, setOpen] = useState<boolean>(false)
