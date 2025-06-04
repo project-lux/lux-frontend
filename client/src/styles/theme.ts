@@ -141,6 +141,7 @@ const color = {
     published: '#8D6E63',
     created: '#2E7D32',
     about: '#000000',
+    setAbout: '#2D60B4',
   },
 
   advancedSearch: {

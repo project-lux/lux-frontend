@@ -59,7 +59,6 @@ const TimelineContainer: React.FC<{
   )
 
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
-
   // Checks if the element is in fullscreen
   useEffect(() => {
     const handleFullscreenChange = (): void => {
