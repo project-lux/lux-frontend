@@ -30,7 +30,7 @@ export const relatedObjectsAndWorks: IHalLinks = {
   },
   collectionsCreatedBy: {
     title: 'Collections Created By',
-    searchTag: 'lux:setCreatedAtAgent',
+    searchTag: 'lux:setCreatedByAgent',
     tab: 'collections',
   },
   collectionsAboutEvent: {
@@ -85,7 +85,7 @@ export const timelines: IHalLinks = {
     tab: 'works',
     jsonSearchTerm: 'publishedDate',
   },
-  setAboutDate: {
+  setCreationOrPublicationDate: {
     searchTag: 'lux:agentSetAboutTime',
     tab: 'collections',
     jsonSearchTerm: 'publishedDate,createdDate',
