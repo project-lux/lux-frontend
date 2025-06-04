@@ -6,6 +6,7 @@ export enum UnitCode {
   YUAG = 3,
   YUL = 4,
   ALL = 5,
+  CMI = 6,
   INVALID = -1,
 }
 
@@ -21,6 +22,8 @@ export const unitCodeFromNumString = (s: string): UnitCode => {
       return UnitCode.YUL
     case '5':
       return UnitCode.ALL
+    case 'cmi':
+      return UnitCode.CMI
     default:
       return UnitCode.INVALID
   }
