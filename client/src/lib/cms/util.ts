@@ -6,9 +6,21 @@ import { UnitCode } from '../../config/cms'
  * and the rest for picking featured collection contents.
  */
 export const pickRandomUnits = (): UnitCode[] => {
-  const candidates = [UnitCode.YCBA, UnitCode.YPM, UnitCode.YUAG, UnitCode.YUL]
+  const candidates = [
+    UnitCode.YCBA,
+    UnitCode.YPM,
+    UnitCode.YUAG,
+    UnitCode.YUL,
+    UnitCode.CMI,
+  ]
   let index = Math.floor(Math.random() * candidates.length)
-  let result: UnitCode[] = [...candidates.splice(index, 1)]
+  let result: UnitCode[] = candidates.splice(index, 1)
+
+  // Remove UnitCode.CMI from featured collections candidates
+  const cmiIndex = candidates.indexOf(UnitCode.CMI)
+  if (cmiIndex !== -1) {
+    candidates.splice(cmiIndex, 1)
+  }
 
   // UnitCode.ALL is relevant only for featured collections
   candidates.push(UnitCode.ALL)
