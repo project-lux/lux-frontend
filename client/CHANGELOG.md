@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added code for MyCollections, plus feature flag ([#683](https://github.com/project-lux/lux-frontend/issues/683)).
+
 ### Changed
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
 

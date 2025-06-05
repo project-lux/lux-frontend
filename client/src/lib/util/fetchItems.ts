@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+import { fetchWithToken } from './fetchWithToken'
+
 export const fetchItems = (uri: string): Promise<any> =>
-  fetch(`${uri}?profile=results`)
+  fetchWithToken(`${uri}?profile=results`)
     .then((response) =>
       response.text().then((translatedString) => JSON.parse(translatedString)),
     )

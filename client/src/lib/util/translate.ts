@@ -1,5 +1,7 @@
 import config, { getDataApiBaseUrl } from '../../config/config'
 
+import { fetchWithToken } from './fetchWithToken'
+
 interface ITranslateParameters {
   query: string
   scope: string
@@ -18,7 +20,9 @@ export function translate({
   const urlParams = new URLSearchParams()
   urlParams.set('q', query)
   onLoading()
-  fetch(`${getDataApiBaseUrl()}api/translate/${scope}?${urlParams.toString()}`)
+  fetchWithToken(
+    `${getDataApiBaseUrl()}api/translate/${scope}?${urlParams.toString()}`,
+  )
     .then((response) => {
       if (response.ok) {
         response.text().then((translatedString) => {

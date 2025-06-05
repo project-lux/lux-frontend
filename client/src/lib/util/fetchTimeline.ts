@@ -1,10 +1,12 @@
+import { fetchWithToken } from './fetchWithToken'
+
 const PAGE_LENGTH = 10000
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export const fetchTimelineData = (
   uri: string,
 ): Promise<{ [x: string]: any } | Error> =>
-  fetch(`${uri}&pageLength=${PAGE_LENGTH}`)
+  fetchWithToken(`${uri}&pageLength=${PAGE_LENGTH}`)
     .then((response) =>
       response
         .text()
