@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Col, FormGroup, Row } from 'react-bootstrap'
+import { Col, Form, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -12,7 +12,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import CollapseButton from '../../styles/shared/CollapseButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
+import StyledFormRow from '../../styles/features/advancedSearch/FormRow'
 import theme from '../../styles/theme'
 import StyledConnectedDiv from '../../styles/features/advancedSearch/ConnectedDiv'
 import {
@@ -102,65 +102,64 @@ const Group: React.FC<IGroup> = ({
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
   return (
-    <div
-      className={`groupContainer ${bgColor} p-3 border rounded-2`}
+    <Form.Group
+      className={`groupedFormGroup ${bgColor} p-3 border rounded-2`}
       style={{ minHeight: '100px' }}
     >
-      <FormGroup>
-        <StyledInputGroupDiv
-          className="bg-white advancedSearchGroupRow"
-          data-testid="advanced-search-group-row"
-        >
-          <span className="w-100 d-flex ps-2">
-            <div className="d-flex w-100 py-2">
-              <CollapseButton
-                onClick={() => {
-                  pushClientEvent(
-                    'Collapse Button',
-                    open ? 'Open' : 'Close',
-                    'Advanced Search',
-                  )
-                  setOpen(!open)
-                }}
-                aria-controls="group-collapse-text"
-                aria-expanded={open}
-                aria-label={
-                  open
-                    ? `close ${labelForAria} group`
-                    : `open ${labelForAria} group`
-                }
-                className="collapseNestedAdvancedSearch float-left ms-2 me-3"
-              >
-                {open ? '-' : '+'}
-              </CollapseButton>
-              <label htmlFor={id} hidden>
-                {selectedKey}
-              </label>
-              <AdvancedSearchDropdown
-                dropdownType="multipleFieldSelection"
-                options={conditionals}
-                handleChange={addOption}
-                className="multipleFieldSelection"
-                dropdownHeaderText="Have multiple fields"
-                ariaLabel={`${ariaLabelForDropdowns} Have multiple fields`}
-                selected={selectedKey}
-                id={id}
-              />
-              <p className="d-flex mb-0 text-nowrap justify-content-center align-items-center">
-                the following
-              </p>
-              <OptionsButton
-                state={state}
-                stateId={stateId}
-                ariaLabel={`${ariaLabelForDropdowns} ${labelForAria}`}
-                nestedLevel={nestedLevel}
-                rowType={GROUP_ROW_TYPE}
-              />
-            </div>
-            <RemoveButton stateId={stateId} parentStateId={parentStateId} />
-          </span>
-        </StyledInputGroupDiv>
-      </FormGroup>
+      <StyledFormRow
+        className="bg-white advancedSearchGroupRow"
+        data-testid="advanced-search-group-row"
+      >
+        <span className="w-100 d-flex ps-2">
+          <div className="d-flex w-100 py-2">
+            <CollapseButton
+              onClick={() => {
+                pushClientEvent(
+                  'Collapse Button',
+                  open ? 'Open' : 'Close',
+                  'Advanced Search',
+                )
+                setOpen(!open)
+              }}
+              aria-controls="group-collapse-text"
+              aria-expanded={open}
+              aria-label={
+                open
+                  ? `close ${labelForAria} group`
+                  : `open ${labelForAria} group`
+              }
+              className="collapseNestedAdvancedSearch float-left ms-2 me-3"
+            >
+              {open ? '-' : '+'}
+            </CollapseButton>
+            <Form.Label htmlFor={id} hidden>
+              {selectedKey}
+            </Form.Label>
+            <Form.Control
+              as={AdvancedSearchDropdown}
+              dropdownType="multipleFieldSelection"
+              options={conditionals}
+              handleChange={addOption}
+              className="multipleFieldSelection"
+              dropdownHeaderText="Have multiple fields"
+              ariaLabel={`${ariaLabelForDropdowns} Have multiple fields`}
+              selected={selectedKey}
+              id={id}
+            />
+            <Form.Text className="d-flex my-0 ms-2 text-nowrap justify-content-center align-items-center">
+              the following
+            </Form.Text>
+            <OptionsButton
+              state={state}
+              stateId={stateId}
+              ariaLabel={`${ariaLabelForDropdowns} ${labelForAria}`}
+              nestedLevel={nestedLevel}
+              rowType={GROUP_ROW_TYPE}
+            />
+          </div>
+          <RemoveButton stateId={stateId} parentStateId={parentStateId} />
+        </span>
+      </StyledFormRow>
       <Row className={`ps-4 ${open ? '' : 'pb-3'}`}>
         <Col xs={12}>
           <CollapseContainer open={open} id={`group-${stateId}`}>
@@ -229,7 +228,7 @@ const Group: React.FC<IGroup> = ({
           </CollapseContainer>
         </Col>
       </Row>
-    </div>
+    </Form.Group>
   )
 }
 export default Group

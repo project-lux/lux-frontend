@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Form } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { useGetNameQuery } from '../../redux/api/ml_api'
-import { addTextValue } from '../../redux/slices/advancedSearchSlice'
+// import { addTextValue } from '../../redux/slices/advancedSearchSlice'
 import { StyledInput } from '../../styles/features/advancedSearch/Input'
 import {
   addHoverHelpText,
@@ -40,8 +41,10 @@ const TextInput: React.FC<IInputType> = ({
   scope,
 }) => {
   const dispatch = useAppDispatch()
+  const [inputValue, setInputValue] = useState<string>(currentValue)
   const handleOnChange = (userInput: string): void => {
-    dispatch(addTextValue({ field, value: userInput, stateId, scope }))
+    setInputValue(userInput)
+    // dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
   const handleOnSelect = (): void => {
@@ -65,31 +68,32 @@ const TextInput: React.FC<IInputType> = ({
     displayName = entity.getPrimaryName(config.aat.langen)
   }
 
-  const id = `input-field-${stateId}`
+  const id = `inputField${stateId}`
 
   return (
-    <div className="form-group me-2">
+    <Form.Group className="me-2">
       <div className="input-group h-100" style={{ minWidth: '100px' }}>
         {label && (
-          <label htmlFor={id} hidden>
+          <Form.Label htmlFor={id} hidden>
             {label}
-          </label>
+          </Form.Label>
         )}
         <StyledInput
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={autoFocus}
+          aria-describedby={id}
+          id={id}
           type="text"
-          value={displayName !== currentValue ? displayName : currentValue}
-          className="form-control advancedSearchInput bg-white"
           placeholder={label}
+          value={displayName !== currentValue ? displayName : inputValue}
+          className="form-control advancedSearchInput bg-white"
           onChange={(e) => handleOnChange(e.currentTarget.value)}
           onSelect={() => handleOnSelect()}
           data-testid={`${field}-${stateId}-text-input`}
-          id={id}
           disabled={displayName !== currentValue}
         />
       </div>
-    </div>
+    </Form.Group>
   )
 }
 

@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import theme from '../../theme'
 
-const StyledInputGroupDiv = styled.div`
+const FormRow = styled.div`
   border: solid 1px ${theme.color.gray};
   border-radius: ${theme.border.radius};
 
@@ -42,4 +42,4 @@ const StyledInputGroupDiv = styled.div`
   }
 `
 
-export default StyledInputGroupDiv
+export default FormRow

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Row, Col } from 'react-bootstrap'
 
-import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/FormRow'
 
 import RemoveButton from './RemoveButton'
 import InputFieldSet from './InputFieldset'

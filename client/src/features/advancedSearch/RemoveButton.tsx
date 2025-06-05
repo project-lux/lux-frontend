@@ -1,5 +1,5 @@
 import React, { MouseEvent } from 'react'
-import { Button, InputGroup } from 'react-bootstrap'
+import { Button } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -32,10 +32,22 @@ const StyledButton = styled(Button)`
   }
 `
 
-const StyledInputGroupDivText = styled(InputGroup.Text)`
+const StyledInputGroupDivText = styled.div`
   background-color: ${theme.color.white};
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 8px;
+  display: flex;
+  align-items: center;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--bs-body-color);
+  text-align: center;
+  white-space: nowrap;
+  border: var(--bs-border-width) solid var(--bs-border-color);
 `
 
 interface IRemoveButton {

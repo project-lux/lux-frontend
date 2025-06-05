@@ -1,8 +1,9 @@
 import styled from 'styled-components'
+import { Form } from 'react-bootstrap'
 
 import theme from '../../theme'
 
-export const StyledInput = styled.input`
+export const StyledInput = styled(Form.Control)`
   height: auto;
   width: 100%;
   border: none;

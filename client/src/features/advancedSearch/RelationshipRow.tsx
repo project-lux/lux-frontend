@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, FormGroup, Row } from 'react-bootstrap'
+import { Col, Form, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -13,7 +13,7 @@ import {
   IAdvancedSearchState,
   addFieldSelection,
 } from '../../redux/slices/advancedSearchSlice'
-import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
+import StyledInputGroupDiv from '../../styles/features/advancedSearch/FormRow'
 import {
   containsInput,
   getProperty,
@@ -42,7 +42,7 @@ interface IProps {
   content: string
 }
 
-const StyledFormGroup = styled(FormGroup)<IProps>`
+const StyledFormGroup = styled(Form.Group)<IProps>`
   &:after {
     border: 0.5px solid #8095e8;
     left: 0;

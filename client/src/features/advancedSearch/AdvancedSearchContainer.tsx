@@ -110,7 +110,7 @@ const AdvancedSearchContainer: React.FC = () => {
     <Row className="mx-3 mb-3" style={{ flexWrap: 'nowrap' }}>
       <StyledContainer
         className="advancedSearchBody"
-        asBodyBorderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
+        topLeftRadius={tab === 'objects' ? '0px' : undefined}
         data-testid="advanced-search-form-container"
       >
         <div>

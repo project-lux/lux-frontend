@@ -103,7 +103,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
       <Dropdown.Toggle
         id={`${id}-toggle`}
         aria-label={ariaLabel}
-        className={`${className} me-2`}
+        className={`${className} mx-0`}
         data-testid={`${id}-dropdown-toggle`}
       >
         {selectedValue !== undefined ? selectedValue : dropdownHeaderText}

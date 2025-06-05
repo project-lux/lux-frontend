@@ -27,7 +27,7 @@ const ReactBootstrapDropdown = styled(Dropdown)`
     overflow-y: scroll;
   }
 
-  .dropdown-item.active {
+  .dropdown-item.active &.btn:active {
     background-color: ${theme.color.primary.blue};
   }
 
