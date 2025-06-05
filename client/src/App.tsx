@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
+import { AuthProvider } from 'react-oidc-context'
 
 import config from './config/config'
 import Routes from './features/common/LuxRoutes'
@@ -11,6 +12,7 @@ import { useGetAdvancedSearchConfigQuery } from './redux/api/ml_api'
 import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
+import { onSignIn } from './lib/auth/helper'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;
@@ -93,7 +95,15 @@ const App: React.FC = () => {
 
   if (envReady || config.env.cacheViewerMode) {
     return (
-      <React.Fragment>
+      <AuthProvider
+        authority={config.env.oidcAuthority}
+        client_id={config.env.oidcClientId}
+        redirect_uri={config.env.oidcRedirectUri}
+        revokeTokenTypes={['refresh_token']}
+        response_type="code"
+        scope="openid email"
+        onSigninCallback={onSignIn}
+      >
         <GlobalStyle />
         <Router>
           <ScrollRestoration />
@@ -107,7 +117,7 @@ const App: React.FC = () => {
           )}
           <Routes />
         </Router>
-      </React.Fragment>
+      </AuthProvider>
     )
   }
 
