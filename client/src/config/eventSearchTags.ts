@@ -98,3 +98,12 @@ export const relatedAccordions: IHalLinks = {
   },
   ...relatedTypes,
 }
+
+// Used for rendering timelines
+export const timelines: IHalLinks = {
+  setCreationOrPublicationDate: {
+    searchTag: 'lux:eventSetAboutTime',
+    tab: 'collections',
+    jsonSearchTerm: 'publishedDate,createdDate',
+  },
+}

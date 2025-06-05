@@ -4,7 +4,11 @@ import Row from 'react-bootstrap/Row'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import config from '../../config/config'
-import { relatedEntites, relatedAccordions } from '../../config/eventSearchTags'
+import {
+  relatedEntites,
+  relatedAccordions,
+  timelines,
+} from '../../config/eventSearchTags'
 import StyledEntityBody from '../../styles/shared/EntityBody'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import DataSources from '../common/DataSources'
@@ -16,6 +20,7 @@ import EventParser from '../../lib/parse/data/EventParser'
 import AccordionContainer from '../relatedLists/AccordionContainer'
 import ImageThumbnail from '../common/ImageThumbnail'
 import IEvent from '../../types/data/IEvent'
+import TimelineContainer from '../timeline/TimelineContainer'
 
 import AboutPanel from './AboutPanel'
 
@@ -36,6 +41,12 @@ const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
               links={data._links}
               relationships={relatedEntites}
               type="event"
+            />
+          </ErrorBoundary>
+          <ErrorBoundary FallbackComponent={ErrorFallback}>
+            <TimelineContainer
+              searchTags={timelines}
+              providedHalLinks={event.json._links}
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
