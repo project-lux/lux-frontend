@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
 
+- Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
+
 ### Removed
 
 ### Fixed
