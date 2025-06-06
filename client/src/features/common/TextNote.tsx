@@ -39,7 +39,7 @@ const TextNote: React.FC<ITextNote> = ({
       <div className="noteContainer" data-testid={`${id}-text-note`}>
         <div className="noteContent" style={{ whiteSpace: 'pre-line' }}>
           {isHtml ? (
-            <span className="d-flex">
+            <React.Fragment>
               <p
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(htmlContent || content),
@@ -52,7 +52,7 @@ const TextNote: React.FC<ITextNote> = ({
                   id="content-html-note"
                 />
               )}
-            </span>
+            </React.Fragment>
           ) : (
             <p>
               {content}{' '}

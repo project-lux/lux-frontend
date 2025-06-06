@@ -8,6 +8,7 @@ interface ICollapseContainer {
   open: boolean
   id: string
   children: JSX.Element | JSX.Element[]
+  className: string
 }
 
 const StyledCollapse = styled(Collapse)`
@@ -32,11 +33,12 @@ const CollapseContainer: React.FC<ICollapseContainer> = ({
   open,
   id,
   children,
+  className,
 }) => (
   <StyledCollapse in={open} className="collapseContainer float-left">
     <div
       id={`${id}-collapse-component`}
-      className="w-100 pt-4"
+      className={`w-100 ${className}`}
       style={{
         paddingLeft: '2.5rem',
       }}

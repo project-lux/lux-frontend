@@ -1,17 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
-import { skipToken } from '@reduxjs/toolkit/query/react'
-import { isUndefined } from 'lodash'
+import { isNull, isUndefined } from 'lodash'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
-import { useGetItemsQuery } from '../../redux/api/ml_api'
+import { useGetAncestorsQuery } from '../../redux/api/ml_api'
 import {
+  getAncestorData,
   hasHierarchyHalLinks,
-  getNextSetUris,
-  getParentData,
-  isEntityAnArchive,
   removeViewFromPathname,
 } from '../../lib/util/hierarchyHelpers'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -20,98 +17,79 @@ import { formatHalLink } from '../../lib/parse/search/queryParser'
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
 interface IProps {
-  entity: IEntity
-  parentsOfCurrentEntity: Array<string>
+  entityData: {
+    entity: IEntity
+    currentPageWithinParentResultsHalLink: null | string
+  }
   objectsWithImagesHalLink: string | null
   currentEntityIsArchive?: boolean
   halLinkTitle?: string
 }
 
 const ArchiveHierarchyContainer: React.FC<IProps> = ({
-  entity,
-  parentsOfCurrentEntity,
+  entityData,
   objectsWithImagesHalLink,
   currentEntityIsArchive = false,
   halLinkTitle,
 }) => {
   const { pathname } = useLocation()
-
-  const [done, setDone] = useState(false)
-  const [archives, setArchives] = useState<Array<IEntity>>([entity])
-  const [topLevelAncestor, setTopLevelAncestor] = useState<string>(entity.id!)
-
-  useEffect(() => {
-    setDone(false)
-    setArchives([entity])
-  }, [entity])
-
-  const uris = getNextSetUris(archives[0])
-  const queryInput = uris.length > 0 ? uris : skipToken
-
+  // Retrieve all the ancestors of the current entity
   const { data, isSuccess, isError, isFetching, isLoading } =
-    useGetItemsQuery(queryInput)
+    useGetAncestorsQuery({
+      entities: [entityData],
+    })
 
-  if (isSuccess && !done) {
-    const parent = getParentData(data, isEntityAnArchive)
+  if (isSuccess && data) {
+    // get the data needed from the ancestors
+    const ancestors: Array<{
+      id: string
+      childrenHalLink: string | null
+    }> = getAncestorData(data)
 
-    if (
-      parent === null ||
-      getNextSetUris(parent).length === 0 ||
-      archives.length > 8
-    ) {
-      setDone(true)
-    }
-
-    if (parent !== null && isEntityAnArchive(parent)) {
-      setArchives([parent, ...archives])
-      setTopLevelAncestor(parent.id as string)
-    }
-  }
-
-  if (isSuccess || isError || done || uris.length === 0) {
-    const ancestorIds: Array<string> = archives
-      .map((archive) => archive.id!)
-      .filter((id) => id !== undefined)
-
-    if (ancestorIds.length === 1) {
+    // return null for the entire hierarchy if certain conditions are met
+    if (ancestors.length === 1) {
       // if there is only one ancestor and it is an object, do not display hierarchy
       if (
-        ancestorIds[0].includes('digital') ||
-        ancestorIds[0].includes('object')
+        ancestors[0].id.includes('digital') ||
+        ancestors[0].id.includes('object')
       ) {
         return null
       }
       // If there is only one element in the archive and it is the current entity and that entity
       // does not have children, do not render the hierarchy.
       if (
-        ancestorIds[0].includes(removeViewFromPathname(pathname)) &&
-        entity._links !== undefined &&
-        hasHierarchyHalLinks(entity._links).length === 0
+        ancestors[0].id.includes(removeViewFromPathname(pathname)) &&
+        entityData.entity._links !== undefined &&
+        isNull(hasHierarchyHalLinks(entityData.entity._links))
       ) {
         return null
       }
     }
 
-    // format search link for objects in the archive with images
+    // format search link for entities in the archive with images
     let searchString = ''
     if (objectsWithImagesHalLink !== null) {
       const searchQ = formatHalLink(objectsWithImagesHalLink, 'item')
       searchString = `${searchQ}&searchLink=true`
     }
 
+    // label for the entities with images search results link
     const searchLinkLabel = !isUndefined(halLinkTitle)
       ? halLinkTitle
       : 'View records from this archive with images'
+
     return (
       <StyledEntityPageSection>
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
+        {/* Render the collapsible child componentstarting with the oldest ancestor */}
         <ArchiveHierarchyChild
-          child={topLevelAncestor as string}
+          child={data.highestAncestorId as string}
           skipApiCalls={false}
           key={pathname}
-          parentsOfCurrentEntity={parentsOfCurrentEntity}
-          ancestors={ancestorIds}
+          ancestors={ancestors}
+          currentEntity={entityData.entity}
         />
+        {/* Render the search link for users to view entities with images on the results page */}
         {objectsWithImagesHalLink !== null && (
           <Row className="mt-3">
             <Col>
@@ -136,10 +114,18 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
     )
   }
 
-  if (isLoading || isFetching || !done) {
+  if (isLoading || isFetching) {
     return (
       <StyledEntityPageSection>
         <p>Loading...</p>
+      </StyledEntityPageSection>
+    )
+  }
+
+  if (isError) {
+    return (
+      <StyledEntityPageSection>
+        <p>An error occurred trying to load the data.</p>
       </StyledEntityPageSection>
     )
   }

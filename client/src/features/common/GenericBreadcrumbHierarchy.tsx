@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import { skipToken } from '@reduxjs/toolkit/query/react'
 import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
@@ -45,9 +44,17 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   }, [entity])
 
   const uris = getNextEntityUri(entities[0])
-  const queryInput = uris.length > 0 ? uris : skipToken
+  const skip = uris.length > 0 ? false : true
 
-  const { data, isSuccess, isError, isLoading } = useGetItemsQuery(queryInput)
+  const { data, isSuccess, isError, isLoading } = useGetItemsQuery(
+    {
+      uris,
+      profile: 'results',
+    },
+    {
+      skip,
+    },
+  )
 
   // Add the returned data to the current list of parents/entities and set done to true to stop retrieving items
   if (isSuccess && !done) {
