@@ -45,6 +45,7 @@ const About: React.FC<IProps> = ({ data }) => {
     // shared
     classifiedAs,
     entityClass,
+    name,
     names,
     memberOf,
     professionalActivity,
@@ -54,6 +55,7 @@ const About: React.FC<IProps> = ({ data }) => {
 
   return (
     <React.Fragment>
+      <h2 data-testid="person-page-about-header">About {name}</h2>
       <dl className="about-person-and-group">
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />

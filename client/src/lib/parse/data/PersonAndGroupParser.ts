@@ -526,6 +526,7 @@ export default class PersonAndGroupParser extends EntityParser {
     const classifiedAs = this.getAllClassifiedAs()
     const entityClass = this.getEntityClass('agent')
     const memberOf = this.getMemberOf()
+    const name = this.getPrimaryName(config.aat.langen)
     const names = this.getNames()
     const notes = this.getNotes()
     const professionalActivity = this.getCarriedOut()
@@ -550,6 +551,7 @@ export default class PersonAndGroupParser extends EntityParser {
       string,
       null | string | Array<any> | IContentWithLanguage
     > = {
+      name,
       names,
       entityClass,
       memberOf,
