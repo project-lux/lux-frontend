@@ -18,6 +18,7 @@ import ApiAboutData from '../common/ApiAboutData'
 import ClassContainer from '../common/ClassContainer'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
+import AboutSubsection from './AboutSubsection'
 
 interface IObject {
   entity: IEntity
@@ -127,7 +128,7 @@ const About: React.FC<IObject> = ({ entity }) => {
             />
           )}
           {about.length > 0 && (
-            <DetailedLinkContainer
+            <AboutSubsection
               content={about}
               label="About"
               id="works-about-link-container"

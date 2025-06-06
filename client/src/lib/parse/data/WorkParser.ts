@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
+import IEntity from '../../../types/data/IEntity'
 import IWork from '../../../types/data/IWork'
 import { IEventInfo } from '../../../types/derived-data/events'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
@@ -176,6 +177,29 @@ export default class WorkParser extends EntityParser {
   }
 
   /**
+   * Returns array of transformed publication event data
+   * @returns {Array<IEventInfo>}
+   */
+  getAboutSubsection(): Array<Array<string>> {
+    const about = forceArray(this.json.about)
+    const aboutIds = getClassifiedAs(about)
+
+    const aboutData = about
+      .map((obj) => {
+        const ids: Array<string> = []
+        if (obj.hasOwnProperty('created_by')) {
+          obj.created_by.influenced_by.map((influencedBy: IEntity) => {
+            ids.push(influencedBy.id!)
+          })
+        }
+        return ids
+      })
+      .filter((arr) => arr.length !== 0)
+
+    return [...aboutData, aboutIds]
+  }
+
+  /**
    * Gets the data to be displayed in the About section of works that are not collections
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
@@ -190,7 +214,7 @@ export default class WorkParser extends EntityParser {
       entityClass,
       identifiers: this.getIdentifiers(),
       publications: this.getPublicationEvent(),
-      about: this.getAbout(),
+      about: this.getAboutSubsection(),
       represents: this.getRepresents(),
       notes: this.getNotes(),
       partOf: this.getPartOf(),
