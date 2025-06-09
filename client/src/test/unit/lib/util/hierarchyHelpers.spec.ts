@@ -80,11 +80,9 @@ describe('hierarchyHelpers', () => {
       },
     }
 
-    const links = hasHierarchyHalLinks(mockLinks).sort()
-    const comparativeLinks = [
-      'https://endpoint.yale.edu/api/facets/work?q=%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F918f20d8-5f94-4eb6-a498-fc3876a25623%22%7D&name=responsibleUnits',
-      'https://endpoint.yale.edu/api/search/item?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D',
-    ].sort()
+    const links = hasHierarchyHalLinks(mockLinks)
+    const comparativeLinks =
+      'https://endpoint.yale.edu/api/search/multi?q=%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fset%2F358fab7f-df9e-4a01-90bb-c73ce4ec4e8d%22%7D%7D'
 
     it('returns array of strings', () => {
       expect(links).toStrictEqual(comparativeLinks)
