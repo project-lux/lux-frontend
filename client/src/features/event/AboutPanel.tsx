@@ -48,22 +48,29 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     <React.Fragment>
       <h2 data-testid="event-about-header">About {name}</h2>
       <dl>
+        <h3>Names</h3>
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
+        <StyledHr width="100%" />
+        <h3>Event Class</h3>
         <ClassContainer
           label="Event Class"
           entityClass={entityClass}
           className="eventClassHr"
           hideBreaklineOnDesktop
         />
+        {/* <StyledHr width="100%" />
+        <h3>Carried Out By</h3> */}
         <LinkContainer
-          label="Carried Out By"
+          // label="Carried Out By"
           content={agents}
           itemSpacing="single"
           expandColumns
           id="event-agent-link-container"
         />
+        <StyledHr width="100%" />
+        <h3>Dates of Event</h3>
         {dates.length > 0 && (
           <StyledDataRow className="row" data-testid="event-date-container">
             <TextLabel label="Dates" className="col-12" />
@@ -72,23 +79,31 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
             </ExpandableList>
           </StyledDataRow>
         )}
+        {/* <StyledHr width="100%" />
+        <h3>Location of Event</h3> */}
         <LinkContainer
-          label="Took Place At"
+          // label="Took Place At"
           content={locations}
           itemSpacing="single"
           expandColumns
           id="event-location-link-container"
         />
+        <StyledHr width="100%" />
+        <h3>Categorized As</h3>
         <LinkContainer
-          label="Categorized As"
+          // label="Categorized As"
           content={types}
           itemSpacing="single"
           expandColumns
           id="event-types-link-container"
         />
+        {/* <StyledHr width="100%" />
+        <h3>Identifiers</h3> */}
         {identifiers.length > 0 && (
           <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
         )}
+        {/* <StyledHr width="100%" />
+        <h3>Web Pages</h3> */}
         {webPages.length > 0 && (
           <TextContainer label="Web Pages">
             <TextValue
@@ -127,6 +142,8 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
               </div>
             )),
           )}
+        {/* <StyledHr width="100%" />
+        <h3>Notes</h3> */}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
     </React.Fragment>

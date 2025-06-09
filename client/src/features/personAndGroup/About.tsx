@@ -12,6 +12,7 @@ import TextLabel from '../common/TextLabel'
 import ExpandableList from '../common/ExpandableList'
 import StyledDataRow from '../../styles/shared/DataRow'
 import ClassContainer from '../common/ClassContainer'
+import StyledHr from '../../styles/shared/Hr'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -54,16 +55,22 @@ const About: React.FC<IProps> = ({ data }) => {
 
   return (
     <React.Fragment>
+      <h2>About Yale University</h2>
       <dl className="about-person-and-group">
+        <h3>Names</h3>
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
+        <StyledHr width="100%" />
+        <h3>Person or Group Class</h3>
         <ClassContainer
           label="Person or Group Class"
           entityClass={entityClass}
           className="personOrGroupClassHr"
           hideBreaklineOnDesktop
         />
+        <StyledHr width="100%" />
+        <h3>Background</h3>
         <Dates
           date={birthDate}
           place={birthPlace}
@@ -137,6 +144,8 @@ const About: React.FC<IProps> = ({ data }) => {
         {professionalActivity.length > 0 && (
           <Activity data={professionalActivity} />
         )}
+        <StyledHr width="100%" />
+        <h3>Web Pages</h3>
         {webPages.length > 0 && (
           <StyledDataRow className="row">
             <TextLabel label="Web Pages" className="col-md-12" />
@@ -154,6 +163,8 @@ const About: React.FC<IProps> = ({ data }) => {
             </ExpandableList>
           </StyledDataRow>
         )}
+        <StyledHr width="100%" />
+        <h3>Notes</h3>
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
     </React.Fragment>
