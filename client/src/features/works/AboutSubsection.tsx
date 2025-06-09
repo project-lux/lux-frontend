@@ -37,7 +37,7 @@ const AboutSubsection: React.FC<ILinkData> = ({
       <React.Fragment>
         {c.map((link, ind: number) => (
           <React.Fragment>
-            <RecordLink url={link} /> {ind !== c.length - 1 ? ' - ' : ''}
+            <RecordLink url={link} /> {ind !== c.length - 1 ? ' -- ' : ''}
           </React.Fragment>
         ))}
       </React.Fragment>
