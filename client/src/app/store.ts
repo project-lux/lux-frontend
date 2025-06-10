@@ -10,7 +10,6 @@ import currentSearchReducer from '../redux/slices/currentSearchSlice'
 import { configApi } from '../redux/api/configApi'
 import { cmsApi } from '../redux/api/cmsApi'
 import { mlApi } from '../redux/api/ml_api'
-import { mlFacetsApi } from '../redux/api/ml_facets_api'
 
 export const store = configureStore({
   reducer: {
@@ -23,13 +22,11 @@ export const store = configureStore({
     [configApi.reducerPath]: configApi.reducer,
     [cmsApi.reducerPath]: cmsApi.reducer,
     [mlApi.reducerPath]: mlApi.reducer,
-    [mlFacetsApi.reducerPath]: mlFacetsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(configApi.middleware)
       .concat(mlApi.middleware)
-      .concat(mlFacetsApi.middleware)
       .concat(cmsApi.middleware),
 })
 

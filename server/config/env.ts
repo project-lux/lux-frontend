@@ -23,7 +23,6 @@ export const port = getInt(process.env.APP_PORT) || 8088
 export const numInstances = getInt(process.env.NUM_INSTANCES) || -1
 
 export const dataApiBaseUrl = getString(process.env.DATA_API_BASE_URL)
-export const facetsApiBaseUrl = getString(process.env.FACETS_API_BASE_URL)
 export const cmsApiBaseUrl = getString(process.env.CMS_API_BASE_URL)
 export const wikidataImagePathname = getString(
   process.env.WIKIDATA_IMAGE_PATHNAME,

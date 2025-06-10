@@ -14,7 +14,6 @@ if (cluster.isMaster) {
   log.info(`numCores: ${numCores}`)
   log.info(`numInstances: ${numInstances}`)
   log.info(`dataApiUrl: ${env.dataApiBaseUrl}`)
-  log.info(`facetsApiUrl: ${env.facetsApiBaseUrl}`)
   log.info(`cmsApiUrl: ${env.cmsApiBaseUrl}`)
 }
 

@@ -49,6 +49,35 @@ export const mlApi: any = createApi({
         }
       },
     }),
+    getFacetsSearch: builder.query<
+      ISearchResults | ISearchResultsError,
+      ISearchParams
+    >({
+      query: (searchParams) => {
+        const { q, facetNames, tab, page } = searchParams
+        const urlParams = new URLSearchParams()
+
+        urlParams.set('q', q)
+
+        let scope = ''
+        if (tab !== undefined) {
+          scope = searchScope[tab]
+        }
+        if (facetNames !== undefined) {
+          urlParams.set('name', facetNames)
+          if (facetNames.includes('Date')) {
+            urlParams.set('sort', 'asc')
+          }
+        }
+        if (page !== undefined) {
+          urlParams.set('page', page !== 0 ? page.toString() : '1')
+        }
+        return {
+          url: `api/facets/${scope}?${urlParams.toString()}`,
+          method: 'GET',
+        }
+      },
+    }),
     getItem: builder.query<any, IItemParams>({
       query: (itemUri) => {
         const { uri, profile } = itemUri
@@ -191,16 +220,17 @@ export const mlApi: any = createApi({
 })
 
 export const {
+  useGetAdvancedSearchConfigQuery,
+  useGetAncestorsQuery,
+  useGetCollectionQuery,
+  useGetEstimatesQuery,
+  useGetFacetsSearchQuery,
   useGetItemQuery,
   useGetItemsQuery,
   useGetNameQuery,
-  useGetSearchRelationshipQuery,
-  useGetTimelineQuery,
-  useGetCollectionQuery,
-  useGetAdvancedSearchConfigQuery,
-  useGetStatsQuery,
-  useSearchQuery,
   useGetRelatedListsQuery,
-  useGetEstimatesQuery,
-  useGetAncestorsQuery,
+  useGetSearchRelationshipQuery,
+  useGetStatsQuery,
+  useGetTimelineQuery,
+  useSearchQuery,
 } = mlApi
