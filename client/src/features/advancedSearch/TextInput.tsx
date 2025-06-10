@@ -5,7 +5,7 @@ import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { useGetNameQuery } from '../../redux/api/ml_api'
-// import { addTextValue } from '../../redux/slices/advancedSearchSlice'
+import { addTextValue } from '../../redux/slices/advancedSearchSlice'
 import { StyledInput } from '../../styles/features/advancedSearch/Input'
 import {
   addHoverHelpText,
@@ -44,7 +44,7 @@ const TextInput: React.FC<IInputType> = ({
   const [inputValue, setInputValue] = useState<string>(currentValue)
   const handleOnChange = (userInput: string): void => {
     setInputValue(userInput)
-    // dispatch(addTextValue({ field, value: userInput, stateId, scope }))
+    dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
   const handleOnSelect = (): void => {

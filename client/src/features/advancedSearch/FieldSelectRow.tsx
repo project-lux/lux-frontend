@@ -10,9 +10,10 @@ import { getSingleFieldDropdownOptions } from '../../lib/advancedSearch/stateMan
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
 import StyledInputGroupDiv from '../../styles/features/advancedSearch/FormRow'
 
-import AdvancedSearchDropdown from './Dropdown'
+import Select from './Select'
 import RemoveButton from './RemoveButton'
 import TextInput from './TextInput'
+// import AdvancedSearchDropdown from './Dropdown'
 
 interface IFieldSelectRow {
   stateId: string
@@ -65,6 +66,8 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
     return false
   }
 
+  const singleFieldOptions = getSingleFieldDropdownOptions(scope)
+
   return (
     <Col
       className="bg-white"
@@ -81,7 +84,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
         <StyledInputGroupDiv className="px-0 d-flex align-content-start flex-nowrap">
           <span className="w-100 d-flex py-2 ps-2">
             <Form.Control
-              as={AdvancedSearchDropdown}
+              as={Select}
               dropdownType="multipleFieldSelection"
               options={conditionals}
               handleChange={addOption}
@@ -99,9 +102,9 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
               </Form.Text>
             </div>
             <Form.Control
-              as={AdvancedSearchDropdown}
+              as={Select}
               dropdownType="singleFieldSelection"
-              options={getSingleFieldDropdownOptions(scope)}
+              options={singleFieldOptions}
               handleChange={addOption}
               className="singleFieldSelection"
               dropdownHeaderText="Have a single field"

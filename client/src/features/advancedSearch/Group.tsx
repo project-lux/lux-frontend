@@ -23,10 +23,12 @@ import {
 
 import AddButton from './AddButton'
 import CollapseContainer from './CollapseContainer'
-import AdvancedSearchDropdown from './Dropdown'
+// import Select from './Select'
 import AdvancedSearchForm from './Form'
 import OptionsButton, { GROUP_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
+// import AdvancedSearchDropdown from './Dropdown'
+import Select from './Select'
 // import Connector from './Connector'
 
 interface IProps {
@@ -136,7 +138,7 @@ const Group: React.FC<IGroup> = ({
               {selectedKey}
             </Form.Label>
             <Form.Control
-              as={AdvancedSearchDropdown}
+              as={Select}
               dropdownType="multipleFieldSelection"
               options={conditionals}
               handleChange={addOption}
