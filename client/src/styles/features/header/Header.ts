@@ -36,6 +36,15 @@ const Header = styled.div`
   #nav-links a {
     color: ${theme.color.white};
     font-weight: ${theme.font.weight.medium};
+
+    &.navDropdownItem {
+      color: ${theme.color.trueBlack};
+
+      &:active {
+        color: ${theme.color.white};
+        background-color: ${theme.color.primary.blue};
+      }
+    }
   }
 
   .navbar-dark .navbar-toggler {
