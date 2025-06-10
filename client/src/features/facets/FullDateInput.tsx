@@ -13,7 +13,7 @@ import { searchScope } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { IFacetsPagination } from '../../types/IFacets'
-import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
+import { useGetFacetsSearchQuery } from '../../redux/api/ml_api'
 import {
   getDatesFromFacetValues,
   getDefaultDate,

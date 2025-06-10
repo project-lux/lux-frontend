@@ -18,6 +18,7 @@ All notable changes to this project will be documented in this file.
 - Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Removed
+- Removed the secondary (front2) URL ([635](https://github.com/project-lux/lux-frontend/issues/635)).
 
 ### Fixed
 

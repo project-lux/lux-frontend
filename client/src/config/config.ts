@@ -26,7 +26,6 @@ class Config {
   constructor() {
     this.env = {
       dataApiBaseUrl: localEnv.dataApiBaseUrl,
-      facetsApiBaseUrl: localEnv.facetsApiBaseUrl,
       cmsApiBaseUrl: localEnv.cmsApiBaseUrl,
       maintenanceMode: localEnv.maintenanceMode,
       maintenanceMessage: localEnv.maintenanceMessage,
@@ -49,7 +48,6 @@ class Config {
   setServerConfig(data: IServerConfig): void {
     this.env = {
       dataApiBaseUrl: data.dataApiBaseUrl,
-      facetsApiBaseUrl: data.facetsApiBaseUrl,
       cmsApiBaseUrl: data.cmsApiBaseUrl,
       maintenanceMode: data.maintenanceMode,
       maintenanceMessage: data.maintenanceMessage,
@@ -93,7 +91,6 @@ class Config {
 const config = new Config()
 
 export const getDataApiBaseUrl = (): string => config.env.dataApiBaseUrl
-export const getFacetsApiBaseUrl = (): string => config.env.facetsApiBaseUrl
 export const getCmsApiBaseUrl = (): string => config.env.cmsApiBaseUrl
 export const getOidcAuthority = (): string => config.env.oidcAuthority
 export const getOidcClientId = (): string => config.env.oidcClientId
