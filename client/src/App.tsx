@@ -31,13 +31,6 @@ const App: React.FC = () => {
   const [asConfigLoaded, setAsConfigLoaded] = useState(false)
   const envResult = useGetEnvQuery()
 
-  const onSignIn = (): void => {
-    const url = new URL(window.location.href)
-    url.searchParams.delete('code')
-    url.searchParams.delete('state')
-    window.history.replaceState({}, '', url.toString())
-  }
-
   // Skip will be passed to config query endpoints if local env exists or if it hasn't loaded
   const skip =
     envLoaded || (envResult.isError && config.hasLocalEnv)
