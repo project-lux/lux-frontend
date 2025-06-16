@@ -14,6 +14,7 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 
 import ProductionSnippet from './ProductionSnippet'
+import SnippetHeader from './SnippetHeader'
 
 interface ISearchData {
   uri: string
@@ -37,67 +38,59 @@ const WorksSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const images = work.getImages()
     const identifiers = work.getIdentifiers()
 
+    const snippetDataComponent = (
+      <React.Fragment>
+        <ProductionSnippet agents={agents} date={date} label="Creator" />
+        {types.length > 0 && <TypeList types={types} />}
+        {imprint.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Imprint</StyledDt>
+              <StyledDd data-testid="work-snippet-imprint-statement">
+                {imprint[0]}
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+        {languages.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Languages</StyledDt>
+              <StyledDd data-testid="work-snippet-language">
+                <RecordLink url={languages[0]} linkCategory="Results Snippet" />
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+        {languageNotes.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Related Languages</StyledDt>
+              <StyledDd data-testid="work-snippet-language-notes">
+                {languageNotes[0]}
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+        {identifiers.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Identifiers</StyledDt>
+              <StyledDd data-testid="work-snippet-identifiers">
+                {identifiers[0].identifier}
+                {identifiers.length > 1 && '...'}
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+      </React.Fragment>
+    )
+
     if (view === 'list') {
       return (
         <React.Fragment>
-          <div className="m-2 d-flex" data-testid="work-snippet-list-view">
-            <div className="flex-shrink-0">
-              <PreviewImageOrIcon images={images} entity={data} />
-            </div>
-            <div className="flex-grow-1 ms-3">
-              <StyledSnippetTitle
-                className="d-flex"
-                data-testid="work-results-snippet-title"
-              >
-                <RecordLink url={data.id} linkCategory="Results Snippet" />
-              </StyledSnippetTitle>
-              <ProductionSnippet agents={agents} date={date} label="Creator" />
-              {types.length > 0 && <TypeList types={types} />}
-              {imprint.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Imprint</StyledDt>
-                    <StyledDd data-testid="work-snippet-imprint-statement">
-                      {imprint[0]}
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              {languages.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Languages</StyledDt>
-                    <StyledDd data-testid="work-snippet-language">
-                      <RecordLink
-                        url={languages[0]}
-                        linkCategory="Results Snippet"
-                      />
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              {languageNotes.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Related Languages</StyledDt>
-                    <StyledDd data-testid="work-snippet-language-notes">
-                      {languageNotes[0]}
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              {identifiers.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Identifiers</StyledDt>
-                    <StyledDd data-testid="work-snippet-identifiers">
-                      {identifiers[0].identifier}
-                      {identifiers.length > 1 && '...'}
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-            </div>
+          <div className="m-2 d-flex">
+            <SnippetHeader data={data} snippetData={snippetDataComponent} />
           </div>
           <StyledHr width="100%" className="workSnippetHr" />
         </React.Fragment>
