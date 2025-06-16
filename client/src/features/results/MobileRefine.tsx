@@ -59,7 +59,10 @@ const MobileRefine: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      <SecondaryButton onClick={() => handleShow(!fullscreen)}>
+      <SecondaryButton
+        onClick={() => handleShow(!fullscreen)}
+        className="w-100"
+      >
         <i className="bi bi-funnel" />
         Sort & Refine
       </SecondaryButton>
