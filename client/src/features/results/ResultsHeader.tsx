@@ -17,8 +17,10 @@ import { ResultsTab } from '../../types/ResultsTab'
 import LuxOverlay from '../common/LuxOverlay'
 import MobileSelectedFacets from '../facets/MobileSelectedFacets'
 import { searchScope } from '../../config/searchTypes'
-import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
+import CreateCollectionButton from '../myCollections/CreateCollectionButton'
+import AddToCollectionButton from '../myCollections/AddToCollectionButton'
+import UpdateCollectionsButton from '../myCollections/UpdateCollectionsButton'
 
 import Sort from './Sort'
 
@@ -130,11 +132,13 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     headerButtonsColXl = 5
   }
 
-  let collectionsButtonText = 'Add to My Collections'
+  let buttonToRender = (
+    <AddToCollectionButton width={width} selectAll={selectAll} />
+  )
   if (subTab === 'my-collections') {
-    collectionsButtonText = 'Create New'
+    buttonToRender = <CreateCollectionButton width={width} />
     if (selectAll) {
-      collectionsButtonText = 'Add/Delete Collections'
+      buttonToRender = <UpdateCollectionsButton width={width} />
     }
   }
 
@@ -240,20 +244,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                 lg={6}
                 className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : 'w-auto px-0'} ${justifyContent} resultsHeaderMyCollectionsOptionsCol`}
               >
-                <PrimaryButton
-                  type="button"
-                  className={`btn text-center text-nowrap rounded-3 p-2 ${width < theme.breakpoints.sm ? 'w-100 me-0' : 'me-2'} editMyCollectionsButton`}
-                  onClick={() => null}
-                  data-testid={
-                    currentView === 'list'
-                      ? 'switch-to-grid-view-button'
-                      : 'switch-to-list-view-button'
-                  }
-                  disabled={!selectAll && subTab !== 'my-collections'}
-                >
-                  <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
-                  {collectionsButtonText}
-                </PrimaryButton>
+                {buttonToRender}
                 <span className="d-flex align-items-center">
                   <input
                     className="form-check-input d-inline mt-0 selectAllResultsCheckbox"

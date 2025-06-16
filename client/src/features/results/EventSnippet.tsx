@@ -3,7 +3,6 @@ import { Col, Row } from 'react-bootstrap'
 
 import EventParser from '../../lib/parse/data/EventParser'
 import StyledHr from '../../styles/shared/Hr'
-import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import StyledDl from '../../styles/shared/DescriptionList'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledDd from '../../styles/shared/DescriptionDetail'
@@ -11,7 +10,8 @@ import RecordLink from '../common/RecordLink'
 import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
-import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+
+import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
@@ -30,59 +30,44 @@ const EventSnippet: React.FC<IProps> = ({ uri }) => {
     const locations = event.getLocations()
     const types = event.getTypes()
 
+    const snippetDataComponent = (
+      <StyledDl>
+        {types.length > 0 && <TypeList types={types} />}
+        {agents.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Carried Out By</StyledDt>
+              <StyledDd data-testid="event-snippet-carried-out-by">
+                <RecordLink url={agents[0].id} linkCategory="Results Snippet" />
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+        {dates.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Dates</StyledDt>
+              <StyledDd data-testid="event-snippet-dates">{dates[0]}</StyledDd>
+            </Col>
+          </Row>
+        )}
+        {locations.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Took Place At</StyledDt>
+              <StyledDd data-testid="event-snippet-took-place-at">
+                <RecordLink url={locations[0]} linkCategory="Results Snippet" />
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+      </StyledDl>
+    )
+
     return (
       <React.Fragment>
         <div className="m-2 d-flex">
-          <div className="flex-shrink-0">
-            <PreviewImageOrIcon images={[]} entity={data} />
-          </div>
-          <div className="flex-grow-1 ms-3">
-            <StyledSnippetTitle
-              className="d-flex"
-              data-testid="event-results-snippet-title"
-            >
-              <RecordLink url={data.id} linkCategory="Results Snippet" />
-            </StyledSnippetTitle>
-            <StyledDl>
-              {types.length > 0 && <TypeList types={types} />}
-              {agents.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Carried Out By</StyledDt>
-                    <StyledDd data-testid="event-snippet-carried-out-by">
-                      <RecordLink
-                        url={agents[0].id}
-                        linkCategory="Results Snippet"
-                      />
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              {dates.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Dates</StyledDt>
-                    <StyledDd data-testid="event-snippet-dates">
-                      {dates[0]}
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              {locations.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Took Place At</StyledDt>
-                    <StyledDd data-testid="event-snippet-took-place-at">
-                      <RecordLink
-                        url={locations[0]}
-                        linkCategory="Results Snippet"
-                      />
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-            </StyledDl>
-          </div>
+          <SnippetHeader data={data} snippetData={snippetDataComponent} />
         </div>
         <StyledHr width="100%" className="eventSnippetHr" />
       </React.Fragment>

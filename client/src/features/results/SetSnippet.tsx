@@ -17,6 +17,7 @@ import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { getNextSetUris } from '../../lib/util/hierarchyHelpers'
 
 import ProductionSnippet from './ProductionSnippet'
+import SnippetHeader from './SnippetHeader'
 
 interface ISearchData {
   uri: string
@@ -39,48 +40,45 @@ const SetSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const images = set.getImages()
     const identifiers = set.getIdentifiers()
 
+    const snippetDataComponent = (
+      <React.Fragment>
+        <StyledDl>
+          <ProductionSnippet agents={agents} date={date} label="Creator" />
+          {!isNull(publicationAgent) && (
+            <ProductionSnippet
+              agents={[publicationAgent]}
+              date={publicationDate}
+              label="Publisher"
+            />
+          )}
+          {types.length > 0 && <TypeList types={types} />}
+          {identifiers.length > 0 && (
+            <Row>
+              <Col>
+                <StyledDt>Identifiers</StyledDt>
+                <StyledDd data-testid="set-snippet-identifiers">
+                  {identifiers[0].identifier}
+                  {identifiers.length > 1 && '...'}
+                </StyledDd>
+              </Col>
+            </Row>
+          )}
+        </StyledDl>
+        <GenericBreadcrumbHierarchy
+          key={set.json.id}
+          entity={data}
+          id="set-snippet"
+          getNextEntityUri={getNextSetUris}
+          maxLength={10}
+        />
+      </React.Fragment>
+    )
+
     if (view === 'list') {
       return (
         <React.Fragment>
-          <div className="m-2 d-flex" data-testid="set-snippet-list-view">
-            <div className="flex-shrink-0">
-              <PreviewImageOrIcon images={images} entity={data} />
-            </div>
-            <div className="flex-grow-1 ms-3">
-              <StyledSnippetTitle
-                className="d-flex"
-                data-testid="set-results-snippet-title"
-              >
-                <RecordLink url={data.id} linkCategory="Results Snippet" />
-              </StyledSnippetTitle>
-              <ProductionSnippet agents={agents} date={date} label="Creator" />
-              {!isNull(publicationAgent) && (
-                <ProductionSnippet
-                  agents={[publicationAgent]}
-                  date={publicationDate}
-                  label="Publisher"
-                />
-              )}
-              {types.length > 0 && <TypeList types={types} />}
-              {identifiers.length > 0 && (
-                <Row>
-                  <Col>
-                    <StyledDt>Identifiers</StyledDt>
-                    <StyledDd data-testid="set-snippet-identifiers">
-                      {identifiers[0].identifier}
-                      {identifiers.length > 1 && '...'}
-                    </StyledDd>
-                  </Col>
-                </Row>
-              )}
-              <GenericBreadcrumbHierarchy
-                key={set.json.id}
-                entity={data}
-                id="set-snippet"
-                getNextEntityUri={getNextSetUris}
-                maxLength={10}
-              />
-            </div>
+          <div className="m-2 d-flex">
+            <SnippetHeader data={data} snippetData={snippetDataComponent} />
           </div>
           <StyledHr width="100%" className="workSnippetHr" />
         </React.Fragment>
