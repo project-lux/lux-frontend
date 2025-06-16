@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.53.0 - Unreleased
+
+### Added
+
+- Added code for MyCollections, plus feature flag ([#683](https://github.com/project-lux/lux-frontend/issues/683)).
+- Added support for jumping to the page with the current entity in hierarchies ([#367](https://github.com/project-lux/lux-frontend/issues/367)).
+- Added Collections About in the timeline config for Places and Events ([#681](https://github.com/project-lux/lux-frontend/issues/681)).
+- Added About header to the about section on People and Group pages ([#666](https://github.com/project-lux/lux-frontend/issues/666)).
+- Added two dashes between each list item within the about subsection ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
+
+### Changed
+- Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
+
+- Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
+
+### Removed
+- Removed the secondary (front2) URL ([635](https://github.com/project-lux/lux-frontend/issues/635)).
+
+### Fixed
+
 ## v1.52.1 - 2025-6-4
 
 ### Fixed

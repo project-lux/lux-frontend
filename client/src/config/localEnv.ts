@@ -20,9 +20,6 @@ function getString(s: string | undefined): string {
 }
 
 export const dataApiBaseUrl = getString(import.meta.env.REACT_APP_API_BASE_URL)
-export const facetsApiBaseUrl = getString(
-  import.meta.env.REACT_APP_FACETS_API_BASE_URL,
-)
 export const cmsApiBaseUrl = getString(
   import.meta.env.REACT_APP_CMS_API_BASE_URL,
 )
@@ -47,4 +44,16 @@ export const luxFeedbackUrl = getString(
 )
 export const bugherdApiKey = getString(
   import.meta.env.REACT_APP_BUGHERD_API_KEY,
+)
+export const oidcAuthority = getString(import.meta.env.REACT_APP_OIDC_AUTHORITY)
+export const oidcClientId = getString(import.meta.env.REACT_APP_OIDC_CLIENT_ID)
+export const oidcRedirectUri = getString(
+  import.meta.env.REACT_APP_OIDC_REDIRECT_URI,
+)
+export const myCollectionsUri = getString(
+  import.meta.env.REACT_APP_MY_COLLECTIONS_URI,
+)
+
+export const featureMyCollections = getBoolean(
+  import.meta.env.REACT_APP_FEATURE_MY_COLLECTIONS,
 )

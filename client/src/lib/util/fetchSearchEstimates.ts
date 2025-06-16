@@ -1,12 +1,14 @@
 import config from '../../config/config'
 import { searchScope } from '../../config/searchTypes'
 
+import { fetchWithToken } from './fetchWithToken'
+
 export const fetchSearchEstimates = async (
   params: string,
   tab: string,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): Promise<any> =>
-  fetch(
+  fetchWithToken(
     `${config.env.dataApiBaseUrl}api/search-estimate/${searchScope[tab]}?${params}`,
   )
     .then((response) =>

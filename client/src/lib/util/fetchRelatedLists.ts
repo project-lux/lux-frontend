@@ -1,3 +1,5 @@
+import { fetchWithToken } from './fetchWithToken'
+
 interface IRelationshipParameters {
   halLink: string
   page: number
@@ -14,7 +16,7 @@ export function fetchRelatedLists({
   onLoading,
 }: IRelationshipParameters): void {
   onLoading()
-  fetch(`${halLink}&page=${page}`)
+  fetchWithToken(`${halLink}&page=${page}`)
     .then((response) => {
       if (response.ok) {
         response.text().then((data) => {

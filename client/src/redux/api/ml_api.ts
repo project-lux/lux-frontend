@@ -12,10 +12,10 @@ import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/fetchTimeline'
-// import { fetchHalLinkSearchRequest } from '../../lib/util/fetchRelationships'
 import { getCollections } from '../../lib/util/collectionHelper'
 import { getItems } from '../../lib/util/fetchItems'
 import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
+import { getAncestors } from '../../lib/util/fetchArchiveAncestors'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -49,6 +49,35 @@ export const mlApi: any = createApi({
         }
       },
     }),
+    getFacetsSearch: builder.query<
+      ISearchResults | ISearchResultsError,
+      ISearchParams
+    >({
+      query: (searchParams) => {
+        const { q, facetNames, tab, page } = searchParams
+        const urlParams = new URLSearchParams()
+
+        urlParams.set('q', q)
+
+        let scope = ''
+        if (tab !== undefined) {
+          scope = searchScope[tab]
+        }
+        if (facetNames !== undefined) {
+          urlParams.set('name', facetNames)
+          if (facetNames.includes('Date')) {
+            urlParams.set('sort', 'asc')
+          }
+        }
+        if (page !== undefined) {
+          urlParams.set('page', page !== 0 ? page.toString() : '1')
+        }
+        return {
+          url: `api/facets/${scope}?${urlParams.toString()}`,
+          method: 'GET',
+        }
+      },
+    }),
     getItem: builder.query<any, IItemParams>({
       query: (itemUri) => {
         const { uri, profile } = itemUri
@@ -62,9 +91,9 @@ export const mlApi: any = createApi({
         }
       },
     }),
-    getItems: builder.query<any, Array<string>>({
-      queryFn(uris) {
-        return getItems(uris)
+    getItems: builder.query<any, { uris: Array<string>; profile?: string }>({
+      queryFn({ uris, profile }) {
+        return getItems(uris, profile)
       },
     }),
     getName: builder.query<IEntity, IItemParams>({
@@ -168,19 +197,40 @@ export const mlApi: any = createApi({
         )
       },
     }),
+    getAncestors: builder.query<
+      any,
+      {
+        entities: Array<{
+          entity: IEntity
+          currentPageWithinParentResultsHalLink: null | string
+        }>
+      }
+    >({
+      queryFn: async ({ entities }) => {
+        try {
+          const ancestors = await getAncestors(entities)
+          return { data: ancestors }
+        } catch (error) {
+          // Catch any errors and return them as an object with an `error` field
+          return { error }
+        }
+      },
+    }),
   }),
 })
 
 export const {
+  useGetAdvancedSearchConfigQuery,
+  useGetAncestorsQuery,
+  useGetCollectionQuery,
+  useGetEstimatesQuery,
+  useGetFacetsSearchQuery,
   useGetItemQuery,
   useGetItemsQuery,
   useGetNameQuery,
-  useGetSearchRelationshipQuery,
-  useGetTimelineQuery,
-  useGetCollectionQuery,
-  useGetAdvancedSearchConfigQuery,
-  useGetStatsQuery,
-  useSearchQuery,
   useGetRelatedListsQuery,
-  useGetEstimatesQuery,
+  useGetSearchRelationshipQuery,
+  useGetStatsQuery,
+  useGetTimelineQuery,
+  useSearchQuery,
 } = mlApi

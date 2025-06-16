@@ -10,7 +10,6 @@ import config from '../../../config/config'
 
 export default function placeResultsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
-  const facetsApiUrl = config.env.facetsApiBaseUrl || ''
   const mockEventUri = 'data/activity/mock-event'
 
   // Mock place search with the query "andy warhol"
@@ -25,7 +24,7 @@ export default function placeResultsMockApi(): void {
 
   // Mock the facets requests and return since they are not being tested with this mock api
   for (const facet of facetNamesLists.events) {
-    nock(facetsApiUrl)
+    nock(apiUrl)
       .get(
         `/api/facets/event?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}&page=1`,
       )

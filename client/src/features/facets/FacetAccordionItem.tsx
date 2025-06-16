@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppSelector } from '../../app/hooks'
 import { booleanFacetNames, facetLabels } from '../../config/facets'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { useGetFacetsSearchQuery } from '../../redux/api/ml_facets_api'
+import { useGetFacetsSearchQuery } from '../../redux/api/ml_api'
 import { IFacetsSelected } from '../../redux/slices/facetsSlice'
 import {
   ICriteria,

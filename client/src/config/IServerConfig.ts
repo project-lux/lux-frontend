@@ -1,6 +1,5 @@
 export interface IServerConfig {
   dataApiBaseUrl: string
-  facetsApiBaseUrl: string
   cmsApiBaseUrl: string
   maintenanceMode: boolean
   maintenanceMessage: string
@@ -10,4 +9,8 @@ export interface IServerConfig {
   luxWikidataManifestPrefix: string
   luxFeedbackUrl: string
   bugherdApiKey: string
+  oidcAuthority: string
+  oidcClientId: string
+  oidcRedirectUri: string
+  featureMyCollections: boolean
 }

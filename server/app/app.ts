@@ -43,7 +43,6 @@ class App {
     exp.get('/env', (req: express.Request, res: express.Response) => {
       res.json({
         dataApiBaseUrl: env.dataApiBaseUrl,
-        facetsApiBaseUrl: env.facetsApiBaseUrl,
         cmsApiBaseUrl: env.cmsApiBaseUrl,
         wikidataImagePathname: env.wikidataImagePathname,
         luxWikidataManifestPrefix: env.luxWikidataManifestPrefix,
@@ -53,6 +52,10 @@ class App {
         maintenanceMessage: env.maintenanceMessage,
         cacheViewerMode: env.cacheViewerMode,
         bugherdApiKey: env.bugherdApiKey,
+        oidcAuthority: env.oidcAuthority,
+        oidcClientId: env.oidcClientId,
+        oidcRedirectUri: env.oidcRedirectUri,
+        featureMyCollections: env.featureMyCollections,
       })
     })
 
