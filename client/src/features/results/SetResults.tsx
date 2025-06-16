@@ -17,13 +17,19 @@ import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
 import NoResultsAlert from './NoResultsAlert'
 import SetSnippet from './SetSnippet'
+import MyCollectionsNavBar from './MyCollectionsNavBar'
 
 interface IProps {
   searchResponse: ISearchResponse
   isMobile: boolean
+  nestedPage?: string
 }
 
-const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
+const SetResults: React.FC<IProps> = ({
+  searchResponse,
+  isMobile,
+  nestedPage,
+}) => {
   // Parse URL search params
   const { search } = useLocation()
   const queryString = new URLSearchParams(search)
@@ -63,7 +69,11 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   }
 
   return (
-    <StyledEntityResultsRow>
+    <StyledEntityResultsRow className="collectionsResultsPage">
+      <MyCollectionsNavBar
+        searchQueryString={search}
+        nestedPage={nestedPage as string}
+      />
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader

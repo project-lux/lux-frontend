@@ -9,5 +9,9 @@ const EntityResultsRow = styled(Row)`
   @media (min-width: ${theme.breakpoints.md}px) {
     padding: 1.5rem;
   }
+
+  &.collectionsResultsPage {
+    padding-top: 0px;
+  }
 `
 export default EntityResultsRow

@@ -25,6 +25,12 @@ const PrimaryButton = styled(Button)`
     color: ${theme.color.white};
   }
 
+  &.btn:active {
+    background-color: ${theme.color.primary.teal};
+    border-color: ${theme.color.primary.teal};
+    color: ${theme.color.white};
+  }
+
   &.feedbackButton {
     font-size: 1.25rem;
   }

@@ -147,7 +147,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 <React.Fragment>
                   <NavLink
                     // TODO: change to correspond with the correct results page
-                    to="/view/results/collections?q="
+                    to="/view/results/collections/my-collections"
                     className="nav-link"
                   >
                     My Collections
