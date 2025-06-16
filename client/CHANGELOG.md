@@ -55,6 +55,7 @@ All notable changes to this project will be documented in this file.
 - Added About header to the about section on People and Group pages ([#666](https://github.com/project-lux/lux-frontend/issues/666)).
 - Added two dashes between each list item within the about subsection ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 - Added the My Collections header buttons and styling ([#640](https://github.com/project-lux/lux-frontend/issues/640)).
+- Added the My Collections results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
 
 ### Changed
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).

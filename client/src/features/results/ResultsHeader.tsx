@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
-import { Button, ButtonGroup, Col, Row } from 'react-bootstrap'
+import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
+import { useAuth } from 'react-oidc-context'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -16,14 +17,17 @@ import { ResultsTab } from '../../types/ResultsTab'
 import LuxOverlay from '../common/LuxOverlay'
 import MobileSelectedFacets from '../facets/MobileSelectedFacets'
 import { searchScope } from '../../config/searchTypes'
+import PrimaryButton from '../../styles/shared/PrimaryButton'
+import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 
 import Sort from './Sort'
 
 const StyledCol = styled(Col)`
   margin-bottom: 12px;
   margin-top: 12px;
+  justify-content: flex-start;
 
-  @media (min-width: ${theme.breakpoints.md}px) {
+  @media (min-width: ${theme.breakpoints.lg}px) {
     justify-content: flex-end;
     text-align: right;
     margin-top: 0px;
@@ -52,9 +56,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   overlay,
   toggleView = false,
 }) => {
+  const auth = useAuth()
+  console.log(auth)
+  const userIsAuthenticate = true
+  // const userIsAuthenticate = auth.isAuthenticated
+  const [selectAll, setSelectAll] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  const { width } = useWindowWidth()
 
   useResizeableWindow(setIsMobile)
 
@@ -71,7 +81,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     pathname: string
     search: string
   }
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const queryString = new URLSearchParams(search)
 
@@ -103,12 +113,42 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     })
   }
 
+  let headerButtonsColWidth = 6
+  let descriptiveTextColMd = 12
+  let descriptiveTextColLg = 3
+  let descriptiveTextColXl = 4
+  let headerButtonsColMd = 12
+  let headerButtonsColLg = 9
+  let headerButtonsColXl = 8
+  if (!userIsAuthenticate) {
+    headerButtonsColWidth = 12
+    descriptiveTextColMd = 7
+    descriptiveTextColLg = 7
+    descriptiveTextColXl = 7
+    headerButtonsColMd = 5
+    headerButtonsColLg = 5
+    headerButtonsColXl = 5
+  }
+
+  let collectionsButtonText = 'Add to My Collections'
+  if (subTab === 'my-collections') {
+    collectionsButtonText = 'Create New'
+    if (selectAll) {
+      collectionsButtonText = 'Add/Delete Collections'
+    }
+  }
+
+  const justifyContent =
+    width < theme.breakpoints.lg
+      ? 'justify-content-start'
+      : 'justify-content-end'
+
   return (
     <React.Fragment>
-      <Row>
-        <Col>
+      <Row className="resultsHeaderTitleRow">
+        <Col className="resultsHeaderTitleCol">
           <StyledResultsHeader
-            className="mb-0"
+            className="mb-0 resultsHeaderTitle"
             data-testid="results-header-title"
           >
             <StyledDiv>
@@ -118,8 +158,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           </StyledResultsHeader>
         </Col>
       </Row>
-      <Row className="px-2">
-        <Col xs={12} sm={12} md={6} lg={6} xl={6}>
+      <Row className="px-2 resultsHeaderControlsRow">
+        <Col
+          className="resultsHeaderDescriptiveTextCol"
+          xs={12}
+          sm={12}
+          md={descriptiveTextColMd}
+          lg={descriptiveTextColLg}
+          xl={descriptiveTextColXl}
+        >
           <div
             className="descriptiveText"
             dangerouslySetInnerHTML={{
@@ -131,24 +178,34 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <StyledCol
           xs={12}
           sm={12}
-          md={6}
-          lg={6}
-          xl={6}
-          className="d-flex align-items-end"
+          md={headerButtonsColMd}
+          lg={headerButtonsColLg}
+          xl={headerButtonsColXl}
+          className="d-flex align-items-end resultsHeaderOptionsCol"
           data-testid="results-header-options"
         >
-          <ButtonGroup>
-            <div className="d-flex">
-              <div className="flex-shrink-0">
+          <Row
+            className={`w-100 d-flex ${justifyContent} resultsHeaderOptionsRow`}
+          >
+            <Col
+              xs={12}
+              sm={12}
+              md={6}
+              lg={headerButtonsColWidth}
+              className={`d-flex ${width < theme.breakpoints.sm ? 'w-100' : 'w-auto'} ${justifyContent} resultsHeaderSortingCol`}
+            >
+              <div
+                className={`d-flex toggleViewButtonDiv ${isMobile ? 'w-100' : ''}`}
+              >
                 {toggleView && (
                   <Button
                     type="button"
-                    className="btn text-center h-100"
+                    className="btn text-center h-100 text-nowrap rounded-3 me-2 toggleViewButton w-100"
                     onClick={() =>
                       changeView(currentView === 'list' ? 'grid' : 'list')
                     }
                     style={{
-                      borderRadius: theme.border.radius,
+                      // borderRadius: theme.border.radius,
                       backgroundColor: theme.color.lightGray,
                       color: theme.color.trueBlack,
                       border: theme.color.trueBlack,
@@ -174,8 +231,47 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                 )}
               </div>
               <Sort />
-            </div>
-          </ButtonGroup>
+            </Col>
+            {userIsAuthenticate && (
+              <Col
+                xs={12}
+                sm={12}
+                md={6}
+                lg={6}
+                className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : 'w-auto px-0'} ${justifyContent} resultsHeaderMyCollectionsOptionsCol`}
+              >
+                <PrimaryButton
+                  type="button"
+                  className={`btn text-center text-nowrap rounded-3 p-2 ${width < theme.breakpoints.sm ? 'w-100 me-0' : 'me-2'} editMyCollectionsButton`}
+                  onClick={() => null}
+                  data-testid={
+                    currentView === 'list'
+                      ? 'switch-to-grid-view-button'
+                      : 'switch-to-list-view-button'
+                  }
+                  disabled={!selectAll && subTab !== 'my-collections'}
+                >
+                  <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
+                  {collectionsButtonText}
+                </PrimaryButton>
+                <span className="d-flex align-items-center">
+                  <input
+                    className="form-check-input d-inline mt-0 selectAllResultsCheckbox"
+                    type="checkbox"
+                    id="select-all-checkbox"
+                    onChange={() => setSelectAll(!selectAll)}
+                    checked={selectAll}
+                  />
+                  <label
+                    className="form-check-label ms-2"
+                    htmlFor="select-all-checkbox"
+                  >
+                    Select All
+                  </label>
+                </span>
+              </Col>
+            )}
+          </Row>
         </StyledCol>
         {isMobile && (
           <MobileSelectedFacets

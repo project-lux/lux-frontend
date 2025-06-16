@@ -98,7 +98,14 @@ const LuxRoutes: React.FC = () => {
           <Route path="/index.html" element={<Landing />} />
 
           {/* BEGIN data/search views */}
-          <Route path="/view/results/:tab" element={<ResultsPage />} />
+          {/* <Route path="/view/results/collections" element={<ResultsPage />}>
+            <Route path="all" element={<ResultsPage />} />
+            <Route path="lux-collections" element={<ResultsPage />} />
+            <Route path="my-collections" element={<ResultsPage />} />
+          </Route> */}
+          <Route path="/view/results/:tab" element={<ResultsPage />}>
+            <Route path=":subTab" element={<ResultsPage />} />
+          </Route>
           <Route path="/view/*" element={<RoutingComponent />} />
           {/* END data/search views */}
 

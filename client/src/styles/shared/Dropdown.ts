@@ -38,6 +38,10 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       display: block;
     }
   }
+
+  &.sortAscOrDesc {
+    margin: 0px;
+  }
 `
 
 export default ReactBootstrapDropdown
