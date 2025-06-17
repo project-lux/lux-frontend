@@ -65,6 +65,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             total={estimate}
             label="Places"
             overlay="places"
+            resultsData={data}
           />
         </Col>
       )}
