@@ -81,6 +81,7 @@ const SetResults: React.FC<IProps> = ({
             total={estimate}
             label="Collections"
             overlay="collections"
+            resultsData={data}
             toggleView
           />
         </Col>

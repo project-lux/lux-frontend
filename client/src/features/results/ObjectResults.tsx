@@ -74,6 +74,7 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             total={data ? estimate : 0}
             label="Objects"
             overlay="objects"
+            resultsData={data}
             toggleView
           />
         </Col>

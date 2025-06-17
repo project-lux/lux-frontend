@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import React, { ChangeEvent } from 'react'
+import { Link, useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
-import { useAuth } from 'react-oidc-context'
+// import { useAuth } from 'react-oidc-context'
+import { useDispatch } from 'react-redux'
 
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -10,6 +11,13 @@ import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import {
+  IMyCollectionsResultsState,
+  addEntity,
+  removeEntity,
+} from '../../redux/slices/myCollectionsSlice'
+import { useAppSelector } from '../../app/hooks'
+import { ResultsTab } from '../../types/ResultsTab'
 
 interface IProps {
   data: any
@@ -24,14 +32,34 @@ const SnippetHeader: React.FC<IProps> = ({
   children,
   snippetData,
 }) => {
-  const [isSelected, setIsSelected] = useState<boolean>(false)
+  const dispatch = useDispatch()
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   // TODO: switch to auth once functionality can be added
-  const auth = useAuth()
-  console.log(auth)
+  // const auth = useAuth()
+  // console.log(auth)
   const userIsAuthenticate = true
   const entity = new EntityParser(data)
   const images = entity.getImages()
   const primaryName = entity.getPrimaryName(config.aat.langen)
+  const currentEntityUuid = entity.json.id as string
+
+  const currentMyCollectionState = useAppSelector(
+    (myCollectionsState) =>
+      myCollectionsState.myCollections as IMyCollectionsResultsState,
+  )
+  // is the current entity selected
+  const isChecked = currentMyCollectionState.uuids.includes(currentEntityUuid)
+
+  // Handle the selection of the entity's checkbox
+  const handleCheckboxSelection = (e: ChangeEvent<HTMLInputElement>): void => {
+    const uuid = e.target.value
+    if (isChecked) {
+      dispatch(removeEntity({ uuid }))
+    } else {
+      // if the subTab is not undefined, set scope to the subTab, otherwise set as the current tab
+      dispatch(addEntity({ uuid, scope: subTab || tab }))
+    }
+  }
 
   return (
     <React.Fragment>
@@ -69,8 +97,11 @@ const SnippetHeader: React.FC<IProps> = ({
                 className="form-check-input d-inline mt-0 float-right selectResultCheckbox"
                 type="checkbox"
                 id="select-all-checkbox"
-                onChange={() => setIsSelected(!isSelected)}
-                checked={isSelected}
+                value={currentEntityUuid}
+                onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                  handleCheckboxSelection(e)
+                }
+                checked={isChecked}
               />
               <label
                 hidden
