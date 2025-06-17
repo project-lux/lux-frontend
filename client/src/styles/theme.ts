@@ -106,6 +106,8 @@ const color = {
   borderShadow: '#d9d9d9',
   button: '#767676',
   darkBlue60: 'rgba(0, 53, 107, 0.6)', // 60% primary.darkBlue
+  dangerRed: '#C21F2F',
+  dangerRed60: 'rgba(194, 31, 47, 0.6)',
   teal90: 'rgb(0, 123, 148, 0.9)', // 90% primary.teal
   gray: '#999',
   lightBabyBlue: '#E7F1FF',

@@ -8,7 +8,7 @@ const ReactBootstrapDropdown = styled(Dropdown)`
     color: ${theme.color.button};
     background-color: ${theme.color.white};
     border: 1px solid ${theme.color.button};
-    border-radius: 5px;
+    border-radius: ${theme.border.radius};
 
     &.mobileNavigationDropdown {
       color: ${theme.color.button};

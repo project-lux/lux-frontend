@@ -3,7 +3,8 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { useAuth } from 'react-oidc-context'
+// import { useAuth } from 'react-oidc-context'
+import { useDispatch } from 'react-redux'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -20,7 +21,17 @@ import { searchScope } from '../../config/searchTypes'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import CreateCollectionButton from '../myCollections/CreateCollectionButton'
 import AddToCollectionButton from '../myCollections/AddToCollectionButton'
-import UpdateCollectionsButton from '../myCollections/UpdateCollectionsButton'
+import ManageCollectionsButton from '../myCollections/ManageCollectionsButton'
+import { useAppSelector } from '../../app/hooks'
+import {
+  IMyCollectionsResultsState,
+  addSelectAll,
+  resetState,
+} from '../../redux/slices/myCollectionsSlice'
+import { ISearchResults } from '../../types/ISearchResults'
+import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
+import AddToCollectionModal from '../myCollections/AddToCollectionModal'
+import DeleteModal from '../myCollections/DeleteModal'
 
 import Sort from './Sort'
 
@@ -48,36 +59,19 @@ const StyledDiv = styled.div`
 interface IResultsHeader {
   total: number
   label: string
-  toggleView?: boolean
   overlay: OverlayKey
+  resultsData: ISearchResults
+  toggleView?: boolean
 }
 
 const ResultsHeader: React.FC<IResultsHeader> = ({
   total,
   label,
   overlay,
+  resultsData,
   toggleView = false,
 }) => {
-  const auth = useAuth()
-  console.log(auth)
-  const userIsAuthenticate = true
-  // const userIsAuthenticate = auth.isAuthenticated
-  const [selectAll, setSelectAll] = useState<boolean>(false)
-  const [isMobile, setIsMobile] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-  const { width } = useWindowWidth()
-
-  useResizeableWindow(setIsMobile)
-
-  const [redirect, setRedirect] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (redirect !== false) {
-      setRedirect(false)
-    }
-  }, [redirect])
-
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
@@ -86,6 +80,47 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const queryString = new URLSearchParams(search)
+
+  // Is the user authenticated
+  // const auth = useAuth()
+  // console.log(auth)
+  const userIsAuthenticate = true
+  // const userIsAuthenticate = auth.isAuthenticated
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  const [redirect, setRedirect] = useState<boolean>(false)
+  const [showAddToCollectionModal, setShowAddToCollectionModal] =
+    useState<boolean>(false)
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const { width } = useWindowWidth()
+  useResizeableWindow(setIsMobile)
+
+  const resultsUuids = getOrderedItemsIds(resultsData)
+  const currentMyCollectionState = useAppSelector(
+    (myCollectionsState) =>
+      myCollectionsState.myCollections as IMyCollectionsResultsState,
+  )
+  const { uuids, scopeOfSelections } = currentMyCollectionState
+  // The select all checkbox will be checked as long as there are 1 or more entities selected
+  const isSelectAllChecked =
+    uuids.length > 0 &&
+    (scopeOfSelections === subTab || scopeOfSelections === tab)
+
+  // Handle the selection of the entity's checkbox
+  const handleSelectAllCheckboxSelection = (): void => {
+    if (isSelectAllChecked) {
+      dispatch(resetState())
+    } else {
+      dispatch(addSelectAll({ uuids: resultsUuids, scope: tab }))
+    }
+  }
+
+  useEffect(() => {
+    if (redirect !== false) {
+      setRedirect(false)
+    }
+  }, [redirect])
 
   // set list vs grid view
   const currentView = queryString.has('view') ? queryString.get('view') : 'list'
@@ -115,6 +150,18 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     })
   }
 
+  // event to handle the closing of the add to collection modal
+  const handleCloseAddModal = (): void => {
+    setShowAddToCollectionModal(false)
+    pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
+  }
+
+  // event to handle the closing of the delete a collection modal
+  const handleCloseDeleteModal = (): void => {
+    setShowDeleteModal(false)
+    pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+  }
+
   let headerButtonsColWidth = 6
   let descriptiveTextColMd = 12
   let descriptiveTextColLg = 3
@@ -132,13 +179,30 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     headerButtonsColXl = 5
   }
 
+  // render the appropriate button based on the items selected and the current tab
+  const additionalClassNameOfMyCollectionsButton =
+    width < theme.breakpoints.sm ? 'w-100 me-0' : 'me-2'
   let buttonToRender = (
-    <AddToCollectionButton width={width} selectAll={selectAll} />
+    <AddToCollectionButton
+      additionalClassName={additionalClassNameOfMyCollectionsButton}
+      selectAll={isSelectAllChecked}
+      setShowModal={setShowAddToCollectionModal}
+    />
   )
   if (subTab === 'my-collections') {
-    buttonToRender = <CreateCollectionButton width={width} />
-    if (selectAll) {
-      buttonToRender = <UpdateCollectionsButton width={width} />
+    buttonToRender = (
+      <CreateCollectionButton
+        additionalClassName={additionalClassNameOfMyCollectionsButton}
+      />
+    )
+    if (isSelectAllChecked) {
+      buttonToRender = (
+        <ManageCollectionsButton
+          additionalClassName={additionalClassNameOfMyCollectionsButton}
+          setShowAddToCollectionModal={setShowAddToCollectionModal}
+          setShowDeleteModal={setShowDeleteModal}
+        />
+      )
     }
   }
 
@@ -149,6 +213,18 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   return (
     <React.Fragment>
+      {showAddToCollectionModal && (
+        <AddToCollectionModal
+          showModal={showAddToCollectionModal}
+          onClose={handleCloseAddModal}
+        />
+      )}
+      {showDeleteModal && (
+        <DeleteModal
+          showModal={showDeleteModal}
+          onClose={handleCloseDeleteModal}
+        />
+      )}
       <Row className="resultsHeaderTitleRow">
         <Col className="resultsHeaderTitleCol">
           <StyledResultsHeader
@@ -250,14 +326,17 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                     className="form-check-input d-inline mt-0 selectAllResultsCheckbox"
                     type="checkbox"
                     id="select-all-checkbox"
-                    onChange={() => setSelectAll(!selectAll)}
-                    checked={selectAll}
+                    onChange={() => handleSelectAllCheckboxSelection()}
+                    checked={isSelectAllChecked}
                   />
                   <label
                     className="form-check-label ms-2"
                     htmlFor="select-all-checkbox"
                   >
-                    Select All
+                    {isSelectAllChecked &&
+                    (scopeOfSelections === subTab || scopeOfSelections === tab)
+                      ? `${uuids.length} Selected`
+                      : 'Select All'}
                   </label>
                 </span>
               </Col>
