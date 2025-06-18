@@ -1,11 +1,7 @@
 import React from 'react'
-import { Col, Modal, Row } from 'react-bootstrap'
+import { Col, Form, Modal, Row } from 'react-bootstrap'
 
-import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
-
-import CreateCollectionButton from './CreateCollectionButton'
-import SelectionList from './SelectionList'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -26,44 +22,53 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     show={showModal}
     onHide={() => onClose()}
     backdrop="static"
+    size="lg"
     keyboard={false}
     animation={false}
     aria-describedby="modalBody"
     aria-labelledby="modalTitle"
     data-testid="switch-to-simple-search-warning-modal"
   >
-    <Modal.Dialog className="my-0">
-      <Modal.Header closeButton>
-        <Modal.Title id="modalTitle">Add to Your Collection</Modal.Title>
-      </Modal.Header>
-      <Modal.Body id="modalBody">
-        <Row>
-          <Col xs={12}>
-            <p>
-              Pick which collection you want to add this record to. By default,
-              your default collection will be selected.
-            </p>
-          </Col>
-          <Col xs={12}>
-            <SelectionList
-              listOfUserCollections={[
-                `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-              ]}
-            />
-          </Col>
+    <Modal.Header closeButton>
+      <Modal.Title id="modalTitle">Create a New Collection</Modal.Title>
+    </Modal.Header>
+    <Modal.Body id="modalBody">
+      <Form>
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridName">
+            <Form.Label>Name</Form.Label>
+            <Form.Control type="text" placeholder="Collection" />
+          </Form.Group>
         </Row>
-      </Modal.Body>
-      <Modal.Footer>
-        <Row>
-          <Col className="d-flex justify-content-start">
-            <CreateCollectionButton additionalClassName="create-a-new-collection" />
-          </Col>
-          <Col className="d-flex justify-content-end">
-            <PrimaryButton onClick={() => onClose()}>Save</PrimaryButton>
-          </Col>
+
+        <Row className="mb-3">
+          <Form.Group as={Col} controlId="formGridCity">
+            <Form.Label>Classification (required)</Form.Label>
+            <Form.Select defaultValue="Choose...">
+              <option>Primary Name</option>
+              <option>...</option>
+            </Form.Select>
+          </Form.Group>
+
+          <Form.Group as={Col} controlId="formGridState">
+            <Form.Label>Language of Name (optional)</Form.Label>
+            <Form.Select defaultValue="Choose...">
+              <option>English</option>
+              <option>...</option>
+            </Form.Select>
+          </Form.Group>
         </Row>
-      </Modal.Footer>
-    </Modal.Dialog>
+
+        <Form.Group className="mb-3" id="formGridCheckbox">
+          <Form.Check type="checkbox" label="Set as default collection" />
+        </Form.Group>
+      </Form>
+    </Modal.Body>
+    <Modal.Footer>
+      <PrimaryButton type="submit" onClick={() => onClose()}>
+        Save
+      </PrimaryButton>
+    </Modal.Footer>
   </Modal>
 )
 

@@ -5,11 +5,12 @@ import theme from '../../styles/theme'
 
 const CreateCollectionButton: React.FC<{
   additionalClassName: string
-}> = ({ additionalClassName }) => (
+  setShowModal: (x: boolean) => void
+}> = ({ additionalClassName, setShowModal }) => (
   <SecondaryButton
     type="button"
     className={`btn text-center text-nowrap rounded-3 p-2 ${additionalClassName} editMyCollectionsButton`}
-    onClick={() => null}
+    onClick={() => setShowModal(true)}
     textColor={theme.color.button}
     actionBgColor={theme.color.black20}
     data-testid="create-new-collection-button"

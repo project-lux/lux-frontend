@@ -30,7 +30,7 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => (
   >
     <Modal.Dialog className="my-0">
       <Modal.Header closeButton>
-        <Modal.Title id="modalTitle">Add to Your Collection</Modal.Title>
+        <Modal.Title id="modalTitle">Delete Selected Collection(s)</Modal.Title>
       </Modal.Header>
       <Modal.Body id="modalBody">
         <Row>
