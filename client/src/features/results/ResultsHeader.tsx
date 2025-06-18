@@ -32,6 +32,7 @@ import { ISearchResults } from '../../types/ISearchResults'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteModal from '../myCollections/DeleteModal'
+import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 
 import Sort from './Sort'
 
@@ -93,6 +94,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const [showAddToCollectionModal, setShowAddToCollectionModal] =
     useState<boolean>(false)
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [showCreateCollectionModal, setShowCreateCollectionModal] =
+    useState<boolean>(false)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
@@ -162,6 +165,12 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
   }
 
+  // event to handle the closing of the create a collection modal
+  const handleCloseCreateCollectionModal = (): void => {
+    setShowCreateCollectionModal(false)
+    pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+  }
+
   let headerButtonsColWidth = 6
   let descriptiveTextColMd = 12
   let descriptiveTextColLg = 3
@@ -193,6 +202,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
     buttonToRender = (
       <CreateCollectionButton
         additionalClassName={additionalClassNameOfMyCollectionsButton}
+        setShowModal={setShowCreateCollectionModal}
       />
     )
     if (isSelectAllChecked) {
@@ -223,6 +233,12 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <DeleteModal
           showModal={showDeleteModal}
           onClose={handleCloseDeleteModal}
+        />
+      )}
+      {showCreateCollectionModal && (
+        <CreateCollectionModal
+          showModal={showCreateCollectionModal}
+          onClose={handleCloseCreateCollectionModal}
         />
       )}
       <Row className="resultsHeaderTitleRow">
