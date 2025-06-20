@@ -165,6 +165,9 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 nestedLevel={nestedLevel}
                 rowType={RELATIONSHIP_ROW_TYPE}
               />
+              <p className="mb-0 d-flex align-items-center">
+                {scopeToAriaLabel[scopeToPassToNestedForm]} that
+              </p>
               {hasChildInputField && (
                 <React.Fragment>
                   <p className="d-flex text-nowrap w-auto mb-0 me-2 justify-content-center align-items-center">
