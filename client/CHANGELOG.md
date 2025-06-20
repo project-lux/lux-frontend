@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added login/logout styling for My Collections ([#640](https://github.com/project-lux/lux-frontend/issues/640)).
+
 ### Changed
 
 ### Removed
