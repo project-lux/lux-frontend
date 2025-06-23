@@ -227,6 +227,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
           onClose={handleCloseAddModal}
+          showCreateNewModal={setShowCreateCollectionModal}
         />
       )}
       {showDeleteModal && (
