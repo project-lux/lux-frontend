@@ -12,7 +12,7 @@ import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import RecordLink from '../common/RecordLink'
 
 interface ILinkData {
-  content: Array<Array<string>>
+  content: Array<Array<string> | string>
   label?: string
   expandColumns?: boolean
   id?: string
@@ -32,14 +32,18 @@ const AboutSubsection: React.FC<ILinkData> = ({
 
   useResizeableWindow(setIsMobile)
 
-  const values = content.map((c: Array<string>) => {
+  const values = content.map((c: Array<string> | string) => {
     return (
       <React.Fragment>
-        {c.map((link, ind: number) => (
-          <React.Fragment>
-            <RecordLink url={link} /> {ind !== c.length - 1 ? ' -- ' : ''}
-          </React.Fragment>
-        ))}
+        {Array.isArray(c) ? (
+          c.map((link, ind: number) => (
+            <React.Fragment>
+              <RecordLink url={link} /> {ind !== c.length - 1 ? ' -- ' : ''}
+            </React.Fragment>
+          ))
+        ) : (
+          <RecordLink url={c} />
+        )}
       </React.Fragment>
     )
   })

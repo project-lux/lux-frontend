@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.53.1 - 2025-6-23
+
+### Fixed
+
+- Fixed the rendering of About subsection data in works ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
+
 ## v1.53.0 - 2025-6-16
 
 ### Added
