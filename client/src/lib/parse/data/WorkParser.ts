@@ -180,7 +180,7 @@ export default class WorkParser extends EntityParser {
    * Returns array of transformed publication event data
    * @returns {Array<IEventInfo>}
    */
-  getAboutSubsection(): Array<Array<string>> {
+  getAboutSubsection(): Array<Array<string> | string> {
     const about = forceArray(this.json.about)
     const aboutIds = getClassifiedAs(about)
 
@@ -196,7 +196,7 @@ export default class WorkParser extends EntityParser {
       })
       .filter((arr) => arr.length !== 0)
 
-    return [...aboutData, aboutIds]
+    return [...aboutData, ...aboutIds]
   }
 
   /**
