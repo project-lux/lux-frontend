@@ -3,14 +3,18 @@ import React from 'react'
 import SelectionOption from './SelectionOption'
 
 const SelectionList: React.FC<{
-  listOfUserCollections: Array<string>
-}> = ({ listOfUserCollections }) => (
+  listOfRecords: Array<string>
+}> = ({ listOfRecords }) => (
   <div
     className="rounded-2 border"
+    style={{
+      height: '300px',
+      overflow: 'scroll',
+    }}
     data-testid="user-collections-list-container"
   >
-    {listOfUserCollections.map((collection) => (
-      <SelectionOption collection={collection} />
+    {listOfRecords.map((record) => (
+      <SelectionOption record={record} />
     ))}
   </div>
 )
