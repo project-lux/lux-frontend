@@ -2,6 +2,7 @@ import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Modal, Row } from 'react-bootstrap'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
+import { useCreateCollectionMutation } from '../../redux/api/mlMyCollectionsApi'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -29,11 +30,28 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const [classification, setClassification] = useState<string>('Primary Name')
   const [language, setLanguage] = useState<string>('English')
   const [isDefault, setIsDefault] = useState<boolean>(false)
+  const [createCollection] = useCreateCollectionMutation()
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    createCollection({
+      name,
+      classification,
+      language,
+      collectionDefault: isDefault,
+    })
+      .unwrap()
+      .then(() => {
+        console.log('made it!')
+        // handle functionality for rendering the alert component if success
+        onClose()
+      })
+      .catch(() => {
+        console.log('what did you do??')
+        // handle functionality for rendering the alert component if error
+        onClose()
+      })
     onClose()
-    // push to ML
   }
 
   return (
