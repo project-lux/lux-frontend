@@ -11,6 +11,7 @@ import myCollectionsReducer from '../redux/slices/myCollectionsSlice'
 import { configApi } from '../redux/api/configApi'
 import { cmsApi } from '../redux/api/cmsApi'
 import { mlApi } from '../redux/api/ml_api'
+import { mlMyCollectionsApi } from '../redux/api/mlMyCollectionsApi'
 
 export const store = configureStore({
   reducer: {
@@ -24,12 +25,14 @@ export const store = configureStore({
     [configApi.reducerPath]: configApi.reducer,
     [cmsApi.reducerPath]: cmsApi.reducer,
     [mlApi.reducerPath]: mlApi.reducer,
+    [mlMyCollectionsApi.reducerPath]: mlMyCollectionsApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
       .concat(configApi.middleware)
       .concat(mlApi.middleware)
-      .concat(cmsApi.middleware),
+      .concat(cmsApi.middleware)
+      .concat(mlMyCollectionsApi.middleware),
 })
 
 export type AppDispatch = typeof store.dispatch
