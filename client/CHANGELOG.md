@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed the selection of class types in advanced search ([#712](https://github.com/project-lux/lux-frontend/issues/712)).
+- Fixed the rendering of timelines when switching between entity pages of the same type ([#694](https://github.com/project-lux/lux-frontend/issues/694)).
 
 ## v1.53.1 - 2025-6-23
 

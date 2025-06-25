@@ -69,6 +69,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
               getParentUris={getAllNextConceptUris}
             />
             <TimelineContainer
+              key={data.id}
               searchTags={timeline}
               providedHalLinks={data._links}
             />
