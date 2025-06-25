@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
 
 import config from '../../config/config'
-import { verifyToken } from '../../lib/auth/helper'
+import { signout, verifyToken } from '../../lib/auth/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -54,7 +54,8 @@ const StyledSpan = styled.span`
 
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const auth = useAuth()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const isLoggedIn = auth.isAuthenticated
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
@@ -136,8 +137,8 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                   to="#"
                   className="nav-link"
                   // TODO: revert to the signin function
-                  onClick={() => setIsLoggedIn(true)}
-                  // onClick={() => auth.signinRedirect()}
+                  // onClick={() => setIsLoggedIn(true)}
+                  onClick={() => auth.signinRedirect()}
                 >
                   Login
                 </NavLink>
@@ -162,8 +163,8 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       // TODO: revert to the signout function
-                      onClick={() => setIsLoggedIn(false)}
-                      // onClick={() => signout(auth)}
+                      // onClick={() => setIsLoggedIn(false)}
+                      onClick={() => signout(auth)}
                       className="navDropdownItem"
                     >
                       Logout

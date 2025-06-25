@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added the My Collections header buttons and styling ([#640](https://github.com/project-lux/lux-frontend/issues/640)).
 - Added the My Collections results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
 - Added the create new collection endpoint and functionality ([#650](https://github.com/project-lux/lux-frontend/issues/650)).
+- Added the delete a collection endpoint and functionality ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
 
 ### Changed
 

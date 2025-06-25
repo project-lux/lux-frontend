@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-// import { useAuth } from 'react-oidc-context'
+import { useAuth } from 'react-oidc-context'
 import { useDispatch } from 'react-redux'
 
 import theme from '../../styles/theme'
@@ -83,10 +83,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const queryString = new URLSearchParams(search)
 
   // Is the user authenticated
-  // const auth = useAuth()
-  // console.log(auth)
-  const userIsAuthenticate = true
-  // const userIsAuthenticate = auth.isAuthenticated
+  const auth = useAuth()
+  // const userIsAuthenticate = true
+  const userIsAuthenticate = auth.isAuthenticated
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
