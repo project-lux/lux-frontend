@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the capitalization function for labels ([#700](https://github.com/project-lux/lux-frontend/issues/700)).
+
 ### Removed
 
 ### Fixed
