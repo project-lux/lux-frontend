@@ -124,10 +124,10 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   const parentLabels = getParentLabels(parentScope)
   const labelForAria = parentLabels ? parentLabels[selectedKey] : ''
   const hasChildInputField = containsInput(Object.keys(state))
-  const legendText =
-    scopeToPassToNestedForm !== ''
-      ? `${scopeToAriaLabel[scopeToPassToNestedForm]} that`
-      : 'that'
+  // const legendText =
+  //   scopeToPassToNestedForm !== ''
+  //     ? `${scopeToAriaLabel[scopeToPassToNestedForm]} that`
+  //     : 'that'
 
   return (
     <Row className="relationship-row">
@@ -165,20 +165,18 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 nestedLevel={nestedLevel}
                 rowType={RELATIONSHIP_ROW_TYPE}
               />
+              <p className="mb-0 d-flex align-items-center text-nowrap w-auto mb-0 me-2">
+                {scopeToAriaLabel[scopeToPassToNestedForm]} that
+              </p>
               {hasChildInputField && (
-                <React.Fragment>
-                  <p className="d-flex text-nowrap w-auto mb-0 me-2 justify-content-center align-items-center">
-                    {legendText}
-                  </p>
-                  <InputFieldSet
-                    stateId={state._stateId as string}
-                    scope={scopeToPassToNestedForm}
-                    selectedKey={getProperty(state)}
-                    state={state}
-                    parentStateId={stateId}
-                    nestedLevel={nestedLevel + 1}
-                  />
-                </React.Fragment>
+                <InputFieldSet
+                  stateId={state._stateId as string}
+                  scope={scopeToPassToNestedForm}
+                  selectedKey={getProperty(state)}
+                  state={state}
+                  parentStateId={stateId}
+                  nestedLevel={nestedLevel + 1}
+                />
               )}
             </fieldset>
             <RemoveButton stateId={stateId} parentStateId={parentStateId} />
