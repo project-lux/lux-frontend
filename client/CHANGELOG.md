@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added advanced search sentence text ([#695](https://github.com/project-lux/lux-frontend/issues/695)).
+- Added subject_of links to Concept pages About section ([#676](https://github.com/project-lux/lux-frontend/issues/676)).
 
 ### Changed
 
