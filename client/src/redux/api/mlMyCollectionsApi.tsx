@@ -23,8 +23,9 @@ export const mlMyCollectionsApi: any = createApi({
           language,
           defaultCollection,
         )
+
         return {
-          url: 'api/data',
+          url: 'data/',
           method: 'POST',
           body: collection,
           headers: getHeaders(),
