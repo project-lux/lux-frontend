@@ -96,6 +96,7 @@ export default class ConceptParser extends EntityParser {
       types: this.getTypes(),
       notes: this.getNotes(),
       influences: this.getInfluencedBy(),
+      webPages: this.getWebPages(),
     }
 
     return hasData(data)
