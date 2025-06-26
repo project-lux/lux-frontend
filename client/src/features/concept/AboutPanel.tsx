@@ -6,6 +6,7 @@ import ConceptParser from '../../lib/parse/data/ConceptParser'
 import IEntity from '../../types/data/IEntity'
 import LinkContainer from '../common/LinkContainer'
 import ClassContainer from '../common/ClassContainer'
+import WebPages from '../common/WebPages'
 
 interface IProps {
   entity: IEntity
@@ -19,7 +20,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     return null
   }
 
-  const { name, names, entityClass, types, notes, influences } =
+  const { name, names, entityClass, types, notes, influences, webPages } =
     aboutData as Record<
       string,
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -56,6 +57,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
             id="concept-influences-link-container"
           />
         )}
+        <WebPages webPages={webPages} />
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
     </React.Fragment>

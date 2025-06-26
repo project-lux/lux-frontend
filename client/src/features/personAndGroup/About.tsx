@@ -5,13 +5,9 @@ import PersonAndGroupParser from '../../lib/parse/data/PersonAndGroupParser'
 import LinkContainer from '../common/LinkContainer'
 import NotesContainer from '../common/NotesContainer'
 import IEntity from '../../types/data/IEntity'
-import TextValue from '../common/TextValue'
 import NamesContainer from '../common/NamesContainer'
-import ExternalLink from '../common/ExternalLink'
-import TextLabel from '../common/TextLabel'
-import ExpandableList from '../common/ExpandableList'
-import StyledDataRow from '../../styles/shared/DataRow'
 import ClassContainer from '../common/ClassContainer'
+import WebPages from '../common/WebPages'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -139,23 +135,7 @@ const About: React.FC<IProps> = ({ data }) => {
         {professionalActivity.length > 0 && (
           <Activity data={professionalActivity} />
         )}
-        {webPages.length > 0 && (
-          <StyledDataRow className="row">
-            <TextLabel label="Web Pages" className="col-md-12" />
-            <ExpandableList className="col-md-12">
-              <TextValue
-                values={webPages.map((url: string, ind: number) => (
-                  <ExternalLink
-                    key={url}
-                    url={url}
-                    name={url}
-                    id={`person-group-web-page-${ind}`}
-                  />
-                ))}
-              />
-            </ExpandableList>
-          </StyledDataRow>
-        )}
+        <WebPages webPages={webPages} />
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
     </React.Fragment>
