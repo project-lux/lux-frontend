@@ -3,6 +3,7 @@ import { Col, Form, Modal, Row } from 'react-bootstrap'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/mlMyCollectionsApi'
+import config from '../../config/config'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -46,7 +47,8 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
         // handle functionality for rendering the alert component if success
         onClose()
       })
-      .catch(() => {
+      .catch((e) => {
+        console.log(e)
         console.log('what did you do??')
         // handle functionality for rendering the alert component if error
         onClose()
@@ -88,15 +90,22 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>Classification (required)</Form.Label>
               <Form.Select
-                defaultValue="Choose..."
                 value={classification}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setClassification(e.target.value)
                 }
                 required
               >
-                <option>Primary Name</option>
-                <option>Secondary Name</option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`}
+                >
+                  Primary Name
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`}
+                >
+                  Secondary Name
+                </option>
                 <option>...</option>
               </Form.Select>
             </Form.Group>
@@ -104,15 +113,26 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Language of Name (optional)</Form.Label>
               <Form.Select
-                defaultValue="Choose..."
                 value={language}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setLanguage(e.target.value)
                 }
               >
-                <option>English</option>
-                <option>Spanish</option>
-                <option>Latin</option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/dfa53b96-4eda-4c9a-b091-10008a726c38`}
+                >
+                  English
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/4839f816-732d-4d43-935d-297c4696ec09`}
+                >
+                  Spanish
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/436c4c60-3478-440d-bb51-c67512ecff66`}
+                >
+                  German
+                </option>
                 <option>...</option>
               </Form.Select>
             </Form.Group>
