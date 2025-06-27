@@ -122,7 +122,7 @@ const About: React.FC<IProps> = ({ data }) => {
             )),
           )}
         <LinkContainer
-          label="Member Of"
+          label="Member Of (Past or Present)"
           content={memberOf}
           expandColumns
           itemSpacing="single"
