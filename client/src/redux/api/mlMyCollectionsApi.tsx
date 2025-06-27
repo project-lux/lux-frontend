@@ -17,6 +17,7 @@ export const mlMyCollectionsApi: any = createApi({
       query: (collectionFormData) => {
         const { name, classification, language, defaultCollection } =
           collectionFormData
+
         const collection = createCollectionObject(
           name,
           classification,
@@ -27,7 +28,7 @@ export const mlMyCollectionsApi: any = createApi({
         return {
           url: 'data/',
           method: 'POST',
-          body: collection,
+          data: collection,
           headers: getHeaders(),
         }
       },

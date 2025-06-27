@@ -5,6 +5,8 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/mlMyCollectionsApi'
 import config from '../../config/config'
 
+import MyCollectionsAlert from './Alert'
+
 interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
@@ -43,15 +45,24 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     })
       .unwrap()
       .then(() => {
-        console.log('made it!')
+        onClose()
+        return (
+          <MyCollectionsAlert
+            variant="primary"
+            message={`${name} was successfully created!`}
+          />
+        )
         // handle functionality for rendering the alert component if success
-        onClose()
       })
-      .catch((e) => {
-        console.log(e)
-        console.log('what did you do??')
-        // handle functionality for rendering the alert component if error
+      .catch(() => {
         onClose()
+        return (
+          <MyCollectionsAlert
+            variant="danger"
+            message={`${name} could not be made.`}
+          />
+        )
+        // handle functionality for rendering the alert component if error
       })
     onClose()
   }
