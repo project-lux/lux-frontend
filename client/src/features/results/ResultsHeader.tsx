@@ -33,6 +33,7 @@ import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteModal from '../myCollections/DeleteModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
+import MyCollectionsAlert from '../myCollections/Alert'
 
 import Sort from './Sort'
 
@@ -84,8 +85,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // Is the user authenticated
   const auth = useAuth()
-  // const userIsAuthenticate = true
-  const userIsAuthenticate = auth.isAuthenticated
+  // const userIsAuthenticated = true
+  const userIsAuthenticated = auth.isAuthenticated
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -95,6 +96,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showCreateCollectionModal, setShowCreateCollectionModal] =
     useState<boolean>(false)
+  const [showAlert, setShowAlert] = useState<{
+    show: boolean
+    message: string
+    variant: 'primary' | 'danger'
+  }>({
+    show: false,
+    message: '',
+    variant: 'primary',
+  })
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
@@ -177,7 +187,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   let headerButtonsColMd = 12
   let headerButtonsColLg = 9
   let headerButtonsColXl = 8
-  if (!userIsAuthenticate) {
+  if (!userIsAuthenticated) {
     headerButtonsColWidth = 12
     descriptiveTextColMd = 7
     descriptiveTextColLg = 7
@@ -221,7 +231,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       : 'justify-content-end'
 
   return (
-    <React.Fragment>
+    <div className={userIsAuthenticated ? 'sticky-top' : ''}>
       {showAddToCollectionModal && (
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
@@ -239,6 +249,14 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <CreateCollectionModal
           showModal={showCreateCollectionModal}
           onClose={handleCloseCreateCollectionModal}
+          handleShowAlert={setShowAlert}
+        />
+      )}
+      {showAlert.show && (
+        <MyCollectionsAlert
+          variant={showAlert.variant}
+          message={showAlert.message}
+          handleOnClose={setShowAlert}
         />
       )}
       <Row className="resultsHeaderTitleRow">
@@ -328,7 +346,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
               </div>
               <Sort />
             </Col>
-            {userIsAuthenticate && (
+            {userIsAuthenticated && (
               <Col
                 xs={12}
                 sm={12}
@@ -370,7 +388,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         )}
       </Row>
       <StyledHr width="100%" className="my-2 resultsHeaderHr" />
-    </React.Fragment>
+    </div>
   )
 }
 

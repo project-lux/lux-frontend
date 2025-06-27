@@ -1,11 +1,15 @@
 import config from '../../config/config'
 
 export const getHeaders = (): Headers => {
-  const headers = new Headers()
+  if (config.env.featureMyCollections && config.currentAccessToken) {
+    const headers = new Headers()
 
-  headers.append('Authorization', `Bearer ${config.currentAccessToken}`)
+    headers.append('Authorization', `Bearer ${config.currentAccessToken}`)
 
-  return headers
+    return headers
+  }
+
+  return new Headers()
 }
 
 export function fetchWithToken(uri: string): Promise<Response> {

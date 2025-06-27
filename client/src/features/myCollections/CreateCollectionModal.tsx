@@ -8,6 +8,11 @@ import config from '../../config/config'
 interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
+  handleShowAlert: (x: {
+    show: boolean
+    message: string
+    variant: 'primary' | 'danger'
+  }) => void
 }
 
 /**
@@ -19,6 +24,7 @@ interface IMyCollectionsModal {
 const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
+  handleShowAlert,
 }) => {
   const date = new Date()
   const month = date.getUTCMonth()
@@ -43,15 +49,20 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     })
       .unwrap()
       .then(() => {
-        console.log('made it!')
-        // handle functionality for rendering the alert component if success
         onClose()
+        handleShowAlert({
+          show: true,
+          message: `${name} was successfully created!`,
+          variant: 'primary',
+        })
       })
-      .catch((e) => {
-        console.log(e)
-        console.log('what did you do??')
-        // handle functionality for rendering the alert component if error
+      .catch(() => {
         onClose()
+        handleShowAlert({
+          show: true,
+          message: `${name} could not be made.`,
+          variant: 'danger',
+        })
       })
     onClose()
   }

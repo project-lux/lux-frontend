@@ -1,3 +1,5 @@
+import IConcept from '../../types/data/IConcept'
+
 export const getBaseCollectionObject = (): any => {
   return {
     type: 'Set',
@@ -10,9 +12,15 @@ export const createCollectionObject = (
   language: string,
   defaultCollection: boolean,
 ): any => {
-  const personalCollectionClassifiedAsObject = {
-    type: 'Type',
-    id: 'https://some.permanent.id.not.a.normal.lux.doc',
+  const personalCollectionClassifiedAsObject: IConcept = {
+    id: 'https://not.checked',
+    type: 'Concept',
+    equivalent: [
+      {
+        type: 'Concept',
+        id: 'https://todo.concept.my.collection',
+      },
+    ],
   }
   let classifiedAs = [personalCollectionClassifiedAsObject]
 
