@@ -72,6 +72,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
+              key={data.id}
               searchTags={timelines}
               providedHalLinks={place.json._links}
             />

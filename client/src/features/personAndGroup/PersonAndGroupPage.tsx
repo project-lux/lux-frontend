@@ -54,6 +54,7 @@ const PersonAndGroupPage: React.FC<{ data: IAgent }> = ({ data }) => {
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
+              key={data.id}
               searchTags={timelines}
               providedHalLinks={agent.json._links}
             />

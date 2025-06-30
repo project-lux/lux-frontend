@@ -2,7 +2,26 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.53.1 - Unreleased
+## v1.54.0 - Unreleased
+
+### Added
+
+- Added advanced search sentence text ([#695](https://github.com/project-lux/lux-frontend/issues/695)).
+- Added subject_of links to Concept pages About section ([#676](https://github.com/project-lux/lux-frontend/issues/676)).
+
+### Changed
+
+- Changed the capitalization function for labels ([#700](https://github.com/project-lux/lux-frontend/issues/700)).
+- Changed the label "Member Of" to "Member Of (Past or Present)" ([#701](https://github.com/project-lux/lux-frontend/issues/701)).
+
+### Removed
+
+### Fixed
+
+- Fixed the selection of class types in advanced search ([#712](https://github.com/project-lux/lux-frontend/issues/712)).
+- Fixed the rendering of timelines when switching between entity pages of the same type ([#694](https://github.com/project-lux/lux-frontend/issues/694)).
+
+## v1.53.1 - 2025-6-23
 
 ### Fixed
 
