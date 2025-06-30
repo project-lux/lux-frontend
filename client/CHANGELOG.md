@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed sanitizeHtml config to allow iframes ([#524](https://github.com/project-lux/lux-frontend/issues/524)).
+
 ### Removed
 
 ### Fixed

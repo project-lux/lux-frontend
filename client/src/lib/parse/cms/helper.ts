@@ -12,8 +12,13 @@ export const processHtml = (html: string): string => {
   )
 
   return sanitizeHtml(html2, {
+    allowedTags: ['iframe', 'p', 'h2', 'a'],
     allowedClasses: {
       i: ['bi', 'bi-box-arrow-in-up-right'],
     },
+    allowedAttributes: {
+      iframe: ['src'],
+    },
+    allowedIframeHostnames: ['www.youtube.com'],
   })
 }
