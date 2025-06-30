@@ -124,10 +124,6 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
   const parentLabels = getParentLabels(parentScope)
   const labelForAria = parentLabels ? parentLabels[selectedKey] : ''
   const hasChildInputField = containsInput(Object.keys(state))
-  // const legendText =
-  //   scopeToPassToNestedForm !== ''
-  //     ? `${scopeToAriaLabel[scopeToPassToNestedForm]} that`
-  //     : 'that'
 
   return (
     <Row className="relationship-row">
