@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.54.0 - Unreleased
+## v1.54.1 - 2025-7-2
+
+### Changed
+
+- Fixed the label for Member of (Past or Present) to Member Of (Past of Current) ([#701](https://github.com/project-lux/lux-frontend/issues/701)).
+
+## v1.54.0 - 2025-6-30
 
 ### Added
 
