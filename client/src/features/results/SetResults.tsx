@@ -2,6 +2,7 @@
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
@@ -18,6 +19,7 @@ import ResultsHeader from './ResultsHeader'
 import NoResultsAlert from './NoResultsAlert'
 import SetSnippet from './SetSnippet'
 import MyCollectionsNavBar from './MyCollectionsNavBar'
+import MyCollectionSnippet from './MyCollectionSnippet'
 
 interface IProps {
   searchResponse: ISearchResponse
@@ -30,10 +32,12 @@ const SetResults: React.FC<IProps> = ({
   isMobile,
   nestedPage,
 }) => {
+  const auth = useAuth()
+  const isAuthenticated = auth.isAuthenticated
   // Parse URL search params
   const { search } = useLocation()
   const queryString = new URLSearchParams(search)
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
@@ -48,9 +52,15 @@ const SetResults: React.FC<IProps> = ({
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result) => (
-      <SetSnippet key={result.id} uri={result.id} view={view} />
-    ))
+    results.map((result) => {
+      if (subTab === 'my-collections') {
+        return (
+          <MyCollectionSnippet key={result.id} uri={result.id} view={view} />
+        )
+      }
+
+      return <SetSnippet key={result.id} uri={result.id} view={view} />
+    })
 
   let errorMessage: string | null = null
 
@@ -70,10 +80,12 @@ const SetResults: React.FC<IProps> = ({
 
   return (
     <StyledEntityResultsRow className="collectionsResultsPage">
-      <MyCollectionsNavBar
-        searchQueryString={search}
-        nestedPage={nestedPage as string}
-      />
+      {isAuthenticated && (
+        <MyCollectionsNavBar
+          searchQueryString={search}
+          nestedPage={nestedPage as string}
+        />
+      )}
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader

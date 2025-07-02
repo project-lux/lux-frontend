@@ -64,13 +64,13 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
 
   if (config.env.featureMyCollections) {
     if (auth.isAuthenticated) {
-      console.log('Authenticated', auth.user)
+      // console.log('Authenticated', auth.user)
       if (auth.user) {
         config.currentAccessToken = auth.user.access_token
       }
       verifyToken(auth.user?.access_token || '')
     } else {
-      console.log('Not authenticated')
+      // console.log('Not authenticated')
     }
   }
 
@@ -147,7 +147,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 <React.Fragment>
                   <NavLink
                     // TODO: change to correspond with the correct results page
-                    to="/view/results/collections/my-collections"
+                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&filterResults=false`}
                     className="nav-link"
                   >
                     My Collections

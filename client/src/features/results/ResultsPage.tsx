@@ -98,6 +98,7 @@ const ResultsPage: React.FC = () => {
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
+  const filterResults = urlParams.get('filterResults') || null
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
@@ -124,6 +125,7 @@ const ResultsPage: React.FC = () => {
   const searchResponse = useSearchQuery(
     {
       q: searchStringWithFacets,
+      filterResults,
       page,
       tab,
       sort,
