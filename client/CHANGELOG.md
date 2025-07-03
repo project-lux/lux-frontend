@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.54.2 - 2025-7-3
+
+### Added
+
+### Changed
+
+### Removed
+
+### Fixed
+
+- Fixed duplicate explore hierarchies ([#694](https://github.com/project-lux/lux-frontend/issues/694)).
+
 ## v1.54.1 - 2025-7-2
 
 ### Changed
@@ -44,11 +56,13 @@ All notable changes to this project will be documented in this file.
 - Added two dashes between each list item within the about subsection ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Changed
+
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
 
 - Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Removed
+
 - Removed the secondary (front2) URL ([635](https://github.com/project-lux/lux-frontend/issues/635)).
 
 ### Fixed
