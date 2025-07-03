@@ -72,14 +72,14 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
-              key={data.id}
+              key={`${place.json.id}-timeline`}
               searchTags={timelines}
               providedHalLinks={place.json._links}
             />
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <HierarchyContainer
-              key={place.json.id}
+              key={`${place.json.id}-hierarchy`}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={

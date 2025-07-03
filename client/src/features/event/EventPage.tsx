@@ -45,7 +45,7 @@ const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
           </ErrorBoundary>
           <ErrorBoundary FallbackComponent={ErrorFallback}>
             <TimelineContainer
-              key={data.id}
+              key={`${data.id}-timeline`}
               searchTags={timelines}
               providedHalLinks={event.json._links}
             />
