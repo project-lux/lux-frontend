@@ -46,7 +46,7 @@ const CollectionPage: React.FC<IProps> = ({ data }) => {
               type="collection"
             />
             <TimelineContainer
-              key={data.id}
+              key={`${data.id}-timeline`}
               searchTags={timeline}
               providedHalLinks={collection.json._links}
             />
