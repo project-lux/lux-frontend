@@ -1,18 +1,16 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Modal, Row } from 'react-bootstrap'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/mlMyCollectionsApi'
 import config from '../../config/config'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
-  handleShowAlert: (x: {
-    show: boolean
-    message: string
-    variant: 'primary' | 'danger'
-  }) => void
 }
 
 /**
@@ -24,8 +22,11 @@ interface IMyCollectionsModal {
 const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
-  handleShowAlert,
 }) => {
+  useAuthentication()
+  const navigate = useNavigate()
+  const { search } = useLocation()
+  const { tab, subTab } = useParams()
   const date = new Date()
   const month = date.getUTCMonth()
   const day = date.getUTCDate()
@@ -41,6 +42,11 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    let stateToPass = {
+      showAlert: true,
+      alertMessage: `${name} was successfully created!`,
+      alertVariant: 'primary',
+    }
     createCollection({
       name,
       classification,
@@ -50,21 +56,26 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
       .unwrap()
       .then(() => {
         onClose()
-        handleShowAlert({
-          show: true,
-          message: `${name} was successfully created!`,
-          variant: 'primary',
-        })
       })
       .catch(() => {
         onClose()
-        handleShowAlert({
-          show: true,
-          message: `${name} could not be made.`,
-          variant: 'danger',
-        })
+        stateToPass = {
+          showAlert: true,
+          alertMessage: `${name} could not be made.`,
+          alertVariant: 'danger',
+        }
       })
+    console.log('STATE to pass: ', stateToPass)
     onClose()
+    navigate(
+      {
+        pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+        search,
+      },
+      {
+        state: stateToPass,
+      },
+    )
   }
 
   return (

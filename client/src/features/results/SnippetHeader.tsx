@@ -34,9 +34,7 @@ const SnippetHeader: React.FC<IProps> = ({
 }) => {
   const dispatch = useDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  // TODO: switch to auth once functionality can be added
   const auth = useAuth()
-  // console.log(auth)
   const userIsAuthenticate = auth.isAuthenticated
   const entity = new EntityParser(data)
   const images = entity.getImages()

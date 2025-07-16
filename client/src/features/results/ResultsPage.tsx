@@ -15,6 +15,8 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import useAuthentication from '../../lib/hooks/useAuthentication'
+import config from '../../config/config'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -79,6 +81,7 @@ const getScopedResultsComponent: any = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
+  useAuthentication()
   const dispatch = useAppDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
@@ -126,6 +129,7 @@ const ResultsPage: React.FC = () => {
     {
       q: searchStringWithFacets,
       filterResults,
+      token: config.currentAccessToken,
       page,
       tab,
       sort,

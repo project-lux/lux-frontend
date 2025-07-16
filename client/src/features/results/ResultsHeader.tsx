@@ -5,6 +5,7 @@ import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { useAuth } from 'react-oidc-context'
 import { useDispatch } from 'react-redux'
+// import { isNull, isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -34,6 +35,7 @@ import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteModal from '../myCollections/DeleteModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import MyCollectionsAlert from '../myCollections/Alert'
+import { IRouteState } from '../../types/myCollections/IRouteState'
 
 import Sort from './Sort'
 
@@ -62,7 +64,7 @@ interface IResultsHeader {
   total: number
   label: string
   overlay: OverlayKey
-  resultsData: ISearchResults
+  resultsData?: ISearchResults
   toggleView?: boolean
 }
 
@@ -75,9 +77,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { pathname, search } = useLocation() as {
+  const { pathname, search, state } = useLocation() as {
     pathname: string
     search: string
+    state?: IRouteState
+  }
+  const alertStatus: IRouteState = state || {
+    showAlert: false,
+    alertMessage: '',
+    alertVariant: 'primary',
   }
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
@@ -96,15 +104,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showCreateCollectionModal, setShowCreateCollectionModal] =
     useState<boolean>(false)
-  const [showAlert, setShowAlert] = useState<{
-    show: boolean
-    message: string
-    variant: 'primary' | 'danger'
-  }>({
-    show: false,
-    message: '',
-    variant: 'primary',
-  })
+  const [alert, setAlert] = useState<IRouteState>(alertStatus)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
@@ -164,8 +164,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // event to handle the closing of the add to collection modal
   const handleCloseAddModal = (): void => {
-    setShowAddToCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
+    setShowAddToCollectionModal(false)
   }
 
   // event to handle the closing of the delete a collection modal
@@ -176,8 +176,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // event to handle the closing of the create a collection modal
   const handleCloseCreateCollectionModal = (): void => {
-    setShowCreateCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+    setShowCreateCollectionModal(false)
   }
 
   let headerButtonsColWidth = 6
@@ -249,14 +249,13 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <CreateCollectionModal
           showModal={showCreateCollectionModal}
           onClose={handleCloseCreateCollectionModal}
-          handleShowAlert={setShowAlert}
         />
       )}
-      {showAlert.show && (
+      {alert.showAlert && (
         <MyCollectionsAlert
-          variant={showAlert.variant}
-          message={showAlert.message}
-          handleOnClose={setShowAlert}
+          variant={alert.alertVariant}
+          message={alert.alertMessage}
+          handleOnClose={setAlert}
         />
       )}
       <Row className="resultsHeaderTitleRow">

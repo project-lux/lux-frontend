@@ -28,13 +28,12 @@ export const mlApi: any = createApi({
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
-        const { q, filterResults, page, tab, sort, rnd } = searchParams
+        const { q, filterResults, token, page, tab, sort, rnd } = searchParams
         // const facetString = formatFacetSearchRequestUrl(searchParams)
         const urlParams = new URLSearchParams()
         urlParams.set('q', q)
 
         let scope = ''
-        console.log(tab)
         if (tab !== undefined) {
           scope = searchScope[tab]
         }
@@ -51,7 +50,10 @@ export const mlApi: any = createApi({
           urlParams.set('rnd', `${rnd}`)
         }
         // set headers if My Collections
-        const headers: Headers = getHeaders()
+        if (token) {
+          console.log('in search: ', token)
+        }
+        let headers: Headers = getHeaders()
 
         return {
           url: `api/search/${scope}?${urlParams.toString()}`,
