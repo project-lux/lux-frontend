@@ -19,6 +19,8 @@ export function defaultAats(): IAat {
     collection: 'http://vocab.getty.edu/aat/300025976',
     collectionItem: 'http://vocab.getty.edu/aat/300404024',
     copyrightLicensingStatement: 'http://vocab.getty.edu/aat/300435434',
+    // TODO: change once an AAT is assigned
+    defaultCollection: 'https://todo.concept.my.collection',
     descriptionStatement: 'http://vocab.getty.edu/aat/300435416',
     dimensionStatement: 'http://vocab.getty.edu/aat/300435430',
     displayName: 'http://vocab.getty.edu/aat/300404669',
@@ -34,6 +36,8 @@ export function defaultAats(): IAat {
     languageStatement: 'http://vocab.getty.edu/aat/300435433',
     nationality: 'http://vocab.getty.edu/aat/300379842',
     occupation: 'http://vocab.getty.edu/aat/300263369',
+    // TODO: change once an AAT is assigned
+    personalCollection: 'https://todo.concept.my.collection',
     plantSpecimens: 'http://vocab.getty.edu/aat/300430421',
     primaryName: 'http://vocab.getty.edu/aat/300404670',
     role: 'http://vocab.getty.edu/aat/300435108',

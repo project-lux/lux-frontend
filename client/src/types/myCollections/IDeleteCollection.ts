@@ -1,4 +1,3 @@
 export interface IDeleteCollection {
-  type: string
-  id: string
+  ids: Array<string>
 }

@@ -37,7 +37,6 @@ export const myCollectionsSlice = createSlice({
       const { uuids, scope } = action.payload
       state.scopeOfSelections = scope
       state.uuids = uuids
-      state.uuids = uuids
     },
     removeEntity: (state, action: PayloadAction<{ uuid: string }>) => {
       const { uuid } = action.payload

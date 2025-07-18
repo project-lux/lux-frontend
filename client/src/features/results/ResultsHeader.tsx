@@ -34,8 +34,6 @@ import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteModal from '../myCollections/DeleteModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
-import MyCollectionsAlert from '../myCollections/Alert'
-import { IRouteState } from '../../types/myCollections/IRouteState'
 
 import Sort from './Sort'
 
@@ -77,15 +75,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { pathname, search, state } = useLocation() as {
+  const { pathname, search } = useLocation() as {
     pathname: string
     search: string
-    state?: IRouteState
-  }
-  const alertStatus: IRouteState = state || {
-    showAlert: false,
-    alertMessage: '',
-    alertVariant: 'primary',
   }
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
@@ -104,7 +96,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
   const [showCreateCollectionModal, setShowCreateCollectionModal] =
     useState<boolean>(false)
-  const [alert, setAlert] = useState<IRouteState>(alertStatus)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
@@ -249,13 +240,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <CreateCollectionModal
           showModal={showCreateCollectionModal}
           onClose={handleCloseCreateCollectionModal}
-        />
-      )}
-      {alert.showAlert && (
-        <MyCollectionsAlert
-          variant={alert.alertVariant}
-          message={alert.alertMessage}
-          handleOnClose={setAlert}
         />
       )}
       <Row className="resultsHeaderTitleRow">
