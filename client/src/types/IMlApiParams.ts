@@ -1,6 +1,7 @@
 export interface ISearchParams {
   q: string
   filterResults?: string
+  token?: string
   page?: number
   tab?: string
   facets: { [key: string]: string }

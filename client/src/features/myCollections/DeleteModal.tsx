@@ -1,9 +1,18 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
+import { useDispatch } from 'react-redux'
 
 import DangerButton from '../../styles/shared/DangerButton'
 import { useAppSelector } from '../../app/hooks'
-import { IMyCollectionsResultsState } from '../../redux/slices/myCollectionsSlice'
+import {
+  IMyCollectionsResultsState,
+  resetState,
+} from '../../redux/slices/myCollectionsSlice'
+import { useDeleteCollectionMutation } from '../../redux/api/ml_api'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import SelectionList from './SelectionList'
 
@@ -19,11 +28,67 @@ interface IMyCollectionsModal {
  * @returns
  */
 const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
+  useAuthentication()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { search } = useLocation()
+  const { tab, subTab } = useParams()
   const currentMyCollectionState = useAppSelector(
     (myCollectionsState) =>
       myCollectionsState.myCollections as IMyCollectionsResultsState,
   )
   const { uuids } = currentMyCollectionState
+
+  const [deleteCollection] = useDeleteCollectionMutation()
+  // Used to maintain the local state of the checklist for which records a user truly wants to delete
+  // This will help maintain the state of selected entities on the results
+  const [selectedForDeletion, setSelectedForDeletion] = useState<
+    Array<{ uuid: string; isDefaultCollection: boolean }>
+  >(uuids.map((uuid) => ({ uuid, isDefaultCollection: false })))
+
+  const handleDelete = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    const filteredSelection = selectedForDeletion
+      .filter((s) => !s.isDefaultCollection)
+      .map((filtered) => filtered.uuid)
+    deleteCollection({
+      ids: filteredSelection,
+    })
+      .then(() => {
+        onClose()
+        dispatch(resetState())
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'Collection(s) deleted succuessfully',
+              alertVariant: 'primary',
+            },
+          },
+        )
+      })
+      .catch(() => {
+        onClose()
+        dispatch(resetState())
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'The record could not be deleted.',
+              alertVariant: 'danger',
+            },
+          },
+        )
+      })
+  }
 
   return (
     <Modal
@@ -52,17 +117,25 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
               </p>
             </Col>
             <Col xs={12}>
-              <SelectionList listOfRecords={uuids} />
+              <SelectionList
+                listOfRecords={uuids}
+                selected={selectedForDeletion}
+                handleSelection={setSelectedForDeletion}
+              />
             </Col>
           </Row>
         </Modal.Body>
-        <Modal.Footer className="d-block">
-          <Row>
-            <Col className="d-flex justify-content-end">
-              <DangerButton onClick={() => onClose()}>Delete</DangerButton>
-            </Col>
-          </Row>
-        </Modal.Footer>
+        {selectedForDeletion.length > 0 && (
+          <Modal.Footer className="d-block">
+            <Row>
+              <Col className="d-flex justify-content-end">
+                <DangerButton onClick={(e: string) => handleDelete(e)}>
+                  Delete
+                </DangerButton>
+              </Col>
+            </Row>
+          </Modal.Footer>
+        )}
       </Modal.Dialog>
     </Modal>
   )

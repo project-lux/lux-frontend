@@ -44,7 +44,7 @@ const ManageCollectionsButton: React.FC<{
       className={additionalClassName}
       data-testid="add-delete-collection-dropdown-toggle"
     >
-      Manage Collection
+      Manage Collection(s)
     </StyledDropdownToggle>
 
     <Dropdown.Menu

@@ -3,8 +3,9 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-// import { useAuth } from 'react-oidc-context'
+import { useAuth } from 'react-oidc-context'
 import { useDispatch } from 'react-redux'
+// import { isNull, isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -61,7 +62,7 @@ interface IResultsHeader {
   total: number
   label: string
   overlay: OverlayKey
-  resultsData: ISearchResults
+  resultsData?: ISearchResults
   toggleView?: boolean
 }
 
@@ -83,10 +84,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const queryString = new URLSearchParams(search)
 
   // Is the user authenticated
-  // const auth = useAuth()
-  // console.log(auth)
-  const userIsAuthenticate = true
-  // const userIsAuthenticate = auth.isAuthenticated
+  const auth = useAuth()
+  // const userIsAuthenticated = true
+  const userIsAuthenticated = auth.isAuthenticated
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -155,8 +155,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // event to handle the closing of the add to collection modal
   const handleCloseAddModal = (): void => {
-    setShowAddToCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
+    setShowAddToCollectionModal(false)
   }
 
   // event to handle the closing of the delete a collection modal
@@ -167,8 +167,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // event to handle the closing of the create a collection modal
   const handleCloseCreateCollectionModal = (): void => {
-    setShowCreateCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+    setShowCreateCollectionModal(false)
   }
 
   let headerButtonsColWidth = 6
@@ -178,7 +178,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   let headerButtonsColMd = 12
   let headerButtonsColLg = 9
   let headerButtonsColXl = 8
-  if (!userIsAuthenticate) {
+  if (!userIsAuthenticated) {
     headerButtonsColWidth = 12
     descriptiveTextColMd = 7
     descriptiveTextColLg = 7
@@ -222,7 +222,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       : 'justify-content-end'
 
   return (
-    <React.Fragment>
+    <div className={userIsAuthenticated ? 'sticky-top' : ''}>
       {showAddToCollectionModal && (
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
@@ -329,7 +329,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
               </div>
               <Sort />
             </Col>
-            {userIsAuthenticate && (
+            {userIsAuthenticated && (
               <Col
                 xs={12}
                 sm={12}
@@ -371,7 +371,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         )}
       </Row>
       <StyledHr width="100%" className="my-2 resultsHeaderHr" />
-    </React.Fragment>
+    </div>
   )
 }
 

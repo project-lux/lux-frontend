@@ -1,7 +1,12 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Modal, Row } from 'react-bootstrap'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
+import { useCreateCollectionMutation } from '../../redux/api/ml_api'
+import config from '../../config/config'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -18,6 +23,10 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
 }) => {
+  useAuthentication()
+  const navigate = useNavigate()
+  const { search } = useLocation()
+  const { tab, subTab } = useParams()
   const date = new Date()
   const month = date.getUTCMonth()
   const day = date.getUTCDate()
@@ -29,11 +38,50 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const [classification, setClassification] = useState<string>('Primary Name')
   const [language, setLanguage] = useState<string>('English')
   const [isDefault, setIsDefault] = useState<boolean>(false)
+  const [createCollection] = useCreateCollectionMutation()
 
   const handleSave = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    createCollection({
+      name,
+      classification,
+      language,
+      collectionDefault: isDefault,
+    })
+      .unwrap()
+      .then(() => {
+        onClose()
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: `${name} was successfully created!`,
+              alertVariant: 'primary',
+            },
+          },
+        )
+      })
+      .catch(() => {
+        onClose()
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: `${name} could not be made.`,
+              alertVariant: 'danger',
+            },
+          },
+        )
+      })
     onClose()
-    // push to ML
   }
 
   return (
@@ -70,15 +118,22 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>Classification (required)</Form.Label>
               <Form.Select
-                defaultValue="Choose..."
                 value={classification}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setClassification(e.target.value)
                 }
                 required
               >
-                <option>Primary Name</option>
-                <option>Secondary Name</option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`}
+                >
+                  Primary Name
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`}
+                >
+                  Secondary Name
+                </option>
                 <option>...</option>
               </Form.Select>
             </Form.Group>
@@ -86,15 +141,26 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>Language of Name (optional)</Form.Label>
               <Form.Select
-                defaultValue="Choose..."
                 value={language}
                 onChange={(e: ChangeEvent<HTMLSelectElement>) =>
                   setLanguage(e.target.value)
                 }
               >
-                <option>English</option>
-                <option>Spanish</option>
-                <option>Latin</option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/dfa53b96-4eda-4c9a-b091-10008a726c38`}
+                >
+                  English
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/4839f816-732d-4d43-935d-297c4696ec09`}
+                >
+                  Spanish
+                </option>
+                <option
+                  value={`${config.env.dataApiBaseUrl}data/concept/436c4c60-3478-440d-bb51-c67512ecff66`}
+                >
+                  German
+                </option>
                 <option>...</option>
               </Form.Select>
             </Form.Group>

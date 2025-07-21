@@ -2,7 +2,7 @@
 import React, { ChangeEvent } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
-// import { useAuth } from 'react-oidc-context'
+import { useAuth } from 'react-oidc-context'
 import { useDispatch } from 'react-redux'
 
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
@@ -34,10 +34,8 @@ const SnippetHeader: React.FC<IProps> = ({
 }) => {
   const dispatch = useDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  // TODO: switch to auth once functionality can be added
-  // const auth = useAuth()
-  // console.log(auth)
-  const userIsAuthenticate = true
+  const auth = useAuth()
+  const userIsAuthenticate = auth.isAuthenticated
   const entity = new EntityParser(data)
   const images = entity.getImages()
   const primaryName = entity.getPrimaryName(config.aat.langen)

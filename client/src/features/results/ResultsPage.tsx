@@ -15,6 +15,10 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import useAuthentication from '../../lib/hooks/useAuthentication'
+import config from '../../config/config'
+import MyCollectionsAlert from '../myCollections/Alert'
+import { IRouteState } from '../../types/myCollections/IRouteState'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -79,20 +83,26 @@ const getScopedResultsComponent: any = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
+  useAuthentication()
   const dispatch = useAppDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  const [alert, setAlert] = useState<IRouteState>({
+    showAlert: false,
+    alertMessage: '',
+    alertVariant: 'primary',
+  })
 
   const { search, state } = useLocation() as {
     search: string
-    state: { [key: string]: boolean }
+    state: IRouteState
   }
 
   const urlParams = new URLSearchParams(search)
-  const fromLandingPage = isFromLandingPage(state)
+  const fromLandingPage = isFromLandingPage(state as { [key: string]: boolean })
   // Check if current tab q exist
   const hasSimpleSearchQuery = urlParams.has('sq')
   // Setting as empty strings
@@ -126,6 +136,7 @@ const ResultsPage: React.FC = () => {
     {
       q: searchStringWithFacets,
       filterResults,
+      token: config.currentAccessToken,
       page,
       tab,
       sort,
@@ -146,6 +157,12 @@ const ResultsPage: React.FC = () => {
     }
   }, [dispatch, hasSimpleSearchQuery])
 
+  useEffect(() => {
+    if (state && state.hasOwnProperty('showAlert')) {
+      setAlert(state as IRouteState)
+    }
+  }, [state])
+
   // Get title for accessibility purposes
   useTitle(title)
 
@@ -155,6 +172,13 @@ const ResultsPage: React.FC = () => {
   return (
     <React.Fragment>
       <h1 hidden>{title}</h1>
+      {alert.showAlert && (
+        <MyCollectionsAlert
+          variant={alert.alertVariant as string}
+          message={alert.alertMessage as string}
+          handleOnClose={setAlert}
+        />
+      )}
       <ResultsSearchContainer
         key={tab}
         isSimpleSearch={hasSimpleSearchQuery}
