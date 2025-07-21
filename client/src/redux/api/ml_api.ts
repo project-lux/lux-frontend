@@ -18,6 +18,10 @@ import { getItems } from '../../lib/util/fetchItems'
 import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 import { getAncestors } from '../../lib/util/fetchArchiveAncestors'
 import { getHeaders } from '../../lib/util/fetchWithToken'
+import { deleteCollections } from '../../lib/util/deleteCollections'
+import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
+import { createCollectionObject } from '../../lib/myCollections/createCollection'
+import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -25,6 +29,7 @@ import { IStats } from './returnTypes'
 export const mlApi: any = createApi({
   reducerPath: 'mlApi',
   baseQuery: baseQuery(getDataApiBaseUrl),
+  tagTypes: ['Results'],
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
@@ -50,10 +55,7 @@ export const mlApi: any = createApi({
           urlParams.set('rnd', `${rnd}`)
         }
         // set headers if My Collections
-        if (token) {
-          console.log('in search: ', token)
-        }
-        let headers: Headers = getHeaders()
+        let headers: Headers = getHeaders(token)
 
         return {
           url: `api/search/${scope}?${urlParams.toString()}`,
@@ -61,6 +63,7 @@ export const mlApi: any = createApi({
           headers,
         }
       },
+      providesTags: ['Results'],
     }),
     getFacetsSearch: builder.query<
       ISearchResults | ISearchResultsError,
@@ -237,6 +240,34 @@ export const mlApi: any = createApi({
         }
       },
     }),
+    createCollection: builder.mutation<any, ICreateCollectionFormData>({
+      query: (collectionFormData) => {
+        const { name, classification, language, defaultCollection } =
+          collectionFormData
+
+        const collection = createCollectionObject(
+          name,
+          classification,
+          language,
+          defaultCollection,
+        )
+
+        return {
+          url: 'data/',
+          method: 'POST',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results'],
+    }),
+    deleteCollection: builder.mutation<any, IDeleteCollection>({
+      query: (collectionData) => {
+        const { ids } = collectionData
+        return deleteCollections(ids)
+      },
+      invalidatesTags: ['Results'],
+    }),
   }),
 })
 
@@ -254,4 +285,6 @@ export const {
   useGetStatsQuery,
   useGetTimelineQuery,
   useSearchQuery,
+  useCreateCollectionMutation,
+  useDeleteCollectionMutation,
 } = mlApi
