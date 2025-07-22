@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
@@ -15,6 +14,7 @@ import { useDeleteCollectionMutation } from '../../redux/api/ml_api'
 import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import SelectionList from './SelectionList'
+import DeleteOption from './DeleteOption'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -46,8 +46,7 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
     Array<{ uuid: string; isDefaultCollection: boolean }>
   >(uuids.map((uuid) => ({ uuid, isDefaultCollection: false })))
 
-  const handleDelete = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
+  const handleDelete = (): void => {
     const filteredSelection = selectedForDeletion
       .filter((s) => !s.isDefaultCollection)
       .map((filtered) => filtered.uuid)
@@ -117,11 +116,15 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
               </p>
             </Col>
             <Col xs={12}>
-              <SelectionList
-                listOfRecords={uuids}
-                selected={selectedForDeletion}
-                handleSelection={setSelectedForDeletion}
-              />
+              <SelectionList>
+                {uuids.map((uuid) => (
+                  <DeleteOption
+                    record={uuid}
+                    selectedRecords={selectedForDeletion}
+                    handleSelection={setSelectedForDeletion}
+                  />
+                ))}
+              </SelectionList>
             </Col>
           </Row>
         </Modal.Body>
@@ -129,7 +132,7 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
           <Modal.Footer className="d-block">
             <Row>
               <Col className="d-flex justify-content-end">
-                <DangerButton onClick={(e: string) => handleDelete(e)}>
+                <DangerButton onClick={() => handleDelete()}>
                   Delete
                 </DangerButton>
               </Col>

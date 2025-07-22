@@ -1,28 +1,13 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
-import _ from 'lodash'
+import _, { isUndefined } from 'lodash'
 
-import theme from '../../styles/theme'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import StyledCheckboxDiv from '../../styles/features/myCollections/CheckboxDiv'
 
-interface IStyledDivProps {
-  selected: boolean
-}
-
-const StyledDiv = styled.div<IStyledDivProps>`
-  color: ${theme.color.trueBlack};
-  background-color: ${(props) =>
-    props.selected ? theme.color.lightBabyBlue : 'none'};
-
-  &:hover {
-    background-color: ${theme.color.lightBabyBlue};
-  }
-`
-
-const SelectionOption: React.FC<{
+const DeleteOption: React.FC<{
   record: string
   selectedRecords: Array<{ uuid: string; isDefaultCollection: boolean }>
   handleSelection: (
@@ -41,6 +26,7 @@ const SelectionOption: React.FC<{
     primaryName = entity.getPrimaryName(config.aat.langen)
     classifiedAsDefaultCollection = primaryName === 'Default Collection'
     if (classifiedAsDefaultCollection) {
+      // Find the default collection and set it as the default in the local state
       const target = selectedRecords.find(
         (selected) => selected.uuid === record,
       )
@@ -48,8 +34,10 @@ const SelectionOption: React.FC<{
         uuid: record,
         isDefaultCollection: true,
       }
-      Object.assign(target, source)
-      handleSelection(selectedRecords)
+      if (!isUndefined(target)) {
+        Object.assign(target, source)
+        handleSelection(selectedRecords)
+      }
     }
     // TODO: add back in once AAT has been updated
     // classifiedAsDefaultCollection = entity.isClassifiedAs(
@@ -74,7 +62,7 @@ const SelectionOption: React.FC<{
   }
 
   return (
-    <StyledDiv
+    <StyledCheckboxDiv
       className="py-1 px-2"
       data-testid="record-selection-div"
       selected={!classifiedAsDefaultCollection && isSelected}
@@ -93,8 +81,8 @@ const SelectionOption: React.FC<{
           ? '(Default collections cannot be deleted)'
           : ''}
       </label>
-    </StyledDiv>
+    </StyledCheckboxDiv>
   )
 }
 
-export default SelectionOption
+export default DeleteOption
