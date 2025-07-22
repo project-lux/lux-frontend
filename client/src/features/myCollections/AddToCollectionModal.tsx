@@ -1,11 +1,27 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
+import { useAuth } from 'react-oidc-context'
 
-import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
+import {
+  IMyCollectionsResultsState,
+  resetState,
+} from '../../redux/slices/myCollectionsSlice'
+import { useAppSelector } from '../../app/hooks'
+import {
+  useAddToCollectionMutation,
+  useSearchQuery,
+} from '../../redux/api/ml_api'
+import IEntity from '../../types/data/IEntity'
+import config from '../../config/config'
+import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 
 import CreateCollectionButton from './CreateCollectionButton'
 import SelectionList from './SelectionList'
+import AddOption from './AddOption'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -25,9 +41,79 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
   onClose,
   showCreateNewModal,
 }) => {
+  const auth = useAuth()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
+  const { search } = useLocation()
+  const { tab, subTab } = useParams()
+  const [addToCollection] = useAddToCollectionMutation()
+  const [selectedCollection, setSelectedCollection] = useState<IEntity | null>(
+    null,
+  )
+
+  const { data, isSuccess, isError, isLoading } = useSearchQuery({
+    q: JSON.stringify({
+      _scope: 'set',
+      createdBy: { username: auth.user?.profile['cognito:username'] },
+    }),
+    filterResults: false,
+    token: config.currentAccessToken,
+    tab: 'collections',
+  })
+
+  const currentMyCollectionState = useAppSelector(
+    (myCollectionsState) =>
+      myCollectionsState.myCollections as IMyCollectionsResultsState,
+  )
+  const { uuids } = currentMyCollectionState
+
   const handleClickCreateNew = (): void => {
     onClose()
     showCreateNewModal(true)
+  }
+
+  const handleAdd = (): void => {
+    addToCollection({
+      collectionId: selectedCollection?.id,
+      collectionData: selectedCollection,
+      recordsToAdd: uuids,
+    })
+      .unwrap()
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .then(() => {
+        onClose()
+        dispatch(resetState())
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'The selected records were saved!',
+              alertVariant: 'primary',
+            },
+          },
+        )
+      })
+      .catch(() => {
+        onClose()
+        dispatch(resetState())
+        navigate(
+          {
+            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'The selected records could not be saved.',
+              alertVariant: 'danger',
+            },
+          },
+        )
+      })
   }
 
   return (
@@ -55,30 +141,24 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
               </p>
             </Col>
             <Col xs={12}>
-              <SelectionList
-                listOfRecords={[
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                  `${config.env.dataApiBaseUrl}data/set/a082a270-b120-447a-93ae-f1e2f299006e`,
-                ]}
-              />
+              {isLoading && <p>Loading...</p>}
+              {isError && (
+                <strong>
+                  An error occurred trying to retrieve the list of available
+                  collections.
+                </strong>
+              )}
+              {isSuccess && data && (
+                <SelectionList>
+                  {getOrderedItemsIds(data).map((uuid) => (
+                    <AddOption
+                      collection={uuid}
+                      selected={selectedCollection}
+                      handleSelection={setSelectedCollection}
+                    />
+                  ))}
+                </SelectionList>
+              )}
             </Col>
           </Row>
         </Modal.Body>
@@ -91,7 +171,7 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
               />
             </Col>
             <Col className="d-flex justify-content-end">
-              <PrimaryButton onClick={() => onClose()}>Save</PrimaryButton>
+              <PrimaryButton onClick={() => handleAdd()}>Save</PrimaryButton>
             </Col>
           </Row>
         </Modal.Footer>

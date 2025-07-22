@@ -9,7 +9,7 @@ import { transformRelatedListResults } from '../../lib/parse/search/relatedLists
 import { getDataApiBaseUrl } from '../../config/config'
 import { formatSortParameter } from '../../lib/parse/search/queryParser'
 import IEntity from '../../types/data/IEntity'
-import { replaceBaseUrl } from '../../lib/parse/data/helper'
+import { replaceBaseUrl, stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/fetchTimeline'
@@ -20,8 +20,12 @@ import { getAncestors } from '../../lib/util/fetchArchiveAncestors'
 import { getHeaders } from '../../lib/util/fetchWithToken'
 import { deleteCollections } from '../../lib/util/deleteCollections'
 import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
-import { createCollectionObject } from '../../lib/myCollections/createCollection'
+import {
+  addToCollectionObject,
+  createCollectionObject,
+} from '../../lib/myCollections/helper'
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
+import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -42,7 +46,7 @@ export const mlApi: any = createApi({
         if (tab !== undefined) {
           scope = searchScope[tab]
         }
-        if (page !== undefined) {
+        if (!isUndefined(page)) {
           urlParams.set('page', `${page}`)
         }
         if (!isUndefined(filterResults)) {
@@ -261,6 +265,21 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results'],
     }),
+    addToCollection: builder.mutation<any, IAddToCollection>({
+      query: (data) => {
+        const { collectionId, collectionData, recordsToAdd } = data
+        const collection = addToCollectionObject(collectionData, recordsToAdd)
+        const collectionUuid = stripYaleIdPrefix(collectionId)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results'],
+    }),
     deleteCollection: builder.mutation<any, IDeleteCollection>({
       query: (collectionData) => {
         const { ids } = collectionData
@@ -286,5 +305,6 @@ export const {
   useGetTimelineQuery,
   useSearchQuery,
   useCreateCollectionMutation,
+  useAddToCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi

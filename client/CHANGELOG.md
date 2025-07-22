@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Added the create new collection endpoint and functionality ([#650](https://github.com/project-lux/lux-frontend/issues/650)).
 - Added the create a collection modal ([#655](https://github.com/project-lux/lux-frontend/issues/655)).
 - Added the delete a collection endpoint and functionality ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
+- Added the Add to a Collection functionality ([#658](https://github.com/project-lux/lux-frontend/issues/658)).
 
 ### Changed
 

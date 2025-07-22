@@ -21,6 +21,11 @@ const MyCollectionsAlert: React.FC<{
     style={{ position: 'absolute', top: '6rem', right: '1rem', zIndex: 999 }}
     data-testid="my-collections-actions-alert"
   >
+    {variant === 'primary' ? (
+      <i className="bi bi-check-circle" />
+    ) : (
+      <i className="bi bi-x-circle" />
+    )}{' '}
     {message}
   </Alert>
 )
