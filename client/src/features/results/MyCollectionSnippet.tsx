@@ -27,11 +27,11 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
   })
 
   if (isSuccess && data) {
-    // TODO: add function for getting number of records in the collection
     // TODO: add function for getting last modified
     const collection = new MyCollectionParser(data)
     const date = collection.getProductionDate() || null
     const images = collection.getImages()
+    const collectionSize = collection.getCollectionSize()
 
     const snippetDataComponent = (
       <React.Fragment>
@@ -48,7 +48,7 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
             <Col>
               <StyledDt>Collection Size</StyledDt>
               <StyledDd data-testid="my-collection-snippet-modified-date">
-                0
+                {collectionSize}
               </StyledDd>
             </Col>
           </Row>

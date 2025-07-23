@@ -4,7 +4,7 @@ import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
 import EventParser from './EventParser'
-import { hasData } from './helper'
+import { forceArray, hasData } from './helper'
 
 export default class MyCollectionParser extends EntityParser {
   myCollection: ISet
@@ -12,6 +12,16 @@ export default class MyCollectionParser extends EntityParser {
   constructor(json: ISet) {
     super(json)
     this.myCollection = json
+  }
+
+  /**
+   * Returns the number of records in the collection
+   * @returns {number}
+   */
+  getCollectionSize(): number {
+    const containing = forceArray(this.myCollection.containing)
+
+    return containing.length
   }
 
   /**
