@@ -97,12 +97,18 @@ export const addToCollectionObject = (
   listOfRecordIds: Array<string>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
-  collectionCopy.containing = listOfRecordIds.map((id) => {
+  const recordsToAdd = listOfRecordIds.map((id) => {
     return {
       id,
       type: 'Set',
     }
   })
+
+  if (collectionCopy.hasOwnProperty('containing')) {
+    collectionCopy.containing = [...collectionCopy.containing, ...recordsToAdd]
+  } else {
+    collectionCopy.containing = recordsToAdd
+  }
 
   return collectionCopy
 }

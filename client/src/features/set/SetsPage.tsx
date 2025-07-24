@@ -22,6 +22,7 @@ import { archive } from '../../config/setsSearchTags'
 import HowDoISeeIt from '../common/HowDoISeeIt'
 import ISet from '../../types/data/ISet'
 import IEntity from '../../types/data/IEntity'
+import MyCollectionsPage from '../myCollections/MyCollectionsPage'
 
 import About from './About'
 import CollectionPage from './CollectionPage'
@@ -31,6 +32,9 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
   const isCollectionPage =
     setParser.isClassifiedAs(config.aat.collection) ||
     setParser.isClassifiedAs(config.aat.exhibition)
+  const isMyCollectionPage = setParser.isClassifiedAs(
+    config.aat.personalCollection,
+  )
   const manifestId = setParser.getManifestId()
   const hierarchyData: {
     entity: IEntity
@@ -44,6 +48,10 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
 
   if (isCollectionPage) {
     return <CollectionPage data={data} />
+  }
+
+  if (isMyCollectionPage) {
+    return <MyCollectionsPage data={data} />
   }
   const isArchive = setParser.isArchive()
   const memberOf = setParser.getMemberOf()

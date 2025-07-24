@@ -33,7 +33,7 @@ import { IStats } from './returnTypes'
 export const mlApi: any = createApi({
   reducerPath: 'mlApi',
   baseQuery: baseQuery(getDataApiBaseUrl),
-  tagTypes: ['Results'],
+  tagTypes: ['Results', 'Item', 'Items'],
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
@@ -118,11 +118,13 @@ export const mlApi: any = createApi({
           headers,
         }
       },
+      providesTags: ['Item'],
     }),
     getItems: builder.query<any, { uris: Array<string>; profile?: string }>({
       queryFn({ uris, profile }) {
         return getItems(uris, profile)
       },
+      providesTags: ['Items'],
     }),
     getName: builder.query<IEntity, IItemParams>({
       query: (itemUri) => ({
@@ -278,7 +280,7 @@ export const mlApi: any = createApi({
           headers: getHeaders(),
         }
       },
-      invalidatesTags: ['Results'],
+      invalidatesTags: ['Results', 'Item', 'Items'],
     }),
     deleteCollection: builder.mutation<any, IDeleteCollection>({
       query: (collectionData) => {

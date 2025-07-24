@@ -4,8 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { useAuth } from 'react-oidc-context'
-import { useDispatch } from 'react-redux'
-// import { isNull, isUndefined } from 'lodash'
+import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -24,16 +23,14 @@ import CreateCollectionButton from '../myCollections/CreateCollectionButton'
 import AddToCollectionButton from '../myCollections/AddToCollectionButton'
 import ManageCollectionsButton from '../myCollections/ManageCollectionsButton'
 import { useAppSelector } from '../../app/hooks'
-import {
-  IMyCollectionsResultsState,
-  addSelectAll,
-  resetState,
-} from '../../redux/slices/myCollectionsSlice'
+import { IMyCollectionsResultsState } from '../../redux/slices/myCollectionsSlice'
 import { ISearchResults } from '../../types/ISearchResults'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteModal from '../myCollections/DeleteModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
+import SelectAll from '../common/SelectAll'
+import { onAddRequest } from '../../lib/myCollections/onAddRequest'
 
 import Sort from './Sort'
 
@@ -73,7 +70,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   resultsData,
   toggleView = false,
 }) => {
-  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
@@ -109,15 +105,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const isSelectAllChecked =
     uuids.length > 0 &&
     (scopeOfSelections === subTab || scopeOfSelections === tab)
-
-  // Handle the selection of the entity's checkbox
-  const handleSelectAllCheckboxSelection = (): void => {
-    if (isSelectAllChecked) {
-      dispatch(resetState())
-    } else {
-      dispatch(addSelectAll({ uuids: resultsUuids, scope: tab }))
-    }
-  }
 
   useEffect(() => {
     if (redirect !== false) {
@@ -196,7 +183,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       additionalClassName={additionalClassNameOfMyCollectionsButton}
       selectAll={isSelectAllChecked}
       setShowModal={setShowAddToCollectionModal}
-    />
+    >
+      <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
+      Add to My Collections
+    </AddToCollectionButton>
   )
   if (subTab === 'my-collections') {
     buttonToRender = (
@@ -227,6 +217,22 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
           onClose={handleCloseAddModal}
+          onSuccess={() =>
+            onAddRequest(
+              'The selected records were saved!',
+              'primary',
+              `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+              search,
+            )
+          }
+          onError={() =>
+            onAddRequest(
+              'The selected records could not be saved.',
+              'danger',
+              `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+              search,
+            )
+          }
           showCreateNewModal={setShowCreateCollectionModal}
         />
       )}
@@ -338,24 +344,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                 className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : 'w-auto px-0'} ${justifyContent} resultsHeaderMyCollectionsOptionsCol`}
               >
                 {buttonToRender}
-                <span className="d-flex align-items-center">
-                  <input
-                    className="form-check-input d-inline mt-0 selectAllResultsCheckbox"
-                    type="checkbox"
-                    id="select-all-checkbox"
-                    onChange={() => handleSelectAllCheckboxSelection()}
-                    checked={isSelectAllChecked}
-                  />
-                  <label
-                    className="form-check-label ms-2"
-                    htmlFor="select-all-checkbox"
-                  >
-                    {isSelectAllChecked &&
-                    (scopeOfSelections === subTab || scopeOfSelections === tab)
-                      ? `${uuids.length} Selected`
-                      : 'Select All'}
-                  </label>
-                </span>
+                <SelectAll
+                  uuidsToAdd={resultsUuids}
+                  scope={subTab ? subTab : tab}
+                />
               </Col>
             )}
           </Row>
