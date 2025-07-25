@@ -204,6 +204,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
             <AddToCollectionButton
               additionalClassName="addToCollectionOnEntityPageButton"
               setShowModal={setShowAddToCollectionModal}
+              disabled={false}
             >
               <Row>
                 <Col xs={3} className="d-flex float-left w-auto">

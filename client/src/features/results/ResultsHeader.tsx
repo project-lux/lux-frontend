@@ -27,7 +27,7 @@ import { IMyCollectionsResultsState } from '../../redux/slices/myCollectionsSlic
 import { ISearchResults } from '../../types/ISearchResults'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
-import DeleteModal from '../myCollections/DeleteModal'
+import DeleteCollectionModal from '../myCollections/DeleteCollectionModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import SelectAll from '../common/SelectAll'
 import { onAddRequest } from '../../lib/myCollections/onAddRequest'
@@ -89,7 +89,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const [redirect, setRedirect] = useState<boolean>(false)
   const [showAddToCollectionModal, setShowAddToCollectionModal] =
     useState<boolean>(false)
-  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const [showDeleteCollectionModal, setShowDeleteCollectionModal] =
+    useState<boolean>(false)
   const [showCreateCollectionModal, setShowCreateCollectionModal] =
     useState<boolean>(false)
   const { width } = useWindowWidth()
@@ -147,8 +148,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   }
 
   // event to handle the closing of the delete a collection modal
-  const handleCloseDeleteModal = (): void => {
-    setShowDeleteModal(false)
+  const handleCloseDeleteCollectionModal = (): void => {
+    setShowDeleteCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
   }
 
@@ -181,11 +182,13 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   let buttonToRender = (
     <AddToCollectionButton
       additionalClassName={additionalClassNameOfMyCollectionsButton}
-      selectAll={isSelectAllChecked}
+      disabled={!isSelectAllChecked}
       setShowModal={setShowAddToCollectionModal}
     >
-      <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
-      Add to My Collections
+      <React.Fragment>
+        <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
+        Add to My Collections
+      </React.Fragment>
     </AddToCollectionButton>
   )
   if (subTab === 'my-collections') {
@@ -200,7 +203,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <ManageCollectionsButton
           additionalClassName={additionalClassNameOfMyCollectionsButton}
           setShowAddToCollectionModal={setShowAddToCollectionModal}
-          setShowDeleteModal={setShowDeleteModal}
+          setShowDeleteCollectionModal={setShowDeleteCollectionModal}
         />
       )
     }
@@ -236,10 +239,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           showCreateNewModal={setShowCreateCollectionModal}
         />
       )}
-      {showDeleteModal && (
-        <DeleteModal
-          showModal={showDeleteModal}
-          onClose={handleCloseDeleteModal}
+      {showDeleteCollectionModal && (
+        <DeleteCollectionModal
+          showModal={showDeleteCollectionModal}
+          onClose={handleCloseDeleteCollectionModal}
         />
       )}
       {showCreateCollectionModal && (

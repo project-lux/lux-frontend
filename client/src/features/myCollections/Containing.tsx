@@ -9,6 +9,12 @@ import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import StyledHr from '../../styles/shared/Hr'
 import SelectAll from '../common/SelectAll'
 import ResultSnippet from '../common/ResultSnippet'
+import { pushClientEvent } from '../../lib/pushClientEvent'
+import DangerButton from '../../styles/shared/DangerButton'
+import { useAppSelector } from '../../app/hooks'
+import { IMyCollectionsResultsState } from '../../redux/slices/myCollectionsSlice'
+
+import DeleteRecordsModal from './DeleteRecordsModal'
 
 const getTabName = (uri: string): string => {
   switch (true) {
@@ -38,19 +44,74 @@ const Containing: React.FC<{ data: IMyCollection }> = ({ data }) => {
   )
   useResizeableWindow(setIsMobile)
 
+  const [showDeleteRecordsModal, setShowDeleteRecordsModal] =
+    useState<boolean>(false)
+
+  const currentMyCollectionState = useAppSelector(
+    (myCollectionsState) =>
+      myCollectionsState.myCollections as IMyCollectionsResultsState,
+  )
+  const { uuids } = currentMyCollectionState
+
+  const handleShowDeleteRecordsModal = (): void => {
+    setShowDeleteRecordsModal(true)
+    pushClientEvent(
+      'My Collections',
+      'Opened',
+      'Delete records from collection modal',
+    )
+  }
+
+  const handleCloseDeleteRecordsModal = (): void => {
+    setShowDeleteRecordsModal(false)
+    pushClientEvent(
+      'My Collections',
+      'Closed',
+      'Delete records from collection modal',
+    )
+  }
+
   return (
     <StyledEntityPageSection>
+      {showDeleteRecordsModal && (
+        <DeleteRecordsModal
+          showModal={showDeleteRecordsModal}
+          onClose={handleCloseDeleteRecordsModal}
+          collectionId={myCollection.json.id as string}
+          collectionObject={myCollection.json}
+        />
+      )}
       <Row>
-        <Col xs={12} sm={12} md={9} lg={9}>
+        <Col
+          xs={12}
+          sm={12}
+          md={6}
+          lg={6}
+          className="d-flex align-items-center"
+        >
           <h2>{containing.length} Records</h2>
         </Col>
         <Col
           xs={12}
           sm={12}
-          md={3}
-          lg={3}
-          className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : 'w-auto px-0'} justify-content-end selectAllMyCollectionsOptionsCol`}
+          md={6}
+          lg={6}
+          className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : ''} justify-content-end selectAllMyCollectionsOptionsCol`}
         >
+          {/* <AddToCollection
+            successMessage="The record was added successfully!"
+            errorMessage="The record could not be saved."
+            redirectPathname={pathname}
+            buttonClassName="myCollectionRecordsAddToCollectionButton m-2"
+            buttonDisabled={uuids.length === 0}
+          /> */}
+          <DangerButton
+            disabled={uuids.length === 0}
+            onClick={() => handleShowDeleteRecordsModal()}
+            className="m-3 p-2"
+          >
+            <i className="bi bi-trash3" /> Remove
+          </DangerButton>
           <SelectAll uuidsToAdd={containing} scope="collections" />
         </Col>
         <StyledHr />

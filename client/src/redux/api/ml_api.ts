@@ -23,9 +23,11 @@ import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
   addToCollectionObject,
   createCollectionObject,
+  deleteFromCollectionObject,
 } from '../../lib/myCollections/helper'
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
+import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -33,7 +35,7 @@ import { IStats } from './returnTypes'
 export const mlApi: any = createApi({
   reducerPath: 'mlApi',
   baseQuery: baseQuery(getDataApiBaseUrl),
-  tagTypes: ['Results', 'Item', 'Items'],
+  tagTypes: ['Results', 'Item', 'Items', 'Estimates'],
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
@@ -226,6 +228,7 @@ export const mlApi: any = createApi({
           isSwitchToSimpleSearch,
         )
       },
+      providesTags: ['Estimates'],
     }),
     getAncestors: builder.query<
       any,
@@ -265,7 +268,7 @@ export const mlApi: any = createApi({
           headers: getHeaders(),
         }
       },
-      invalidatesTags: ['Results'],
+      invalidatesTags: ['Results', 'Estimates', 'Item', 'Items'],
     }),
     addToCollection: builder.mutation<any, IAddToCollection>({
       query: (data) => {
@@ -282,12 +285,33 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    deleteRecordsFromCollection: builder.mutation<
+      any,
+      IDeleteRecordsFromCollection
+    >({
+      query: (data) => {
+        const { collectionId, collectionData, recordsToDelete } = data
+        const collection = deleteFromCollectionObject(
+          collectionData,
+          recordsToDelete,
+        )
+        const collectionUuid = stripYaleIdPrefix(collectionId)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteCollection: builder.mutation<any, IDeleteCollection>({
       query: (collectionData) => {
         const { ids } = collectionData
         return deleteCollections(ids)
       },
-      invalidatesTags: ['Results'],
+      invalidatesTags: ['Results', 'Estimates'],
     }),
   }),
 })
@@ -308,5 +332,6 @@ export const {
   useSearchQuery,
   useCreateCollectionMutation,
   useAddToCollectionMutation,
+  useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi
