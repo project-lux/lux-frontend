@@ -136,6 +136,8 @@ export const deleteFromCollectionObject = (
     }
   })
 
-  collectionCopy.containing = containing
+  collectionCopy.containing = containing.map((c) => {
+    return { id: c }
+  })
   return collectionCopy
 }

@@ -1,3 +1,4 @@
+import config from '../../config/config'
 import ConceptSnippet from '../results/ConceptSnippet'
 import EventSnippet from '../results/EventSnippet'
 import MyCollectionSnippet from '../results/MyCollectionSnippet'
@@ -20,7 +21,7 @@ const ResultSnippet = (uri: string, tab: string): JSX.Element | null => {
     return <SetSnippet uri={uri} view="list" />
   }
 
-  if (tab === 'my-collections') {
+  if (config.env.featureMyCollections && tab === 'my-collections') {
     return <MyCollectionSnippet uri={uri} view="list" />
   }
 

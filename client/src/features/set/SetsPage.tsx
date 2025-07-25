@@ -50,7 +50,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
     return <CollectionPage data={data} />
   }
 
-  if (isMyCollectionPage) {
+  if (config.env.featureMyCollections && isMyCollectionPage) {
     return <MyCollectionsPage data={data} />
   }
   const isArchive = setParser.isArchive()
