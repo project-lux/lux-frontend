@@ -84,6 +84,11 @@ const PrimaryButton = styled(Button)`
       text-decoration: none;
     }
   }
+
+  &.addToCollectionOnEntityPageButton {
+    background-color: ${theme.color.lightGray};
+    color: ${theme.color.black};
+  }
 `
 
 export default PrimaryButton

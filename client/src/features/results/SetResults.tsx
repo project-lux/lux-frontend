@@ -13,6 +13,7 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
+import config from '../../config/config'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -53,7 +54,7 @@ const SetResults: React.FC<IProps> = ({
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
     results.map((result) => {
-      if (subTab === 'my-collections') {
+      if (config.env.featureMyCollections && subTab === 'my-collections') {
         return (
           <MyCollectionSnippet key={result.id} uri={result.id} view={view} />
         )
@@ -80,7 +81,7 @@ const SetResults: React.FC<IProps> = ({
 
   return (
     <StyledEntityResultsRow className="collectionsResultsPage">
-      {isAuthenticated && (
+      {config.env.featureMyCollections && isAuthenticated && (
         <MyCollectionsNavBar
           searchQueryString={search}
           nestedPage={nestedPage as string}

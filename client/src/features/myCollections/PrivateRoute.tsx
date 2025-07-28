@@ -5,7 +5,6 @@ import ErrorPage from '../error/ErrorPage'
 
 const PrivateRoute: React.FC<{ children: JSX.Element }> = ({ children }) => {
   const { isAuthenticated, signinRedirect } = useAuth()
-  console.log(isAuthenticated)
 
   React.useEffect(() => {
     if (!isAuthenticated) {

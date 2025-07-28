@@ -2,11 +2,13 @@ import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
+import { useDispatch } from 'react-redux'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/ml_api'
 import config from '../../config/config'
 import useAuthentication from '../../lib/hooks/useAuthentication'
+import { resetState } from '../../redux/slices/myCollectionsSlice'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -24,6 +26,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   onClose,
 }) => {
   useAuthentication()
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { search } = useLocation()
   const { tab, subTab } = useParams()
@@ -51,6 +54,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
       .unwrap()
       .then(() => {
         onClose()
+        dispatch(resetState())
         navigate(
           {
             pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
@@ -67,6 +71,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
       })
       .catch(() => {
         onClose()
+        dispatch(resetState())
         navigate(
           {
             pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,

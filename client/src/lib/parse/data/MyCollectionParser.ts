@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import config from '../../../config/config'
 import ISet from '../../../types/data/ISet'
 import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
 
@@ -25,6 +26,16 @@ export default class MyCollectionParser extends EntityParser {
   }
 
   /**
+   * Returns the list of ids in /containing property
+   * @returns {Array<string>}
+   */
+  getContaining(): Array<string> {
+    const containing = forceArray(this.myCollection.containing)
+
+    return containing.map((record) => record.id)
+  }
+
+  /**
    * Returns date of production from /created_by
    * @returns {string | null}
    */
@@ -47,20 +58,20 @@ export default class MyCollectionParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
+    const name = this.getPrimaryName(config.aat.langen)
     const names = this.getNames()
-    const itemType = this.getTypes()
+    const types = this.getTypes()
     const identifiers = this.getIdentifiers()
-    const about = this.getAbout()
-    const represents = this.getRepresents()
     const notes = this.getNotes()
+    const webPages = this.getWebPages()
 
     const data: Record<string, any> = {
+      name,
       names,
-      itemType,
+      types,
       identifiers,
-      about,
-      represents,
       notes,
+      webPages,
     }
 
     return hasData(data)

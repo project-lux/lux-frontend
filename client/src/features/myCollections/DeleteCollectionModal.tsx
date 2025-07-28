@@ -27,7 +27,10 @@ interface IMyCollectionsModal {
  * @param {() => void} onClose function to close the modal
  * @returns
  */
-const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
+const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
+  showModal,
+  onClose,
+}) => {
   useAuthentication()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -144,4 +147,4 @@ const DeleteModal: React.FC<IMyCollectionsModal> = ({ showModal, onClose }) => {
   )
 }
 
-export default DeleteModal
+export default DeleteCollectionModal

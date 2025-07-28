@@ -132,7 +132,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 Help
               </NavLink>
               {/* {config.env.featureMyCollections && !auth.isAuthenticated && ( */}
-              {!isLoggedIn && (
+              {config.env.featureMyCollections && !isLoggedIn && (
                 <NavLink
                   to="#"
                   className="nav-link"
@@ -144,7 +144,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 </NavLink>
               )}
               {/* {config.env.featureMyCollections && auth.isAuthenticated && ( */}
-              {isLoggedIn && (
+              {config.env.featureMyCollections && isLoggedIn && (
                 <React.Fragment>
                   <NavLink
                     // TODO: change to correspond with the correct results page

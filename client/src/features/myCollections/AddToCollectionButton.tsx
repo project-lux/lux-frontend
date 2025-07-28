@@ -10,19 +10,19 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
  * @returns {JSX.Element}
  */
 const AddToCollectionButton: React.FC<{
-  selectAll: boolean
   setShowModal: (x: boolean) => void
-  additionalClassName: string
-}> = ({ selectAll, additionalClassName, setShowModal }) => (
+  children: JSX.Element
+  disabled?: boolean
+  additionalClassName?: string
+}> = ({ disabled = true, additionalClassName, setShowModal, children }) => (
   <PrimaryButton
     type="button"
-    className={`btn text-center text-nowrap rounded-3 p-2 ${additionalClassName} editMyCollectionsButton`}
+    className={`btn text-center text-nowrap rounded-3 p-2 ${additionalClassName || ''} editMyCollectionsButton`}
     onClick={() => setShowModal(true)}
     data-testid="add-to-collection-button"
-    disabled={!selectAll}
+    disabled={disabled}
   >
-    <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
-    Add to My Collections
+    {children}
   </PrimaryButton>
 )
 

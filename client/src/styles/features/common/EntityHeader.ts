@@ -5,10 +5,7 @@ import theme from '../../theme'
 
 const EntityHeader = styled(Row)`
   margin: 0;
-  padding-top: '1rem';
-  padding-bottom: '1.5rem';
-  padding-left: ${theme.spacing.contentAbsMarginX};
-  padding-right: ${theme.spacing.contentAbsMarginX};
+  padding: 1rem;
   background-color: ${theme.color.white};
 
   h1 {

@@ -2,6 +2,7 @@ import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
 import IEntity from '../../types/data/IEntity'
 import IMyCollection from '../../types/data/IMyCollection'
+import MyCollectionParser from '../parse/data/MyCollectionParser'
 
 export const getBaseCollectionObject = (): IEntity => {
   return {
@@ -97,12 +98,46 @@ export const addToCollectionObject = (
   listOfRecordIds: Array<string>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
-  collectionCopy.containing = listOfRecordIds.map((id) => {
+  const recordsToAdd = listOfRecordIds.map((id) => {
     return {
       id,
       type: 'Set',
     }
   })
 
+  if (collectionCopy.hasOwnProperty('containing')) {
+    collectionCopy.containing = [...collectionCopy.containing, ...recordsToAdd]
+  } else {
+    collectionCopy.containing = recordsToAdd
+  }
+
+  return collectionCopy
+}
+
+/**
+ * Finds and removed the records to be deleted from a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to delete from
+ * @param {Array<string>} listOfRecordIds the list of record UUIDs to delete from the collection
+ * @returns {IMyCollection}
+ */
+export const deleteFromCollectionObject = (
+  collection: IMyCollection,
+  listOfRecordIds: Array<string>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const collectionParser = new MyCollectionParser(collectionCopy)
+  const containing = collectionParser.getContaining()
+
+  listOfRecordIds.map((id) => {
+    if (containing.includes(id)) {
+      const ind = containing.indexOf(id)
+      containing.splice(ind, 1)
+    }
+  })
+
+  collectionCopy.containing = containing.map((c) => {
+    return { id: c }
+  })
   return collectionCopy
 }

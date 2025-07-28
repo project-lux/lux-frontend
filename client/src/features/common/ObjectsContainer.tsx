@@ -5,35 +5,18 @@ import { Col, Row } from 'react-bootstrap'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import StyledObjectsContainerLinkRow from '../../styles/features/common/ObjectsContainerLinkRow'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
-import ObjectSnippet from '../results/ObjectSnippet'
-import WorksSnippet from '../results/WorksSnippet'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import SetSnippet from '../results/SetSnippet'
+
+import ResultSnippet from './ResultSnippet'
 
 interface IObjectsBy {
   uri: string // URI which is the argument of the search tag
   tab: string // scope - "objects", "works", etc
   title: string // the title of the current tab
-}
-
-export const getSnippet = (uri: string, tab: string): JSX.Element | null => {
-  if (tab === 'objects') {
-    return <ObjectSnippet uri={uri} view="list" />
-  }
-
-  if (tab === 'works') {
-    return <WorksSnippet uri={uri} view="list" />
-  }
-
-  if (tab === 'collections') {
-    return <SetSnippet uri={uri} view="list" />
-  }
-
-  return null
 }
 
 export const resultsData = (
@@ -44,7 +27,7 @@ export const resultsData = (
     const { id } = item
     return (
       <Row key={id}>
-        <Col xs={12}>{getSnippet(id, tab)}</Col>
+        <Col xs={12}>{ResultSnippet(id, tab)}</Col>
       </Row>
     )
   })

@@ -31,11 +31,11 @@ const StyledDropdownToggle = styled(Dropdown.Toggle)`
 const ManageCollectionsButton: React.FC<{
   additionalClassName: string
   setShowAddToCollectionModal: (x: boolean) => void
-  setShowDeleteModal: (x: boolean) => void
+  setShowDeleteCollectionModal: (x: boolean) => void
 }> = ({
   additionalClassName,
   setShowAddToCollectionModal,
-  setShowDeleteModal,
+  setShowDeleteCollectionModal,
 }) => (
   <Dropdown id="add-delete-collection-dropdown">
     <StyledDropdownToggle
@@ -68,7 +68,7 @@ const ManageCollectionsButton: React.FC<{
         id="delete-collection-dropdown-item"
         aria-label="Delete Collections"
         data-testid="delete-collection-dropdown-item"
-        onClick={() => setShowDeleteModal(true)}
+        onClick={() => setShowDeleteCollectionModal(true)}
       >
         <i className="bi bi-trash3 me-2" />
         Delete Collection(s)
