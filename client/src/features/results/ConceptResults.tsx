@@ -65,6 +65,7 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             total={data ? estimate : 0}
             label="Concepts"
             overlay="conceptsAndGroupings"
+            resultsData={data}
             toggleView
           />
         </Col>

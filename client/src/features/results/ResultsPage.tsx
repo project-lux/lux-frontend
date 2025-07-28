@@ -15,6 +15,10 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import useAuthentication from '../../lib/hooks/useAuthentication'
+import config from '../../config/config'
+import MyCollectionsAlert from '../myCollections/Alert'
+import { IRouteState } from '../../types/myCollections/IRouteState'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -37,6 +41,7 @@ const ResponsiveCol = styled(Col)`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getScopedResultsComponent: any = (
   tab: string,
+  subTab: string | undefined,
   searchResponse: ISearchResponse,
   isMobile: boolean,
 ) => {
@@ -48,7 +53,13 @@ const getScopedResultsComponent: any = (
     case 'works':
       return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'collections':
-      return <SetResults searchResponse={searchResponse} isMobile={isMobile} />
+      return (
+        <SetResults
+          searchResponse={searchResponse}
+          isMobile={isMobile}
+          nestedPage={subTab}
+        />
+      )
     case 'people':
       return (
         <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
@@ -72,25 +83,32 @@ const getScopedResultsComponent: any = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
+  useAuthentication()
   const dispatch = useAppDispatch()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  const [alert, setAlert] = useState<IRouteState>({
+    showAlert: false,
+    alertMessage: '',
+    alertVariant: 'primary',
+  })
 
   const { search, state } = useLocation() as {
     search: string
-    state: { [key: string]: boolean }
+    state: IRouteState
   }
 
   const urlParams = new URLSearchParams(search)
-  const fromLandingPage = isFromLandingPage(state)
+  const fromLandingPage = isFromLandingPage(state as { [key: string]: boolean })
   // Check if current tab q exist
   const hasSimpleSearchQuery = urlParams.has('sq')
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
+  const filterResults = urlParams.get('filterResults') || null
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
@@ -117,6 +135,8 @@ const ResultsPage: React.FC = () => {
   const searchResponse = useSearchQuery(
     {
       q: searchStringWithFacets,
+      filterResults,
+      token: config.currentAccessToken,
       page,
       tab,
       sort,
@@ -137,6 +157,12 @@ const ResultsPage: React.FC = () => {
     }
   }, [dispatch, hasSimpleSearchQuery])
 
+  useEffect(() => {
+    if (state && state.hasOwnProperty('showAlert')) {
+      setAlert(state as IRouteState)
+    }
+  }, [state])
+
   // Get title for accessibility purposes
   useTitle(title)
 
@@ -146,6 +172,13 @@ const ResultsPage: React.FC = () => {
   return (
     <React.Fragment>
       <h1 hidden>{title}</h1>
+      {alert.showAlert && (
+        <MyCollectionsAlert
+          variant={alert.alertVariant as string}
+          message={alert.alertMessage as string}
+          handleOnClose={setAlert}
+        />
+      )}
       <ResultsSearchContainer
         key={tab}
         isSimpleSearch={hasSimpleSearchQuery}
@@ -184,7 +217,7 @@ const ResultsPage: React.FC = () => {
           </Col>
         ) : (
           <Col xs={12} className={isMobile ? '' : 'px-0'}>
-            {getScopedResultsComponent(tab, searchResponse, isMobile)}
+            {getScopedResultsComponent(tab, subTab, searchResponse, isMobile)}
           </Col>
         )}
       </StyledEntityPageSection>

@@ -2,6 +2,7 @@
 import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
@@ -12,22 +13,32 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
+import config from '../../config/config'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
 import NoResultsAlert from './NoResultsAlert'
 import SetSnippet from './SetSnippet'
+import MyCollectionsNavBar from './MyCollectionsNavBar'
+import MyCollectionSnippet from './MyCollectionSnippet'
 
 interface IProps {
   searchResponse: ISearchResponse
   isMobile: boolean
+  nestedPage?: string
 }
 
-const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
+const SetResults: React.FC<IProps> = ({
+  searchResponse,
+  isMobile,
+  nestedPage,
+}) => {
+  const auth = useAuth()
+  const isAuthenticated = auth.isAuthenticated
   // Parse URL search params
   const { search } = useLocation()
   const queryString = new URLSearchParams(search)
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
@@ -42,9 +53,15 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement> =>
-    results.map((result) => (
-      <SetSnippet key={result.id} uri={result.id} view={view} />
-    ))
+    results.map((result) => {
+      if (config.env.featureMyCollections && subTab === 'my-collections') {
+        return (
+          <MyCollectionSnippet key={result.id} uri={result.id} view={view} />
+        )
+      }
+
+      return <SetSnippet key={result.id} uri={result.id} view={view} />
+    })
 
   let errorMessage: string | null = null
 
@@ -63,7 +80,13 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   }
 
   return (
-    <StyledEntityResultsRow>
+    <StyledEntityResultsRow className="collectionsResultsPage">
+      {config.env.featureMyCollections && isAuthenticated && (
+        <MyCollectionsNavBar
+          searchQueryString={search}
+          nestedPage={nestedPage as string}
+        />
+      )}
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader
@@ -71,6 +94,7 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             total={estimate}
             label="Collections"
             overlay="collections"
+            resultsData={data}
             toggleView
           />
         </Col>

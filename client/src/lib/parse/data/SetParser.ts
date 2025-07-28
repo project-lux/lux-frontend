@@ -84,6 +84,20 @@ export default class SetParser extends EntityParser {
   }
 
   /**
+   * Returns array of records in the collection
+   * @returns {Array<string>}
+   */
+  getContaining(): Array<string> {
+    const containing = this.json.containing
+
+    if (containing !== undefined && containing.length > 0) {
+      return containing.map((c) => c.id)
+    }
+
+    return []
+  }
+
+  /**
    * Gets the data to be displayed in the About section
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
@@ -100,6 +114,7 @@ export default class SetParser extends EntityParser {
     const notes = this.getNotes()
     const usedFor = this.getPublicationEvent()
     const sourceObjectCreationEvent = this.getSourceCreationEvent()
+    const containing = this.getContaining()
 
     const data: Record<string, any> = {
       names,
@@ -111,6 +126,7 @@ export default class SetParser extends EntityParser {
       notes,
       usedFor,
       sourceObjectCreationEvent,
+      containing,
     }
 
     return hasData(data)

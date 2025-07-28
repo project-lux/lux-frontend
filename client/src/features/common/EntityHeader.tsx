@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import { Col, Row } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
+import { useLocation } from 'react-router-dom'
 
 import StyledEntityHeader from '../../styles/features/common/EntityHeader'
 import {
@@ -12,6 +14,15 @@ import IEntity from '../../types/data/IEntity'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import AddToCollectionButton from '../myCollections/AddToCollectionButton'
+import AddToCollectionModal from '../myCollections/AddToCollectionModal'
+import { pushClientEvent } from '../../lib/pushClientEvent'
+import CreateCollectionModal from '../myCollections/CreateCollectionModal'
+import { onAddRequest } from '../../lib/myCollections/onAddRequest'
+import { IRouteState } from '../../types/myCollections/IRouteState'
+import MyCollectionsAlert from '../myCollections/Alert'
+import { collectionsIcon } from '../../config/resources'
 
 import Dates from './Dates'
 import AgentInHeader from './AgentInHeader'
@@ -53,6 +64,26 @@ const EntityHeader: React.FC<IEntityHeader> = ({
   end,
   children,
 }) => {
+  const auth = useAuth()
+  const isAuthenticated = auth.isAuthenticated
+  const { pathname, state } = useLocation() as {
+    pathname: string
+    state: IRouteState
+  }
+
+  const [showAddToCollectionModal, setShowAddToCollectionModal] =
+    useState<boolean>(false)
+  const [showCreateCollectionModal, setShowCreateCollectionModal] =
+    useState<boolean>(false)
+  const [alert, setAlert] = useState<IRouteState>({
+    showAlert: false,
+    alertMessage: '',
+    alertVariant: 'primary',
+  })
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
   const agentData = AgentData(primaryAgent)
 
   const element = new EntityParser(entity)
@@ -64,14 +95,73 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 
   useTitle(shortenIfNeeded(displayName))
 
+  useEffect(() => {
+    if (state && state.hasOwnProperty('showAlert')) {
+      setAlert(state as IRouteState)
+    }
+  }, [state])
+
+  // event to handle the closing of the add to collection modal
+  const handleCloseAddModal = (): void => {
+    pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
+    setShowAddToCollectionModal(false)
+  }
+
+  // event to handle the closing of the create a collection modal
+  const handleCloseCreateCollectionModal = (): void => {
+    pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+    setShowCreateCollectionModal(false)
+  }
+
   return (
     <React.Fragment>
+      {alert.showAlert && (
+        <MyCollectionsAlert
+          variant={alert.alertVariant as string}
+          message={alert.alertMessage as string}
+          handleOnClose={setAlert}
+        />
+      )}
+      {showAddToCollectionModal && (
+        <AddToCollectionModal
+          showModal={showAddToCollectionModal}
+          onSuccess={() =>
+            onAddRequest(
+              'The record was added successfully!',
+              'primary',
+              pathname,
+            )
+          }
+          onError={() =>
+            onAddRequest('The record could not be saved.', 'danger', pathname)
+          }
+          onClose={handleCloseAddModal}
+          showCreateNewModal={setShowCreateCollectionModal}
+        />
+      )}
+      {showCreateCollectionModal && (
+        <CreateCollectionModal
+          showModal={showCreateCollectionModal}
+          onClose={handleCloseCreateCollectionModal}
+        />
+      )}
       <StyledEntityHeader>
-        <Col xs={12} sm={12} md={11}>
+        <Col xs={12} sm={12} md={12} lg={isMobile ? 12 : 9}>
           <Row>
-            <Col xs={12} className="text-start p-0">
+            <Col xs={12} className="d-flex text-start p-0">
               <h1 className="d-flex">
                 <span data-testid="entity-header">
+                  <Tooltip html={helperText} placement="bottom">
+                    <StyledImg
+                      src={typeIcon}
+                      alt={`icon for ${helperText}`}
+                      id="icon"
+                      height={70}
+                      width={70}
+                      className="mx-2"
+                      data-testid="entity-icon-img"
+                    />
+                  </Tooltip>
                   {displayName}
                   <Dates start={start || ''} end={end || ''} />
                   {isNameLong &&
@@ -100,22 +190,61 @@ const EntityHeader: React.FC<IEntityHeader> = ({
                 <AgentInHeader data={agentData} />
               </Col>
             )}
+            {children}
           </Row>
-          {children}
         </Col>
-        <Col xs={12} sm={12} md={1} className="px-0 text-end">
-          <Tooltip html={helperText} placement="bottom">
-            <StyledImg
-              src={typeIcon}
-              alt={`icon for ${helperText}`}
-              id="icon"
-              height={70}
-              width={70}
-              className="mx-2"
-              data-testid="entity-icon-img"
-            />
-          </Tooltip>
-        </Col>
+        {isAuthenticated && (
+          <Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={isMobile ? 12 : 3}
+            className="d-flex align-items-center justify-content-center"
+          >
+            <AddToCollectionButton
+              additionalClassName="addToCollectionOnEntityPageButton"
+              setShowModal={setShowAddToCollectionModal}
+              disabled={false}
+            >
+              <Row>
+                <Col xs={3} className="d-flex float-left w-auto">
+                  <img
+                    src={collectionsIcon}
+                    alt="icon for my collections"
+                    id="icon"
+                    height={60}
+                    width={60}
+                    data-testid="my-collection-icon-img"
+                  />
+                </Col>
+                <Col className="px-0">
+                  <Row>
+                    <Col
+                      xs={12}
+                      className="d-flex float-left"
+                      style={{
+                        fontSize: '24px',
+                        fontWeight: theme.font.weight.medium,
+                      }}
+                    >
+                      My Collections
+                    </Col>
+                    <Col
+                      xs={12}
+                      className="d-flex float-left"
+                      style={{
+                        color: theme.color.link,
+                        fontWeight: theme.font.weight.light,
+                      }}
+                    >
+                      Add this record
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </AddToCollectionButton>
+          </Col>
+        )}
       </StyledEntityHeader>
     </React.Fragment>
   )

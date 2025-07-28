@@ -16,6 +16,8 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
+import SnippetHeader from './SnippetHeader'
+
 interface ISearchData {
   uri: string
   view: string
@@ -47,65 +49,45 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const occupations = person.getOccupations()
     const nationalities = person.getNationalities()
 
+    const dates = <Dates start={startDate} end={endDate} />
+    const snippetDataComponent = (
+      <StyledDl>
+        {occupations.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Occupations/Roles</StyledDt>
+              <StyledDd data-testid="person-group-result-snippet-occupation">
+                <RecordLink
+                  url={occupations[0]}
+                  linkCategory="Results Snippet"
+                />
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+        {nationalities.length > 0 && (
+          <Row>
+            <Col>
+              <StyledDt>Nationalities</StyledDt>
+              <StyledDd data-testid="person-group-result-snippet-nationality">
+                <RecordLink
+                  url={nationalities[0]}
+                  linkCategory="Results Snippet"
+                />
+              </StyledDd>
+            </Col>
+          </Row>
+        )}
+      </StyledDl>
+    )
+
     if (view === 'list') {
       return (
         <React.Fragment>
           <div className="m-2 d-flex">
-            <div className="flex-shrink-0">
-              <PreviewImageOrIcon images={images} entity={data} />
-            </div>
-            <div className="flex-grow-1 ms-3">
-              <StyledSnippetTitle
-                className="d-flex"
-                data-testid="person-group-results-snippet-title"
-              >
-                <Link
-                  to={{
-                    pathname: `/view/${stripYaleIdPrefix(data.id)}`,
-                  }}
-                  onClick={() =>
-                    pushClientEvent(
-                      'Entity Link',
-                      'Selected',
-                      'Results Snippet Link',
-                    )
-                  }
-                >
-                  {primaryName.length > 200
-                    ? `${primaryName.slice(0, 200)}...`
-                    : primaryName}
-                  <Dates start={startDate} end={endDate} />
-                </Link>
-              </StyledSnippetTitle>
-              <StyledDl>
-                {occupations.length > 0 && (
-                  <Row>
-                    <Col>
-                      <StyledDt>Occupations/Roles</StyledDt>
-                      <StyledDd data-testid="person-group-result-snippet-occupation">
-                        <RecordLink
-                          url={occupations[0]}
-                          linkCategory="Results Snippet"
-                        />
-                      </StyledDd>
-                    </Col>
-                  </Row>
-                )}
-                {nationalities.length > 0 && (
-                  <Row>
-                    <Col>
-                      <StyledDt>Nationalities</StyledDt>
-                      <StyledDd data-testid="person-group-result-snippet-nationality">
-                        <RecordLink
-                          url={nationalities[0]}
-                          linkCategory="Results Snippet"
-                        />
-                      </StyledDd>
-                    </Col>
-                  </Row>
-                )}
-              </StyledDl>
-            </div>
+            <SnippetHeader data={data} snippetData={snippetDataComponent}>
+              {dates}
+            </SnippetHeader>
           </div>
           <StyledHr width="100%" className="personSnippetHr" />
         </React.Fragment>
@@ -153,7 +135,7 @@ const PersonSnippet: React.FC<ISearchData> = ({ uri, view }) => {
                   {primaryName.length > 200
                     ? `${primaryName.slice(0, 200)}...`
                     : primaryName}
-                  <Dates start={startDate} end={endDate} />
+                  {dates}
                 </Link>
               </StyledSnippetTitle>
               <Card.Text>

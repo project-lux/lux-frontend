@@ -14,6 +14,8 @@ import { getTargetName } from '../../lib/util/uri'
 import { getRouteNames } from '../../config/routerPages'
 import theme from '../../styles/theme'
 import AdvancedSearchConfig from '../advancedSearchConfig/AdvancedSearchConfig'
+// import PrivateRoute from '../myCollections/PrivateRoute'
+// import Callback from '../myCollections/LoginCallback'
 
 import Footer from './Footer'
 
@@ -98,7 +100,26 @@ const LuxRoutes: React.FC = () => {
           <Route path="/index.html" element={<Landing />} />
 
           {/* BEGIN data/search views */}
-          <Route path="/view/results/:tab" element={<ResultsPage />} />
+          {/* <Route path="/view/results/collections" element={<ResultsPage />}>
+            <Route path="all" element={<ResultsPage />} />
+            <Route path="lux-collections" element={<ResultsPage />} />
+            <Route path="my-collections" element={<ResultsPage />} />
+          </Route> */}
+          {/* TODO: continue testing */}
+          {/* <Route path="/signin-oidc" element={<Callback />} />
+          <Route path="/view/results/:tab" element={<ResultsPage />}>
+            <Route
+              path=":subTab"
+              element={
+                <PrivateRoute>
+                  <ResultsPage />
+                </PrivateRoute>
+              }
+            />
+          </Route> */}
+          <Route path="/view/results/:tab" element={<ResultsPage />}>
+            <Route path=":subTab" element={<ResultsPage />} />
+          </Route>
           <Route path="/view/*" element={<RoutingComponent />} />
           {/* END data/search views */}
 

@@ -69,7 +69,10 @@ const MobileSelectedFacets: React.FC<IProps> = ({
 
   if ((facetQuery && selectedFacets) || hasSorting) {
     return (
-      <StyledSelectionContainer xs={12} className="py-2">
+      <StyledSelectionContainer
+        xs={12}
+        className="py-2 selectedFacetsMobileContainer"
+      >
         <span className="d-flex">
           {facetQuery && selectedFacets && selectedFacets.size > 0
             ? getSelectedFacets(selectedFacets, facetQuery)

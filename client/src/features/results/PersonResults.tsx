@@ -71,6 +71,7 @@ const PersonResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             total={estimate}
             label="People & Groups"
             overlay="peopleAndOrgs"
+            resultsData={data}
             toggleView
           />
         </Col>

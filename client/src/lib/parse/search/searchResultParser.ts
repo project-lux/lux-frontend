@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import { IPartOf, ISearchResults } from '../../../types/ISearchResults'
 
 export const getEstimates = (data: ISearchResults): number => {
@@ -29,4 +31,16 @@ export const getEstimates = (data: ISearchResults): number => {
 export const getPageNumber = (data: ISearchResults): number => {
   const queryString = new URLSearchParams(data.id)
   return queryString.has('page') ? parseInt(queryString.get('page')!, 10) : 1
+}
+
+/**
+ * Returns the list of UUIDs from the results
+ * @param {ISearchResults} data the data from the search results
+ * @returns {Array<string>}
+ */
+export const getOrderedItemsIds = (data?: ISearchResults): Array<string> => {
+  if (isUndefined(data)) {
+    return []
+  }
+  return data.orderedItems.map((item) => item.id)
 }

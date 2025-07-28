@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
 
 import config from '../../config/config'
-import { verifyToken } from '../../lib/auth/helper'
+import { signout, verifyToken } from '../../lib/auth/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -54,7 +54,8 @@ const StyledSpan = styled.span`
 
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const auth = useAuth()
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
+  const isLoggedIn = auth.isAuthenticated
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
@@ -64,13 +65,13 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
 
   if (config.env.featureMyCollections) {
     if (auth.isAuthenticated) {
-      console.log('Authenticated', auth.user)
+      // console.log('Authenticated', auth.user)
       if (auth.user) {
         config.currentAccessToken = auth.user.access_token
       }
       verifyToken(auth.user?.access_token || '')
     } else {
-      console.log('Not authenticated')
+      // console.log('Not authenticated')
     }
   }
 
@@ -131,23 +132,23 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 Help
               </NavLink>
               {/* {config.env.featureMyCollections && !auth.isAuthenticated && ( */}
-              {!isLoggedIn && (
+              {config.env.featureMyCollections && !isLoggedIn && (
                 <NavLink
                   to="#"
                   className="nav-link"
                   // TODO: revert to the signin function
-                  onClick={() => setIsLoggedIn(true)}
-                  // onClick={() => auth.signinRedirect()}
+                  // onClick={() => setIsLoggedIn(true)}
+                  onClick={() => auth.signinRedirect()}
                 >
                   Login
                 </NavLink>
               )}
               {/* {config.env.featureMyCollections && auth.isAuthenticated && ( */}
-              {isLoggedIn && (
+              {config.env.featureMyCollections && isLoggedIn && (
                 <React.Fragment>
                   <NavLink
                     // TODO: change to correspond with the correct results page
-                    to="/view/results/collections?q="
+                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&filterResults=false`}
                     className="nav-link"
                   >
                     My Collections
@@ -162,8 +163,8 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                     </NavDropdown.Item>
                     <NavDropdown.Item
                       // TODO: revert to the signout function
-                      onClick={() => setIsLoggedIn(false)}
-                      // onClick={() => signout(auth)}
+                      // onClick={() => setIsLoggedIn(false)}
+                      onClick={() => signout(auth)}
                       className="navDropdownItem"
                     >
                       Logout

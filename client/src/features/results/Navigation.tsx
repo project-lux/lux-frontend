@@ -28,6 +28,7 @@ import {
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 interface INavigation {
   urlParams: URLSearchParams
@@ -42,6 +43,7 @@ const Navigation: React.FC<INavigation> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
+  useAuthentication()
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -118,7 +120,7 @@ const Navigation: React.FC<INavigation> = ({
               {Object.entries(searchScope).map(([key, value]) => (
                 <StyledNavLink
                   key={key}
-                  to={`/view/results/${key}?${
+                  to={`/view/results/${key}${key === 'collections' ? '/all' : ''}?${
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
                     isSwitchToSimpleSearch
                       ? `${urlParams.toString()}&qt=${tab}`

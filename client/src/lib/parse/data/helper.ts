@@ -211,6 +211,10 @@ export const getDateContent = (
 
   const identifiedBy = forceArray(timespan.identified_by)
 
+  if (identifiedBy.length === 0 && !isUndefined(timespan.begin_of_the_begin)) {
+    return [timespan.begin_of_the_begin]
+  }
+
   return identifiedBy
     .map((id) => id.content)
     .filter((cont) => cont !== undefined)
