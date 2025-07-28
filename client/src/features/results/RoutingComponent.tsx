@@ -13,8 +13,10 @@ import ConceptPage from '../concept/ConceptPage'
 import EventPage from '../event/EventPage'
 import PlacePage from '../place/PlacePage'
 import ObjectsPage from '../objects/ObjectsPage'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 const RoutingComponent: React.FC = () => {
+  useAuthentication()
   const { pathname } = useLocation()
   const { isSuccess, isLoading, isError, data, error } = useGetItemQuery({
     uri: pathname.replace('/view/', ''),

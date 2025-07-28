@@ -21,6 +21,7 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 
 import ProductionSnippet from './ProductionSnippet'
+import SnippetHeader from './SnippetHeader'
 
 interface ISearchData {
   uri: string
@@ -86,67 +87,62 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
         : []
     }
 
+    const snippetDataComponent = (
+      <React.Fragment>
+        <StyledDl>
+          <ProductionSnippet
+            agents={eventAgents}
+            date={eventDate}
+            label={label}
+            location={location}
+            locationLabel={locationLabel}
+          />
+          {types.length > 0 && <TypeList types={types} />}
+          {collectionIsLoading && <p>Loading...</p>}
+          {collectionIsSuccess && collectionData.length > 0 && (
+            <Row>
+              <Col>
+                <StyledDt>Collection</StyledDt>
+                <StyledDd data-testid="object-snippet-collections">
+                  <RecordLink
+                    url={collectionData[0]}
+                    linkCategory="Results Snippet"
+                  />
+                  {collectionData.length > 1 && '...'}
+                </StyledDd>
+              </Col>
+            </Row>
+          )}
+          {callNumber !== null && (
+            <Row>
+              <Col>
+                <StyledDt>Identifiers</StyledDt>
+                <StyledDd data-testid="object-snippet-identifiers">
+                  {callNumber.identifier}
+                  {identifiers.length > 1 && '...'}
+                </StyledDd>
+              </Col>
+            </Row>
+          )}
+        </StyledDl>
+        {object.json.member_of && (
+          <GenericBreadcrumbHierarchy
+            key={object.json.id}
+            entity={data}
+            id="object-snippet"
+            getNextEntityUri={getNextSetUris}
+            linkFilter={isEntityAnArchive}
+            maxLength={8}
+          />
+        )}
+      </React.Fragment>
+    )
+
     if (view === 'list') {
       return (
         <React.Fragment>
-          <div className="m-2 d-flex" data-testid="object-snippet-list-view">
-            <div className="flex-shrink-0">
-              <PreviewImageOrIcon images={images} entity={data} />
-            </div>
-            <div className="flex-grow-1 ms-3">
-              <StyledSnippetTitle
-                className="d-flex"
-                data-testid="object-results-snippet-title"
-              >
-                <RecordLink url={data.id} linkCategory="Results Snippet" />
-              </StyledSnippetTitle>
-              <StyledDl>
-                <ProductionSnippet
-                  agents={eventAgents}
-                  date={eventDate}
-                  label={label}
-                  location={location}
-                  locationLabel={locationLabel}
-                />
-                {types.length > 0 && <TypeList types={types} />}
-                {collectionIsLoading && <p>Loading...</p>}
-                {collectionIsSuccess && collectionData.length > 0 && (
-                  <Row>
-                    <Col>
-                      <StyledDt>Collection</StyledDt>
-                      <StyledDd data-testid="object-snippet-collections">
-                        <RecordLink
-                          url={collectionData[0]}
-                          linkCategory="Results Snippet"
-                        />
-                        {collectionData.length > 1 && '...'}
-                      </StyledDd>
-                    </Col>
-                  </Row>
-                )}
-                {callNumber !== null && (
-                  <Row>
-                    <Col>
-                      <StyledDt>Identifiers</StyledDt>
-                      <StyledDd data-testid="object-snippet-identifiers">
-                        {callNumber.identifier}
-                        {identifiers.length > 1 && '...'}
-                      </StyledDd>
-                    </Col>
-                  </Row>
-                )}
-              </StyledDl>
-              {object.json.member_of && (
-                <GenericBreadcrumbHierarchy
-                  key={object.json.id}
-                  entity={data}
-                  id="object-snippet"
-                  getNextEntityUri={getNextSetUris}
-                  linkFilter={isEntityAnArchive}
-                  maxLength={8}
-                />
-              )}
-            </div>
+          <div className="m-2 d-flex">
+            <SnippetHeader data={data} snippetData={snippetDataComponent} />
           </div>
           <StyledHr width="100%" className="my-3 objectSnippetHr" />
         </React.Fragment>

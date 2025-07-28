@@ -8,7 +8,7 @@ import ExpandableList from './ExpandableList'
 import TextLabel from './TextLabel'
 
 /**
- * @param {Array<string>} webPagesan IEntity representing a LUX document
+ * @param {Array<string>} webPages IEntity representing a LUX document
  */
 const WebPages: React.FC<{ webPages: Array<string> }> = ({ webPages }) => {
   if (webPages.length > 0) {

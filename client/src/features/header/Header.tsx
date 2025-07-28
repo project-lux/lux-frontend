@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Container, Nav, Navbar } from 'react-bootstrap'
+import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
@@ -54,22 +54,24 @@ const StyledSpan = styled.span`
 
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
   const auth = useAuth()
+  const isLoggedIn = auth.isAuthenticated
+  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
-  const handlepushClientEvent = (link: string): void => {
+  const handlePushClientEvent = (link: string): void => {
     pushClientEvent('Internal Link', 'Selected', `Internal ${link}`)
   }
 
   if (config.env.featureMyCollections) {
     if (auth.isAuthenticated) {
-      console.log('Authenticated', auth.user)
+      // console.log('Authenticated', auth.user)
       if (auth.user) {
         config.currentAccessToken = auth.user.access_token
       }
       verifyToken(auth.user?.access_token || '')
     } else {
-      console.log('Not authenticated')
+      // console.log('Not authenticated')
     }
   }
 
@@ -87,7 +89,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
             <NavLink
               to="/"
               className="navbar-brand titleHeading float-right"
-              onClick={() => handlepushClientEvent('Landing Page')}
+              onClick={() => handlePushClientEvent('Landing Page')}
             >
               LUX: Yale Collections Discovery
             </NavLink>
@@ -104,40 +106,71 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               <NavLink
                 to="/content/about-lux"
                 className="nav-link"
-                onClick={() => handlepushClientEvent('About LUX')}
+                onClick={() => handlePushClientEvent('About LUX')}
               >
                 About LUX
               </NavLink>
               <NavLink
                 to="/content/open-access"
                 className="nav-link"
-                onClick={() => handlepushClientEvent('Open Access')}
+                onClick={() => handlePushClientEvent('Open Access')}
               >
                 Open Access
               </NavLink>
               <NavLink
                 to="/content/simple-search"
                 className="nav-link"
-                onClick={() => handlepushClientEvent('Search Tips')}
+                onClick={() => handlePushClientEvent('Search Tips')}
               >
                 Search Tips
               </NavLink>
               <NavLink
                 to="/content/faq"
                 className="nav-link"
-                onClick={() => handlepushClientEvent('Help')}
+                onClick={() => handlePushClientEvent('Help')}
               >
                 Help
               </NavLink>
-              {config.env.featureMyCollections && !auth.isAuthenticated && (
-                <button type="submit" onClick={() => auth.signinRedirect()}>
-                  Sign In
-                </button>
+              {/* {config.env.featureMyCollections && !auth.isAuthenticated && ( */}
+              {config.env.featureMyCollections && !isLoggedIn && (
+                <NavLink
+                  to="#"
+                  className="nav-link"
+                  // TODO: revert to the signin function
+                  // onClick={() => setIsLoggedIn(true)}
+                  onClick={() => auth.signinRedirect()}
+                >
+                  Login
+                </NavLink>
               )}
-              {config.env.featureMyCollections && auth.isAuthenticated && (
-                <button type="submit" onClick={() => signout(auth)}>
-                  Sign Out
-                </button>
+              {/* {config.env.featureMyCollections && auth.isAuthenticated && ( */}
+              {config.env.featureMyCollections && isLoggedIn && (
+                <React.Fragment>
+                  <NavLink
+                    // TODO: change to correspond with the correct results page
+                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&filterResults=false`}
+                    className="nav-link"
+                  >
+                    My Collections
+                  </NavLink>
+                  <NavDropdown title="username TBD" id="user-navbar-dropdown">
+                    <NavDropdown.Item
+                      // TODO: change once the user's profile page is ready
+                      href="#"
+                      className="navDropdownItem"
+                    >
+                      View Profile
+                    </NavDropdown.Item>
+                    <NavDropdown.Item
+                      // TODO: revert to the signout function
+                      // onClick={() => setIsLoggedIn(false)}
+                      onClick={() => signout(auth)}
+                      className="navDropdownItem"
+                    >
+                      Logout
+                    </NavDropdown.Item>
+                  </NavDropdown>
+                </React.Fragment>
               )}
               {hideSearch ? null : (
                 <React.Fragment>

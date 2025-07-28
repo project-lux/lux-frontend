@@ -89,41 +89,41 @@ const Sort: React.FC = () => {
 
   if (isMobile) {
     return (
-      <div className="flex-grow-1 ms-3">
-        <MobileRefine
-          sortTermSelected={sort}
-          sortDirectionSelected={sortDirectionParamValue}
-          handleSelectionOfSortDirection={handleSortDirectionSelection}
-          handleSelectionOfSortTerm={handleSortSelection}
-        />
-      </div>
+      // <div className="flex-grow-1 ms-3">
+      <MobileRefine
+        sortTermSelected={sort}
+        sortDirectionSelected={sortDirectionParamValue}
+        handleSelectionOfSortDirection={handleSortDirectionSelection}
+        handleSelectionOfSortTerm={handleSortSelection}
+      />
+      // </div>
     )
   }
 
   return (
     <React.Fragment>
-      <div className="flex-grow-1 ms-3">
-        <SortDropdown
-          options={sortByOptions}
-          handleChange={handleSortSelection}
-          className="sortingDropdown"
-          id="sorting-dropdown"
-          selected={sort}
-          label="Sort By"
-          headerText="Sort By"
-        />
-      </div>
-      <div className="flex-grow-1 ms-3">
-        <SortDropdown
-          options={sortDirection}
-          handleChange={handleSortDirectionSelection}
-          className="sortAscOrDesc"
-          id="sort-asc-or-desc"
-          selected={sortDirectionParamValue}
-          label={selectedSortDirection}
-          headerText="Sorting Direction"
-        />
-      </div>
+      {/* <div className="flex-grow-1 ms-3"> */}
+      <SortDropdown
+        options={sortByOptions}
+        handleChange={handleSortSelection}
+        className="sortingDropdown me-2"
+        id="sorting-dropdown"
+        selected={sort}
+        label="Sort By"
+        headerText="Sort By"
+      />
+      {/* </div>
+      <div className="flex-grow-1 ms-3"> */}
+      <SortDropdown
+        options={sortDirection}
+        handleChange={handleSortDirectionSelection}
+        className="sortAscOrDesc me-0"
+        id="sort-asc-or-desc"
+        selected={sortDirectionParamValue}
+        label={selectedSortDirection}
+        headerText="Sorting Direction"
+      />
+      {/* </div> */}
     </React.Fragment>
   )
 }

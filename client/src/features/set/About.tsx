@@ -36,6 +36,7 @@ const About: React.FC<IObject> = ({ data }) => {
     notes,
     usedFor,
     sourceObjectCreationEvent,
+    containing,
   } = aboutData as Record<string, any>
 
   return (
@@ -100,6 +101,15 @@ const About: React.FC<IObject> = ({ data }) => {
                 content={represents}
                 label="Depicts"
                 id="set-depicts-link-container"
+              />
+            </React.Fragment>
+          )}
+          {containing.length > 0 && (
+            <React.Fragment>
+              <LinkContainer
+                content={containing}
+                label="Contains"
+                id="set-contains-link-container"
               />
             </React.Fragment>
           )}

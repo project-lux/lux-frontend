@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.55.0 - Unreleased
+
+### Added
+
+- Added the My Collections header buttons and styling ([#640](https://github.com/project-lux/lux-frontend/issues/640)).
+- Added the My Collections results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
+- Added the create new collection endpoint and functionality ([#650](https://github.com/project-lux/lux-frontend/issues/650)).
+- Added the create a collection modal ([#655](https://github.com/project-lux/lux-frontend/issues/655)).
+- Added the delete a collection endpoint and functionality ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
+- Added the Add to a Collection functionality ([#658](https://github.com/project-lux/lux-frontend/issues/658)).
+- Added My Collections entity page ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+
 ## v1.54.2 - 2025-7-3
 
 ### Added
@@ -56,9 +68,13 @@ All notable changes to this project will be documented in this file.
 - Added two dashes between each list item within the about subsection ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Changed
+<<<<<<< HEAD
+=======
 
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
+>>>>>>> main
 
+- Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
 - Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Removed

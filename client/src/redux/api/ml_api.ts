@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react'
+import { isUndefined } from 'lodash'
 
 import { ISearchParams, IItemParams } from '../../types/IMlApiParams'
 import { ISearchResults, ISearchResultsError } from '../../types/ISearchResults'
@@ -8,7 +9,7 @@ import { transformRelatedListResults } from '../../lib/parse/search/relatedLists
 import { getDataApiBaseUrl } from '../../config/config'
 import { formatSortParameter } from '../../lib/parse/search/queryParser'
 import IEntity from '../../types/data/IEntity'
-import { replaceBaseUrl } from '../../lib/parse/data/helper'
+import { replaceBaseUrl, stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
 import { searchScope } from '../../config/searchTypes'
 import { getTimelines } from '../../lib/util/fetchTimeline'
@@ -16,6 +17,17 @@ import { getCollections } from '../../lib/util/collectionHelper'
 import { getItems } from '../../lib/util/fetchItems'
 import { getEstimatesRequests } from '../../lib/parse/search/estimatesParser'
 import { getAncestors } from '../../lib/util/fetchArchiveAncestors'
+import { getHeaders } from '../../lib/util/fetchWithToken'
+import { deleteCollections } from '../../lib/util/deleteCollections'
+import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
+import {
+  addToCollectionObject,
+  createCollectionObject,
+  deleteFromCollectionObject,
+} from '../../lib/myCollections/helper'
+import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
+import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
+import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -23,31 +35,41 @@ import { IStats } from './returnTypes'
 export const mlApi: any = createApi({
   reducerPath: 'mlApi',
   baseQuery: baseQuery(getDataApiBaseUrl),
+  tagTypes: ['Results', 'Item', 'Items', 'Estimates'],
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
-        const { q, page, tab, sort, rnd } = searchParams
+        const { q, filterResults, token, page, tab, sort, rnd } = searchParams
         // const facetString = formatFacetSearchRequestUrl(searchParams)
         const urlParams = new URLSearchParams()
-
         urlParams.set('q', q)
 
         let scope = ''
         if (tab !== undefined) {
           scope = searchScope[tab]
         }
-        if (page !== undefined) {
+        if (!isUndefined(page)) {
           urlParams.set('page', `${page}`)
         }
-        urlParams.set('sort', formatSortParameter(sort))
+        if (!isUndefined(filterResults)) {
+          urlParams.set('filterResults', filterResults)
+        }
+        if (!isUndefined(sort)) {
+          urlParams.set('sort', formatSortParameter(sort))
+        }
         if (rnd !== undefined) {
           urlParams.set('rnd', `${rnd}`)
         }
+        // set headers if My Collections
+        let headers: Headers = getHeaders(token)
+
         return {
           url: `api/search/${scope}?${urlParams.toString()}`,
           method: 'GET',
+          headers,
         }
       },
+      providesTags: ['Results'],
     }),
     getFacetsSearch: builder.query<
       ISearchResults | ISearchResultsError,
@@ -72,9 +94,14 @@ export const mlApi: any = createApi({
         if (page !== undefined) {
           urlParams.set('page', page !== 0 ? page.toString() : '1')
         }
+
+        // set headers if My Collections
+        const headers: Headers = getHeaders()
+
         return {
           url: `api/facets/${scope}?${urlParams.toString()}`,
           method: 'GET',
+          headers,
         }
       },
     }),
@@ -85,16 +112,21 @@ export const mlApi: any = createApi({
         if (profile !== undefined) {
           profileParam = `?profile=${profile}`
         }
+        // set headers if My Collections
+        const headers: Headers = getHeaders()
         return {
           url: `data/${uri}${profileParam}`,
           method: 'GET',
+          headers,
         }
       },
+      providesTags: ['Item'],
     }),
     getItems: builder.query<any, { uris: Array<string>; profile?: string }>({
       queryFn({ uris, profile }) {
         return getItems(uris, profile)
       },
+      providesTags: ['Items'],
     }),
     getName: builder.query<IEntity, IItemParams>({
       query: (itemUri) => ({
@@ -196,6 +228,7 @@ export const mlApi: any = createApi({
           isSwitchToSimpleSearch,
         )
       },
+      providesTags: ['Estimates'],
     }),
     getAncestors: builder.query<
       any,
@@ -216,6 +249,70 @@ export const mlApi: any = createApi({
         }
       },
     }),
+    createCollection: builder.mutation<any, ICreateCollectionFormData>({
+      query: (collectionFormData) => {
+        const { name, classification, language, defaultCollection } =
+          collectionFormData
+
+        const collection = createCollectionObject(
+          name,
+          classification,
+          language,
+          defaultCollection,
+        )
+
+        return {
+          url: 'data/',
+          method: 'POST',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Estimates', 'Item', 'Items'],
+    }),
+    addToCollection: builder.mutation<any, IAddToCollection>({
+      query: (data) => {
+        const { collectionId, collectionData, recordsToAdd } = data
+        const collection = addToCollectionObject(collectionData, recordsToAdd)
+        const collectionUuid = stripYaleIdPrefix(collectionId)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    deleteRecordsFromCollection: builder.mutation<
+      any,
+      IDeleteRecordsFromCollection
+    >({
+      query: (data) => {
+        const { collectionId, collectionData, recordsToDelete } = data
+        const collection = deleteFromCollectionObject(
+          collectionData,
+          recordsToDelete,
+        )
+        const collectionUuid = stripYaleIdPrefix(collectionId)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    deleteCollection: builder.mutation<any, IDeleteCollection>({
+      query: (collectionData) => {
+        const { ids } = collectionData
+        return deleteCollections(ids)
+      },
+      invalidatesTags: ['Results', 'Estimates'],
+    }),
   }),
 })
 
@@ -233,4 +330,8 @@ export const {
   useGetStatsQuery,
   useGetTimelineQuery,
   useSearchQuery,
+  useCreateCollectionMutation,
+  useAddToCollectionMutation,
+  useDeleteRecordsFromCollectionMutation,
+  useDeleteCollectionMutation,
 } = mlApi

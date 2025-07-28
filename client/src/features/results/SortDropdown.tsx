@@ -29,10 +29,10 @@ const SortDropdown: React.FC<IDropdown> = ({
   return (
     <StyledDropdown
       onSelect={(e) => handleOptionSelection(e as string)}
-      className={`${className} me-2`}
+      className={className}
       data-testid={id}
     >
-      <Dropdown.Toggle id={id} data-testid={`${id}-button`}>
+      <Dropdown.Toggle id={id} className="h-100" data-testid={`${id}-button`}>
         {selected !== undefined && options[selected] !== undefined
           ? options[selected]
           : label}
