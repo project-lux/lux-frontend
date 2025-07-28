@@ -12,7 +12,6 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 
-import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
 
 interface ISearchData {
@@ -114,11 +113,16 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledSnippetTitle>
               <Card.Text>
                 <StyledDl>
-                  <ProductionSnippet
-                    agents={agents}
-                    date={date}
-                    label="Creator"
-                  />
+                  {date && (
+                    <Row>
+                      <Col>
+                        <StyledDt>Created On</StyledDt>
+                        <StyledDd data-testid="my-collection-snippet-created-date">
+                          {date}
+                        </StyledDd>
+                      </Col>
+                    </Row>
+                  )}
                 </StyledDl>
               </Card.Text>
             </Card.Body>
