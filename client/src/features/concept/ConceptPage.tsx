@@ -63,13 +63,13 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
               type="concept"
             />
             <HierarchyContainer
-              key={concept.json.id}
+              key={`${concept.json.id}-hierarchy`}
               entity={data}
               halLink={hierarchyChildren}
               getParentUris={getAllNextConceptUris}
             />
             <TimelineContainer
-              key={data.id}
+              key={`${concept.json.id}-timeline`}
               searchTags={timeline}
               providedHalLinks={data._links}
             />
