@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+## v1.55.1 - 2025-7-2028
+
+### Fixed
+
+- Fixed the typescript errors causing failures ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+
 ## v1.55.0 - 2025-7-28
 
 ### Added
