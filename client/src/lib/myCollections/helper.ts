@@ -141,3 +141,26 @@ export const deleteFromCollectionObject = (
   })
   return collectionCopy
 }
+
+/**
+ * Sets the current collection as default
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @returns {IMyCollection}
+ */
+export const setCollectionAsDefault = (
+  collection: IMyCollection,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const defaultClassificationObject = {
+    id: 'defaultId',
+    type: 'Type',
+  }
+
+  if (collectionCopy.hasOwnProperty('classified_as')) {
+    collectionCopy.classified_as.push(defaultClassificationObject)
+  } else {
+    collectionCopy.classified_as = [defaultClassificationObject]
+  }
+
+  return collectionCopy
+}
