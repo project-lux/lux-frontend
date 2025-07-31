@@ -15,6 +15,11 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       border: none;
       display: flex;
     }
+
+    &:active {
+      color: ${theme.color.white};
+      background-color: ${theme.color.button};
+    }
   }
 
   .dropdown-toggle.show {

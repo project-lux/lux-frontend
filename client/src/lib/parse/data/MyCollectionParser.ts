@@ -51,6 +51,37 @@ export default class MyCollectionParser extends EntityParser {
   }
 
   /**
+   * Returns names in the record for rendering in the edit names form
+   * @returns {Array<IEntity>}
+   */
+  getNamesForEditing(): Array<{
+    name: string
+    languages: Array<string>
+    classifications: Array<string>
+  }> {
+    const identifiedBy = forceArray(this.json.identified_by)
+    if (identifiedBy.length === 0) {
+      return []
+    }
+
+    const names = identifiedBy
+      .filter((identifier) => identifier.type === 'Name')
+      .map((identifier) => {
+        const classifiedAs = forceArray(identifier.classified_as)
+        const languages = forceArray(identifier.language)
+        const name = identifier.content
+
+        return {
+          name,
+          classifications: classifiedAs.map((c) => c.id),
+          languages: languages.map((l) => l.id),
+        }
+      })
+
+    return names
+  }
+
+  /**
    * Gets the data to be displayed in the About section
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
