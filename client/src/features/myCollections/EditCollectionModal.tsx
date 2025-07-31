@@ -95,6 +95,9 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         {editOptionSelected === 'notes' && (
           <EditNotesForm data={data} onClose={onClose} />
         )}
+        {editOptionSelected === 'default' && (
+          <SetAsDefault data={data} onClose={onClose} />
+        )}
       </Modal.Body>
     </Modal>
   )
