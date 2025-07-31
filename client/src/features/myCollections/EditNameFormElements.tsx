@@ -112,6 +112,7 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
             options={commonClassifications}
             selectedOptions={selectedClassifications}
             ariaLabel="Select one or more classifications for the name"
+            className="editNameClassificationDropdownButton"
             onCheck={handleOnSelectClassifications}
             required
           />
@@ -125,6 +126,7 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
             options={commonLanguages}
             selectedOptions={selectedLanguages}
             ariaLabel="Select one or more languages for the name"
+            className="editNameLanguageDropdownButton"
             onCheck={handleOnSelectLanguages}
           />
         </Form.Group>
