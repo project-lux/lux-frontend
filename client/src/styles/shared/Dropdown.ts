@@ -16,6 +16,15 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       display: flex;
     }
 
+    &.editClassificationsDropdownButton,
+    &.editNameClassificationDropdownButton,
+    &.editNameLanguageDropdownButton {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+    }
+
     &:active {
       color: ${theme.color.white};
       background-color: ${theme.color.button};
