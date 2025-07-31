@@ -14,6 +14,7 @@ import EditClassificationsForm from './EditClassificationsForm'
 import EditIdentifiersFrom from './EditIdentifiersForm'
 import EditWebpageLinksForm from './EditWebpageLinksForm'
 import EditNotesForm from './EditNotesForm'
+import EditImageForm from './EditImageForm'
 
 interface IMyCollectionsModal {
   data: IMyCollection
@@ -38,11 +39,16 @@ const getModalTitle = (formSelected: string): string => {
       return 'Edit Webpage Links'
     case 'notes':
       return 'Edit Notes'
+    case '2':
+      return 'Set Collection Image'
     default:
       return 'Edit Collection'
   }
 }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7ae6019 (657 added edit my collection image)
 /**
  * Modal used for alerting a user when they are switching from advanced search to simple search.
  * @param {boolean} data the my collection object
@@ -141,6 +147,8 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         )}
         {editOptionSelected === 'notes' && (
           <EditNotesForm data={data} onClose={onClose} />
+        {editOptionSelected === 'image' && (
+          <EditImageForm data={data} onFormSave={handleSave} />
         )}
       </Modal.Body>
     </Modal>
