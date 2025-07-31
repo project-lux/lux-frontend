@@ -9,12 +9,26 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 import IMyCollection from '../../types/data/IMyCollection'
 
 import EditNamesForm from './EditNamesForm'
+import SetAsDefault from './SetAsDefault'
 
 interface IMyCollectionsModal {
   data: IMyCollection
   showModal: boolean
   onClose: () => void
   editOptionSelected: string
+}
+
+const getModalTitle = (formSelected: string): string => {
+  switch (formSelected) {
+    case 'name':
+      return 'Edit Names'
+    case 'image':
+      return 'Set Collection Image'
+    case 'default':
+      return 'Set as default collection?'
+    default:
+      return 'Edit Collection'
+  }
 }
 
 /**
@@ -93,11 +107,16 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
       data-testid="switch-to-simple-search-warning-modal"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="modalTitle">Create a New Collection</Modal.Title>
+        <Modal.Title id="modalTitle">
+          {getModalTitle(editOptionSelected)}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body id="modalBody">
         {editOptionSelected === 'name' && (
           <EditNamesForm data={data} onFormSave={handleSave} />
+        )}
+        {editOptionSelected === 'default' && (
+          <SetAsDefault data={data} onClose={onClose} />
         )}
       </Modal.Body>
     </Modal>

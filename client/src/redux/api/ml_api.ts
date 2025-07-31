@@ -24,11 +24,13 @@ import {
   addToCollectionObject,
   createCollectionObject,
   deleteFromCollectionObject,
+  setCollectionAsDefault,
 } from '../../lib/myCollections/helper'
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
 import { IEditCollection } from '../../types/myCollections/IEditCollection'
+import IMyCollection from '../../types/data/IMyCollection'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -108,13 +110,13 @@ export const mlApi: any = createApi({
     }),
     getItem: builder.query<any, IItemParams>({
       query: (itemUri) => {
-        const { uri, profile } = itemUri
+        const { uri, token, profile } = itemUri
         let profileParam = ''
         if (profile !== undefined) {
           profileParam = `?profile=${profile}`
         }
         // set headers if My Collections
-        const headers: Headers = getHeaders()
+        const headers: Headers = getHeaders(token)
         return {
           url: `data/${uri}${profileParam}`,
           method: 'GET',
@@ -301,6 +303,26 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    editDefaultCollection: builder.mutation<any, { collection: IMyCollection }>(
+      {
+        query: (data) => {
+          const { collection } = data
+          const updatedCollection = setCollectionAsDefault(collection)
+          const collectionUuid = stripYaleIdPrefix(
+            updatedCollection.id as string,
+          )
+
+          console.log(updatedCollection)
+          return {
+            url: `data/${collectionUuid}`,
+            method: 'PUT',
+            data: updatedCollection,
+            headers: getHeaders(),
+          }
+        },
+        invalidatesTags: ['Results', 'Item', 'Items'],
+      },
+    ),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
@@ -349,6 +371,7 @@ export const {
   useCreateCollectionMutation,
   useAddToCollectionMutation,
   useEditCollectionMutation,
+  useEditDefaultCollectionMutation,
   useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi
