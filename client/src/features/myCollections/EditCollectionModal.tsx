@@ -9,6 +9,7 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 import IMyCollection from '../../types/data/IMyCollection'
 
 import EditNamesForm from './EditNamesForm'
+import EditImageForm from './EditImageForm'
 
 interface IMyCollectionsModal {
   data: IMyCollection
@@ -17,6 +18,16 @@ interface IMyCollectionsModal {
   editOptionSelected: string
 }
 
+const getModalTitle = (formSelected: string): string => {
+  switch (formSelected) {
+    case 'name':
+      return 'Edit Names'
+    case '2':
+      return 'Set Collection Image'
+    default:
+      return 'Edit Collection'
+  }
+}
 /**
  * Modal used for alerting a user when they are switching from advanced search to simple search.
  * @param {boolean} data the my collection object
@@ -93,11 +104,16 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
       data-testid="switch-to-simple-search-warning-modal"
     >
       <Modal.Header closeButton>
-        <Modal.Title id="modalTitle">Create a New Collection</Modal.Title>
+        <Modal.Title id="modalTitle">
+          {getModalTitle(editOptionSelected)}
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body id="modalBody">
         {editOptionSelected === 'name' && (
           <EditNamesForm data={data} onFormSave={handleSave} />
+        )}
+        {editOptionSelected === 'image' && (
+          <EditImageForm data={data} onFormSave={handleSave} />
         )}
       </Modal.Body>
     </Modal>
