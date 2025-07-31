@@ -14,12 +14,14 @@ import EventPage from '../event/EventPage'
 import PlacePage from '../place/PlacePage'
 import ObjectsPage from '../objects/ObjectsPage'
 import useAuthentication from '../../lib/hooks/useAuthentication'
+import config from '../../config/config'
 
 const RoutingComponent: React.FC = () => {
   useAuthentication()
   const { pathname } = useLocation()
   const { isSuccess, isLoading, isError, data, error } = useGetItemQuery({
     uri: pathname.replace('/view/', ''),
+    token: config.currentAccessToken,
   })
 
   if (isSuccess && data) {
