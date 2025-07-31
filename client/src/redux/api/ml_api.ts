@@ -28,6 +28,7 @@ import {
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
+import { IEditCollection } from '../../types/myCollections/IEditCollection'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -285,6 +286,21 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    editCollection: builder.mutation<any, IEditCollection>({
+      query: (data) => {
+        const { collectionId, collectionData, recordsToAdd } = data
+        const collection = addToCollectionObject(collectionData, recordsToAdd)
+        const collectionUuid = stripYaleIdPrefix(collectionId)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: collection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
@@ -332,6 +348,7 @@ export const {
   useSearchQuery,
   useCreateCollectionMutation,
   useAddToCollectionMutation,
+  useEditCollectionMutation,
   useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi
