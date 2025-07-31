@@ -7,7 +7,7 @@ interface IProps {
   actionBgColor?: string
 }
 
-const SecondaryButton = styled(Button)<IProps>`
+const SecondaryDropdown = styled(Button)<IProps>`
   background-color: ${theme.color.white};
   color: ${theme.color.trueBlack};
   border-top-left-radius: ${theme.border.radius};
@@ -39,4 +39,4 @@ const SecondaryButton = styled(Button)<IProps>`
   }
 `
 
-export default SecondaryButton
+export default SecondaryDropdown

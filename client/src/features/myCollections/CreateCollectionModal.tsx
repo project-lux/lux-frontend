@@ -6,9 +6,10 @@ import { useDispatch } from 'react-redux'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/ml_api'
-import config from '../../config/config'
 import useAuthentication from '../../lib/hooks/useAuthentication'
 import { resetState } from '../../redux/slices/myCollectionsSlice'
+import { commonClassifications } from '../../config/myCollections/classifications'
+import { commonLanguages } from '../../config/myCollections/languages'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -35,11 +36,11 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const day = date.getUTCDate()
   const year = date.getUTCFullYear()
   const time = date.toLocaleTimeString()
-  const timestamp = `[${month}/${day}/${year} at ${time}]`
+  const timestamp = `[${month + 1}/${day}/${year} at ${time}]`
   const placeholderName = `Collection ${timestamp}`
   const [name, setName] = useState<string>(placeholderName)
-  const [classification, setClassification] = useState<string>('Primary Name')
-  const [language, setLanguage] = useState<string>('English')
+  const [classification, setClassification] = useState<string>('')
+  const [language, setLanguage] = useState<string>('')
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [createCollection] = useCreateCollectionMutation()
 
@@ -129,17 +130,9 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
                 }
                 required
               >
-                <option
-                  value={`${config.env.dataApiBaseUrl}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`}
-                >
-                  Primary Name
-                </option>
-                <option
-                  value={`${config.env.dataApiBaseUrl}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`}
-                >
-                  Secondary Name
-                </option>
-                <option>...</option>
+                {Object.keys(commonClassifications).map((key) => (
+                  <option value={key}>{commonClassifications[key]}</option>
+                ))}
               </Form.Select>
             </Form.Group>
 
@@ -151,22 +144,9 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
                   setLanguage(e.target.value)
                 }
               >
-                <option
-                  value={`${config.env.dataApiBaseUrl}data/concept/dfa53b96-4eda-4c9a-b091-10008a726c38`}
-                >
-                  English
-                </option>
-                <option
-                  value={`${config.env.dataApiBaseUrl}data/concept/4839f816-732d-4d43-935d-297c4696ec09`}
-                >
-                  Spanish
-                </option>
-                <option
-                  value={`${config.env.dataApiBaseUrl}data/concept/436c4c60-3478-440d-bb51-c67512ecff66`}
-                >
-                  German
-                </option>
-                <option>...</option>
+                {Object.keys(commonLanguages).map((key) => (
+                  <option value={key}>{commonLanguages[key]}</option>
+                ))}
               </Form.Select>
             </Form.Group>
           </Row>

@@ -3,7 +3,7 @@ import { Nav, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
-import { nestedPageLinks } from '../../config/myCollections'
+import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import MobileMyCollectionsNavBar from './MobileMyCollectionsNavBar'
