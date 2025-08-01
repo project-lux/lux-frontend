@@ -101,6 +101,9 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         {editOptionSelected === 'classification' && (
           <EditClassificationsForm data={data} onClose={onClose} />
         )}
+        {editOptionSelected === 'identifier' && (
+          <EditIdentifiersFrom data={data} onClose={onClose} />
+        )}
       </Modal.Body>
     </Modal>
   )

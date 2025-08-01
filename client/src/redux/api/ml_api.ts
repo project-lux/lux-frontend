@@ -422,7 +422,6 @@ export const mlApi: any = createApi({
             updatedCollection.id as string,
           )
 
-          console.log(updatedCollection)
           return {
             url: `data/${collectionUuid}`,
             method: 'PUT',
@@ -433,6 +432,27 @@ export const mlApi: any = createApi({
         invalidatesTags: ['Results', 'Item', 'Items'],
       },
     ),
+    editCollectionIdentifiers: builder.mutation<
+      any,
+      { collection: IMyCollection; identifiers: Array<string> }
+    >({
+      query: (data) => {
+        const { collection, identifiers } = data
+        const updatedCollection = addIdentifiersToCollectionObject(
+          collection,
+          identifiers,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
