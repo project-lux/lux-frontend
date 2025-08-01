@@ -164,3 +164,34 @@ export const setCollectionAsDefault = (
 
   return collectionCopy
 }
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<string>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addIdentifiersToCollectionObject = (
+  collection: IMyCollection,
+  listOfIdentifiers: Array<string>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const identifiersToAdd = listOfIdentifiers.map((id) => {
+    return {
+      id,
+      type: 'Identifier',
+    }
+  })
+
+  if (collectionCopy.hasOwnProperty('identified_by')) {
+    collectionCopy.identified_by = [
+      ...collectionCopy.identified_by,
+      ...identifiersToAdd,
+    ]
+  } else {
+    collectionCopy.identified_by = identifiersToAdd
+  }
+
+  return collectionCopy
+}

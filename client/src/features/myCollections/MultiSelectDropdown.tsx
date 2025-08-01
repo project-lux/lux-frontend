@@ -36,7 +36,6 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
   selectedOptions,
   onCheck,
 }) => {
-  console.log('selected from multiselect: ', selectedOptions)
   const [show, setShow] = useState<boolean>(false)
 
   const handleClickDropdownButton = (e: any): void => {
