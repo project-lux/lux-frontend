@@ -121,7 +121,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
           </Row>
 
           <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridCity">
+            <Form.Group as={Col} controlId="classificationFromGroup">
               <Form.Label>Classification (required)</Form.Label>
               <Form.Select
                 value={classification}
@@ -136,7 +136,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
               </Form.Select>
             </Form.Group>
 
-            <Form.Group as={Col} controlId="formGridState">
+            <Form.Group as={Col} controlId="languageFromGroup">
               <Form.Label>Language of Name (optional)</Form.Label>
               <Form.Select
                 value={language}
