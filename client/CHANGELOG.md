@@ -6,8 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
-- Added edit functionality for names ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for names ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
 - Added set default functionality for My Collections ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for classificationss ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
 
 ### Changed
 
