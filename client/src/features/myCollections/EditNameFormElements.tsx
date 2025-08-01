@@ -60,8 +60,6 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
       // remove from the list of selected
       const ind = selectedLanguages.indexOf(value)
       selectedLanguages.splice(ind, 1)
-      console.log('spliced: ', selectedLanguages)
-
       setSelectedLanguages(selectedLanguages)
     } else {
       setSelectedLanguages([...selectedLanguages, e.target.value])
@@ -104,7 +102,7 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
       </Row>
 
       <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridCity">
+        <Form.Group as={Col} controlId="nameClassificationFormGroup">
           <Form.Label>Classification (required)</Form.Label>
           <Form.Control
             value="test"
