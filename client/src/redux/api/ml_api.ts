@@ -21,6 +21,7 @@ import { getHeaders } from '../../lib/util/fetchWithToken'
 import { deleteCollections } from '../../lib/util/deleteCollections'
 import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
+  addIdentifiersToCollectionObject,
   addToCollectionObject,
   createCollectionObject,
   deleteFromCollectionObject,
@@ -312,7 +313,6 @@ export const mlApi: any = createApi({
             updatedCollection.id as string,
           )
 
-          console.log(updatedCollection)
           return {
             url: `data/${collectionUuid}`,
             method: 'PUT',
@@ -323,6 +323,27 @@ export const mlApi: any = createApi({
         invalidatesTags: ['Results', 'Item', 'Items'],
       },
     ),
+    editCollectionIdentifiers: builder.mutation<
+      any,
+      { collection: IMyCollection; identifiers: Array<string> }
+    >({
+      query: (data) => {
+        const { collection, identifiers } = data
+        const updatedCollection = addIdentifiersToCollectionObject(
+          collection,
+          identifiers,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
@@ -372,6 +393,7 @@ export const {
   useAddToCollectionMutation,
   useEditCollectionMutation,
   useEditDefaultCollectionMutation,
+  useEditCollectionIdentifiersMutation,
   useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi

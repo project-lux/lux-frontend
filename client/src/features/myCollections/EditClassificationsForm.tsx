@@ -86,9 +86,9 @@ const EditClassificationsForm: React.FC<IProps> = ({ data, onClose }) => {
   return (
     <Form onSubmit={handleSave}>
       <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridCity">
+        <Form.Group as={Col} controlId="collectionClassificationFormGroup">
           <Form.Label>
-            <strong>Classification (required)</strong>
+            <strong>Classification</strong>
           </Form.Label>
           <Form.Control
             value="test"
