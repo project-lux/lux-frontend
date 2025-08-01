@@ -8,7 +8,7 @@ import { Form } from 'react-bootstrap'
  * @param {string} value the UUID of the option
  * @param {string} helpTextKey the checkbox's corresponding help text
  * @param {boolean} checked value is checked or not
- * @param {(e: ChangeEvent<HTMLInputElement>) => void} onCheck callback function to check the checkbox
+ * @param {(e: ChangeEvent<HTMLInputElement>, ind: number) => void} onCheck callback function to check the checkbox
  * @returns {JSX.Element}
  */
 const DropdownCheckbox = forwardRef<
@@ -17,9 +17,10 @@ const DropdownCheckbox = forwardRef<
     label: string
     value: string
     selectedOptions: Array<string>
-    onCheck: (e: ChangeEvent<HTMLInputElement>) => void
+    indexOfData: number
+    onCheck: (e: ChangeEvent<HTMLInputElement>, ind: number) => void
   }
->(({ label, value, selectedOptions, onCheck }, ref) => {
+>(({ label, value, selectedOptions, indexOfData, onCheck }, ref) => {
   // const handleCheckboxSelection = (e: ChangeEvent<HTMLInputElement>): void => {
   //   e.stopPropagation()
   //   onCheck(e)
@@ -38,7 +39,7 @@ const DropdownCheckbox = forwardRef<
         className="d-flex align-top mt-0"
         checked={selectedOptions.includes(value)}
         value={value}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => onCheck(e)}
+        onChange={(e: ChangeEvent<HTMLInputElement>) => onCheck(e, indexOfData)}
       />
       <Form.Label column="sm" value={label} className="py-0 ps-2 pe-1 d-inline">
         {label}

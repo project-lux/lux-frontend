@@ -23,6 +23,7 @@ import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
   addIdentifiersToCollectionObject,
   addToCollectionObject,
+  addWebpagesToCollectionObject,
   createCollectionObject,
   deleteFromCollectionObject,
   setCollectionAsDefault,
@@ -32,6 +33,7 @@ import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
 import { IEditCollection } from '../../types/myCollections/IEditCollection'
 import IMyCollection from '../../types/data/IMyCollection'
+import IWebpages from '../../types/data/IWebpages'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -344,6 +346,28 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    editCollectionWebpages: builder.mutation<
+      any,
+      { collection: IMyCollection; webpages: Array<IWebpages> }
+    >({
+      query: (data) => {
+        const { collection, webpages } = data
+        console.log(webpages)
+        const updatedCollection = addWebpagesToCollectionObject(
+          collection,
+          webpages,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+        console.log(updatedCollection)
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
@@ -394,6 +418,7 @@ export const {
   useEditCollectionMutation,
   useEditDefaultCollectionMutation,
   useEditCollectionIdentifiersMutation,
+  useEditCollectionWebpagesMutation,
   useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi

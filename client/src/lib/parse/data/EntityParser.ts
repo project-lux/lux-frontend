@@ -21,6 +21,7 @@ import {
 import { IImages } from '../../../types/IImages'
 import { recordTypes } from '../../../config/advancedSearch/inputTypes'
 import { iconAats } from '../../../config/icons'
+import IWebpages from '../../../types/data/IWebpages'
 
 import {
   forceArray,
@@ -566,9 +567,9 @@ export default class EntityParser {
 
   /**
    * Returns array of links classified_as web pages from /subject_of
-   * @returns {Array<{ contentIdentifier: string; link: string }>}
+   * @returns {Array<IWebpages>}
    */
-  getAllSiteLinks(): Array<{ contentIdentifier: string; link: string }> {
+  getAllSiteLinks(): Array<IWebpages> {
     const subjectOf = forceArray(this.json.subject_of)
     const links = []
 
@@ -601,9 +602,9 @@ export default class EntityParser {
 
   /**
    * Returns array of transformed link data from /subject_of that are not web pages or IIIF manifests
-   * @returns {Array<{ contentIdentifier: string; link: string }>}
+   * @returns {Array<IWebpages>}
    */
-  getHowDoISeeItLinks(): Array<{ contentIdentifier: string; link: string }> {
+  getHowDoISeeItLinks(): Array<IWebpages> {
     const subjectOf = forceArray(this.json.subject_of)
     const links = []
 
