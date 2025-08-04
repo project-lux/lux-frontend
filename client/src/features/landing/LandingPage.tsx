@@ -55,7 +55,7 @@ const Landing: React.FC = () => {
           data={{} as IMyCollection}
           showModal={true}
           onClose={() => null}
-          editOptionSelected={'links'}
+          editOptionSelected={'notes'}
         />
         <Row id="srch-hero-container" className="mx-0">
           {imagesResult.isSuccess && units.length > 0 && (
