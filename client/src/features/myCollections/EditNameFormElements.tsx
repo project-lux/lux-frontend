@@ -105,7 +105,6 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
         <Form.Group as={Col} controlId="nameClassificationFormGroup">
           <Form.Label>Classification (required)</Form.Label>
           <Form.Control
-            value="test"
             as={MultiSelectDropdown}
             options={commonClassifications}
             selectedOptions={selectedClassifications}
@@ -119,7 +118,6 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
         <Form.Group as={Col} controlId="formGridState">
           <Form.Label>Language of Name (optional)</Form.Label>
           <Form.Control
-            value="test"
             as={MultiSelectDropdown}
             options={commonLanguages}
             selectedOptions={selectedLanguages}

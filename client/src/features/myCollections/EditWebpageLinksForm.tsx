@@ -132,7 +132,7 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
     }
   }
 
-  const handleAddIdentifierRow = (): void => {
+  const handleAddWebpageRow = (): void => {
     setWebpages([...webpages, defaultWebpageData])
   }
 
@@ -152,7 +152,7 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
         return (
           <React.Fragment>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="identifierFormGroup">
+              <Form.Group as={Col} controlId="webpageLinkFormGroup">
                 <Row>
                   <Col xs={9} className="d-flex align-items-center mb-2">
                     <Form.Label className="fs-5 mb-0">
@@ -162,7 +162,7 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
                   {webpages.length > 1 && (
                     <Col xs={3} className="d-flex justify-content-end">
                       <StyledDeleteButton
-                        aria-label={`Delete Identifier ${ind}`}
+                        aria-label={`Delete Webpage Link ${ind}`}
                         onClick={() => handleRemoveWebpage(ind)}
                         className="mb-2"
                       >
@@ -223,7 +223,7 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
             type="button"
             textColor={theme.color.button}
             actionBgColor={theme.color.button}
-            onClick={() => handleAddIdentifierRow()}
+            onClick={() => handleAddWebpageRow()}
           >
             <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
             Add Link
