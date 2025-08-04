@@ -204,7 +204,6 @@ export const addWebpagesToCollectionObject = (
   listOfWebpages: Array<IWebpages>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
-  console.log(listOfWebpages)
   const wepagesToAdd = listOfWebpages.map((wp) => {
     const { link, contentIdentifier, languages } = wp
     const languagesToAdd = !isUndefined(languages)
