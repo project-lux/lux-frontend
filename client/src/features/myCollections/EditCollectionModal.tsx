@@ -12,6 +12,7 @@ import EditNamesForm from './EditNamesForm'
 import SetAsDefault from './SetAsDefault'
 import EditClassificationsForm from './EditClassificationsForm'
 import EditIdentifiersFrom from './EditIdentifiersForm'
+import EditWebpageLinksForm from './EditWebpageLinksForm'
 
 interface IMyCollectionsModal {
   data: IMyCollection
@@ -32,6 +33,8 @@ const getModalTitle = (formSelected: string): string => {
       return 'Edit Collection Classification'
     case 'identifier':
       return 'Edit Identifiers'
+    case 'links':
+      return 'Edit Webpage Links'
     default:
       return 'Edit Collection'
   }
@@ -129,6 +132,9 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         )}
         {editOptionSelected === 'identifier' && (
           <EditIdentifiersFrom data={data} onClose={onClose} />
+        )}
+        {editOptionSelected === 'links' && (
+          <EditWebpageLinksForm data={data} onClose={onClose} />
         )}
       </Modal.Body>
     </Modal>

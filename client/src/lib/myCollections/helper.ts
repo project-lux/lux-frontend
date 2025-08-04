@@ -1,7 +1,10 @@
+import { isUndefined } from 'lodash'
+
 import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
 import IEntity from '../../types/data/IEntity'
 import IMyCollection from '../../types/data/IMyCollection'
+import IWebpages from '../../types/data/IWebpages'
 import MyCollectionParser from '../parse/data/MyCollectionParser'
 
 export const getBaseCollectionObject = (): IEntity => {
@@ -184,14 +187,63 @@ export const addIdentifiersToCollectionObject = (
     }
   })
 
-  if (collectionCopy.hasOwnProperty('identified_by')) {
-    collectionCopy.identified_by = [
-      ...collectionCopy.identified_by,
-      ...identifiersToAdd,
-    ]
-  } else {
-    collectionCopy.identified_by = identifiersToAdd
-  }
+  collectionCopy.identified_by = identifiersToAdd
+
+  return collectionCopy
+}
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<string>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addWebpagesToCollectionObject = (
+  collection: IMyCollection,
+  listOfWebpages: Array<IWebpages>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const wepagesToAdd = listOfWebpages.map((wp) => {
+    const { link, contentIdentifier, languages } = wp
+    const languagesToAdd = !isUndefined(languages)
+      ? languages.map((l) => {
+          return {
+            id: l,
+            type: 'Concept',
+          }
+        })
+      : []
+    return {
+      id: '',
+      type: 'LinguisticObject',
+      _label: 'Website Text',
+      digitally_carried_by: [
+        {
+          id: '',
+          type: 'DigitalObject',
+          _label: 'Home Page',
+          access_point: [
+            {
+              id: link,
+              type: 'DigitalObject',
+            },
+          ],
+          identified_by: [
+            {
+              id: 'Name',
+              type: 'Type',
+              _label: 'Web Page',
+              content: contentIdentifier,
+            },
+          ],
+          ...languagesToAdd,
+        },
+      ],
+    }
+  })
+
+  collectionCopy.subject_of = wepagesToAdd
 
   return collectionCopy
 }

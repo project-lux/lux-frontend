@@ -14,7 +14,8 @@ interface IFieldSelectRow {
   ariaLabel: string
   options: Record<string, string>
   selectedOptions: Array<string>
-  onCheck: (e: ChangeEvent<HTMLInputElement>) => void
+  indexOfData: number
+  onCheck: (e: ChangeEvent<HTMLInputElement>, ind: number) => void
 }
 
 /**
@@ -24,8 +25,8 @@ interface IFieldSelectRow {
  * @param {string} ariaLabel the aria-label of the dropdown toggle
  * @param {Record<string, string>} options the available options for selection
  * @param {Array<string>} selectedOptions the current selected options
+ * @param {number} indexOfData the index of the parent record being edited
  * @param {() => void} onCheck the function to call when an option is selected
- * @param {() => void} onUncheck the function to call when an option is removed
  * @returns {JSX.Element}
  */
 const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
@@ -34,6 +35,7 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
   ariaLabel,
   options,
   selectedOptions,
+  indexOfData,
   onCheck,
 }) => {
   const [show, setShow] = useState<boolean>(false)
@@ -70,6 +72,7 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
             label={ApiText(options[key]) || 'Unknown label'}
             value={key}
             selectedOptions={selectedOptions}
+            indexOfData={indexOfData}
             onCheck={onCheck}
           />
         ))}
