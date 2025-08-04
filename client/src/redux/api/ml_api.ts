@@ -348,17 +348,16 @@ export const mlApi: any = createApi({
     }),
     editCollectionWebpages: builder.mutation<
       any,
-      { collection: IMyCollection; webpages: Array<IWebpages> }
+      { collection: IMyCollection; webPages: Array<IWebpages> }
     >({
       query: (data) => {
-        const { collection, webpages } = data
-        console.log(webpages)
+        const { collection, webPages } = data
         const updatedCollection = addWebpagesToCollectionObject(
           collection,
-          webpages,
+          webPages,
         )
         const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
-        console.log(updatedCollection)
+
         return {
           url: `data/${collectionUuid}`,
           method: 'PUT',

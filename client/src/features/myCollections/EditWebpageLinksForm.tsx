@@ -45,12 +45,10 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
 
   const handleSave = (event: any): void => {
     event.preventDefault()
-    console.log(webpages)
     editWebpages({
       collection: data,
       webPages: webpages,
     })
-      .unwrap()
       .then(() => {
         onClose()
         navigate(
