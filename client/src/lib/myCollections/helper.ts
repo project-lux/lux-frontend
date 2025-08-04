@@ -196,7 +196,7 @@ export const addIdentifiersToCollectionObject = (
  * Adds the list of identifiers to a collection
  * Returns the collection JSON-LD object to be passed to the backend
  * @param {IMyCollectionObject} collection the collection JSON-LD to add to
- * @param {Array<string>} listOfIdentifiers the list of identifiers to add to the collection
+ * @param {Array<IWebpages>} listOfWebpages the list of identifiers to add to the collection
  * @returns {IMyCollection}
  */
 export const addWebpagesToCollectionObject = (
@@ -206,6 +206,62 @@ export const addWebpagesToCollectionObject = (
   const collectionCopy = JSON.parse(JSON.stringify(collection))
   const wepagesToAdd = listOfWebpages.map((wp) => {
     const { link, contentIdentifier, languages } = wp
+    const languagesToAdd = !isUndefined(languages)
+      ? languages.map((l) => {
+          return {
+            id: l,
+            type: 'Concept',
+          }
+        })
+      : []
+    return {
+      id: '',
+      type: 'LinguisticObject',
+      _label: 'Website Text',
+      digitally_carried_by: [
+        {
+          id: '',
+          type: 'DigitalObject',
+          _label: 'Home Page',
+          access_point: [
+            {
+              id: link,
+              type: 'DigitalObject',
+            },
+          ],
+          identified_by: [
+            {
+              id: 'Name',
+              type: 'Type',
+              _label: 'Web Page',
+              content: contentIdentifier,
+            },
+          ],
+          ...languagesToAdd,
+        },
+      ],
+    }
+  })
+
+  collectionCopy.subject_of = wepagesToAdd
+
+  return collectionCopy
+}
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<string>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addNotesToCollectionObject = (
+  collection: IMyCollection,
+  listOfNotes: Array<IWebpages>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const wepagesToAdd = listOfNotes.map((note) => {
+    const { link, contentIdentifier, languages } = note
     const languagesToAdd = !isUndefined(languages)
       ? languages.map((l) => {
           return {

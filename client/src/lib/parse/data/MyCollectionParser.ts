@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
+import IEntity from '../../../types/data/IEntity'
 import ISet from '../../../types/data/ISet'
-import { IContentWithLanguage } from '../../../types/IContentWithLanguage'
+import {
+  IContentWithLanguage,
+  INoteContent,
+} from '../../../types/IContentWithLanguage'
 
 import EntityParser from './EntityParser'
 import EventParser from './EventParser'
@@ -79,6 +83,41 @@ export default class MyCollectionParser extends EntityParser {
       })
 
     return names
+  }
+
+  /**
+   * Returns notes in the record for rendering in the edit notes form
+   * @returns {Array<INoteContent>}
+   */
+  getNotesForEditing(): Array<INoteContent> {
+    const referredToBy = forceArray(this.json.referred_to_by)
+    if (referredToBy.length === 0) {
+      return []
+    }
+
+    const notes: Array<INoteContent> = referredToBy.map((reference) => {
+      const classifiedAs = forceArray(reference.classified_as)
+      const languages = forceArray(reference.language)
+      const identifiedBy = forceArray(reference.identified_by)
+      const content: string = reference.content
+      let labelLanguages: Array<string> = []
+
+      if (identifiedBy.length > 0) {
+        labelLanguages = identifiedBy[0].hasOwnProperty('language')
+          ? identifiedBy[0].language.map((l: IEntity) => l.id)
+          : []
+      }
+
+      return {
+        content,
+        classifications: classifiedAs.map((c) => c.id) as Array<string>,
+        languages: languages.map((l) => l.id) as Array<string>,
+        label: identifiedBy[0].content,
+        labelLanguages,
+      }
+    })
+
+    return notes
   }
 
   /**

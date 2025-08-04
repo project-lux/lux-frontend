@@ -18,7 +18,10 @@ const ReactBootstrapDropdown = styled(Dropdown)`
 
     &.editClassificationsDropdownButton,
     &.editNameClassificationDropdownButton,
-    &.editNameLanguageDropdownButton {
+    &.editNameLanguageDropdownButton,
+    &.editNoteClassificationDropdownButton,
+    &.editNoteLanguageDropdownButton,
+    &.editNoteLabelLanguageDropdownButton {
       display: flex;
       justify-content: space-between;
       align-items: center;
