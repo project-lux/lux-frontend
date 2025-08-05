@@ -6,6 +6,7 @@ import IEntity from '../../types/data/IEntity'
 import IMyCollection from '../../types/data/IMyCollection'
 import IWebpages from '../../types/data/IWebpages'
 import MyCollectionParser from '../parse/data/MyCollectionParser'
+import { INoteContent } from '../../types/IContentWithLanguage'
 
 export const getBaseCollectionObject = (): IEntity => {
   return {
@@ -196,7 +197,7 @@ export const addIdentifiersToCollectionObject = (
  * Adds the list of identifiers to a collection
  * Returns the collection JSON-LD object to be passed to the backend
  * @param {IMyCollectionObject} collection the collection JSON-LD to add to
- * @param {Array<string>} listOfIdentifiers the list of identifiers to add to the collection
+ * @param {Array<IWebpages>} listOfWebpages the list of identifiers to add to the collection
  * @returns {IMyCollection}
  */
 export const addWebpagesToCollectionObject = (
@@ -210,10 +211,10 @@ export const addWebpagesToCollectionObject = (
       ? languages.map((l) => {
           return {
             id: l,
-            type: 'Concept',
+            type: 'Language',
           }
         })
-      : []
+      : undefined
     return {
       id: '',
       type: 'LinguisticObject',
@@ -237,13 +238,91 @@ export const addWebpagesToCollectionObject = (
               content: contentIdentifier,
             },
           ],
-          ...languagesToAdd,
+          language: languagesToAdd,
         },
       ],
     }
   })
 
   collectionCopy.subject_of = wepagesToAdd
+
+  return collectionCopy
+}
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<INoteContent>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addNotesToCollectionObject = (
+  collection: IMyCollection,
+  listOfNotes: Array<INoteContent>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const notesToAdd = listOfNotes.map((note) => {
+    const { content, label, labelLanguages, classifications, languages } = note
+    const newNoteObject: IEntity = {
+      type: 'LinguisticObject',
+      content,
+    }
+    // Format languages data
+    const languagesToAdd = !isUndefined(languages)
+      ? languages.map((l) => {
+          return {
+            id: l,
+            type: 'Language',
+          }
+        })
+      : []
+
+    // Add languages
+    if (languagesToAdd.length > 0) {
+      newNoteObject.language = languagesToAdd
+    }
+
+    // Format classifications data
+    const classificationsToAdd = !isUndefined(classifications)
+      ? classifications.map((cl) => {
+          return {
+            id: cl,
+            type: 'Concept',
+          }
+        })
+      : []
+
+    // Add languages
+    if (classificationsToAdd.length > 0) {
+      newNoteObject.classified_as = classificationsToAdd
+    }
+    // Format label language data
+    const labelLanguagesToAdd = !isUndefined(labelLanguages)
+      ? labelLanguages.map((l) => {
+          return {
+            id: l,
+            type: 'Language',
+          }
+        })
+      : []
+
+    // Format label data
+    const identifiedByToAdd: IEntity =
+      !isUndefined(label) && label !== ''
+        ? { type: 'Name', content: label }
+        : { type: 'Name' }
+    // Add label languages to the label object only if the identifiedByToAdd object is not empty
+    if (identifiedByToAdd.hasOwnProperty('content')) {
+      if (labelLanguagesToAdd.length > 0) {
+        identifiedByToAdd.language = labelLanguagesToAdd
+      }
+      newNoteObject.identified_by = [identifiedByToAdd]
+    }
+
+    return newNoteObject
+  })
+
+  collectionCopy.referred_to_by = notesToAdd
 
   return collectionCopy
 }

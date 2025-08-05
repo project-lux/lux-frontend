@@ -91,7 +91,6 @@ const EditClassificationsForm: React.FC<IProps> = ({ data, onClose }) => {
             <strong>Classification</strong>
           </Form.Label>
           <Form.Control
-            value="test"
             as={MultiSelectDropdown}
             options={collectionClassifications}
             selectedOptions={selectedClassifications}

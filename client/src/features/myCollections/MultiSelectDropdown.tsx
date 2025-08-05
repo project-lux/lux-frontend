@@ -40,10 +40,10 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
 }) => {
   const [show, setShow] = useState<boolean>(false)
 
-  const handleClickDropdownButton = (e: any): void => {
+  const handleClickDropdownButton = (): void => {
     pushClientEvent(
       'My Collections',
-      e.target.classList.contains('show') ? 'Closed' : 'Opened',
+      show ? 'Closed' : 'Opened',
       'Options Dropdown Menu',
     )
     // Set the dropdown to open or close
@@ -55,13 +55,12 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
       : 'Select'
 
   return (
-    <StyledDropdown show={show}>
+    <StyledDropdown show={show} onToggle={handleClickDropdownButton}>
       <Dropdown.Toggle
         id={id}
         data-testid={id}
         className={className}
         aria-label={ariaLabel}
-        onClick={handleClickDropdownButton}
       >
         {dropdownButtonText}
       </Dropdown.Toggle>
