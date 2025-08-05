@@ -83,7 +83,8 @@ const getScopedResultsComponent: any = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
-  useAuthentication()
+  const auth = useAuthentication()
+
   const dispatch = useAppDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
@@ -127,6 +128,9 @@ const ResultsPage: React.FC = () => {
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined
 
+  // Do not let RTK query serve the cached response if the user is logged in
+  const forceRefetch = auth.isAuthenticated
+
   /*
    Query will be skipped if the user has entered empty search string
    Or if there are no search params visible in the URL string, indicating
@@ -145,7 +149,11 @@ const ResultsPage: React.FC = () => {
     },
     {
       skip:
-        searchStringWithFacets === '' || fromLandingPage || tab !== queryTab,
+        auth.isLoading === true ||
+        searchStringWithFacets === '' ||
+        fromLandingPage ||
+        tab !== queryTab,
+      forceRefetch,
     },
   )
 
