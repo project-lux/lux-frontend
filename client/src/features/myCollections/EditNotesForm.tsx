@@ -200,7 +200,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
         return (
           <React.Fragment>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="noteFormGroup">
+              <Form.Group as={Col} controlId="noteContentFormGroup">
                 <Row>
                   <Col xs={9} className="d-flex align-items-center mb-2">
                     <Form.Label className="fs-5 mb-0">
@@ -220,7 +220,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                   )}
                   <Col xs={12} className="mb-2">
                     <Form.Control
-                      type="text"
+                      as="textarea"
                       value={content}
                       placeholder={
                         content !== ''
@@ -236,7 +236,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="classificationFromGroup">
+              <Form.Group as={Col} controlId="noteClassificationFromGroup">
                 <Form.Label>Classifications (required)</Form.Label>
                 <Form.Control
                   as={MultiSelectDropdown}
@@ -249,7 +249,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridState">
+              <Form.Group as={Col} controlId="noteLanguageFormGroup">
                 <Form.Label>Languages (optional)</Form.Label>
                 <Form.Control
                   as={MultiSelectDropdown}
@@ -264,17 +264,21 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
             </Row>
 
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="nameClassificationFormGroup">
+              <Form.Group as={Col} controlId="noteLabelFormGroup">
+                {/* This should be required if a user has selected a language for the label */}
                 <Form.Label>Display Label (optional)</Form.Label>
                 <Form.Control
                   type="text"
                   value={label}
                   placeholder={label !== '' ? label : 'Enter a label...'}
                   onChange={(e) => handleLabelInputChange(e, ind)}
+                  required={
+                    isUndefined(labelLanguages) || labelLanguages.length > 0
+                  }
                 />
               </Form.Group>
 
-              <Form.Group as={Col} controlId="formGridState">
+              <Form.Group as={Col} controlId="noteLabelLanguageFormGroup">
                 <Form.Label>Display Label Language (optional)</Form.Label>
                 <Form.Control
                   as={MultiSelectDropdown}
