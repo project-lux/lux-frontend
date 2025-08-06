@@ -6,7 +6,11 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added the About LUX Data page ([#730](https://github.com/project-lux/lux-frontend/issues/730)).
+
 ### Changed
+
+- Changed the order of the About LUX page menu ([#730](https://github.com/project-lux/lux-frontend/issues/730)).
 
 ### Removed
 

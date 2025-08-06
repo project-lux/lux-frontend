@@ -5,13 +5,14 @@ const CMS_PREFIX = '/content'
 
 export const aboutPagesMap = new Map([
   [`${CMS_PREFIX}/about-lux`, 'About LUX'],
+  [`${CMS_PREFIX}/about-lux-data`, 'About LUX Data'],
+  [`${CMS_PREFIX}/technology`, 'LUX Technology'],
+  [`${CMS_PREFIX}/sharable-outcomes`, 'Sharable Outcomes from LUX'],
+  [`${CMS_PREFIX}/who-we-are`, 'Who We Are'],
   [
     `${CMS_PREFIX}/collaboration-history`,
     "History of Digital Collaboration among Yale's Libraries, Museums, and ITS",
   ],
-  [`${CMS_PREFIX}/technology`, 'LUX Technology'],
-  [`${CMS_PREFIX}/sharable-outcomes`, 'Sharable Outcomes from LUX'],
-  [`${CMS_PREFIX}/who-we-are`, 'Who We Are'],
   [`${CMS_PREFIX}/land-acknowledgement`, 'Land Acknowledgement'],
 ])
 
