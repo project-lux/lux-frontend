@@ -6,6 +6,7 @@ import {
   IContentWithLanguage,
   INoteContent,
 } from '../../../types/IContentWithLanguage'
+import { IImageFormData } from '../../../types/myCollections/IImageFormData'
 
 import EntityParser from './EntityParser'
 import EventParser from './EventParser'
@@ -118,6 +119,55 @@ export default class MyCollectionParser extends EntityParser {
     })
 
     return notes
+  }
+
+  /**
+   * Returns all Wikidata image data from /representation
+   * @returns {IImageFormData}
+   */
+  getCoverImage(): IImageFormData | null {
+    const representation = forceArray(this.json.representation)
+    if (representation.length === 0) {
+      return null
+    }
+
+    const imageData: IImageFormData = {
+      image: '',
+      description: '',
+      descriptionLanguage: [],
+    }
+
+    for (const rep of representation) {
+      const digitallyShownBy = forceArray(rep.digitally_shown_by)
+
+      for (const digital of digitallyShownBy) {
+        const accessPoint = forceArray(digital.access_point)
+        const referredToBy = forceArray(digital.referred_to_by)
+        imageData.image = accessPoint.length > 0 ? accessPoint[0].id : ''
+
+        if (referredToBy.length > 0) {
+          referredToBy.map((ref) => {
+            const classifiedAs = forceArray(ref.classified_as)
+            classifiedAs.map((cl) => {
+              const nestedEntity = new EntityParser(cl)
+              // Set the description if it is not classified_as a copyright statement
+              if (
+                !nestedEntity
+                  .getEquivalent()
+                  .includes(config.aat.copyrightLicensingStatement)
+              ) {
+                imageData.description = ref.content
+              }
+            })
+            if (ref.language) {
+              imageData.descriptionLanguage = ref.language
+            }
+          })
+        }
+      }
+    }
+
+    return imageData
   }
 
   /**

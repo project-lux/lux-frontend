@@ -1,12 +1,16 @@
 import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
+import { isNull } from 'lodash'
 
 import IMyCollection from '../../types/data/IMyCollection'
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { commonLanguages } from '../../config/myCollections/languages'
+import { IImageFormData } from '../../types/myCollections/IImageFormData'
+import { archive } from '../../config/setsSearchTags'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
+import ImageSelect from './ImageSelect'
 
 interface IMyCollectionsModal {
   data: IMyCollection
@@ -20,10 +24,24 @@ interface IMyCollectionsModal {
  */
 const EditImageForm: React.FC<IMyCollectionsModal> = ({ data, onFormSave }) => {
   const myCollection = new MyCollectionParser(data)
-  const images = myCollection.getImages()
-  console.log(images)
+  const coverImage = myCollection.getCoverImage()
+  const objectsWithImagesHalLink = myCollection.getHalLink(archive.searchTag)
+  // format search link for entities in the archive with images
+  let searchString = ''
+  if (objectsWithImagesHalLink !== null) {
+    const searchQ = formatHalLink(objectsWithImagesHalLink, 'item')
+    searchString = `${searchQ}&searchLink=true`
+  }
 
-  const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([])
+  const defaultImageData: IImageFormData = {
+    image: '',
+    description: '',
+    descriptionLanguage: [],
+  }
+  const [image, setImage] = useState<IImageFormData>(
+    !isNull(coverImage) ? coverImage : defaultImageData,
+  )
+  const [editImage] = useEditCollectionImageMutation()
 
   const handleOnSelectLanguages = (e: ChangeEvent<HTMLInputElement>): void => {
     const { value } = e.target
