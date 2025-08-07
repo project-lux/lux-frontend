@@ -22,6 +22,7 @@ import { deleteCollections } from '../../lib/util/deleteCollections'
 import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
   addIdentifiersToCollectionObject,
+  addNamesToCollectionObject,
   addNotesToCollectionObject,
   addToCollectionObject,
   addWebpagesToCollectionObject,
@@ -32,10 +33,10 @@ import {
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
-import { IEditCollection } from '../../types/myCollections/IEditCollection'
 import IMyCollection from '../../types/data/IMyCollection'
 import IWebpages from '../../types/data/IWebpages'
 import { INoteContent } from '../../types/IContentWithLanguage'
+import INames from '../../types/myCollections/INames'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -293,16 +294,19 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
-    editCollection: builder.mutation<any, IEditCollection>({
+    editCollectionNames: builder.mutation<
+      any,
+      { collection: IMyCollection; names: Array<INames> }
+    >({
       query: (data) => {
-        const { collectionId, collectionData, recordsToAdd } = data
-        const collection = addToCollectionObject(collectionData, recordsToAdd)
-        const collectionUuid = stripYaleIdPrefix(collectionId)
+        const { collection, names } = data
+        const updatedCollection = addNamesToCollectionObject(collection, names)
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
 
         return {
           url: `data/${collectionUuid}`,
           method: 'PUT',
-          data: collection,
+          data: updatedCollection,
           headers: getHeaders(),
         }
       },
@@ -434,7 +438,7 @@ export const {
   useSearchQuery,
   useCreateCollectionMutation,
   useAddToCollectionMutation,
-  useEditCollectionMutation,
+  useEditCollectionNamesMutation,
   useEditDefaultCollectionMutation,
   useEditCollectionIdentifiersMutation,
   useEditCollectionWebpagesMutation,

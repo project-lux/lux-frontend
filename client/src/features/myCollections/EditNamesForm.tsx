@@ -11,20 +11,24 @@ import INames from '../../types/myCollections/INames'
 import { commonClassifications } from '../../config/myCollections/classifications'
 import { commonLanguages } from '../../config/myCollections/languages'
 import StyledDeleteButton from '../../styles/features/myCollections/DeleteButton'
+import { useEditCollectionNamesMutation } from '../../redux/api/ml_api'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
 
-interface IMyCollectionsModal {
+interface IProps {
   data: IMyCollection
-  onFormSave: (e: React.FormEvent<HTMLFormElement>) => void
+  onClose: () => void
 }
 
 /**
  * Form elements used for entering new name data
  * @param {IMyCollection} data the collection json
+ * @param {() => void} onClose function to close the modal
  * @returns
  */
-const EditNamesForm: React.FC<IMyCollectionsModal> = ({ data, onFormSave }) => {
+const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
+  const { pathname } = useLocation()
+  const navigate = useNavigate()
   const myCollection = new MyCollectionParser(data)
   const collectionNames = myCollection.getNamesForEditing()
   const defaultNamesData: INames = {
@@ -35,6 +39,46 @@ const EditNamesForm: React.FC<IMyCollectionsModal> = ({ data, onFormSave }) => {
   const [names, setNames] = useState<Array<INames>>(
     collectionNames.length > 0 ? collectionNames : [defaultNamesData],
   )
+  const [editNames] = useEditCollectionNamesMutation()
+
+  const handleSave = (event: any): void => {
+    event.preventDefault()
+    editNames({
+      collection: data,
+      names,
+    })
+      .then(() => {
+        onClose()
+        navigate(
+          {
+            pathname,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: `The changes were successfully saved!`,
+              alertVariant: 'primary',
+            },
+          },
+        )
+      })
+      .catch(() => {
+        onClose()
+        navigate(
+          {
+            pathname,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: `The changes could not be made.`,
+              alertVariant: 'danger',
+            },
+          },
+        )
+      })
+    onClose()
+  }
 
   const handleNameInputChange = (
     e: ChangeEvent<any>,
@@ -103,7 +147,7 @@ const EditNamesForm: React.FC<IMyCollectionsModal> = ({ data, onFormSave }) => {
   }
 
   return (
-    <Form onSubmit={onFormSave}>
+    <Form onSubmit={handleSave}>
       {names.map((d, ind) => {
         const { name, languages, classifications } = d
         return (
