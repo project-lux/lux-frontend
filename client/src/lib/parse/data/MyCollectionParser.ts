@@ -6,6 +6,7 @@ import {
   IContentWithLanguage,
   INoteContent,
 } from '../../../types/IContentWithLanguage'
+import INames from '../../../types/myCollections/INames'
 
 import EntityParser from './EntityParser'
 import EventParser from './EventParser'
@@ -58,11 +59,7 @@ export default class MyCollectionParser extends EntityParser {
    * Returns names in the record for rendering in the edit names form
    * @returns {Array<IEntity>}
    */
-  getNamesForEditing(): Array<{
-    name: string
-    languages: Array<string>
-    classifications: Array<string>
-  }> {
+  getNamesForEditing(): Array<INames> {
     const identifiedBy = forceArray(this.json.identified_by)
     if (identifiedBy.length === 0) {
       return []
