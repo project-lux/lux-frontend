@@ -7,6 +7,7 @@ import IMyCollection from '../../types/data/IMyCollection'
 import IWebpages from '../../types/data/IWebpages'
 import MyCollectionParser from '../parse/data/MyCollectionParser'
 import { INoteContent } from '../../types/IContentWithLanguage'
+import INames from '../../types/myCollections/INames'
 
 export const getBaseCollectionObject = (): IEntity => {
   return {
@@ -143,6 +144,62 @@ export const deleteFromCollectionObject = (
   collectionCopy.containing = containing.map((c) => {
     return { id: c }
   })
+  return collectionCopy
+}
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<INoteContent>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addNamesToCollectionObject = (
+  collection: IMyCollection,
+  listOfNames: Array<INames>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const namesToAdd = listOfNames.map((note) => {
+    const { name, classifications, languages } = note
+    const newNameObject: IEntity = {
+      type: 'Name',
+      content: name,
+    }
+    // Format languages data
+    const languagesToAdd = !isUndefined(languages)
+      ? languages.map((l) => {
+          return {
+            id: l,
+            type: 'Language',
+          }
+        })
+      : []
+
+    // Add languages
+    if (languagesToAdd.length > 0) {
+      newNameObject.language = languagesToAdd
+    }
+
+    // Format classifications data
+    const classificationsToAdd = !isUndefined(classifications)
+      ? classifications.map((cl) => {
+          return {
+            id: cl,
+            type: 'Concept',
+          }
+        })
+      : []
+
+    // Add languages
+    if (classificationsToAdd.length > 0) {
+      newNameObject.classified_as = classificationsToAdd
+    }
+
+    return newNameObject
+  })
+
+  collectionCopy.identified_by = namesToAdd
+
   return collectionCopy
 }
 
