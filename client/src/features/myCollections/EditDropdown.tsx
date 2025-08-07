@@ -8,6 +8,7 @@ interface IProps {
 }
 
 const EditDropdown: React.FC<IProps> = ({ handleOptionSelection }) => (
+  // Will need to get the user's uuid, make a request to it to get the default collection
   <StyledDropdown
     onSelect={(e) => handleOptionSelection(e as string)}
     className="editMyCollectionDropdown"
@@ -88,6 +89,7 @@ const EditDropdown: React.FC<IProps> = ({ handleOptionSelection }) => (
         <i className="bi bi-link-45deg me-2" />
         Edit Webpage Links
       </Dropdown.Item>
+      {/* a user can't delete their default collection */}
       <Dropdown.Item
         as="button"
         eventKey="deleteCollection"
