@@ -17,8 +17,6 @@ import {
 } from '../../styles/features/landing/LandingPage'
 import StyledHeadingOne from '../../styles/features/landing/HeadingOne'
 import StickySearchContainer from '../search/StickySearchContainer'
-import EditCollectionModal from '../myCollections/EditCollectionModal'
-import IMyCollection from '../../types/data/IMyCollection'
 
 import FeaturedCollectionsSection from './FeaturedCollectionsSection'
 import FooterBlocks from './FooterBlocksSection'
@@ -51,12 +49,6 @@ const Landing: React.FC = () => {
           </HeaderContainerCol>
         </Row>
         <StickySearchContainer />
-        <EditCollectionModal
-          data={{} as IMyCollection}
-          showModal={true}
-          onClose={() => null}
-          editOptionSelected={'identifier'}
-        />
         <Row id="srch-hero-container" className="mx-0">
           {imagesResult.isSuccess && units.length > 0 && (
             <ErrorBoundary FallbackComponent={ErrorFallback}>
