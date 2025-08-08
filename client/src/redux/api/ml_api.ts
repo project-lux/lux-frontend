@@ -21,6 +21,7 @@ import { getHeaders } from '../../lib/util/fetchWithToken'
 import { deleteCollections } from '../../lib/util/deleteCollections'
 import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
+  addClassificationsToCollectionObject,
   addIdentifiersToCollectionObject,
   addNamesToCollectionObject,
   addNotesToCollectionObject,
@@ -312,6 +313,27 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    editCollectionClassifications: builder.mutation<
+      any,
+      { collection: IMyCollection; classifications: Array<string> }
+    >({
+      query: (data) => {
+        const { collection, classifications } = data
+        const updatedCollection = addClassificationsToCollectionObject(
+          collection,
+          classifications,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     editDefaultCollection: builder.mutation<any, { collection: IMyCollection }>(
       {
         query: (data) => {
@@ -440,6 +462,7 @@ export const {
   useAddToCollectionMutation,
   useEditCollectionNamesMutation,
   useEditDefaultCollectionMutation,
+  useEditCollectionClassificationsMutation,
   useEditCollectionIdentifiersMutation,
   useEditCollectionWebpagesMutation,
   useEditCollectionNotesMutation,

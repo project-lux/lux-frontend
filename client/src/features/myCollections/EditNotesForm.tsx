@@ -90,9 +90,9 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
     indexOfNoteToEdit: number,
   ): void => {
     const { value } = e.target
-    const newIdArray = [...notes]
-    newIdArray[indexOfNoteToEdit].content = value
-    setNotes(newIdArray)
+    const newNoteArray = [...notes]
+    newNoteArray[indexOfNoteToEdit].content = value
+    setNotes(newNoteArray)
   }
 
   const handleSelectNoteClassification = (
@@ -120,7 +120,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
   }
 
   const handleSelectNoteLanguage = (
-    e: ChangeEvent<any>,
+    e: ChangeEvent<HTMLInputElement>,
     indexOfNoteToEdit: number,
   ): void => {
     const { value } = e.target
@@ -144,13 +144,13 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
   }
 
   const handleLabelInputChange = (
-    e: ChangeEvent<any>,
+    e: ChangeEvent<HTMLInputElement>,
     indexOfNoteToEdit: number,
   ): void => {
     const { value } = e.target
-    const newIdArray = [...notes]
-    newIdArray[indexOfNoteToEdit].label = value
-    setNotes(newIdArray)
+    const newNoteArray = [...notes]
+    newNoteArray[indexOfNoteToEdit].label = value
+    setNotes(newNoteArray)
   }
 
   const handleOnSelectLabelLanguages = (
@@ -200,7 +200,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
         return (
           <React.Fragment>
             <Row className="mb-3">
-              <Form.Group as={Col} controlId="noteContentFormGroup">
+              <Form.Group as={Col} controlId={`noteContentFormGroup${ind}`}>
                 <Row>
                   <Col xs={9} className="d-flex align-items-center mb-2">
                     <Form.Label className="fs-5 mb-0">
@@ -221,13 +221,16 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                   <Col xs={12} className="mb-2">
                     <Form.Control
                       as="textarea"
+                      type="text"
                       value={content}
                       placeholder={
                         content !== ''
                           ? content
                           : "What's your collection about?"
                       }
-                      onChange={(e) => handleNoteInputChange(e, ind)}
+                      onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                        handleNoteInputChange(e, ind)
+                      }
                       required
                     />
                   </Col>
@@ -246,6 +249,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                   className="editNoteClassificationDropdownButton"
                   indexOfData={ind}
                   onCheck={handleSelectNoteClassification}
+                  required
                 />
               </Form.Group>
 
@@ -271,7 +275,9 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                   type="text"
                   value={label}
                   placeholder={label !== '' ? label : 'Enter a label...'}
-                  onChange={(e) => handleLabelInputChange(e, ind)}
+                  onChange={(e: ChangeEvent<HTMLInputElement>) =>
+                    handleLabelInputChange(e, ind)
+                  }
                   required={
                     isUndefined(labelLanguages) || labelLanguages.length > 0
                   }

@@ -38,15 +38,17 @@ const EditDropdown: React.FC<IProps> = ({ handleOptionSelection }) => (
         eventKey="image"
         aria-label="Set Collection Image"
         data-testid="edit-my-collection-image-button"
+        disabled
       >
         <i className="bi bi-image me-2" />
-        Set Collection Image
+        Set Collection Image (TBD)
       </Dropdown.Item>
       <Dropdown.Item
         as="button"
         eventKey="default"
         aria-label="Set as Default"
         data-testid="edit-my-collection-default-button"
+        disabled
       >
         <i className="bi bi-gear me-2" />
         Set as Default

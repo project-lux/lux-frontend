@@ -30,15 +30,11 @@ export const createCollectionObject = (
   defaultCollection: boolean,
 ): IMyCollection => {
   const personalCollectionClassifiedAsObject: IConcept = {
-    id: 'https://not.checked',
-    type: 'Concept',
-    equivalent: [
-      {
-        type: 'Concept',
-        id: 'https://todo.concept.my.collection',
-      },
-    ],
+    id: 'https://todo.concept.my.collection',
+    type: 'Type',
+    _label: 'My Collection',
   }
+
   let classifiedAs = [personalCollectionClassifiedAsObject]
 
   if (defaultCollection) {
@@ -148,10 +144,10 @@ export const deleteFromCollectionObject = (
 }
 
 /**
- * Adds the list of identifiers to a collection
+ * Adds the list of names to a collection
  * Returns the collection JSON-LD object to be passed to the backend
  * @param {IMyCollectionObject} collection the collection JSON-LD to add to
- * @param {Array<INoteContent>} listOfIdentifiers the list of identifiers to add to the collection
+ * @param {Array<INames>} listOfNames the list of names to add to the collection
  * @returns {IMyCollection}
  */
 export const addNamesToCollectionObject = (
@@ -159,6 +155,9 @@ export const addNamesToCollectionObject = (
   listOfNames: Array<INames>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const identifiers = collectionCopy.identified_by.filter(
+    (iB: IEntity) => iB.type === 'Identifier',
+  )
   const namesToAdd = listOfNames.map((note) => {
     const { name, classifications, languages } = note
     const newNameObject: IEntity = {
@@ -185,7 +184,7 @@ export const addNamesToCollectionObject = (
       ? classifications.map((cl) => {
           return {
             id: cl,
-            type: 'Concept',
+            type: 'Type',
           }
         })
       : []
@@ -198,7 +197,31 @@ export const addNamesToCollectionObject = (
     return newNameObject
   })
 
-  collectionCopy.identified_by = namesToAdd
+  collectionCopy.identified_by = [...identifiers, ...namesToAdd]
+
+  return collectionCopy
+}
+
+/**
+ * Adds the list of classifications to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<string>} listOfClassifications the list of classifications to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addClassificationsToCollectionObject = (
+  collection: IMyCollection,
+  listOfClassifications: Array<string>,
+): IMyCollection => {
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const classificationsToAdd = listOfClassifications.map((cl) => {
+    return {
+      type: 'Type',
+      id: cl,
+    }
+  })
+
+  collectionCopy.classified_as = classificationsToAdd
 
   return collectionCopy
 }
@@ -238,14 +261,17 @@ export const addIdentifiersToCollectionObject = (
   listOfIdentifiers: Array<string>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const names = collectionCopy.identified_by.filter(
+    (iB: IEntity) => iB.type === 'Name',
+  )
   const identifiersToAdd = listOfIdentifiers.map((id) => {
     return {
-      id,
+      content: id,
       type: 'Identifier',
     }
   })
 
-  collectionCopy.identified_by = identifiersToAdd
+  collectionCopy.identified_by = [...names, ...identifiersToAdd]
 
   return collectionCopy
 }
@@ -344,7 +370,7 @@ export const addNotesToCollectionObject = (
       ? classifications.map((cl) => {
           return {
             id: cl,
-            type: 'Concept',
+            type: 'Type',
           }
         })
       : []

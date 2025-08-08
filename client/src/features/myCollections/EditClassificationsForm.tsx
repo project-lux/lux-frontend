@@ -4,8 +4,9 @@ import { useLocation, useNavigate } from 'react-router-dom'
 
 import IMyCollection from '../../types/data/IMyCollection'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
-import { useEditDefaultCollectionMutation } from '../../redux/api/ml_api'
+import { useEditCollectionClassificationsMutation } from '../../redux/api/ml_api'
 import { collectionClassifications } from '../../config/myCollections/classifications'
+import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
 
@@ -24,30 +25,36 @@ interface IProps {
 const EditClassificationsForm: React.FC<IProps> = ({ data, onClose }) => {
   const { pathname } = useLocation()
   const navigate = useNavigate()
-  const [selectedClassifications, setSelectedClassifications] = useState<
-    Array<string>
-  >([])
-  const [setDefault] = useEditDefaultCollectionMutation()
+  const myCollection = new MyCollectionParser(data)
+  const currentCollectionClassifications = myCollection.getTypes()
+  const [classifications, setClassifications] = useState<Array<string>>(
+    currentCollectionClassifications.length > 0
+      ? currentCollectionClassifications
+      : [],
+  )
+  const [editClassifications] = useEditCollectionClassificationsMutation()
 
   const handleOnSelectClassifications = (
     e: ChangeEvent<HTMLInputElement>,
   ): void => {
     const { value } = e.target
-    if (selectedClassifications.includes(value)) {
+    const newClassifications = [...classifications]
+    if (classifications.includes(value)) {
       // remove from the list of selected
-      const ind = selectedClassifications.indexOf(value)
-      selectedClassifications.splice(ind, 1)
-      setSelectedClassifications(selectedClassifications)
+      const ind = newClassifications.indexOf(value)
+      newClassifications.splice(ind, 1)
+      setClassifications(newClassifications)
     } else {
-      setSelectedClassifications([...selectedClassifications, e.target.value])
+      setClassifications([...newClassifications, e.target.value])
     }
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSave = (event: any): void => {
     event.preventDefault()
-    setDefault({
+    editClassifications({
       collection: data,
+      classifications,
     })
       .unwrap()
       .then(() => {
@@ -93,10 +100,11 @@ const EditClassificationsForm: React.FC<IProps> = ({ data, onClose }) => {
           <Form.Control
             as={MultiSelectDropdown}
             options={collectionClassifications}
-            selectedOptions={selectedClassifications}
-            ariaLabel="Select one or more classifications for the name"
+            selectedOptions={classifications}
+            ariaLabel="Select one or more classifications for the collection"
             className="editClassificationsDropdownButton"
             onCheck={handleOnSelectClassifications}
+            indexOfData={0}
             required
           />
           <Form.Text id="passwordHelpBlock">

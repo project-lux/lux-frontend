@@ -26,6 +26,10 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       justify-content: space-between;
       align-items: center;
       overflow: hidden;
+      overflow: clip;
+      text-overflow: ellipsis;
+      text-wrap: auto;
+      overflow-wrap: break-word;
     }
 
     &:active {

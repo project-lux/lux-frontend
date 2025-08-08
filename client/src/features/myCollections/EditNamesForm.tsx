@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from 'react'
 import { Col, Form, Row } from 'react-bootstrap'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import SecondaryButton from '../../styles/shared/SecondaryButton'
 import IMyCollection from '../../types/data/IMyCollection'
@@ -85,9 +86,9 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
     indexOfNameToEdit: number,
   ): void => {
     const { value } = e.target
-    const newIdArray = [...names]
-    newIdArray[indexOfNameToEdit].name = value
-    setNames(newIdArray)
+    const newNameArray = [...names]
+    newNameArray[indexOfNameToEdit].name = value
+    setNames(newNameArray)
   }
 
   const handleSelectNameClassification = (
@@ -148,8 +149,8 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
 
   return (
     <Form onSubmit={handleSave}>
-      {names.map((d, ind) => {
-        const { name, languages, classifications } = d
+      {names.map((n, ind) => {
+        const { name, languages, classifications } = n
         return (
           <React.Fragment>
             <Row className="mb-3">
@@ -177,7 +178,7 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
                   placeholder={name !== '' ? name : 'Enter name...'}
                   value={name}
                   onChange={(e: ChangeEvent<any>) =>
-                    handleNameInputChange(e.target.value, ind)
+                    handleNameInputChange(e, ind)
                   }
                 />
               </Form.Group>

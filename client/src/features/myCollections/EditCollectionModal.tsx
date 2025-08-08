@@ -32,7 +32,7 @@ const getModalTitle = (formSelected: string): string => {
       return 'Set as Default Collection?'
     case 'classification':
       return 'Edit Collection Classification'
-    case 'identifier':
+    case 'identifiers':
       return 'Edit Identifiers'
     case 'links':
       return 'Edit Webpage Links'
@@ -58,53 +58,6 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
   editOptionSelected,
 }) => {
   useAuthentication()
-  // const dispatch = useDispatch()
-  // const { pathname } = useLocation()
-  // const navigate = useNavigate()
-  // const [editCollection] = useEditCollectionMutation()
-
-  const handleSave = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    // editCollection({
-    //   name,
-    //   classification,
-    //   language,
-    // })
-    //   .unwrap()
-    //   .then(() => {
-    //     onClose()
-    //     dispatch(resetState())
-    //     navigate(
-    //       {
-    //         pathname,
-    //       },
-    //       {
-    //         state: {
-    //           showAlert: true,
-    //           alertMessage: `${name} was successfully created!`,
-    //           alertVariant: 'primary',
-    //         },
-    //       },
-    //     )
-    //   })
-    //   .catch(() => {
-    //     onClose()
-    //     dispatch(resetState())
-    //     navigate(
-    //       {
-    //         pathname,
-    //       },
-    //       {
-    //         state: {
-    //           showAlert: true,
-    //           alertMessage: `${name} could not be made.`,
-    //           alertVariant: 'danger',
-    //         },
-    //       },
-    //     )
-    //   })
-    onClose()
-  }
 
   return (
     <Modal
@@ -125,7 +78,7 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
       </Modal.Header>
       <Modal.Body id="modalBody">
         {editOptionSelected === 'name' && (
-          <EditNamesForm data={data} onFormSave={handleSave} />
+          <EditNamesForm data={data} onClose={onClose} />
         )}
         {editOptionSelected === 'default' && (
           <SetAsDefault data={data} onClose={onClose} />
@@ -133,7 +86,7 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         {editOptionSelected === 'classification' && (
           <EditClassificationsForm data={data} onClose={onClose} />
         )}
-        {editOptionSelected === 'identifier' && (
+        {editOptionSelected === 'identifiers' && (
           <EditIdentifiersFrom data={data} onClose={onClose} />
         )}
         {editOptionSelected === 'links' && (

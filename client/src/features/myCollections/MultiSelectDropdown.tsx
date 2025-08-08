@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 
@@ -73,6 +72,7 @@ const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
             selectedOptions={selectedOptions}
             indexOfData={indexOfData}
             onCheck={onCheck}
+            isCheckboxDisabled={options[key] === 'Personal Collection'}
           />
         ))}
       </Dropdown.Menu>
