@@ -38,9 +38,10 @@ const EditDropdown: React.FC<IProps> = ({ handleOptionSelection }) => (
         eventKey="image"
         aria-label="Set Collection Image"
         data-testid="edit-my-collection-image-button"
+        disabled
       >
         <i className="bi bi-image me-2" />
-        Set Collection Image
+        Set Collection Image (TBD)
       </Dropdown.Item>
       <Dropdown.Item
         as="button"

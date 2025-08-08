@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ChangeEvent, forwardRef } from 'react'
 import { Form } from 'react-bootstrap'
 
@@ -19,34 +18,54 @@ const DropdownCheckbox = forwardRef<
     selectedOptions: Array<string>
     indexOfData: number
     onCheck: (e: ChangeEvent<HTMLInputElement>, ind: number) => void
+    isCheckboxDisabled?: boolean
   }
->(({ label, value, selectedOptions, indexOfData, onCheck }, ref) => {
-  // const handleCheckboxSelection = (e: ChangeEvent<HTMLInputElement>): void => {
-  //   e.stopPropagation()
-  //   onCheck(e)
-  // }
+>(
+  (
+    {
+      label,
+      value,
+      selectedOptions,
+      indexOfData,
+      onCheck,
+      isCheckboxDisabled = false,
+    },
+    ref,
+  ) => {
+    // const handleCheckboxSelection = (e: ChangeEvent<HTMLInputElement>): void => {
+    //   e.stopPropagation()
+    //   onCheck(e)
+    // }
 
-  return (
-    <Form.Group
-      className="mx-2 fw-normal d-flex mb-2"
-      ref={ref}
-      controlId={value}
-      data-testid="options-dropdown-checkbox"
-    >
-      <Form.Check
-        id={value}
-        type="checkbox"
-        className="d-flex align-top mt-0"
-        checked={selectedOptions.includes(value)}
-        value={value}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => onCheck(e, indexOfData)}
-      />
-      <Form.Label column="sm" value={label} className="py-0 ps-2 pe-1 d-inline">
-        {label}
-      </Form.Label>
-    </Form.Group>
-  )
-})
+    return (
+      <Form.Group
+        className="mx-2 fw-normal d-flex mb-2"
+        ref={ref}
+        controlId={value}
+        data-testid="options-dropdown-checkbox"
+      >
+        <Form.Check
+          id={value}
+          type="checkbox"
+          className="d-flex align-top mt-0"
+          checked={selectedOptions.includes(value)}
+          value={value}
+          onChange={(e: ChangeEvent<HTMLInputElement>) =>
+            onCheck(e, indexOfData)
+          }
+          disabled={isCheckboxDisabled}
+        />
+        <Form.Label
+          column="sm"
+          value={label}
+          className="py-0 ps-2 pe-1 d-inline"
+        >
+          {label}
+        </Form.Label>
+      </Form.Group>
+    )
+  },
+)
 
 DropdownCheckbox.displayName = 'DropdownCheckbox'
 

@@ -185,7 +185,7 @@ export const addNamesToCollectionObject = (
       ? classifications.map((cl) => {
           return {
             id: cl,
-            type: 'Concept',
+            type: 'Type',
           }
         })
       : []
@@ -240,7 +240,7 @@ export const addIdentifiersToCollectionObject = (
   const collectionCopy = JSON.parse(JSON.stringify(collection))
   const identifiersToAdd = listOfIdentifiers.map((id) => {
     return {
-      id,
+      content: id,
       type: 'Identifier',
     }
   })
@@ -344,7 +344,7 @@ export const addNotesToCollectionObject = (
       ? classifications.map((cl) => {
           return {
             id: cl,
-            type: 'Concept',
+            type: 'Type',
           }
         })
       : []
