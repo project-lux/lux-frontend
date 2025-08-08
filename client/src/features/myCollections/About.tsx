@@ -2,6 +2,8 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { isNull } from 'lodash'
+import { useDispatch } from 'react-redux'
+import { useLocation } from 'react-router-dom'
 
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import LinkContainer from '../common/LinkContainer'
@@ -11,19 +13,25 @@ import NamesContainer from '../common/NamesContainer'
 import WebPages from '../common/WebPages'
 import IdentifiersList from '../common/IdentifiersList'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { addEntity } from '../../redux/slices/myCollectionsSlice'
+import config from '../../config/config'
 
 import EditDropdown from './EditDropdown'
 import EditCollectionModal from './EditCollectionModal'
+import DeleteCollectionModal from './DeleteCollectionModal'
 
 interface IProps {
   data: IEntity
 }
 
 const About: React.FC<IProps> = ({ data }) => {
+  const dispatch = useDispatch()
+  const { pathname } = useLocation()
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
   const [editOption, setEditOption] = useState<null | string>(null)
-  const agent = new MyCollectionParser(data)
-  const aboutData = agent.getAboutData()
+  const [showDeleteModal, setShowDeleteModal] = useState<boolean>(false)
+  const myCollection = new MyCollectionParser(data)
+  const aboutData = myCollection.getAboutData()
 
   if (aboutData === null) {
     return null
@@ -34,13 +42,29 @@ const About: React.FC<IProps> = ({ data }) => {
 
   const handleEditSelectionOptions = (option: string): void => {
     setEditOption(option)
-    setShowEditModal(true)
-    pushClientEvent('My Collections', 'Opened', 'Edit collection modal')
+    if (option === 'delete') {
+      setShowDeleteModal(true)
+      pushClientEvent('My Collections', 'Opened', 'Delete collection modal')
+      dispatch(
+        addEntity({
+          uuid: `${config.env.dataApiBaseUrl}${pathname.replace('/view', 'data')}`,
+          scope: 'collection',
+        }),
+      )
+    } else {
+      setShowEditModal(true)
+      pushClientEvent('My Collections', 'Opened', 'Edit collection modal')
+    }
   }
 
   const handleCloseEditModal = (): void => {
     setShowEditModal(false)
     pushClientEvent('My Collections', 'Closed', 'Edit collection modal')
+  }
+
+  const handleCloseDeleteModal = (): void => {
+    setShowDeleteModal(false)
+    pushClientEvent('My Collections', 'Closed', 'Delete collection modal')
   }
 
   return (
@@ -51,6 +75,12 @@ const About: React.FC<IProps> = ({ data }) => {
           showModal={showEditModal}
           onClose={handleCloseEditModal}
           editOptionSelected={editOption}
+        />
+      )}
+      {showDeleteModal && !isNull(editOption) && (
+        <DeleteCollectionModal
+          showModal={showDeleteModal}
+          onClose={handleCloseDeleteModal}
         />
       )}
       <Row>

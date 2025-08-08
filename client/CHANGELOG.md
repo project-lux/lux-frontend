@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 - Added edit My Collections functionality for identifiers ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
 - Added edit My Collections functionality for web pages ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
 - Added edit My Collections functionality for notes ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added delete a collection functionality to edit dropdown ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
 
 ### Changed
 
