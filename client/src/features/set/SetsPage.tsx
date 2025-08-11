@@ -32,9 +32,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
   const isCollectionPage =
     setParser.isClassifiedAs(config.aat.collection) ||
     setParser.isClassifiedAs(config.aat.exhibition)
-  const isMyCollectionPage = setParser.isClassifiedAs(
-    config.aat.personalCollection,
-  )
+  const classifiedAs = setParser.getTypes()
   const manifestId = setParser.getManifestId()
   const hierarchyData: {
     entity: IEntity
@@ -50,7 +48,10 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
     return <CollectionPage data={data} />
   }
 
-  if (config.env.featureMyCollections && isMyCollectionPage) {
+  if (
+    config.env.featureMyCollections &&
+    classifiedAs.includes(config.aat.personalCollection)
+  ) {
     return <MyCollectionsPage data={data} />
   }
   const isArchive = setParser.isArchive()

@@ -110,6 +110,12 @@ const Navigation: React.FC<INavigation> = ({
     }
   }
 
+  const getClassNameOfNavLink = (key: string): string => {
+    return `link ${advancedSearch ? 'advanced' : 'simple'}${
+      pathname.includes(key) ? ' active' : ''
+    }`
+  }
+
   if (!isMobile) {
     return (
       <Row className="mx-1 mt-3 d-block">
@@ -126,11 +132,7 @@ const Navigation: React.FC<INavigation> = ({
                       ? `${urlParams.toString()}&qt=${tab}`
                       : urlParams.toString()
                   }`}
-                  className={({ isActive }) =>
-                    `link ${advancedSearch ? 'advanced' : 'simple'}${
-                      isActive ? ' active' : ''
-                    }`
-                  }
+                  className={getClassNameOfNavLink(key)}
                   onClick={() => {
                     pushClientEvent(
                       'Results Tab',

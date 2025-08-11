@@ -15,6 +15,27 @@ const ReactBootstrapDropdown = styled(Dropdown)`
       border: none;
       display: flex;
     }
+
+    &.editClassificationsDropdownButton,
+    &.editNameClassificationDropdownButton,
+    &.editNameLanguageDropdownButton,
+    &.editNoteClassificationDropdownButton,
+    &.editNoteLanguageDropdownButton,
+    &.editNoteLabelLanguageDropdownButton {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      overflow: hidden;
+      overflow: clip;
+      text-overflow: ellipsis;
+      text-wrap: auto;
+      overflow-wrap: break-word;
+    }
+
+    &:active {
+      color: ${theme.color.white};
+      background-color: ${theme.color.button};
+    }
   }
 
   .dropdown-toggle.show {

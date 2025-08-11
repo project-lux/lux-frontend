@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.56.0 - Unreleased
+
+### Added
+
+- Added the About LUX Data page ([#730](https://github.com/project-lux/lux-frontend/issues/730)).
+- Added edit My Collections functionality for names ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added set default functionality for My Collections ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for classifications ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for identifiers ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for web pages ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for notes ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added delete a collection functionality to edit dropdown ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
+
+### Changed
+
+- Changed the order of the About LUX page menu ([#730](https://github.com/project-lux/lux-frontend/issues/730)).
+
+### Removed
+
+### Fixed
+
 ## v1.55.1 - 2025-7-2028
 
 ### Fixed

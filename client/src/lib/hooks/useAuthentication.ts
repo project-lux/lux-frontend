@@ -1,9 +1,9 @@
-import { useAuth } from 'react-oidc-context'
+import { AuthContextProps, useAuth } from 'react-oidc-context'
 
 import config from '../../config/config'
 import { verifyToken } from '../auth/helper'
 
-export default function useAuthentication(): void {
+export default function useAuthentication(): AuthContextProps {
   const auth = useAuth()
 
   if (config.env.featureMyCollections) {
@@ -17,4 +17,5 @@ export default function useAuthentication(): void {
       // console.log('Not authenticated')
     }
   }
+  return auth
 }

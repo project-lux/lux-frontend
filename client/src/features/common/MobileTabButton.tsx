@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap'
 
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
-import SecondaryButton from '../../styles/shared/SecondaryDropdown'
+import SecondaryDropdown from '../../styles/shared/SecondaryDropdown'
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import { searchScope } from '../../config/searchTypes'
 
@@ -26,7 +26,7 @@ const MobileTabButton: React.FC<IProps> = ({
   className = '',
   showArrow = false,
 }) => (
-  <SecondaryButton
+  <SecondaryDropdown
     role="button"
     className={`border border-0 w-100 ${className}`}
     onClick={() => handleOnClick(index)}
@@ -82,7 +82,7 @@ const MobileTabButton: React.FC<IProps> = ({
       )}
     </Row>
     <StyledHr width="100%" color={theme.color.lightGray} />
-  </SecondaryButton>
+  </SecondaryDropdown>
 )
 
 export default MobileTabButton
