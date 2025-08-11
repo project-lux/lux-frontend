@@ -1,4 +1,5 @@
-import { isUndefined } from 'lodash'
+import { isNull, isUndefined } from 'lodash'
+import { AuthContextProps } from 'react-oidc-context'
 
 import config from '../../config/config'
 import IConcept from '../../types/data/IConcept'
@@ -408,4 +409,45 @@ export const addNotesToCollectionObject = (
   collectionCopy.referred_to_by = notesToAdd
 
   return collectionCopy
+}
+
+/**
+ * Adds the list of identifiers to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<INoteContent>} listOfIdentifiers the list of identifiers to add to the collection
+ * @returns {IMyCollection}
+ */
+export const formatSubTabNavLinks = (
+  auth: AuthContextProps,
+  subTab: string,
+  searchQueryString: string,
+): string => {
+  const urlParams = new URLSearchParams(searchQueryString)
+  const query = urlParams.has('q') ? (urlParams.get('q') as string) : ''
+  const sq = urlParams.has('sq') ? (urlParams.get('sq') as string) : null
+
+  let searchQuery = query
+  const parsed = JSON.parse(searchQuery)
+
+  if (subTab === 'lux-collections') {
+    parsed.NOT = [
+      {
+        createdBy: { username: auth.user?.profile['cognito:username'] },
+      },
+    ]
+    return `?q=${JSON.stringify(parsed)}&filterResults=false${!isNull(sq) ? `&sq=${sq}` : ''}`
+  }
+
+  if (subTab === 'my-collections') {
+    parsed.AND.push({
+      createdBy: {
+        username: auth.user?.profile['cognito:username'],
+      },
+    })
+
+    return `?q=${JSON.stringify(parsed)}&filterResults=false${!isNull(sq) ? `&sq=${sq}` : ''}`
+  }
+
+  return searchQueryString
 }
