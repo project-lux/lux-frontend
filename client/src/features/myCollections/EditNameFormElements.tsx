@@ -113,6 +113,7 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
             className="editNameClassificationDropdownButton"
             onCheck={handleOnSelectClassifications}
             required
+            indexOfData={0}
           />
         </Form.Group>
 
@@ -126,6 +127,7 @@ const EditNameFormElements: React.FC<IMyCollectionsModal> = ({
             ariaLabel="Select one or more languages for the name"
             className="editNameLanguageDropdownButton"
             onCheck={handleOnSelectLanguages}
+            indexOfData={0}
           />
         </Form.Group>
       </Row>

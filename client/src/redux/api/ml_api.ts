@@ -413,46 +413,6 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
-    editDefaultCollection: builder.mutation<any, { collection: IMyCollection }>(
-      {
-        query: (data) => {
-          const { collection } = data
-          const updatedCollection = setCollectionAsDefault(collection)
-          const collectionUuid = stripYaleIdPrefix(
-            updatedCollection.id as string,
-          )
-
-          return {
-            url: `data/${collectionUuid}`,
-            method: 'PUT',
-            data: updatedCollection,
-            headers: getHeaders(),
-          }
-        },
-        invalidatesTags: ['Results', 'Item', 'Items'],
-      },
-    ),
-    editCollectionIdentifiers: builder.mutation<
-      any,
-      { collection: IMyCollection; identifiers: Array<string> }
-    >({
-      query: (data) => {
-        const { collection, identifiers } = data
-        const updatedCollection = addIdentifiersToCollectionObject(
-          collection,
-          identifiers,
-        )
-        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
-
-        return {
-          url: `data/${collectionUuid}`,
-          method: 'PUT',
-          data: updatedCollection,
-          headers: getHeaders(),
-        }
-      },
-      invalidatesTags: ['Results', 'Item', 'Items'],
-    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection

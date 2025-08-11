@@ -1,4 +1,4 @@
-import { useAuth } from 'react-oidc-context'
+import { AuthContextProps, useAuth } from 'react-oidc-context'
 
 import config from '../../config/config'
 import { verifyToken } from '../auth/helper'
