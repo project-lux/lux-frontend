@@ -21,13 +21,23 @@ import { getHeaders } from '../../lib/util/fetchWithToken'
 import { deleteCollections } from '../../lib/util/deleteCollections'
 import { IDeleteCollection } from '../../types/myCollections/IDeleteCollection'
 import {
+  addClassificationsToCollectionObject,
+  addIdentifiersToCollectionObject,
+  addNamesToCollectionObject,
+  addNotesToCollectionObject,
   addToCollectionObject,
+  addWebpagesToCollectionObject,
   createCollectionObject,
   deleteFromCollectionObject,
+  setCollectionAsDefault,
 } from '../../lib/myCollections/helper'
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
 import { IAddToCollection } from '../../types/myCollections/IAddToCollection'
 import { IDeleteRecordsFromCollection } from '../../types/myCollections/IDeleteRecordsFromCollection'
+import IMyCollection from '../../types/data/IMyCollection'
+import IWebpages from '../../types/data/IWebpages'
+import { INoteContent } from '../../types/IContentWithLanguage'
+import INames from '../../types/myCollections/INames'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -107,13 +117,13 @@ export const mlApi: any = createApi({
     }),
     getItem: builder.query<any, IItemParams>({
       query: (itemUri) => {
-        const { uri, profile } = itemUri
+        const { uri, token, profile } = itemUri
         let profileParam = ''
         if (profile !== undefined) {
           profileParam = `?profile=${profile}`
         }
         // set headers if My Collections
-        const headers: Headers = getHeaders()
+        const headers: Headers = getHeaders(token)
         return {
           url: `data/${uri}${profileParam}`,
           method: 'GET',
@@ -285,6 +295,124 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
+    editCollectionNames: builder.mutation<
+      any,
+      { collection: IMyCollection; names: Array<INames> }
+    >({
+      query: (data) => {
+        const { collection, names } = data
+        const updatedCollection = addNamesToCollectionObject(collection, names)
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    editCollectionClassifications: builder.mutation<
+      any,
+      { collection: IMyCollection; classifications: Array<string> }
+    >({
+      query: (data) => {
+        const { collection, classifications } = data
+        const updatedCollection = addClassificationsToCollectionObject(
+          collection,
+          classifications,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    editDefaultCollection: builder.mutation<any, { collection: IMyCollection }>(
+      {
+        query: (data) => {
+          const { collection } = data
+          const updatedCollection = setCollectionAsDefault(collection)
+          const collectionUuid = stripYaleIdPrefix(
+            updatedCollection.id as string,
+          )
+
+          return {
+            url: `data/${collectionUuid}`,
+            method: 'PUT',
+            data: updatedCollection,
+            headers: getHeaders(),
+          }
+        },
+        invalidatesTags: ['Results', 'Item', 'Items'],
+      },
+    ),
+    editCollectionIdentifiers: builder.mutation<
+      any,
+      { collection: IMyCollection; identifiers: Array<string> }
+    >({
+      query: (data) => {
+        const { collection, identifiers } = data
+        const updatedCollection = addIdentifiersToCollectionObject(
+          collection,
+          identifiers,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    editCollectionWebpages: builder.mutation<
+      any,
+      { collection: IMyCollection; webPages: Array<IWebpages> }
+    >({
+      query: (data) => {
+        const { collection, webPages } = data
+        const updatedCollection = addWebpagesToCollectionObject(
+          collection,
+          webPages,
+        )
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
+    editCollectionNotes: builder.mutation<
+      any,
+      { collection: IMyCollection; notes: Array<INoteContent> }
+    >({
+      query: (data) => {
+        const { collection, notes } = data
+        const updatedCollection = addNotesToCollectionObject(collection, notes)
+        const collectionUuid = stripYaleIdPrefix(updatedCollection.id as string)
+
+        return {
+          url: `data/${collectionUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
+      },
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     deleteRecordsFromCollection: builder.mutation<
       any,
       IDeleteRecordsFromCollection
@@ -332,6 +460,12 @@ export const {
   useSearchQuery,
   useCreateCollectionMutation,
   useAddToCollectionMutation,
+  useEditCollectionNamesMutation,
+  useEditDefaultCollectionMutation,
+  useEditCollectionClassificationsMutation,
+  useEditCollectionIdentifiersMutation,
+  useEditCollectionWebpagesMutation,
+  useEditCollectionNotesMutation,
   useDeleteRecordsFromCollectionMutation,
   useDeleteCollectionMutation,
 } = mlApi

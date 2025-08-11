@@ -7,6 +7,12 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added the About LUX Data page ([#730](https://github.com/project-lux/lux-frontend/issues/730)).
+- Added edit My Collections functionality for names ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added set default functionality for My Collections ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for classifications ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for identifiers ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for web pages ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Added edit My Collections functionality for notes ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
 
 ### Changed
 

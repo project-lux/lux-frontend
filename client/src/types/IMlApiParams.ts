@@ -13,6 +13,7 @@ export interface ISearchParams {
 
 export interface IItemParams {
   uri: string
+  token?: string
   profile?: string
   query?: string
 }

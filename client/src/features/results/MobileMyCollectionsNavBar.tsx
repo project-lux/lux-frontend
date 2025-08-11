@@ -1,7 +1,7 @@
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
 
-import { nestedPageLinks } from '../../config/myCollections'
+import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import StyledDropdown from '../../styles/shared/Dropdown'
 
 interface IProps {
