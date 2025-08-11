@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Nav, Col } from 'react-bootstrap'
 import styled from 'styled-components'
+import { useAuth } from 'react-oidc-context'
 
 import theme from '../../styles/theme'
 import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { formatSubTabNavLinks } from '../../lib/myCollections/helper'
 
 import MobileMyCollectionsNavBar from './MobileMyCollectionsNavBar'
 
@@ -27,6 +29,7 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
   searchQueryString,
   nestedPage,
 }) => {
+  const auth = useAuth()
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -52,17 +55,20 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
           borderBottom: `2px solid ${theme.color.lightGray}`,
         }}
       >
-        {Object.keys(nestedPageLinks).map((key) => (
-          <Nav.Item>
-            <NavLink
-              href={`/view/results/collections/${key}${searchQueryString}`}
-              eventKey={key}
-              active={key === nestedPage}
-            >
-              {nestedPageLinks[key]}
-            </NavLink>
-          </Nav.Item>
-        ))}
+        {Object.keys(nestedPageLinks).map((key) => {
+          const subTabQuery = formatSubTabNavLinks(auth, key, searchQueryString)
+          return (
+            <Nav.Item>
+              <NavLink
+                href={`/view/results/collections/${key}${subTabQuery}`}
+                eventKey={key}
+                active={key === nestedPage}
+              >
+                {nestedPageLinks[key]}
+              </NavLink>
+            </Nav.Item>
+          )
+        })}
       </Nav>
     </Col>
   )
