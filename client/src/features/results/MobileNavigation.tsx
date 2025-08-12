@@ -23,6 +23,7 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
   getUrlState,
 } from '../../lib/util/params'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import MobileTabButton from './MobileTabButton'
 
@@ -42,6 +43,9 @@ const MobileNavigation: React.FC<IProps> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
+  const auth = useAuthentication()
+  const forceRefetch = auth.isAuthenticated
+
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
   )
@@ -78,7 +82,8 @@ const MobileNavigation: React.FC<IProps> = ({
         isSwitchToSimpleSearch,
       },
       {
-        skip: !hasCriteria,
+        skip: auth.isLoading === true || !hasCriteria,
+        forceRefetch,
       },
     )
 

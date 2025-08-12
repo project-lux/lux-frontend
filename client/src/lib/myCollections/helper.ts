@@ -440,6 +440,7 @@ export const formatSubTabNavLinks = (
   }
 
   if (subTab === 'my-collections') {
+    parsed.AND = []
     parsed.AND.push({
       createdBy: {
         username: auth.user?.profile['cognito:username'],

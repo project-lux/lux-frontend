@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.56.0 - Unreleased
+## v1.56.1 - 2025-8-12
+
+### Fixed
+
+- Fixed styling and bugs on the My Collections results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
+
+## v1.56.0 - 2025-8-11
 
 ### Added
 
@@ -95,11 +101,12 @@ All notable changes to this project will be documented in this file.
 - Added two dashes between each list item within the about subsection ([#686](https://github.com/project-lux/lux-frontend/issues/686)).
 
 ### Changed
-<<<<<<< HEAD
-=======
+
+# <<<<<<< HEAD
 
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
->>>>>>> main
+
+  > > > > > > > main
 
 - Modified CMS handling code to show CMI hero images ([685](https://github.com/project-lux/lux-frontend/issues/685)).
 - Changed the rendering of about data on works pages to support new data structure ([#686](https://github.com/project-lux/lux-frontend/issues/686)).

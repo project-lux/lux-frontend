@@ -63,7 +63,7 @@ const MobileRefine: React.FC<IProps> = ({
         onClick={() => handleShow(!fullscreen)}
         className="w-100"
       >
-        <i className="bi bi-funnel" />
+        <i className="bi bi-funnel me-1" />
         Sort & Refine
       </SecondaryButton>
       <Modal show={show} fullscreen onHide={() => setShow(false)}>

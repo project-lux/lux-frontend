@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { CSSProperties, useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
@@ -214,8 +214,17 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       ? 'justify-content-start'
       : 'justify-content-end'
 
+  // Sticky header when user is logged in
+  const headerStyle: CSSProperties | undefined = userIsAuthenticated
+    ? {
+        position: 'sticky',
+        top: 0,
+        zIndex: 999,
+      }
+    : undefined
+
   return (
-    <div className={userIsAuthenticated ? 'sticky-top' : ''}>
+    <div style={headerStyle}>
       {showAddToCollectionModal && (
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
@@ -315,6 +324,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                       backgroundColor: theme.color.lightGray,
                       color: theme.color.trueBlack,
                       border: theme.color.trueBlack,
+                      paddingTop:
+                        width < theme.breakpoints.md ? '1em' : '0.5em',
+                      paddingBottom:
+                        width < theme.breakpoints.md ? '1em' : '0.5em',
                     }}
                     data-testid={
                       currentView === 'list'

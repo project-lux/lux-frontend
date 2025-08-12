@@ -16,7 +16,7 @@ import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import useAuthentication from '../../lib/hooks/useAuthentication'
-import config from '../../config/config'
+// import config from '../../config/config'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
 
@@ -140,7 +140,7 @@ const ResultsPage: React.FC = () => {
     {
       q: searchStringWithFacets,
       filterResults,
-      token: config.currentAccessToken,
+      // token: config.currentAccessToken,
       page,
       tab,
       sort,

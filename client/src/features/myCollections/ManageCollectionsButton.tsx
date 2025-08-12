@@ -37,7 +37,7 @@ const ManageCollectionsButton: React.FC<{
   setShowAddToCollectionModal,
   setShowDeleteCollectionModal,
 }) => (
-  <Dropdown id="add-delete-collection-dropdown">
+  <Dropdown id="add-delete-collection-dropdown" className={additionalClassName}>
     <StyledDropdownToggle
       id="add-delete-collection-toggle"
       aria-label=""

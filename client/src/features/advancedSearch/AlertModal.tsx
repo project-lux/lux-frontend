@@ -54,7 +54,7 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
       animation={false}
       aria-describedby="modalBody"
       aria-labelledby="modalTitle"
-      data-testid="switch-to-simple-search-warning-modal"
+      data-testid="alert-modal"
     >
       <Modal.Dialog className="my-0">
         <Modal.Header closeButton>
