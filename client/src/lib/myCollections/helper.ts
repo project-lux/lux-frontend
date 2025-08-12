@@ -29,6 +29,7 @@ export const createCollectionObject = (
   classification: string,
   language: string,
   defaultCollection: boolean,
+  records?: Array<string>,
 ): IMyCollection => {
   const personalCollectionClassifiedAsObject: IConcept = {
     id: 'https://todo.concept.my.collection',
@@ -47,7 +48,7 @@ export const createCollectionObject = (
       },
     ]
   }
-  return {
+  const newCollection = {
     ...getBaseCollectionObject(),
     identified_by: [
       {
@@ -86,6 +87,12 @@ export const createCollectionObject = (
     ],
     classified_as: classifiedAs,
   }
+
+  if (!isUndefined(records)) {
+    return addToCollectionObject(newCollection, records)
+  }
+
+  return newCollection
 }
 
 /**
@@ -99,6 +106,9 @@ export const addToCollectionObject = (
   collection: IMyCollection,
   listOfRecordIds: Array<string>,
 ): IMyCollection => {
+  if (listOfRecordIds.length === 0) {
+    return collection
+  }
   const collectionCopy = JSON.parse(JSON.stringify(collection))
   const recordsToAdd = listOfRecordIds.map((id) => {
     return {

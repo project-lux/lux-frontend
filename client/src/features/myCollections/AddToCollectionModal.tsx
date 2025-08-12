@@ -60,7 +60,6 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
       createdBy: { username: auth.user?.profile['cognito:username'] },
     }),
     filterResults: false,
-    token: config.currentAccessToken,
     tab: 'collections',
   })
 

@@ -7,9 +7,13 @@ import { useDispatch } from 'react-redux'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/ml_api'
 import useAuthentication from '../../lib/hooks/useAuthentication'
-import { resetState } from '../../redux/slices/myCollectionsSlice'
+import {
+  IMyCollectionsResultsState,
+  resetState,
+} from '../../redux/slices/myCollectionsSlice'
 import { commonClassifications } from '../../config/myCollections/classifications'
 import { commonLanguages } from '../../config/myCollections/languages'
+import { useAppSelector } from '../../app/hooks'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -29,7 +33,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   useAuthentication()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { search } = useLocation()
+  const { pathname, search } = useLocation()
   const { tab, subTab } = useParams()
   const date = new Date()
   const month = date.getUTCMonth()
@@ -44,13 +48,25 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [createCollection] = useCreateCollectionMutation()
 
+  const currentMyCollectionState = useAppSelector(
+    (myCollectionsState) =>
+      myCollectionsState.myCollections as IMyCollectionsResultsState,
+  )
+  const { uuids } = currentMyCollectionState
+
   const handleSave = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    const pathnameToRedirect =
+      tab === undefined
+        ? pathname
+        : `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`
+
     createCollection({
       name,
       classification,
       language,
       collectionDefault: isDefault,
+      records: uuids,
     })
       .unwrap()
       .then(() => {
@@ -58,13 +74,13 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
         dispatch(resetState())
         navigate(
           {
-            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            pathname: pathnameToRedirect,
             search,
           },
           {
             state: {
               showAlert: true,
-              alertMessage: `${name} was successfully created!`,
+              alertMessage: `${name} was successfully created${uuids.length > 0 ? ' and the records were added successfully' : ''}!`,
               alertVariant: 'primary',
             },
           },
@@ -75,7 +91,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
         dispatch(resetState())
         navigate(
           {
-            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
+            pathname: pathnameToRedirect,
             search,
           },
           {

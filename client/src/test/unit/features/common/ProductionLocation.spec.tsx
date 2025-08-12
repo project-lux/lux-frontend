@@ -8,7 +8,7 @@ import { reusableMinimalEntity as mockEntity } from '../../../data/reusableMinim
 import ProductionLocation from '../../../../features/common/ProductionLocation'
 import { stripYaleIdPrefix } from '../../../../lib/parse/data/helper'
 
-const strippedMockUrl = stripYaleIdPrefix(mockPlace.id)
+const strippedMockUrl = stripYaleIdPrefix(mockPlace.id as string)
 
 vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
@@ -31,7 +31,7 @@ describe('ProductionLocation', () => {
   it('renders the record link', async () => {
     render(
       <BrowserRouter>
-        <ProductionLocation location={mockPlace.id} />
+        <ProductionLocation location={mockPlace.id as string} />
       </BrowserRouter>,
     )
 
@@ -42,7 +42,7 @@ describe('ProductionLocation', () => {
   it('renders the map', async () => {
     render(
       <BrowserRouter>
-        <ProductionLocation location={mockPlace.id} />
+        <ProductionLocation location={mockPlace.id as string} />
       </BrowserRouter>,
     )
 
@@ -53,7 +53,7 @@ describe('ProductionLocation', () => {
   it('renders hierarchy', async () => {
     render(
       <BrowserRouter>
-        <ProductionLocation location={mockPlace.id} />
+        <ProductionLocation location={mockPlace.id as string} />
       </BrowserRouter>,
     )
 

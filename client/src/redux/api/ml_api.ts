@@ -261,7 +261,7 @@ export const mlApi: any = createApi({
     }),
     createCollection: builder.mutation<any, ICreateCollectionFormData>({
       query: (collectionFormData) => {
-        const { name, classification, language, defaultCollection } =
+        const { name, classification, language, defaultCollection, records } =
           collectionFormData
 
         const collection = createCollectionObject(
@@ -269,6 +269,7 @@ export const mlApi: any = createApi({
           classification,
           language,
           defaultCollection,
+          records,
         )
 
         return {
