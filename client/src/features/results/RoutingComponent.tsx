@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import _ from 'lodash'
 
@@ -14,44 +14,79 @@ import EventPage from '../event/EventPage'
 import PlacePage from '../place/PlacePage'
 import ObjectsPage from '../objects/ObjectsPage'
 import useAuthentication from '../../lib/hooks/useAuthentication'
-import config from '../../config/config'
+import IEntity from '../../types/data/IEntity'
+import MyCollectionsAlert from '../myCollections/Alert'
+import { IRouteState } from '../../types/myCollections/IRouteState'
+
+const getEntityPage = (data: IEntity): any => {
+  if (data.type === 'HumanMadeObject' || data.type === 'DigitalObject') {
+    return <ObjectsPage data={data} />
+  }
+
+  if (data.type === 'LinguisticObject' || data.type === 'VisualItem') {
+    return <WorksPage data={data} />
+  }
+
+  if (data.type === 'Set') {
+    return <SetsPage data={data} />
+  }
+
+  if (data.type === 'Person' || data.type === 'Group') {
+    return <PersonAndGroupPage data={data} />
+  }
+
+  if (data.type === 'Place') {
+    return <PlacePage data={data} />
+  }
+
+  if (searchTypes.concepts.includes(data.type)) {
+    return <ConceptPage data={data} />
+  }
+
+  if (searchTypes.events.includes(data.type)) {
+    return <EventPage data={data} />
+  }
+}
 
 const RoutingComponent: React.FC = () => {
-  useAuthentication()
-  const { pathname } = useLocation()
-  const { isSuccess, isLoading, isError, data, error } = useGetItemQuery({
-    uri: pathname.replace('/view/', ''),
-    token: config.currentAccessToken,
+  const auth = useAuthentication()
+  const forceRefresh = auth.isAuthenticated
+  const { pathname, state } = useLocation()
+  const { isSuccess, isLoading, isError, data, error } = useGetItemQuery(
+    {
+      uri: pathname.replace('/view/', ''),
+    },
+    {
+      skip: auth.isLoading === true,
+      forceRefresh,
+    },
+  )
+
+  const [alert, setAlert] = useState<IRouteState>({
+    showAlert: false,
+    alertMessage: '',
+    alertVariant: 'primary',
   })
 
+  useEffect(() => {
+    if (state && state.hasOwnProperty('showAlert')) {
+      setAlert(state as IRouteState)
+    }
+  }, [state])
+
   if (isSuccess && data) {
-    if (data.type === 'HumanMadeObject' || data.type === 'DigitalObject') {
-      return <ObjectsPage data={data} />
-    }
-
-    if (data.type === 'LinguisticObject' || data.type === 'VisualItem') {
-      return <WorksPage data={data} />
-    }
-
-    if (data.type === 'Set') {
-      return <SetsPage data={data} />
-    }
-
-    if (data.type === 'Person' || data.type === 'Group') {
-      return <PersonAndGroupPage data={data} />
-    }
-
-    if (data.type === 'Place') {
-      return <PlacePage data={data} />
-    }
-
-    if (searchTypes.concepts.includes(data.type)) {
-      return <ConceptPage data={data} />
-    }
-
-    if (searchTypes.events.includes(data.type)) {
-      return <EventPage data={data} />
-    }
+    return (
+      <React.Fragment>
+        {alert.showAlert && (
+          <MyCollectionsAlert
+            variant={alert.alertVariant as string}
+            message={alert.alertMessage as string}
+            handleOnClose={setAlert}
+          />
+        )}
+        {getEntityPage(data)}
+      </React.Fragment>
+    )
   }
 
   if (isLoading) {

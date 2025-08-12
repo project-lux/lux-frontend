@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.56.2 - 2025-8-12
+
+### Fixed
+
+- Fixed adding records to a collection ([#658](https://github.com/project-lux/lux-frontend/issues/658)).
+
 ## v1.56.1 - 2025-8-12
 
 ### Fixed

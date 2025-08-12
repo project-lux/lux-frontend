@@ -3,4 +3,5 @@ export interface ICreateCollectionFormData {
   classification: string
   language: string
   defaultCollection: boolean
+  records?: Array<string>
 }
