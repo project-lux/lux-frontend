@@ -111,7 +111,7 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
       animation={false}
       aria-describedby="modalBody"
       aria-labelledby="modalTitle"
-      data-testid="switch-to-simple-search-warning-modal"
+      data-testid="add-to-collection-modal"
     >
       <Modal.Dialog className="my-0">
         <Modal.Header closeButton>

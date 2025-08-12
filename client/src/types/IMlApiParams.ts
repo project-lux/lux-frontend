@@ -1,7 +1,6 @@
 export interface ISearchParams {
   q: string
   filterResults?: string
-  token?: string
   page?: number
   tab?: string
   facets: { [key: string]: string }
@@ -13,7 +12,6 @@ export interface ISearchParams {
 
 export interface IItemParams {
   uri: string
-  token?: string
   profile?: string
   query?: string
 }

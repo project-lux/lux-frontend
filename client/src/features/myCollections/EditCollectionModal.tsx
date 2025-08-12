@@ -69,7 +69,7 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
       animation={false}
       aria-describedby="modalBody"
       aria-labelledby="modalTitle"
-      data-testid="switch-to-simple-search-warning-modal"
+      data-testid="edit-collection-modal"
     >
       <Modal.Header closeButton>
         <Modal.Title id="modalTitle">

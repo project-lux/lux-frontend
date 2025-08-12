@@ -100,7 +100,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
       animation={false}
       aria-describedby="modalBody"
       aria-labelledby="modalTitle"
-      data-testid="switch-to-simple-search-warning-modal"
+      data-testid="create-collection-modal"
     >
       <Modal.Header closeButton>
         <Modal.Title id="modalTitle">Create a New Collection</Modal.Title>

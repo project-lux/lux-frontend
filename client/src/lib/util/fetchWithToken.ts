@@ -1,13 +1,10 @@
 import config from '../../config/config'
 
-export const getHeaders = (token?: string): Headers => {
-  if (config.env.featureMyCollections && (config.currentAccessToken || token)) {
+export const getHeaders = (): Headers => {
+  if (config.env.featureMyCollections && config.currentAccessToken) {
     const headers = new Headers()
 
-    headers.append(
-      'Authorization',
-      `Bearer ${config.currentAccessToken || token}`,
-    )
+    headers.append('Authorization', `Bearer ${config.currentAccessToken}`)
 
     return headers
   }

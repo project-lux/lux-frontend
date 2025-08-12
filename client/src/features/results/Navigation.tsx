@@ -43,7 +43,9 @@ const Navigation: React.FC<INavigation> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
-  useAuthentication()
+  const auth = useAuthentication()
+  const forceRefetch = auth.isAuthenticated
+
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -84,7 +86,8 @@ const Navigation: React.FC<INavigation> = ({
         isSwitchToSimpleSearch,
       },
       {
-        skip: !hasCriteria,
+        skip: auth.isLoading === true || !hasCriteria,
+        forceRefetch,
       },
     )
 

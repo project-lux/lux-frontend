@@ -102,7 +102,7 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
       animation={false}
       aria-describedby="modalBody"
       aria-labelledby="modalTitle"
-      data-testid="switch-to-simple-search-warning-modal"
+      data-testid="delete-collection-modal"
     >
       <Modal.Dialog className="my-0">
         <Modal.Header closeButton>
