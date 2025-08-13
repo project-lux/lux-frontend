@@ -50,7 +50,7 @@ const getEntityPage = (data: IEntity): any => {
 
 const RoutingComponent: React.FC = () => {
   const auth = useAuthentication()
-  const forceRefresh = auth.isAuthenticated
+  const forceRefetch = auth.isAuthenticated
   const { pathname, state } = useLocation()
   const { isSuccess, isLoading, isError, data, error } = useGetItemQuery(
     {
@@ -58,7 +58,7 @@ const RoutingComponent: React.FC = () => {
     },
     {
       skip: auth.isLoading === true,
-      forceRefresh,
+      forceRefetch,
     },
   )
 

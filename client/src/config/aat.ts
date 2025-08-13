@@ -43,6 +43,7 @@ export function defaultAats(): IAat {
     role: 'http://vocab.getty.edu/aat/300435108',
     sortValue: 'http://vocab.getty.edu/aat/300456575',
     typeOfPart: 'http://vocab.getty.edu/aat/300241583',
+    username: 'http://www.wikidata.org/entity/Q15901043',
     visitors: 'http://vocab.getty.edu/aat/300025883',
     webPage: 'http://vocab.getty.edu/aat/300264578',
   }

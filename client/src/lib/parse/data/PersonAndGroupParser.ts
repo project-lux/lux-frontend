@@ -515,6 +515,18 @@ export default class PersonAndGroupParser extends EntityParser {
   }
 
   /**
+   * Returns death date for people from /died/timespan
+   * @returns {string}
+   */
+  getUsername(): string {
+    const { died } = this.agent
+    if (died !== undefined) {
+      return PersonAndGroupParser.getDates(died)
+    }
+    return ''
+  }
+
+  /**
    * Gets the data to be displayed in the About section
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
