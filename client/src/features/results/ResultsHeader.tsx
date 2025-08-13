@@ -4,7 +4,6 @@ import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { useAuth } from 'react-oidc-context'
-import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -30,7 +29,6 @@ import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteCollectionModal from '../myCollections/DeleteCollectionModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import SelectAll from '../common/SelectAll'
-import { onAddRequest } from '../../lib/myCollections/onAddRequest'
 
 import Sort from './Sort'
 
@@ -229,22 +227,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
           onClose={handleCloseAddModal}
-          onSuccess={() =>
-            onAddRequest(
-              'The selected records were saved!',
-              'primary',
-              `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
-              search,
-            )
-          }
-          onError={() =>
-            onAddRequest(
-              'The selected records could not be saved.',
-              'danger',
-              `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
-              search,
-            )
-          }
           showCreateNewModal={setShowCreateCollectionModal}
         />
       )}

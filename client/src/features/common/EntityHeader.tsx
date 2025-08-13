@@ -19,7 +19,6 @@ import AddToCollectionButton from '../myCollections/AddToCollectionButton'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
-import { onAddRequest } from '../../lib/myCollections/onAddRequest'
 import { IRouteState } from '../../types/myCollections/IRouteState'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { collectionsIcon } from '../../config/resources'
@@ -66,8 +65,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 }) => {
   const auth = useAuth()
   const isAuthenticated = auth.isAuthenticated
-  const { pathname, state } = useLocation() as {
-    pathname: string
+  const { state } = useLocation() as {
     state: IRouteState
   }
 
@@ -125,16 +123,6 @@ const EntityHeader: React.FC<IEntityHeader> = ({
       {showAddToCollectionModal && (
         <AddToCollectionModal
           showModal={showAddToCollectionModal}
-          onSuccess={() =>
-            onAddRequest(
-              'The record was added successfully!',
-              'primary',
-              pathname,
-            )
-          }
-          onError={() =>
-            onAddRequest('The record could not be saved.', 'danger', pathname)
-          }
           onClose={handleCloseAddModal}
           showCreateNewModal={setShowCreateCollectionModal}
         />
