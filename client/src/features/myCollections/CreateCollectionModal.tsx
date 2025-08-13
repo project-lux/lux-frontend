@@ -14,6 +14,9 @@ import {
 import { commonClassifications } from '../../config/myCollections/classifications'
 import { commonLanguages } from '../../config/myCollections/languages'
 import { useAppSelector } from '../../app/hooks'
+import { getFormattedDate } from '../../lib/myCollections/helper'
+
+import MultiSelectDropdown from './MultiSelectDropdown'
 
 interface IMyCollectionsModal {
   showModal: boolean
@@ -35,16 +38,13 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const { tab, subTab } = useParams()
-  const date = new Date()
-  const month = date.getUTCMonth()
-  const day = date.getUTCDate()
-  const year = date.getUTCFullYear()
-  const time = date.toLocaleTimeString()
-  const timestamp = `[${month + 1}/${day}/${year} at ${time}]`
+  const timestamp = getFormattedDate()
   const placeholderName = `Collection ${timestamp}`
   const [name, setName] = useState<string>(placeholderName)
-  const [classification, setClassification] = useState<string>('')
-  const [language, setLanguage] = useState<string>('')
+  const [selectedClassifications, setSelectedClassifications] = useState<
+    Array<string>
+  >([])
+  const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([])
   const [isDefault, setIsDefault] = useState<boolean>(false)
   const [createCollection] = useCreateCollectionMutation()
 
@@ -63,8 +63,8 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
 
     createCollection({
       name,
-      classification,
-      language,
+      classifications: selectedClassifications,
+      languages: selectedLanguages,
       collectionDefault: isDefault,
       records: uuids,
     })
@@ -106,6 +106,32 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     onClose()
   }
 
+  const handleSelectNameClassification = (e: ChangeEvent<any>): void => {
+    const { value } = e.target
+    const newClassifications = [...selectedClassifications]
+    if (selectedClassifications.includes(value)) {
+      // remove from the list of selected
+      const ind = newClassifications.indexOf(value)
+      newClassifications.splice(ind, 1)
+      setSelectedClassifications(newClassifications)
+    } else {
+      setSelectedClassifications([...newClassifications, value])
+    }
+  }
+
+  const handleSelectNameLanguage = (e: ChangeEvent<any>): void => {
+    const { value } = e.target
+    const newLanguages = [...selectedLanguages]
+    if (selectedClassifications.includes(value)) {
+      // remove from the list of selected
+      const ind = newLanguages.indexOf(value)
+      newLanguages.splice(ind, 1)
+      setSelectedLanguages(newLanguages)
+    } else {
+      setSelectedLanguages([...newLanguages, value])
+    }
+  }
+
   return (
     <Modal
       show={showModal}
@@ -139,31 +165,29 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
           <Row className="mb-3">
             <Form.Group as={Col} controlId="classificationFromGroup">
               <Form.Label>Classification (required)</Form.Label>
-              <Form.Select
-                value={classification}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setClassification(e.target.value)
-                }
+              <Form.Control
+                as={MultiSelectDropdown}
+                options={commonClassifications}
+                selectedOptions={selectedClassifications}
+                ariaLabel="Select one or more classifications for the name"
+                className="editNameClassificationDropdownButton"
+                onCheck={handleSelectNameClassification}
                 required
-              >
-                {Object.keys(commonClassifications).map((key) => (
-                  <option value={key}>{commonClassifications[key]}</option>
-                ))}
-              </Form.Select>
+                indexOfData={0}
+              />
             </Form.Group>
 
             <Form.Group as={Col} controlId="languageFromGroup">
               <Form.Label>Language of Name (optional)</Form.Label>
-              <Form.Select
-                value={language}
-                onChange={(e: ChangeEvent<HTMLSelectElement>) =>
-                  setLanguage(e.target.value)
-                }
-              >
-                {Object.keys(commonLanguages).map((key) => (
-                  <option value={key}>{commonLanguages[key]}</option>
-                ))}
-              </Form.Select>
+              <Form.Control
+                as={MultiSelectDropdown}
+                options={commonLanguages}
+                selectedOptions={selectedLanguages}
+                ariaLabel="Select one or more languages for the name"
+                className="editNameLanguageDropdownButton"
+                onCheck={handleSelectNameLanguage}
+                indexOfData={0}
+              />
             </Form.Group>
           </Row>
 

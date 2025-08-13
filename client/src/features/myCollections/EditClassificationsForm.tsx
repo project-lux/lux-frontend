@@ -45,7 +45,7 @@ const EditClassificationsForm: React.FC<IProps> = ({ data, onClose }) => {
       newClassifications.splice(ind, 1)
       setClassifications(newClassifications)
     } else {
-      setClassifications([...newClassifications, e.target.value])
+      setClassifications([...newClassifications, value])
     }
   }
 

@@ -9,6 +9,7 @@ import IWebpages from '../../types/data/IWebpages'
 import MyCollectionParser from '../parse/data/MyCollectionParser'
 import { INoteContent } from '../../types/IContentWithLanguage'
 import INames from '../../types/myCollections/INames'
+import IName from '../../types/data/IName'
 
 export const getFormattedDate = (date?: string): string => {
   let newDate = new Date()
@@ -31,18 +32,55 @@ export const getBaseCollectionObject = (): IEntity => {
 /**
  * Creates a new collection JSON-LD object to be passed to the backend
  * @param {string} name the user entered name of the collection being created
- * @param {string} classification the user entered classification of the collection being created
- * @param {string} language the user entered language of the collection being created
+ * @param {Array<string>} classifications the user entered classifications of the name of the collection being created
+ * @param {Array<string>} languages the user entered languages of the name of the collection being created
  * @param {boolean} defaultCollection determines if the default collection classification should be added to the collection being created
  * @returns {IMyCollection}
  */
 export const createCollectionObject = (
   name: string,
-  classification: string,
-  language: string,
+  classifications: Array<string>,
+  languages: Array<string>,
   defaultCollection: boolean,
   records?: Array<string>,
 ): IMyCollection => {
+  // create new object for adding the name of the collection and its classifications and languages
+  const newIdentifiedBy: IName = {
+    id: '',
+    type: 'Name',
+    content: name,
+  }
+  // Format languages of name data
+  const nameLanguagesToAdd = !isUndefined(languages)
+    ? languages.map((l) => {
+        return {
+          id: l,
+          type: 'Language',
+        }
+      })
+    : []
+
+  // Add languages to the new name object
+  if (nameLanguagesToAdd.length > 0) {
+    newIdentifiedBy.language = nameLanguagesToAdd
+  }
+
+  // Format classifications of name data
+  const nameClassificationsToAdd = !isUndefined(classifications)
+    ? classifications.map((cl) => {
+        return {
+          id: cl,
+          type: 'Type',
+        }
+      })
+    : []
+
+  // Add classifications to the new name object
+  if (nameClassificationsToAdd.length > 0) {
+    newIdentifiedBy.classified_as = nameClassificationsToAdd
+  }
+
+  // Set the collection as a Personal Collection
   const personalCollectionClassifiedAsObject: IConcept = {
     id: 'https://todo.concept.my.collection',
     type: 'Type',
@@ -50,7 +88,6 @@ export const createCollectionObject = (
   }
 
   let classifiedAs = [personalCollectionClassifiedAsObject]
-
   if (defaultCollection) {
     classifiedAs = [
       ...classifiedAs,
@@ -62,41 +99,7 @@ export const createCollectionObject = (
   }
   const newCollection = {
     ...getBaseCollectionObject(),
-    identified_by: [
-      {
-        id: '',
-        type: 'Name',
-        content: name,
-        language: [
-          {
-            id: language,
-            type: 'Language',
-            _label: 'English',
-            equivalent: [
-              {
-                id: config.aat.langen,
-                type: 'Language',
-                _label: 'English',
-              },
-            ],
-          },
-        ],
-        classified_as: [
-          {
-            id: classification,
-            type: 'Type',
-            _label: 'Primary Name',
-            equivalent: [
-              {
-                id: config.aat.primaryName,
-                type: 'Type',
-                _label: 'Primary Name',
-              },
-            ],
-          },
-        ],
-      },
-    ],
+    identified_by: [newIdentifiedBy],
     classified_as: classifiedAs,
   }
 
