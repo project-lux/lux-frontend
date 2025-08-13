@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
+import { isUndefined } from 'lodash'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import {
@@ -24,8 +25,6 @@ import AddOption from './AddOption'
 
 interface IMyCollectionsModal {
   showModal: boolean
-  onSuccess: () => void
-  onError: () => void
   onClose: () => void
   showCreateNewModal: (x: boolean) => void
 }
@@ -33,21 +32,19 @@ interface IMyCollectionsModal {
 /**
  * Modal used for alerting a user when they are switching from advanced search to simple search.
  * @param {boolean} showModal sets whether or not the modal is visible on the page
- * @param {() => void} onSuccess function to call when successful request is made
- * @param {() => void} onError function to call when unsuccessful request is made
  * @param {() => void} onClose function to close the modal
  * @param {(x: boolean) => void} showCreateNewModal function to open the Create New modal
  * @returns
  */
 const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
-  onSuccess,
-  onError,
   onClose,
   showCreateNewModal,
 }) => {
-  const { pathname } = useLocation()
   const auth = useAuth()
+  const navigate = useNavigate()
+  const { pathname, search } = useLocation()
+  const { tab, subTab } = useParams()
   const dispatch = useDispatch()
   const [addToCollection] = useAddToCollectionMutation()
   const [selectedCollection, setSelectedCollection] = useState<IEntity | null>(
@@ -82,6 +79,11 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
         `${config.env.dataApiBaseUrl}${pathname.replace('/view', 'data')}`,
       ]
     }
+    const pathnameToRedirect =
+      tab === undefined
+        ? pathname
+        : `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`
+
     addToCollection({
       collectionId: selectedCollection?.id,
       collectionData: selectedCollection,
@@ -91,12 +93,36 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
       .then(() => {
         onClose()
         dispatch(resetState())
-        onSuccess()
+        navigate(
+          {
+            pathname: pathnameToRedirect,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'The selected records were saved!',
+              alertVariant: 'primary',
+            },
+          },
+        )
       })
       .catch(() => {
         onClose()
         dispatch(resetState())
-        onError()
+        navigate(
+          {
+            pathname: pathnameToRedirect,
+            search,
+          },
+          {
+            state: {
+              showAlert: true,
+              alertMessage: 'The selected records could not be saved.',
+              alertVariant: 'danger',
+            },
+          },
+        )
       })
   }
 

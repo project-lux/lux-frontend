@@ -140,7 +140,6 @@ const ResultsPage: React.FC = () => {
     {
       q: searchStringWithFacets,
       filterResults,
-      // token: config.currentAccessToken,
       page,
       tab,
       sort,

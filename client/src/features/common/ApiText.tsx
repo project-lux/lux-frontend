@@ -7,6 +7,7 @@ import {
   getLabelBasedOnEntityType,
 } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 /**
  * Retrieves and transforms an individual data point's primary name
@@ -15,6 +16,8 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
  * @returns {JSX.Element}
  */
 const ApiText = (value: string, filterByAatValue?: string): string | null => {
+  const auth = useAuthentication()
+  const forceRefetch = auth.isAuthenticated
   const { pathname } = useLocation()
 
   const containsBaseUrl = value.includes(getDataApiBaseUrl())
@@ -23,7 +26,10 @@ const ApiText = (value: string, filterByAatValue?: string): string | null => {
   // Only retrieve the data if it contains the base url, it is not defined as a preferred term, and the value is not empty
   const { data, isSuccess } = useGetItemQuery(
     { uri, profile: 'results' },
-    { skip: !containsBaseUrl || isEmpty },
+    {
+      skip: auth.isLoading === true || !containsBaseUrl || isEmpty,
+      forceRefetch,
+    },
   )
 
   if (isSuccess && data) {

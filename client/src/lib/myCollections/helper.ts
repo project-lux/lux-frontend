@@ -10,6 +10,18 @@ import MyCollectionParser from '../parse/data/MyCollectionParser'
 import { INoteContent } from '../../types/IContentWithLanguage'
 import INames from '../../types/myCollections/INames'
 
+export const getFormattedDate = (date?: string): string => {
+  let newDate = new Date()
+  if (!isUndefined(date)) {
+    newDate = new Date(date)
+  }
+  const month = newDate.getUTCMonth()
+  const day = newDate.getUTCDate()
+  const year = newDate.getUTCFullYear()
+  const time = newDate.toLocaleTimeString()
+  return `[${month + 1}/${day}/${year} at ${time}]`
+}
+
 export const getBaseCollectionObject = (): IEntity => {
   return {
     type: 'Set',
@@ -322,6 +334,19 @@ export const addWebpagesToCollectionObject = (
             {
               id: link,
               type: 'DigitalObject',
+            },
+          ],
+          classified_as: [
+            {
+              type: 'Type',
+              _label: 'Web Page',
+              equivalent: [
+                {
+                  id: config.aat.webPage,
+                  type: 'Type',
+                  _label: 'Web Page',
+                },
+              ],
             },
           ],
           identified_by: [

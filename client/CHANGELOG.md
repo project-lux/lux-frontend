@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.56.2 - 2025-8-13
+
+### Added
+
+- Added additional components for collection pages ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+
+### Fixed
+
+- Fixed adding records to a collection alert on entity pages ([#658](https://github.com/project-lux/lux-frontend/issues/658)).
+
 ## v1.56.2 - 2025-8-12
 
 ### Fixed

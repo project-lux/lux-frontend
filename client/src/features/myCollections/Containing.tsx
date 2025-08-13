@@ -98,13 +98,6 @@ const Containing: React.FC<{ data: IMyCollection }> = ({ data }) => {
           lg={6}
           className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : ''} justify-content-end selectAllMyCollectionsOptionsCol`}
         >
-          {/* <AddToCollection
-            successMessage="The record was added successfully!"
-            errorMessage="The record could not be saved."
-            redirectPathname={pathname}
-            buttonClassName="myCollectionRecordsAddToCollectionButton m-2"
-            buttonDisabled={uuids.length === 0}
-          /> */}
           <DangerButton
             disabled={uuids.length === 0}
             onClick={() => handleShowDeleteRecordsModal()}

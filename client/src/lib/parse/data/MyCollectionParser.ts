@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import config from '../../../config/config'
 import IEntity from '../../../types/data/IEntity'
-import ISet from '../../../types/data/ISet'
+import IMyCollection from '../../../types/data/IMyCollection'
 import {
   IContentWithLanguage,
   INoteContent,
@@ -13,9 +13,9 @@ import EventParser from './EventParser'
 import { forceArray, hasData } from './helper'
 
 export default class MyCollectionParser extends EntityParser {
-  myCollection: ISet
+  myCollection: IMyCollection
 
-  constructor(json: ISet) {
+  constructor(json: IMyCollection) {
     super(json)
     this.myCollection = json
   }
@@ -118,6 +118,49 @@ export default class MyCollectionParser extends EntityParser {
   }
 
   /**
+   * Returns creator and date of creation from /created_by
+   * @returns {{ creator: string, date: string }}
+   */
+  getCreator(): { creator: string | null; date: string | null } | null {
+    const createdBy = this.myCollection.created_by
+
+    if (createdBy !== undefined) {
+      const event = new EventParser(createdBy)
+      const creator = event.getAgentId()
+      const dateOfCreation = event.getDates()
+      return {
+        creator,
+        date: dateOfCreation.length > 0 ? dateOfCreation[0] : null,
+      }
+    }
+
+    return null
+  }
+
+  /**
+   * Returns modifier and date of modification from /added_to_by
+   * @returns {Array<{ creator: string, date: string }>}
+   */
+  getModifier(): Array<{ creator: string | null; date: string | null }> {
+    const addedToBy = this.myCollection.added_to_by
+
+    const creators: Array<{ creator: string | null; date: string | null }> = []
+    if (addedToBy !== undefined) {
+      addedToBy.map((aTB) => {
+        const event = new EventParser(aTB)
+        const creator = event.getAgentId()
+        const dateOfCreation = event.getDates()
+        creators.push({
+          creator,
+          date: dateOfCreation.length > 0 ? dateOfCreation[0] : null,
+        })
+      })
+    }
+
+    return creators
+  }
+
+  /**
    * Gets the data to be displayed in the About section
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
@@ -130,7 +173,9 @@ export default class MyCollectionParser extends EntityParser {
     const types = this.getTypes()
     const identifiers = this.getIdentifiers()
     const notes = this.getNotes()
-    const webPages = this.getWebPages()
+    const webPages = this.getAllSiteLinks()
+    const creation = this.getCreator()
+    const modification = this.getModifier()
 
     const data: Record<string, any> = {
       name,
@@ -139,6 +184,8 @@ export default class MyCollectionParser extends EntityParser {
       identifiers,
       notes,
       webPages,
+      creation,
+      modification,
     }
 
     return hasData(data)

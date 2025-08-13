@@ -10,15 +10,19 @@ import LinkContainer from '../common/LinkContainer'
 import NotesContainer from '../common/NotesContainer'
 import IEntity from '../../types/data/IEntity'
 import NamesContainer from '../common/NamesContainer'
-import WebPages from '../common/WebPages'
 import IdentifiersList from '../common/IdentifiersList'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { addEntity } from '../../redux/slices/myCollectionsSlice'
 import config from '../../config/config'
+import IWebpages from '../../types/data/IWebpages'
+import ExternalLink from '../common/ExternalLink'
+import StyledDataRow from '../../styles/shared/DataRow'
+import TextLabel from '../common/TextLabel'
 
 import EditDropdown from './EditDropdown'
 import EditCollectionModal from './EditCollectionModal'
 import DeleteCollectionModal from './DeleteCollectionModal'
+import Editor from './Editor'
 
 interface IProps {
   data: IEntity
@@ -37,8 +41,16 @@ const About: React.FC<IProps> = ({ data }) => {
     return null
   }
 
-  const { name, names, types, identifiers, notes, webPages } =
-    aboutData as Record<string, any>
+  const {
+    name,
+    names,
+    types,
+    identifiers,
+    notes,
+    webPages,
+    creation,
+    modification,
+  } = aboutData as Record<string, any>
 
   const handleEditSelectionOptions = (option: string): void => {
     setEditOption(option)
@@ -91,7 +103,7 @@ const About: React.FC<IProps> = ({ data }) => {
           </span>
         </Col>
       </Row>
-      <dl className="about-person-and-group">
+      <dl className="about-person-and-group mb-0">
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
@@ -107,8 +119,33 @@ const About: React.FC<IProps> = ({ data }) => {
         {identifiers.length > 0 && (
           <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
         )}
-        <WebPages webPages={webPages} />
+        {webPages.length > 0 && (
+          <StyledDataRow className="row">
+            <TextLabel label="Web Pages" className="col-md-12" />
+            {webPages.map((link: IWebpages, ind: number) => (
+              <ExternalLink
+                key={link.link}
+                url={link.link}
+                name={
+                  link.contentIdentifier !== ''
+                    ? link.contentIdentifier
+                    : link.link
+                }
+                data-testid={`site-links-${ind}`}
+              />
+            ))}
+          </StyledDataRow>
+        )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
+        {creation !== null && (
+          <Editor creationData={creation} eventType="Created" />
+        )}
+        {modification.length > 0 &&
+          modification.map(
+            (c: { creator: string | null; date: string | null }) => (
+              <Editor creationData={c} eventType="Modified" />
+            ),
+          )}
       </dl>
     </React.Fragment>
   )
