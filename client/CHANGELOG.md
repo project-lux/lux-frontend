@@ -2,11 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.56.2 - 2025-8-13
+## v1.56.3 - 2025-8-13
 
 ### Added
 
 - Added additional components for collection pages ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+- Added classifications and languages lists to the create a collection form ([#655](https://github.com/project-lux/lux-frontend/issues/655)).
 
 ### Fixed
 
