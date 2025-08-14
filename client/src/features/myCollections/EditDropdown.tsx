@@ -1,108 +1,126 @@
 import React from 'react'
 import { Dropdown } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
+import { isNull } from 'lodash'
 
 import StyledDropdown from '../../styles/shared/Dropdown'
+import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
+
+import DefaultCollection from './DefaultCollection'
 
 interface IProps {
   handleOptionSelection: (x: string) => void
+  userUuid?: string
 }
 
-const EditDropdown: React.FC<IProps> = ({ handleOptionSelection }) => (
-  // Will need to get the user's uuid, make a request to it to get the default collection
-  <StyledDropdown
-    onSelect={(e) => handleOptionSelection(e as string)}
-    className="editMyCollectionDropdown"
-    data-testid="edit-my-collection-dropdown"
-    style={{ height: 'fit-content' }}
-  >
-    <Dropdown.Toggle
-      id="edit-my-collection-dropdown-button"
-      className="h-100"
-      data-testid="edit-my-collection-dropdown-button"
-    >
-      <i className="bi bi-pencil me-2" />
-      Edit
-    </Dropdown.Toggle>
+const EditDropdown: React.FC<IProps> = ({
+  handleOptionSelection,
+  userUuid,
+}) => {
+  const { pathname } = useLocation()
+  const defaultCollection = DefaultCollection(userUuid)
+  const isDefaultCollection = !isNull(defaultCollection)
+    ? pathname.includes(stripYaleIdPrefix(defaultCollection as string))
+    : false
 
-    <Dropdown.Menu>
-      <Dropdown.Item
-        as="button"
-        eventKey="name"
-        aria-label="Edit Name"
-        data-testid="edit-my-collection-name-button"
+  return (
+    // Will need to get the user's uuid, make a request to it to get the default collection
+    <StyledDropdown
+      onSelect={(e) => handleOptionSelection(e as string)}
+      className="editMyCollectionDropdown"
+      data-testid="edit-my-collection-dropdown"
+      style={{ height: 'fit-content' }}
+    >
+      <Dropdown.Toggle
+        id="edit-my-collection-dropdown-button"
+        className="h-100"
+        data-testid="edit-my-collection-dropdown-button"
       >
         <i className="bi bi-pencil me-2" />
-        Edit Names
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="image"
-        aria-label="Set Collection Image"
-        data-testid="edit-my-collection-image-button"
-        disabled
-      >
-        <i className="bi bi-image me-2" />
-        Set Collection Image (TBD)
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="default"
-        aria-label="Set as Default"
-        data-testid="edit-my-collection-default-button"
-        disabled
-      >
-        <i className="bi bi-gear me-2" />
-        Set as Default
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="classification"
-        aria-label="Edit Collection Classification"
-        data-testid="edit-my-collection-classification-button"
-      >
-        <i className="bi bi-tag me-2" />
-        Edit Collection Classification
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="identifiers"
-        aria-label="Edit Identifiers"
-        data-testid="edit-my-collection-identifiers-button"
-      >
-        <i className="bi bi-hash me-2" />
-        Edit Identifiers
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="notes"
-        aria-label="Edit Notes"
-        data-testid="edit-my-collection-notes-button"
-      >
-        <i className="bi bi-card-heading me-2" />
-        Edit Notes
-      </Dropdown.Item>
-      <Dropdown.Item
-        as="button"
-        eventKey="links"
-        aria-label="Edit Webpage Links"
-        data-testid="edit-my-collection-webpages-button"
-        className="border-bottom"
-      >
-        <i className="bi bi-link-45deg me-2" />
-        Edit Webpage Links
-      </Dropdown.Item>
-      {/* a user can't delete their default collection */}
-      <Dropdown.Item
-        as="button"
-        eventKey="deleteCollection"
-        aria-label="Delete Collection"
-        data-testid="delete-my-collection-button"
-      >
-        <i className="bi bi-trash3 me-2" />
-        Delete
-      </Dropdown.Item>
-    </Dropdown.Menu>
-  </StyledDropdown>
-)
+        Edit
+      </Dropdown.Toggle>
+
+      <Dropdown.Menu>
+        <Dropdown.Item
+          as="button"
+          eventKey="name"
+          aria-label="Edit Name"
+          data-testid="edit-my-collection-name-button"
+        >
+          <i className="bi bi-pencil me-2" />
+          Edit Names
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="image"
+          aria-label="Set Collection Image"
+          data-testid="edit-my-collection-image-button"
+          disabled
+        >
+          <i className="bi bi-image me-2" />
+          Set Collection Image (TBD)
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="default"
+          aria-label="Set as Default"
+          data-testid="edit-my-collection-default-button"
+          disabled={isDefaultCollection}
+        >
+          <i className="bi bi-gear me-2" />
+          Set as Default
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="classification"
+          aria-label="Edit Collection Classification"
+          data-testid="edit-my-collection-classification-button"
+        >
+          <i className="bi bi-tag me-2" />
+          Edit Collection Classification
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="identifiers"
+          aria-label="Edit Identifiers"
+          data-testid="edit-my-collection-identifiers-button"
+        >
+          <i className="bi bi-hash me-2" />
+          Edit Identifiers
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="notes"
+          aria-label="Edit Notes"
+          data-testid="edit-my-collection-notes-button"
+        >
+          <i className="bi bi-card-heading me-2" />
+          Edit Notes
+        </Dropdown.Item>
+        <Dropdown.Item
+          as="button"
+          eventKey="links"
+          aria-label="Edit Webpage Links"
+          data-testid="edit-my-collection-webpages-button"
+          className="border-bottom"
+        >
+          <i className="bi bi-link-45deg me-2" />
+          Edit Webpage Links
+        </Dropdown.Item>
+        {/* a user can't delete their default collection */}
+        <Dropdown.Item
+          as="button"
+          eventKey="delete"
+          aria-label="Delete Collection"
+          data-testid="delete-my-collection-button"
+          disabled={isDefaultCollection}
+        >
+          <i className="bi bi-trash3 me-2" />
+          Delete
+        </Dropdown.Item>
+      </Dropdown.Menu>
+    </StyledDropdown>
+  )
+}
 
 export default EditDropdown

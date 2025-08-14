@@ -74,8 +74,10 @@ export default class MyCollectionParser extends EntityParser {
 
         return {
           name,
-          classifications: classifiedAs.map((c) => c.id),
-          languages: languages.map((l) => l.id),
+          classifications: classifiedAs
+            .map((c) => c.id)
+            .filter((i) => i !== ''),
+          languages: languages.map((l) => l.id).filter((i) => i !== ''),
         }
       })
 
@@ -109,7 +111,7 @@ export default class MyCollectionParser extends EntityParser {
         content,
         classifications: classifiedAs.map((c) => c.id) as Array<string>,
         languages: languages.map((l) => l.id) as Array<string>,
-        label: identifiedBy[0].content,
+        label: identifiedBy.length > 0 ? identifiedBy[0].content : '',
         labelLanguages,
       }
     })

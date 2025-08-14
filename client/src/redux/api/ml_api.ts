@@ -38,6 +38,7 @@ import IMyCollection from '../../types/data/IMyCollection'
 import IWebpages from '../../types/data/IWebpages'
 import { INoteContent } from '../../types/IContentWithLanguage'
 import INames from '../../types/myCollections/INames'
+import IAgent from '../../types/data/IAgent'
 
 import { baseQuery } from './baseQuery'
 import { IStats } from './returnTypes'
@@ -259,16 +260,20 @@ export const mlApi: any = createApi({
         }
       },
     }),
+    getUserResults: builder.query<ISearchResults, { username: string }>({
+      query: ({ username }) => ({
+        url: `api/search/agent?q=${JSON.stringify({ username })}`,
+        method: 'GET',
+      }),
+    }),
     createCollection: builder.mutation<any, ICreateCollectionFormData>({
       query: (collectionFormData) => {
-        const { name, classifications, languages, defaultCollection, records } =
-          collectionFormData
+        const { name, classifications, languages, records } = collectionFormData
 
         const collection = createCollectionObject(
           name,
           classifications,
           languages,
-          defaultCollection,
           records,
         )
 
@@ -335,25 +340,27 @@ export const mlApi: any = createApi({
       },
       invalidatesTags: ['Results', 'Item', 'Items'],
     }),
-    editDefaultCollection: builder.mutation<any, { collection: IMyCollection }>(
-      {
-        query: (data) => {
-          const { collection } = data
-          const updatedCollection = setCollectionAsDefault(collection)
-          const collectionUuid = stripYaleIdPrefix(
-            updatedCollection.id as string,
-          )
+    editDefaultCollection: builder.mutation<
+      any,
+      { collectionUuid: string; currentUser: IAgent }
+    >({
+      query: (data) => {
+        const { collectionUuid, currentUser } = data
+        const updatedCollection = setCollectionAsDefault(
+          collectionUuid,
+          currentUser,
+        )
+        const currentUserUuid = stripYaleIdPrefix(currentUser.id as string)
 
-          return {
-            url: `data/${collectionUuid}`,
-            method: 'PUT',
-            data: updatedCollection,
-            headers: getHeaders(),
-          }
-        },
-        invalidatesTags: ['Results', 'Item', 'Items'],
+        return {
+          url: `data/${currentUserUuid}`,
+          method: 'PUT',
+          data: updatedCollection,
+          headers: getHeaders(),
+        }
       },
-    ),
+      invalidatesTags: ['Results', 'Item', 'Items'],
+    }),
     editCollectionIdentifiers: builder.mutation<
       any,
       { collection: IMyCollection; identifiers: Array<string> }
@@ -459,6 +466,7 @@ export const {
   useGetStatsQuery,
   useGetTimelineQuery,
   useSearchQuery,
+  useGetUserResultsQuery,
   useCreateCollectionMutation,
   useAddToCollectionMutation,
   useEditCollectionNamesMutation,

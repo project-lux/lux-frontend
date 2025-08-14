@@ -7,7 +7,7 @@ import ApiText from '../common/ApiText'
 
 import DropdownOption from './DropdownOption'
 
-interface IFieldSelectRow {
+interface IMultiSelectDropdown {
   id: string
   className: string
   ariaLabel: string
@@ -15,6 +15,7 @@ interface IFieldSelectRow {
   selectedOptions: Array<string>
   indexOfData: number
   onCheck: (e: ChangeEvent<HTMLInputElement>, ind: number) => void
+  required?: boolean
 }
 
 /**
@@ -28,7 +29,7 @@ interface IFieldSelectRow {
  * @param {() => void} onCheck the function to call when an option is selected
  * @returns {JSX.Element}
  */
-const MultiSelectDropdown: React.FC<IFieldSelectRow> = ({
+const MultiSelectDropdown: React.FC<IMultiSelectDropdown> = ({
   id,
   className,
   ariaLabel,

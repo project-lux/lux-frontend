@@ -29,6 +29,7 @@ import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import DeleteCollectionModal from '../myCollections/DeleteCollectionModal'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import SelectAll from '../common/SelectAll'
+import { useGetUserResultsQuery } from '../../redux/api/ml_api'
 
 import Sort from './Sort'
 
@@ -79,6 +80,12 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
 
   // Is the user authenticated
   const auth = useAuth()
+
+  // get the current logged in user's record
+  const { data, isSuccess } = useGetUserResultsQuery({
+    username: auth.user?.profile['cognito:username'],
+  })
+
   // const userIsAuthenticated = true
   const userIsAuthenticated = auth.isAuthenticated
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -234,6 +241,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
         <DeleteCollectionModal
           showModal={showDeleteCollectionModal}
           onClose={handleCloseDeleteCollectionModal}
+          userUuid={
+            isSuccess && getOrderedItemsIds(data).length > 0
+              ? getOrderedItemsIds(data)[0]
+              : undefined
+          }
         />
       )}
       {showCreateCollectionModal && (
