@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import { isNull } from 'lodash'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import LinkContainer from '../common/LinkContainer'
@@ -18,6 +19,8 @@ import IWebpages from '../../types/data/IWebpages'
 import ExternalLink from '../common/ExternalLink'
 import StyledDataRow from '../../styles/shared/DataRow'
 import TextLabel from '../common/TextLabel'
+import { useGetUserResultsQuery } from '../../redux/api/ml_api'
+import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 
 import EditDropdown from './EditDropdown'
 import EditCollectionModal from './EditCollectionModal'
@@ -29,6 +32,14 @@ interface IProps {
 }
 
 const About: React.FC<IProps> = ({ data }) => {
+  // Is the user authenticated
+  const auth = useAuth()
+
+  // get the current logged in user's record
+  const { data: userData, isSuccess } = useGetUserResultsQuery({
+    username: auth.user?.profile['cognito:username'],
+  })
+
   const dispatch = useDispatch()
   const { pathname } = useLocation()
   const [showEditModal, setShowEditModal] = useState<boolean>(false)
@@ -53,7 +64,6 @@ const About: React.FC<IProps> = ({ data }) => {
   } = aboutData as Record<string, any>
 
   const handleEditSelectionOptions = (option: string): void => {
-    setEditOption(option)
     if (option === 'delete') {
       setShowDeleteModal(true)
       pushClientEvent('My Collections', 'Opened', 'Delete collection modal')
@@ -67,6 +77,7 @@ const About: React.FC<IProps> = ({ data }) => {
       setShowEditModal(true)
       pushClientEvent('My Collections', 'Opened', 'Edit collection modal')
     }
+    setEditOption(option)
   }
 
   const handleCloseEditModal = (): void => {
@@ -79,6 +90,11 @@ const About: React.FC<IProps> = ({ data }) => {
     pushClientEvent('My Collections', 'Closed', 'Delete collection modal')
   }
 
+  const userUuid =
+    isSuccess && getOrderedItemsIds(userData).length > 0
+      ? getOrderedItemsIds(userData)[0]
+      : undefined
+
   return (
     <React.Fragment>
       {showEditModal && !isNull(editOption) && (
@@ -87,19 +103,24 @@ const About: React.FC<IProps> = ({ data }) => {
           showModal={showEditModal}
           onClose={handleCloseEditModal}
           editOptionSelected={editOption}
+          currentUserUuid={userUuid}
         />
       )}
       {showDeleteModal && !isNull(editOption) && (
         <DeleteCollectionModal
           showModal={showDeleteModal}
           onClose={handleCloseDeleteModal}
+          userUuid={userUuid}
         />
       )}
       <Row>
         <Col xs={12} className="d-flex text-start p-0">
           <span className="d-flex">
             <h2 data-testid="person-page-about-header">About {name}</h2>
-            <EditDropdown handleOptionSelection={handleEditSelectionOptions} />
+            <EditDropdown
+              handleOptionSelection={handleEditSelectionOptions}
+              userUuid={userUuid}
+            />
           </span>
         </Col>
       </Row>

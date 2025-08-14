@@ -15,27 +15,34 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import SelectionList from './SelectionList'
 import DeleteOption from './DeleteOption'
+import DefaultCollection from './DefaultCollection'
 
 interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
+  userUuid?: string
 }
 
 /**
  * Modal used for alerting a user when they are switching from advanced search to simple search.
  * @param {boolean} showModal sets whether or not the modal is visible on the page
  * @param {() => void} onClose function to close the modal
+ * @param {string} userUuid optional; the uuid of the current logged in user
  * @returns
  */
 const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
+  userUuid,
 }) => {
-  useAuthentication()
+  const auth = useAuthentication()
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const { search } = useLocation()
+  const { pathname, search } = useLocation()
   const { tab, subTab } = useParams()
+
+  const defaultCollection = DefaultCollection(userUuid)
+
   const currentMyCollectionState = useAppSelector(
     (myCollectionsState) =>
       myCollectionsState.myCollections as IMyCollectionsResultsState,
@@ -47,9 +54,21 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
   // This will help maintain the state of selected entities on the results
   const [selectedForDeletion, setSelectedForDeletion] = useState<
     Array<{ uuid: string; isDefaultCollection: boolean }>
-  >(uuids.map((uuid) => ({ uuid, isDefaultCollection: false })))
+  >(
+    uuids.map((uuid) => ({
+      uuid,
+      isDefaultCollection: uuid === defaultCollection,
+    })),
+  )
 
   const handleDelete = (): void => {
+    let pathnameToRedirectTo = `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`
+    let searchToRedirectTo = search
+    // if the user is deleting a collection from an entity page
+    if (!pathname.includes('results')) {
+      pathnameToRedirectTo = `/view/results/collections/my-collections`
+      searchToRedirectTo = `?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&filterResults=false`
+    }
     const filteredSelection = selectedForDeletion
       .filter((s) => !s.isDefaultCollection)
       .map((filtered) => filtered.uuid)
@@ -61,8 +80,8 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
         dispatch(resetState())
         navigate(
           {
-            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
-            search,
+            pathname: pathnameToRedirectTo,
+            search: searchToRedirectTo,
           },
           {
             state: {
@@ -78,8 +97,8 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
         dispatch(resetState())
         navigate(
           {
-            pathname: `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`,
-            search,
+            pathname: pathnameToRedirectTo,
+            search: searchToRedirectTo,
           },
           {
             state: {
@@ -131,17 +150,22 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
             </Col>
           </Row>
         </Modal.Body>
-        {selectedForDeletion.length > 0 && (
-          <Modal.Footer className="d-block">
-            <Row>
-              <Col className="d-flex justify-content-end">
-                <DangerButton onClick={() => handleDelete()}>
-                  Delete
-                </DangerButton>
-              </Col>
-            </Row>
-          </Modal.Footer>
-        )}
+        <Modal.Footer className="d-block">
+          <Row>
+            <Col className="d-flex justify-content-end">
+              <DangerButton
+                onClick={() => handleDelete()}
+                disabled={
+                  selectedForDeletion.length === 0 ||
+                  (selectedForDeletion.length === 1 &&
+                    selectedForDeletion[0].isDefaultCollection)
+                }
+              >
+                Delete
+              </DangerButton>
+            </Col>
+          </Row>
+        </Modal.Footer>
       </Modal.Dialog>
     </Modal>
   )

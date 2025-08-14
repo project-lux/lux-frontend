@@ -10,6 +10,7 @@ import MyCollectionParser from '../parse/data/MyCollectionParser'
 import { INoteContent } from '../../types/IContentWithLanguage'
 import INames from '../../types/myCollections/INames'
 import IName from '../../types/data/IName'
+import IAgent from '../../types/data/IAgent'
 
 export const getFormattedDate = (date?: string): string => {
   let newDate = new Date()
@@ -34,14 +35,12 @@ export const getBaseCollectionObject = (): IEntity => {
  * @param {string} name the user entered name of the collection being created
  * @param {Array<string>} classifications the user entered classifications of the name of the collection being created
  * @param {Array<string>} languages the user entered languages of the name of the collection being created
- * @param {boolean} defaultCollection determines if the default collection classification should be added to the collection being created
  * @returns {IMyCollection}
  */
 export const createCollectionObject = (
   name: string,
   classifications: Array<string>,
   languages: Array<string>,
-  defaultCollection: boolean,
   records?: Array<string>,
 ): IMyCollection => {
   // create new object for adding the name of the collection and its classifications and languages
@@ -87,20 +86,10 @@ export const createCollectionObject = (
     _label: 'My Collection',
   }
 
-  let classifiedAs = [personalCollectionClassifiedAsObject]
-  if (defaultCollection) {
-    classifiedAs = [
-      ...classifiedAs,
-      {
-        type: 'Type',
-        id: 'defaultCollectionUUID',
-      },
-    ]
-  }
   const newCollection = {
     ...getBaseCollectionObject(),
     identified_by: [newIdentifiedBy],
-    classified_as: classifiedAs,
+    classified_as: [personalCollectionClassifiedAsObject],
   }
 
   if (!isUndefined(records)) {
@@ -254,25 +243,18 @@ export const addClassificationsToCollectionObject = (
 
 /**
  * Sets the current collection as default
- * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {string} collectionUuid the collection UUID to make the default
+ * @param {IAgent} currentUser the current logged in user data
  * @returns {IMyCollection}
  */
 export const setCollectionAsDefault = (
-  collection: IMyCollection,
+  collectionUuid: string,
+  currentUser: IAgent,
 ): IMyCollection => {
-  const collectionCopy = JSON.parse(JSON.stringify(collection))
-  const defaultClassificationObject = {
-    id: 'defaultId',
-    type: 'Type',
-  }
+  const currentUserCopy = JSON.parse(JSON.stringify(currentUser))
+  currentUserCopy._lux_default_collection = collectionUuid
 
-  if (collectionCopy.hasOwnProperty('classified_as')) {
-    collectionCopy.classified_as.push(defaultClassificationObject)
-  } else {
-    collectionCopy.classified_as = [defaultClassificationObject]
-  }
-
-  return collectionCopy
+  return currentUserCopy
 }
 
 /**

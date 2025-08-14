@@ -180,6 +180,7 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
                   onChange={(e: ChangeEvent<any>) =>
                     handleNameInputChange(e, ind)
                   }
+                  required
                 />
               </Form.Group>
             </Row>
@@ -195,7 +196,6 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
                   ariaLabel="Select one or more classifications for the name"
                   className="editNameClassificationDropdownButton"
                   onCheck={handleSelectNameClassification}
-                  required
                 />
               </Form.Group>
 

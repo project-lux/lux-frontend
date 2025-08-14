@@ -1,11 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
-// import { useLocation, useNavigate } from 'react-router-dom'
-// import { useDispatch } from 'react-redux'
 
-// import { useEditCollectionMutation } from '../../redux/api/ml_api'
 import useAuthentication from '../../lib/hooks/useAuthentication'
-// import { resetState } from '../../redux/slices/myCollectionsSlice'
 import IMyCollection from '../../types/data/IMyCollection'
 
 import EditNamesForm from './EditNamesForm'
@@ -20,6 +16,7 @@ interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
   editOptionSelected: string
+  currentUserUuid?: string
 }
 
 const getModalTitle = (formSelected: string): string => {
@@ -49,6 +46,7 @@ const getModalTitle = (formSelected: string): string => {
  * @param {boolean} showModal sets whether or not the modal is visible on the page
  * @param {() => void} onClose function to close the modal
  * @param {string} editOptionSelected the edit option selected by the user
+ * @param {string} currentUserUuid optional; the current user's UUID
  * @returns
  */
 const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
@@ -56,7 +54,9 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
   editOptionSelected,
+  currentUserUuid,
 }) => {
+  // Is the user authenticated
   useAuthentication()
 
   return (
@@ -81,7 +81,11 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
           <EditNamesForm data={data} onClose={onClose} />
         )}
         {editOptionSelected === 'default' && (
-          <SetAsDefault data={data} onClose={onClose} />
+          <SetAsDefault
+            data={data}
+            onClose={onClose}
+            currentUserUuid={currentUserUuid}
+          />
         )}
         {editOptionSelected === 'classification' && (
           <EditClassificationsForm data={data} onClose={onClose} />
@@ -94,15 +98,6 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
         )}
         {editOptionSelected === 'notes' && (
           <EditNotesForm data={data} onClose={onClose} />
-        )}
-        {editOptionSelected === 'default' && (
-          <SetAsDefault data={data} onClose={onClose} />
-        )}
-        {editOptionSelected === 'classification' && (
-          <EditClassificationsForm data={data} onClose={onClose} />
-        )}
-        {editOptionSelected === 'identifier' && (
-          <EditIdentifiersFrom data={data} onClose={onClose} />
         )}
       </Modal.Body>
     </Modal>

@@ -45,7 +45,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     Array<string>
   >([])
   const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([])
-  const [isDefault, setIsDefault] = useState<boolean>(false)
+  // const [isDefault, setIsDefault] = useState<boolean>(false)
   const [createCollection] = useCreateCollectionMutation()
 
   const currentMyCollectionState = useAppSelector(
@@ -65,7 +65,6 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
       name,
       classifications: selectedClassifications,
       languages: selectedLanguages,
-      collectionDefault: isDefault,
       records: uuids,
     })
       .unwrap()
@@ -122,7 +121,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const handleSelectNameLanguage = (e: ChangeEvent<any>): void => {
     const { value } = e.target
     const newLanguages = [...selectedLanguages]
-    if (selectedClassifications.includes(value)) {
+    if (selectedLanguages.includes(value)) {
       // remove from the list of selected
       const ind = newLanguages.indexOf(value)
       newLanguages.splice(ind, 1)
@@ -191,7 +190,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             </Form.Group>
           </Row>
 
-          <Form.Group id="formGridCheckbox">
+          {/* <Form.Group id="formGridCheckbox">
             <Form.Check
               inline
               type="checkbox"
@@ -199,7 +198,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
               onChange={() => setIsDefault(!isDefault)}
               label="Set as default collection"
             />
-          </Form.Group>
+          </Form.Group> */}
           <Row>
             <Col className="d-flex justify-content-end">
               <PrimaryButton type="submit">Save</PrimaryButton>

@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.56.4 - 2025-8-14
+
+### Fixed
+
+- Fixed editing collections forms ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+
 ## v1.56.3 - 2025-8-13
 
 ### Added
