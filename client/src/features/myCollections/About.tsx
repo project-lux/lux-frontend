@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
 import { isNull } from 'lodash'
 import { useDispatch } from 'react-redux'
 import { useLocation } from 'react-router-dom'
@@ -113,17 +112,13 @@ const About: React.FC<IProps> = ({ data }) => {
           userUuid={userUuid}
         />
       )}
-      <Row>
-        <Col xs={12} className="d-flex text-start p-0">
-          <span className="d-flex">
-            <h2 data-testid="person-page-about-header">About {name}</h2>
-            <EditDropdown
-              handleOptionSelection={handleEditSelectionOptions}
-              userUuid={userUuid}
-            />
-          </span>
-        </Col>
-      </Row>
+      <span className="d-flex w-100 justify-content-between">
+        <h2 data-testid="person-page-about-header">About {name}</h2>
+        <EditDropdown
+          handleOptionSelection={handleEditSelectionOptions}
+          userUuid={userUuid}
+        />
+      </span>
       <dl className="about-person-and-group mb-0">
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
@@ -159,14 +154,15 @@ const About: React.FC<IProps> = ({ data }) => {
         )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
         {creation !== null && (
-          <Editor creationData={creation} eventType="Created" />
+          <Editor creationData={creation} eventType="Created By" italics />
         )}
-        {modification.length > 0 &&
-          modification.map(
-            (c: { creator: string | null; date: string | null }) => (
-              <Editor creationData={c} eventType="Modified" />
-            ),
-          )}
+        {!isNull(modification) && (
+          <Editor
+            creationData={modification}
+            eventType="Last Modified By"
+            italics
+          />
+        )}
       </dl>
     </React.Fragment>
   )

@@ -9,10 +9,15 @@ import UserParser from '../../lib/parse/data/UserParser'
 
 interface IProps {
   creationData: { creator: string | null; date: string | null }
-  eventType: string
+  eventType?: string
+  italics?: boolean
 }
 
-const Editor: React.FC<IProps> = ({ creationData, eventType }) => {
+const Editor: React.FC<IProps> = ({
+  creationData,
+  eventType,
+  italics = false,
+}) => {
   const auth = useAuthentication()
   const forceRefetch = auth.isAuthenticated
   const { creator, date } = creationData
@@ -29,13 +34,8 @@ const Editor: React.FC<IProps> = ({ creationData, eventType }) => {
     creatorName = editor.getUsername()
   }
 
-  return (
-    <p className="mb-0">
-      <i>
-        {eventType} By {creatorName} on {formattedDate}
-      </i>
-    </p>
-  )
+  const text = `${eventType || ''} ${creatorName} on ${formattedDate} (UTC)`
+  return <p className="mb-0">{italics ? <i>{text}</i> : text}</p>
 }
 
 export default Editor
