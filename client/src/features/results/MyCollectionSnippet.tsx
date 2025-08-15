@@ -1,5 +1,6 @@
 import React from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
+import { isNull } from 'lodash'
 
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import StyledHr from '../../styles/shared/Hr'
@@ -11,6 +12,7 @@ import RecordLink from '../common/RecordLink'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import Editor from '../myCollections/Editor'
 
 import SnippetHeader from './SnippetHeader'
 
@@ -28,7 +30,8 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
   if (isSuccess && data) {
     // TODO: add function for getting last modified
     const collection = new MyCollectionParser(data)
-    const date = collection.getProductionDate() || null
+    const creationData = collection.getCreator() || null
+    const modifierData = collection.getLatestModifier()
     const images = collection.getImages()
     const collectionSize = collection.getCollectionSize()
 
@@ -51,22 +54,22 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledDd>
             </Col>
           </Row>
-          {date && (
+          {!isNull(creationData) && (
             <Row>
               <Col>
-                <StyledDt>Created On</StyledDt>
+                <StyledDt>Created By</StyledDt>
                 <StyledDd data-testid="my-collection-snippet-created-date">
-                  {date}
+                  <Editor creationData={creationData} />
                 </StyledDd>
               </Col>
             </Row>
           )}
-          {date && (
+          {!isNull(modifierData) && (
             <Row>
               <Col>
-                <StyledDt>Last Modified On</StyledDt>
+                <StyledDt>Last Modified By</StyledDt>
                 <StyledDd data-testid="my-collection-snippet-modified-date">
-                  {date}
+                  <Editor creationData={modifierData} />
                 </StyledDd>
               </Col>
             </Row>
@@ -113,12 +116,12 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
               </StyledSnippetTitle>
               <Card.Text>
                 <StyledDl>
-                  {date && (
+                  {!isNull(creationData) && (
                     <Row>
                       <Col>
                         <StyledDt>Created On</StyledDt>
                         <StyledDd data-testid="my-collection-snippet-created-date">
-                          {date}
+                          <Editor creationData={creationData} />
                         </StyledDd>
                       </Col>
                     </Row>

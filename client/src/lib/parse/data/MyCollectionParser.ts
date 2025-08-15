@@ -141,25 +141,32 @@ export default class MyCollectionParser extends EntityParser {
 
   /**
    * Returns modifier and date of modification from /added_to_by
-   * @returns {Array<{ creator: string, date: string }>}
+   * @returns {{ creator: string, date: string | null } | null}
    */
-  getModifier(): Array<{ creator: string | null; date: string | null }> {
+  getLatestModifier(): { creator: string | null; date: string | null } | null {
     const addedToBy = this.myCollection.added_to_by
 
-    const creators: Array<{ creator: string | null; date: string | null }> = []
     if (addedToBy !== undefined) {
-      addedToBy.map((aTB) => {
-        const event = new EventParser(aTB)
-        const creator = event.getAgentId()
-        const dateOfCreation = event.getDates()
-        creators.push({
-          creator,
-          date: dateOfCreation.length > 0 ? dateOfCreation[0] : null,
-        })
+      const latestObject = addedToBy.reduce((latest, current) => {
+        const latestEvent = new EventParser(latest)
+        const currentEvent = new EventParser(current)
+        const latestEventDate = latestEvent.getDates()
+        const currentEventDate = currentEvent.getDates()
+        const latestDate = new Date(latestEventDate[0])
+        const currentDate = new Date(currentEventDate[0])
+        return currentDate > latestDate ? current : latest
       })
+
+      const event = new EventParser(latestObject)
+      const creator = event.getAgentId()
+      const dateOfCreation = event.getDates()
+      return {
+        creator,
+        date: dateOfCreation.length > 0 ? dateOfCreation[0] : null,
+      }
     }
 
-    return creators
+    return null
   }
 
   /**
@@ -177,7 +184,7 @@ export default class MyCollectionParser extends EntityParser {
     const notes = this.getNotes()
     const webPages = this.getAllSiteLinks()
     const creation = this.getCreator()
-    const modification = this.getModifier()
+    const modification = this.getLatestModifier()
 
     const data: Record<string, any> = {
       name,
