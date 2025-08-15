@@ -10,7 +10,10 @@ import theme from '../../styles/theme'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import INames from '../../types/myCollections/INames'
 import { commonClassifications } from '../../config/myCollections/classifications'
-import { commonLanguages } from '../../config/myCollections/languages'
+import {
+  commonLanguages,
+  englishLanguageUuid,
+} from '../../config/myCollections/languages'
 import StyledDeleteButton from '../../styles/features/myCollections/DeleteButton'
 import { useEditCollectionNamesMutation } from '../../redux/api/ml_api'
 
@@ -35,7 +38,7 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
   const defaultNamesData: INames = {
     name: '',
     classifications: [],
-    languages: [],
+    languages: [englishLanguageUuid],
   }
   const [names, setNames] = useState<Array<INames>>(
     collectionNames.length > 0 ? collectionNames : [defaultNamesData],

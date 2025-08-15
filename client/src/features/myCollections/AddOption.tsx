@@ -9,26 +9,21 @@ import IEntity from '../../types/data/IEntity'
 
 const AddOption: React.FC<{
   collection: string
+  isDefaultCollection: boolean
   selected: IEntity | null
   handleSelection: (x: IEntity) => void
-}> = ({ collection, selected, handleSelection }) => {
+}> = ({ collection, isDefaultCollection, selected, handleSelection }) => {
   const { data, isSuccess, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(collection),
   })
 
   let primaryName: string = isError ? collection : 'Loading...'
-  let classifiedAsDefaultCollection: boolean = false
   if (isSuccess && data) {
     const entity = new EntityParser(data)
     primaryName = entity.getPrimaryName(config.aat.langen)
-    classifiedAsDefaultCollection = primaryName === 'Default Collection'
-    if (classifiedAsDefaultCollection && selected === null) {
+    if (isDefaultCollection && selected === null) {
       handleSelection(data)
     }
-    // TODO: add back in once AAT has been updated
-    // classifiedAsDefaultCollection = entity.isClassifiedAs(
-    //   config.aat.defaultCollection,
-    // )
   }
 
   const handleSelectionOfRadioButton = (): void => {

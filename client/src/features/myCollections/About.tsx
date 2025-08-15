@@ -13,13 +13,13 @@ import NamesContainer from '../common/NamesContainer'
 import IdentifiersList from '../common/IdentifiersList'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { addEntity } from '../../redux/slices/myCollectionsSlice'
-import config from '../../config/config'
 import IWebpages from '../../types/data/IWebpages'
 import ExternalLink from '../common/ExternalLink'
 import StyledDataRow from '../../styles/shared/DataRow'
 import TextLabel from '../common/TextLabel'
 import { useGetUserResultsQuery } from '../../redux/api/ml_api'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
+import { getFormattedUuidFromPathname } from '../../lib/myCollections/helper'
 
 import EditDropdown from './EditDropdown'
 import EditCollectionModal from './EditCollectionModal'
@@ -68,7 +68,7 @@ const About: React.FC<IProps> = ({ data }) => {
       pushClientEvent('My Collections', 'Opened', 'Delete collection modal')
       dispatch(
         addEntity({
-          uuid: `${config.env.dataApiBaseUrl}${pathname.replace('/view', 'data')}`,
+          uuid: getFormattedUuidFromPathname(pathname),
           scope: 'collection',
         }),
       )

@@ -11,7 +11,10 @@ import SecondaryButton from '../../styles/shared/SecondaryButton'
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import StyledDeleteButton from '../../styles/features/myCollections/DeleteButton'
 import theme from '../../styles/theme'
-import { commonLanguages } from '../../config/myCollections/languages'
+import {
+  commonLanguages,
+  englishLanguageUuid,
+} from '../../config/myCollections/languages'
 import IWebpages from '../../types/data/IWebpages'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
@@ -36,7 +39,7 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
   const defaultWebpageData = {
     contentIdentifier: '',
     link: '',
-    languages: [],
+    languages: [englishLanguageUuid],
   }
   const [webpages, setWebpages] = useState<Array<IWebpages>>(
     collectionWebpages.length > 0 ? collectionWebpages : [defaultWebpageData],

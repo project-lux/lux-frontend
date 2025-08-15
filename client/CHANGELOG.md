@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed the collection page rendering and styling ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+- Fixed the collection page rendering and styling ([#655](https://github.com/project-lux/lux-frontend/issues/655)).
 
 ## v1.56.4 - 2025-8-14
 

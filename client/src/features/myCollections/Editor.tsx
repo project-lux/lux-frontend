@@ -34,7 +34,7 @@ const Editor: React.FC<IProps> = ({
     creatorName = editor.getUsername()
   }
 
-  const text = `${eventType || ''} ${creatorName} on ${formattedDate} (UTC)`
+  const text = `${eventType || ''} ${creatorName} on ${formattedDate}`
   return <p className="mb-0">{italics ? <i>{text}</i> : text}</p>
 }
 

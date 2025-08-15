@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import { Col, Row } from 'react-bootstrap'
 import { useAuth } from 'react-oidc-context'
 import { useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 
 import StyledEntityHeader from '../../styles/features/common/EntityHeader'
 import {
@@ -22,6 +23,10 @@ import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import { IRouteState } from '../../types/myCollections/IRouteState'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { collectionsIcon } from '../../config/resources'
+import { addEntity } from '../../redux/slices/myCollectionsSlice'
+import { getFormattedUuidFromPathname } from '../../lib/myCollections/helper'
+import { useGetUserResultsQuery } from '../../redux/api/ml_api'
+import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 
 import Dates from './Dates'
 import AgentInHeader from './AgentInHeader'
@@ -65,9 +70,16 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 }) => {
   const auth = useAuth()
   const isAuthenticated = auth.isAuthenticated
-  const { state } = useLocation() as {
+  const dispatch = useDispatch()
+  const { pathname, state } = useLocation() as {
+    pathname: string
     state: IRouteState
   }
+
+  // get the current logged in user's record
+  const { data, isSuccess } = useGetUserResultsQuery({
+    username: auth.user?.profile['cognito:username'],
+  })
 
   const [showAddToCollectionModal, setShowAddToCollectionModal] =
     useState<boolean>(false)
@@ -111,6 +123,16 @@ const EntityHeader: React.FC<IEntityHeader> = ({
     setShowCreateCollectionModal(false)
   }
 
+  const handleShowAddToCollectionModal = (): void => {
+    dispatch(
+      addEntity({
+        uuid: getFormattedUuidFromPathname(pathname),
+        scope: 'collections',
+      }),
+    )
+    setShowAddToCollectionModal(true)
+  }
+
   return (
     <React.Fragment>
       {alert.showAlert && (
@@ -125,6 +147,11 @@ const EntityHeader: React.FC<IEntityHeader> = ({
           showModal={showAddToCollectionModal}
           onClose={handleCloseAddModal}
           showCreateNewModal={setShowCreateCollectionModal}
+          userUuid={
+            isSuccess && getOrderedItemsIds(data).length > 0
+              ? getOrderedItemsIds(data)[0]
+              : undefined
+          }
         />
       )}
       {showCreateCollectionModal && (
@@ -191,7 +218,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
           >
             <AddToCollectionButton
               additionalClassName="addToCollectionOnEntityPageButton"
-              setShowModal={setShowAddToCollectionModal}
+              setShowModal={handleShowAddToCollectionModal}
               disabled={false}
             >
               <Row>

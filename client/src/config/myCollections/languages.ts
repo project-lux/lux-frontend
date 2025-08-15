@@ -1,8 +1,9 @@
 import config from '../config'
 
+export const englishLanguageUuid = `${config.env.dataApiBaseUrl}data/concept/dfa53b96-4eda-4c9a-b091-10008a726c38`
+
 export const commonLanguages: Record<string, string> = {
-  [`${config.env.dataApiBaseUrl}data/concept/dfa53b96-4eda-4c9a-b091-10008a726c38`]:
-    'English',
+  [englishLanguageUuid]: 'English (Default)',
   [`${config.env.dataApiBaseUrl}data/concept/4839f816-732d-4d43-935d-297c4696ec09`]:
     'Spanish',
   [`${config.env.dataApiBaseUrl}data/concept/436c4c60-3478-440d-bb51-c67512ecff66`]:

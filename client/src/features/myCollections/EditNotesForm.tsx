@@ -11,7 +11,10 @@ import SecondaryButton from '../../styles/shared/SecondaryButton'
 import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import StyledDeleteButton from '../../styles/features/myCollections/DeleteButton'
 import theme from '../../styles/theme'
-import { commonLanguages } from '../../config/myCollections/languages'
+import {
+  commonLanguages,
+  englishLanguageUuid,
+} from '../../config/myCollections/languages'
 import { INoteContent } from '../../types/IContentWithLanguage'
 import { commonClassifications } from '../../config/myCollections/classifications'
 
@@ -37,7 +40,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
   const defaultNotesData: INoteContent = {
     content: '',
     classifications: [],
-    languages: [],
+    languages: [englishLanguageUuid],
     label: '',
     labelLanguages: [],
   }
