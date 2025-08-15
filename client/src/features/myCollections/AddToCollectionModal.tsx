@@ -16,17 +16,19 @@ import {
   useSearchQuery,
 } from '../../redux/api/ml_api'
 import IEntity from '../../types/data/IEntity'
-import config from '../../config/config'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
+import { getFormattedUuidFromPathname } from '../../lib/myCollections/helper'
 
 import CreateCollectionButton from './CreateCollectionButton'
 import SelectionList from './SelectionList'
 import AddOption from './AddOption'
+import DefaultCollection from './DefaultCollection'
 
 interface IMyCollectionsModal {
   showModal: boolean
   onClose: () => void
   showCreateNewModal: (x: boolean) => void
+  userUuid?: string
 }
 
 /**
@@ -34,12 +36,14 @@ interface IMyCollectionsModal {
  * @param {boolean} showModal sets whether or not the modal is visible on the page
  * @param {() => void} onClose function to close the modal
  * @param {(x: boolean) => void} showCreateNewModal function to open the Create New modal
+ * @param {string} userUuid optional; the uuid of the current logged in user
  * @returns
  */
 const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
   showModal,
   onClose,
   showCreateNewModal,
+  userUuid,
 }) => {
   const auth = useAuth()
   const navigate = useNavigate()
@@ -51,6 +55,9 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
     null,
   )
 
+  const defaultCollection = DefaultCollection(userUuid)
+
+  // Get all of the user's collections
   const { data, isSuccess, isError, isLoading } = useSearchQuery({
     q: JSON.stringify({
       _scope: 'set',
@@ -75,9 +82,7 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
     let recordsToAdd = uuids
     // If the user is not on the results page set the uuids to the current page
     if (!pathname.includes('results')) {
-      recordsToAdd = [
-        `${config.env.dataApiBaseUrl}${pathname.replace('/view', 'data')}`,
-      ]
+      recordsToAdd = [getFormattedUuidFromPathname(pathname)]
     }
     const pathnameToRedirect =
       tab === undefined
@@ -160,13 +165,16 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
               )}
               {isSuccess && data && (
                 <SelectionList>
-                  {getOrderedItemsIds(data).map((uuid) => (
-                    <AddOption
-                      collection={uuid}
-                      selected={selectedCollection}
-                      handleSelection={setSelectedCollection}
-                    />
-                  ))}
+                  {getOrderedItemsIds(data).map((uuid) => {
+                    return (
+                      <AddOption
+                        collection={uuid}
+                        isDefaultCollection={uuid === defaultCollection}
+                        selected={selectedCollection}
+                        handleSelection={setSelectedCollection}
+                      />
+                    )
+                  })}
                 </SelectionList>
               )}
             </Col>

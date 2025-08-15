@@ -12,6 +12,9 @@ import INames from '../../types/myCollections/INames'
 import IName from '../../types/data/IName'
 import IAgent from '../../types/data/IAgent'
 
+export const getFormattedUuidFromPathname = (uuid: string): string =>
+  `${config.env.dataApiBaseUrl}${uuid.replace('/view', 'data')}`
+
 export const getFormattedDate = (date?: string): string => {
   let newDate = new Date()
   if (!isUndefined(date)) {

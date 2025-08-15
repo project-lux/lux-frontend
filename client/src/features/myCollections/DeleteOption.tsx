@@ -9,23 +9,22 @@ import StyledCheckboxDiv from '../../styles/features/myCollections/CheckboxDiv'
 
 const DeleteOption: React.FC<{
   record: string
+  isDefaultCollection: boolean
   selectedRecords: Array<{ uuid: string; isDefaultCollection: boolean }>
   handleSelection: (
     x: Array<{ uuid: string; isDefaultCollection: boolean }>,
   ) => void
-}> = ({ record, selectedRecords, handleSelection }) => {
+}> = ({ record, isDefaultCollection, selectedRecords, handleSelection }) => {
   const [isSelected, setIsSelected] = useState<boolean>(true)
   const { data, isSuccess, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(record),
   })
 
   let primaryName: string = isError ? record : 'Loading...'
-  let classifiedAsDefaultCollection: boolean = false
   if (isSuccess && data) {
     const entity = new EntityParser(data)
     primaryName = entity.getPrimaryName(config.aat.langen)
-    classifiedAsDefaultCollection = primaryName === 'Default Collection'
-    if (classifiedAsDefaultCollection) {
+    if (isDefaultCollection) {
       // Find the default collection and set it as the default in the local state
       const target = selectedRecords.find(
         (selected) => selected.uuid === record,
@@ -39,10 +38,6 @@ const DeleteOption: React.FC<{
         handleSelection(selectedRecords)
       }
     }
-    // TODO: add back in once AAT has been updated
-    // classifiedAsDefaultCollection = entity.isClassifiedAs(
-    //   config.aat.defaultCollection,
-    // )
   }
 
   const handleSelectionOfCheckbox = (): void => {
@@ -56,7 +51,7 @@ const DeleteOption: React.FC<{
     } else {
       handleSelection([
         ...selectedRecords,
-        { uuid: record, isDefaultCollection: classifiedAsDefaultCollection },
+        { uuid: record, isDefaultCollection: isDefaultCollection },
       ])
     }
   }
@@ -65,21 +60,19 @@ const DeleteOption: React.FC<{
     <StyledCheckboxDiv
       className="py-1 px-2"
       data-testid="record-selection-div"
-      selected={!classifiedAsDefaultCollection && isSelected}
+      selected={!isDefaultCollection && isSelected}
     >
       <input
-        disabled={classifiedAsDefaultCollection}
+        disabled={isDefaultCollection}
         className="checkbox d-inline mt-0 selectIndividualCheckbox"
         type="checkbox"
         id={record}
         onChange={() => handleSelectionOfCheckbox()}
-        checked={!classifiedAsDefaultCollection && isSelected}
+        checked={!isDefaultCollection && isSelected}
       />
       <label className="form-check-label ms-2" htmlFor={record}>
         {primaryName}{' '}
-        {classifiedAsDefaultCollection
-          ? '(Default collections cannot be deleted)'
-          : ''}
+        {isDefaultCollection ? '(Default collections cannot be deleted)' : ''}
       </label>
     </StyledCheckboxDiv>
   )

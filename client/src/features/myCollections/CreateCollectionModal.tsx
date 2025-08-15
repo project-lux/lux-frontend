@@ -12,7 +12,10 @@ import {
   resetState,
 } from '../../redux/slices/myCollectionsSlice'
 import { commonClassifications } from '../../config/myCollections/classifications'
-import { commonLanguages } from '../../config/myCollections/languages'
+import {
+  commonLanguages,
+  englishLanguageUuid,
+} from '../../config/myCollections/languages'
 import { useAppSelector } from '../../app/hooks'
 import { getFormattedDate } from '../../lib/myCollections/helper'
 
@@ -44,7 +47,10 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const [selectedClassifications, setSelectedClassifications] = useState<
     Array<string>
   >([])
-  const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([])
+  // default to english language
+  const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([
+    englishLanguageUuid,
+  ])
   // const [isDefault, setIsDefault] = useState<boolean>(false)
   const [createCollection] = useCreateCollectionMutation()
 

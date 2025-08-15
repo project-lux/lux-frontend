@@ -48,18 +48,18 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
       myCollectionsState.myCollections as IMyCollectionsResultsState,
   )
   const { uuids } = currentMyCollectionState
+  // Used to set the intial state of collections to delete
+  const defaultUuidsWithDefaultCollection = uuids.map((uuid) => ({
+    uuid,
+    isDefaultCollection: uuid === defaultCollection,
+  }))
 
   const [deleteCollection] = useDeleteCollectionMutation()
   // Used to maintain the local state of the checklist for which records a user truly wants to delete
   // This will help maintain the state of selected entities on the results
   const [selectedForDeletion, setSelectedForDeletion] = useState<
     Array<{ uuid: string; isDefaultCollection: boolean }>
-  >(
-    uuids.map((uuid) => ({
-      uuid,
-      isDefaultCollection: uuid === defaultCollection,
-    })),
-  )
+  >(defaultUuidsWithDefaultCollection)
 
   const handleDelete = (): void => {
     let pathnameToRedirectTo = `/view/results/${tab}${!isUndefined(subTab) ? `/${subTab}` : ''}`
@@ -139,9 +139,10 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
             </Col>
             <Col xs={12}>
               <SelectionList>
-                {uuids.map((uuid) => (
+                {defaultUuidsWithDefaultCollection.map((collection) => (
                   <DeleteOption
-                    record={uuid}
+                    record={collection.uuid}
+                    isDefaultCollection={collection.isDefaultCollection}
                     selectedRecords={selectedForDeletion}
                     handleSelection={setSelectedForDeletion}
                   />

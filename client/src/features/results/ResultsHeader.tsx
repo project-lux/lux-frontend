@@ -235,6 +235,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
           showModal={showAddToCollectionModal}
           onClose={handleCloseAddModal}
           showCreateNewModal={setShowCreateCollectionModal}
+          userUuid={
+            isSuccess && getOrderedItemsIds(data).length > 0
+              ? getOrderedItemsIds(data)[0]
+              : undefined
+          }
         />
       )}
       {showDeleteCollectionModal && (
