@@ -18,13 +18,13 @@ export const getFormattedUuidFromPathname = (uuid: string): string =>
 export const getFormattedDate = (date?: string): string => {
   let newDate = new Date()
   if (!isUndefined(date)) {
-    newDate = new Date(date)
+    newDate = new Date(`${date}Z`)
   }
-  const month = newDate.getUTCMonth()
-  const day = newDate.getUTCDate()
-  const year = newDate.getUTCFullYear()
-  const time = newDate.toLocaleTimeString()
-  return `[${month + 1}/${day}/${year} at ${time}]`
+  const formattedDate = newDate.toLocaleDateString()
+  const formattedTime = newDate.toLocaleTimeString([], {
+    timeZoneName: 'short',
+  })
+  return `[${formattedDate} at ${formattedTime}]`
 }
 
 export const getBaseCollectionObject = (): IEntity => {
