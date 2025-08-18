@@ -1,17 +1,15 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
 
-import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import IEntity from '../../types/data/IEntity'
 import StyledDataRow from '../../styles/shared/DataRow'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
-// import StyledHr from '../../styles/shared/Hr'
 
 import ExpandableList from './ExpandableList'
 import ExternalLink from './ExternalLink'
 import TextValue from './TextValue'
 import TextLabel from './TextLabel'
+import InternalLink from './InternalLink'
 
 interface IProps {
   entity: IEntity
@@ -39,25 +37,19 @@ const DataSources: React.FC<IProps> = ({ entity }) => {
       />
     ))
 
-  const { pathname, search } = useLocation()
-
-  const currentURL = encodeURIComponent(
-    `${config.env.dataApiBaseUrl}${pathname.substring(1)}${search}`,
-  )
-
   return (
     <div>
       <h2 data-testid="data-sources-header">Data Sources</h2>
       <div className="mb-2">
-        <span>
+        <p>
           This information has been automatically generated from the sources
-          below, and may be inaccurate.&nbsp;
-        </span>
-        <ExternalLink
-          url={`${config.env.luxFeedbackUrl}${currentURL}`}
-          name="Please report any issues here"
-          id="data-source"
-        />
+          below, and may be inaccurate.{' '}
+          <InternalLink
+            uri={`/content/about-lux`}
+            name="Learn more about LUX Data"
+            linkCategory="About LUX Data"
+          />
+        </p>
       </div>
       {Object.keys(dataSources).map((key) => {
         if (dataSources[key].length > 0) {
