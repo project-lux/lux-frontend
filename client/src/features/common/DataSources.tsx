@@ -45,7 +45,7 @@ const DataSources: React.FC<IProps> = ({ entity }) => {
           This information has been automatically generated from the sources
           below, and may be inaccurate.{' '}
           <InternalLink
-            uri={`/content/about-lux`}
+            uri={`/content/about-lux-data`}
             name="Learn more about LUX Data"
             linkCategory="About LUX Data"
           />
