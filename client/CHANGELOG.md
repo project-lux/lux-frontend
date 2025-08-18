@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.56.5 - 2025-8-18
+## v1.56.8 - 2025-8-18
+
+### Fixed
+
+- Fixed the Data Sources link uri ([#733](https://github.com/project-lux/lux-frontend/issues/733)).
+
+## v1.56.7 - 2025-8-18
 
 ### Changed
 
