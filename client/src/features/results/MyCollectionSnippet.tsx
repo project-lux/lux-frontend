@@ -28,7 +28,6 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({ uri, view }) => {
   })
 
   if (isSuccess && data) {
-    // TODO: add function for getting last modified
     const collection = new MyCollectionParser(data)
     const creationData = collection.getCreator() || null
     const modifierData = collection.getLatestModifier()

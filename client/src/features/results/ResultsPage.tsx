@@ -41,7 +41,6 @@ const ResponsiveCol = styled(Col)`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getScopedResultsComponent: any = (
   tab: string,
-  subTab: string | undefined,
   searchResponse: ISearchResponse,
   isMobile: boolean,
 ) => {
@@ -53,13 +52,7 @@ const getScopedResultsComponent: any = (
     case 'works':
       return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'collections':
-      return (
-        <SetResults
-          searchResponse={searchResponse}
-          isMobile={isMobile}
-          nestedPage={subTab}
-        />
-      )
+      return <SetResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'people':
       return (
         <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
@@ -86,7 +79,7 @@ const ResultsPage: React.FC = () => {
   const auth = useAuthentication()
 
   const dispatch = useAppDispatch()
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -224,7 +217,7 @@ const ResultsPage: React.FC = () => {
           </Col>
         ) : (
           <Col xs={12} className={isMobile ? '' : 'px-0'}>
-            {getScopedResultsComponent(tab, subTab, searchResponse, isMobile)}
+            {getScopedResultsComponent(tab, searchResponse, isMobile)}
           </Col>
         )}
       </StyledEntityPageSection>

@@ -56,7 +56,10 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
         }}
       >
         {Object.keys(nestedPageLinks).map((key) => {
+          console.log('key: ', key)
           const subTabQuery = formatSubTabNavLinks(auth, key, searchQueryString)
+          console.log('SUB TAB: ', subTabQuery)
+          console.log('')
           return (
             <Nav.Item>
               <NavLink
