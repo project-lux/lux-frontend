@@ -76,7 +76,7 @@ const RoutingComponent: React.FC = () => {
 
   if (isSuccess && data) {
     return (
-      <React.Fragment>
+      <div data-testid="entity-page">
         {alert.showAlert && (
           <MyCollectionsAlert
             variant={alert.alertVariant as string}
@@ -85,7 +85,7 @@ const RoutingComponent: React.FC = () => {
           />
         )}
         {getEntityPage(data)}
-      </React.Fragment>
+      </div>
     )
   }
 

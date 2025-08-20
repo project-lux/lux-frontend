@@ -175,7 +175,7 @@ const ResultsPage: React.FC = () => {
   useResizeableWindow(setIsMobile)
 
   return (
-    <React.Fragment>
+    <div data-testid="results-page">
       <h1 hidden>{title}</h1>
       {alert.showAlert && (
         <MyCollectionsAlert
@@ -226,7 +226,7 @@ const ResultsPage: React.FC = () => {
           </Col>
         )}
       </StyledEntityPageSection>
-    </React.Fragment>
+    </div>
   )
 }
 

@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added additional data-testid values for testing ([#768](https://github.com/project-lux/lux-frontend/issues/768)).
+
 ### Changed
 
 ### Removed

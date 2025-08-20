@@ -32,7 +32,7 @@ const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
   return (
     <Row className="mt-3 mb-4">
       <Col sm={10} xs={12} className="d-flex align-middle">
-        <StyledH3 data-testid="advanced-search-header">
+        <StyledH3 data-testid={`${tab}-advanced-search-header`}>
           Search for {advancedSearchTitles[tab]} that...
         </StyledH3>
       </Col>
