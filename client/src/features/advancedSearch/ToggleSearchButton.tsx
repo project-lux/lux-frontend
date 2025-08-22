@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { addAqParamValue } from '../../redux/slices/advancedSearchSlice'
@@ -29,7 +30,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
   setIsError,
   setShowModal = () => null,
 }) => {
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const { pathname, search } = useLocation()
   const navigate = useNavigate()
   const urlParams = new URLSearchParams(search)
@@ -67,7 +68,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
         dispatch(addAqParamValue({ scope, aqParamValue: noScopeJSON }))
         urlParams.delete('sq')
         urlParams.set('q', noScopeJSON)
-        urlParams.set('qt', tab)
+        urlParams.set('qt', !isUndefined(subTab) ? subTab : tab)
         navigate(`${pathname}?${urlParams.toString()}`)
       },
       onError: () => setIsError(true),

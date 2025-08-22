@@ -19,33 +19,31 @@ import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
 import NoResultsAlert from './NoResultsAlert'
 import SetSnippet from './SetSnippet'
-import MyCollectionsNavBar from './MyCollectionsNavBar'
 import MyCollectionSnippet from './MyCollectionSnippet'
+import Navigation from './Navigation'
 
 interface IProps {
   searchResponse: ISearchResponse
   isMobile: boolean
-  nestedPage?: string
 }
 
-const SetResults: React.FC<IProps> = ({
-  searchResponse,
-  isMobile,
-  nestedPage,
-}) => {
+const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const auth = useAuth()
   const isAuthenticated = auth.isAuthenticated
   // Parse URL search params
   const { search } = useLocation()
-  const queryString = new URLSearchParams(search)
+  const urlParams = new URLSearchParams(search)
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const queryString = urlParams.get('q') || ''
   const paramPrefix = getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
-  const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
-  const sort = queryString.get(`${tab}Sort`)
-  const view: string = queryString.has('view')
-    ? (queryString.get('view') as string)
+  const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
+  const sort = urlParams.get(`${tab}Sort`)
+  const view: string = urlParams.has('view')
+    ? (urlParams.get('view') as string)
     : 'list'
+  const isSwitchToSimpleSearch =
+    urlParams.get('fromAdvanced') === 'true' || false
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -82,10 +80,15 @@ const SetResults: React.FC<IProps> = ({
   return (
     <StyledEntityResultsRow className="collectionsResultsPage">
       {config.env.featureMyCollections && isAuthenticated && (
-        <MyCollectionsNavBar
-          searchQueryString={search}
-          nestedPage={nestedPage as string}
-        />
+        <React.Fragment>
+          <Navigation
+            urlParams={urlParams}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            isMyCollectionsNestedTab
+          />
+        </React.Fragment>
       )}
       {(isSuccess || isError) && (
         <Col xs={12}>

@@ -1,4 +1,4 @@
-import { isNull, isUndefined } from 'lodash'
+import { isUndefined } from 'lodash'
 import { AuthContextProps } from 'react-oidc-context'
 
 import config from '../../config/config'
@@ -11,6 +11,14 @@ import { INoteContent } from '../../types/IContentWithLanguage'
 import INames from '../../types/myCollections/INames'
 import IName from '../../types/data/IName'
 import IAgent from '../../types/data/IAgent'
+
+export const getUsername = (auth: AuthContextProps): string | undefined => {
+  if (auth.user) {
+    return auth.user?.profile['cognito:username'] as string
+  }
+
+  return undefined
+}
 
 export const getFormattedUuidFromPathname = (uuid: string): string =>
   `${config.env.dataApiBaseUrl}${uuid.replace('/view', 'data')}`
@@ -442,36 +450,30 @@ export const addNotesToCollectionObject = (
  * @returns {IMyCollection}
  */
 export const formatSubTabNavLinks = (
-  auth: AuthContextProps,
+  user: string | undefined,
   subTab: string,
   searchQueryString: string,
 ): string => {
-  const urlParams = new URLSearchParams(searchQueryString)
-  const query = urlParams.has('q') ? (urlParams.get('q') as string) : ''
-  const sq = urlParams.has('sq') ? (urlParams.get('sq') as string) : null
+  if (isUndefined(user)) {
+    return searchQueryString
+  }
 
-  let searchQuery = query
-  const parsed = JSON.parse(searchQuery)
-
+  const parsed = JSON.parse(searchQueryString)
+  const queryByUser = {
+    createdBy: { username: user },
+  }
+  if (!parsed.hasOwnProperty('AND')) {
+    parsed.AND = []
+  }
   if (subTab === 'lux-collections') {
-    parsed.NOT = [
-      {
-        createdBy: { username: auth.user?.profile['cognito:username'] },
-      },
-    ]
-    return `?q=${JSON.stringify(parsed)}&filterResults=false${!isNull(sq) ? `&sq=${sq}` : ''}`
+    parsed.AND.push({
+      NOT: [queryByUser],
+    })
   }
 
   if (subTab === 'my-collections') {
-    parsed.AND = []
-    parsed.AND.push({
-      createdBy: {
-        username: auth.user?.profile['cognito:username'],
-      },
-    })
-
-    return `?q=${JSON.stringify(parsed)}&filterResults=false${!isNull(sq) ? `&sq=${sq}` : ''}`
+    parsed.AND.push(queryByUser)
   }
 
-  return searchQueryString
+  return JSON.stringify(parsed)
 }
