@@ -40,7 +40,7 @@ const AdvancedSearchContainer: React.FC = () => {
   const [showAllRows, setShowAllRows] = useState<boolean>(true)
   const formRef = useRef(null)
   const navigate = useNavigate()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
@@ -71,7 +71,7 @@ const AdvancedSearchContainer: React.FC = () => {
   }
 
   useEffect(() => {
-    if (tab === queryTab) {
+    if (tab === queryTab || subTab === queryTab) {
       if (query === '') {
         dispatch(resetState())
         dispatch(addSelectedHelpText({ value: 'fieldSelectRow' }))

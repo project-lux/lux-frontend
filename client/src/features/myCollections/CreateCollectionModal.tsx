@@ -11,7 +11,10 @@ import {
   IMyCollectionsResultsState,
   resetState,
 } from '../../redux/slices/myCollectionsSlice'
-import { commonClassifications } from '../../config/myCollections/classifications'
+import {
+  commonClassifications,
+  primaryNameUuid,
+} from '../../config/myCollections/classifications'
 import {
   commonLanguages,
   englishLanguageUuid,
@@ -46,7 +49,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
   const [name, setName] = useState<string>(placeholderName)
   const [selectedClassifications, setSelectedClassifications] = useState<
     Array<string>
-  >([])
+  >([primaryNameUuid])
   // default to english language
   const [selectedLanguages, setSelectedLanguages] = useState<Array<string>>([
     englishLanguageUuid,
@@ -169,7 +172,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="classificationFromGroup">
-              <Form.Label>Classification (required)</Form.Label>
+              <Form.Label>Classification of Name (required)</Form.Label>
               <Form.Control
                 as={MultiSelectDropdown}
                 options={commonClassifications}

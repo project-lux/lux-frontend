@@ -19,6 +19,7 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 // import config from '../../config/config'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
+import { getUsername } from '../../lib/myCollections/helper'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -77,9 +78,10 @@ const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
   const auth = useAuthentication()
+  const user = getUsername(auth)
 
   const dispatch = useAppDispatch()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -102,7 +104,8 @@ const ResultsPage: React.FC = () => {
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
-  const filterResults = urlParams.get('filterResults') || null
+  const querySubTab = urlParams.get('sQt') || subTab
+  const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
@@ -135,6 +138,8 @@ const ResultsPage: React.FC = () => {
       filterResults,
       page,
       tab,
+      subTab,
+      user,
       sort,
       facets: {},
       rnd,
@@ -204,7 +209,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab ? (
+        {tab !== queryTab && subTab !== querySubTab ? (
           <Col>
             <Alert
               variant="info"
