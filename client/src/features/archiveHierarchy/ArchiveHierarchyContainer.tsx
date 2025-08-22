@@ -79,7 +79,7 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       : 'View records from this archive with images'
 
     return (
-      <StyledEntityPageSection>
+      <StyledEntityPageSection data-testid="explore-the-archive-hierarchy">
         <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
         {/* Render the collapsible child componentstarting with the oldest ancestor */}
         <ArchiveHierarchyChild

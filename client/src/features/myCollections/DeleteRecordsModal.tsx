@@ -113,7 +113,12 @@ const DeleteRecordsModal: React.FC<IDeleteRecordsModal> = ({
         <Modal.Footer className="d-block">
           <Row>
             <Col className="d-flex justify-content-end">
-              <DangerButton onClick={() => handleDelete()}>Remove</DangerButton>
+              <DangerButton
+                onClick={() => handleDelete()}
+                data-testid="remove-from-my-collection-button"
+              >
+                Remove
+              </DangerButton>
             </Col>
           </Row>
         </Modal.Footer>

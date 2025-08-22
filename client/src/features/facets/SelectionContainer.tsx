@@ -109,7 +109,7 @@ const SelectionContainer: React.FC<IProps> = ({
 
   if (selectedFacets && selectedFacets.size > 0) {
     return (
-      <StyledSelectionContainer>
+      <StyledSelectionContainer data-testid="selected-filters">
         <Row className="px-1 py-3">
           <Col xs={12} sm={6} md={12} lg={6} className="mb-2">
             <div style={{ fontWeight: theme.font.weight.bold }}>
@@ -127,6 +127,7 @@ const SelectionContainer: React.FC<IProps> = ({
             <StyledClearAllButton
               type="button"
               className="btn btn-link"
+              data-testid="clear-all-selected-filters"
               onClick={() => handleClearAll()}
             >
               Clear All

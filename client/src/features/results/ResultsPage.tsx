@@ -221,7 +221,11 @@ const ResultsPage: React.FC = () => {
             </Alert>
           </Col>
         ) : (
-          <Col xs={12} className={isMobile ? '' : 'px-0'}>
+          <Col
+            xs={12}
+            className={isMobile ? '' : 'px-0'}
+            data-testid="results-page-search-results-container"
+          >
             {getScopedResultsComponent(tab, searchResponse, isMobile)}
           </Col>
         )}

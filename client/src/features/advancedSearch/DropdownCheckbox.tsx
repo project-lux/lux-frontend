@@ -15,6 +15,7 @@ let timeout: NodeJS.Timeout
  * Checkbox used for advanced search field options
  * @param {string} label label for the form group
  * @param {string} helpTextKey the checkbox's corresponding help text
+ * @param {string} id the checkbox's data-testid
  * @param {boolean} checked value is checked or not
  * @param {() => void} onCheck callback function to check the checkbox
  * @param {() => void} onUncheck callback function to uncheck the checkbox
@@ -25,11 +26,12 @@ const DropdownCheckbox = forwardRef<
   {
     label: string
     helpTextKey: string
+    id: string
     checked: boolean
     onCheck: () => void
     onUncheck: () => void
   }
->(({ label, checked, helpTextKey, onCheck, onUncheck }, ref) => {
+>(({ label, checked, helpTextKey, id, onCheck, onUncheck }, ref) => {
   const dispatch = useAppDispatch()
 
   const setValues = (value: string): void => {
@@ -67,7 +69,7 @@ const DropdownCheckbox = forwardRef<
       controlId={label}
       onMouseOver={(e) => handleOnMouseEnter(e)}
       onMouseLeave={(e) => handleOnMouseLeave(e)}
-      data-testid="options-dropdown-checkbox"
+      data-testid={`gear-options-dropdown-checkbox-${id}`}
     >
       <Form.Check
         type="checkbox"

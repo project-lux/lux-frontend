@@ -65,7 +65,7 @@ const List: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      <dl>
+      <dl data-testid="timeline-list-container">
         {sortedYearsRange.slice(0, displayLength).map((year) => (
           <StyledDiv key={year} className="mb-2">
             <HoverableRow>
