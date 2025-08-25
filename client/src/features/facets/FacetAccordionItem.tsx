@@ -137,6 +137,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
               type="button"
               data-bs-toggle="collapse"
               data-bs-target={`#collapse-${index}`}
+              data-testid={`facet-accordion-${facetName}`}
               aria-expanded={isFacetOpen}
               aria-controls={`#collapse-${index}`}
             >

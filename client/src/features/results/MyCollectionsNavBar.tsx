@@ -61,6 +61,7 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
           backgroundColor: theme.color.white,
           borderBottom: `2px solid ${theme.color.lightGray}`,
         }}
+        data-testid="my-collections-nav-bar"
       >
         {Object.keys(nestedPageLinks).map((key) => {
           // const subTabQuery = formatSubTabNavLinks(auth, key, searchQueryString)

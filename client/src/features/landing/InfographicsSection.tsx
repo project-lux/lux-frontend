@@ -30,32 +30,43 @@ const InfographicsSection: React.FC<IProps> = ({ data }) => {
           icon={objectsIcon}
           number={stats.item}
           label="Objects"
+          dataTestId="objects"
         />
-        <InfographicsCard icon={workIcon} number={stats.work} label="Works" />
+        <InfographicsCard
+          icon={workIcon}
+          number={stats.work}
+          label="Works"
+          dataTestId="works"
+        />
         <InfographicsCard
           icon={collectionsIcon}
           number={stats.set}
           label="Collections"
+          dataTestId="collections"
         />
         <InfographicsCard
           icon={peopleOrgsIcon}
           number={stats.agent}
           label="People & Groups"
+          dataTestId="people-groups"
         />
         <InfographicsCard
           icon={placesIcon}
           number={stats.place}
           label="Places"
+          dataTestId="places"
         />
         <InfographicsCard
           icon={conceptsIcon}
           number={stats.concept}
           label="Concepts"
+          dataTestId="concepts"
         />
         <InfographicsCard
           icon={eventsIcon}
           number={stats.event}
           label="Events"
+          dataTestId="events"
         />
       </Row>
     </StyledInfographicsSection>

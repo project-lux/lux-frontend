@@ -175,7 +175,7 @@ const ResultsPage: React.FC = () => {
   useResizeableWindow(setIsMobile)
 
   return (
-    <React.Fragment>
+    <div data-testid="results-page">
       <h1 hidden>{title}</h1>
       {alert.showAlert && (
         <MyCollectionsAlert
@@ -221,12 +221,16 @@ const ResultsPage: React.FC = () => {
             </Alert>
           </Col>
         ) : (
-          <Col xs={12} className={isMobile ? '' : 'px-0'}>
+          <Col
+            xs={12}
+            className={isMobile ? '' : 'px-0'}
+            data-testid="results-page-search-results-container"
+          >
             {getScopedResultsComponent(tab, searchResponse, isMobile)}
           </Col>
         )}
       </StyledEntityPageSection>
-    </React.Fragment>
+    </div>
   )
 }
 

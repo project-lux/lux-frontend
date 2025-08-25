@@ -189,6 +189,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
       additionalClassName={additionalClassNameOfMyCollectionsButton}
       disabled={!isSelectAllChecked}
       setShowModal={setShowAddToCollectionModal}
+      data-testid="add-to-my-collections-button"
     >
       <React.Fragment>
         <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />

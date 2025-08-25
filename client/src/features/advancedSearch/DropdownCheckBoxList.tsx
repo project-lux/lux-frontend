@@ -101,6 +101,7 @@ const DropdownCheckboxList = forwardRef<
       <DropdownCheckbox
         label="Boosted"
         helpTextKey="boosted"
+        id="boosted"
         checked={_weight}
         onCheck={() => dispatch(addBoost({ stateId }))}
         onUncheck={() => dispatch(removeBoost({ stateId }))}
@@ -111,6 +112,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Exact"
             helpTextKey="exact"
+            id="exact"
             checked={_complete}
             onCheck={() => dispatch(addComplete({ stateId }))}
             onUncheck={() => dispatch(removeComplete({ stateId }))}
@@ -121,6 +123,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Case Sensitive"
             helpTextKey="caseSensitive"
+            id="case-sensitive"
             checked={optionBooleans['case-sensitive']}
             onCheck={createOptionsDispatch('case-sensitive')}
             onUncheck={createOptionsDispatch('case-insensitive')}
@@ -131,6 +134,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Diacritic Sensitive"
             helpTextKey="diacriticSensitive"
+            id="diacritic-sensitive"
             checked={optionBooleans['diacritic-sensitive']}
             onCheck={createOptionsDispatch('diacritic-sensitive')}
             onUncheck={createOptionsDispatch('diacritic-insensitive')}
@@ -141,6 +145,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Punctuation Sensitive"
             helpTextKey="punctuationSensitive"
+            id="punctuation-sensitive"
             checked={optionBooleans['punctuation-sensitive']}
             onCheck={createOptionsDispatch('punctuation-sensitive')}
             onUncheck={createOptionsDispatch('punctuation-insensitive')}
@@ -151,6 +156,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Whitespace Sensitive"
             helpTextKey="whitespaceSensitive"
+            id="whitespace-sensitive"
             checked={optionBooleans['whitespace-sensitive']}
             onCheck={createOptionsDispatch('whitespace-sensitive')}
             onUncheck={createOptionsDispatch('whitespace-insensitive')}
@@ -160,6 +166,7 @@ const DropdownCheckboxList = forwardRef<
         <DropdownCheckbox
           label="Stemmed"
           helpTextKey="stemmed"
+          id="stemmed"
           checked={optionBooleans.stemmed}
           onCheck={createOptionsDispatch('stemmed')}
           onUncheck={createOptionsDispatch('unstemmed')}
@@ -170,6 +177,7 @@ const DropdownCheckboxList = forwardRef<
           <DropdownCheckbox
             label="Wildcarded"
             helpTextKey="wildcarded"
+            id="wildcarded"
             checked={optionBooleans.wildcarded}
             onCheck={createOptionsDispatch('wildcarded')}
             onUncheck={createOptionsDispatch('unwildcarded')}

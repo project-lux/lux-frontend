@@ -83,7 +83,7 @@ const SearchResultsAccordionItem: React.FC<IProps> = ({
           id={`collapse-${index}-${searchTerm}`}
           className="accordion-collapse collapse"
           aria-labelledby={`#heading-related-${index}-${searchTerm}`}
-          data-testid={`collapse-${index}-${searchTerm}`}
+          data-testid={`collapse-${searchTerm}`}
         >
           <div className="accordion-body">
             {/* Render list based on results list */}

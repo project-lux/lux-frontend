@@ -98,7 +98,7 @@ const TimelineContainer: React.FC<{
     if (sortedTimelineYears.length !== 0) {
       return (
         <StyledEntityPageSection
-          data-testid="timeline-container"
+          data-testid={`timeline-container${isFullscreen ? '-fullscreen' : ''}`}
           ref={timelineRef}
         >
           <Row>
@@ -122,6 +122,7 @@ const TimelineContainer: React.FC<{
                   aria-label={`View the hierarchy ${
                     display === 'graph' ? 'list' : 'graph'
                   }`}
+                  data-testid={`view-${display === 'graph' ? 'list' : 'graph'}-button`}
                 >
                   <i
                     className={`bi ${
@@ -137,6 +138,11 @@ const TimelineContainer: React.FC<{
                     isFullscreen
                       ? 'Minimize the viewport'
                       : 'Expand to fullscreen'
+                  }
+                  data-testid={
+                    isFullscreen
+                      ? 'minimize-timeline-container-button'
+                      : 'fullscreen-timeline-container-button'
                   }
                 >
                   <i

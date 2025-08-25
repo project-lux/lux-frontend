@@ -73,6 +73,7 @@ const HierarchyContainer: React.FC<IProps> = ({
       <StyledEntityPageSection
         className="hierarchyContainer p-4"
         ref={hierarchyRef}
+        data-testid="explore-the-hierarchy"
       >
         <Row>
           <Col xs={12}>
