@@ -1,3 +1,4 @@
+import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import { searchScope } from '../../config/searchTypes'
 
 export const getParamPrefix = (tab: string): string =>
@@ -13,17 +14,26 @@ export const getFacetParamsForSimpleSearchEstimatesRequest = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   criteria: Record<string, any>,
   urlParams: URLSearchParams,
+  isMyCollectionsNestedTab: boolean,
 ): Record<string, string> => {
   const searchEstimatesParams: Record<string, string> = {}
   Object.entries(searchScope).map(([key, value]) => {
+    let newCriteria = JSON.stringify(criteria)
+    // Add facets to criteria
     const facetsParam = `${value.slice(0, 1)}f`
     if (urlParams.has(facetsParam)) {
-      searchEstimatesParams[key] = `{"AND":[${JSON.stringify(
+      newCriteria = `{"AND":[${JSON.stringify(
         criteria,
       )},${urlParams.get(facetsParam)}]}`
-    } else {
-      searchEstimatesParams[key] = JSON.stringify(criteria)
     }
+
+    if (key === 'collections' && isMyCollectionsNestedTab) {
+      Object.keys(nestedPageLinks).map((page) => {
+        searchEstimatesParams[page] = newCriteria
+      })
+    }
+
+    searchEstimatesParams[key] = newCriteria
     return null
   })
 

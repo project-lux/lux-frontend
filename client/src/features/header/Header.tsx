@@ -139,6 +139,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                   // TODO: revert to the signin function
                   // onClick={() => setIsLoggedIn(true)}
                   onClick={() => auth.signinRedirect()}
+                  data-testid="login-button"
                 >
                   Login
                 </NavLink>
@@ -148,12 +149,17 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
                 <React.Fragment>
                   <NavLink
                     // TODO: change to correspond with the correct results page
-                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&filterResults=false`}
+                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&viewingMyCollections=true&sQt=my-collections`}
                     className="nav-link"
+                    data-testid="my-collections-button"
                   >
                     My Collections
                   </NavLink>
-                  <NavDropdown title="username TBD" id="user-navbar-dropdown">
+                  <NavDropdown
+                    title="username TBD"
+                    id="user-navbar-dropdown"
+                    data-testid="user-navbar-dropdown"
+                  >
                     <NavDropdown.Item
                       // TODO: change once the user's profile page is ready
                       href="#"

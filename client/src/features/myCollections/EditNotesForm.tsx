@@ -16,7 +16,7 @@ import {
   englishLanguageUuid,
 } from '../../config/myCollections/languages'
 import { INoteContent } from '../../types/IContentWithLanguage'
-import { commonClassifications } from '../../config/myCollections/classifications'
+import { noteClassifications } from '../../config/myCollections/classifications'
 
 import MultiSelectDropdown from './MultiSelectDropdown'
 
@@ -246,7 +246,7 @@ const EditNotesForm: React.FC<IProps> = ({ data, onClose }) => {
                 <Form.Label>Classifications (required)</Form.Label>
                 <Form.Control
                   as={MultiSelectDropdown}
-                  options={commonClassifications}
+                  options={noteClassifications}
                   selectedOptions={classifications || []}
                   ariaLabel="Select one or more classifications for the note"
                   className="editNoteClassificationDropdownButton"

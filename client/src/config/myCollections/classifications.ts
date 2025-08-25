@@ -1,8 +1,9 @@
 import config from '../config'
 
+export const primaryNameUuid = `${config.env.dataApiBaseUrl}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`
+
 export const commonClassifications: Record<string, string> = {
-  [`${config.env.dataApiBaseUrl}data/concept/f7ef5bb4-e7fb-443d-9c6b-371a23e717ec`]:
-    'Primary Name',
+  [primaryNameUuid]: 'Primary Name (Default)',
   [`${config.env.dataApiBaseUrl}data/concept/ab99d278-9323-4d84-8e97-1846058fc587`]:
     'Secondary Name',
 }
@@ -23,4 +24,6 @@ export const noteClassifications: Record<string, string> = {
     'Abstract',
   [`${config.env.dataApiBaseUrl}data/concept/53922f57-dab5-43c5-a527-fc20a63fe128`]:
     'Extent',
+  [`${config.env.dataApiBaseUrl}data/concept/54e35d81-9548-4b4e-8973-de02b09bf9da`]:
+    'Display Biography',
 }

@@ -1,12 +1,11 @@
 import React, { useState } from 'react'
 import { Nav, Col } from 'react-bootstrap'
 import styled from 'styled-components'
-import { useAuth } from 'react-oidc-context'
 
 import theme from '../../styles/theme'
 import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { formatSubTabNavLinks } from '../../lib/myCollections/helper'
+import LoadingSpinner from '../common/LoadingSpinner'
 
 import MobileMyCollectionsNavBar from './MobileMyCollectionsNavBar'
 
@@ -23,13 +22,18 @@ const NavLink = styled(Nav.Link)`
 interface IProps {
   searchQueryString: string
   nestedPage: string
+  currentEstimates: Record<string, string | number>
+  isLoading: boolean
+  isFetching: boolean
 }
 
 const MyCollectionsNavBar: React.FC<IProps> = ({
   searchQueryString,
   nestedPage,
+  currentEstimates,
+  isLoading,
+  isFetching,
 }) => {
-  const auth = useAuth()
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -40,6 +44,9 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
       <MobileMyCollectionsNavBar
         searchQueryString={searchQueryString}
         currentNestedPage={nestedPage}
+        currentEstimates={currentEstimates}
+        isLoading={isLoading}
+        isFetching={isFetching}
       />
     )
   }
@@ -54,17 +61,24 @@ const MyCollectionsNavBar: React.FC<IProps> = ({
           backgroundColor: theme.color.white,
           borderBottom: `2px solid ${theme.color.lightGray}`,
         }}
+        data-testid="my-collections-nav-bar"
       >
         {Object.keys(nestedPageLinks).map((key) => {
-          const subTabQuery = formatSubTabNavLinks(auth, key, searchQueryString)
+          // const subTabQuery = formatSubTabNavLinks(auth, key, searchQueryString)
           return (
             <Nav.Item>
               <NavLink
-                href={`/view/results/collections/${key}${subTabQuery}`}
+                href={`/view/results/collections/${key}?${searchQueryString}`}
                 eventKey={key}
                 active={key === nestedPage}
               >
-                {nestedPageLinks[key]}
+                {nestedPageLinks[key]} (
+                {isLoading || isFetching ? (
+                  <LoadingSpinner size="sm" />
+                ) : (
+                  currentEstimates[key]
+                )}
+                )
               </NavLink>
             </Nav.Item>
           )

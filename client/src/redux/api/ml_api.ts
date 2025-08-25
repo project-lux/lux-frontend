@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { isUndefined } from 'lodash'
+import { isNull, isUndefined } from 'lodash'
 
 import { ISearchParams, IItemParams } from '../../types/IMlApiParams'
 import { ISearchResults, ISearchResultsError } from '../../types/ISearchResults'
@@ -29,6 +29,7 @@ import {
   addWebpagesToCollectionObject,
   createCollectionObject,
   deleteFromCollectionObject,
+  formatSubTabNavLinks,
   setCollectionAsDefault,
 } from '../../lib/myCollections/helper'
 import { ICreateCollectionFormData } from '../../types/myCollections/ICreateCollectionFormData'
@@ -50,19 +51,26 @@ export const mlApi: any = createApi({
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
-        const { q, filterResults, page, tab, sort, rnd } = searchParams
+        const { q, filterResults, page, tab, subTab, user, sort, rnd } =
+          searchParams
         // const facetString = formatFacetSearchRequestUrl(searchParams)
         const urlParams = new URLSearchParams()
         urlParams.set('q', q)
 
         let scope = ''
-        if (tab !== undefined) {
+        if (!isUndefined(tab)) {
           scope = searchScope[tab]
+        }
+        if (!isUndefined(subTab)) {
+          urlParams.set('q', formatSubTabNavLinks(user, subTab, q))
+          if (subTab === 'my-collections') {
+            urlParams.set('filterResults', 'false')
+          }
         }
         if (!isUndefined(page)) {
           urlParams.set('page', `${page}`)
         }
-        if (!isUndefined(filterResults)) {
+        if (!isUndefined(filterResults) && !isNull(filterResults)) {
           urlParams.set('filterResults', filterResults)
         }
         if (!isUndefined(sort)) {
@@ -222,6 +230,8 @@ export const mlApi: any = createApi({
         qt: string
         params: Record<string, string> | string
         isSwitchToSimpleSearch: boolean
+        user?: string
+        viewingMyCollections?: string
       }
     >({
       queryFn({
@@ -230,6 +240,8 @@ export const mlApi: any = createApi({
         qt,
         params,
         isSwitchToSimpleSearch,
+        user,
+        viewingMyCollections,
       }) {
         return getEstimatesRequests(
           searchType,
@@ -237,6 +249,8 @@ export const mlApi: any = createApi({
           params,
           qt,
           isSwitchToSimpleSearch,
+          user,
+          viewingMyCollections,
         )
       },
       providesTags: ['Estimates'],

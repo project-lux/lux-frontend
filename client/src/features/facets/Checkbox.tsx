@@ -54,7 +54,7 @@ const Checkbox: React.FC<IProps> = ({
   const paramPrefix = getParamPrefix(tab)
 
   const valueStr = String(facet.value)
-  const id = `checklistFacet-${stripYaleIdPrefix(valueStr)}-${facetSection}`
+  const id = `checklist-facet-${stripYaleIdPrefix(valueStr)}-${facetSection}`
 
   // requires getting label before rendering it with capitalized content
   let label = ''
@@ -164,6 +164,7 @@ const Checkbox: React.FC<IProps> = ({
         checked={isFacetSelected}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={facetsState.lastSelectedFacetUri === facet.value}
+        data-testid={id}
       />
       <label className="form-check-label ms-2" htmlFor={id}>
         {label}

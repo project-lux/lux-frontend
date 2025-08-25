@@ -19,6 +19,7 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 // import config from '../../config/config'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
+import { getUsername } from '../../lib/myCollections/helper'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -41,7 +42,6 @@ const ResponsiveCol = styled(Col)`
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const getScopedResultsComponent: any = (
   tab: string,
-  subTab: string | undefined,
   searchResponse: ISearchResponse,
   isMobile: boolean,
 ) => {
@@ -53,13 +53,7 @@ const getScopedResultsComponent: any = (
     case 'works':
       return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'collections':
-      return (
-        <SetResults
-          searchResponse={searchResponse}
-          isMobile={isMobile}
-          nestedPage={subTab}
-        />
-      )
+      return <SetResults searchResponse={searchResponse} isMobile={isMobile} />
     case 'people':
       return (
         <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
@@ -84,6 +78,7 @@ const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
   const auth = useAuthentication()
+  const user = getUsername(auth)
 
   const dispatch = useAppDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
@@ -109,7 +104,8 @@ const ResultsPage: React.FC = () => {
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
-  const filterResults = urlParams.get('filterResults') || null
+  const querySubTab = urlParams.get('sQt') || subTab
+  const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
@@ -142,6 +138,8 @@ const ResultsPage: React.FC = () => {
       filterResults,
       page,
       tab,
+      subTab,
+      user,
       sort,
       facets: {},
       rnd,
@@ -177,7 +175,7 @@ const ResultsPage: React.FC = () => {
   useResizeableWindow(setIsMobile)
 
   return (
-    <React.Fragment>
+    <div data-testid="results-page">
       <h1 hidden>{title}</h1>
       {alert.showAlert && (
         <MyCollectionsAlert
@@ -211,7 +209,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab ? (
+        {tab !== queryTab && subTab !== querySubTab ? (
           <Col>
             <Alert
               variant="info"
@@ -223,12 +221,16 @@ const ResultsPage: React.FC = () => {
             </Alert>
           </Col>
         ) : (
-          <Col xs={12} className={isMobile ? '' : 'px-0'}>
-            {getScopedResultsComponent(tab, subTab, searchResponse, isMobile)}
+          <Col
+            xs={12}
+            className={isMobile ? '' : 'px-0'}
+            data-testid="results-page-search-results-container"
+          >
+            {getScopedResultsComponent(tab, searchResponse, isMobile)}
           </Col>
         )}
       </StyledEntityPageSection>
-    </React.Fragment>
+    </div>
   )
 }
 

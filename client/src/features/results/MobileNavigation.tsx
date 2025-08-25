@@ -24,6 +24,7 @@ import {
   getUrlState,
 } from '../../lib/util/params'
 import useAuthentication from '../../lib/hooks/useAuthentication'
+import { getUsername } from '../../lib/myCollections/helper'
 
 import MobileTabButton from './MobileTabButton'
 
@@ -44,7 +45,9 @@ const MobileNavigation: React.FC<IProps> = ({
   isSwitchToSimpleSearch,
 }) => {
   const auth = useAuthentication()
+  const user = getUsername(auth)
   const forceRefetch = auth.isAuthenticated
+  const viewingMyCollections = urlParams.get('viewingMyCollections')
 
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
@@ -69,7 +72,11 @@ const MobileNavigation: React.FC<IProps> = ({
   // Simple search estimates request
   const params =
     simpleSearch && !isSwitchToSimpleSearch
-      ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
+      ? getFacetParamsForSimpleSearchEstimatesRequest(
+          criteria,
+          urlParams,
+          false,
+        )
       : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
 
   const { data, isSuccess, isFetching, isLoading, isError } =
@@ -80,6 +87,8 @@ const MobileNavigation: React.FC<IProps> = ({
         qt,
         params,
         isSwitchToSimpleSearch,
+        user,
+        viewingMyCollections,
       },
       {
         skip: auth.isLoading === true || !hasCriteria,

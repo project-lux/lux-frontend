@@ -111,6 +111,7 @@ const Graph: React.FC<IProps> = ({
     <div
       className="highlight-bar-charts"
       style={{ userSelect: 'none', width: '100%' }}
+      data-testid="timeline-graph-container"
     >
       <ResponsiveContainer width="100%" height={500}>
         <BarChart

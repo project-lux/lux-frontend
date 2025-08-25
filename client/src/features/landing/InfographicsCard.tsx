@@ -5,9 +5,15 @@ interface IProps {
   icon: string
   number: number
   label: string
+  dataTestId: string
 }
 
-const InfographicsCard: React.FC<IProps> = ({ icon, number, label }) => (
+const InfographicsCard: React.FC<IProps> = ({
+  icon,
+  number,
+  label,
+  dataTestId,
+}) => (
   <Col
     xs={12}
     sm={12}
@@ -16,6 +22,7 @@ const InfographicsCard: React.FC<IProps> = ({ icon, number, label }) => (
     xl={4}
     xxl={4}
     className="col-lg-6 d-flex card-outer"
+    data-testid={`${dataTestId}-infographic-card`}
   >
     <Row className="d-flex align-items-center card-inner">
       <Col xs={3} sm={3} md={3}>

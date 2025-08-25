@@ -19,8 +19,6 @@ export function defaultAats(): IAat {
     collection: 'http://vocab.getty.edu/aat/300025976',
     collectionItem: 'http://vocab.getty.edu/aat/300404024',
     copyrightLicensingStatement: 'http://vocab.getty.edu/aat/300435434',
-    // TODO: change once an AAT is assigned
-    defaultCollection: 'https://todo.concept.my.collection',
     descriptionStatement: 'http://vocab.getty.edu/aat/300435416',
     dimensionStatement: 'http://vocab.getty.edu/aat/300435430',
     displayName: 'http://vocab.getty.edu/aat/300404669',

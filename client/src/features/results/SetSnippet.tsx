@@ -15,9 +15,11 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { getNextSetUris } from '../../lib/util/hierarchyHelpers'
+import config from '../../config/config'
 
 import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
+import MyCollectionSnippet from './MyCollectionSnippet'
 
 interface ISearchData {
   uri: string
@@ -33,6 +35,9 @@ const SetSnippet: React.FC<ISearchData> = ({ uri, view }) => {
   if (isSuccess && data) {
     const set = new WorkParser(data)
     const types = set.getTypes()
+    if (types.includes(config.aat.personalCollection)) {
+      return <MyCollectionSnippet uri={uri} view={view} />
+    }
     const agents = set.getProductionAgents() || null
     const date = set.getProductionDate() || null
     const publicationAgent = set.getPublicationAgent() || null

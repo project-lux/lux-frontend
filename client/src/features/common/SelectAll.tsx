@@ -38,6 +38,7 @@ const SelectAll: React.FC<ISelectAll> = ({ uuidsToAdd, scope }) => {
         className="form-check-input d-inline mt-0 selectAllResultsCheckbox"
         type="checkbox"
         id="select-all-checkbox"
+        data-testid="select-all-checkbox"
         onChange={() => handleSelectAllCheckboxSelection()}
         checked={isSelectAllChecked}
       />
