@@ -64,8 +64,8 @@ const SelectionContainer: React.FC<IProps> = ({
   selectedFacets,
 }) => {
   const location = useLocation()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(tab)
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = getParamPrefix(subTab ? subTab : tab)
   const { search } = useLocation()
   const navigate = useNavigate()
   const params = new URLSearchParams(search)

@@ -1,8 +1,12 @@
 import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import { searchScope } from '../../config/searchTypes'
 
-export const getParamPrefix = (tab: string): string =>
-  searchScope[tab].slice(0, 1)
+export const getParamPrefix = (tab: string): string => {
+  if (Object.keys(nestedPageLinks).includes(tab)) {
+    return `${tab.slice(0, 1)}c`
+  }
+  return searchScope[tab].slice(0, 1)
+}
 
 /**
  * Function to format the requests for search estimates on each tab.
@@ -29,7 +33,15 @@ export const getFacetParamsForSimpleSearchEstimatesRequest = (
 
     if (key === 'collections' && isMyCollectionsNestedTab) {
       Object.keys(nestedPageLinks).map((page) => {
-        searchEstimatesParams[page] = newCriteria
+        let subTabNewCriteria = newCriteria
+        const subTabFacetKey = `${getParamPrefix(page)}f`
+        if (urlParams.has(subTabFacetKey)) {
+          subTabNewCriteria = `{"AND":[${JSON.stringify(
+            criteria,
+          )},${urlParams.get(subTabFacetKey)}]}`
+        }
+
+        searchEstimatesParams[page] = subTabNewCriteria
       })
     }
 

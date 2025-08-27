@@ -20,6 +20,7 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
 import { getUsername } from '../../lib/myCollections/helper'
+import config from '../../config/config'
 
 import ConceptResults from './ConceptResults'
 import EventResults from './EventResults'
@@ -82,7 +83,7 @@ const ResultsPage: React.FC = () => {
 
   const dispatch = useAppDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(tab)
+  const paramPrefix = getParamPrefix(subTab ? subTab : tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -209,7 +210,10 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab && subTab !== querySubTab ? (
+        {tab !== queryTab ||
+        (config.env.featureMyCollections &&
+          tab !== queryTab &&
+          subTab !== querySubTab) ? (
           <Col>
             <Alert
               variant="info"

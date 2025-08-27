@@ -50,9 +50,8 @@ const Checkbox: React.FC<IProps> = ({
   const { pathname, search: currentSearch } = useLocation()
   const params = new URLSearchParams(currentSearch)
   const navigate = useNavigate()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(tab)
-
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = getParamPrefix(subTab ? subTab : tab)
   const valueStr = String(facet.value)
   const id = `checklist-facet-${stripYaleIdPrefix(valueStr)}-${facetSection}`
 
@@ -79,7 +78,7 @@ const Checkbox: React.FC<IProps> = ({
       currentSearch,
       facetQuery,
       scope,
-      tab,
+      subTab ? subTab : tab,
     )
     dispatch(
       addLastSelectedFacet({
