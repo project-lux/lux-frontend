@@ -105,11 +105,7 @@ export const getSimpleSearchEstimates = (
     } else {
       searchScopeTab = 'collections'
       subTab = key
-      const updatedParams = formatSubTabNavLinks(
-        user,
-        subTab,
-        params.collections,
-      )
+      const updatedParams = formatSubTabNavLinks(user, subTab, params[subTab])
       urlParams.set('q', updatedParams)
     }
     return fetchSearchEstimates(urlParams.toString(), searchScopeTab, subTab)

@@ -13,10 +13,11 @@ import SelectionContainer from './SelectionContainer'
 
 const FacetContainer: React.FC = () => {
   const { search } = useLocation()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const facetsRequested = facetNamesLists[tab]
-  const scope = searchScope[tab]
-  const facetData = getFacetData(tab, search, scope)
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const currentTabScope = subTab ? 'collections' : tab
+  const facetsRequested = facetNamesLists[currentTabScope]
+  const scope = searchScope[currentTabScope]
+  const facetData = getFacetData(subTab ? subTab : tab, search, scope)
   if (facetData !== null && facetData.mainQuery !== null) {
     const { mainQuery, facetQuery, selectedFacets } = facetData
 

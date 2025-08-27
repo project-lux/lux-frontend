@@ -35,10 +35,11 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const urlParams = new URLSearchParams(search)
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const queryString = urlParams.get('q') || ''
-  const paramPrefix = getParamPrefix(tab)
+  const currentTab = subTab ? subTab : tab
+  const paramPrefix = getParamPrefix(currentTab)
   const pageParam = `${paramPrefix}p`
   const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
-  const sort = urlParams.get(`${tab}Sort`)
+  const sort = urlParams.get(`${currentTab}Sort`)
   const view: string = urlParams.has('view')
     ? (urlParams.get('view') as string)
     : 'list'

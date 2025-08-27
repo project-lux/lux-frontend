@@ -56,7 +56,7 @@ const SelectedFacet: React.FC<ISelected> = ({
   const dispatch = useAppDispatch()
   const { pathname, search } = useLocation()
   const navigate = useNavigate()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
 
   let label = getSelectedLabel(scope, searchTag, option)
 
@@ -76,7 +76,7 @@ const SelectedFacet: React.FC<ISelected> = ({
         search,
         facetQuery,
         scope,
-        tab,
+        subTab || tab,
       )
       dispatch(reset())
       pushClientEvent('Facets Selected Filters', 'Removed', `Facet ${label}`)

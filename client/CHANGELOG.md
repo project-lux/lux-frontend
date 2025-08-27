@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.57.1 - 2025-08-27
+
+### Fixed
+
+- Fixed navigation issues in the results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
+- Fixed estimates and facets issues in the results page ([#641](https://github.com/project-lux/lux-frontend/issues/641)).
+
 ## v1.57.0 - 2025-08-25
 
 ### Added
