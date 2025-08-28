@@ -24,9 +24,14 @@ import MyCollectionSnippet from './MyCollectionSnippet'
 interface ISearchData {
   uri: string
   view: string
+  titleOfTabbedContent?: string
 }
 
-const SetSnippet: React.FC<ISearchData> = ({ uri, view }) => {
+const SetSnippet: React.FC<ISearchData> = ({
+  uri,
+  view,
+  titleOfTabbedContent,
+}) => {
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -36,7 +41,13 @@ const SetSnippet: React.FC<ISearchData> = ({ uri, view }) => {
     const set = new WorkParser(data)
     const types = set.getTypes()
     if (types.includes(config.aat.personalCollection)) {
-      return <MyCollectionSnippet uri={uri} view={view} />
+      return (
+        <MyCollectionSnippet
+          uri={uri}
+          view={view}
+          titleOfTabbedContent={titleOfTabbedContent}
+        />
+      )
     }
     const agents = set.getProductionAgents() || null
     const date = set.getProductionDate() || null
@@ -83,7 +94,11 @@ const SetSnippet: React.FC<ISearchData> = ({ uri, view }) => {
       return (
         <React.Fragment>
           <div className="m-2 d-flex">
-            <SnippetHeader data={data} snippetData={snippetDataComponent} />
+            <SnippetHeader
+              data={data}
+              snippetData={snippetDataComponent}
+              titleOfTabbedContent={titleOfTabbedContent}
+            />
           </div>
           <StyledHr width="100%" className="workSnippetHr" />
         </React.Fragment>

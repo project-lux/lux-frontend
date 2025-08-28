@@ -152,6 +152,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
               ? getOrderedItemsIds(data)[0]
               : undefined
           }
+          addingSingleEntityFromEntityPage
         />
       )}
       {showCreateCollectionModal && (

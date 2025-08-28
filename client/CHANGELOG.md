@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.57.3 - 2025-08-28
+
+### Added
+
+- Added additional Add to Collections button on tabbed content ([#658](https://github.com/project-lux/lux-frontend/issues/658)).
+
 ## v1.57.2 - 2025-08-28
 
 ### Added

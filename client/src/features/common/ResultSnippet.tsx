@@ -8,37 +8,43 @@ import PlaceSnippet from '../results/PlaceSnippet'
 import SetSnippet from '../results/SetSnippet'
 import WorksSnippet from '../results/WorksSnippet'
 
-const ResultSnippet = (uri: string, tab: string): JSX.Element | null => {
+const ResultSnippet = (
+  uri: string,
+  tab: string,
+  title: string,
+): JSX.Element | null => {
   if (tab === 'objects') {
-    return <ObjectSnippet uri={uri} view="list" />
+    return <ObjectSnippet uri={uri} view="list" titleOfTabbedContent={title} />
   }
 
   if (tab === 'works') {
-    return <WorksSnippet uri={uri} view="list" />
+    return <WorksSnippet uri={uri} view="list" titleOfTabbedContent={title} />
   }
 
   if (tab === 'collections') {
-    return <SetSnippet uri={uri} view="list" />
+    return <SetSnippet uri={uri} view="list" titleOfTabbedContent={title} />
   }
 
   if (config.env.featureMyCollections && tab === 'my-collections') {
-    return <MyCollectionSnippet uri={uri} view="list" />
+    return (
+      <MyCollectionSnippet uri={uri} view="list" titleOfTabbedContent={title} />
+    )
   }
 
   if (tab === 'people') {
-    return <PersonSnippet uri={uri} view="list" />
+    return <PersonSnippet uri={uri} view="list" titleOfTabbedContent={title} />
   }
 
   if (tab === 'places') {
-    return <PlaceSnippet uri={uri} />
+    return <PlaceSnippet uri={uri} titleOfTabbedContent={title} />
   }
 
   if (tab === 'concepts') {
-    return <ConceptSnippet uri={uri} />
+    return <ConceptSnippet uri={uri} titleOfTabbedContent={title} />
   }
 
   if (tab === 'events') {
-    return <EventSnippet uri={uri} />
+    return <EventSnippet uri={uri} titleOfTabbedContent={title} />
   }
 
   return null

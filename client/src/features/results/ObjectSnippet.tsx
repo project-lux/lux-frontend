@@ -26,9 +26,14 @@ import SnippetHeader from './SnippetHeader'
 interface ISearchData {
   uri: string
   view: string
+  titleOfTabbedContent?: string
 }
 
-const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
+const ObjectSnippet: React.FC<ISearchData> = ({
+  uri,
+  view,
+  titleOfTabbedContent,
+}) => {
   const { data, isSuccess, isLoading, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -142,7 +147,11 @@ const ObjectSnippet: React.FC<ISearchData> = ({ uri, view }) => {
       return (
         <React.Fragment>
           <div className="m-2 d-flex">
-            <SnippetHeader data={data} snippetData={snippetDataComponent} />
+            <SnippetHeader
+              data={data}
+              snippetData={snippetDataComponent}
+              titleOfTabbedContent={titleOfTabbedContent}
+            />
           </div>
           <StyledHr width="100%" className="my-3 objectSnippetHr" />
         </React.Fragment>

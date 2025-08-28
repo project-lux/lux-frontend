@@ -19,7 +19,7 @@ export const myCollectionsSlice = createSlice({
     // Updates the state.value onChange of user input
     addEntity: (
       state,
-      action: PayloadAction<{ uuid: string; scope: string }>,
+      action: PayloadAction<{ uuid: string; scope?: string }>,
     ) => {
       const { uuid, scope } = action.payload
       // reset the state of the list of uuids first

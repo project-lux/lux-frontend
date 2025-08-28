@@ -17,9 +17,10 @@ import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
+  titleOfTabbedContent?: string
 }
 
-const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
+const PlaceSnippet: React.FC<IProps> = ({ uri, titleOfTabbedContent }) => {
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -68,6 +69,7 @@ const PlaceSnippet: React.FC<IProps> = ({ uri }) => {
             data={data}
             snippetData={snippetDataComponent}
             mapComponent={mapComponent}
+            titleOfTabbedContent={titleOfTabbedContent}
           />
         </div>
         <StyledHr width="100%" className="placeSnippetHr" />

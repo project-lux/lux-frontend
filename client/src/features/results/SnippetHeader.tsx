@@ -24,6 +24,7 @@ interface IProps {
   snippetData: JSX.Element
   mapComponent?: JSX.Element
   children?: JSX.Element
+  titleOfTabbedContent?: string
 }
 
 const SnippetHeader: React.FC<IProps> = ({
@@ -31,6 +32,7 @@ const SnippetHeader: React.FC<IProps> = ({
   mapComponent,
   children,
   snippetData,
+  titleOfTabbedContent,
 }) => {
   const dispatch = useDispatch()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
@@ -54,8 +56,14 @@ const SnippetHeader: React.FC<IProps> = ({
     if (isChecked) {
       dispatch(removeEntity({ uuid }))
     } else {
+      const scopeToSet = subTab || tab || titleOfTabbedContent
       // if the subTab is not undefined, set scope to the subTab, otherwise set as the current tab
-      dispatch(addEntity({ uuid, scope: subTab || tab }))
+      dispatch(
+        addEntity({
+          uuid,
+          scope: scopeToSet,
+        }),
+      )
     }
   }
 
