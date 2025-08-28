@@ -112,7 +112,7 @@ const Containing: React.FC<{ data: IMyCollection }> = ({ data }) => {
       <Row>
         <Col xs={12}>
           {containing.length > 0 ? (
-            containing.map((c) => ResultSnippet(c, getTabName(c)))
+            containing.map((c) => ResultSnippet(c, getTabName(c), 'containing'))
           ) : (
             <p className="mb-0 fs-3 p-2" data-testid="no-related-objects-works">
               The collection does not contain any records.
