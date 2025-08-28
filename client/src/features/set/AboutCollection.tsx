@@ -25,7 +25,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
   const { name, names, types, publications } = aboutData as Record<string, any>
 
   return (
-    <React.Fragment>
+    <div data-testid="about-collection">
       <h3 className="px-3 pt-2" data-testid="collection-name-header">
         About {name}
       </h3>
@@ -63,7 +63,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
           <ApiAboutData providedLinks={data._links} configuredLink={setEvent} />
         )}
       </div>
-    </React.Fragment>
+    </div>
   )
 }
 

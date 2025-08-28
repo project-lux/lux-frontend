@@ -95,7 +95,7 @@ const About: React.FC<IProps> = ({ data }) => {
       : undefined
 
   return (
-    <React.Fragment>
+    <div data-testid="about-my-collection">
       {showEditModal && !isNull(editOption) && (
         <EditCollectionModal
           data={data}
@@ -164,7 +164,7 @@ const About: React.FC<IProps> = ({ data }) => {
           />
         )}
       </dl>
-    </React.Fragment>
+    </div>
   )
 }
 

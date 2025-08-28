@@ -50,9 +50,9 @@ const About: React.FC<IProps> = ({ data }) => {
   } = aboutData as Record<string, any>
 
   return (
-    <React.Fragment>
+    <div data-testid="about-person-group">
       <h2 data-testid="person-page-about-header">About {name}</h2>
-      <dl className="about-person-and-group">
+      <dl className="about-person-and-group-dl">
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
@@ -138,7 +138,7 @@ const About: React.FC<IProps> = ({ data }) => {
         <WebPages webPages={webPages} />
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
-    </React.Fragment>
+    </div>
   )
 }
 

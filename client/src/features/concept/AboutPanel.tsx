@@ -28,7 +28,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
     >
 
   return (
-    <React.Fragment>
+    <div data-testid="about-concept">
       <h2 data-testid="concept-about-header">About {name}</h2>
       <dl>
         {names !== null && (
@@ -60,7 +60,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
         <WebPages webPages={webPages} />
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
-    </React.Fragment>
+    </div>
   )
 }
 

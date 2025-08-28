@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.57.2 - 2025-08-28
+
+### Added
+
+- Added additional data-testid values that were missing for About sections ([#768](https://github.com/project-lux/lux-frontend/issues/768)).
+
 ## v1.57.1 - 2025-08-27
 
 ### Fixed
