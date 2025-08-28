@@ -65,7 +65,7 @@ const About: React.FC<IObject> = ({ entity }) => {
   } = aboutData as Record<string, any>
 
   return (
-    <StyledEntityPageSection className="row">
+    <StyledEntityPageSection className="row" data-testid="about-work">
       <Col xs={12}>
         <h2>About</h2>
       </Col>

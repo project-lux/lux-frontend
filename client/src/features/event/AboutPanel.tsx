@@ -45,7 +45,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
   } = aboutData as Record<string, any>
 
   return (
-    <React.Fragment>
+    <div data-testid="about-event">
       <h2 data-testid="event-about-header">About {name}</h2>
       <dl>
         {names !== null && (
@@ -129,7 +129,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
           )}
         {notes !== null && <NotesContainer notes={notes} expandColumns />}
       </dl>
-    </React.Fragment>
+    </div>
   )
 }
 
