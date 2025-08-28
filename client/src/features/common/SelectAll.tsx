@@ -19,10 +19,9 @@ const SelectAll: React.FC<ISelectAll> = ({ uuidsToAdd, scope }) => {
     (myCollectionsState) =>
       myCollectionsState.myCollections as IMyCollectionsResultsState,
   )
-  const { uuids } = currentMyCollectionState
+  const { uuids, scopeOfSelections } = currentMyCollectionState
   // The select all checkbox will be checked as long as there are 1 or more entities selected
-  const isSelectAllChecked = uuids.length > 0
-
+  const isSelectAllChecked = uuids.length > 0 && scopeOfSelections === scope
   // Handle the selection of the entity's checkbox
   const handleSelectAllCheckboxSelection = (): void => {
     if (isSelectAllChecked) {

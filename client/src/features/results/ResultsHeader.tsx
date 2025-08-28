@@ -4,6 +4,7 @@ import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { useAuth } from 'react-oidc-context'
+import { useDispatch } from 'react-redux'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -22,7 +23,10 @@ import CreateCollectionButton from '../myCollections/CreateCollectionButton'
 import AddToCollectionButton from '../myCollections/AddToCollectionButton'
 import ManageCollectionsButton from '../myCollections/ManageCollectionsButton'
 import { useAppSelector } from '../../app/hooks'
-import { IMyCollectionsResultsState } from '../../redux/slices/myCollectionsSlice'
+import {
+  IMyCollectionsResultsState,
+  resetState,
+} from '../../redux/slices/myCollectionsSlice'
 import { ISearchResults } from '../../types/ISearchResults'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
@@ -69,6 +73,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   resultsData,
   toggleView = false,
 }) => {
+  const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
@@ -150,18 +155,21 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   const handleCloseAddModal = (): void => {
     pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
     setShowAddToCollectionModal(false)
+    dispatch(resetState())
   }
 
   // event to handle the closing of the delete a collection modal
   const handleCloseDeleteCollectionModal = (): void => {
     setShowDeleteCollectionModal(false)
     pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+    dispatch(resetState())
   }
 
   // event to handle the closing of the create a collection modal
   const handleCloseCreateCollectionModal = (): void => {
-    pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
+    pushClientEvent('My Collections', 'Closed', 'Create Collections modal')
     setShowCreateCollectionModal(false)
+    dispatch(resetState())
   }
 
   let headerButtonsColWidth = 6

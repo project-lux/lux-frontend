@@ -29,6 +29,7 @@ interface IMyCollectionsModal {
   onClose: () => void
   showCreateNewModal: (x: boolean) => void
   userUuid?: string
+  addingSingleEntityFromEntityPage?: boolean
 }
 
 /**
@@ -44,6 +45,7 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
   onClose,
   showCreateNewModal,
   userUuid,
+  addingSingleEntityFromEntityPage = false,
 }) => {
   const auth = useAuth()
   const navigate = useNavigate()
@@ -72,7 +74,6 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
       myCollectionsState.myCollections as IMyCollectionsResultsState,
   )
   const { uuids } = currentMyCollectionState
-
   const handleClickCreateNew = (): void => {
     onClose()
     showCreateNewModal(true)
@@ -81,7 +82,7 @@ const AddToCollectionModal: React.FC<IMyCollectionsModal> = ({
   const handleAdd = (): void => {
     let recordsToAdd = uuids
     // If the user is not on the results page set the uuids to the current page
-    if (!pathname.includes('results')) {
+    if (addingSingleEntityFromEntityPage) {
       recordsToAdd = [getFormattedUuidFromPathname(pathname)]
     }
     const pathnameToRedirect =

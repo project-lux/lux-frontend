@@ -16,9 +16,10 @@ import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
+  titleOfTabbedContent?: string
 }
 
-const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
+const ConceptSnippet: React.FC<IProps> = ({ uri, titleOfTabbedContent }) => {
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -56,7 +57,11 @@ const ConceptSnippet: React.FC<IProps> = ({ uri }) => {
     return (
       <React.Fragment>
         <div className="m-2 d-flex">
-          <SnippetHeader data={data} snippetData={snippetDataComponent} />
+          <SnippetHeader
+            data={data}
+            snippetData={snippetDataComponent}
+            titleOfTabbedContent={titleOfTabbedContent}
+          />
         </div>
         <StyledHr width="100%" className="conceptSnippetHr" />
       </React.Fragment>
