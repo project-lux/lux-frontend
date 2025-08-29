@@ -105,7 +105,7 @@ const Containing: React.FC<{ data: IMyCollection }> = ({ data }) => {
           >
             <i className="bi bi-trash3" /> Remove
           </DangerButton>
-          <SelectAll uuidsToAdd={containing} scope="collections" />
+          <SelectAll uuidsToAdd={containing} scope="containing" />
         </Col>
         <StyledHr />
       </Row>

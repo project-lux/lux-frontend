@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.57.5 - Unreleased
+## v1.57.6 - 2025-08-29
+
+### Fixed
+
+- Fixed bug introduced when fixing checkbox state ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+
+## v1.57.5 - 2025-08-29
 
 ### Added
 
