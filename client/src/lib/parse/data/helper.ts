@@ -445,6 +445,10 @@ export function hasHalLinks(
  * @returns {string}
  */
 export function replaceBaseUrl(id: string): string {
+  if (id === undefined) {
+    return ''
+  }
+
   return id.replace(config.env.dataApiBaseUrl, '')
 }
 

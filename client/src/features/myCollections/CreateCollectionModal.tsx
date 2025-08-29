@@ -180,7 +180,6 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
                 ariaLabel="Select one or more classifications for the name"
                 className="editNameClassificationDropdownButton"
                 onCheck={handleSelectNameClassification}
-                required
                 indexOfData={0}
               />
             </Form.Group>
@@ -199,15 +198,6 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
             </Form.Group>
           </Row>
 
-          {/* <Form.Group id="formGridCheckbox">
-            <Form.Check
-              inline
-              type="checkbox"
-              checked={isDefault}
-              onChange={() => setIsDefault(!isDefault)}
-              label="Set as default collection"
-            />
-          </Form.Group> */}
           <Row>
             <Col className="d-flex justify-content-end">
               <PrimaryButton type="submit">Save</PrimaryButton>

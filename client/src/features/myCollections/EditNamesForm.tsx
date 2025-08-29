@@ -9,7 +9,10 @@ import MyCollectionParser from '../../lib/parse/data/MyCollectionParser'
 import theme from '../../styles/theme'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import INames from '../../types/myCollections/INames'
-import { commonClassifications } from '../../config/myCollections/classifications'
+import {
+  commonClassifications,
+  primaryNameUuid,
+} from '../../config/myCollections/classifications'
 import {
   commonLanguages,
   englishLanguageUuid,
@@ -37,7 +40,7 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
   const collectionNames = myCollection.getNamesForEditing()
   const defaultNamesData: INames = {
     name: '',
-    classifications: [],
+    classifications: [primaryNameUuid],
     languages: [englishLanguageUuid],
   }
   const [names, setNames] = useState<Array<INames>>(
