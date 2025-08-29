@@ -32,7 +32,7 @@ const SetSnippet: React.FC<ISearchData> = ({
   view,
   titleOfTabbedContent,
 }) => {
-  const { data, isSuccess, isLoading } = useGetItemQuery({
+  const { data, isSuccess, isLoading, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
   })
@@ -154,11 +154,15 @@ const SetSnippet: React.FC<ISearchData> = ({
     )
   }
 
-  return (
-    <div className="error">
-      <h3>An error occurred fetching the data.</h3>
-    </div>
-  )
+  if (isError && !config.env.luxEnv.includes('production')) {
+    return (
+      <div className="error">
+        <h3>An error occurred fetching the data.</h3>
+      </div>
+    )
+  }
+
+  return null
 }
 
 export default SetSnippet

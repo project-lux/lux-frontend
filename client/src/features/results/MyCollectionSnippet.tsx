@@ -13,6 +13,7 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import Editor from '../myCollections/Editor'
+import config from '../../config/config'
 
 import SnippetHeader from './SnippetHeader'
 
@@ -27,7 +28,7 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({
   view,
   titleOfTabbedContent,
 }) => {
-  const { data, isSuccess, isLoading } = useGetItemQuery({
+  const { data, isSuccess, isLoading, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
   })
@@ -151,11 +152,15 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({
     )
   }
 
-  return (
-    <div className="error">
-      <h3>An error occurred fetching the data.</h3>
-    </div>
-  )
+  if (isError && !config.env.luxEnv.includes('production')) {
+    return (
+      <div className="error">
+        <h3>An error occurred fetching the data.</h3>
+      </div>
+    )
+  }
+
+  return null
 }
 
 export default MyCollectionSnippet
