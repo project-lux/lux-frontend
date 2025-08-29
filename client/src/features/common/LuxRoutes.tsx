@@ -16,6 +16,7 @@ import theme from '../../styles/theme'
 import AdvancedSearchConfig from '../advancedSearchConfig/AdvancedSearchConfig'
 // import PrivateRoute from '../myCollections/PrivateRoute'
 // import Callback from '../myCollections/LoginCallback'
+import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import Footer from './Footer'
 
@@ -36,6 +37,9 @@ const RedirectOldProd: React.FC = () => {
 }
 
 const LuxRoutes: React.FC = () => {
+  const auth = useAuthentication()
+  const forceRefetch = auth.isAuthenticated
+
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
   const [showMobileAlert] = useState<boolean>(
@@ -50,7 +54,8 @@ const LuxRoutes: React.FC = () => {
       uri: pathname.replace('/view/', ''),
     },
     {
-      skip: isNotAnEntityPage,
+      skip: auth.isLoading === true || isNotAnEntityPage,
+      forceRefetch,
     },
   )
 

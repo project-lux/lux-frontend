@@ -2,11 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.57.5 - 2025-08-29
+## v1.57.5 - Unreleased
 
 ### Added
 
 - Added temporary fix for deleting collections that are part of another collection ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
+
+### Fixed
+
+- Fixed configuration issues for classifications and languages ([#654](https://github.com/project-lux/lux-frontend/issues/654)).
+- Fixed form issues for editing a collection ([#657](https://github.com/project-lux/lux-frontend/issues/657)).
+- Fixed form issues for creating a collection ([#660](https://github.com/project-lux/lux-frontend/issues/660)).
 
 ## v1.57.4 - 2025-08-28
 

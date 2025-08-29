@@ -4,6 +4,7 @@ import { Dropdown } from 'react-bootstrap'
 import StyledDropdown from '../../styles/shared/Dropdown'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import ApiText from '../common/ApiText'
+import { replaceBaseUrl } from '../../lib/parse/data/helper'
 
 import DropdownOption from './DropdownOption'
 
@@ -51,7 +52,12 @@ const MultiSelectDropdown: React.FC<IMultiSelectDropdown> = ({
   }
   const dropdownButtonText =
     selectedOptions.length > 0
-      ? selectedOptions.map((sO) => options[sO]).join(', ')
+      ? selectedOptions
+          .map((sO) => {
+            const newKey = replaceBaseUrl(sO)
+            return options[newKey]
+          })
+          .join(', ')
       : 'Select'
 
   return (

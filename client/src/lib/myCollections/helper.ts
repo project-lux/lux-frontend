@@ -20,6 +20,14 @@ export const getUsername = (auth: AuthContextProps): string | undefined => {
   return undefined
 }
 
+export const getFormattedUuidForSubmission = (uuid: string): string => {
+  if (uuid.includes(config.env.dataApiBaseUrl)) {
+    return uuid
+  }
+
+  return `${config.env.dataApiBaseUrl}${uuid}`
+}
+
 export const getFormattedUuidFromPathname = (uuid: string): string =>
   `${config.env.dataApiBaseUrl}${uuid.replace('/view', 'data')}`
 
@@ -39,6 +47,24 @@ export const getBaseCollectionObject = (): IEntity => {
   return {
     type: 'Set',
   }
+}
+
+const getFormattedUuids = (
+  type: string,
+  listOfUuids?: Array<string>,
+): Array<IConcept> => {
+  if (!isUndefined(listOfUuids)) {
+    return listOfUuids.map((uuid) => {
+      return {
+        id:
+          uuid === config.aat.personalCollection
+            ? config.aat.personalCollection
+            : getFormattedUuidForSubmission(uuid),
+        type,
+      }
+    })
+  }
+  return []
 }
 
 /**
@@ -61,14 +87,7 @@ export const createCollectionObject = (
     content: name,
   }
   // Format languages of name data
-  const nameLanguagesToAdd = !isUndefined(languages)
-    ? languages.map((l) => {
-        return {
-          id: l,
-          type: 'Language',
-        }
-      })
-    : []
+  const nameLanguagesToAdd = getFormattedUuids('Language', languages)
 
   // Add languages to the new name object
   if (nameLanguagesToAdd.length > 0) {
@@ -76,14 +95,7 @@ export const createCollectionObject = (
   }
 
   // Format classifications of name data
-  const nameClassificationsToAdd = !isUndefined(classifications)
-    ? classifications.map((cl) => {
-        return {
-          id: cl,
-          type: 'Type',
-        }
-      })
-    : []
+  const nameClassificationsToAdd = getFormattedUuids('Type', classifications)
 
   // Add classifications to the new name object
   if (nameClassificationsToAdd.length > 0) {
@@ -191,14 +203,7 @@ export const addNamesToCollectionObject = (
       content: name,
     }
     // Format languages data
-    const languagesToAdd = !isUndefined(languages)
-      ? languages.map((l) => {
-          return {
-            id: l,
-            type: 'Language',
-          }
-        })
-      : []
+    const languagesToAdd = getFormattedUuids('Language', languages)
 
     // Add languages
     if (languagesToAdd.length > 0) {
@@ -206,14 +211,7 @@ export const addNamesToCollectionObject = (
     }
 
     // Format classifications data
-    const classificationsToAdd = !isUndefined(classifications)
-      ? classifications.map((cl) => {
-          return {
-            id: cl,
-            type: 'Type',
-          }
-        })
-      : []
+    const classificationsToAdd = getFormattedUuids('Type', classifications)
 
     // Add languages
     if (classificationsToAdd.length > 0) {
@@ -240,12 +238,7 @@ export const addClassificationsToCollectionObject = (
   listOfClassifications: Array<string>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
-  const classificationsToAdd = listOfClassifications.map((cl) => {
-    return {
-      type: 'Type',
-      id: cl,
-    }
-  })
+  const classificationsToAdd = getFormattedUuids('Type', listOfClassifications)
 
   collectionCopy.classified_as = classificationsToAdd
 
@@ -307,16 +300,10 @@ export const addWebpagesToCollectionObject = (
   listOfWebpages: Array<IWebpages>,
 ): IMyCollection => {
   const collectionCopy = JSON.parse(JSON.stringify(collection))
-  const wepagesToAdd = listOfWebpages.map((wp) => {
+  const webpagesToAdd = listOfWebpages.map((wp) => {
     const { link, contentIdentifier, languages } = wp
-    const languagesToAdd = !isUndefined(languages)
-      ? languages.map((l) => {
-          return {
-            id: l,
-            type: 'Language',
-          }
-        })
-      : undefined
+    const languagesToAdd = getFormattedUuids('Language', languages)
+
     return {
       id: '',
       type: 'LinguisticObject',
@@ -359,7 +346,7 @@ export const addWebpagesToCollectionObject = (
     }
   })
 
-  collectionCopy.subject_of = wepagesToAdd
+  collectionCopy.subject_of = webpagesToAdd
 
   return collectionCopy
 }
@@ -383,14 +370,7 @@ export const addNotesToCollectionObject = (
       content,
     }
     // Format languages data
-    const languagesToAdd = !isUndefined(languages)
-      ? languages.map((l) => {
-          return {
-            id: l,
-            type: 'Language',
-          }
-        })
-      : []
+    const languagesToAdd = getFormattedUuids('Language', languages)
 
     // Add languages
     if (languagesToAdd.length > 0) {
@@ -398,28 +378,14 @@ export const addNotesToCollectionObject = (
     }
 
     // Format classifications data
-    const classificationsToAdd = !isUndefined(classifications)
-      ? classifications.map((cl) => {
-          return {
-            id: cl,
-            type: 'Type',
-          }
-        })
-      : []
+    const classificationsToAdd = getFormattedUuids('Type', classifications)
 
     // Add languages
     if (classificationsToAdd.length > 0) {
       newNoteObject.classified_as = classificationsToAdd
     }
     // Format label language data
-    const labelLanguagesToAdd = !isUndefined(labelLanguages)
-      ? labelLanguages.map((l) => {
-          return {
-            id: l,
-            type: 'Language',
-          }
-        })
-      : []
+    const labelLanguagesToAdd = getFormattedUuids('Language', labelLanguages)
 
     // Format label data
     const identifiedByToAdd: IEntity =

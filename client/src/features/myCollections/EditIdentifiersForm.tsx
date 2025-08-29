@@ -98,19 +98,27 @@ const EditIdentifiersFrom: React.FC<IProps> = ({ data, onClose }) => {
     setIdentifiers([...identifiers, ''])
   }
 
-  // Set the save button to disabled on default
-  let isSaveButtonDisabled = true
-  // Set the save button to not disabled if there is even 1 form input that is valid
-  identifiers.map((id) => {
-    if (id !== '') {
-      isSaveButtonDisabled = false
-    }
-  })
+  // // Set the save button to disabled on default
+  // let isSaveButtonDisabled = true
+  // // Set the save button to not disabled if there is even 1 form input that is valid
+  // identifiers.map((id) => {
+  //   if (id !== '') {
+  //     isSaveButtonDisabled = false
+  //   }
+  // })
 
   return (
     <Form onSubmit={handleSave}>
       <Row className="mb-3">
         <Form.Group as={Col} controlId="identifierFormGroup">
+          {identifiers.length === 0 ? (
+            <p>
+              There are currently no identifiers. Save to remove all
+              identifiers.
+            </p>
+          ) : (
+            <p>Delete all input fields to remove all identifiers.</p>
+          )}
           {identifiers.map((i, ind) => (
             <Row>
               <Col xs={9} className="d-flex align-items-center mb-2">
@@ -118,23 +126,22 @@ const EditIdentifiersFrom: React.FC<IProps> = ({ data, onClose }) => {
                   <strong>Identifier {ind + 1}</strong>
                 </Form.Label>
               </Col>
-              {identifiers.length > 1 && (
-                <Col xs={3} className="d-flex justify-content-end">
-                  <StyledDeleteButton
-                    aria-label={`Delete Identifier ${ind}`}
-                    onClick={() => handleRemoveIdentifier(ind)}
-                    className="mb-2"
-                  >
-                    <i className="bi bi-trash3 fs-4" />
-                  </StyledDeleteButton>
-                </Col>
-              )}
+              <Col xs={3} className="d-flex justify-content-end">
+                <StyledDeleteButton
+                  aria-label={`Delete Identifier ${ind}`}
+                  onClick={() => handleRemoveIdentifier(ind)}
+                  className="mb-2"
+                >
+                  <i className="bi bi-trash3 fs-4" />
+                </StyledDeleteButton>
+              </Col>
               <Col xs={12} className="mb-2">
                 <Form.Control
                   type="text"
                   value={i}
                   placeholder={i !== '' ? i : 'Enter an identifier...'}
                   onChange={(e) => handleInputChange(e, ind)}
+                  required
                 />
               </Col>
             </Row>
@@ -154,9 +161,7 @@ const EditIdentifiersFrom: React.FC<IProps> = ({ data, onClose }) => {
           </SecondaryButton>
         </Col>
         <Col className="d-flex justify-content-end">
-          <PrimaryButton type="submit" disabled={isSaveButtonDisabled}>
-            Save
-          </PrimaryButton>
+          <PrimaryButton type="submit">Save</PrimaryButton>
         </Col>
       </Row>
     </Form>
