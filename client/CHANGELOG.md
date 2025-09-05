@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.57.7 - 2025-09-05
+
+### Fixed
+
+- Fixed bug where RecordLinks do not check for null URLs
+
 ## v1.57.6 - 2025-08-29
 
 ### Fixed
