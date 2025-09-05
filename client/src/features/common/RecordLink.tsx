@@ -46,8 +46,9 @@ const RecordLink: React.FC<ISearchData> = ({
   ariaRoleDescription = 'link',
   style,
 }) => {
-  const skip = url === undefined || name !== undefined
-  const strippedUrl = url !== undefined ? stripYaleIdPrefix(url) : ''
+  const skip = url === undefined || url === null || name !== undefined
+  const strippedUrl =
+    url !== undefined && url !== null ? stripYaleIdPrefix(url) : ''
   const { data, isSuccess, isLoading, isError } = useGetNameQuery(
     { uri: strippedUrl },
     { skip },
