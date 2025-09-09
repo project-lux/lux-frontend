@@ -3,12 +3,28 @@ import react from '@vitejs/plugin-react'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 import eslint from 'vite-plugin-eslint'
 
+function logRequests(server) {
+  server.middlewares.use((req, _, next) => {
+    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
+    next() // Important: Call next() to pass the request to the next middleware
+  })
+}
+
 export default defineConfig(({ command, mode }) => {
   const env = loadEnv(mode, process.cwd(), '')
   // depending on your application, base can also be "/"
   return {
     base: '/',
-    plugins: [react(), viteTsconfigPaths(), eslint()],
+    plugins: [
+      react(),
+      viteTsconfigPaths(),
+      eslint(),
+      {
+        name: 'requestLogger',
+        configurePreviewServer: logRequests, // Log in preview mode
+        configureServer: logRequests, // Log in development mode
+      },
+    ],
     // vite config
     define: {
       __APP_ENV__: JSON.stringify(env.APP_ENV),
