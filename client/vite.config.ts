@@ -4,8 +4,10 @@ import viteTsconfigPaths from 'vite-tsconfig-paths'
 import eslint from 'vite-plugin-eslint'
 
 function logRequests(server) {
-  server.middlewares.use((req, _, next) => {
-    console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
+  server.middlewares.use((req, res, next) => {
+    console.log(
+      `[${new Date().toISOString()}] ${req.method} ${req.url}, ${res.statusCode}`,
+    )
     next() // Important: Call next() to pass the request to the next middleware
   })
 }
