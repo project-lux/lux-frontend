@@ -2,6 +2,8 @@ import { defineConfig, loadEnv } from 'vite'
 import react from '@vitejs/plugin-react'
 import viteTsconfigPaths from 'vite-tsconfig-paths'
 import eslint from 'vite-plugin-eslint'
+import fs from 'fs';
+import path from 'path';
 
 function logRequests(server) {
   server.middlewares.use((req, res, next) => {
@@ -34,7 +36,12 @@ export default defineConfig(({ command, mode }) => {
     envPrefix: 'REACT_',
     server: {
       // this ensures that the browser opens upon server start
-      open: true,
+      open: false,
+      https: {
+        key: fs.readFileSync(path.resolve(__dirname, 'cert/key.pem')),
+        cert: fs.readFileSync(path.resolve(__dirname, 'cert/cert.pem')),
+      },
+      host: '0.0.0.0', // allows access from other devices
       // this sets a default port to 3000
       port: 3000,
     },
