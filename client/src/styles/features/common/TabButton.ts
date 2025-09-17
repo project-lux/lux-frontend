@@ -38,7 +38,7 @@ export const StyledTabButton = styled.button`
     text-align: center;
     font-weight: 500;
     width: 100%;
-    height: 80%;
+    height: 90%;
 
     &:hover {
       color: #000;

@@ -174,6 +174,7 @@ const spacing = {
   // = 40px - 12px = 28px
   // sectionPaddingX: '28px',
   sectionPaddingX: '25px',
+  tabPaddingX: '10px',
 
   // Spacing between line items
   verticalItemSingleSpacing: '0.5rem',
