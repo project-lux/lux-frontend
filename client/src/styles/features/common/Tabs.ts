@@ -18,8 +18,8 @@ const StyledTabs = styled.div`
 
   button.nav-link {
     margin-bottom: 16px;
-    padding-left: ${theme.spacing.sectionPaddingX};
-    padding-right: ${theme.spacing.sectionPaddingX};
+    padding-left: ${theme.spacing.tabPaddingX};
+    padding-right: ${theme.spacing.tabPaddingX};
   }
 `
 

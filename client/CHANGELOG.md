@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.58.0 - 2025-09-22
+
+### Fixed
+
+- Fixed overflowing text on entity page tabs ([#697](https://github.com/project-lux/lux-frontend/issues/697)).
+
 ## v1.57.7 - 2025-09-05
 
 ### Fixed
