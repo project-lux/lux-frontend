@@ -9,7 +9,7 @@ const StyledNavLink = styled(NavLink)`
   letter-spacing: 0;
   text-align: center;
   display: block;
-  padding: 12px 12px 12px;
+  padding: 12px 26px;
   text-decoration: none;
   border-radius: ${theme.border.radius};
   width: 100%;
