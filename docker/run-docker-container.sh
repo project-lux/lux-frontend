@@ -3,7 +3,7 @@
 PORT=${PORT:-8080}
 IMAGE=${DOCKER_IMAGE:-lux-frontend}
 CONTAINER=${DOCKER_CONTAINER_NAME:-lux-frontend}
-HOST_CONFIG_JSON=$(pwd)/config.json
+HOST_CONFIG_JSON=$(pwd)/docker/config.json
 
 # By setting USE_LOCAL_CONFIG_JSON to yes, container will use local config.json
 # instead of trying to# download it from S3, which requires kms:Decrypt privelege.

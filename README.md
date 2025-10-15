@@ -49,8 +49,7 @@ The files build-docker-image.sh, run-docker-container.sh, and config.json are cr
 ### Build
 
 ```bash
-cd docker
-./build-docker-image.sh
+./docker/build-docker-image.sh
 ```
 
 ### Config
@@ -64,8 +63,7 @@ cp config.json.template config.json
 ### Run
 
 ```
-cd docker
-./run-docker-container.sh
+./docker/run-docker-container.sh
 ```
 
 It will bring up the server at port 8080 by default.
