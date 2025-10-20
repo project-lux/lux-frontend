@@ -11,6 +11,7 @@ RUN unzip awscliv2.zip
 RUN ./aws/install
 RUN rm -rf ./aws
 RUN rm awscliv2.zip
+RUN cd /src/client/ && cp index.html public/
 RUN cd /src/client/ && yarn install
 RUN cd /src/client/ && npx browserslist@latest --update-db
 RUN cd /src/client/ && yarn build
