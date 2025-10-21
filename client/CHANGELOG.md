@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file.
 
+## Unreleased
+
 ## v1.59.0 - 2025-10-06
 
 ### Fixed
