@@ -34,10 +34,15 @@ const About: React.FC<IProps> = ({ data }) => {
   // Is the user authenticated
   const auth = useAuth()
 
+  const username = auth.user?.profile['cognito:username']
+
   // get the current logged in user's record
-  const { data: userData, isSuccess } = useGetUserResultsQuery({
-    username: auth.user?.profile['cognito:username'],
-  })
+  const { data: userData, isSuccess } = useGetUserResultsQuery(
+    {
+      username,
+    },
+    { skip: !auth.isAuthenticated || !username },
+  )
 
   const dispatch = useDispatch()
   const { pathname } = useLocation()

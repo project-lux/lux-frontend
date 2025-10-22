@@ -82,10 +82,15 @@ const RelatedObjectsWorksAndCollections: React.FC<IRelated> = ({
 
   useResizeableWindow(setIsMobile)
 
+  const username = auth.user?.profile['cognito:username']
+
   // get the current logged in user's record
-  const { data } = useGetUserResultsQuery({
-    username: auth.user?.profile['cognito:username'],
-  })
+  const { data } = useGetUserResultsQuery(
+    {
+      username,
+    },
+    { skip: !auth.isAuthenticated || !username },
+  )
 
   if (!isUndefined(links)) {
     const tabs = tabsChildren(links, relationships, isMobile, data)

@@ -23,15 +23,15 @@ const SeparatingLine = styled.div`
   margin-left: 10px;
 `
 
-const HeaderExpander = styled.div<{ displaySearch: boolean }>`
-  height: ${(props) => (props.displaySearch ? 'auto' : '0px')};
-  opacity: ${(props) => (props.displaySearch ? '100%' : '0%')};
+const HeaderExpander = styled.div<{ $displaySearch: boolean }>`
+  height: ${(props) => (props.$displaySearch ? 'auto' : '0px')};
+  opacity: ${(props) => (props.$displaySearch ? '100%' : '0%')};
   transition-property: height;
   transition-duration: ${headerTransitionDuration};
   transition-timing-function: ease-in-out;
   width: 100%;
   background-color: ${theme.color.primary.darkBlue};
-  display: ${(props) => (props.displaySearch ? 'block' : 'none')};
+  display: ${(props) => (props.$displaySearch ? 'block' : 'none')};
 
   margin: 0;
   padding-right: 1rem;
@@ -191,7 +191,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-      <HeaderExpander displaySearch={displaySearch}>
+      <HeaderExpander $displaySearch={displaySearch}>
         <SearchContainer
           className="headerSearchContainer"
           bgColor={theme.color.primary.darkBlue}
