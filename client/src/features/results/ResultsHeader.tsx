@@ -86,10 +86,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   // Is the user authenticated
   const auth = useAuth()
 
+  const username = auth.user?.profile['cognito:username']
+
   // get the current logged in user's record
-  const { data, isSuccess } = useGetUserResultsQuery({
-    username: auth.user?.profile['cognito:username'],
-  })
+  const { data, isSuccess } = useGetUserResultsQuery(
+    {
+      username,
+    },
+    { skip: !auth.isAuthenticated || !username },
+  )
 
   // const userIsAuthenticated = true
   const userIsAuthenticated = auth.isAuthenticated

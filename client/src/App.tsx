@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
 import { AuthProvider } from 'react-oidc-context'
 
@@ -26,52 +25,54 @@ const Error = styled.div`
   margin: 0.4rem 0.6rem;
 `
 
+function embedBugherdScript(): void {
+  const script = document.createElement('script')
+
+  script.type = 'text/javascript'
+  script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
+  script.async = true
+
+  document.body.appendChild(script)
+}
+
 const App: React.FC = () => {
-  const [envLoaded, setEnvLoaded] = useState(false)
-  const [asConfigLoaded, setAsConfigLoaded] = useState(false)
+  // All configs have been loaded (or failed to load)
+  const [initialized, setInitialized] = useState(false)
+
+  // Fetch environment variables from the frontend server
   const envResult = useGetEnvQuery()
 
-  // Skip will be passed to config query endpoints if local env exists or if it hasn't loaded
-  const skip =
-    envLoaded || (envResult.isError && config.hasLocalEnv)
-      ? undefined
-      : skipToken
+  // Fetch advanced search configuration from the backend
+  const asConfigResults = useGetAdvancedSearchConfigQuery()
 
-  const asConfigResults = useGetAdvancedSearchConfigQuery(skip)
+  const hasRemoteEnv = envResult.isSuccess && envResult.data
+  const hasAdvancedSearchConfig =
+    asConfigResults.isSuccess && asConfigResults.data
+
+  const succeeded =
+    (hasRemoteEnv || config.hasLocalEnv) &&
+    (hasAdvancedSearchConfig || config.env.cacheViewerMode)
+  const failed =
+    (envResult.isError && !config.hasLocalEnv) || asConfigResults.isError
+
+  // uninitialized -> initialized
+  if (!initialized && (succeeded || failed)) {
+    if (hasRemoteEnv) {
+      config.setServerConfig(envResult.data)
+    } else if (config.hasLocalEnv) {
+      console.log('server env is not available, using local env')
+    }
+    if (hasAdvancedSearchConfig) {
+      config.setAdvancedSearch(asConfigResults.data)
+    }
+    setInitialized(true)
+  }
 
   useEffect(() => {
-    if (envLoaded && !config.env.luxEnv.includes('production')) {
-      const script = document.createElement('script')
-
-      script.type = 'text/javascript'
-      script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
-      script.async = true
-
-      document.body.appendChild(script)
+    if (initialized && !config.env.luxEnv.includes('production')) {
+      embedBugherdScript()
     }
-  }, [envLoaded])
-
-  if (!envLoaded && envResult.isSuccess && envResult.data) {
-    config.setServerConfig(envResult.data)
-    setEnvLoaded(true)
-  }
-
-  if (!asConfigLoaded && asConfigResults.isSuccess && asConfigResults.data) {
-    config.setAdvancedSearch(asConfigResults.data)
-    setAsConfigLoaded(true)
-  }
-
-  if (config.env.maintenanceMode) {
-    return <Maintenance>{config.env.maintenanceMessage}</Maintenance>
-  }
-
-  if (envResult.isError) {
-    console.error('failed to load env')
-  }
-
-  if (asConfigResults.isError) {
-    console.error('failed to load advanced search config')
-  }
+  }, [initialized])
 
   if (envResult.isLoading) {
     return <p>Loading env...</p>
@@ -81,19 +82,18 @@ const App: React.FC = () => {
     return <p>Loading advanced search configuration...</p>
   }
 
-  const envReady = envResult.isSuccess || config.hasLocalEnv
-
   let errorMessage = null
 
-  if (
-    (!envResult.isSuccess && !config.hasLocalEnv) ||
-    !asConfigResults.isSuccess
-  ) {
+  if (failed) {
     errorMessage =
       'Configuration from the backend failed to load. This may limit the functionality of the frontend.'
   }
 
-  if (envReady || config.env.cacheViewerMode) {
+  if (initialized && config.env.maintenanceMode) {
+    return <Maintenance>{config.env.maintenanceMessage}</Maintenance>
+  }
+
+  if (initialized) {
     return (
       <AuthProvider
         authority={config.env.oidcAuthority}
@@ -118,16 +118,6 @@ const App: React.FC = () => {
           <Routes />
         </Router>
       </AuthProvider>
-    )
-  }
-
-  if (!envReady) {
-    return (
-      <NoResultsAlert
-        message="Configuration failed to load. Please check that all configuration is in place."
-        variant="danger"
-        className="d-flex justify-content-center mb-0"
-      />
     )
   }
 

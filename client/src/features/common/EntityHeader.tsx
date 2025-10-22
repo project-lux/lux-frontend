@@ -76,10 +76,15 @@ const EntityHeader: React.FC<IEntityHeader> = ({
     state: IRouteState
   }
 
+  const username = auth.user?.profile['cognito:username']
+
   // get the current logged in user's record
-  const { data, isSuccess } = useGetUserResultsQuery({
-    username: auth.user?.profile['cognito:username'],
-  })
+  const { data, isSuccess } = useGetUserResultsQuery(
+    {
+      username,
+    },
+    { skip: !isAuthenticated || !username },
+  )
 
   const [showAddToCollectionModal, setShowAddToCollectionModal] =
     useState<boolean>(false)

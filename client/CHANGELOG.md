@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Fixed
+
+- Fixed UV not updating itself when manifest URL has changed ([#751](https://github.com/project-lux/lux-frontend/issues/751)).
+- Fixed bogus search request ([#795](https://github.com/project-lux/lux-frontend/issues/795)).
+
 ## v1.59.0 - 2025-10-06
 
 ### Fixed
