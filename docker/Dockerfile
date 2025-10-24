@@ -1,4 +1,4 @@
-FROM node:20.18.0-bookworm-slim
+FROM node:22.21.0-bookworm-slim
 
 RUN mkdir /src
 ADD . /src

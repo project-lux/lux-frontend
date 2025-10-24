@@ -39,9 +39,7 @@ const WorksResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement> =>
+  const resultsList = (results: Array<IOrderedItems>): Array<JSX.Element> =>
     results.map((result) => (
       <WorksSnippet key={result.id} uri={result.id} view={view} />
     ))

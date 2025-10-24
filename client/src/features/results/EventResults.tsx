@@ -44,7 +44,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
 
   const resultsList = (
     results: Array<IOrderedItems>,
-  ): Array<React.ReactElement> =>
+  ): Array<React.ReactElement<any>> =>
     results.map((result) => <EventSnippet key={result.id} uri={result.id} />)
 
   let estimate = 0

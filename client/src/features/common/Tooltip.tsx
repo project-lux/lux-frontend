@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import ReactTooltip from 'react-bootstrap/Tooltip'
 import sanitizeHtml from 'sanitize-html'

@@ -18,7 +18,7 @@ export default class ConceptParser extends EntityParser {
    * Returns data from /broader
    * @returns {string}
    */
-  getBroaderId(): string {
+  getBroaderId(): string | null {
     const broader = forceArray(this.concept.broader)
 
     return broader.length > 0 ? broader[0].id || null : null

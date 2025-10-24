@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { isUndefined } from 'lodash'
 
 import IAgent from '../../../types/data/IAgent'

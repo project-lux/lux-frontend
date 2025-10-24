@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { IFacetsPagination } from '../../types/IFacets'

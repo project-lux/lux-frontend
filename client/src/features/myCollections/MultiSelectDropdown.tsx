@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, JSX, useState } from 'react'
 import { Dropdown } from 'react-bootstrap'
 
 import StyledDropdown from '../../styles/shared/Dropdown'
@@ -30,7 +30,7 @@ interface IMultiSelectDropdown {
  * @param {() => void} onCheck the function to call when an option is selected
  * @returns {JSX.Element}
  */
-const MultiSelectDropdown: React.FC<IMultiSelectDropdown> = ({
+const MultiSelectDropdown = ({
   id,
   className,
   ariaLabel,
@@ -38,7 +38,7 @@ const MultiSelectDropdown: React.FC<IMultiSelectDropdown> = ({
   selectedOptions,
   indexOfData,
   onCheck,
-}) => {
+}: IMultiSelectDropdown): JSX.Element => {
   const [show, setShow] = useState<boolean>(false)
 
   const handleClickDropdownButton = (): void => {

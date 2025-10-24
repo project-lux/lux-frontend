@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 const SelectionList: React.FC<{
   children: Array<JSX.Element>

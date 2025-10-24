@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import IEntity from '../../types/data/IEntity'

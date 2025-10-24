@@ -45,9 +45,7 @@ const PersonResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     errorMessage = error.data.errorMessage
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement> =>
+  const resultsList = (results: Array<IOrderedItems>): JSX.Element[] =>
     results.map((result) => (
       <PersonSnippet key={result.id} uri={result.id} view={view} />
     ))
