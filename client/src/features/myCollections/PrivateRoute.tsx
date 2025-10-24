@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import { useAuth } from 'react-oidc-context'
 
 import ErrorPage from '../error/ErrorPage'

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, type JSX } from 'react'
 
 import { getColumnWidth } from '../../lib/util/ui'
 import StyledHr from '../../styles/shared/Hr'
@@ -37,8 +37,15 @@ const NotesContainer: React.FC<INotes> = ({
   const [textValueWidth, textLabelWidth] = getColumnWidth(expandColumns)
 
   const formatTextNote = (noteData: Array<INoteContent>): JSX.Element[] =>
-    // eslint-disable-next-line
-    noteData.map((note, ind) => <TextNote key={ind} content={note.content} id={`${id}-${ind}`} language={note.language} htmlContent={note._content_html} />)
+    noteData.map((note, ind) => (
+      <TextNote
+        key={ind}
+        content={note.content}
+        id={`${id}-${ind}`}
+        language={note.language}
+        htmlContent={note._content_html}
+      />
+    ))
 
   const length = 20
 

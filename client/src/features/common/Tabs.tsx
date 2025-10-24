@@ -9,7 +9,8 @@ import MobileNavigation from './MobileNavigation'
 // import MobileNavigation from './MobileNavigation'
 
 interface ITabChildren {
-  children: Array<ReactElement | null>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  children: Array<ReactElement<any> | null>
 }
 
 // Only used for the RelatedObjectsAndWorks component

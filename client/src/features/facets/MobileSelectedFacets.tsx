@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import styled from 'styled-components'
 import { Col } from 'react-bootstrap'
 import { isUndefined } from 'lodash'

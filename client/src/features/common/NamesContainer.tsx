@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, type JSX } from 'react'
 import { useLocation } from 'react-router-dom'
 
 import StyledHr from '../../styles/shared/Hr'

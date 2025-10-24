@@ -43,7 +43,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
 
   const resultsList = (
     results: Array<IOrderedItems>,
-  ): Array<React.ReactElement> =>
+  ): Array<React.ReactElement<any>> =>
     results.map((result) => <PlaceSnippet key={result.id} uri={result.id} />)
 
   let estimate = 0

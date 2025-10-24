@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 // import { isNull } from 'lodash'
 import { useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'

@@ -206,7 +206,6 @@ const Graph: React.FC<IProps> = ({
             stroke={theme.color.primary.blue}
             startIndex={startIndex}
             endIndex={endIndex}
-            data={graphData}
             onDragEnd={(e: any) => {
               const start = e.startIndex
               const end = e.endIndex

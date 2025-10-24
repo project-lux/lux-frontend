@@ -1,3 +1,5 @@
+import type { JSX } from 'react'
+
 import config from '../../config/config'
 import ConceptSnippet from '../results/ConceptSnippet'
 import EventSnippet from '../results/EventSnippet'

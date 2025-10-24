@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, type JSX } from 'react'
 import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'

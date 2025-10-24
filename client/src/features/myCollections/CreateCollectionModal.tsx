@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, JSX, useState } from 'react'
 import { Col, Form, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
@@ -35,10 +35,10 @@ interface IMyCollectionsModal {
  * @param {() => void} onClose function to close the modal
  * @returns
  */
-const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
+const CreateCollectionModal = ({
   showModal,
   onClose,
-}) => {
+}: IMyCollectionsModal): JSX.Element => {
   useAuthentication()
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -114,6 +114,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     onClose()
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSelectNameClassification = (e: ChangeEvent<any>): void => {
     const { value } = e.target
     const newClassifications = [...selectedClassifications]
@@ -127,6 +128,7 @@ const CreateCollectionModal: React.FC<IMyCollectionsModal> = ({
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleSelectNameLanguage = (e: ChangeEvent<any>): void => {
     const { value } = e.target
     const newLanguages = [...selectedLanguages]

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Col, Row } from 'react-bootstrap'

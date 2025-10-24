@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, type JSX } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
 import { useAuth } from 'react-oidc-context'
