@@ -27,7 +27,8 @@ const ProductionSnippet: React.FC<IProducedBy> = ({
           <StyledDt>{label}</StyledDt>
           <StyledDd data-testid="production-snippet-agent-data">
             {agents.slice(0, 3).map((agent, ind) => (
-              <span>
+              <span key={`${agent}-${ind}`}>
+                BB
                 <RecordLink url={agent} />
                 {ind !== 2 ? ', ' : ' '}
               </span>

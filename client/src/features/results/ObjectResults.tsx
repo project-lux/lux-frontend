@@ -63,7 +63,7 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
 
   return (
     <StyledEntityResultsRow
-      borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
+      $borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
     >
       {(isSuccess || isError) && (
         <Col xs={12}>

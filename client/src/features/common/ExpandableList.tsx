@@ -44,7 +44,7 @@ const ExpandableList: React.FC<IList> = ({
     return (
       <div className={`${className} col-sm-12`}>
         {children}
-        <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
+        <StyledHr width="100%" $hiddenOnDesktop className={hrClassName} />
       </div>
     )
   }
@@ -89,7 +89,7 @@ const ExpandableList: React.FC<IList> = ({
           Show Less
         </button>
       )}
-      <StyledHr width="100%" hiddenOnDesktop className={hrClassName} />
+      <StyledHr width="100%" $hiddenOnDesktop className={hrClassName} />
     </div>
   )
 }

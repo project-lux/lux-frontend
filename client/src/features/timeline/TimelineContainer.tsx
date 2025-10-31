@@ -157,7 +157,7 @@ const TimelineContainer: React.FC<{
               </div>
             </StyledButtonCol>
           </Row>
-          <Hr hiddenOnDesktop width="100%" className="mb-2" />
+          <Hr $hiddenOnDesktop width="100%" className="mb-2" />
           <TimelineData
             display={display}
             sortedKeys={sortedTimelineYears}

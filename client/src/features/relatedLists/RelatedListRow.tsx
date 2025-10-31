@@ -170,7 +170,7 @@ const RelatedListRow: React.FC<{
           )}
         </dl>
       </Col>
-      <StyledHr className="mb-3 relatedListRowHr" hiddenOnDesktop />
+      <StyledHr className="mb-3 relatedListRowHr" $hiddenOnDesktop />
     </Row>
   )
 }

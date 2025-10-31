@@ -40,7 +40,7 @@ const TextNote: React.FC<ITextNote> = ({
         <div className="noteContent" style={{ whiteSpace: 'pre-line' }}>
           {isHtml ? (
             <React.Fragment>
-              <p
+              <div
                 dangerouslySetInnerHTML={{
                   __html: sanitizeHtml(htmlContent || content),
                 }}
@@ -54,12 +54,12 @@ const TextNote: React.FC<ITextNote> = ({
               )}
             </React.Fragment>
           ) : (
-            <p>
+            <div>
               {content}{' '}
               {language !== undefined && language !== '' && (
                 <LanguageSuperscript language={language} id="content-note" />
               )}
-            </p>
+            </div>
           )}
         </div>
       </div>

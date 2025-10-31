@@ -74,12 +74,14 @@ const SearchBox: React.FC<{
     }
   }, [dispatch, simpleQuery])
 
-  // If on the results page, get the current search query
-  if (isResults) {
-    if (currentState.value === null) {
-      dispatch(addSimpleSearchInput({ value: simpleQuery }))
+  useEffect(() => {
+    // If on the results page, get the current search query
+    if (isResults) {
+      if (currentState.value === null) {
+        dispatch(addSimpleSearchInput({ value: simpleQuery }))
+      }
     }
-  }
+  }, [isResults, simpleQuery])
 
   const navigate = useNavigate()
 
