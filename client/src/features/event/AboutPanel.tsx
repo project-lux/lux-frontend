@@ -105,7 +105,7 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
                 ),
               )}
             />
-            <StyledHr hiddenOnDesktop className="eventWebPagesHr" />
+            <StyledHr $hiddenOnDesktop className="eventWebPagesHr" />
           </TextContainer>
         )}
         {part.length > 0 &&

@@ -76,7 +76,7 @@ const SearchResultRelatedList: React.FC<IProps> = ({
       <StyledHr
         width="100%"
         className="mt-3 searchResultRelatedListHr"
-        hiddenOnDesktop
+        $hiddenOnDesktop
       />
       <StyledSearchLink className="row py-2 text-start">
         <Col xs={12} className="mt-1">

@@ -10,12 +10,12 @@ interface IName {
 }
 
 const Name: React.FC<IName> = ({ content, language, languageId, notation }) => (
-  <p className="mb-0">
+  <div className="mb-0">
     <span lang={notation}>{content} </span>
     {language !== undefined && language !== '' && (
       <LanguageSuperscript language={language} id={languageId} />
     )}
-  </p>
+  </div>
 )
 
 export default Name

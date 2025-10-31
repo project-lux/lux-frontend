@@ -20,14 +20,14 @@ const ActivityColumn: React.FC<{
     <dd>
       {type !== '' && <RecordLink url={type} />}
       {dates !== '' && (
-        <p className="my-0" data-testid="professional-activity-dates">
+        <div className="my-0" data-testid="professional-activity-dates">
           during {dates}
-        </p>
+        </div>
       )}
       {location !== '' && (
-        <p className="mb-0" data-testid="professional-activity-location">
+        <div className="mb-0" data-testid="professional-activity-location">
           &nbsp; in <RecordLink url={location} />
-        </p>
+        </div>
       )}
     </dd>
   </Col>
@@ -56,7 +56,7 @@ const Activity: React.FC<IEntity> = ({ data }) => (
       })}
     </ErrorBoundary>
     <Col xs={12}>
-      <StyledHr hiddenOnDesktop width="100%" className="personActivityHr" />
+      <StyledHr $hiddenOnDesktop width="100%" className="personActivityHr" />
     </Col>
   </StyledDataRow>
 )

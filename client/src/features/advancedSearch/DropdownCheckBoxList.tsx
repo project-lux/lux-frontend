@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { forwardRef } from 'react'
+import React, { JSX } from 'react'
 import { useParams } from 'react-router-dom'
 
 import {
@@ -20,19 +20,13 @@ import { ResultsTab } from '../../types/ResultsTab'
 
 import DropdownCheckbox from './DropdownCheckbox'
 
-/**
- * Dropdown list for advanced search row options
- * @param {Record<string, any>} state the current advanced search state
- * @param {string} stateId id of the current advanced search state object
- * @returns {JSX.Element}
- */
-const DropdownCheckboxList = forwardRef<
-  HTMLDivElement,
-  {
-    state: Record<string, any>
-    stateId: string
-  }
->(({ state, stateId }) => {
+interface IProps {
+  state: Record<string, any>
+  stateId: string
+  children?: React.ReactNode
+}
+
+const DropdownCheckboxList = ({ state, stateId }: IProps): JSX.Element => {
   const dispatch = useAppDispatch()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
@@ -185,7 +179,7 @@ const DropdownCheckboxList = forwardRef<
         )}
     </React.Fragment>
   )
-})
+}
 
 DropdownCheckboxList.displayName = 'DropdownCheckboxList'
 

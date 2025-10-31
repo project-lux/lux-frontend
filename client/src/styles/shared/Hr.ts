@@ -6,7 +6,7 @@ interface IProps {
   borderWidth?: string
   color?: string
   width?: string
-  hiddenOnDesktop?: boolean
+  $hiddenOnDesktop?: boolean
 }
 
 const Hr = styled.hr<IProps>`
@@ -32,7 +32,7 @@ const Hr = styled.hr<IProps>`
   }
 
   @media (min-width: ${theme.breakpoints.md}px) {
-    display: ${(props) => (props.hiddenOnDesktop ? 'none' : 'block')};
+    display: ${(props) => (props.$hiddenOnDesktop ? 'none' : 'block')};
   }
 `
 

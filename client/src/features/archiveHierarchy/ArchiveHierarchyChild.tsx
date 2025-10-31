@@ -95,8 +95,8 @@ const ArchiveHierarchyChild: React.FC<{
                   : `open ${primaryName} dropdown`
               }
               className="collapseNestedAdvancedSearch float-left"
-              marginTop="0px"
-              borderRadius="0px"
+              $marginTop="0px"
+              $borderRadius="0px"
             >
               {open ? '-' : '+'}
             </CollapseButton>

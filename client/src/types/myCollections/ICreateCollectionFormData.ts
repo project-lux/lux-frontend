@@ -1,5 +1,3 @@
-import IAgent from '../data/IAgent'
-
 export interface ICreateCollectionFormData {
   name: string
   classifications: Array<string>

@@ -28,7 +28,7 @@ const ClassContainer: React.FC<IProps> = ({
       <StyledHr
         className={className}
         width="100%"
-        hiddenOnDesktop={hideBreaklineOnDesktop}
+        $hiddenOnDesktop={hideBreaklineOnDesktop}
       />
     </Col>
   </TextContainer>

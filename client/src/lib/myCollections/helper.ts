@@ -68,6 +68,37 @@ const getFormattedUuids = (
 }
 
 /**
+ * Adds the list of records to be added to a collection
+ * Returns the collection JSON-LD object to be passed to the backend
+ * @param {IMyCollectionObject} collection the collection JSON-LD to add to
+ * @param {Array<string>} listOfRecordIds the list of record UUIDs to add to the collection
+ * @returns {IMyCollection}
+ */
+export const addToCollectionObject = (
+  collection: IMyCollection,
+  listOfRecordIds: Array<string>,
+): IMyCollection => {
+  if (listOfRecordIds.length === 0) {
+    return collection
+  }
+  const collectionCopy = JSON.parse(JSON.stringify(collection))
+  const recordsToAdd = listOfRecordIds.map((id) => {
+    return {
+      id,
+      type: 'Set',
+    }
+  })
+
+  if (collectionCopy.hasOwnProperty('containing')) {
+    collectionCopy.containing = [...collectionCopy.containing, ...recordsToAdd]
+  } else {
+    collectionCopy.containing = recordsToAdd
+  }
+
+  return collectionCopy
+}
+
+/**
  * Creates a new collection JSON-LD object to be passed to the backend
  * @param {string} name the user entered name of the collection being created
  * @param {Array<string>} classifications the user entered classifications of the name of the collection being created
@@ -120,37 +151,6 @@ export const createCollectionObject = (
   }
 
   return newCollection
-}
-
-/**
- * Adds the list of records to be added to a collection
- * Returns the collection JSON-LD object to be passed to the backend
- * @param {IMyCollectionObject} collection the collection JSON-LD to add to
- * @param {Array<string>} listOfRecordIds the list of record UUIDs to add to the collection
- * @returns {IMyCollection}
- */
-export const addToCollectionObject = (
-  collection: IMyCollection,
-  listOfRecordIds: Array<string>,
-): IMyCollection => {
-  if (listOfRecordIds.length === 0) {
-    return collection
-  }
-  const collectionCopy = JSON.parse(JSON.stringify(collection))
-  const recordsToAdd = listOfRecordIds.map((id) => {
-    return {
-      id,
-      type: 'Set',
-    }
-  })
-
-  if (collectionCopy.hasOwnProperty('containing')) {
-    collectionCopy.containing = [...collectionCopy.containing, ...recordsToAdd]
-  } else {
-    collectionCopy.containing = recordsToAdd
-  }
-
-  return collectionCopy
 }
 
 /**

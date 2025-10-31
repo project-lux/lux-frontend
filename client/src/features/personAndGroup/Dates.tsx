@@ -31,7 +31,7 @@ const Dates: React.FC<IDatesData> = ({
           <StyledHr
             className="personOrGroupClassHr"
             width="100%"
-            hiddenOnDesktop
+            $hiddenOnDesktop
           />
         </Col>
       </React.Fragment>

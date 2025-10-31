@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, type JSX } from 'react'
 import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -49,8 +49,8 @@ const tabsChildren = (
               style={{ paddingTop: 0 }}
               title={tabSection.title as string}
               aria-labelledby={`tab-${id}`}
-              borderTopLeftRadius={isMobile ? '0px' : undefined}
-              borderTopRightRadius={isMobile ? '0px' : undefined}
+              $borderTopLeftRadius={isMobile ? '0px' : undefined}
+              $borderTopRightRadius={isMobile ? '0px' : undefined}
             >
               <ObjectsContainer
                 uri={links[currentSearchTag].href}
@@ -82,10 +82,15 @@ const RelatedObjectsWorksAndCollections: React.FC<IRelated> = ({
 
   useResizeableWindow(setIsMobile)
 
+  const username = auth.user?.profile['cognito:username']
+
   // get the current logged in user's record
-  const { data } = useGetUserResultsQuery({
-    username: auth.user?.profile['cognito:username'],
-  })
+  const { data } = useGetUserResultsQuery(
+    {
+      username,
+    },
+    { skip: !auth.isAuthenticated || !username },
+  )
 
   if (!isUndefined(links)) {
     const tabs = tabsChildren(links, relationships, isMobile, data)

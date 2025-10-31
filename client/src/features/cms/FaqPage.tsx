@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { type JSX } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'

@@ -5,4 +5,4 @@
 
 IMAGE_NAME=${IMAGE_NAME:-lux-frontend}
 
-docker build --platform=linux/amd64 -t $IMAGE_NAME -f ./Dockerfile ..
+docker build --platform=linux/amd64 -t $IMAGE_NAME -f docker/Dockerfile .

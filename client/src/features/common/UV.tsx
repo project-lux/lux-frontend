@@ -20,6 +20,7 @@ const UV: React.FC<Params> = ({ manifest }) => {
     <StyledUVContainer className="row viewer-container mx-0">
       <Col className="iframe-container d-flex justify-content-center">
         <iframe
+          key={manifest} // reload iframe when manifest changes
           title="Universal Viewer"
           src={`/uv/uv.html#?manifest=${manifest}`}
           allowFullScreen

@@ -18,7 +18,7 @@ import IEntity from '../../types/data/IEntity'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
 
-const getEntityPage = (data: IEntity): any => {
+const getEntityPage = (data: IEntity): React.ReactElement | null => {
   if (data.type === 'HumanMadeObject' || data.type === 'DigitalObject') {
     return <ObjectsPage data={data} />
   }
@@ -46,6 +46,8 @@ const getEntityPage = (data: IEntity): any => {
   if (searchTypes.events.includes(data.type)) {
     return <EventPage data={data} />
   }
+
+  return null
 }
 
 const RoutingComponent: React.FC = () => {
@@ -84,7 +86,7 @@ const RoutingComponent: React.FC = () => {
             handleOnClose={setAlert}
           />
         )}
-        {getEntityPage(data)}
+        {getEntityPage(data) || ''}
       </div>
     )
   }
