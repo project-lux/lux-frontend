@@ -8,6 +8,11 @@ All notable changes to this project will be documented in this file.
 
 - Fixed UV not updating itself when manifest URL has changed ([#751](https://github.com/project-lux/lux-frontend/issues/751)).
 - Fixed bogus search request ([#795](https://github.com/project-lux/lux-frontend/issues/795)).
+- Fixed react state bug, plus a few other misc. bugs ([802](https://github.com/project-lux/lux-frontend/issues/802)).
+- Fixed redux state bug w/ getTimeline ([#803](https://github.com/project-lux/lux-frontend/issues/803)).
+
+### Changed
+- Upgraded dependencies ([#800](https://github.com/project-lux/lux-frontend/issues/800)).
 
 ## v1.59.0 - 2025-10-06
 

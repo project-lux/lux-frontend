@@ -18,5 +18,17 @@ export const getTimelines = (
   hrefs: Array<string>,
 ): Promise<{ data: (Error | { [x: string]: any })[] }> => {
   const promises = hrefs.map((href: string) => fetchTimelineData(href))
-  return Promise.all(promises).then((result) => ({ data: result }))
+  return Promise.all(promises)
+    .then((result) => {
+      const items: Array<{ [x: string]: any }> = []
+      for (const item of result) {
+        if (item instanceof Error) {
+          console.error('Error fetching timeline data:', item.message)
+        } else {
+          items.push(item)
+        }
+      }
+      return { data: items }
+    })
+    .catch((e) => ({ error: e.message }))
 }

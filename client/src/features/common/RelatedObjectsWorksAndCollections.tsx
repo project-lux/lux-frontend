@@ -49,8 +49,8 @@ const tabsChildren = (
               style={{ paddingTop: 0 }}
               title={tabSection.title as string}
               aria-labelledby={`tab-${id}`}
-              borderTopLeftRadius={isMobile ? '0px' : undefined}
-              borderTopRightRadius={isMobile ? '0px' : undefined}
+              $borderTopLeftRadius={isMobile ? '0px' : undefined}
+              $borderTopRightRadius={isMobile ? '0px' : undefined}
             >
               <ObjectsContainer
                 uri={links[currentSearchTag].href}

@@ -18,8 +18,8 @@ const TextValue: React.FC<ITextValue> = ({
 }) => (
   <StyledTextValue
     className={`${className} col-sm-12`}
-    displayType={displayType}
-    itemSpacing={itemSpacing}
+    $displayType={displayType}
+    $itemSpacing={itemSpacing}
     data-testid="text-value"
   >
     {values.map((value: string | JSX.Element, ind: number) => (

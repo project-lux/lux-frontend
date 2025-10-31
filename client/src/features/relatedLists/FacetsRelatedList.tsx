@@ -103,7 +103,7 @@ const FacetsRelatedList: React.FC<IProps> = ({
           <StyledHr
             width="100%"
             className="mt-3 facetsRelatedListHr"
-            hiddenOnDesktop
+            $hiddenOnDesktop
           />
         )}
         {page !== lastPage && (

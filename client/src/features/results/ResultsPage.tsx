@@ -195,8 +195,12 @@ const ResultsPage: React.FC = () => {
       />
       <StyledEntityPageSection
         className="row mx-3 resultsEntityPageSection results"
-        borderTopLeftRadius={tab === 'objects' && !isMobile ? '0px' : undefined}
-        borderTopRightRadius={tab === 'events' && !isMobile ? '0px' : undefined}
+        $borderTopLeftRadius={
+          tab === 'objects' && !isMobile ? '0px' : undefined
+        }
+        $borderTopRightRadius={
+          tab === 'events' && !isMobile ? '0px' : undefined
+        }
       >
         {isMobile && (
           <ResponsiveCol xs={12} className="px-0">

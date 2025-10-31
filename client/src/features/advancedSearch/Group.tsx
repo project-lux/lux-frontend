@@ -30,9 +30,9 @@ import RemoveButton from './RemoveButton'
 // import Connector from './Connector'
 
 interface IProps {
-  display: string
-  transformX?: string
-  transformY?: string
+  $display: string
+  $transformX?: string
+  $transformY?: string
 }
 
 const StyledSpan = styled.span<IProps>`
@@ -42,14 +42,14 @@ const StyledSpan = styled.span<IProps>`
   height: auto;
   background: ${theme.color.lightBabyBlue};
   color: ${theme.color.primary.blue};
-  display: ${(props) => props.display};
+  display: ${(props) => props.$display};
   position: absolute;
   left: 10px;
   border-radius: 5px;
   font-weight: 400;
   transform: translate(
-    ${(props) => props.transformX || '-5px'},
-    ${(props) => props.transformY || '10px'}
+    ${(props) => props.$transformX || '-5px'},
+    ${(props) => props.$transformY || '10px'}
   );
 `
 
@@ -182,6 +182,7 @@ const Group: React.FC<IGroup> = ({
                   // If the children are groups, the connnecting line is displayed by the relationship row
                   return (
                     <StyledConnectedDiv
+                      key={obj._stateId}
                       display={
                         childObjIsRelationshipObj && !childObjHasInputChild
                           ? 'none'
@@ -211,13 +212,13 @@ const Group: React.FC<IGroup> = ({
                         <StyledSpan
                           className="px-2 connectingText"
                           // This should display if it is a relationship object with non-input children
-                          display={
+                          $display={
                             childObjIsRelationshipObj && !childObjHasInputChild
                               ? 'none'
                               : 'inline-block'
                           }
-                          transformX={selectedKey === 'OR' ? '10px' : '5px'}
-                          transformY={childObjHasGroupChild ? '-500%' : '10px'}
+                          $transformX={selectedKey === 'OR' ? '10px' : '5px'}
+                          $transformY={childObjHasGroupChild ? '-500%' : '10px'}
                         >
                           {conditionalsLabeling[selectedKey]}
                         </StyledSpan>

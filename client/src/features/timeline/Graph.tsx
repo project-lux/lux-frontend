@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, ReactElement } from 'react'
+import React, { useState, ReactElement, useEffect } from 'react'
 import {
   BarChart,
   Bar,
@@ -67,16 +67,22 @@ const Graph: React.FC<IProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const graphData: Array<IGraphTimelineData> = yearsArray.map((year) => {
-    const barData = timelineData.hasOwnProperty(year)
-      ? timelineData[year]
-      : { total: 0 }
-    return {
-      year: TimelineParser.getYearWithLabel(year),
-      yearKey: year,
-      ...barData,
-    }
-  })
+  const [graphData, setGraphData] = useState<Array<IGraphTimelineData>>([])
+
+  useEffect(() => {
+    setGraphData(
+      yearsArray.map((year) => {
+        const barData = timelineData.hasOwnProperty(year)
+          ? timelineData[year]
+          : { total: 0 }
+        return {
+          year: TimelineParser.getYearWithLabel(year),
+          yearKey: year,
+          ...barData,
+        }
+      }),
+    )
+  }, [yearsArray, timelineData])
 
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
