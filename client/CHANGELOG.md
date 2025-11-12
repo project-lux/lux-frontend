@@ -2,7 +2,9 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## Hotfix
+
+- Fixed debug label (BB) showing in "Produced By" value in search results.
 
 ## v1.60.0 - 2025-10-31
 
