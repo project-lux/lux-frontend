@@ -91,8 +91,10 @@ const Paginate: React.FC<IPagination> = ({
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const URL = new URLSearchParams(search)
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = isUndefined(tab) ? 'i' : getParamPrefix(tab)
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = isUndefined(tab)
+    ? 'i'
+    : getParamPrefix(subTab ? subTab : tab)
   const pageParam = `${paramPrefix}p`
   // remove page so that the paginator can assign the page number
   URL.delete(pageParam)
