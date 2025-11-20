@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Hotfix
+## v1.60.2 - 2025-11/20
+
+### Fixed
+
+- Fixed pagination in collection (set) results ([#810](https://github.com/project-lux/lux-frontend/issues/810)).
+
+## v1.60.1 - 2025-11-12
 
 - Fixed debug label (BB) showing in "Produced By" value in search results.
 
