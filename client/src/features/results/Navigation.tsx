@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -28,7 +29,6 @@ import {
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import { getUsername } from '../../lib/myCollections/helper'
 
 import MyCollectionsNavBar from './MyCollectionsNavBar'
@@ -48,7 +48,7 @@ const Navigation: React.FC<INavigation> = ({
   isSwitchToSimpleSearch,
   isMyCollectionsNestedTab = false,
 }) => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const user = getUsername(auth)
   const forceRefetch = auth.isAuthenticated
   const viewingMyCollections = urlParams.get('viewingMyCollections')

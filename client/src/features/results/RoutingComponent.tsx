@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 import _ from 'lodash'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
@@ -13,7 +14,6 @@ import ConceptPage from '../concept/ConceptPage'
 import EventPage from '../event/EventPage'
 import PlacePage from '../place/PlacePage'
 import ObjectsPage from '../objects/ObjectsPage'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import IEntity from '../../types/data/IEntity'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
@@ -51,7 +51,7 @@ const getEntityPage = (data: IEntity): React.ReactElement | null => {
 }
 
 const RoutingComponent: React.FC = () => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const forceRefetch = auth.isAuthenticated
   const { pathname, state } = useLocation()
   const { isSuccess, isLoading, isError, data, error } = useGetItemQuery(

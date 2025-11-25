@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { isUndefined } from 'lodash'
 import { useDispatch } from 'react-redux'
+import { useAuth } from 'react-oidc-context'
+import { isUndefined } from 'lodash'
 
 import DangerButton from '../../styles/shared/DangerButton'
 import { useAppSelector } from '../../app/hooks'
@@ -11,7 +12,6 @@ import {
   resetState,
 } from '../../redux/slices/myCollectionsSlice'
 import { useDeleteCollectionMutation } from '../../redux/api/ml_api'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 
 import SelectionList from './SelectionList'
 import DeleteOption from './DeleteOption'
@@ -35,7 +35,7 @@ const DeleteCollectionModal: React.FC<IMyCollectionsModal> = ({
   onClose,
   userUuid,
 }) => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation()

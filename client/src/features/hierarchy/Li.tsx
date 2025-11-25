@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
-// import RecordLink from '../common/RecordLink'
-import ApiText from '../common/ApiText'
+import useApiText from '../../lib/hooks/useApiText'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
@@ -19,7 +19,13 @@ const Li: React.FC<IProps> = ({
   ind,
   focusOnLiElement = false,
 }) => {
-  const entityName = ApiText(id)
+  const auth = useAuth()
+  const loc = useLocation()
+  const { value: entityName } = useApiText({
+    textOrUri: id,
+    pageUri: loc.pathname,
+    auth,
+  })
   const ref = useRef<HTMLAnchorElement>(null)
 
   useEffect(() => {

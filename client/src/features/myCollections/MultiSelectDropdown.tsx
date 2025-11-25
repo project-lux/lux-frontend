@@ -1,10 +1,12 @@
 import React, { ChangeEvent, JSX, useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { Dropdown } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
-import StyledDropdown from '../../styles/shared/Dropdown'
-import { pushClientEvent } from '../../lib/pushClientEvent'
-import ApiText from '../common/ApiText'
+import useApiText from '../../lib/hooks/useApiText'
 import { replaceBaseUrl } from '../../lib/parse/data/helper'
+import { pushClientEvent } from '../../lib/pushClientEvent'
+import StyledDropdown from '../../styles/shared/Dropdown'
 
 import DropdownOption from './DropdownOption'
 
@@ -39,7 +41,19 @@ const MultiSelectDropdown = ({
   indexOfData,
   onCheck,
 }: IMultiSelectDropdown): JSX.Element => {
+  const auth = useAuth()
+  const loc = useLocation()
   const [show, setShow] = useState<boolean>(false)
+  const labels: Record<string, string> = {}
+
+  Object.keys(options).forEach((key) => {
+    const { value: optionVal } = useApiText({
+      textOrUri: options[key],
+      pageUri: loc.pathname,
+      auth,
+    })
+    labels[key] = optionVal || options[key]
+  })
 
   const handleClickDropdownButton = (): void => {
     pushClientEvent(
@@ -74,7 +88,7 @@ const MultiSelectDropdown = ({
         {Object.keys(options).map((key) => (
           <Dropdown.Item
             as={DropdownOption}
-            label={ApiText(options[key]) || 'Unknown label'}
+            label={labels[key] || 'Unknown label'}
             value={key}
             selectedOptions={selectedOptions}
             indexOfData={indexOfData}

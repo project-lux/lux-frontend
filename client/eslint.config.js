@@ -27,7 +27,7 @@ export default [
     "plugin:import/warnings",
     "plugin:jsx-a11y/strict",
     "prettier",
-  )), 
+  )),
   {
     languageOptions: {
       parser: tsParser,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
 import { searchScope, advancedSearchTitles } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
@@ -23,7 +24,6 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
   getUrlState,
 } from '../../lib/util/params'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import { getUsername } from '../../lib/myCollections/helper'
 
 import MobileTabButton from './MobileTabButton'
@@ -44,7 +44,7 @@ const MobileNavigation: React.FC<IProps> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const user = getUsername(auth)
   const forceRefetch = auth.isAuthenticated
   const viewingMyCollections = urlParams.get('viewingMyCollections')

@@ -679,3 +679,31 @@ export const isEquivalent = (
   }
   return false
 }
+
+/**
+ * Returns:
+ * (1) label (Titles, Name, etc.) if the equivalent matches config.aat.primaryName
+ * (2) null if the equivalent doesn't match config.aat.primaryName
+ *     but matches the filterByAatValue.
+ * (3) primary name from /identified_by if (1) and (2) are not met
+ * @param {IEntity} data to parse
+ * @param {string} pageUri the uri of the current page
+ * @param {string} filterByAatValue optional; the AAT to filter by
+ * @returns {string | null}
+ */
+export const apiText = (
+  data: IEntity,
+  pageUri: string,
+  filterByAatValue?: string,
+): string | null => {
+  const entity = new EntityParser(data)
+  const equivalent = entity.getEquivalent()
+
+  if (equivalent.includes(config.aat.primaryName)) {
+    return getLabelBasedOnEntityType(pageUri)
+  }
+  if (filterByAatValue !== undefined && equivalent.includes(filterByAatValue)) {
+    return null
+  }
+  return entity.getPrimaryName(config.aat.langen)
+}
