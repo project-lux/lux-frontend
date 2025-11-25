@@ -1,23 +1,24 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import config from '../../config/config'
 import { facetSearchTerms } from '../../config/facets'
 import { buildQuery, getFacetLabel } from '../../lib/facets/helper'
 import { removeFacet } from '../../lib/facets/removeFilter'
+import useApiText from '../../lib/hooks/useApiText'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
-import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
-import StyledCheckbox from '../../styles/features/facets/Checkbox'
-import ApiText from '../common/ApiText'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 import { getParamPrefix } from '../../lib/util/params'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   addLastSelectedFacet,
   IFacetsSelected,
 } from '../../redux/slices/facetsSlice'
+import StyledCheckbox from '../../styles/features/facets/Checkbox'
+import { ICriteria, IOrderedItems } from '../../types/ISearchResults'
 import { ResultsTab } from '../../types/ResultsTab'
-import { pushClientEvent } from '../../lib/pushClientEvent'
-import config from '../../config/config'
 
 interface IProps {
   criteria: ICriteria
@@ -36,6 +37,8 @@ const Checkbox: React.FC<IProps> = ({
   facetQuery,
   scope,
 }) => {
+  const auth = useAuth()
+  const loc = useLocation()
   const facetsState = useAppSelector(
     (state) => state.facetSelection as IFacetsSelected,
   )
@@ -55,10 +58,19 @@ const Checkbox: React.FC<IProps> = ({
   const valueStr = String(facet.value)
   const id = `checklist-facet-${stripYaleIdPrefix(valueStr)}-${facetSection}`
 
+  const fromApi =
+    typeof facetValue === 'string' && !facetSection.includes('RecordType')
+
+  const { value: labelFromApi, isReady: labelFromApiIsReady } = useApiText({
+    textOrUri: fromApi ? facetValue : '',
+    pageUri: loc.pathname,
+    filterByAatValue: config.aat.collectionItem,
+    auth,
+  })
+
   // requires getting label before rendering it with capitalized content
   let label = ''
-  if (typeof facetValue === 'string' && !facetSection.includes('RecordType')) {
-    const labelFromApi = ApiText(facetValue, config.aat.collectionItem)
+  if (fromApi && labelFromApiIsReady) {
     label = labelFromApi !== null ? labelFromApi : ''
   } else {
     label = getFacetLabel(scope, facetSection, facetValue)

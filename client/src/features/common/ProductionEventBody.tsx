@@ -1,15 +1,17 @@
 import React, { type JSX } from 'react'
+import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
+import useApiText from '../../lib/hooks/useApiText'
+import { capitalizeLabels } from '../../lib/parse/data/helper'
 import StyledAgents from '../../styles/features/common/Agents'
+import theme from '../../styles/theme'
 import {
   IEventAgent,
   IEventInfo,
   IEventReference,
 } from '../../types/derived-data/events'
-import { capitalizeLabels } from '../../lib/parse/data/helper'
-import theme from '../../styles/theme'
 
-import ApiText from './ApiText'
 import LinkContainer from './LinkContainer'
 import RecordLinksList from './RecordLinkList'
 import ProductionLocation from './ProductionLocation'
@@ -32,12 +34,22 @@ const AgentsRow: React.FC<{
   id: string
   changeColumnWidths: boolean
 }> = ({ label, uri, id, changeColumnWidths }) => {
-  const agentLabel = ApiText(label)
+  const auth = useAuth()
+  const loc = useLocation()
+  const { value: agentLabel, isReady: agentLabelIsReady } = useApiText({
+    textOrUri: label,
+    pageUri: loc.pathname,
+    auth,
+  })
 
   return (
     <StyledAgents className="row" key={uri}>
       <div className={changeColumnWidths ? rightPanelKeyClass : keyClass}>
-        <dt>{agentLabel !== null && capitalizeLabels(agentLabel)}</dt>
+        <dt>
+          {agentLabelIsReady &&
+            agentLabel !== null &&
+            capitalizeLabels(agentLabel)}
+        </dt>
       </div>
       <div className={changeColumnWidths ? rightPanelValueClass : valueClass}>
         <LinkContainer
@@ -99,8 +111,15 @@ const referenceRow = (
 ): JSX.Element[] =>
   refs.map((ref) => {
     const { type, content } = ref
+    const auth = useAuth()
+    const loc = useLocation()
+    const { value: typeLabel, isReady: typeLabelIsReady } = useApiText({
+      textOrUri: type,
+      pageUri: loc.pathname,
+      auth,
+    })
 
-    const refLabel = showReferenceLabel ? ApiText(type) : null
+    const refLabel = showReferenceLabel && typeLabelIsReady ? typeLabel : null
     return (
       <div className="row" key={content}>
         <div className={keyClass}>

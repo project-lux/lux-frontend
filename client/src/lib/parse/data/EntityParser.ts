@@ -223,7 +223,7 @@ export default class EntityParser {
   }
 
   /**
-   * Returns array of uuids from /equivalent
+   * Returns array of uuids from equivalent
    * @returns {Array<string>}
    */
   getEquivalent(): Array<string> {

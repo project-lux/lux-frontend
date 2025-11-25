@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import IMyCollection from '../../types/data/IMyCollection'
 
 import EditNamesForm from './EditNamesForm'
@@ -57,7 +57,7 @@ const EditCollectionModal: React.FC<IMyCollectionsModal> = ({
   currentUserUuid,
 }) => {
   // Is the user authenticated
-  useAuthentication()
+  useAuth()
 
   return (
     <Modal
