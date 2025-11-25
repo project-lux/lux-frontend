@@ -11,9 +11,24 @@ export const processHtml = (html: string): string => {
     },
   )
 
-  return sanitizeHtml(html2, {
+  const html3 = sanitizeHtml(html2, {
     allowedClasses: {
       i: ['bi', 'bi-box-arrow-in-up-right'],
     },
+    allowedAttributes: {
+      iframe: [
+        'allow',
+        'allowfullscreen',
+        'autoplay',
+        'frameborder',
+        'height',
+        'referrerpolicy',
+        'src',
+        'title',
+        'width',
+      ],
+    },
+    allowedTags: sanitizeHtml.defaults.allowedTags.concat(['iframe']),
   })
+  return html3
 }
