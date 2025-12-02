@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Changed
+
+- Allowed iframe tags in CMS contents ([#524](https://github.com/project-lux/lux-frontend/issues/524)).
+
 ### Fixed
 
 - Fixed hooks being incorrectly used with ApiText ([#808](https://github.com/project-lux/lux-frontend/issues/808)).
