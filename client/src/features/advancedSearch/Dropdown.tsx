@@ -116,7 +116,6 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
         {dropdownType === 'singleFieldSelection' ? (
           <React.Fragment>
             {dropdownGroupings.map((scopeName) => {
-              console.log('rendering options for scope:', scopeName)
               if (!isUndefined(options[scopeName])) {
                 return (
                   <React.Fragment key={scopeName}>

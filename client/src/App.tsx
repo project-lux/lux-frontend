@@ -36,8 +36,13 @@ function embedBugherdScript(): void {
 }
 
 const App: React.FC = () => {
-  console.log('App component rendered')
-  // All configs have been loaded (or failed to load)
+  // true if either local or remote env vars are available
+  const [envLoaded, setEnvLoaded] = useState(false)
+
+  // true if advanced search config has been loaded or skipped
+  const [asConfigLoaded, setAsConfigLoaded] = useState(false)
+
+  // true if env and advanced search config have been processed -- be it success or failure
   const [initialized, setInitialized] = useState(false)
 
   // Fetch environment variables from the frontend server
@@ -47,33 +52,34 @@ const App: React.FC = () => {
   const envResult = useGetEnvQuery(undefined, { skip: config.hasLocalEnv })
 
   const hasRemoteEnv = envResult.isSuccess && envResult.data
-  const hasEnv = hasRemoteEnv || config.hasLocalEnv
+
+  if (!envLoaded && (hasRemoteEnv || config.hasLocalEnv)) {
+    if (hasRemoteEnv) {
+      config.setServerConfig(envResult.data)
+    }
+    setEnvLoaded(true)
+  }
 
   // Fetch advanced search configuration from the backend.
   // Requires envResult to succeed first to get the API base URL.
   const asConfigResults = useGetAdvancedSearchConfigQuery(undefined, {
-    skip: !hasEnv,
+    skip: !envLoaded,
   })
 
-  const hasAdvancedSearchConfig =
-    asConfigResults.isSuccess && asConfigResults.data
+  if (!asConfigLoaded && asConfigResults.isSuccess && asConfigResults.data) {
+    config.setAdvancedSearch(asConfigResults.data)
+    setAsConfigLoaded(true)
+  }
 
   const initSuccess =
-    hasEnv && (hasAdvancedSearchConfig || config.env.cacheViewerMode)
+    envLoaded && (asConfigLoaded || config.env.cacheViewerMode)
   const initFailure =
     (envResult.isError && !config.hasLocalEnv) || asConfigResults.isError
 
-  console.log('initialized:', initialized)
-
   // uninitialized -> initialized
   if (!initialized && (initSuccess || initFailure)) {
-    if (hasRemoteEnv) {
-      config.setServerConfig(envResult.data)
-    } else if (config.hasLocalEnv) {
-      console.log('server env is not available, using local env')
-    }
-    if (hasAdvancedSearchConfig) {
-      config.setAdvancedSearch(asConfigResults.data)
+    if (config.hasLocalEnv) {
+      console.log('using local env')
     }
     setInitialized(true)
   }
@@ -99,7 +105,7 @@ const App: React.FC = () => {
       'Configuration from the backend failed to load. This may limit the functionality of the frontend.'
   }
 
-  if (initialized && config.env.maintenanceMode) {
+  if (envLoaded && config.env.maintenanceMode) {
     return <Maintenance>{config.env.maintenanceMessage}</Maintenance>
   }
 
