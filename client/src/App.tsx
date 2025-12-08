@@ -49,6 +49,8 @@ const App: React.FC = () => {
   const hasAdvancedSearchConfig =
     asConfigResults.isSuccess && asConfigResults.data
 
+  console.log('asConfigResults:', asConfigResults)
+
   const succeeded =
     (hasRemoteEnv || config.hasLocalEnv) &&
     (hasAdvancedSearchConfig || config.env.cacheViewerMode)

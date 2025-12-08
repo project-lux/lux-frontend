@@ -18,6 +18,7 @@ export const baseQuery =
     unknown
   > =>
   async ({ url, method, data, params }) => {
+    console.log('baseQuery called with:', { url, method, data, params })
     try {
       const baseUrl = getBaseUrl()
       const headers: { [key: string]: string } = {}
@@ -25,6 +26,8 @@ export const baseQuery =
       if (config.currentAccessToken) {
         headers.Authorization = `Bearer ${config.currentAccessToken}`
       }
+      console.log('baseUrl:', baseUrl)
+      console.log('finalUrl:', baseUrl + url)
       const result = await axios({
         url: baseUrl + url,
         method,
