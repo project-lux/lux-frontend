@@ -36,29 +36,37 @@ function embedBugherdScript(): void {
 }
 
 const App: React.FC = () => {
+  console.log('App component rendered')
   // All configs have been loaded (or failed to load)
   const [initialized, setInitialized] = useState(false)
 
   // Fetch environment variables from the frontend server
-  const envResult = useGetEnvQuery()
-
-  // Fetch advanced search configuration from the backend
-  const asConfigResults = useGetAdvancedSearchConfigQuery()
+  // unless local env vars are set (for local development).
+  // Thus it is important that local .env file does not exist if variables
+  // from the server are to be used.
+  const envResult = useGetEnvQuery(undefined, { skip: config.hasLocalEnv })
 
   const hasRemoteEnv = envResult.isSuccess && envResult.data
+  const hasEnv = hasRemoteEnv || config.hasLocalEnv
+
+  // Fetch advanced search configuration from the backend.
+  // Requires envResult to succeed first to get the API base URL.
+  const asConfigResults = useGetAdvancedSearchConfigQuery(undefined, {
+    skip: !hasEnv,
+  })
+
   const hasAdvancedSearchConfig =
     asConfigResults.isSuccess && asConfigResults.data
 
-  console.log('asConfigResults:', asConfigResults)
-
-  const succeeded =
-    (hasRemoteEnv || config.hasLocalEnv) &&
-    (hasAdvancedSearchConfig || config.env.cacheViewerMode)
-  const failed =
+  const initSuccess =
+    hasEnv && (hasAdvancedSearchConfig || config.env.cacheViewerMode)
+  const initFailure =
     (envResult.isError && !config.hasLocalEnv) || asConfigResults.isError
 
+  console.log('initialized:', initialized)
+
   // uninitialized -> initialized
-  if (!initialized && (succeeded || failed)) {
+  if (!initialized && (initSuccess || initFailure)) {
     if (hasRemoteEnv) {
       config.setServerConfig(envResult.data)
     } else if (config.hasLocalEnv) {
@@ -86,7 +94,7 @@ const App: React.FC = () => {
 
   let errorMessage = null
 
-  if (failed) {
+  if (initFailure) {
     errorMessage =
       'Configuration from the backend failed to load. This may limit the functionality of the frontend.'
   }

@@ -116,9 +116,10 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
         {dropdownType === 'singleFieldSelection' ? (
           <React.Fragment>
             {dropdownGroupings.map((scopeName) => {
+              console.log('rendering options for scope:', scopeName)
               if (!isUndefined(options[scopeName])) {
                 return (
-                  <React.Fragment>
+                  <React.Fragment key={scopeName}>
                     <Dropdown.ItemText className="border-bottom fw-bold">
                       {scopeToAriaLabel[scopeName] !== undefined
                         ? capitalizeLabels(scopeToAriaLabel[scopeName])
@@ -126,7 +127,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
                     </Dropdown.ItemText>
                     {Object.entries(options[scopeName]).map(([term, label]) => (
                       <Dropdown.Item
-                        key={term}
+                        key={`${scopeName}-${term}`}
                         className="ps-4"
                         as="button"
                         eventKey={term}
