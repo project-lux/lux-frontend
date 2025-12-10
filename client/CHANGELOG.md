@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed hooks being incorrectly used with ApiText ([#808](https://github.com/project-lux/lux-frontend/issues/808)).
+- Fixed advanced search config not being retrieved from non-home landing pages ([#818](https://github.com/project-lux/lux-frontend/issues/818)).
 
 ## v1.60.2 - 2025-11/20
 
