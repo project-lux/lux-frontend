@@ -27,6 +27,7 @@ export const processHtml = (html: string): string => {
         'title',
         'width',
       ],
+      ...sanitizeHtml.defaults.allowedAttributes,
     },
     allowedTags: sanitizeHtml.defaults.allowedTags.concat(['iframe']),
   })
