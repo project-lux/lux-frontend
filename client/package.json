@@ -86,7 +86,7 @@
   },
   "scripts": {
     "start": "vite",
-    "build": "mv .env _env; tsc && vite build; mv _env .env",
+    "build": "mv .env _env || true; tsc && vite build; mv _env .env || true",
     "preview": "vite preview",
     "lint": "eslint .",
     "test": "vitest",
