@@ -1,14 +1,16 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 
+import useApiText from '../../lib/hooks/useApiText'
+import { capitalizeLabels } from '../../lib/parse/data/helper'
+import { getColumnWidth } from '../../lib/util/ui'
 import StyledEntityEvent from '../../styles/shared/EntityEvent'
 import StyledDataRow from '../../styles/shared/DataRow'
 import StyledHr from '../../styles/shared/Hr'
-import { capitalizeLabels } from '../../lib/parse/data/helper'
-import { getColumnWidth } from '../../lib/util/ui'
 import { IEventInfo } from '../../types/derived-data/events'
 
-import ApiText from './ApiText'
 import ProductionEventBody from './ProductionEventBody'
 
 interface IProps {
@@ -26,7 +28,13 @@ const ProductionEvent: React.FC<IProps> = ({
   expandColumns = false,
   stackKeyValuePairs = false,
 }) => {
-  const labelName = ApiText(label)
+  const auth = useAuth()
+  const loc = useLocation()
+  const { value: labelName, isReady: labelNameIsReady } = useApiText({
+    textOrUri: label,
+    pageUri: loc.pathname,
+    auth,
+  })
   const [textValueWidth, textLabelWidth] = getColumnWidth(expandColumns)
 
   return (
@@ -34,7 +42,7 @@ const ProductionEvent: React.FC<IProps> = ({
       <StyledDataRow className="row">
         <div className={textLabelWidth}>
           <dt data-testid={`${id}-event-label`}>
-            {labelName !== null && labelName !== ''
+            {labelNameIsReady && labelName !== null && labelName !== ''
               ? capitalizeLabels(labelName)
               : label}
           </dt>

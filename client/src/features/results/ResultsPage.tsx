@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert, Col } from 'react-bootstrap'
+import { useAuth } from 'react-oidc-context'
 import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -15,7 +16,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 // import config from '../../config/config'
 import MyCollectionsAlert from '../myCollections/Alert'
 import { IRouteState } from '../../types/myCollections/IRouteState'
@@ -78,7 +78,7 @@ const getScopedResultsComponent: any = (
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const user = getUsername(auth)
 
   const dispatch = useAppDispatch()

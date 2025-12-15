@@ -1,8 +1,8 @@
+import { useAuth } from 'react-oidc-context'
 import { isUndefined } from 'lodash'
 
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 
 /**
  * Retrieves the current user's data and their default collection
@@ -10,7 +10,7 @@ import useAuthentication from '../../lib/hooks/useAuthentication'
  * @returns {JSX.Element}
  */
 const DefaultCollection = (userUuid?: string): string | null => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const forceRefetch = auth.isAuthenticated
 
   const { data, isSuccess } = useGetItemQuery(

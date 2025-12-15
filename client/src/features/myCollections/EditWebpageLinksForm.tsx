@@ -224,8 +224,8 @@ const EditWebpageLinksForm: React.FC<IProps> = ({ data, onClose }) => {
         <Col className="d-flex justify-content-start">
           <SecondaryButton
             type="button"
-            textColor={theme.color.button}
-            actionBgColor={theme.color.button}
+            $textColor={theme.color.button}
+            $actionBgColor={theme.color.button}
             onClick={() => handleAddWebpageRow()}
           >
             <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />

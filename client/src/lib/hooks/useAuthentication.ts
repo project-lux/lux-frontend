@@ -11,8 +11,8 @@ export default function useAuthentication(): AuthContextProps {
       // console.log('Authenticated', auth.user)
       if (auth.user) {
         config.currentAccessToken = auth.user.access_token
+        verifyToken(auth.user?.access_token || '')
       }
-      verifyToken(auth.user?.access_token || '')
     } else {
       // console.log('Not authenticated')
     }

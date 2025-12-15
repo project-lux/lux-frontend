@@ -1,11 +1,13 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
+import useApiText from '../../lib/hooks/useApiText'
 import {
   capitalizeLabels,
   transformStringForTestId,
 } from '../../lib/parse/data/helper'
 
-import ApiText from './ApiText'
 import Tooltip from './Tooltip'
 
 interface ITextLabelProps {
@@ -19,6 +21,8 @@ const TextLabel: React.FC<ITextLabelProps> = ({
   label,
   tooltipText = '',
 }) => {
+  const auth = useAuth()
+  const loc = useLocation()
   const tooltip =
     tooltipText === '' ? (
       ''
@@ -32,12 +36,20 @@ const TextLabel: React.FC<ITextLabelProps> = ({
       </Tooltip>
     )
 
-  // Call ApiText in case there is a label that contains the base url
+  // Get apiText in case there is a label that contains the base url
   let displayLabel = label
-  const apiText = label !== undefined ? ApiText(label) : null
+  const { value: apiText, isReady: apiTextIsReady } = useApiText({
+    textOrUri: label || '',
+    pageUri: loc.pathname,
+    auth,
+  })
+
   // Capitalize the text returned from the api if it did not come from the data
   displayLabel =
-    displayLabel !== undefined && apiText !== null && displayLabel !== apiText
+    displayLabel !== undefined &&
+    apiTextIsReady &&
+    apiText !== null &&
+    displayLabel !== apiText
       ? capitalizeLabels(apiText)
       : displayLabel
 

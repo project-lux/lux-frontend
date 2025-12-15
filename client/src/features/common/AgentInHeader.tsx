@@ -1,10 +1,12 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 import styled from 'styled-components'
 
-import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
+import useApiText from '../../lib/hooks/useApiText'
+import { forceArray } from '../../lib/parse/data/helper'
 import theme from '../../styles/theme'
-
-import ApiText from './ApiText'
+import { IAgentSnippet } from '../../types/derived-data/IAgentSnippet'
 
 interface IAgents {
   data: IAgentSnippet
@@ -25,10 +27,14 @@ const StyledSpan = styled.span`
  */
 const AgentInHeader: React.FC<IAgents> = ({ data }) => {
   const { name, birthYear, deathYear, nationalities } = data
-  const nationality =
-    nationalities !== undefined && nationalities.length > 0
-      ? ApiText(nationalities[0])
-      : null
+  const auth = useAuth()
+  const loc = useLocation()
+  const nationalityStr = forceArray(nationalities)[0] || ''
+  const { value: nationality, isReady: nationalityIsReady } = useApiText({
+    textOrUri: nationalityStr,
+    pageUri: loc.pathname,
+    auth,
+  })
 
   return (
     <React.Fragment>
@@ -40,7 +46,7 @@ const AgentInHeader: React.FC<IAgents> = ({ data }) => {
           , {birthYear || ''}-{deathYear || ''}
         </StyledSpan>
       )}
-      {nationality !== null && (
+      {nationalityIsReady && nationality !== null && (
         <StyledSpan data-testid="agent-in-header-nationality">
           , {nationality}
         </StyledSpan>

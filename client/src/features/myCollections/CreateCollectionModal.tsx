@@ -1,12 +1,12 @@
 import React, { ChangeEvent, JSX, useState } from 'react'
-import { Col, Form, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
-import { isUndefined } from 'lodash'
 import { useDispatch } from 'react-redux'
+// import { useAuth } from 'react-oidc-context'
+import { Col, Form, Modal, Row } from 'react-bootstrap'
+import { isUndefined } from 'lodash'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useCreateCollectionMutation } from '../../redux/api/ml_api'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import {
   IMyCollectionsResultsState,
   resetState,
@@ -39,7 +39,7 @@ const CreateCollectionModal = ({
   showModal,
   onClose,
 }: IMyCollectionsModal): JSX.Element => {
-  useAuthentication()
+  // const auth = useAuth()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation()

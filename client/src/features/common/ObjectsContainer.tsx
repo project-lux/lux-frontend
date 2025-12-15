@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
+import { useAuth } from 'react-oidc-context'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import StyledObjectsContainerLinkRow from '../../styles/features/common/ObjectsContainerLinkRow'
@@ -22,7 +23,6 @@ import {
 } from '../../redux/slices/myCollectionsSlice'
 import { useAppSelector } from '../../app/hooks'
 import AddToCollectionButton from '../myCollections/AddToCollectionButton'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import CreateCollectionModal from '../myCollections/CreateCollectionModal'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 
@@ -58,7 +58,7 @@ export const resultsData = (
  */
 const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title, user }) => {
   const dispatch = useDispatch()
-  const auth = useAuthentication()
+  const auth = useAuth()
   const [showAddToCollectionModal, setShowAddToCollectionModal] =
     useState<boolean>(false)
   const [showCreateCollectionModal, setShowCreateCollectionModal] =

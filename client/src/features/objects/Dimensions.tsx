@@ -1,9 +1,11 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
+import { useAuth } from 'react-oidc-context'
 
+import useApiText from '../../lib/hooks/useApiText'
 import TextValue from '../common/TextValue'
 import TextLabel from '../common/TextLabel'
 import ExpandableList from '../common/ExpandableList'
-import ApiText from '../common/ApiText'
 
 interface IDimensions {
   label: string
@@ -12,7 +14,13 @@ interface IDimensions {
 }
 
 const Dimensions: React.FC<IDimensions> = ({ label, value, unit }) => {
-  const unitName = ApiText(unit)
+  const auth = useAuth()
+  const loc = useLocation()
+  const { value: unitName } = useApiText({
+    textOrUri: unit,
+    pageUri: loc.pathname,
+    auth,
+  })
 
   return (
     <React.Fragment>

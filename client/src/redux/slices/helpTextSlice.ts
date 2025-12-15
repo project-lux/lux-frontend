@@ -1,8 +1,10 @@
 import { createSlice } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit'
+import lodash from 'lodash'
 
 import { nonSearchTermHelpText } from '../../config/advancedSearch/helpText'
 import config from '../../config/config'
+import { debug } from '../../lib/util/log'
 
 export interface IHelpTextKey {
   selectedHelpText: string
@@ -28,14 +30,29 @@ export const helpTextSlice = createSlice({
       action: PayloadAction<{ value: string; scope?: string }>,
     ) => {
       const { value, scope } = action.payload
+      const hasHelp = (obj: { label?: string; helpText?: string }): boolean =>
+        typeof obj === 'object' &&
+        obj.label !== undefined &&
+        obj.helpText !== undefined
+      let valueObj: { label?: string; helpText?: string } = {}
+
       if (scope !== undefined && value !== '') {
-        state.selectedHelpText =
-          config.advancedSearch.terms[scope][value].helpText
-        state.selectedKey = config.advancedSearch.terms[scope][value].label
+        valueObj = lodash.get(config.advancedSearch.terms, [scope, value])
+        if (!hasHelp(valueObj)) {
+          debug(
+            `failed to get help text for scope: ${scope}, label: ${valueObj?.label}, value: ${value}`,
+          )
+          return state
+        }
       } else {
-        state.selectedHelpText = nonSearchTermHelpText[value].helpText
-        state.selectedKey = nonSearchTermHelpText[value].label
+        valueObj = nonSearchTermHelpText[value]
+        if (!hasHelp(valueObj)) {
+          debug(`failed to get non-search-term help text for value: ${value}`)
+          return state
+        }
       }
+      state.selectedHelpText = valueObj.helpText || ''
+      state.selectedKey = valueObj.label || ''
     },
     addHoverHelpText: (
       state,

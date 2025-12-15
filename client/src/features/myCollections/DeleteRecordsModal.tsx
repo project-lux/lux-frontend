@@ -2,6 +2,7 @@ import React from 'react'
 import { Col, Modal, Row } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
+// import { useAuth } from 'react-oidc-context'
 
 import DangerButton from '../../styles/shared/DangerButton'
 import { useAppSelector } from '../../app/hooks'
@@ -10,7 +11,6 @@ import {
   resetState,
 } from '../../redux/slices/myCollectionsSlice'
 import { useDeleteRecordsFromCollectionMutation } from '../../redux/api/ml_api'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import IMyCollection from '../../types/data/IMyCollection'
 
 interface IDeleteRecordsModal {
@@ -32,7 +32,7 @@ const DeleteRecordsModal: React.FC<IDeleteRecordsModal> = ({
   collectionId,
   collectionObject,
 }) => {
-  useAuthentication()
+  // const auth = useAuth()
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { pathname } = useLocation()

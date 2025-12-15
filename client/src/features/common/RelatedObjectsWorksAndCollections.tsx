@@ -1,4 +1,5 @@
 import React, { useState, type JSX } from 'react'
+import { useAuth } from 'react-oidc-context'
 import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -6,7 +7,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import { useGetUserResultsQuery } from '../../redux/api/ml_api'
 import { ISearchResults } from '../../types/ISearchResults'
 import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
@@ -75,7 +75,7 @@ const RelatedObjectsWorksAndCollections: React.FC<IRelated> = ({
   relationships,
   type,
 }) => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )

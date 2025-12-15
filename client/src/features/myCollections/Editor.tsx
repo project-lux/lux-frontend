@@ -1,10 +1,10 @@
 import React from 'react'
+import { useAuth } from 'react-oidc-context'
 import { isNull } from 'lodash'
 
 import { getFormattedDate } from '../../lib/myCollections/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
-import useAuthentication from '../../lib/hooks/useAuthentication'
 import UserParser from '../../lib/parse/data/UserParser'
 
 interface IProps {
@@ -18,7 +18,7 @@ const Editor: React.FC<IProps> = ({
   eventType,
   italics = false,
 }) => {
-  const auth = useAuthentication()
+  const auth = useAuth()
   const forceRefetch = auth.isAuthenticated
   const { creator, date } = creationData
   const formattedDate = !isNull(date) ? getFormattedDate(date) : 'unknown date'

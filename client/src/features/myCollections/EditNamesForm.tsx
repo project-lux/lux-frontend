@@ -226,8 +226,8 @@ const EditNamesForm: React.FC<IProps> = ({ data, onClose }) => {
           <SecondaryButton
             type="button"
             onClick={() => handleAddNewName()}
-            textColor={theme.color.button}
-            actionBgColor={theme.color.button}
+            $textColor={theme.color.button}
+            $actionBgColor={theme.color.button}
           >
             <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
             Add Name
