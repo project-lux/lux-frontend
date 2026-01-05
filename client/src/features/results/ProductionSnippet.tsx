@@ -26,12 +26,22 @@ const ProductionSnippet: React.FC<IProducedBy> = ({
         <Col>
           <StyledDt>{label}</StyledDt>
           <StyledDd data-testid="production-snippet-agent-data">
-            {agents.slice(0, 3).map((agent, ind) => (
-              <span key={`${agent}-${ind}`}>
-                <RecordLink url={agent} />
-                {ind !== 2 ? ', ' : ' '}
-              </span>
-            ))}
+            {agents
+              .slice(0, 3)
+              .reduce(
+                (links: React.ReactNode[], agent: string, index: number) => {
+                  if (agent !== null) {
+                    links.push(
+                      <span key={`${agent}-${index}`}>
+                        {links.length > 0 ? ', ' : ' '}
+                        <RecordLink url={agent} />
+                      </span>,
+                    )
+                  }
+                  return links
+                },
+                [],
+              )}
             {agents.length > 3 ? '... ' : ' '}
             {date !== null && `in ${date}`}
           </StyledDd>
