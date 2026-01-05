@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file.
 
 - Add a 'Collections Related' tab to Concept pages ([#825](https://github.com/project-lux/lux-frontend/issues/825)).
 
+### Fixed
+
+- Fixed links showing extra commas in some scenarios ([#544](https://github.com/project-lux/lux-frontend/issues/544),[#785](https://github.com/project-lux/lux-frontend/issues/785))
+
 ## v1.61.2 - 2025-12-15
 
 ### Fixed
