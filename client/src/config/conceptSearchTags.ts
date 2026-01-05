@@ -34,6 +34,11 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:conceptRelatedWorks',
     tab: 'works',
   },
+  collectionsRelated: {
+    title: 'Collections Related',
+    searchTag: 'lux:conceptRelatedSets',
+    tab: 'collections',
+  },
 }
 
 // Used for rendering timelines

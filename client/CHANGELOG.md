@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Add a 'Collections Related' tab to Concept pages ([#825](https://github.com/project-lux/lux-frontend/issues/825)).
+
 ### Changed
 
 - Allowed iframe tags in CMS contents ([#524](https://github.com/project-lux/lux-frontend/issues/524)).
@@ -33,6 +37,7 @@ All notable changes to this project will be documented in this file.
 - Fixed redux state bug w/ getTimeline ([#803](https://github.com/project-lux/lux-frontend/issues/803)).
 
 ### Changed
+
 - Upgraded dependencies ([#800](https://github.com/project-lux/lux-frontend/issues/800)).
 
 ## v1.59.0 - 2025-10-06
