@@ -4,6 +4,24 @@ All notable changes to this project will be documented in this file.
 
 ## Unreleased
 
+### Added
+
+- Add a 'Collections Related' tab to Concept pages ([#825](https://github.com/project-lux/lux-frontend/issues/825)).
+
+## v1.61.2 - 2025-12-15
+
+### Fixed
+
+- Add back default allowed attributes to sanitize-html - otherwise CMS links break
+
+## v1.61.1 - 2025-12-15
+
+### Fixed
+
+- Ensure `yarn build` works even if .env doesn't exist
+
+## v1.61.0 - 2025-12-15
+
 ### Changed
 
 - Allowed iframe tags in CMS contents ([#524](https://github.com/project-lux/lux-frontend/issues/524)).
@@ -13,7 +31,7 @@ All notable changes to this project will be documented in this file.
 - Fixed hooks being incorrectly used with ApiText ([#808](https://github.com/project-lux/lux-frontend/issues/808)).
 - Fixed advanced search config not being retrieved from non-home landing pages ([#818](https://github.com/project-lux/lux-frontend/issues/818)).
 
-## v1.60.2 - 2025-11/20
+## v1.60.2 - 2025-11-20
 
 ### Fixed
 
@@ -33,6 +51,7 @@ All notable changes to this project will be documented in this file.
 - Fixed redux state bug w/ getTimeline ([#803](https://github.com/project-lux/lux-frontend/issues/803)).
 
 ### Changed
+
 - Upgraded dependencies ([#800](https://github.com/project-lux/lux-frontend/issues/800)).
 
 ## v1.59.0 - 2025-10-06
