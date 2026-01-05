@@ -15,12 +15,17 @@ const TypeList: React.FC<IProps> = ({ types }) => (
     <Col>
       <StyledDt data-testid="types-label">Categorized As</StyledDt>
       <StyledDd data-testid="entity-type-list">
-        {types.map((type, index) => (
-          <React.Fragment key={`${type}_${index}`}>
-            <RecordLink url={type} linkCategory="Results Snippet" />
-            {index === types.length - 1 ? '' : ', '}
-          </React.Fragment>
-        ))}
+        {types.reduce((links: React.ReactNode[], type: string, index) => {
+          if (type !== null) {
+            links.push(
+              <React.Fragment key={`${type}_${index}`}>
+                {links.length > 0 ? ', ' : ''}
+                <RecordLink url={type} linkCategory="Results Snippet" />
+              </React.Fragment>,
+            )
+          }
+          return links
+        }, [])}
       </StyledDd>
     </Col>
   </Row>
