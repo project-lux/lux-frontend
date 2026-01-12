@@ -1,0 +1,66 @@
+name: Docker Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_env:
+        description: 'Target environment for deployment'
+        required: true
+        default: 'DEV'
+        type: choice
+        options:
+          - PRD
+          - TST
+          - DEV
+          - SBX
+          - EXP
+          - DATA-DEV
+          - BYUNIT-DEV2
+          - RDATA
+          - MINIML-GRAVITON
+jobs:
+  deploy:
+    runs-on: [self-hosted, X64]
+    environment:
+      name: ${{ inputs.target_env }}
+    env:
+      ECR_URI: "${{ vars.ECR_HOST }}/${{ vars.DOCKER_IMAGE_NAME }}"
+      MIN_PERC: 100 # minumum healthy percent
+      TIMEOUT: 300 # deployment timeout in seconds
+      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID_CDS2_DEVTOOLS_DEV }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_CDS2_DEVTOOLS_DEV }}
+    steps:
+      - name: Pack environment variables
+        run: |
+          echo "APP_PORT=${{ vars.APP_PORT }}" >> _env
+          echo "NUM_INSTANCES=${{ vars.NUM_INSTANCES }}" >> _env
+          echo "LOG_LEVEL=${{ vars.LOG_LEVEL }}" >> _env
+          echo "DATA_API_BASE_URL=${{ vars.DATA_API_BASE_URL }}" >> _env
+          echo "CMS_API_BASE_URL=${{ vars.CMS_API_BASE_URL }}" >> _env
+          echo "WIKIDATA_IMAGE_PATHNAME=${{ vars.WIKIDATA_IMAGE_PATHNAME }}" >> _env
+          echo "LUX_WIKIDATA_MANIFEST_PREFIX=${{ vars.LUX_WIKIDATA_MANIFEST_PREFIX }}" >> _env
+          echo "LUX_FEEDBACK_URL=${{ vars.LUX_FEEDBACK_URL }}" >> _env
+          echo "LUX_ENVIRONMENT=${{ vars.LUX_ENVIRONMENT }}" >> _env
+          echo "MAINTENANCE_MODE=${{ vars.MAINTENANCE_MODE }}" >> _env
+          echo "MAINTENANCE_MESSAGE=${{ vars.MAINTENANCE_MESSAGE }}" >> _env
+          echo "BUGHERD_API_KEY=${{ vars.BUGHERD_API_KEY }}" >> _env
+          echo "OIDC_AUTHORITY=${{ vars.OIDC_AUTHORITY }}" >> _env
+          echo "OIDC_CLIENT_ID=${{ vars.OIDC_CLIENT_ID }}" >> _env
+          echo "OIDC_REDIRECT_URI=${{ vars.OIDC_REDIRECT_URI }}" >> _env
+          echo "FEATURE_MY_COLLECTIONS=${{ vars.FEATURE_MY_COLLECTIONS }}" >> _env
+          set -x
+          env-to-json.py _env config.json
+      - name: Deploy Docker Image
+        run: |
+          set -x
+          aws kms encrypt --region us-east-1 \
+            --key-id ${{ vars.CDS2_KMS_KEY_ID_DEV }} \
+            --plaintext fileb://config.json --query CiphertextBlob \
+            --output text | base64 --decode \
+            > config.encrypted
+          aws s3 cp config.encrypted ${{ vars.CONFIG_STORE_S3 }}/config.encrypted
+          rm -f _env config.json config.encrypted
+          ecs-deploy --use-latest-task-def -r us-east-1 \
+            -t ${TIMEOUT} -m ${MIN_PERC} \
+            -c ${{ vars.ECS_CLUSTER }} -n ${{ vars.ECS_SERVICE }} \
+            -i ${ECR_URI}:${{ vars.TAG_TO_DEPLOY }}
