@@ -1,0 +1,37 @@
+name: Docker Image Build
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: [self-hosted, X64]
+    env:
+      TAG: ${{ vars.TAG_TO_BUILD }}
+      IMAGE: ${{ vars.DOCKER_IMAGE_NAME }}
+      ECR_URI: "${{ vars.ECR_HOST }}/${{ vars.DOCKER_IMAGE_NAME }}"
+      PLATFORM: ${{ vars.DOCKER_BUILD_PLATFORM }}
+      AWS_ACCESS_KEY_ID: ${{ vars.AWS_ACCESS_KEY_ID_CDS2_DEVTOOLS_DEV }}
+      AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY_CDS2_DEVTOOLS_DEV }}
+    steps:
+      - name: Build Docker Image
+        run: |
+          echo "Building Docker image for tag: ${TAG}"
+          REPO_NAME=$(basename "${{ github.repository }}")
+          # Delete existing local images to free up disk space
+          docker image prune -af
+          # Remove existing repository directory if it exists
+          rm -rf $REPO_NAME
+          # Clone source code repository
+          git clone \
+            https://github.com/${{ github.repository }}.git \
+            --branch $TAG --single-branch
+          cd $REPO_NAME
+          # Build and tag the Docker image
+          docker buildx build --load --platform ${{ env.PLATFORM }} \
+            -t ${{ env.IMAGE }}:${{ env.TAG }} -f docker/Dockerfile .
+          docker tag ${{ env.IMAGE }}:${{ env.TAG }} ${ECR_URI}:${{ env.TAG }}
+          # Login to ECR
+          aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${ECR_URI}
+          # Push image to ECR
+          docker push ${ECR_URI}:${{ env.TAG }}
