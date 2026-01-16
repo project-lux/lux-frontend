@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## v1.62.0
 
 ### Added
 
@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed links showing extra commas in some scenarios ([#544](https://github.com/project-lux/lux-frontend/issues/544),[#785](https://github.com/project-lux/lux-frontend/issues/785))
+
+- Fixed unwanted bold text in "How do I See It?" ([#811](https://github.com/project-lux/lux-frontend/issues/811)).
 
 ## v1.61.2 - 2025-12-15
 
