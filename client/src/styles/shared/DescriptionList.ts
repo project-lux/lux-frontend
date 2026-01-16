@@ -8,7 +8,6 @@ const List = styled.dl`
   letter-spacing: 0;
   text-align: left;
   line-height: 24px;
-  font-weight: 700;
   white-space: nowrap;
   margin-bottom: 0px;
 `
