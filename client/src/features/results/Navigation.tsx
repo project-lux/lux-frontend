@@ -187,10 +187,10 @@ const Navigation: React.FC<INavigation> = ({
                   <Row className="pe-3">
                     <Col xs={12} sm={12} md={12} lg={12} xl={9}>
                       <Row className="d-flex float-start">
-                        <Col xs={12} className="linkTitle d-flex float-start">
+                        <Col xs={12} className="linkTitle d-flex text-start">
                           {advancedSearchTitles[key]}
                         </Col>
-                        <Col xs={12} className="linkSubtext d-flex float-start">
+                        <Col xs={12} className="linkSubtext d-flex text-start">
                           {(simpleSearch && isLoading) ||
                           isFetching ||
                           (advancedSearch && isLoading) ? (
