@@ -10,6 +10,10 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+### Removed
+
+- Removed Set option from Work Class in advanced search ([#735](https://github.com/project-lux/lux-frontend/issues/735)).
+
 ## v1.62.0
 
 ### Added
