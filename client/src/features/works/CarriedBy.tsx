@@ -6,6 +6,7 @@ import { carriedBy } from '../../config/worksSearchTags'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ObjectsContainer from '../common/ObjectsContainer'
 import StyledObjectWorkHeader from '../../styles/shared/ObjectWorkHeader'
+import LuxOverlay from '../common/LuxOverlay'
 
 const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const work = new WorkParser(entity)
@@ -19,7 +20,12 @@ const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
 
   return (
     <StyledEntityPageSection data-testid="carried-by-container">
-      <StyledObjectWorkHeader>{title}</StyledObjectWorkHeader>
+      <StyledObjectWorkHeader>
+        <span className="d-flex flex-wrap">
+          <h2>{title}</h2>
+          <LuxOverlay />
+        </span>
+      </StyledObjectWorkHeader>
       <ObjectsContainer uri={workCarriedByQuery} tab="objects" title={title} />
     </StyledEntityPageSection>
   )
