@@ -119,7 +119,7 @@ const Graph: React.FC<IProps> = ({
       style={{ userSelect: 'none', width: '100%' }}
       data-testid="timeline-graph-container"
     >
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={500} className="p-3">
         <BarChart
           data={graphData}
           margin={{
