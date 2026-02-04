@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed fullscreen view on timelines ([#580](https://github.com/project-lux/lux-frontend/issues/580))
+
 ## v1.62.0
 
 ### Added

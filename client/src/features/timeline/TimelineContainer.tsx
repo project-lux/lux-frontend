@@ -73,13 +73,20 @@ const TimelineContainer: React.FC<{
   }, [])
 
   const setFullscreen = (): void => {
+    const className = 'overflow-hidden'
     setIsFullscreen(!isFullscreen)
     const elem = timelineRef.current
     if (isFullscreen) {
-      document.exitFullscreen()
+      setIsFullscreen(false)
+      document.body.classList.remove(className)
+      document.documentElement.classList.remove(className)
+      // document.exitFullscreen()
     } else if (!isFullscreen) {
-      if (elem !== null && elem.requestFullscreen) {
-        elem.requestFullscreen()
+      if (elem !== null) {
+        setIsFullscreen(true)
+        document.body.classList.add(className)
+        document.documentElement.classList.add(className)
+        // elem.requestFullscreen()
       }
     }
   }
@@ -98,6 +105,7 @@ const TimelineContainer: React.FC<{
     if (sortedTimelineYears.length !== 0) {
       return (
         <StyledEntityPageSection
+          className={`timelineContainer${isFullscreen ? 'Fullscreen' : ''}`}
           data-testid={`timeline-container${isFullscreen ? '-fullscreen' : ''}`}
           ref={timelineRef}
         >
