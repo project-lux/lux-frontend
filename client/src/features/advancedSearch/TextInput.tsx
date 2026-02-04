@@ -51,6 +51,8 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
+  const [isFocused, setIsFocused] = React.useState(false)
+
   const uri = currentValue
     ? currentValue.replace('https://lux.collections.yale.edu/data/', '')
     : ''
@@ -58,7 +60,6 @@ const TextInput: React.FC<IInputType> = ({
     { uri },
     { skip: field !== 'id' || currentValue === undefined },
   )
-
   let displayName = currentValue
   if (isSuccess && data) {
     const entity = new EntityParser(data)
@@ -77,16 +78,22 @@ const TextInput: React.FC<IInputType> = ({
         )}
         <StyledInput
           // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={autoFocus}
+          autoFocus={displayName !== currentValue ? false : autoFocus}
           type="text"
-          value={displayName !== currentValue ? displayName : currentValue}
+          value={
+            displayName !== currentValue && !isFocused
+              ? displayName
+              : currentValue
+          }
           className="form-control advancedSearchInput bg-white"
           placeholder={label}
           onChange={(e) => handleOnChange(e.currentTarget.value)}
           onSelect={() => handleOnSelect()}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
-          disabled={displayName !== currentValue}
+          //disabled={displayName !== currentValue}
         />
       </div>
     </div>
