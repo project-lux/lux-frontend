@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed text alignment in results page tab buttons ([#520](https://github.com/project-lux/lux-frontend/issues/520)).
+
 ### Removed
 
 - Removed Set option from Work Class in advanced search ([#735](https://github.com/project-lux/lux-frontend/issues/735)).
