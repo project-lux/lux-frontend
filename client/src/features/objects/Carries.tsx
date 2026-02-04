@@ -6,6 +6,7 @@ import ObjectParser from '../../lib/parse/data/ObjectParser'
 import WorksSnippet from '../results/WorksSnippet'
 import theme from '../../styles/theme'
 import StyledObjectWorkHeader from '../../styles/shared/ObjectWorkHeader'
+import LuxOverlay from '../common/LuxOverlay'
 
 interface IApiText {
   entity: IEntity
@@ -29,7 +30,10 @@ const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
   return (
     <StyledEntityPageSection data-testid="carries-container">
       <StyledObjectWorkHeader>
-        This object includes the following works
+        <span className="d-flex flex-wrap">
+          <h2>This object includes the following works</h2>
+          <LuxOverlay />
+        </span>
       </StyledObjectWorkHeader>
       {/* uri is not needed in this case */}
       {carries.slice(0, displayLength).map((work) => (
