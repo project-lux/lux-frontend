@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed text alignment in results page tab buttons ([#520](https://github.com/project-lux/lux-frontend/issues/520)).
 - Fixed spacing of bar chart slider labels ([#674](https://github.com/project-lux/lux-frontend/issues/674)).
+- Fixed date facets labeling after user submission ([#509](https://github.com/project-lux/lux-frontend/issues/509)).
 
 ### Removed
 

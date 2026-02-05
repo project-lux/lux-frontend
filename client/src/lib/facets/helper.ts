@@ -1,3 +1,5 @@
+import { isNull } from 'lodash'
+
 import { IFacet, LabelFunc, Scope, facets } from '../../config/facets'
 import {
   ICriteria,
@@ -101,6 +103,20 @@ export const getFacetData = (
       : null
 
     return { mainQuery, facetQuery, selectedFacets }
+  }
+
+  return null
+}
+
+export const getSpecificFacetData = (
+  tab: string,
+  search: string,
+  scope: string,
+  requestedFacetData: string,
+): null | Set<string> | undefined => {
+  const facetData = getFacetData(tab, search, scope)
+  if (!isNull(facetData) && !isNull(facetData!.selectedFacets)) {
+    return facetData.selectedFacets.get(requestedFacetData)
   }
 
   return null
