@@ -101,7 +101,7 @@ export const relatedAccordions: IHalLinks = {
 
 // Used for rendering timelines
 export const timelines: IHalLinks = {
-  setCreationOrPublicationDate: {
+  setAboutDate: {
     searchTag: 'lux:eventSetAboutTime',
     tab: 'collections',
     jsonSearchTerm: 'publishedDate,createdDate',
