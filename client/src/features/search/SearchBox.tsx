@@ -120,12 +120,8 @@ const SearchBox: React.FC<{
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
-  const [isSimpleSearchLoading, setIsSimpleSearchLoading] = useState(false)
-  const [isAiSearchLoading, setIsAiSearchLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isAiSearch, setIsAiSearch] = useState<boolean>(false)
-  const [aiDisambiguation, setAiDisambiguation] =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useState<Array<any>>([])
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -209,18 +205,37 @@ const SearchBox: React.FC<{
         isAiSearch,
         scope: searchScope[tab],
         onSuccess: (translatedString) => {
-          const newUrlParams = new URLSearchParams()
           let newTab = tab
+          if (isAiSearch) {
+            const jsonTranslatedString = JSON.parse(translatedString)
+            newTab = scopeToTabTranslation[jsonTranslatedString._scope]
+          }
+          const newUrlParams = new URLSearchParams()
+          const query = JSON.parse(translatedString)
+          delete query._scope
+          newUrlParams.set('q', JSON.stringify(query))
+          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+          if (!isAiSearch) {
+            newUrlParams.set('sq', valueToSubmit)
+          }
+          newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
           if (closeSearchBox) {
             closeSearchBox()
           }
           inputRef.current!.value = ''
           setIsError(false)
-          setIsSimpleSearchLoading(false)
-          pushClientEvent(
-            'Search Button',
-            'Submit',
-            isAiSearch ? 'AI Search' : 'Simple Search',
+          setIsLoading(false)
+          pushClientEvent('Search Button', 'Submit', 'Simple Search')
+          navigate(
+            {
+              pathname: `/view/results/${newTab}`,
+              search: `${newUrlParams.toString()}`,
+            },
+            {
+              state: {
+                fromNonResultsPage: !isResults,
+              },
+            },
           )
           if (isAiSearch) {
             setIsAiSearchLoading(false)
@@ -341,7 +356,7 @@ const SearchBox: React.FC<{
                   onClick={() => setIsAiSearch(true)}
                   data-testid={`${id}-ai-search-submit-button`}
                 >
-                  {isAiSearchLoading ? (
+                  {isLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <i className="bi bi-stars" />
