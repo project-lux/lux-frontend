@@ -24,6 +24,8 @@ export const numInstances = getInt(process.env.NUM_INSTANCES) || -1
 
 export const dataApiBaseUrl = getString(process.env.DATA_API_BASE_URL)
 export const cmsApiBaseUrl = getString(process.env.CMS_API_BASE_URL)
+export const aiSearchApiBaseUrl = getString(process.env.AI_SEARCH_API_BASE_URL)
+
 export const wikidataImagePathname = getString(
   process.env.WIKIDATA_IMAGE_PATHNAME,
 )
