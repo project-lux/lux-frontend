@@ -46,7 +46,7 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const view: string = urlParams.has('view')
     ? (urlParams.get('view') as string)
     : 'list'
-
+  const hasSimpleSearchQuery = queryString.has('sq')
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
 
