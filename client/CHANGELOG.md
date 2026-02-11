@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added Objects and Works overlay button to objects/works included section ([#559](https://github.com/project-lux/lux-frontend/issues/559)).
+- Added AI Search components ([#836](https://github.com/project-lux/lux-frontend/issues/836)).
 
 ### Changed
 
