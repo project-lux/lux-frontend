@@ -28,8 +28,8 @@ export const dimensions: Array<string> = [
 
 export const recordTypes: Record<string, Record<string, string>> = {
   agent: {
-    person: 'Person',
-    group: 'Group',
+    Person: 'Person',
+    Group: 'Group',
   },
   item: {
     HumanMadeObject: 'Physical Object',

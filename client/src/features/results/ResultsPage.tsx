@@ -110,6 +110,7 @@ const ResultsPage: React.FC = () => {
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
+  const isAiSearch = urlParams.get('aiSearch') === 'true' || false
   const facetSearchString = urlParams.get(`${paramPrefix}f`) || null
   let searchStringWithFacets = ''
 
@@ -136,6 +137,7 @@ const ResultsPage: React.FC = () => {
   const searchResponse = useSearchQuery(
     {
       q: searchStringWithFacets,
+      isAiSearch,
       filterResults,
       page,
       tab,
