@@ -32,7 +32,6 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   isSwitchToSimpleSearch,
 }) => {
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-
   const dispatch = useAppDispatch()
   useEffect(() => {
     if (!isSimpleSearch) {
