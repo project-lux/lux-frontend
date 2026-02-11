@@ -209,18 +209,37 @@ const SearchBox: React.FC<{
         isAiSearch,
         scope: searchScope[tab],
         onSuccess: (translatedString) => {
-          const newUrlParams = new URLSearchParams()
           let newTab = tab
+          if (isAiSearch) {
+            const jsonTranslatedString = JSON.parse(translatedString)
+            newTab = scopeToTabTranslation[jsonTranslatedString._scope]
+          }
+          const newUrlParams = new URLSearchParams()
+          const query = JSON.parse(translatedString)
+          delete query._scope
+          newUrlParams.set('q', JSON.stringify(query))
+          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+          if (!isAiSearch) {
+            newUrlParams.set('sq', valueToSubmit)
+          }
+          newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
           if (closeSearchBox) {
             closeSearchBox()
           }
           inputRef.current!.value = ''
           setIsError(false)
-          setIsSimpleSearchLoading(false)
-          pushClientEvent(
-            'Search Button',
-            'Submit',
-            isAiSearch ? 'AI Search' : 'Simple Search',
+          setIsLoading(false)
+          pushClientEvent('Search Button', 'Submit', 'Simple Search')
+          navigate(
+            {
+              pathname: `/view/results/${newTab}`,
+              search: `${newUrlParams.toString()}`,
+            },
+            {
+              state: {
+                fromNonResultsPage: !isResults,
+              },
+            },
           )
           if (isAiSearch) {
             setIsAiSearchLoading(false)
