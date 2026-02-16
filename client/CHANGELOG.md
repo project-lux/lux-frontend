@@ -28,6 +28,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the selected filters labeling ([#608](https://github.com/project-lux/lux-frontend/issues/608)).
+- Changed the styling of About sections ([#670](https://github.com/project-lux/lux-frontend/issues/670)).
 
 ### Fixed
 

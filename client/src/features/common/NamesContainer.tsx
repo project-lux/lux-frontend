@@ -23,6 +23,7 @@ interface INames {
   showBreakline?: boolean
   expandColumns?: boolean
   length?: number
+  showHeader?: boolean
 }
 
 const NamesContainer: React.FC<INames> = ({
@@ -30,6 +31,7 @@ const NamesContainer: React.FC<INames> = ({
   showBreakline,
   expandColumns = false,
   length,
+  showHeader = false,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -59,6 +61,7 @@ const NamesContainer: React.FC<INames> = ({
 
   return (
     <React.Fragment>
+      {showHeader && <h3>Names</h3>}
       {Object.keys(names).map((nameLabel) => {
         if (names[nameLabel].length === 0) {
           return null
