@@ -8,6 +8,7 @@ import IEntity from '../../types/data/IEntity'
 import NamesContainer from '../common/NamesContainer'
 import ClassContainer from '../common/ClassContainer'
 import WebPages from '../common/WebPages'
+import StyledHr from '../../styles/shared/Hr'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -54,14 +55,17 @@ const About: React.FC<IProps> = ({ data }) => {
       <h2 data-testid="person-page-about-header">About {name}</h2>
       <dl className="about-person-and-group-dl">
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} />
+          <NamesContainer names={names} expandColumns length={5} showHeader />
         )}
         <ClassContainer
           label="Person or Group Class"
           entityClass={entityClass}
           className="personOrGroupClassHr"
           hideBreaklineOnDesktop
+          headerTitle="Person or Group Class"
         />
+        <StyledHr width="100%" />
+        <h3>Background</h3>
         <Dates
           date={birthDate}
           place={birthPlace}
@@ -136,7 +140,13 @@ const About: React.FC<IProps> = ({ data }) => {
           <Activity data={professionalActivity} />
         )}
         <WebPages webPages={webPages} />
-        {notes !== null && <NotesContainer notes={notes} expandColumns />}
+        {notes !== null && (
+          <React.Fragment>
+            <StyledHr width="100%" />
+            <h3>Notes</h3>
+            <NotesContainer notes={notes} expandColumns />
+          </React.Fragment>
+        )}
       </dl>
     </div>
   )

@@ -7,12 +7,13 @@ import IEntity from '../../types/data/IEntity'
 import LinkContainer from '../common/LinkContainer'
 import ClassContainer from '../common/ClassContainer'
 import WebPages from '../common/WebPages'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IProps {
   entity: IEntity
 }
 
-const AboutPanel: React.FC<IProps> = ({ entity }) => {
+const About: React.FC<IProps> = ({ entity }) => {
   const concept = new ConceptParser(entity)
   const aboutData = concept.getAboutData()
 
@@ -32,36 +33,50 @@ const AboutPanel: React.FC<IProps> = ({ entity }) => {
       <h2 data-testid="concept-about-header">About {name}</h2>
       <dl>
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} />
+          <NamesContainer names={names} expandColumns length={5} showHeader />
         )}
         <ClassContainer
           label="Concept Class"
           entityClass={entityClass}
           className="conceptClassHr"
           hideBreaklineOnDesktop
+          headerTitle="Concept Class"
         />
         {types.length > 0 && (
-          <LinkContainer
-            content={types}
-            label="Categorized As"
-            expandColumns
-            itemSpacing="single"
-            id="concept-types-link-container"
-          />
+          <React.Fragment>
+            <StyledHr width="100%" />
+            <h3>Categorized As</h3>
+            <LinkContainer
+              content={types}
+              expandColumns
+              itemSpacing="single"
+              id="concept-types-link-container"
+            />
+          </React.Fragment>
         )}
         {influences.length > 0 && (
-          <LinkContainer
-            label="Component Terms"
-            content={influences}
-            expandColumns
-            id="concept-influences-link-container"
-          />
+          <React.Fragment>
+            <StyledHr width="100%" />
+            <h3>Component Terms</h3>
+            <LinkContainer
+              label="Component Terms"
+              content={influences}
+              expandColumns
+              id="concept-influences-link-container"
+            />
+          </React.Fragment>
         )}
         <WebPages webPages={webPages} />
-        {notes !== null && <NotesContainer notes={notes} expandColumns />}
+        {notes !== null && (
+          <React.Fragment>
+            <StyledHr width="100%" />
+            <h3>Notes</h3>
+            <NotesContainer notes={notes} expandColumns />
+          </React.Fragment>
+        )}
       </dl>
     </div>
   )
 }
 
-export default AboutPanel
+export default About
