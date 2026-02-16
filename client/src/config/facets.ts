@@ -986,15 +986,15 @@ export const booleanFacetNames = new Set([
 ])
 
 export const selectedDateFacetLabels: Record<string, string> = {
-  agentStartDate: 'Born/Formed in',
-  agentEndDate: 'Died/Dissolved in',
-  agentActiveDate: 'Professionally Active in',
-  eventEndDate: 'Ended in',
-  eventStartDate: 'Started in',
-  itemEncounteredDate: 'Encountered in',
-  itemProductionDate: 'Created in',
-  setCreationDate: 'Created in',
-  setPublicationDate: 'Published in',
-  workPublicationDate: 'Published in',
-  workCreationDate: 'Created in',
+  agentStartDate: 'Born/Formed In',
+  agentEndDate: 'Died/Dissolved In',
+  agentActiveDate: 'Professionally Active In',
+  eventEndDate: 'Ended In',
+  eventStartDate: 'Started In',
+  itemEncounteredDate: 'Encountered In',
+  itemProductionDate: 'Created In',
+  setCreationDate: 'Created In',
+  setPublicationDate: 'Published In',
+  workPublicationDate: 'Published In',
+  workCreationDate: 'Created In',
 }

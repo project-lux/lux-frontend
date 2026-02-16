@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 import theme from '../theme'
 
-const ObjectWorkHeader = styled.h2`
+const ObjectWorkHeader = styled.div`
   border-bottom: solid 0.5px ${theme.color.secondary.cornflowerBlue};
 
   @media (min-width: ${theme.breakpoints.md}px) {

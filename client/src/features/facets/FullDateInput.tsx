@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { isUndefined, isNull } from 'lodash'
 
 import { addLastSelectedFacet } from '../../redux/slices/facetsSlice'
 import { useAppDispatch } from '../../app/hooks'
@@ -32,6 +33,7 @@ import {
 import { numbersToMonths } from '../../config/advancedSearch/inputTypes'
 import DayDropdown from '../dates/DayDropdown'
 import MonthDropdown from '../dates/MonthDropdown'
+import { getSpecificFacetData } from '../../lib/facets/helper'
 
 import DateSlider from './DateSlider'
 
@@ -77,12 +79,33 @@ const FullDateInput: React.FC<IFacets> = ({
   facetName,
   lastPage,
 }) => {
+  const navigate = useNavigate()
+  const { pathname, search } = useLocation()
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = searchScope[tab].slice(0, 1)
+
   let earliestFacet = getDefaultDate('')
   let defaultLatestFacet = getDefaultDate('')
   if (facetValues.requests.hasOwnProperty('call1')) {
     const dates = getDatesFromFacetValues(facetValues.requests.call1)
     if (dates.length > 0) {
-      earliestFacet = dates[0]
+      // Get the earliest date based on user input
+      const currentFacetDateValues = getSpecificFacetData(
+        subTab ? subTab : tab,
+        search,
+        scope,
+        facetName,
+      )
+      if (
+        !isNull(currentFacetDateValues) &&
+        !isUndefined(currentFacetDateValues)
+      ) {
+        const setAsArray = [...currentFacetDateValues]
+        const userSelectedEarliestDate = new Date(
+          setAsArray[0].split(' to ')[0],
+        )
+        earliestFacet = getDefaultDate(userSelectedEarliestDate.toISOString())
+      }
       defaultLatestFacet = dates[dates.length - 1]
     }
   }
@@ -99,11 +122,6 @@ const FullDateInput: React.FC<IFacets> = ({
     tab: currentTab,
     page: lastPage,
   })
-
-  const navigate = useNavigate()
-  const { pathname, search } = useLocation()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = searchScope[tab].slice(0, 1)
 
   const earliestDateId = 'earliest-date'
   const latestDateId = 'latest-date'

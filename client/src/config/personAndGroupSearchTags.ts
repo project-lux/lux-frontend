@@ -28,9 +28,9 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:agentWorkAbout',
     tab: 'works',
   },
-  collectionsCreatedBy: {
-    title: 'Collections Created By',
-    searchTag: 'lux:setCreatedByAgent',
+  collectionsCreatedPublishedInfluencedBy: {
+    title: 'Collections Created, Published, or Influenced By',
+    searchTag: 'lux:agentCreatedPublishedInfluencedSet',
     tab: 'collections',
   },
   collectionsAboutEvent: {
@@ -65,30 +65,47 @@ export const locations: IHalLink = {
 
 // Used for rendering timelines
 export const timelines: IHalLinks = {
+  // Objects Produced
   itemProductionDate: {
     searchTag: 'lux:agentItemMadeTime',
     tab: 'objects',
     jsonSearchTerm: 'producedDate',
   },
+  // Objects Encountered By
   itemEncounteredDate: {
     searchTag: 'lux:agentItemEncounteredTime',
     tab: 'objects',
     jsonSearchTerm: 'encounteredDate',
   },
+  // Works Created By
   workCreationDate: {
     searchTag: 'lux:agentWorkCreatedTime',
     tab: 'works',
     jsonSearchTerm: 'createdDate',
   },
+  // Works Published By
   workPublicationDate: {
     searchTag: 'lux:agentWorkPublishedTime',
     tab: 'works',
     jsonSearchTerm: 'publishedDate',
   },
-  setCreationOrPublicationDate: {
+  // Collections About
+  setAboutDate: {
     searchTag: 'lux:agentSetAboutTime',
     tab: 'collections',
     jsonSearchTerm: 'publishedDate,createdDate',
+  },
+  // Collections Created By
+  setCreationDate: {
+    searchTag: 'lux:agentSetCreatedTime',
+    tab: 'collections',
+    jsonSearchTerm: 'createdDate',
+  },
+  // Collections Published By
+  setPublicationDate: {
+    searchTag: 'lux:agentSetPublishedTime',
+    tab: 'collections',
+    jsonSearchTerm: 'publishedDate',
   },
 }
 

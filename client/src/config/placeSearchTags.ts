@@ -144,7 +144,7 @@ export const timelines: IHalLinks = {
     tab: 'works',
     jsonSearchTerm: 'publishedDate,createdDate',
   },
-  setCreationOrPublicationDate: {
+  setAboutDate: {
     searchTag: 'lux:placeSetAboutTime',
     tab: 'collections',
     jsonSearchTerm: 'publishedDate,createdDate',

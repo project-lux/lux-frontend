@@ -90,7 +90,9 @@ const Graph: React.FC<IProps> = ({
     ['workCreationDate', 'Works Created'],
     ['workPublicationDate', 'Works Published'],
     ['workCreationOrPublicationDate', 'Works About'],
-    ['setCreationOrPublicationDate', 'Collections About'],
+    ['setAboutDate', 'Collections About'],
+    ['setCreationDate', 'Collections Created'],
+    ['setPublicationDate', 'Collections Published'],
   ])
 
   useResizeableWindow(setIsMobile)
@@ -119,7 +121,7 @@ const Graph: React.FC<IProps> = ({
       style={{ userSelect: 'none', width: '100%' }}
       data-testid="timeline-graph-container"
     >
-      <ResponsiveContainer width="100%" height={500}>
+      <ResponsiveContainer width="100%" height={500} className="p-3">
         <BarChart
           data={graphData}
           margin={{
@@ -197,12 +199,27 @@ const Graph: React.FC<IProps> = ({
             shape={(p: any) => getShape(p)}
           />
           <Bar
-            dataKey="setCreationOrPublicationDate.totalItems"
+            dataKey="setAboutDate.totalItems"
             stackId="a"
             fill={theme.color.graphs.setAbout}
+            name={facetNameMap.get('setAboutDate') || 'setAboutDate'}
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
+            dataKey="setCreationDate.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.setCreated}
+            name={facetNameMap.get('setCreationDate') || 'setCreationDate'}
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
+            dataKey="setPublicationDate.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.setPublished}
             name={
-              facetNameMap.get('setCreationOrPublicationDate') ||
-              'setCreationOrPublicationDate'
+              facetNameMap.get('setPublicationDate') || 'setPublicationDate'
             }
             yAxisId="total"
             shape={(p: any) => getShape(p)}

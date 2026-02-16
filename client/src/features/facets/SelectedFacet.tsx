@@ -4,7 +4,7 @@ import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
 
 import config from '../../config/config'
-import { getSelectedLabel } from '../../lib/facets/helper'
+import { getFacetLabel } from '../../lib/facets/helper'
 import { removeFacet } from '../../lib/facets/removeFilter'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -15,7 +15,7 @@ import { reset } from '../../redux/slices/facetsSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import theme from '../../styles/theme'
-import { selectedDateFacetLabels } from '../../config/facets'
+import { facetLabels, selectedDateFacetLabels } from '../../config/facets'
 
 const StyledSelectedFacetContainer = styled.div`
   background: #ffffff;
@@ -58,7 +58,7 @@ const SelectedFacet: React.FC<ISelected> = ({
   const navigate = useNavigate()
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
 
-  let label = getSelectedLabel(scope, searchTag, option)
+  let label = getFacetLabel(scope, searchTag, option)
 
   const nameResult = useGetNameQuery(
     label.match('https://') ? { uri: stripYaleIdPrefix(option) } : skipToken,
@@ -86,12 +86,12 @@ const SelectedFacet: React.FC<ISelected> = ({
 
   const additionalLabel = searchTag.includes('Date')
     ? selectedDateFacetLabels[searchTag]
-    : ''
+    : facetLabels[searchTag]
 
   return (
     <StyledSelectedFacetContainer className="me-1 px-1">
-      <span className="pe-2">
-        {additionalLabel !== '' ? `${additionalLabel} ` : ''}
+      <span className="pe-2 testing">
+        <b>{additionalLabel !== '' ? `${additionalLabel}: ` : ''}</b>
         {label}
       </span>
       <StyledButton
