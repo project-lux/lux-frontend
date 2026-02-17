@@ -44,7 +44,6 @@ class App {
       res.json({
         dataApiBaseUrl: env.dataApiBaseUrl,
         cmsApiBaseUrl: env.cmsApiBaseUrl,
-        aiSearchApiBaseUrl: env.aiSearchApiBaseUrl,
         wikidataImagePathname: env.wikidataImagePathname,
         luxWikidataManifestPrefix: env.luxWikidataManifestPrefix,
         luxFeedbackUrl: env.luxFeedbackUrl,
