@@ -50,22 +50,29 @@ const About: React.FC<IProps> = ({ data }) => {
     notes,
   } = aboutData as Record<string, any>
 
+  console.log(entityClass)
   return (
     <div data-testid="about-person-group">
       <h2 data-testid="person-page-about-header">About {name}</h2>
       <dl className="about-person-and-group-dl">
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} showHeader />
+          <NamesContainer
+            names={names}
+            expandColumns
+            length={5}
+            showHeader
+            expandableListHrClassName="hideOnAboutSectionSidePanels"
+          />
         )}
         <ClassContainer
           label="Person or Group Class"
           entityClass={entityClass}
-          className="personOrGroupClassHr"
           hideBreaklineOnDesktop
           headerTitle="Person or Group Class"
+          hrClassName="hideOnAboutSectionSidePanels"
         />
-        <StyledHr width="100%" />
-        <h3>Background</h3>
+        <StyledHr width="100%" className="personOrGroupBackgroundHr" />
+        <h3>{entityClass === 'Person' ? 'Biography' : 'Background'}</h3>
         <Dates
           date={birthDate}
           place={birthPlace}
@@ -100,13 +107,16 @@ const About: React.FC<IProps> = ({ data }) => {
           expandColumns
           itemSpacing="single"
           id="group-formed-by-links-container"
+          hrClassName="hideOnAboutSectionSidePanels"
         />
         <LinkContainer
           label="Dissolved By"
           content={dissolvedBy}
           expandColumns
           id="group-dissolved-by-links-container"
+          hrClassName="hideOnAboutSectionSidePanels"
         />
+        {/* Nationality data */}
         {classifiedAs.length > 0 &&
           classifiedAs.map((obj: { [key: string]: Array<string> }) =>
             Object.keys(obj).map((key: string, ind: number) => (
@@ -118,6 +128,7 @@ const About: React.FC<IProps> = ({ data }) => {
                 length={5}
                 expandColumns
                 id={`classified-as-links-container-${ind}`}
+                hrClassName="hideOnAboutSectionSidePanels"
               />
             )),
           )}
@@ -127,6 +138,7 @@ const About: React.FC<IProps> = ({ data }) => {
           expandColumns
           itemSpacing="single"
           id="member-of-links-container"
+          hrClassName="hideOnAboutSectionSidePanels"
         />
         <LinkContainer
           label="Residence"
@@ -135,6 +147,7 @@ const About: React.FC<IProps> = ({ data }) => {
           itemSpacing="single"
           rowClassName="mb-2"
           id="group-residence-links-container"
+          hrClassName="hideOnAboutSectionSidePanels"
         />
         {professionalActivity.length > 0 && (
           <Activity data={professionalActivity} />
@@ -142,9 +155,13 @@ const About: React.FC<IProps> = ({ data }) => {
         <WebPages webPages={webPages} />
         {notes !== null && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="personOrGroupNotesHr" />
             <h3>Notes</h3>
-            <NotesContainer notes={notes} expandColumns />
+            <NotesContainer
+              notes={notes}
+              expandColumns
+              hrClassName="hideOnAboutSectionSidePanels"
+            />
           </React.Fragment>
         )}
       </dl>

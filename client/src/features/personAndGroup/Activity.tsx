@@ -5,7 +5,6 @@ import { ErrorBoundary } from 'react-error-boundary'
 import RecordLink from '../common/RecordLink'
 import StyledDataRow from '../../styles/shared/DataRow'
 import { ErrorFallback } from '../error/ErrorFallback'
-import StyledHr from '../../styles/shared/Hr'
 
 interface IEntity {
   data: Array<Record<string, string>>
@@ -55,9 +54,6 @@ const Activity: React.FC<IEntity> = ({ data }) => (
         )
       })}
     </ErrorBoundary>
-    <Col xs={12}>
-      <StyledHr $hiddenOnDesktop width="100%" className="personActivityHr" />
-    </Col>
   </StyledDataRow>
 )
 

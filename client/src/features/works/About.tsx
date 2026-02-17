@@ -75,7 +75,7 @@ const About: React.FC<IObject> = ({ entity }) => {
           <ClassContainer
             label="Work Class"
             entityClass={entityClass}
-            className="workClassHr"
+            hrClassName="workClassHr"
             textLabelClassName="col-md-3"
             textValueClassName="col-md-9"
           />

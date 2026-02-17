@@ -31,26 +31,37 @@ const About: React.FC<IProps> = ({ entity }) => {
       <h2 data-testid="place-page-about-header">About {name}</h2>
       <dl>
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} showHeader />
+          <NamesContainer
+            names={names}
+            expandColumns
+            length={5}
+            showHeader
+            expandableListHrClassName="hideOnAboutSectionSidePanels"
+          />
         )}
         {types.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="placeCategorizedAsHr" />
             <h3>Categorized As</h3>
             <LinkContainer
               content={types}
               expandColumns
               itemSpacing="single"
               id="place-types-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         <WebPages webPages={webPages} />
         {notes !== null && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="placeNotesHr" />
             <h3>Notes</h3>
-            <NotesContainer notes={notes} expandColumns />
+            <NotesContainer
+              notes={notes}
+              expandColumns
+              hrClassName="hideOnAboutSectionSidePanels"
+            />
           </React.Fragment>
         )}
       </dl>

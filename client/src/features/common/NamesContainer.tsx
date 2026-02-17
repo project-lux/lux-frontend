@@ -24,6 +24,7 @@ interface INames {
   expandColumns?: boolean
   length?: number
   showHeader?: boolean
+  expandableListHrClassName?: string
 }
 
 const NamesContainer: React.FC<INames> = ({
@@ -32,6 +33,7 @@ const NamesContainer: React.FC<INames> = ({
   expandColumns = false,
   length,
   showHeader = false,
+  expandableListHrClassName,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -77,7 +79,11 @@ const NamesContainer: React.FC<INames> = ({
               className={textLabelWidth}
               label={nameLabel === '' ? 'Additional Names' : nameLabel}
             />
-            <ExpandableList className={textValueWidth} length={length}>
+            <ExpandableList
+              className={textValueWidth}
+              length={length}
+              hrClassName={expandableListHrClassName}
+            >
               <TextValue
                 values={name(names[nameLabel])}
                 itemSpacing={showBreakline ? 'double' : 'single'}
