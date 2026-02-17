@@ -19,7 +19,10 @@ const WebPages: React.FC<{ webPages: Array<string> }> = ({ webPages }) => {
         <h3>Web Pages</h3>
         <StyledDataRow className="row">
           <TextLabel className="col-md-12" />
-          <ExpandableList className="col-md-12">
+          <ExpandableList
+            className="col-md-12"
+            hrClassName="hideOnAboutSectionSidePanels"
+          >
             <TextValue
               values={webPages.map((url: string, ind: number) => (
                 <ExternalLink

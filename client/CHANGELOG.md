@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed advanced search LUX IDs to be editable ([#827](https://github.com/project-lux/lux-frontend/issues/827)).
+- Changed the styling of About sections on People and Groups, Places, Concepts, and Events pages ([#670](https://github.com/project-lux/lux-frontend/issues/670)).
 
 ### Fixed
 
@@ -32,7 +33,6 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the selected filters labeling ([#608](https://github.com/project-lux/lux-frontend/issues/608)).
-- Changed the styling of About sections ([#670](https://github.com/project-lux/lux-frontend/issues/670)).
 
 ### Fixed
 

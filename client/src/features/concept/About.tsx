@@ -33,45 +33,57 @@ const About: React.FC<IProps> = ({ entity }) => {
       <h2 data-testid="concept-about-header">About {name}</h2>
       <dl>
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} showHeader />
+          <NamesContainer
+            names={names}
+            expandColumns
+            length={5}
+            showHeader
+            expandableListHrClassName="hideOnAboutSectionSidePanels"
+          />
         )}
         <ClassContainer
           label="Concept Class"
           entityClass={entityClass}
-          className="conceptClassHr"
+          hrClassName="hideOnAboutSectionSidePanels"
           hideBreaklineOnDesktop
           headerTitle="Concept Class"
         />
         {types.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="conceptCategorizedAsHr" />
             <h3>Categorized As</h3>
             <LinkContainer
               content={types}
               expandColumns
               itemSpacing="single"
               id="concept-types-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         {influences.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="conceptComponentTermsHr" />
             <h3>Component Terms</h3>
             <LinkContainer
               label="Component Terms"
               content={influences}
               expandColumns
               id="concept-influences-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         <WebPages webPages={webPages} />
         {notes !== null && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="conceptNotesHr" />
             <h3>Notes</h3>
-            <NotesContainer notes={notes} expandColumns />
+            <NotesContainer
+              notes={notes}
+              expandColumns
+              hrClassName="hideOnAboutSectionSidePanels"
+            />
           </React.Fragment>
         )}
       </dl>

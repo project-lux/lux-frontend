@@ -9,7 +9,7 @@ import StyledHr from '../../styles/shared/Hr'
 interface IProps {
   label: string
   entityClass: string
-  className: string
+  hrClassName: string
   hideBreaklineOnDesktop?: boolean
   textLabelClassName?: string
   textValueClassName?: string
@@ -19,14 +19,14 @@ interface IProps {
 const ClassContainer: React.FC<IProps> = ({
   label,
   entityClass,
-  className,
+  hrClassName,
   textLabelClassName = 'col-12',
   textValueClassName = 'col-12',
   hideBreaklineOnDesktop = false,
   headerTitle,
 }) => (
   <React.Fragment>
-    {headerTitle && <StyledHr width="100%" />}
+    {headerTitle && <StyledHr width="100%" className="classContainerHr" />}
     {headerTitle && <h3>{headerTitle}</h3>}
     <TextContainer
       label={isUndefined(headerTitle) ? label : undefined}
@@ -35,7 +35,7 @@ const ClassContainer: React.FC<IProps> = ({
       <TextValue values={[entityClass]} className={textValueClassName} />
       <Col xs={12}>
         <StyledHr
-          className={className}
+          className={hrClassName}
           width="100%"
           $hiddenOnDesktop={hideBreaklineOnDesktop}
         />

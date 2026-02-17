@@ -48,33 +48,43 @@ const About: React.FC<IProps> = ({ entity }) => {
       <h2 data-testid="event-about-header">About {name}</h2>
       <dl>
         {names !== null && (
-          <NamesContainer names={names} expandColumns length={5} showHeader />
+          <NamesContainer
+            names={names}
+            expandColumns
+            length={5}
+            showHeader
+            expandableListHrClassName="hideOnAboutSectionSidePanels"
+          />
         )}
         <ClassContainer
           label="Event Class"
           entityClass={entityClass}
-          className="eventClassHr"
+          hrClassName="hideOnAboutSectionSidePanels"
           hideBreaklineOnDesktop
           headerTitle="Event Class"
         />
         {agents.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventCarriedOutByHr" />
             <h3>Carried Out By</h3>
             <LinkContainer
               content={agents}
               itemSpacing="single"
               expandColumns
               id="event-agent-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         {dates.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventDatesOfEventHr" />
             <h3>Date(s) of Event</h3>
             <StyledDataRow className="row" data-testid="event-date-container">
-              <ExpandableList className="col-12">
+              <ExpandableList
+                className="col-12"
+                hrClassName="hideOnAboutSectionSidePanels"
+              >
                 <TextValue values={dates} className="col-md-9" />
               </ExpandableList>
             </StyledDataRow>
@@ -82,38 +92,40 @@ const About: React.FC<IProps> = ({ entity }) => {
         )}
         {locations.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventPlaceOfEventHr" />
             <h3>Place of Event</h3>
             <LinkContainer
               content={locations}
               itemSpacing="single"
               expandColumns
               id="event-location-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         {types.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventCategorizedAsHr" />
             <h3>Categorized As</h3>
             <LinkContainer
               content={types}
               itemSpacing="single"
               expandColumns
               id="event-types-link-container"
+              hrClassName="hideOnAboutSectionSidePanels"
             />
           </React.Fragment>
         )}
         {identifiers.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventIdentifiersHr" />
             <h3>Identifiers</h3>
             <IdentifiersList identifiers={identifiers} expandIdentiferColumn />
           </React.Fragment>
         )}
         {webPages.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventWebPagesHr" />
             <h3>Web Pages</h3>
             <TextValue
               values={webPages.map(
@@ -133,7 +145,7 @@ const About: React.FC<IProps> = ({ entity }) => {
         )}
         {part.length > 0 && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventPartHr" />
             <h3>Part</h3>
             {part.map((p: IEventPart) =>
               Object.keys(p).map((key: string, ind: number) => (
@@ -157,9 +169,13 @@ const About: React.FC<IProps> = ({ entity }) => {
         )}
         {notes !== null && (
           <React.Fragment>
-            <StyledHr width="100%" />
+            <StyledHr width="100%" className="eventNotesHr" />
             <h3>Notes</h3>
-            <NotesContainer notes={notes} expandColumns />
+            <NotesContainer
+              notes={notes}
+              expandColumns
+              hrClassName="hideOnAboutSectionSidePanels"
+            />
           </React.Fragment>
         )}
       </dl>
