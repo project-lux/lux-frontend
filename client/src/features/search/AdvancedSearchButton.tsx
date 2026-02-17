@@ -42,6 +42,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
     }
     translate({
       query: searchString,
+      isAiSearch: false,
       scope: searchScope[entityType],
       onSuccess: (translatedString) => {
         const urlParams = new URLSearchParams()
