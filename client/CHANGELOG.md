@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## v1.63.1 - 2026-02-18
+
+### Fixed
+
+- Fixed the earliest date facet default value ([#509](https://github.com/project-lux/lux-frontend/issues/509)).
+
 ## v1.63.0 - 2026-02-16
 
 ### Added
