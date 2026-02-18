@@ -89,6 +89,8 @@ const FullDateInput: React.FC<IFacets> = ({
   if (facetValues.requests.hasOwnProperty('call1')) {
     const dates = getDatesFromFacetValues(facetValues.requests.call1)
     if (dates.length > 0) {
+      // Default is the facet value
+      earliestFacet = dates[0]
       // Get the earliest date based on user input
       const currentFacetDateValues = getSpecificFacetData(
         subTab ? subTab : tab,
