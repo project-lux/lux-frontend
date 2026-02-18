@@ -27,7 +27,8 @@ const Hr = styled.hr<IProps>`
   &.productionBodyEventHr,
   &.collectionHr,
   &.responsibleUnitHr,
-  &.accessStatementHr {
+  &.accessStatementHr,
+  &.hideOnAboutSectionSidePanels {
     display: none;
   }
 

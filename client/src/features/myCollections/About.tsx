@@ -118,13 +118,13 @@ const About: React.FC<IProps> = ({ data }) => {
         />
       )}
       <span className="d-flex w-100 justify-content-between">
-        <h2 data-testid="person-page-about-header">About {name}</h2>
+        <h2 data-testid="my-collections-page-about-header">About {name}</h2>
         <EditDropdown
           handleOptionSelection={handleEditSelectionOptions}
           userUuid={userUuid}
         />
       </span>
-      <dl className="about-person-and-group mb-0">
+      <dl className="about-my-collections-and-group mb-0">
         {names !== null && (
           <NamesContainer names={names} expandColumns length={5} />
         )}
