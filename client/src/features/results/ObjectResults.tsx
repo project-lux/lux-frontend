@@ -36,7 +36,6 @@ const ObjectResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     ? (queryString.get('view') as string)
     : 'list'
   const hasSimpleSearchQuery = queryString.has('sq')
-
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
 
