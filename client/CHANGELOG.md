@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed fullscreen view on timelines ([#580](https://github.com/project-lux/lux-frontend/issues/580))
+
 ### Removed
 
 ## v1.63.1 - 2026-02-18
