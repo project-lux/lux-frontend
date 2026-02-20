@@ -10,7 +10,6 @@ import {
   addHoverHelpText,
   addSelectedHelpText,
 } from '../../redux/slices/helpTextSlice'
-// import theme from '../../styles/theme'
 
 interface IInputType {
   label: string
@@ -86,6 +85,16 @@ const TextInput: React.FC<IInputType> = ({
           onSelect={() => handleOnSelect()}
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
+          pattern={
+            field === 'id'
+              ? new RegExp('https://lux.collections.yale.edu/data/').toString()
+              : undefined
+          }
+          title={
+            field === 'id'
+              ? "The input must start with 'https://lux.collections.yale.edu/data/'"
+              : undefined
+          }
           disabled={displayName !== currentValue}
         />
       </div>
