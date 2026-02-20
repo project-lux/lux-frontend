@@ -51,9 +51,13 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
-  const uri = currentValue
+  let uri = currentValue
     ? currentValue.replace('https://lux.collections.yale.edu/data/', '')
     : ''
+  if (uri[0] === '/') {
+    // remove the preceding slash if the user is inputting a LUX ID without the namespace
+    uri = uri.slice(1)
+  }
   const { data, isSuccess } = useGetNameQuery(
     { uri },
     { skip: field !== 'id' || currentValue === undefined },

@@ -260,6 +260,14 @@ export const filterAdvancedSearch = (scope: string, state: any): any => {
       return null
     }
 
+    if (propertyToCheck === 'id') {
+      const value = currentState[propertyToCheck]
+      currentState[propertyToCheck] =
+        value[0] === '/'
+          ? `https://lux.collections.yale.edu/data/${value.slice(1)}`
+          : value
+    }
+
     currentState[propertyToCheck] = checkForStopWords(
       currentState[propertyToCheck],
     )

@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added namespace to LUX ID input in the advanced search ([#714](https://github.com/project-lux/lux-frontend/issues/714)).
+
 ### Changed
 
 ### Fixed
