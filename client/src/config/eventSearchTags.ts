@@ -101,9 +101,29 @@ export const relatedAccordions: IHalLinks = {
 
 // Used for rendering timelines
 export const timelines: IHalLinks = {
-  setAboutDate: {
-    searchTag: 'lux:eventSetAboutTime',
-    tab: 'collections',
+  objects: {
+    searchTag: 'lux:eventItemIncludedTime',
+    tab: 'objects',
     jsonSearchTerm: 'publishedDate,createdDate',
+  },
+  works: {
+    searchTag: 'lux:eventWorksAboutTime',
+    tab: 'works',
+    jsonSearchTerm: 'publishedDate,createdDate',
+  },
+  worksCausedBy: {
+    searchTag: 'lux:eventWorksCausedByTime',
+    tab: 'works',
+    jsonSearchTerm: 'causedCreationOfDate', // needs to be created
+  },
+  collectionsCausedBy: {
+    searchTag: 'lux:eventSetsCausedByTime',
+    tab: 'collections',
+    jsonSearchTerm: 'causedCreationOfDate', // needs to be created
+  },
+  setAboutDate: {
+    searchTag: 'lux:eventSetsAboutTime',
+    tab: 'collections',
+    jsonSearchTerm: 'publishedDate,createdDate', // this should be correct
   },
 }
