@@ -20,6 +20,7 @@ import {
 import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { facetNameMap } from '../../config/timeline'
 
 import CustomTooltip from './CustomTooltip'
 
@@ -83,17 +84,6 @@ const Graph: React.FC<IProps> = ({
       }),
     )
   }, [yearsArray, timelineData])
-
-  const facetNameMap: Map<string, string> = new Map([
-    ['itemProductionDate', 'Objects Produced'],
-    ['itemEncounteredDate', 'Objects Encountered'],
-    ['workCreationDate', 'Works Created'],
-    ['workPublicationDate', 'Works Published'],
-    ['workCreationOrPublicationDate', 'Works About'],
-    ['setAboutDate', 'Collections About'],
-    ['setCreationDate', 'Collections Created'],
-    ['setPublicationDate', 'Collections Published'],
-  ])
 
   useResizeableWindow(setIsMobile)
 
