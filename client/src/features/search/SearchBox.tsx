@@ -132,9 +132,7 @@ const SearchBox: React.FC<{
           const query = JSON.parse(translatedString)
           delete query._scope
           newUrlParams.set('q', JSON.stringify(query))
-          if (!isAiSearch) {
-            newUrlParams.set('sq', valueToSubmit)
-          }
+          newUrlParams.set('sq', valueToSubmit)
           newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
           if (closeSearchBox) {
             closeSearchBox()

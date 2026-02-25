@@ -31,7 +31,8 @@ const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
   const sort = queryString.get(`${tab}Sort`)
-  const hasSimpleSearchQuery = queryString.has('sq')
+  const hasSimpleSearchQuery =
+    queryString.has('sq') && !queryString.has('aiSearch')
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
