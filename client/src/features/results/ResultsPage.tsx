@@ -101,7 +101,7 @@ const ResultsPage: React.FC = () => {
   const urlParams = new URLSearchParams(search)
   const fromLandingPage = isFromLandingPage(state as { [key: string]: boolean })
   // Check if current tab q exist
-  const hasSimpleSearchQuery = urlParams.has('sq')
+  const hasSimpleSearchQuery = urlParams.has('sq') && !urlParams.has('aiSearch')
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
