@@ -9,7 +9,12 @@ export interface ISearchParams {
   facetNames?: string
   sort?: string
   rnd?: string // sequence number for random shuffle queries
-  [key: string]: string | number | { [key: string]: string } | undefined
+  [key: string]:
+    | string
+    | number
+    | boolean
+    | { [key: string]: string }
+    | undefined
 }
 
 export interface IItemParams {

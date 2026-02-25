@@ -60,6 +60,7 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
     translate({
       query: searchString,
       scope,
+      isAiSearch: false,
       onSuccess: (translatedString) => {
         dispatch(changeCurrentSearchState({ value: 'advanced' }))
         const translatedObject = JSON.parse(translatedString)

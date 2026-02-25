@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.64.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
 ## v1.63.1 - 2026-02-18
 
 ### Fixed
@@ -14,6 +24,7 @@ All notable changes to this project will be documented in this file.
 
 - Added Objects and Works overlay button to objects/works included section ([#559](https://github.com/project-lux/lux-frontend/issues/559)).
 - Added support for Collections Created, Published, or Influenced By on P&G pages ([#837](https://github.com/project-lux/lux-frontend/issues/837)).
+- Added AI Search components ([#836](https://github.com/project-lux/lux-frontend/issues/836)).
 
 ### Changed
 
