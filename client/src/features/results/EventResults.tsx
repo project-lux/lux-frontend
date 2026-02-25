@@ -35,7 +35,8 @@ const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     ? parseInt(queryString.get('pageLength')!, 10)
     : DEFAULT_PAGE_LENGTH
   const sort = queryString.get(`${tab}Sort`)
-  const hasSimpleSearchQuery = queryString.has('sq')
+  const hasSimpleSearchQuery =
+    queryString.has('sq') && !queryString.has('aiSearch')
   const view: string = queryString.has('view')
     ? (queryString.get('view') as string)
     : 'list'
