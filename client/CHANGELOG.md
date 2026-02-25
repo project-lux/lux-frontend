@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed advanced search LUX IDs to be editable ([#827](https://github.com/project-lux/lux-frontend/issues/827)).
+
 ### Fixed
 
 ### Removed
