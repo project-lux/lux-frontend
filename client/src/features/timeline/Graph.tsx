@@ -149,10 +149,51 @@ const Graph: React.FC<IProps> = ({
             layout={isMobile ? 'vertical' : 'horizontal'}
             formatter={renderLegendText}
           />
+          <defs>
+            <pattern
+              id="diagonalStripes"
+              width="10"
+              height="10"
+              patternUnits="userSpaceOnUse"
+              patternTransform="rotate(45)"
+            >
+              <rect width="10" height="10" fill={theme.color.graphs.dustyRed} />
+              <line
+                x1="0"
+                y1="0"
+                x2="0"
+                y2="10"
+                stroke="white"
+                stroke-width="5"
+              />
+            </pattern>
+            <pattern
+              id="polkaDotPattern"
+              patternUnits="userSpaceOnUse"
+              width="20"
+              height="20"
+            >
+              <rect width="20" height="20" fill={theme.color.graphs.purple} />
+              <circle cx="5" cy="5" r="2" fill="white" />
+            </pattern>
+            <pattern
+              id="star"
+              width="10"
+              height="10"
+              patternUnits="userSpaceOnUse"
+            >
+              <rect width="10" height="10" fill={theme.color.graphs.green} />
+              <polygon
+                points="0,0 2,5 0,10 5,8 10,10 8,5 10,0 5,2"
+                fill="white"
+              />
+            </pattern>
+          </defs>
           <Bar
             dataKey="itemProductionDate.totalItems"
             stackId="a"
-            fill={theme.color.graphs.produced}
+            fill="url(#diagonalStripes)"
+            // fill={theme.color.graphs.produced}
             name={
               facetNameMap.get('itemProductionDate') || 'itemProductionDate'
             }
@@ -172,7 +213,8 @@ const Graph: React.FC<IProps> = ({
           <Bar
             dataKey="workCreationDate.totalItems"
             stackId="a"
-            fill={theme.color.graphs.created}
+            fill="url(#star)"
+            // fill={theme.color.graphs.created}
             name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
             yAxisId="total"
             shape={(p: any) => getShape(p)}
@@ -180,7 +222,8 @@ const Graph: React.FC<IProps> = ({
           <Bar
             dataKey="workPublicationDate.totalItems"
             stackId="a"
-            fill={theme.color.graphs.published}
+            fill="url(#polkaDotPattern)"
+            // fill={theme.color.graphs.published}
             name={
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }

@@ -138,6 +138,13 @@ const color = {
   },
 
   graphs: {
+    // testing
+    dustyRed: '#AD1457',
+    purple: '#6A1B9A',
+    green: '#2E7D32',
+    brown: '#8D6E63',
+    black: '#000000',
+    // currently in use
     produced: '#AD1457',
     encounter: '#6A1B9A',
     published: '#8D6E63',
