@@ -22,7 +22,7 @@ import ImageThumbnail from '../common/ImageThumbnail'
 import IEvent from '../../types/data/IEvent'
 import TimelineContainer from '../timeline/TimelineContainer'
 
-import AboutPanel from './AboutPanel'
+import About from './About'
 
 const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
   const event = new EventParser(data)
@@ -66,7 +66,7 @@ const EventPage: React.FC<{ data: IEvent }> = ({ data }) => {
                     <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
-                <AboutPanel entity={data} />
+                <About entity={data} />
               </Col>
             </StyledEntityPageSection>
             <Row>

@@ -33,7 +33,7 @@ import IConcept from '../../types/data/IConcept'
 import ImageThumbnail from '../common/ImageThumbnail'
 import config from '../../config/config'
 
-import AboutPanel from './AboutPanel'
+import About from './About'
 
 const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
   const concept = new ConceptParser(data)
@@ -95,7 +95,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
                     <ImageThumbnail imageInfo={images[0]} name={name} />
                   </div>
                 )}
-                <AboutPanel entity={data} />
+                <About entity={data} />
               </Col>
             </StyledEntityPageSection>
             <Row>

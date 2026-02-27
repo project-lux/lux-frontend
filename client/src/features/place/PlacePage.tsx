@@ -35,7 +35,7 @@ import IConcept from '../../types/data/IConcept'
 import TimelineContainer from '../timeline/TimelineContainer'
 import config from '../../config/config'
 
-import AboutPanel from './AboutPanel'
+import About from './About'
 
 const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
   const place = new EntityParser(data)
@@ -116,7 +116,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
               </ErrorBoundary>
             </Col>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <AboutPanel entity={data} />
+              <About entity={data} />
             </ErrorBoundary>
             {/* <WhatWeHave
                     configuredHalLinks={relatedTypes}
