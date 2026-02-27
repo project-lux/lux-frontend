@@ -46,6 +46,16 @@ const EntityPageSection = styled.div<IProps>`
   &.resultsEntityPageSection {
     padding: 0px;
   }
+
+  &.timelineContainerFullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    margin-bottom: 0;
+  }
 `
 
 export default EntityPageSection
