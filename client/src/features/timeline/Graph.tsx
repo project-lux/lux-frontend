@@ -160,6 +160,14 @@ const Graph: React.FC<IProps> = ({
             shape={(p: any) => getShape(p)}
           />
           <Bar
+            dataKey="itemIncludedDate.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.encounter}
+            name={facetNameMap.get('itemIncludedDate') || 'itemIncludedDate'}
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
             dataKey="workCreationDate.totalItems"
             stackId="a"
             fill={theme.color.graphs.created}
@@ -174,6 +182,14 @@ const Graph: React.FC<IProps> = ({
             name={
               facetNameMap.get('workPublicationDate') || 'workPublicationDate'
             }
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
+            dataKey="workGeneratedBy.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.about}
+            name={facetNameMap.get('workGeneratedBy') || 'workGeneratedBy'}
             yAxisId="total"
             shape={(p: any) => getShape(p)}
           />
@@ -193,6 +209,14 @@ const Graph: React.FC<IProps> = ({
             stackId="a"
             fill={theme.color.graphs.setAbout}
             name={facetNameMap.get('setAboutDate') || 'setAboutDate'}
+            yAxisId="total"
+            shape={(p: any) => getShape(p)}
+          />
+          <Bar
+            dataKey="setCausedByDate.totalItems"
+            stackId="a"
+            fill={theme.color.graphs.setPublished}
+            name={facetNameMap.get('setCausedByDate') || 'setCausedByDate'}
             yAxisId="total"
             shape={(p: any) => getShape(p)}
           />

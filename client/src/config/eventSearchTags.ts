@@ -104,26 +104,25 @@ export const timelines: IHalLinks = {
   itemIncludedDate: {
     searchTag: 'lux:eventItemIncludedTime',
     tab: 'objects',
-    jsonSearchTerm: 'publishedDate,createdDate',
+  },
+  itemProductionDate: {
+    searchTag: 'lux:eventItemMadeTime',
+    tab: 'objects',
   },
   workCreationOrPublicationDate: {
     searchTag: 'lux:eventWorksAboutTime',
     tab: 'works',
-    jsonSearchTerm: 'publishedDate,createdDate',
   },
   workCausedBy: {
     searchTag: 'lux:eventWorksCausedByTime',
     tab: 'works',
-    jsonSearchTerm: 'causedCreationOfDate', // needs to be created
   },
   setCausedBy: {
     searchTag: 'lux:eventSetsCausedByTime',
     tab: 'collections',
-    jsonSearchTerm: 'causedCreationOfDate', // needs to be created
   },
   setAboutDate: {
     searchTag: 'lux:eventSetsAboutTime',
     tab: 'collections',
-    jsonSearchTerm: 'publishedDate,createdDate', // this should be correct
   },
 }
