@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.64.0 - Unreleased
+
+### Added
+
+- Added namespace to LUX ID input in the advanced search ([#714](https://github.com/project-lux/lux-frontend/issues/714)).
+
+### Changed
+
+- Changed advanced search LUX IDs to be editable ([#827](https://github.com/project-lux/lux-frontend/issues/827)).
+- Changed the styling of About sections on People and Groups, Places, Concepts, and Events pages ([#670](https://github.com/project-lux/lux-frontend/issues/670)).
+
+### Fixed
+
+- Fixed fullscreen view on timelines ([#580](https://github.com/project-lux/lux-frontend/issues/580))
+
+### Removed
+
 ## v1.63.1 - 2026-02-18
 
 ### Fixed

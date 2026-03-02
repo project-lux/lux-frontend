@@ -21,6 +21,10 @@ const GlobalStyle = createGlobalStyle`
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     background-color: ${theme.color.offWhite};
+
+    &:has(.timelineContainerFullscreen) {
+      overflow: hidden;
+    }
   }
 
   h1 {
