@@ -163,7 +163,6 @@ const Graph: React.FC<IProps> = ({
             if (!relationshipsToShowInLegend.includes(facetKey)) {
               return null
             }
-
             let defaultLegend = 'focused'
             if (isNull(activeLegend)) {
               defaultLegend = 'focused'
