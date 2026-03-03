@@ -31,6 +31,9 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
   const sort = queryString.get(`${tab}Sort`)
+  const view: string = queryString.has('view')
+    ? (queryString.get('view') as string)
+    : 'list'
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -44,7 +47,9 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const resultsList = (
     results: Array<IOrderedItems>,
   ): Array<React.ReactElement<any>> =>
-    results.map((result) => <ConceptSnippet key={result.id} uri={result.id} />)
+    results.map((result) => (
+      <ConceptSnippet key={result.id} uri={result.id} view={view} />
+    ))
 
   let estimate = 0
   if (isSuccess && data) {
@@ -66,7 +71,6 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             label="Concepts"
             overlay="conceptsAndGroupings"
             resultsData={data}
-            toggleView
           />
         </Col>
       )}
@@ -86,7 +90,12 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
           <Col xs={12} sm={12} md={9} lg={9}>
             {!isFetching && isSuccess && data && (
               <React.Fragment>
-                {resultsList(data.orderedItems)}
+                {view === 'list' && resultsList(data.orderedItems)}
+                {view === 'grid' && (
+                  <Row xs={1} sm={2} md={3} lg={4} className="g-4 mx-3 pt-2">
+                    {resultsList(data.orderedItems)}
+                  </Row>
+                )}
                 {estimate >= 20 && (
                   <Paginate
                     estimate={estimate}
