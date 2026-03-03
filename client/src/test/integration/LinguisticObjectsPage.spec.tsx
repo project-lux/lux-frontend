@@ -21,7 +21,7 @@ describe('Linguistic Object page', () => {
     it('renders the included works', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
-      await findAllByText(/This work is included in the following objects/i)
+      await findAllByText(/This Work is included in the following Objects/i)
       const container = screen.getByTestId('carried-by-container')
       expect(container).toBeInTheDocument()
     })
