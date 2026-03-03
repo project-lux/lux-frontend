@@ -70,7 +70,6 @@ const PersonResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             label="People & Groups"
             overlay="peopleAndOrgs"
             resultsData={data}
-            toggleView
           />
         </Col>
       )}

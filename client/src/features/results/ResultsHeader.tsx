@@ -63,7 +63,6 @@ interface IResultsHeader {
   label: string
   overlay: OverlayKey
   resultsData?: ISearchResults
-  toggleView?: boolean
 }
 
 const ResultsHeader: React.FC<IResultsHeader> = ({
@@ -71,7 +70,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
   label,
   overlay,
   resultsData,
-  toggleView = false,
 }) => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
@@ -325,42 +323,39 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
               <div
                 className={`d-flex toggleViewButtonDiv ${isMobile ? 'w-100' : ''}`}
               >
-                {toggleView && (
-                  <Button
-                    type="button"
-                    className="btn text-center h-100 text-nowrap rounded-3 me-2 toggleViewButton w-100"
-                    onClick={() =>
-                      changeView(currentView === 'list' ? 'grid' : 'list')
-                    }
-                    style={{
-                      // borderRadius: theme.border.radius,
-                      backgroundColor: theme.color.lightGray,
-                      color: theme.color.trueBlack,
-                      border: theme.color.trueBlack,
-                      paddingTop:
-                        width < theme.breakpoints.md ? '1em' : '0.5em',
-                      paddingBottom:
-                        width < theme.breakpoints.md ? '1em' : '0.5em',
-                    }}
-                    data-testid={
-                      currentView === 'list'
-                        ? 'switch-to-grid-view-button'
-                        : 'switch-to-list-view-button'
-                    }
-                  >
-                    {currentView === 'list' ? (
-                      <React.Fragment>
-                        <i className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block" />
-                        Grid View
-                      </React.Fragment>
-                    ) : (
-                      <React.Fragment>
-                        <i className="bi bi-list-ul mx-2 d-inline-block" />
-                        List View
-                      </React.Fragment>
-                    )}
-                  </Button>
-                )}
+                <Button
+                  type="button"
+                  className="btn text-center h-100 text-nowrap rounded-3 me-2 toggleViewButton w-100"
+                  onClick={() =>
+                    changeView(currentView === 'list' ? 'grid' : 'list')
+                  }
+                  style={{
+                    // borderRadius: theme.border.radius,
+                    backgroundColor: theme.color.lightGray,
+                    color: theme.color.trueBlack,
+                    border: theme.color.trueBlack,
+                    paddingTop: width < theme.breakpoints.md ? '1em' : '0.5em',
+                    paddingBottom:
+                      width < theme.breakpoints.md ? '1em' : '0.5em',
+                  }}
+                  data-testid={
+                    currentView === 'list'
+                      ? 'switch-to-grid-view-button'
+                      : 'switch-to-list-view-button'
+                  }
+                >
+                  {currentView === 'list' ? (
+                    <React.Fragment>
+                      <i className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block" />
+                      Grid View
+                    </React.Fragment>
+                  ) : (
+                    <React.Fragment>
+                      <i className="bi bi-list-ul mx-2 d-inline-block" />
+                      List View
+                    </React.Fragment>
+                  )}
+                </Button>
               </div>
               <Sort />
             </Col>
