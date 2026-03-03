@@ -31,7 +31,7 @@ const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
     <StyledEntityPageSection data-testid="carries-container">
       <StyledObjectWorkHeader>
         <span className="d-flex flex-wrap">
-          <h2>This object includes the following works</h2>
+          <h2>This Object includes the following Works</h2>
           <LuxOverlay />
         </span>
       </StyledObjectWorkHeader>
