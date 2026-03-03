@@ -13,6 +13,7 @@ import { IEventInfo } from '../../types/derived-data/events'
 import IdentifiersContainer from '../common/IdentifiersContainer'
 import DetailedLinkContainer from '../works/DetailedLinkContainer'
 import { hasData } from '../../lib/parse/data/helper'
+import AboutSubsection from '../works/AboutSubsection'
 
 interface IObject {
   data: IEntity
@@ -87,13 +88,11 @@ const About: React.FC<IObject> = ({ data }) => {
           )}
           {notes !== null && <NotesContainer notes={notes} showBreakline />}
           {about.length > 0 && (
-            <React.Fragment>
-              <DetailedLinkContainer
-                content={about}
-                label="About"
-                id="set-about-link-container"
-              />
-            </React.Fragment>
+            <AboutSubsection
+              content={about}
+              label="About"
+              id="sets-about-link-container"
+            />
           )}
           {represents.length > 0 && (
             <React.Fragment>
