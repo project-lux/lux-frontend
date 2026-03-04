@@ -13,6 +13,7 @@ import theme from '../../styles/theme'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
+import { facetNameMap } from '../../config/timeline'
 
 const HoverableRow = styled(Row)`
   &:hover {
@@ -30,14 +31,6 @@ const ListRow: React.FC<{
   year: string
   searchTag: string
 }> = ({ searchTags, data, year, searchTag }) => {
-  const facetNameMap: Map<string, string> = new Map([
-    ['itemProductionDate', 'Objects Produced'],
-    ['itemEncounteredDate', 'Objects Encountered'],
-    ['workCreationDate', 'Works Created'],
-    ['workPublicationDate', 'Works Published'],
-    ['workCreationOrPublicationDate', 'Works About'],
-  ])
-
   const { tab } = searchTags[searchTag]
   const { searchParams, totalItems } = data[year][
     searchTag
