@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added cartography icon and AAT config ([#561](https://github.com/project-lux/lux-frontend/issues/561)).
+- Added subject headings to sets pages ([#788](https://github.com/project-lux/lux-frontend/issues/788)).
 
 ### Changed
 

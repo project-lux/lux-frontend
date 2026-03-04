@@ -109,7 +109,7 @@ export default class SetParser extends EntityParser {
     const itemType = this.getTypes()
     const identifiers = this.getIdentifiers()
     const setCreationEvent = this.getCreationEvent()
-    const about = this.getAbout()
+    const about = this.getAboutSubsection()
     const represents = this.getRepresents()
     const notes = this.getNotes()
     const usedFor = this.getPublicationEvent()
