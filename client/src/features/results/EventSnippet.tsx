@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Card, Col, Row } from 'react-bootstrap'
 
 import EventParser from '../../lib/parse/data/EventParser'
 import StyledHr from '../../styles/shared/Hr'
@@ -10,15 +10,22 @@ import RecordLink from '../common/RecordLink'
 import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
+import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
+import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 
 import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
+  view: string
   titleOfTabbedContent?: string
 }
 
-const EventSnippet: React.FC<IProps> = ({ uri, titleOfTabbedContent }) => {
+const EventSnippet: React.FC<IProps> = ({
+  uri,
+  view,
+  titleOfTabbedContent,
+}) => {
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -30,6 +37,7 @@ const EventSnippet: React.FC<IProps> = ({ uri, titleOfTabbedContent }) => {
     const dates = event.getDates()
     const locations = event.getLocations()
     const types = event.getTypes()
+    const images = event.getImages()
 
     const snippetDataComponent = (
       <StyledDl>
@@ -65,18 +73,59 @@ const EventSnippet: React.FC<IProps> = ({ uri, titleOfTabbedContent }) => {
       </StyledDl>
     )
 
-    return (
-      <React.Fragment>
-        <div className="m-2 d-flex">
-          <SnippetHeader
-            data={data}
-            snippetData={snippetDataComponent}
-            titleOfTabbedContent={titleOfTabbedContent}
-          />
-        </div>
-        <StyledHr width="100%" className="eventSnippetHr" />
-      </React.Fragment>
-    )
+    if (view === 'list') {
+      return (
+        <React.Fragment>
+          <div className="m-2 d-flex">
+            <SnippetHeader
+              data={data}
+              snippetData={snippetDataComponent}
+              titleOfTabbedContent={titleOfTabbedContent}
+            />
+          </div>
+          <StyledHr width="100%" className="eventSnippetHr" />
+        </React.Fragment>
+      )
+    }
+
+    if (view === 'grid') {
+      return (
+        <Col className="h-auto">
+          <Card className="h-100" data-testid="grid-view">
+            {images.length > 0 ? (
+              <PreviewImageOrIcon
+                images={images}
+                entity={data}
+                className="card-img-top py-0"
+                width="auto"
+                height="auto"
+              />
+            ) : (
+              <PreviewImageOrIcon
+                images={images}
+                entity={data}
+                className="card-img-top"
+                height="152px"
+                width="auto"
+              />
+            )}
+            <Card.Body>
+              <StyledSnippetTitle
+                className="card-title d-flex"
+                data-testid="grid-view-object-results-snippet-title"
+              >
+                <RecordLink
+                  url={data.id}
+                  className="overflow-auto"
+                  linkCategory="Results Snippet"
+                />
+              </StyledSnippetTitle>
+              <Card.Text>{snippetDataComponent}</Card.Text>
+            </Card.Body>
+          </Card>
+        </Col>
+      )
+    }
   }
 
   if (isLoading) {

@@ -97,7 +97,6 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             label="Collections"
             overlay="collections"
             resultsData={data}
-            toggleView
           />
         </Col>
       )}

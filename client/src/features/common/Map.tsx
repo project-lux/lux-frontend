@@ -22,9 +22,14 @@ const defaultIcon = new L.Icon({
 interface IProps {
   config: IMapInput
   className: string
+  mapContainerClassName?: string
 }
 
-const Map: React.FC<IProps> = ({ config, className }) => {
+const Map: React.FC<IProps> = ({
+  config,
+  className,
+  mapContainerClassName,
+}) => {
   const wktStr = config.wkt
 
   if (typeof wktStr !== 'string' || wktStr === '') {
@@ -57,6 +62,7 @@ const Map: React.FC<IProps> = ({ config, className }) => {
         scrollWheelZoom={!isThumbnail}
         trackResize={!isThumbnail}
         closePopupOnClick={!isThumbnail}
+        className={mapContainerClassName}
       >
         <TileLayer
           attribution={attribution}
