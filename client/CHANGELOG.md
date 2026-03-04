@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed padding of Show All button to make it align with list ([#538](https://github.com/project-lux/lux-frontend/issues/538)).
+
 ### Removed
 
 ## v1.64.0 - 2026-03-02
