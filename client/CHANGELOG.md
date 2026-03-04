@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed hamburger menu alignment ([#562](https://github.com/project-lux/lux-frontend/issues/562)).
+
 ### Removed
 
 ## v1.64.0 - 2026-03-02
