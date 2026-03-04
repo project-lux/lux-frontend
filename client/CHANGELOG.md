@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added cartography icon and AAT config ([#561](https://github.com/project-lux/lux-frontend/issues/561)).
+
 ### Changed
 
 - Changed the objects included and works included to be capitalized ([#812](https://github.com/project-lux/lux-frontend/issues/812)).
