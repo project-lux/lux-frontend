@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed invalid relationships from the timeline legend ([#866](https://github.com/project-lux/lux-frontend/issues/866)).
+
 ## v1.64.0 - 2026-03-02
 
 ### Added

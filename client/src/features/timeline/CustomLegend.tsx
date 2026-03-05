@@ -9,7 +9,7 @@ interface IProps {
 const CustomLegend: React.FC<IProps> = ({ payload, handleOnHover }) => {
   if (payload && payload.length > 0) {
     return (
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-center">
         {payload.map(
           (
             entry: {
