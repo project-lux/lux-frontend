@@ -20,6 +20,8 @@ interface IInputType {
   scope: string
 }
 
+let timeout: NodeJS.Timeout
+
 /**
  * Form group for input values.
  * @param {string} label current selected field used for a label for the input group
@@ -50,8 +52,13 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
+  const handleOnFocus = (): void => {
+    setIsFocused(true)
+    clearTimeout(timeout)
+  }
+
   const handleOnBlur = (): void => {
-    setTimeout(() => setIsFocused(false), 1000)
+    timeout = setTimeout(() => setIsFocused(false), 1000)
   }
 
   const uri = currentValue
@@ -92,11 +99,11 @@ const TextInput: React.FC<IInputType> = ({
           onSelect={() => handleOnSelect()}
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
-          onFocus={() => setIsFocused(true)}
+          onFocus={() => handleOnFocus()}
           onBlur={() => handleOnBlur()}
           pattern={
             field === 'id'
-              ? "https://lux\.collections\.yale\.edu/data/.*"
+              ? 'https://lux.collections.yale.edu/data/.*'
               : undefined
           }
           title={
