@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 - Added SiteImprove event to the objects/works info overlay button ([#529](https://github.com/project-lux/lux-frontend/issues/529)).
 - Added support for creation event AATs ([#483](https://github.com/project-lux/lux-frontend/issues/483)).
+- Added hover functionality to timeline graph legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
 
 ### Changed
 
