@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added cartography icon and AAT config ([#561](https://github.com/project-lux/lux-frontend/issues/561)).
+- Added hover functionality to timeline graph legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
 
 ### Changed
 

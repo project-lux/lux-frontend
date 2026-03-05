@@ -11,6 +11,7 @@ import {
   ResponsiveContainer,
   Brush,
 } from 'recharts'
+import { isNull } from 'lodash'
 
 import theme from '../../styles/theme'
 import {
@@ -20,8 +21,10 @@ import {
 import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { facetNameMap } from '../../config/timeline'
 
 import CustomTooltip from './CustomTooltip'
+import CustomLegend from './CustomLegend'
 
 interface IProps {
   timelineData: ITimelinesTransformed
@@ -68,6 +71,11 @@ const Graph: React.FC<IProps> = ({
     window.innerWidth < theme.breakpoints.md,
   )
   const [graphData, setGraphData] = useState<Array<IGraphTimelineData>>([])
+  const [filteredLegend, setFilteredLegend] = useState<string | null>(null)
+
+  const handleOnHover = (value: string | null): void => {
+    setFilteredLegend(value)
+  }
 
   useEffect(() => {
     setGraphData(
@@ -84,22 +92,7 @@ const Graph: React.FC<IProps> = ({
     )
   }, [yearsArray, timelineData])
 
-  const facetNameMap: Map<string, string> = new Map([
-    ['itemProductionDate', 'Objects Produced'],
-    ['itemEncounteredDate', 'Objects Encountered'],
-    ['workCreationDate', 'Works Created'],
-    ['workPublicationDate', 'Works Published'],
-    ['workCreationOrPublicationDate', 'Works About'],
-    ['setAboutDate', 'Collections About'],
-    ['setCreationDate', 'Collections Created'],
-    ['setPublicationDate', 'Collections Published'],
-  ])
-
   useResizeableWindow(setIsMobile)
-
-  const renderLegendText = (value: string): any => (
-    <span style={{ color: 'black', fontWeight: '300' }}>{value}</span>
-  )
 
   const getShape = (props: any): ReactElement<any, any> => {
     const { fill, x, y, width, height } = props
@@ -147,83 +140,35 @@ const Graph: React.FC<IProps> = ({
           />
           <Legend
             layout={isMobile ? 'vertical' : 'horizontal'}
-            formatter={renderLegendText}
-          />
-          <Bar
-            dataKey="itemProductionDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.produced}
-            name={
-              facetNameMap.get('itemProductionDate') || 'itemProductionDate'
+            content={
+              <CustomLegend payload={undefined} handleOnHover={handleOnHover} />
             }
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
           />
-          <Bar
-            dataKey="itemEncounteredDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.encounter}
-            name={
-              facetNameMap.get('itemEncounteredDate') || 'itemEncounteredDate'
+          {Array.from(facetNameMap.entries()).map(([facetKey, facetLabel]) => {
+            let defaultLegend = 'focused'
+            if (isNull(filteredLegend)) {
+              defaultLegend = 'focused'
+            } else if (filteredLegend === facetKey) {
+              defaultLegend = 'focused'
+            } else {
+              defaultLegend = 'unFocused'
             }
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="workCreationDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.created}
-            name={facetNameMap.get('workCreationDate') || 'workCreationDate'}
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="workPublicationDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.published}
-            name={
-              facetNameMap.get('workPublicationDate') || 'workPublicationDate'
-            }
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="workCreationOrPublicationDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.about}
-            name={
-              facetNameMap.get('workCreationOrPublicationDate') ||
-              'workCreationOrPublicationDate'
-            }
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="setAboutDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.setAbout}
-            name={facetNameMap.get('setAboutDate') || 'setAboutDate'}
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="setCreationDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.setCreated}
-            name={facetNameMap.get('setCreationDate') || 'setCreationDate'}
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
-          <Bar
-            dataKey="setPublicationDate.totalItems"
-            stackId="a"
-            fill={theme.color.graphs.setPublished}
-            name={
-              facetNameMap.get('setPublicationDate') || 'setPublicationDate'
-            }
-            yAxisId="total"
-            shape={(p: any) => getShape(p)}
-          />
+            return (
+              <Bar
+                key={facetKey}
+                dataKey={`${facetKey}.totalItems`}
+                stackId="a"
+                fill={
+                  theme.color.graphs[
+                    facetKey as keyof typeof theme.color.graphs
+                  ][defaultLegend as 'focused' | 'unFocused']
+                }
+                name={facetLabel || facetKey}
+                yAxisId="total"
+                shape={(p: any) => getShape(p)}
+              />
+            )
+          })}
           <Brush
             dataKey="year"
             stroke={theme.color.primary.blue}
