@@ -72,6 +72,9 @@ const Graph: React.FC<IProps> = ({
   )
   const [graphData, setGraphData] = useState<Array<IGraphTimelineData>>([])
   const [filteredLegend, setFilteredLegend] = useState<string | null>(null)
+  // Get the relationships that are used in the timeline data to determine which relationships to show in the legend
+  const relationshipsToShowInLegend =
+    TimelineParser.getFacetsUsedForLegend(timelineData)
 
   const handleOnHover = (value: string | null): void => {
     setFilteredLegend(value)
@@ -145,6 +148,10 @@ const Graph: React.FC<IProps> = ({
             }
           />
           {Array.from(facetNameMap.entries()).map(([facetKey, facetLabel]) => {
+            if (!relationshipsToShowInLegend.includes(facetKey)) {
+              return null
+            }
+
             let defaultLegend = 'focused'
             if (isNull(filteredLegend)) {
               defaultLegend = 'focused'
