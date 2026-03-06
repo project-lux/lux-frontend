@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
-import React from 'react'
+import React, { useRef } from 'react'
+import { Overlay, Tooltip } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
@@ -20,8 +21,6 @@ interface IInputType {
   scope: string
 }
 
-let timeout: NodeJS.Timeout
-
 /**
  * Form group for input values.
  * @param {string} label current selected field used for a label for the input group
@@ -39,10 +38,31 @@ const TextInput: React.FC<IInputType> = ({
   scope,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false)
+  const [error, setError] = React.useState<string | null>(null)
+  const [showTooltip, setShowTooltip] = React.useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
 
   const dispatch = useAppDispatch()
+
   const handleOnChange = (userInput: string): void => {
+    // Validate that the input starts with the correct URL prefix if the field is 'id'
+    if (
+      field === 'id' &&
+      userInput &&
+      !userInput.startsWith('https://lux.collections.yale.edu/data/')
+    ) {
+      setError("Input must start with 'https://lux.collections.yale.edu/data/'")
+      setShowTooltip(true)
+    } else {
+      setError(null)
+      setShowTooltip(false)
+    }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
+  }
+
+  const handleOnBlur = (): void => {
+    setIsFocused(false)
+    setShowTooltip(false)
   }
 
   const handleOnSelect = (): void => {
@@ -50,15 +70,6 @@ const TextInput: React.FC<IInputType> = ({
       dispatch(addSelectedHelpText({ value: field, scope }))
       dispatch(addHoverHelpText({ value: field, scope }))
     }
-  }
-
-  const handleOnFocus = (): void => {
-    setIsFocused(true)
-    clearTimeout(timeout)
-  }
-
-  const handleOnBlur = (): void => {
-    timeout = setTimeout(() => setIsFocused(false), 1000)
   }
 
   const uri = currentValue
@@ -86,32 +97,30 @@ const TextInput: React.FC<IInputType> = ({
           </label>
         )}
         <StyledInput
+          ref={inputRef}
           type="text"
           value={
             displayName !== currentValue && !isFocused
               ? displayName
               : currentValue
           }
-          // value={displayName !== currentValue ? displayName : currentValue}
           className="form-control advancedSearchInput bg-white"
           placeholder={label}
           onChange={(e) => handleOnChange(e.currentTarget.value)}
           onSelect={() => handleOnSelect()}
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
-          onFocus={() => handleOnFocus()}
+          onFocus={() => setIsFocused(true)}
           onBlur={() => handleOnBlur()}
-          pattern={
-            field === 'id'
-              ? 'https://lux.collections.yale.edu/data/.*'
-              : undefined
-          }
-          title={
-            field === 'id'
-              ? "The input must start with 'https://lux.collections.yale.edu/data/'"
-              : undefined
-          }
+          aria-invalid={!!error}
         />
+        <Overlay
+          target={inputRef.current}
+          show={showTooltip && !!error}
+          placement="bottom"
+        >
+          <Tooltip id={`tooltip-${id}`}>{error}</Tooltip>
+        </Overlay>
       </div>
     </div>
   )
