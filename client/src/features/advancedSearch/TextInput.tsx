@@ -60,10 +60,6 @@ const TextInput: React.FC<IInputType> = ({
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
-  const handleOnBlur = (): void => {
-    setIsFocused(false)
-  }
-
   const handleOnSelect = (): void => {
     if (scope !== undefined) {
       dispatch(addSelectedHelpText({ value: field, scope }))
@@ -110,7 +106,7 @@ const TextInput: React.FC<IInputType> = ({
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => handleOnBlur()}
+          onBlur={() => setIsFocused(false)}
           aria-invalid={!isValid}
         />
       </div>
