@@ -752,7 +752,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
           defaultOptionsName: 'keyword',
         },
         aboutAgent: {
-          label: 'About People & Groups',
+          label: 'About Person or Group',
           helpText:
             'Search for Works that are about the specified People & Groups.',
           relation: 'agent',

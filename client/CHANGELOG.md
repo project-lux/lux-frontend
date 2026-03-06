@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the objects included and works included to be capitalized ([#812](https://github.com/project-lux/lux-frontend/issues/812)).
+- Changed About People & Groups facet label to About Person or Group ([#615](https://github.com/project-lux/lux-frontend/issues/615)).
 
 ### Fixed
 
