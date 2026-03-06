@@ -1,6 +1,4 @@
-/* eslint-disable prettier/prettier */
 import React, { useRef } from 'react'
-import { Overlay, Tooltip } from 'react-bootstrap'
 
 import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
@@ -38,9 +36,8 @@ const TextInput: React.FC<IInputType> = ({
   scope,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false)
-  const [error, setError] = React.useState<string | null>(null)
-  const [showTooltip, setShowTooltip] = React.useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
+  const [isValid, setIsValid] = React.useState(true)
 
   const dispatch = useAppDispatch()
 
@@ -51,18 +48,20 @@ const TextInput: React.FC<IInputType> = ({
       userInput &&
       !userInput.startsWith('https://lux.collections.yale.edu/data/')
     ) {
-      setError("Input must start with 'https://lux.collections.yale.edu/data/'")
-      setShowTooltip(true)
+      inputRef.current?.setCustomValidity(
+        "Input must start with 'https://lux.collections.yale.edu/data/'",
+      )
+      inputRef.current?.reportValidity()
+      setIsValid(false)
     } else {
-      setError(null)
-      setShowTooltip(false)
+      inputRef.current?.setCustomValidity('')
+      setIsValid(true)
     }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
   const handleOnBlur = (): void => {
     setIsFocused(false)
-    setShowTooltip(false)
   }
 
   const handleOnSelect = (): void => {
@@ -112,15 +111,8 @@ const TextInput: React.FC<IInputType> = ({
           id={id}
           onFocus={() => setIsFocused(true)}
           onBlur={() => handleOnBlur()}
-          aria-invalid={!!error}
+          aria-invalid={!isValid}
         />
-        <Overlay
-          target={inputRef.current}
-          show={showTooltip && !!error}
-          placement="bottom"
-        >
-          <Tooltip id={`tooltip-${id}`}>{error}</Tooltip>
-        </Overlay>
       </div>
     </div>
   )
