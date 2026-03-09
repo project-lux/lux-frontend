@@ -16,6 +16,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed hamburger menu alignment ([#562](https://github.com/project-lux/lux-frontend/issues/562)).
+- Fixed padding of Show All button to make it align with list ([#538](https://github.com/project-lux/lux-frontend/issues/538)).
 
 ### Removed
 
