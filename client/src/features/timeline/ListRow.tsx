@@ -29,7 +29,9 @@ const ListRow: React.FC<{
   data: ITimelinesTransformed
   year: string
   searchTag: string
-}> = ({ searchTags, data, year, searchTag }) => {
+  ref: (el: HTMLAnchorElement | null) => void
+  currentFocus: number
+}> = ({ searchTags, data, year, searchTag, ref, currentFocus }) => {
   const facetNameMap: Map<string, string> = new Map([
     ['itemProductionDate', 'Objects Produced'],
     ['itemEncounteredDate', 'Objects Encountered'],
@@ -44,7 +46,11 @@ const ListRow: React.FC<{
   ] as ITimelineCriteria
 
   return (
-    <HoverableRow key={`${searchTag}-${year}`}>
+    <HoverableRow
+      key={`${searchTag}-${year}`}
+      ref={ref}
+      tabIndex={currentFocus}
+    >
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${searchTag}-relationship`}>
           {facetNameMap.get(searchTag)}

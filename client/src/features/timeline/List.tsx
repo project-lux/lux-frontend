@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+/* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
+/* eslint-disable jsx-a11y/no-noninteractive-tabindex */
+import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -43,8 +45,15 @@ const List: React.FC<IProps> = ({
   transformedData,
   searchTags,
 }) => {
+  const unitLength = 20
+  const [displayLength, setDisplayLength] = useState<number>(unitLength)
+  const [focusedIndex, setFocusedIndex] = useState<number | null>(null)
+  const listRef = useRef<HTMLUListElement>(null)
+  const rowRefs = useRef<(HTMLAnchorElement | null)[]>([])
   // set the years to render based on user filtering
   const sortedYearsRange: Array<string> = []
+  console.log('rowRefs: ', rowRefs.current)
+  console.log('listRef: ', listRef.current)
 
   yearsArray.map((y) => {
     if (sortedKeys.includes(y)) {
@@ -52,8 +61,38 @@ const List: React.FC<IProps> = ({
     }
   })
 
-  const unitLength = 20
-  const [displayLength, setDisplayLength] = useState<number>(unitLength)
+  useEffect(() => {
+    if (focusedIndex !== null && rowRefs.current[focusedIndex]) {
+      rowRefs.current[focusedIndex]?.focus()
+    }
+  }, [focusedIndex])
+
+  const handleKeyDown = (
+    e: React.KeyboardEvent<HTMLUListElement>,
+  ): number | null => {
+    if (sortedYearsRange.length === 0) {
+      return null
+    }
+    if (e.key === 'ArrowRight') {
+      e.preventDefault()
+      setFocusedIndex((prev) => {
+        if (prev === null) return 0
+        return (prev + 1) % sortedYearsRange.length
+      })
+    } else if (e.key === 'ArrowLeft') {
+      e.preventDefault()
+      setFocusedIndex((prev) => {
+        if (prev === null) return sortedYearsRange.length - 1
+        return (prev - 1 + sortedYearsRange.length) % sortedYearsRange.length
+      })
+    }
+
+    return null
+  }
+
+  const handleListFocus = (): void => {
+    if (focusedIndex === null) setFocusedIndex(0)
+  }
 
   const handleShowMore = (): void => {
     setDisplayLength(displayLength + unitLength)
@@ -65,10 +104,27 @@ const List: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      <dl data-testid="timeline-list-container">
-        {sortedYearsRange.slice(0, displayLength).map((year) => (
+      <dl
+        ref={listRef}
+        tabIndex={0}
+        onKeyDown={handleKeyDown}
+        onFocus={handleListFocus}
+        style={{ listStyle: 'disc', paddingLeft: 24 }}
+        data-testid="timeline-list-container"
+      >
+        {sortedYearsRange.slice(0, displayLength).map((year, idx) => (
           <StyledDiv key={year} className="mb-2">
-            <HoverableRow>
+            <HoverableRow
+              ref={(el: HTMLAnchorElement | null) =>
+                (rowRefs.current[idx] = el)
+              }
+              tabIndex={focusedIndex === idx ? 0 : -1}
+              style={{
+                background: focusedIndex === idx ? '#e0e0e0' : 'transparent',
+                outline: focusedIndex === idx ? '2px solid #1976d2' : 'none',
+              }}
+              onBlur={() => setFocusedIndex(null)}
+            >
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                 <StyledDt data-testid={`${year}-label`}>
                   {TimelineParser.getYearWithLabel(year)}
@@ -89,6 +145,12 @@ const List: React.FC<IProps> = ({
                       data={transformedData}
                       year={year}
                       searchTag={searchTag}
+                      ref={(el: HTMLAnchorElement | null) => {
+                        if (listRef.current !== null) {
+                          listRef.current[ind] = el
+                        }
+                      }}
+                      currentFocus={focusedIndex === idx ? 0 : -1}
                     />
                   </dl>
                 )
