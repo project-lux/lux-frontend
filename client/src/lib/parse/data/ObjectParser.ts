@@ -30,6 +30,32 @@ export default class ObjectParser extends EntityParser {
   }
 
   /**
+   * Returns object with call number data or the first available identifier
+   * @returns {{label: string; identifier: Array<string>; carriedOutBy: Array<string>} | null}
+   */
+  static getCallNumber(
+    identifiers: Array<{
+      label: string
+      identifier: Array<string>
+      carriedOutBy: Array<string>
+      equivalent: Array<string>
+    }>,
+  ): string | null {
+    if (identifiers.length > 0) {
+      for (const id of identifiers) {
+        if (
+          !isUndefined(id.equivalent) &&
+          id.equivalent.includes(config.aat.callNumber)
+        ) {
+          return id.identifier[0]
+        }
+      }
+    }
+
+    return null
+  }
+
+  /**
    * Returns array of uuids from /made_of
    * @returns {Array<string>}
    */
@@ -269,34 +295,6 @@ export default class ObjectParser extends EntityParser {
     const digitallyShows = forceArray(object.digitally_shows)
 
     return getClassifiedAs(digitallyShows)
-  }
-
-  /**
-   * Returns object with call number data or the first available identifier
-   * This will not always return a call number. If the object does not have a call number,
-   * the first available identifier will be returned instead.
-   * @returns {{label: string; identifier: Array<string>; carriedOutBy: Array<string>} | null}
-   */
-  getCallNumber(): {
-    label: string
-    identifier: Array<string>
-    carriedOutBy: Array<string>
-  } | null {
-    const identifiers = this.getIdentifiers()
-    if (identifiers.length > 0) {
-      for (const identifier of identifiers) {
-        if (
-          !isUndefined(identifier.equivalent) &&
-          identifier.equivalent.includes(config.aat.callNumber)
-        ) {
-          return identifier
-        }
-      }
-
-      return identifiers[0]
-    }
-
-    return null
   }
 
   /**
