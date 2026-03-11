@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Col } from 'react-bootstrap'
 
@@ -15,20 +15,33 @@ import { getNextPlaceUris } from '../../lib/util/hierarchyHelpers'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import RecordLink from '../common/RecordLink'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const PlaceSnippet: React.FC<IProps> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -88,7 +101,18 @@ const PlaceSnippet: React.FC<IProps> = ({
               titleOfTabbedContent={titleOfTabbedContent}
             />
           </div>
-          <StyledHr width="100%" className="placeSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`placeSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

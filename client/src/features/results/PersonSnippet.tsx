@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Col, Row } from 'react-bootstrap'
 
@@ -15,20 +15,33 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import SnippetHeader from './SnippetHeader'
 
 interface ISearchData {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const PersonSnippet: React.FC<ISearchData> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -98,7 +111,18 @@ const PersonSnippet: React.FC<ISearchData> = ({
               {dates}
             </SnippetHeader>
           </div>
-          <StyledHr width="100%" className="personSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`personSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

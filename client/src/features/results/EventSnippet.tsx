@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 
 import EventParser from '../../lib/parse/data/EventParser'
@@ -12,20 +12,33 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const EventSnippet: React.FC<IProps> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -83,7 +96,18 @@ const EventSnippet: React.FC<IProps> = ({
               titleOfTabbedContent={titleOfTabbedContent}
             />
           </div>
-          <StyledHr width="100%" className="eventSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`eventSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

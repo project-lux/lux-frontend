@@ -26,6 +26,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed the final breaking line on results page in mobile view when necessary ([#539](https://github.com/project-lux/lux-frontend/issues/539)).
+
 ## v1.64.0 - 2026-03-02
 
 ### Added
