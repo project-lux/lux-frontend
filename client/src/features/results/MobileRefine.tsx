@@ -28,6 +28,12 @@ const StyledAccordion = styled(Accordion)`
   }
 `
 
+const StyledModal = styled(Modal)`
+  .modal-dialog {
+    padding-top: 100px;
+  }
+`
+
 interface IProps {
   handleSelectionOfSortDirection: (x: string) => void
   handleSelectionOfSortTerm: (x: string) => void
@@ -61,18 +67,18 @@ const MobileRefine: React.FC<IProps> = ({
     <React.Fragment>
       <SecondaryButton
         onClick={() => handleShow(!fullscreen)}
-        className="w-100"
+        className="w-100 order-1 me-2"
       >
         <i className="bi bi-funnel me-1" />
         Sort & Refine
       </SecondaryButton>
-      <Modal show={show} fullscreen onHide={() => setShow(false)}>
+      <StyledModal show={show} fullscreen onHide={() => setShow(false)}>
         <Modal.Header closeButton>
           <Modal.Title hidden>Sort and Refine</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <div className="mb-3">
-            <h3>Sort</h3>
+            <h1>Sort</h1>
             <StyledAccordion>
               <Accordion.Item eventKey="0">
                 <Accordion.Header style={{ lineHeight: '20px' }}>
@@ -124,10 +130,10 @@ const MobileRefine: React.FC<IProps> = ({
               </Accordion.Item>
             </StyledAccordion>
           </div>
-          <h3>Refine</h3>
+          <h1>Refine</h1>
           <FacetContainer />
         </Modal.Body>
-      </Modal>
+      </StyledModal>
     </React.Fragment>
   )
 }

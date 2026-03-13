@@ -321,11 +321,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
               className={`d-flex ${width < theme.breakpoints.sm ? 'w-100' : 'w-auto'} ${justifyContent} resultsHeaderSortingCol`}
             >
               <div
-                className={`d-flex toggleViewButtonDiv ${isMobile ? 'w-100' : ''}`}
+                className={`d-flex toggleViewButtonDiv ${isMobile ? 'w-100 order-2' : 'order-1'}`}
               >
                 <Button
                   type="button"
-                  className="btn text-center h-100 text-nowrap rounded-3 me-2 toggleViewButton w-100"
+                  className={`btn text-center h-100 text-nowrap rounded-3 toggleViewButton w-100 ${isMobile ? '' : 'me-2'}`}
                   onClick={() =>
                     changeView(currentView === 'list' ? 'grid' : 'list')
                   }
@@ -346,12 +346,18 @@ const ResultsHeader: React.FC<IResultsHeader> = ({
                 >
                   {currentView === 'list' ? (
                     <React.Fragment>
-                      <i className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block" />
+                      <i
+                        className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block"
+                        style={{ color: theme.color.link }}
+                      />
                       Grid View
                     </React.Fragment>
                   ) : (
                     <React.Fragment>
-                      <i className="bi bi-list-ul mx-2 d-inline-block" />
+                      <i
+                        className="bi bi-list-ul mx-2 d-inline-block"
+                        style={{ color: theme.color.link }}
+                      />
                       List View
                     </React.Fragment>
                   )}

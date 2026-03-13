@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 - Fixed padding of Show All button to make it align with list ([#538](https://github.com/project-lux/lux-frontend/issues/538)).
 - Fixed grid view button on Concept results page ([#575](https://github.com/project-lux/lux-frontend/issues/575)).
 - Fixed identifiers rendering on Object snippets ([#585](https://github.com/project-lux/lux-frontend/issues/585)).
+- Fixed mobile UI issues per POW designs ([#786](https://github.com/project-lux/lux-frontend/issues/786)).
 
 ### Removed
 

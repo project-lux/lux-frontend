@@ -13,6 +13,7 @@ const StyledButton = styled(Button)`
   background-color: white;
   margin-left: 0px;
   text-decoration: none;
+  font-weight: ${theme.font.mobile.bodyLight.weight};
 
   &:hover {
     text-decoration: underline;
@@ -20,6 +21,7 @@ const StyledButton = styled(Button)`
 
   @media (min-width: ${theme.breakpoints.md}px) {
     margin-left: 0.5em;
+    font-weight: ${theme.font.desktop.bodyRegular.weight};
   }
 `
 
