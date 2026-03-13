@@ -65,7 +65,11 @@ const ObjectSnippet: React.FC<ISearchData> = ({
     const types = object.getTypes()
     const images = object.getImages()
     const identifiers = object.getIdentifiers()
-    const callNumber = object.getCallNumber()
+    const callNumber = ObjectParser.getCallNumber(identifiers)
+    // Get the number of identifiers to determine whether to show "..." in the snippet
+    const numOfIdentifiers = identifiers.reduce((total, identifier) => {
+      return total + identifier.identifier.length
+    }, 0)
     const eventAgents = object.getAgentsFromProductionEvent()
     const eventDate = object.getDateFromProductionEvent()
     let label = 'Produced By'
@@ -131,13 +135,18 @@ const ObjectSnippet: React.FC<ISearchData> = ({
               </Col>
             </Row>
           )}
-          {callNumber !== null && (
+          {identifiers.length > 0 && (
             <Row>
               <Col>
                 <StyledDt>Identifiers</StyledDt>
                 <StyledDd data-testid="object-snippet-identifiers">
-                  {callNumber.identifier}
-                  {identifiers.length > 1 && '...'}
+                  {callNumber !== null ? callNumber : null}
+                  {callNumber === null &&
+                  identifiers.length > 0 &&
+                  identifiers[0].identifier.length > 0
+                    ? identifiers[0].identifier[0]
+                    : null}
+                  {numOfIdentifiers > 1 && '...'}
                 </StyledDd>
               </Col>
             </Row>
