@@ -2,9 +2,14 @@ import styled from 'styled-components'
 
 import theme from '../../theme'
 
-const StyledInputGroupDiv = styled.div`
+interface IProps {
+  backgroundColor?: string
+}
+
+const StyledInputGroupDiv = styled.div<IProps>`
   border: solid 1px ${theme.color.gray};
   border-radius: ${theme.border.radius};
+  background-color: ${(props) => props.backgroundColor};
 
   .dropdown-toggle {
     color: ${theme.color.button};
