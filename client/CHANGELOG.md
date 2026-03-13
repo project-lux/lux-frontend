@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added cartography icon and AAT config ([#561](https://github.com/project-lux/lux-frontend/issues/561)).
 - Added grid view button to Event results page ([#576](https://github.com/project-lux/lux-frontend/issues/576)).
 - Added grid view button to Place results page ([#531](https://github.com/project-lux/lux-frontend/issues/531)).
+- Added subject headings to sets pages ([#788](https://github.com/project-lux/lux-frontend/issues/788)).
 
 ### Changed
 

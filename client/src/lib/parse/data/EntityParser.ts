@@ -754,6 +754,29 @@ export default class EntityParser {
   }
 
   /**
+   * Returns array of transformed publication event data
+   * @returns {Array<IEventInfo>}
+   */
+  getAboutSubsection(): Array<Array<string> | string> {
+    const about = forceArray(this.json.about)
+    const aboutIds = getClassifiedAs(about)
+
+    const aboutData = about
+      .map((obj) => {
+        const ids: Array<string> = []
+        if (obj.hasOwnProperty('created_by')) {
+          obj.created_by.influenced_by.map((influencedBy: IEntity) => {
+            ids.push(influencedBy.id!)
+          })
+        }
+        return ids
+      })
+      .filter((arr) => arr.length !== 0)
+
+    return [...aboutData, ...aboutIds]
+  }
+
+  /**
    * Determines if the current entity is classified as the specified type
    * @param {string} typeId the HAL link name being requested
    * @returns {boolean}
