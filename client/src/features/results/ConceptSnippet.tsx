@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
@@ -14,20 +14,33 @@ import { getNextConceptUris } from '../../lib/util/hierarchyHelpers'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import RecordLink from '../common/RecordLink'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import SnippetHeader from './SnippetHeader'
 
 interface IProps {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const ConceptSnippet: React.FC<IProps> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -73,7 +86,18 @@ const ConceptSnippet: React.FC<IProps> = ({
               titleOfTabbedContent={titleOfTabbedContent}
             />
           </div>
-          <StyledHr width="100%" className="conceptSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`conceptSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

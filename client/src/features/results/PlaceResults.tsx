@@ -44,13 +44,6 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     errorMessage = error.data.errorMessage
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement<any>> =>
-    results.map((result) => (
-      <PlaceSnippet key={result.id} uri={result.id} view={view} />
-    ))
-
   let estimate = 0
   if (isSuccess && data) {
     estimate = getEstimates(data)
@@ -60,6 +53,19 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   if (status === 'uninitialized') {
     return null
   }
+
+  const resultsList = (
+    results: Array<IOrderedItems>,
+  ): Array<React.ReactElement<any>> =>
+    results.map((result, ind) => (
+      <PlaceSnippet
+        key={result.id}
+        uri={result.id}
+        view={view}
+        totalResults={estimate}
+        index={ind + 1}
+      />
+    ))
 
   return (
     <StyledEntityResultsRow>
