@@ -70,7 +70,6 @@ const WorksResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             label="Works"
             overlay="works"
             resultsData={data}
-            toggleView
           />
         </Col>
       )}
