@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -19,6 +19,8 @@ import {
   getNextSetUris,
   isEntityAnArchive,
 } from '../../lib/util/hierarchyHelpers'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
@@ -26,14 +28,25 @@ import SnippetHeader from './SnippetHeader'
 interface ISearchData {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const ObjectSnippet: React.FC<ISearchData> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -52,7 +65,11 @@ const ObjectSnippet: React.FC<ISearchData> = ({
     const types = object.getTypes()
     const images = object.getImages()
     const identifiers = object.getIdentifiers()
-    const callNumber = object.getCallNumber()
+    const callNumber = ObjectParser.getCallNumber(identifiers)
+    // Get the number of identifiers to determine whether to show "..." in the snippet
+    const numOfIdentifiers = identifiers.reduce((total, identifier) => {
+      return total + identifier.identifier.length
+    }, 0)
     const eventAgents = object.getAgentsFromProductionEvent()
     const eventDate = object.getDateFromProductionEvent()
     let label = 'Produced By'
@@ -118,13 +135,18 @@ const ObjectSnippet: React.FC<ISearchData> = ({
               </Col>
             </Row>
           )}
-          {callNumber !== null && (
+          {identifiers.length > 0 && (
             <Row>
               <Col>
                 <StyledDt>Identifiers</StyledDt>
                 <StyledDd data-testid="object-snippet-identifiers">
-                  {callNumber.identifier}
-                  {identifiers.length > 1 && '...'}
+                  {callNumber !== null ? callNumber : null}
+                  {callNumber === null &&
+                  identifiers.length > 0 &&
+                  identifiers[0].identifier.length > 0
+                    ? identifiers[0].identifier[0]
+                    : null}
+                  {numOfIdentifiers > 1 && '...'}
                 </StyledDd>
               </Col>
             </Row>
@@ -153,7 +175,18 @@ const ObjectSnippet: React.FC<ISearchData> = ({
               titleOfTabbedContent={titleOfTabbedContent}
             />
           </div>
-          <StyledHr width="100%" className="my-3 objectSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`objectSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

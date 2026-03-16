@@ -16,7 +16,7 @@ const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
     return null
   }
 
-  const title = 'This work is included in the following objects'
+  const title = 'This Work is included in the following Objects'
 
   return (
     <StyledEntityPageSection data-testid="carried-by-container">

@@ -50,7 +50,6 @@ const About: React.FC<IProps> = ({ data }) => {
     notes,
   } = aboutData as Record<string, any>
 
-  console.log(entityClass)
   return (
     <div data-testid="about-person-group">
       <h2 data-testid="person-page-about-header">About {name}</h2>

@@ -6,6 +6,7 @@ import {
   getProperty,
   isEmptyObj,
 } from '../../lib/advancedSearch/advancedSearchParser'
+import theme from '../../styles/theme'
 
 import FieldSelectRow from './FieldSelectRow'
 import Group from './Group'
@@ -45,10 +46,17 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   childInd = undefined,
   siblings = undefined,
   parentGroupName = undefined,
-  parentBgColor = 'bg-white',
+  parentBgColor = 'bg-light',
   hasYoungerSiblings = false,
 }) => {
   const stateKeys = Object.keys(state)
+
+  // Used to determine the background color of the current row based on the background color of the parent group
+  const rowBgColor =
+    parentBgColor === 'bg-white'
+      ? theme.color.advancedSearchRow
+      : theme.color.white
+
   // The current state object is empty
   if (isEmptyObj(stateKeys)) {
     return (
@@ -60,6 +68,7 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         childInd={childInd}
         siblings={siblings}
         parentBgColor={parentBgColor}
+        rowBgColor={rowBgColor}
       />
     )
   }
@@ -90,6 +99,11 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
         bgColor={state._bgColor}
+        rowBgColor={
+          state._bgColor === 'bg-white'
+            ? theme.color.advancedSearchRow
+            : theme.color.white
+        }
       />
     )
   }
@@ -103,9 +117,10 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
         parentScope={parentScope}
         parentStateId={parentStateId}
         nestedLevel={nestedLevel}
-        bgColor={parentBgColor}
+        parentBgColor={parentBgColor}
         hasYoungerSiblings={hasYoungerSiblings}
         parentGroupName={parentGroupName}
+        rowBgColor={rowBgColor}
       />
     )
   }

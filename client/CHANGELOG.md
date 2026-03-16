@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.65.0 - 2026-3-16
+
+### Added
+
+- Added cartography icon and AAT config ([#561](https://github.com/project-lux/lux-frontend/issues/561)).
+- Added grid view button to Event results page ([#576](https://github.com/project-lux/lux-frontend/issues/576)).
+- Added grid view button to Place results page ([#531](https://github.com/project-lux/lux-frontend/issues/531)).
+- Added subject headings to sets pages ([#788](https://github.com/project-lux/lux-frontend/issues/788)).
+
+### Changed
+
+- Changed the objects included and works included to be capitalized ([#812](https://github.com/project-lux/lux-frontend/issues/812)).
+- Changed About People & Groups facet label to About Person or Group ([#615](https://github.com/project-lux/lux-frontend/issues/615)).
+- Changed the row background color in advanced search per POW designs ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+- Changed the advanced search collapse container button color per POW designs ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+
+### Fixed
+
+- Fixed hamburger menu alignment ([#562](https://github.com/project-lux/lux-frontend/issues/562)).
+- Fixed padding of Show All button to make it align with list ([#538](https://github.com/project-lux/lux-frontend/issues/538)).
+- Fixed grid view button on Concept results page ([#575](https://github.com/project-lux/lux-frontend/issues/575)).
+- Fixed identifiers rendering on Object snippets ([#585](https://github.com/project-lux/lux-frontend/issues/585)).
+- Fixed mobile UI issues per POW designs ([#786](https://github.com/project-lux/lux-frontend/issues/786)).
+
+### Removed
+
+- Removed the final breaking line on results page in mobile view when necessary ([#539](https://github.com/project-lux/lux-frontend/issues/539)).
+
 ## v1.64.2 - 2026-3-2
 
 ### Fixed

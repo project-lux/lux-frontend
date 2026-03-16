@@ -59,6 +59,7 @@ export const iconAats: Map<string, Array<string>> = new Map([
   ['http,//vocab.getty.edu/aat/300191372', [numismaticsIcon, 'numismatics']],
   ['http://vocab.getty.edu/aat/300028094', [cartographyIcon, 'cartography']],
   ['http://vocab.getty.edu/aat/300028053', [cartographyIcon, 'cartography']],
+  ['http://vocab.getty.edu/aat/300028052', [cartographyIcon, 'cartography']],
   ['http://vocab.getty.edu/aat/300263857', [videoIcon, 'video']],
   ['http://vocab.getty.edu/aat/300028682', [videoIcon, 'video']],
   ['http://vocab.getty.edu/aat/300028689', [videoIcon, 'video']],

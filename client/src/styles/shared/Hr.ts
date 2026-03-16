@@ -28,7 +28,8 @@ const Hr = styled.hr<IProps>`
   &.collectionHr,
   &.responsibleUnitHr,
   &.accessStatementHr,
-  &.hideOnAboutSectionSidePanels {
+  &.hideOnAboutSectionSidePanels,
+  &.lastResult {
     display: none;
   }
 
