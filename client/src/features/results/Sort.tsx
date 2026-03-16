@@ -106,7 +106,7 @@ const Sort: React.FC = () => {
       <SortDropdown
         options={sortByOptions}
         handleChange={handleSortSelection}
-        className="sortingDropdown me-2"
+        className="sortingDropdown me-2 order-2"
         id="sorting-dropdown"
         selected={sort}
         label="Sort By"
@@ -117,7 +117,7 @@ const Sort: React.FC = () => {
       <SortDropdown
         options={sortDirection}
         handleChange={handleSortDirectionSelection}
-        className="sortAscOrDesc me-0"
+        className="sortAscOrDesc me-0 order-3"
         id="sort-asc-or-desc"
         selected={sortDirectionParamValue}
         label={selectedSortDirection}

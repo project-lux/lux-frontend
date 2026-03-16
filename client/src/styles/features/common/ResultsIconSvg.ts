@@ -2,9 +2,13 @@ import styled from 'styled-components'
 
 import theme from '../../theme'
 
-const ResultsIconSvg = styled.object`
+interface IProps {
+  border?: string
+}
+
+const ResultsIconSvg = styled.object<IProps>`
   position: relative;
-  border: 2px solid #00356b;
+  border: ${(props) => props.border || '2px solid #00356b'};
   border-radius: 1px;
   padding: 3px;
   height: 40px;

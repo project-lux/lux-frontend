@@ -14,6 +14,7 @@ import { IFacetsPagination } from '../../types/IFacets'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import Checklist from './Checklist'
 import FullDateInput from './FullDateInput'
@@ -59,6 +60,11 @@ const FacetAccordionItem: React.FC<IProps> = ({
   selectedFacets,
   handleCallback,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const [page, setPage] = useState<number>(1)
   const [facets, setFacets] = useState<IFacetsPagination>({
     requests: {},
@@ -181,11 +187,13 @@ const FacetAccordionItem: React.FC<IProps> = ({
               )}
             </div>
           </div>
-          <StyledHr
-            color={theme.color.lightGray}
-            width="100%"
-            className="facetAccordionItemHr"
-          />
+          {!isMobile && (
+            <StyledHr
+              color={theme.color.lightGray}
+              width="100%"
+              className="facetAccordionItemHr"
+            />
+          )}
         </div>
       )
     }

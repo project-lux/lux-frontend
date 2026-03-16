@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { IImages } from '../../types/IImages'
@@ -7,6 +7,8 @@ import ResultsIconSvg from '../../styles/features/common/ResultsIconSvg'
 import IEntity from '../../types/data/IEntity'
 import StyledIconDiv from '../../styles/features/common/IconDiv'
 import config from '../../config/config'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import ImageThumbnail from './ImageThumbnail'
 import Tooltip from './Tooltip'
@@ -28,6 +30,11 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
   width,
   height,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   if (images.length > 0) {
     const entityParser = new EntityParser(entity)
     const name = entityParser.getPrimaryName(config.aat.primaryName)
@@ -62,6 +69,7 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
           height="50"
           aria-label={`${helperText} icon`}
           data-testid="results-snippet-icon"
+          border={isMobile ? 'none' : undefined}
         />
       </Tooltip>
     </StyledIconDiv>
