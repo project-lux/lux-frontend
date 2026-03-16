@@ -284,7 +284,8 @@ describe('ObjectParser', () => {
   describe('getCallNumber', () => {
     it('returns call number', () => {
       const object = new ObjectParser(mockPhysicalObject)
-      const callNumber = object.getCallNumber()
+      const ids = object.getIdentifiers()
+      const callNumber = ObjectParser.getCallNumber(ids)
       expect(callNumber).toEqual({
         label: callNumberId,
         identifier: ['Mock Call Number'],
@@ -311,7 +312,8 @@ describe('ObjectParser', () => {
         ],
       }
       const object = new ObjectParser(mockObject)
-      const identifier = object.getCallNumber()
+      const ids = object.getIdentifiers()
+      const identifier = ObjectParser.getCallNumber(ids)
       expect(identifier).toEqual({
         label: `${config.env.dataApiBaseUrl}data/concept/not-call-number`,
         identifier: ['Another identifier'],

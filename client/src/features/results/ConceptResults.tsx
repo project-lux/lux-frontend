@@ -54,9 +54,7 @@ const ConceptResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement<any>> =>
+  const resultsList = (results: Array<IOrderedItems>): JSX.Element[] =>
     results.map((result, ind) => (
       <ConceptSnippet
         key={result.id}
