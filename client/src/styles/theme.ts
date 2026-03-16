@@ -100,6 +100,7 @@ const font = {
 }
 
 const color = {
+  advancedSearchRow: '#FDFDFD',
   black: '#222',
   black20: 'rgba(0, 0, 0, 0.2)',
   black65: 'rgba(0, 0, 0, 0.65)',

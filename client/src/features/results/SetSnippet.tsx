@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Col, Row } from 'react-bootstrap'
 import { isNull } from 'lodash'
 
@@ -16,6 +16,8 @@ import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
 import { getNextSetUris } from '../../lib/util/hierarchyHelpers'
 import config from '../../config/config'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import theme from '../../styles/theme'
 
 import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
@@ -24,14 +26,25 @@ import MyCollectionSnippet from './MyCollectionSnippet'
 interface ISearchData {
   uri: string
   view: string
+  totalResults?: number
+  index?: number
+  pageLength?: number
   titleOfTabbedContent?: string
 }
 
 const SetSnippet: React.FC<ISearchData> = ({
   uri,
   view,
+  totalResults,
+  index,
+  pageLength = 20,
   titleOfTabbedContent,
 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
+
   const { data, isSuccess, isLoading, isError } = useGetItemQuery({
     uri: stripYaleIdPrefix(uri),
     profile: 'results',
@@ -45,6 +58,8 @@ const SetSnippet: React.FC<ISearchData> = ({
         <MyCollectionSnippet
           uri={uri}
           view={view}
+          totalResults={totalResults}
+          index={index}
           titleOfTabbedContent={titleOfTabbedContent}
         />
       )
@@ -100,7 +115,18 @@ const SetSnippet: React.FC<ISearchData> = ({
               titleOfTabbedContent={titleOfTabbedContent}
             />
           </div>
-          <StyledHr width="100%" className="workSnippetHr" />
+          <StyledHr
+            width="100%"
+            className={`setSnippetHr ${
+              isMobile &&
+              totalResults &&
+              index &&
+              totalResults <= pageLength &&
+              index === totalResults
+                ? 'lastResult'
+                : ''
+            }`}
+          />
         </React.Fragment>
       )
     }

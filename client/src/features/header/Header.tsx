@@ -100,7 +100,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
           </StyledSpan>
           <Navbar.Collapse
             id="responsive-navbar-nav"
-            className="justify-content-end"
+            className="justify-content-end ps-3"
           >
             <Nav id="nav-links">
               <NavLink

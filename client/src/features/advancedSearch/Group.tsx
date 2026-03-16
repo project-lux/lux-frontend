@@ -61,6 +61,7 @@ interface IGroup {
   parentStateId: string
   nestedLevel: number
   bgColor: 'bg-light' | 'bg-white'
+  rowBgColor: string
 }
 
 /**
@@ -82,6 +83,7 @@ const Group: React.FC<IGroup> = ({
   parentStateId,
   nestedLevel,
   bgColor,
+  rowBgColor,
 }) => {
   const [open, setOpen] = useState<boolean>(true)
 
@@ -101,14 +103,17 @@ const Group: React.FC<IGroup> = ({
   const labelForAria = conditionals[selectedKey]
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
+  console.log(selectedKey, bgColor)
   return (
     <div
-      className={`groupContainer ${bgColor} p-3 border rounded-2`}
+      className={`groupContainer ${bgColor} p-3 ${bgColor === 'bg-light' ? 'border' : ''} rounded-2`}
       style={{ minHeight: '100px' }}
     >
       <FormGroup>
         <StyledInputGroupDiv
-          className="bg-white advancedSearchGroupRow"
+          className="advancedSearchGroupRow"
+          backgroundColor={rowBgColor}
+          // className="bg-white advancedSearchGroupRow"
           data-testid="advanced-search-group-row"
         >
           <span className="w-100 d-flex ps-2">

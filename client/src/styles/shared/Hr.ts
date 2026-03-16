@@ -27,7 +27,9 @@ const Hr = styled.hr<IProps>`
   &.productionBodyEventHr,
   &.collectionHr,
   &.responsibleUnitHr,
-  &.accessStatementHr {
+  &.accessStatementHr,
+  &.hideOnAboutSectionSidePanels,
+  &.lastResult {
     display: none;
   }
 

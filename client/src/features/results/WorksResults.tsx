@@ -39,11 +39,6 @@ const WorksResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
 
-  const resultsList = (results: Array<IOrderedItems>): Array<JSX.Element> =>
-    results.map((result) => (
-      <WorksSnippet key={result.id} uri={result.id} view={view} />
-    ))
-
   let errorMessage: string | null = null
 
   if (isError) {
@@ -60,6 +55,17 @@ const WorksResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
+  const resultsList = (results: Array<IOrderedItems>): Array<JSX.Element> =>
+    results.map((result, ind) => (
+      <WorksSnippet
+        key={result.id}
+        uri={result.id}
+        view={view}
+        totalResults={estimate}
+        index={ind + 1}
+      />
+    ))
+
   return (
     <StyledEntityResultsRow>
       {(isSuccess || isError) && (
@@ -70,7 +76,6 @@ const WorksResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             label="Works"
             overlay="works"
             resultsData={data}
-            toggleView
           />
         </Col>
       )}

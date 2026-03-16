@@ -31,6 +31,9 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const pageParam = `${paramPrefix}p`
   const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
   const sort = queryString.get(`${tab}Sort`)
+  const view: string = queryString.has('view')
+    ? (queryString.get('view') as string)
+    : 'list'
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -41,11 +44,6 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     errorMessage = error.data.errorMessage
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement<any>> =>
-    results.map((result) => <PlaceSnippet key={result.id} uri={result.id} />)
-
   let estimate = 0
   if (isSuccess && data) {
     estimate = getEstimates(data)
@@ -55,6 +53,19 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   if (status === 'uninitialized') {
     return null
   }
+
+  const resultsList = (
+    results: Array<IOrderedItems>,
+  ): Array<React.ReactElement<any>> =>
+    results.map((result, ind) => (
+      <PlaceSnippet
+        key={result.id}
+        uri={result.id}
+        view={view}
+        totalResults={estimate}
+        index={ind + 1}
+      />
+    ))
 
   return (
     <StyledEntityResultsRow>
@@ -85,7 +96,12 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
           <Col xs={12} sm={12} md={12} lg={9}>
             {!isFetching && isSuccess && data && (
               <React.Fragment>
-                {resultsList(data.orderedItems)}
+                {view === 'list' && resultsList(data.orderedItems)}
+                {view === 'grid' && (
+                  <Row xs={1} sm={2} md={3} lg={4} className="g-4 mx-3 pt-2">
+                    {resultsList(data.orderedItems)}
+                  </Row>
+                )}
                 {estimate >= 20 && (
                   <Paginate
                     estimate={estimate}

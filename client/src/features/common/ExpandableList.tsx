@@ -72,7 +72,7 @@ const ExpandableList: React.FC<IList> = ({
       {displayLength < numChildren && (
         <button
           type="button"
-          className={`btn btn-link show-more ${isMobile ? 'ps-0' : ''}`}
+          className={`btn btn-link show-more ps-0`}
           onClick={() => setDisplayLength(numChildren)}
           data-testid="expandable-list-show-all"
         >
@@ -82,7 +82,7 @@ const ExpandableList: React.FC<IList> = ({
       {displayLength > length && (
         <button
           type="button"
-          className={`btn btn-link show-less ${isMobile ? 'ps-0' : ''}`}
+          className={`btn btn-link show-less ps-0 ${isMobile ? 'ps-0' : ''}`}
           onClick={() => setDisplayLength(length)}
           data-testid="expandable-list-show-less"
         >

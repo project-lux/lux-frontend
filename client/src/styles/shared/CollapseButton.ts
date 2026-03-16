@@ -23,14 +23,25 @@ const CollapseButton = styled(Button)<IProps>`
   padding-left: 0.25rem;
   padding-right: 0.25rem;
 
-  &:hover {
-    background-color: ${theme.color.white};
-    color: ${theme.color.black};
+  &.collapseNestedAdvancedSearch {
+    border-color: ${theme.color.link};
+    color: ${theme.color.link};
+
+    &:hover,
+    &:focus,
+    &:active {
+      background-color: ${theme.color.white};
+      color: ${theme.color.link};
+      border-color: ${theme.color.link};
+    }
   }
 
-  &:focus {
-    background-color: ${theme.color.white};
-    color: ${theme.color.black};
+  &.collapseArchiveHierarchyChild {
+    &:hover,
+    &:focus {
+      background-color: ${theme.color.white};
+      color: ${theme.color.black};
+    }
   }
 `
 
