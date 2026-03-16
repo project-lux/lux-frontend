@@ -1,5 +1,4 @@
-/* eslint-disable prettier/prettier */
-import React from 'react'
+import React, { useRef } from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
@@ -37,9 +36,27 @@ const TextInput: React.FC<IInputType> = ({
   scope,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [isValid, setIsValid] = React.useState(true)
 
   const dispatch = useAppDispatch()
+
   const handleOnChange = (userInput: string): void => {
+    // Validate that the input starts with the correct URL prefix if the field is 'id'
+    if (
+      field === 'id' &&
+      userInput &&
+      !userInput.startsWith('https://lux.collections.yale.edu/data/')
+    ) {
+      inputRef.current?.setCustomValidity(
+        "Input must start with 'https://lux.collections.yale.edu/data/'",
+      )
+      inputRef.current?.reportValidity()
+      setIsValid(false)
+    } else {
+      inputRef.current?.setCustomValidity('')
+      setIsValid(true)
+    }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
 
@@ -48,10 +65,6 @@ const TextInput: React.FC<IInputType> = ({
       dispatch(addSelectedHelpText({ value: field, scope }))
       dispatch(addHoverHelpText({ value: field, scope }))
     }
-  }
-
-  const handleOnBlur = (): void => {
-    setTimeout(() => setIsFocused(false), 1000)
   }
 
   const uri = currentValue
@@ -79,13 +92,13 @@ const TextInput: React.FC<IInputType> = ({
           </label>
         )}
         <StyledInput
+          ref={inputRef}
           type="text"
           value={
             displayName !== currentValue && !isFocused
               ? displayName
               : currentValue
           }
-          // value={displayName !== currentValue ? displayName : currentValue}
           className="form-control advancedSearchInput bg-white"
           placeholder={label}
           onChange={(e) => handleOnChange(e.currentTarget.value)}
@@ -93,17 +106,8 @@ const TextInput: React.FC<IInputType> = ({
           data-testid={`${field}-${stateId}-text-input`}
           id={id}
           onFocus={() => setIsFocused(true)}
-          onBlur={() => handleOnBlur()}
-          pattern={
-            field === 'id'
-              ? "https://lux\.collections\.yale\.edu/data/.*"
-              : undefined
-          }
-          title={
-            field === 'id'
-              ? "The input must start with 'https://lux.collections.yale.edu/data/'"
-              : undefined
-          }
+          onBlur={() => setIsFocused(false)}
+          aria-invalid={!isValid}
         />
       </div>
     </div>

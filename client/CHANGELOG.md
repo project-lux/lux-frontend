@@ -2,7 +2,7 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.65.0 - Unreleased
+## v1.65.0 - 2026-3-16
 
 ### Added
 
@@ -30,7 +30,13 @@ All notable changes to this project will be documented in this file.
 
 - Removed the final breaking line on results page in mobile view when necessary ([#539](https://github.com/project-lux/lux-frontend/issues/539)).
 
-## v1.64.0 - 2026-03-02
+## v1.64.2 - 2026-3-2
+
+### Fixed
+
+- Fixed timeout error with onBlur and onFocus ([#827](https://github.com/project-lux/lux-frontend/issues/827))
+
+## v1.64.0 - 2026-3-2
 
 ### Added
 
@@ -44,8 +50,6 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed fullscreen view on timelines ([#580](https://github.com/project-lux/lux-frontend/issues/580))
-
-### Removed
 
 ## v1.63.1 - 2026-02-18
 
