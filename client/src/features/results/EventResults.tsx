@@ -55,9 +55,7 @@ const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement<any>> =>
+  const resultsList = (results: Array<IOrderedItems>): JSX.Element[] =>
     results.map((result, ind) => (
       <EventSnippet
         key={result.id}

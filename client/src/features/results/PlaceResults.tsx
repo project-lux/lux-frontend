@@ -54,9 +54,7 @@ const PlaceResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<React.ReactElement<any>> =>
+  const resultsList = (results: Array<IOrderedItems>): JSX.Element[] =>
     results.map((result, ind) => (
       <PlaceSnippet
         key={result.id}
