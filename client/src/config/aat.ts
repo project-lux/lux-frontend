@@ -10,12 +10,14 @@ export interface IAat {
 export function defaultAats(): IAat {
   return {
     accessStatement: 'http://vocab.getty.edu/aat/300133046',
+    additionalEvents: 'http://vocab.getty.edu/aat/300403974',
     active: 'http://vocab.getty.edu/aat/300393177',
     alternateName: 'http://vocab.getty.edu/aat/300264273',
     animalSpecimens: 'http://vocab.getty.edu/aat/300420186',
     archive: 'http://vocab.getty.edu/aat/300375748',
     biologicalSpecimens: 'http://vocab.getty.edu/aat/300421897',
     callNumber: 'http://vocab.getty.edu/aat/300311706',
+    causedByEvent: 'http://vocab.getty.edu/aat/300386174',
     collection: 'http://vocab.getty.edu/aat/300025976',
     collectionItem: 'http://vocab.getty.edu/aat/300404024',
     copyrightLicensingStatement: 'http://vocab.getty.edu/aat/300435434',

@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added SiteImprove event to the objects/works info overlay button ([#529](https://github.com/project-lux/lux-frontend/issues/529)).
+- Added support for creation event AATs ([#483](https://github.com/project-lux/lux-frontend/issues/483)).
 
 ### Changed
 
