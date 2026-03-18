@@ -529,37 +529,37 @@ export default class EntityParser {
     // For unspecified types
     switch (type) {
       case 'HumanMadeObject':
-        return [objectsIcon, 'physical object']
+        return [objectsIcon, 'Physical Objects']
       case 'DigitalObject':
-        return [softwareElectronicMediaIcon, 'digital object']
+        return [softwareElectronicMediaIcon, 'Digital Objects']
       case 'VisualItem':
-        return [visualWorksIcon, 'visual work']
+        return [visualWorksIcon, 'Visual Works']
       case 'Set':
-        return [collectionsIcon, 'set and collection']
+        return [collectionsIcon, 'Collections']
       case 'LinguisticObject':
-        return [textualWorksIcon, 'linguistic object']
+        return [textualWorksIcon, 'Textual Works']
       case 'Person':
-        return [peopleOrgsIcon, 'person and group']
+        return [peopleOrgsIcon, 'People & Groups']
       case 'Group':
-        return [peopleOrgsIcon, 'person and group']
+        return [peopleOrgsIcon, 'People & Groups']
       case 'Place':
-        return [placesIcon, 'place']
+        return [placesIcon, 'Places']
       case 'Currency':
-        return [conceptsIcon, 'concept']
+        return [conceptsIcon, 'Concepts']
       case 'Language':
-        return [conceptsIcon, 'concept']
+        return [conceptsIcon, 'Concepts']
       case 'Material':
-        return [conceptsIcon, 'concept']
+        return [conceptsIcon, 'Concepts']
       case 'MeasurementUnit':
-        return [conceptsIcon, 'concept']
+        return [conceptsIcon, 'Concepts']
       case 'Type':
-        return [conceptsIcon, 'concept']
+        return [conceptsIcon, 'Concepts']
       case 'Activity':
-        return [eventsIcon, 'event']
+        return [eventsIcon, 'Events']
       case 'Period':
-        return [eventsIcon, 'event']
+        return [eventsIcon, 'Events']
       case 'Event':
-        return [eventsIcon, 'event']
+        return [eventsIcon, 'Events']
       default:
         return ['', '']
     }

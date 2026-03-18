@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed icon hover text ([#426](https://github.com/project-lux/lux-frontend/issues/426)).
+
 ### Removed
 
 - Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
