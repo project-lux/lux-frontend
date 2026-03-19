@@ -15,6 +15,7 @@ import Header from '../header/Header'
 import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import RoutingComponent from '../results/RoutingComponent'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 // import PrivateRoute from '../myCollections/PrivateRoute'
 // import Callback from '../myCollections/LoginCallback'
@@ -43,9 +44,11 @@ const LuxRoutes: React.FC = () => {
 
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert] = useState<boolean>(
+  const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  useResizeableWindow(setIsMobile)
+
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
@@ -90,14 +93,13 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {showMobileAlert && (
+        {isMobile && (
           <Alert
             dismissible
-            variant="info"
+            variant="warning"
             className="d-flex justify-content-center mb-0"
           >
-            LUX is optimized for desktop use. Some features are not available on
-            mobile devices.
+            The Advanced Search feature is unavailable at this screen width.
           </Alert>
         )}
         <Routes>
