@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
@@ -13,6 +13,7 @@ import {
 } from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import Header from '../advancedSearch/Header'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import Navigation from './Navigation'
 
@@ -32,6 +33,10 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   isSwitchToSimpleSearch,
 }) => {
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
 
   const dispatch = useAppDispatch()
   useEffect(() => {
@@ -42,17 +47,13 @@ const ResultsSearchContainer: React.FC<IProps> = ({
     }
   }, [isSimpleSearch, dispatch])
 
-  // Need width to determine if advanced search should be displayed
-  const screenWidth = window.innerWidth
-
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
   )
 
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' ||
-        screenWidth < theme.breakpoints.md) && (
+      {(currentSearchState.searchType === 'simple' || isMobile) && (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -68,10 +69,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
         </React.Fragment>
       )}
-      {!(
-        currentSearchState.searchType === 'simple' ||
-        screenWidth < theme.breakpoints.md
-      ) && (
+      {!(currentSearchState.searchType === 'simple' || isMobile) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation

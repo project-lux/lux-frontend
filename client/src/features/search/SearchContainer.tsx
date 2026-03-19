@@ -6,6 +6,7 @@ import { LinksContainerRow } from '../../styles/features/search/LinksContainerRo
 import theme from '../../styles/theme'
 import ToggleButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
@@ -33,10 +34,14 @@ const SearchContainer: React.FC<IProps> = ({
   isResultsPage = false,
 }) => {
   const [isError, setIsError] = useState<boolean>(false)
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
 
   return (
     <Row
-      className={`d-flex mx-0 py-3 ${className}`}
+      className={`d-flex mx-0 ${className} ${isMobile ? 'py-1' : 'py-3'}`}
       style={{ backgroundColor: bgColor }}
       id={id}
     >

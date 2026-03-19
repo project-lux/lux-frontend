@@ -16,6 +16,16 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## v1.65.3 - 2026-3-19
+
+### Added
+
+- Added border around sections of the advanced search with white backgrounds ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+
+### Fixed
+
+- Fixed size of search bar in mobile ([#786](https://github.com/project-lux/lux-frontend/issues/786)).
+
 ## v1.65.2 - 2026-3-16
 
 ### Fixed

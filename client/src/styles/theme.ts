@@ -213,6 +213,7 @@ const theme = {
   searchBox: {
     width: '816px',
     borderRadius: '24px',
+    borderRadiusMobile: '16px',
   },
 
   landingPage: {
