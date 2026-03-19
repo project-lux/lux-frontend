@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.65.3 - 2026-3-19
+
+### Added
+
+- Added border around sections of the advanced search with white backgrounds ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+
 ## v1.65.2 - 2026-3-16
 
 ### Fixed
