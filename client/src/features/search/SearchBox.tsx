@@ -18,26 +18,43 @@ const StyledSearchBox = styled.div`
   display: flex;
   width: ${theme.searchBox.width};
   border: solid 1px #979797;
-  border-radius: ${theme.searchBox.borderRadius};
-  font-size: 2rem;
+  border-radius: ${theme.searchBox.borderRadiusMobile};
 
-  input {
+  @media (min-width: ${theme.breakpoints.md}px) {
+    border-radius: ${theme.searchBox.borderRadius};
+  }
+
+  .form-control {
     border: none;
-    border-radius: ${theme.searchBox.borderRadius} 0 0
-      ${theme.searchBox.borderRadius} !important;
+    border-radius: ${theme.searchBox.borderRadiusMobile} 0 0
+      ${theme.searchBox.borderRadiusMobile} !important;
     margin-left: 0px !important;
     max-width: ${theme.searchBox.width};
     font-weight: 300;
-    height: 72px;
-    font-size: inherit;
+    height: 50px;
+    font-size: 1.5rem;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 2rem;
+      height: 72px;
+      border-radius: ${theme.searchBox.borderRadius} 0 0
+        ${theme.searchBox.borderRadius} !important;
+    }
   }
 
   .submitButton {
     background-color: ${theme.color.white};
-    border-radius: 0 ${theme.searchBox.borderRadius}
-      ${theme.searchBox.borderRadius} 0;
-    height: 72px;
-    font-size: inherit;
+    border-radius: 0 ${theme.searchBox.borderRadiusMobile}
+      ${theme.searchBox.borderRadiusMobile} 0;
+    height: 50px;
+    font-size: 1.5rem;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 2rem;
+      height: 72px;
+      border-radius: 0 ${theme.searchBox.borderRadius}
+        ${theme.searchBox.borderRadius} 0;
+    }
   }
 `
 
