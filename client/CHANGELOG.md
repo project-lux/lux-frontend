@@ -24,6 +24,9 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed default help text in advanced search ([#521](https://github.com/project-lux/lux-frontend/issues/521)).
+- Changed the mobile warning message ([#564](https://github.com/project-lux/lux-frontend/issues/564)).
+
 ### Fixed
 
 - Fixed the results page redirect to tab with results ([#958](https://github.com/project-lux/lux-frontend/issues/958)).
