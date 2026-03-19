@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added SiteImprove event to the objects/works info overlay button ([#529](https://github.com/project-lux/lux-frontend/issues/529)).
+
 ### Changed
 
 - Changed default help text in advanced search ([#521](https://github.com/project-lux/lux-frontend/issues/521)).

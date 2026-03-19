@@ -7,6 +7,7 @@ import sanitizeHtml from 'sanitize-html'
 import theme from '../../styles/theme'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 const StyledButton = styled(Button)`
   color: ${theme.color.link};
@@ -31,11 +32,12 @@ const LuxOverlay: React.FC = () => {
   )
   const [show, setShow] = useState(false)
   const attribRef = useRef(null)
-
+  const overlayText = 'Learn more about Objects and Works'
   const objectsWorksHelpText =
     EntityResultsDescription('objectsWorksHelp') || ''
 
   const onClick: React.MouseEventHandler<HTMLButtonElement> = (): void => {
+    pushClientEvent('Overlay', 'Selected', overlayText)
     setShow(!show)
   }
 
@@ -52,11 +54,11 @@ const LuxOverlay: React.FC = () => {
         variant="link"
         onClick={onClick}
         data-testid="image-attribution-overlay-button"
-        aria-label="Learn more about Objects and Works"
+        aria-label={overlayText}
         className="px-0"
       >
         <i className="bi bi-question-circle open me-1" />
-        Learn more about Objects and Works
+        {overlayText}
       </StyledButton>
       <Modal
         show={show}
