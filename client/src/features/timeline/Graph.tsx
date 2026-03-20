@@ -71,10 +71,19 @@ const Graph: React.FC<IProps> = ({
     window.innerWidth < theme.breakpoints.md,
   )
   const [graphData, setGraphData] = useState<Array<IGraphTimelineData>>([])
-  const [filteredLegend, setFilteredLegend] = useState<string | null>(null)
+  const [hoveredLegend, setHoveredLegend] = useState<string | null>(null)
+  const [selectedLegend, setSelectedLegend] = useState<string | null>(null)
+  // Get the relationships that are used in the timeline data to determine which relationships to show in the legend
+  const relationshipsToShowInLegend =
+    TimelineParser.getFacetsUsedForLegend(timelineData)
+  const activeLegend = hoveredLegend || selectedLegend
 
   const handleOnHover = (value: string | null): void => {
-    setFilteredLegend(value)
+    setHoveredLegend(value)
+  }
+
+  const handleOnClick = (value: string | null): void => {
+    setSelectedLegend((currentValue) => (currentValue === value ? null : value))
   }
 
   useEffect(() => {
@@ -141,14 +150,24 @@ const Graph: React.FC<IProps> = ({
           <Legend
             layout={isMobile ? 'vertical' : 'horizontal'}
             content={
-              <CustomLegend payload={undefined} handleOnHover={handleOnHover} />
+              <CustomLegend
+                payload={undefined}
+                activeLegend={activeLegend}
+                selectedLegend={selectedLegend}
+                handleOnHover={handleOnHover}
+                handleOnClick={handleOnClick}
+              />
             }
           />
           {Array.from(facetNameMap.entries()).map(([facetKey, facetLabel]) => {
+            if (!relationshipsToShowInLegend.includes(facetKey)) {
+              return null
+            }
+
             let defaultLegend = 'focused'
-            if (isNull(filteredLegend)) {
+            if (isNull(activeLegend)) {
               defaultLegend = 'focused'
-            } else if (filteredLegend === facetKey) {
+            } else if (activeLegend === facetKey) {
               defaultLegend = 'focused'
             } else {
               defaultLegend = 'unFocused'

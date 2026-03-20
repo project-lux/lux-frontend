@@ -3,13 +3,22 @@ import React from 'react'
 
 interface IProps {
   payload: any
+  activeLegend: string | null
+  selectedLegend: string | null
+  handleOnClick: (value: string | null) => void
   handleOnHover: (value: string | null) => void
 }
 
-const CustomLegend: React.FC<IProps> = ({ payload, handleOnHover }) => {
+const CustomLegend: React.FC<IProps> = ({
+  payload,
+  activeLegend,
+  selectedLegend,
+  handleOnClick,
+  handleOnHover,
+}) => {
   if (payload && payload.length > 0) {
     return (
-      <div className="d-flex justify-content-end">
+      <div className="d-flex justify-content-center">
         {payload.map(
           (
             entry: {
@@ -18,27 +27,40 @@ const CustomLegend: React.FC<IProps> = ({ payload, handleOnHover }) => {
               dataKey: string
             },
             index: any,
-          ) => (
-            <div
-              key={`item-${index}`}
-              tabIndex={0}
-              role="button"
-              onMouseOver={() => handleOnHover(entry.dataKey.split('.')[0])}
-              onMouseOut={() => handleOnHover(null)}
-              onFocus={() => handleOnHover(entry.dataKey.split('.')[0])}
-              onBlur={() => handleOnHover(null)}
-              onKeyDown={() => handleOnHover(entry.dataKey.split('.')[0])}
-            >
-              <i
-                className="bi bi-square-fill mx-2"
-                style={{ color: entry.color }}
-              />
-              {/* <FaSquareFull className="mx-2" size={18} color={colors[index]} /> */}
-              <span style={{ color: 'black', fontWeight: '300' }}>
-                {entry.value}
-              </span>
-            </div>
-          ),
+          ) => {
+            const legendValue = entry.dataKey.split('.')[0]
+            const isActive =
+              activeLegend === null || activeLegend === legendValue
+            const isSelected = selectedLegend === legendValue
+
+            return (
+              <button
+                key={`item-${index}`}
+                type="button"
+                className="btn btn-link d-inline-flex align-items-center text-decoration-none p-0 mx-2"
+                aria-pressed={isSelected}
+                onClick={() => handleOnClick(legendValue)}
+                onMouseEnter={() => handleOnHover(legendValue)}
+                onMouseLeave={() => handleOnHover(null)}
+                onFocus={() => handleOnHover(legendValue)}
+                onBlur={() => handleOnHover(null)}
+                onKeyDown={() => handleOnHover(legendValue)}
+                style={{
+                  color: 'black',
+                  fontWeight: isSelected ? '600' : '300',
+                  opacity: isActive ? 1 : 0.45,
+                }}
+              >
+                <i
+                  className="bi bi-square-fill mx-2"
+                  style={{ color: entry.color }}
+                />
+                <span style={{ color: 'black', fontWeight: '300' }}>
+                  {entry.value}
+                </span>
+              </button>
+            )
+          },
         )}
       </div>
     )
