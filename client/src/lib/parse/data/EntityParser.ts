@@ -744,10 +744,7 @@ export default class EntityParser {
     }
 
     if (Object.keys(_links).includes(requestedLink)) {
-      const { _estimate } = _links[requestedLink]
-      if (_estimate > 0 || _estimate === null) {
-        return _links[requestedLink].href
-      }
+      return _links[requestedLink].href
     }
 
     return null
