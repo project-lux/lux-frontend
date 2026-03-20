@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed the check for \_estimates when rendering data from HAL links ([#577](https://github.com/project-lux/lux-frontend/issues/577)).
+
 ## v1.65.3 - 2026-3-19
 
 ### Added

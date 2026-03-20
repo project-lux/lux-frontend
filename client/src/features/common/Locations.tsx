@@ -7,7 +7,6 @@ import SemanticRelatedList from '../relatedLists/RelatedList'
 interface ILocationsProps {
   halLink: {
     href: string
-    _estimate: number | null
   }
 }
 
