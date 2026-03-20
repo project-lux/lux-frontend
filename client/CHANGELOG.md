@@ -17,6 +17,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
+
 ## v1.65.3 - 2026-3-19
 
 ### Added
