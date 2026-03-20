@@ -30,10 +30,7 @@ const getHalLinks = (
 
   Object.keys(providedHalLinks || {}).map((link: string) =>
     Object.keys(searchTags).map((tag) => {
-      if (
-        searchTags[tag].searchTag === link &&
-        providedHalLinks[link]._estimate > 0
-      ) {
+      if (searchTags[tag].searchTag === link) {
         filteredHalLinks.push(providedHalLinks[link].href)
       }
       return null
