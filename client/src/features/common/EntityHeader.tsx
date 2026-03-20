@@ -53,8 +53,6 @@ const StyledImg = styled.img`
 /**
  * Returns the header for all entity pages with the provided data
  * @param {IEntity} entity data for the current entity
- * @param {string} icon the entity type icon to be displayed
- * @param {string} entityTypeForIcon the name of the entity type icon to be displayed as alt text
  * @param {string} primaryAgent optional; the person or group responsible for the creation of the entity
  * @param {string} start optional; the start year
  * @param {string} end optional; the end year

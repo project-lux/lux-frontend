@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed default help text in advanced search ([#521](https://github.com/project-lux/lux-frontend/issues/521)).
+- Changed default help text in advanced search ([#579](https://github.com/project-lux/lux-frontend/issues/579)).
 
 ### Fixed
 
