@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed default help text in advanced search ([#521](https://github.com/project-lux/lux-frontend/issues/521)).
 - Changed the icon rendering priority ([#579](https://github.com/project-lux/lux-frontend/issues/579)).
+- Changed sorting options order in results ([#480](https://github.com/project-lux/lux-frontend/issues/480)).
 
 ### Fixed
 
