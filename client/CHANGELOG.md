@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.65.4 - 2026-3-23
+
+### Fixed
+
+- Fixed rendering of gear options ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+
 ## v1.65.3 - 2026-3-19
 
 ### Added

@@ -105,7 +105,7 @@ const Group: React.FC<IGroup> = ({
 
   return (
     <div
-      className={`groupContainer ${bgColor} p-3 ${nestedLevel !== 0 ? 'border' : ''} rounded-2`}
+      className={`groupContainer ${bgColor} p-3 border rounded-2`}
       style={{ minHeight: '100px' }}
     >
       <FormGroup>
@@ -204,7 +204,7 @@ const Group: React.FC<IGroup> = ({
                           parentScope={parentScope}
                           parentStateId={stateId}
                           parentGroupName={selectedKey}
-                          nestedLevel={nestedLevel + 1}
+                          nestedLevel={nestedLevel}
                           childInd={ind}
                           siblings={state}
                           parentBgColor={bgColor}
