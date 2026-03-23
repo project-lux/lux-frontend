@@ -143,6 +143,7 @@ export const facetNamesLists: IFacetNamesLists = {
     'itemProductionAgentId',
     'itemProductionPlaceId',
     'itemProductionDate',
+    'itemProductionTechniqueId',
     'responsibleUnits',
     'responsibleCollections',
   ],
@@ -258,6 +259,7 @@ export const facetLabels: { [key: string]: string } = {
   itemEncounteredAgentId: 'Encountered By',
   itemEncounteredDate: 'Encounter Date',
   itemProductionDate: 'Creation Date',
+  itemProductionTechniqueId: 'Technique',
   itemProductionPlaceId: 'Created At',
   itemProductionAgentId: 'Created By',
   itemRecordType: 'Object Class',
@@ -344,6 +346,10 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
     itemProductionDate: {
       searchTermName: 'producedDate',
       idFacet: false,
+    },
+    itemProductionTechniqueId: {
+      searchTermName: 'producedUsing',
+      idFacet: true,
     },
     itemRecordType: {
       searchTermName: 'recordType',
@@ -695,6 +701,10 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     producedDate: {
       facetName: 'itemProductionDate',
       idFacet: false,
+    },
+    producedUsing: {
+      facetName: 'itemProductionTechniqueId',
+      idFacet: true,
     },
     recordType: {
       facetName: 'itemRecordType',
