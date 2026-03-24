@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 import { AuthProvider } from 'react-oidc-context'
@@ -24,16 +24,6 @@ const Maintenance = styled.div`
 const Error = styled.div`
   margin: 0.4rem 0.6rem;
 `
-
-function embedBugherdScript(): void {
-  const script = document.createElement('script')
-
-  script.type = 'text/javascript'
-  script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
-  script.async = true
-
-  document.body.appendChild(script)
-}
 
 const App: React.FC = () => {
   // true if either local or remote env vars are available
@@ -83,12 +73,6 @@ const App: React.FC = () => {
     }
     setInitialized(true)
   }
-
-  useEffect(() => {
-    if (initialized && !config.env.luxEnv.includes('production')) {
-      embedBugherdScript()
-    }
-  }, [initialized])
 
   if (envResult.isLoading) {
     return <p>Loading env...</p>
