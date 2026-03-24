@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed instances of bugherd ([#331](https://github.com/project-lux/lux-frontend/issues/331)).
+
 ## v1.66.2 - 2026-4-2
 
 ### Fixed
