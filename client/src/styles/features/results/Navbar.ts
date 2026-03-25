@@ -8,5 +8,8 @@ const StyledNavbar = styled(Navbar)`
   height: 100%;
   padding-top: 0px;
   padding-bottom: 0px;
+  position: relative;
+  z-index: 1;
+  overflow: visible;
 `
 export default StyledNavbar
