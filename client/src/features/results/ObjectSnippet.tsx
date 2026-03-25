@@ -21,6 +21,7 @@ import {
 } from '../../lib/util/hierarchyHelpers'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
+import config from '../../config/config'
 
 import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
@@ -56,9 +57,12 @@ const ObjectSnippet: React.FC<ISearchData> = ({
     data: collections,
     isSuccess: collectionIsSuccess,
     isLoading: collectionIsLoading,
-  } = useGetCollectionQuery(data, {
-    skip: isError || data === undefined || data.member_of === undefined,
-  })
+  } = useGetCollectionQuery(
+    { entity: data, aatClassification: config.aat.collection },
+    {
+      skip: isError || data === undefined || data.member_of === undefined,
+    },
+  )
 
   if (isSuccess && data) {
     const object = new ObjectParser(data)

@@ -17,6 +17,7 @@ import ClassContainer from '../common/ClassContainer'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
+import NamedCollections from './NamedCollections'
 
 interface IObject {
   data: any
@@ -91,6 +92,7 @@ const About: React.FC<IObject> = ({ data }) => {
               id="object-production"
             />
           )}
+          <NamedCollections entity={data} />
           {encounteredEvent.length > 0 &&
             encounteredEvent.map((encounter: IEventInfo, ind: number) => {
               if (encounter !== null) {
