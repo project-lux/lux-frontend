@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 import EntityParser from '../parse/data/EntityParser'
 
@@ -14,13 +13,16 @@ export function getMemberOfUris(entity: IEntity): Array<string> {
   return record.getMemberOf()
 }
 
-export const fetchCollection = (entityId: string): Promise<any> =>
+export const fetchCollection = (
+  entityId: string,
+  aatClassification: string,
+): Promise<any> =>
   fetchWithToken(transformPath(entityId))
     .then((response) => {
       if (response.ok) {
         return response.json().then((data) => {
           const parser = new EntityParser(data)
-          if (parser.isClassifiedAs(config.aat.collection)) {
+          if (parser.isClassifiedAs(aatClassification)) {
             return parser.json.id
           }
           return null
@@ -33,8 +35,11 @@ export const fetchCollection = (entityId: string): Promise<any> =>
         new Error('An error occurred while retreiving data for collections.'),
     )
 
-export function getCollections(entity: IEntity): any {
+export function getCollections(
+  entity: IEntity,
+  aatClassification: string,
+): any {
   const memberOf = getMemberOfUris(entity)
-  const promises = memberOf.map((id) => fetchCollection(id))
+  const promises = memberOf.map((id) => fetchCollection(id, aatClassification))
   return Promise.all(promises).then((result) => ({ data: result }))
 }
