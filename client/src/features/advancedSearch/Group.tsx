@@ -153,6 +153,7 @@ const Group: React.FC<IGroup> = ({
               <p className="d-flex mb-0 text-nowrap justify-content-center align-items-center">
                 the following
               </p>
+              {/* TODO: Why have this?? */}
               <OptionsButton
                 state={state}
                 stateId={stateId}

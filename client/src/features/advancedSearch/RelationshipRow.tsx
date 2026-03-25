@@ -158,6 +158,7 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 scope={parentScope}
                 id={id}
               />
+              {/* TODO: this currently never gets rendered */}
               <OptionsButton
                 state={state}
                 stateId={stateId}

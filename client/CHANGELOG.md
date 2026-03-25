@@ -16,6 +16,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the advanced search styling color blocking ([#752](https://github.com/project-lux/lux-frontend/issues/752)).
+
 ### Removed
 
 - Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
