@@ -32,6 +32,7 @@ export function defaultAats(): IAat {
     langen: 'http://vocab.getty.edu/aat/300388277',
     langfr: 'http://vocab.getty.edu/aat/300388306',
     languageStatement: 'http://vocab.getty.edu/aat/300435433',
+    namedCollection: 'http://vocab.getty.edu/aat/300456764',
     nationality: 'http://vocab.getty.edu/aat/300379842',
     occupation: 'http://vocab.getty.edu/aat/300263369',
     // TODO: change once an AAT is assigned
