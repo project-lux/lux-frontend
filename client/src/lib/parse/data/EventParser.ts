@@ -209,15 +209,26 @@ export default class EventParser extends EntityParser {
     const carriedOutBy = forceArray(part.carried_out_by)
     const causedBy = forceArray(part.caused_by)
     const influencedBy = forceArray(part.influenced_by)
-    const classifiedAs = parseClassifiedAs
-      ? getClassifiedAs(forceArray(part.classified_as))
-      : []
+    const classifiedAs = parseClassifiedAs ? forceArray(part.classified_as) : []
     const agents = []
 
     let role = this.unidentifiedAgentRole
 
     if (classifiedAs.length > 0) {
-      role = classifiedAs[0]
+      role = getClassifiedAs(classifiedAs)[0]
+      if (
+        validateClassifiedAsIdMatches(classifiedAs, [
+          config.aat.additionalEvents,
+        ])
+      ) {
+        role = 'Additional Events'
+      }
+
+      if (
+        validateClassifiedAsIdMatches(classifiedAs, [config.aat.causedByEvent])
+      ) {
+        role = 'Caused By Event'
+      }
     }
 
     for (const ag of carriedOutBy) {
