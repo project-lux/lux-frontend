@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added SiteImprove event to the objects/works info overlay button ([#529](https://github.com/project-lux/lux-frontend/issues/529)).
+- Added hover functionality to timeline graph legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
 
 ### Changed
 
@@ -21,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
+- Removed invalid relationships from the timeline legend ([#866](https://github.com/project-lux/lux-frontend/issues/866)).
 
 ## v1.65.4 - 2026-3-23
 
