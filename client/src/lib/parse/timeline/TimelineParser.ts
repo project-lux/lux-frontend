@@ -171,6 +171,26 @@ export default class TimelineParser {
   }
 
   /**
+   * Gets the facets returned with the data to help determine which relationships to show in the legend
+   * @param {ITimelinesTransformed} timelineData; the transformed timeline data
+   * @returns {Array<string>}
+   */
+  static getFacetsUsedForLegend(
+    timelineData: ITimelinesTransformed,
+  ): Array<string> {
+    const facetKeys: Array<string> = []
+    for (const yearKey of Object.keys(timelineData)) {
+      const yearData = timelineData[yearKey]
+      for (const facetKey of Object.keys(yearData)) {
+        if (facetKey !== 'total' && !facetKeys.includes(facetKey)) {
+          facetKeys.push(facetKey)
+        }
+      }
+    }
+    return facetKeys
+  }
+
+  /**
    * Returns the transformed timeline data for rendering
    * @param {Array<{[key: string]: ISearchResults}>} data; the data from the HAL link requests
    * @returns {ITimelinesTransformed}
