@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added support for creation event AATs ([#483](https://github.com/project-lux/lux-frontend/issues/483)).
 - Added hover functionality to timeline graph legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
 - Added Techinque facet to Object search results ([#491](https://github.com/project-lux/lux-frontend/issues/491)).
+- Added named collections ([#300](https://github.com/project-lux/lux-frontend/issues/300)).
 
 ### Changed
 

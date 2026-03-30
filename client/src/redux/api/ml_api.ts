@@ -179,9 +179,12 @@ export const mlApi: any = createApi({
         return getTimelines(hrefs)
       },
     }),
-    getCollection: builder.query<any, IEntity>({
-      queryFn(entity) {
-        return getCollections(entity)
+    getCollection: builder.query<
+      any,
+      { entity: IEntity; aatClassification: string }
+    >({
+      queryFn({ entity, aatClassification }) {
+        return getCollections(entity, aatClassification)
       },
     }),
     getAdvancedSearchConfig: builder.query<IAdvancedSearchConfigResponse, void>(

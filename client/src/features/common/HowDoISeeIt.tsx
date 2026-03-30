@@ -18,6 +18,7 @@ import {
   useGetSearchRelationshipQuery,
 } from '../../redux/api/ml_api'
 import { getFacetsOrderedItems } from '../../lib/facets/helper'
+import config from '../../config/config'
 
 import ExternalLink from './ExternalLink'
 import NotesContainer from './NotesContainer'
@@ -42,9 +43,12 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
     data: collections,
     isSuccess: collectionsIsSuccess,
     isLoading: collectionsIsLoading,
-  } = useGetCollectionQuery(data, {
-    skip: data === undefined || data.member_of === undefined,
-  })
+  } = useGetCollectionQuery(
+    { entity: data, aatClassification: config.aat.collection },
+    {
+      skip: data === undefined || data.member_of === undefined,
+    },
+  )
   const collectionData = collections
     ? collections.filter((collection: string) => collection !== null)
     : []
