@@ -102,6 +102,7 @@ const font = {
 const color = {
   advancedSearchRow: '#FDFDFD',
   black: '#222',
+  black10: 'rgba(0, 0, 0, 0.1)',
   black20: 'rgba(0, 0, 0, 0.2)',
   black65: 'rgba(0, 0, 0, 0.65)',
   borderShadow: '#d9d9d9',
@@ -139,14 +140,50 @@ const color = {
   },
 
   graphs: {
-    produced: '#AD1457',
-    encounter: '#6A1B9A',
-    published: '#8D6E63',
-    created: '#2E7D32',
-    about: '#000000',
-    setAbout: '#2D60B4',
-    setCreated: '#700370',
-    setPublished: '#6e6e6e',
+    itemProductionDate: {
+      focused: '#AD1457',
+      unFocused: 'rgba(173, 20, 87, 0.2)',
+    },
+    itemEncounteredDate: {
+      focused: '#6A1B9A',
+      unFocused: 'rgba(106, 27, 154, 0.2)',
+    },
+    itemIncludedDate: {
+      focused: '#283593',
+      unFocused: 'rgba(40, 53, 147, 0.2)',
+    },
+    workPublicationDate: {
+      focused: '#8D6E63',
+      unFocused: 'rgba(141, 110, 99, 0.2)',
+    },
+    workCreationDate: {
+      focused: '#2E7D32',
+      unFocused: 'rgba(46, 125, 50, 0.2)',
+    },
+    workGeneratedBy: {
+      focused: '#00838F',
+      unFocused: 'rgba(0, 131, 143, 0.2)',
+    },
+    workCreationOrPublicationDate: {
+      focused: '#000000',
+      unFocused: 'rgba(0, 0, 0, 0.2)',
+    },
+    setAboutDate: {
+      focused: '#2D60B4',
+      unFocused: 'rgba(45, 96, 180, 0.2)',
+    },
+    setCausedByDate: {
+      focused: '#283593',
+      unFocused: 'rgba(40, 53, 147, 0.2)',
+    },
+    setCreationDate: {
+      focused: '#700370',
+      unFocused: 'rgba(112, 3, 112, 0.2)',
+    },
+    setPublicationDate: {
+      focused: '#6e6e6e',
+      unFocused: 'rgba(110, 110, 110, 0.2)',
+    },
   },
 
   advancedSearch: {
@@ -213,6 +250,7 @@ const theme = {
   searchBox: {
     width: '816px',
     borderRadius: '24px',
+    borderRadiusMobile: '16px',
   },
 
   landingPage: {

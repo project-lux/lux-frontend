@@ -103,10 +103,9 @@ const Group: React.FC<IGroup> = ({
   const labelForAria = conditionals[selectedKey]
   const ariaLabelForDropdowns = scopeToAriaLabel[parentScope]
 
-  console.log(selectedKey, bgColor)
   return (
     <div
-      className={`groupContainer ${bgColor} p-3 ${bgColor === 'bg-light' ? 'border' : ''} rounded-2`}
+      className={`groupContainer ${bgColor} p-3 border rounded-2`}
       style={{ minHeight: '100px' }}
     >
       <FormGroup>
