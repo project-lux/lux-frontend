@@ -28,12 +28,7 @@ const AccordionContainer: React.FC<IProps> = ({
       const searchTagKeys = Object.keys(searchTags)
 
       return searchTagKeys.map((tag, index) => {
-        const { _estimate } = providedHalLinks[link]
-        // Null _estimate is valid because currently facet searches can't use estimates but could have results
-        const isEstimateValid = _estimate > 0 || _estimate === null
-
-        // If the search tag contains results via the _estimate property, display that component
-        if (searchTags[tag].searchTag === link && isEstimateValid) {
+        if (searchTags[tag].searchTag === link) {
           const halLink = providedHalLinks[link].href
 
           const isRelatedList = halLink.includes('/api/related-list')

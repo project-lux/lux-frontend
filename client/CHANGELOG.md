@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
+- Removed the check for \_estimates when rendering data from HAL links ([#577](https://github.com/project-lux/lux-frontend/issues/577)).
 
 ## v1.65.4 - 2026-3-23
 
