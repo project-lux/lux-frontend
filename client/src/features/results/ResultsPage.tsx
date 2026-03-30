@@ -196,10 +196,14 @@ const ResultsPage: React.FC = () => {
       <StyledEntityPageSection
         className="row mx-3 resultsEntityPageSection results"
         $borderTopLeftRadius={
-          tab === 'objects' && !isMobile ? '0px' : undefined
+          tab === 'objects' && !isMobile && hasSimpleSearchQuery
+            ? '0px'
+            : undefined
         }
         $borderTopRightRadius={
-          tab === 'events' && !isMobile ? '0px' : undefined
+          tab === 'events' && !isMobile && hasSimpleSearchQuery
+            ? '0px'
+            : undefined
         }
       >
         {isMobile && (
