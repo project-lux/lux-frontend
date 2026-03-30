@@ -126,6 +126,8 @@ const InputFieldSet: React.FC<IFieldSelectRow> = ({
           field={selectedKey}
           stateId={stateId}
           scope={scope}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus
         />
       )}
       <OptionsButton

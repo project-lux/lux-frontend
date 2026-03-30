@@ -22,6 +22,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed icon hover text ([#426](https://github.com/project-lux/lux-frontend/issues/426)).
+- Fixed autoFocus in advanced search ([#827](https://github.com/project-lux/lux-frontend/issues/827)).
 
 ### Removed
 

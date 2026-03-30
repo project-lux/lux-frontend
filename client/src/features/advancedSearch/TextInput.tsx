@@ -17,6 +17,7 @@ interface IInputType {
   field: string
   stateId: string
   scope: string
+  autoFocus?: boolean
 }
 
 /**
@@ -26,6 +27,7 @@ interface IInputType {
  * @param {string} parentScope the scope of the parent object
  * @param {string} stateId id of the current object within the advanced search state
  * @param {string} scope optional; the scope of the row for updating the help text
+ * @param {boolean} autoFocus optional; move keyboard focus onto the input field
  * @returns {JSX.Element}
  */
 const TextInput: React.FC<IInputType> = ({
@@ -34,6 +36,7 @@ const TextInput: React.FC<IInputType> = ({
   field,
   stateId,
   scope,
+  autoFocus,
 }) => {
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -108,6 +111,8 @@ const TextInput: React.FC<IInputType> = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           aria-invalid={!isValid}
+          // eslint-disable-next-line jsx-a11y/no-autofocus
+          autoFocus={autoFocus}
         />
       </div>
     </div>
