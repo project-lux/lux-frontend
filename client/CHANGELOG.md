@@ -2,6 +2,34 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.66.0 - Unreleased
+
+### Added
+
+- Added SiteImprove event to the objects/works info overlay button ([#529](https://github.com/project-lux/lux-frontend/issues/529)).
+- Added support for creation event AATs ([#483](https://github.com/project-lux/lux-frontend/issues/483)).
+- Added hover functionality to timeline graph legend ([#488](https://github.com/project-lux/lux-frontend/issues/488)).
+- Added Techinque facet to Object search results ([#491](https://github.com/project-lux/lux-frontend/issues/491)).
+- Added named collections ([#300](https://github.com/project-lux/lux-frontend/issues/300)).
+
+### Changed
+
+- Changed default help text in advanced search ([#521](https://github.com/project-lux/lux-frontend/issues/521)).
+- Changed the icon rendering priority ([#579](https://github.com/project-lux/lux-frontend/issues/579)).
+- Changed sorting options order in results ([#480](https://github.com/project-lux/lux-frontend/issues/480)).
+- Changed the curvature of the tabs in search results ([#479](https://github.com/project-lux/lux-frontend/issues/479)).
+
+### Fixed
+
+- Fixed icon hover text ([#426](https://github.com/project-lux/lux-frontend/issues/426)).
+- Fixed autoFocus in advanced search ([#827](https://github.com/project-lux/lux-frontend/issues/827)).
+
+### Removed
+
+- Removed timeline filter when there is only 1 year ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
+- Removed the check for \_estimates when rendering data from HAL links ([#577](https://github.com/project-lux/lux-frontend/issues/577)).
+- Removed invalid relationships from the timeline legend ([#866](https://github.com/project-lux/lux-frontend/issues/866)).
+
 ## v1.65.4 - 2026-3-23
 
 ### Fixed

@@ -15,13 +15,13 @@ import ObjectsContainer from './ObjectsContainer'
 import Tabs from './Tabs'
 
 interface IRelated {
-  links: Record<string, { href: string; _estimate: number }> | undefined
+  links: Record<string, { href: string }> | undefined
   relationships: IHalLinks
   type: string
 }
 
 const tabsChildren = (
-  links: Record<string, { href: string; _estimate: number }>,
+  links: Record<string, { href: string }>,
   relationships: IHalLinks,
   isMobile: boolean,
   user?: ISearchResults,
@@ -33,38 +33,36 @@ const tabsChildren = (
 
       // If the configured search tag exists in the returned HAL links, check for estimates
       if (!_.isNil(links) && Object.keys(links).includes(currentSearchTag)) {
-        if (links[currentSearchTag]._estimate > 0) {
-          // transform the title for accessibility uses
-          const id = transformStringForTestId(
-            tabSection.title as string,
-          ).toLowerCase()
+        // transform the title for accessibility uses
+        const id = transformStringForTestId(
+          tabSection.title as string,
+        ).toLowerCase()
 
-          // Return a tab with content if the related search returns data
-          return (
-            <StyledEntityPageSection
-              key={tabSection.title}
-              id={`panel-${id}`}
-              role="tabpanel"
-              tabIndex={0}
-              style={{ paddingTop: 0 }}
+        // Return a tab with content if the related search returns data
+        return (
+          <StyledEntityPageSection
+            key={tabSection.title}
+            id={`panel-${id}`}
+            role="tabpanel"
+            tabIndex={0}
+            style={{ paddingTop: 0 }}
+            title={tabSection.title as string}
+            aria-labelledby={`tab-${id}`}
+            $borderTopLeftRadius={isMobile ? '0px' : undefined}
+            $borderTopRightRadius={isMobile ? '0px' : undefined}
+          >
+            <ObjectsContainer
+              uri={links[currentSearchTag].href}
+              tab={tabSection.tab as string}
               title={tabSection.title as string}
-              aria-labelledby={`tab-${id}`}
-              $borderTopLeftRadius={isMobile ? '0px' : undefined}
-              $borderTopRightRadius={isMobile ? '0px' : undefined}
-            >
-              <ObjectsContainer
-                uri={links[currentSearchTag].href}
-                tab={tabSection.tab as string}
-                title={tabSection.title as string}
-                user={
-                  getOrderedItemsIds(user).length > 0
-                    ? getOrderedItemsIds(user)[0]
-                    : undefined
-                }
-              />
-            </StyledEntityPageSection>
-          )
-        }
+              user={
+                getOrderedItemsIds(user).length > 0
+                  ? getOrderedItemsIds(user)[0]
+                  : undefined
+              }
+            />
+          </StyledEntityPageSection>
+        )
       }
       return null
     })

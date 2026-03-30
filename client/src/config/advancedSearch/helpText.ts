@@ -63,7 +63,7 @@ export const nonSearchTermHelpText: {
   },
   fieldSelectRow: {
     helpText:
-      'Select Multiple Fields to enter more than one search criterion. Multiple Fields will prompt you to select a grouping for those criteria by using: ALL, ANY, NONE. Use Single Field to select and search for a specific term. When using Multiple Fields add a Single Field when you are ready to enter search term(s) in a text box.',
+      'Select Multiple Fields to enter more than one search criterion. Multiple Fields will prompt you to select a grouping for those criteria by using: ALL, ANY, NONE. Use Single Field to select and search for a specific term. When using Multiple Fields add a Single Field when you are ready to enter search term(s) in a text box. For detailed information about a specific "Multiple" or "Single" field, hover over the desired field.',
     label: '',
   },
   options: {
