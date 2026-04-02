@@ -12,6 +12,12 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## v1.66.1 - 2026-4-2
+
+### Added
+
+- Added SiteImprove event to the configuration errors.
+
 ## v1.66.0 - 2026-3-30
 
 ### Added
