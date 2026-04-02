@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.66.2 - 2026-4-2
+
+### Fixed
+
+- Fixed timeline filter when there is only 1 year merging issue ([#512](https://github.com/project-lux/lux-frontend/issues/512)).
+
 ## v1.66.1 - 2026-4-2
 
 ### Added
