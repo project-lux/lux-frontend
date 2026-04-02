@@ -188,17 +188,19 @@ const Graph: React.FC<IProps> = ({
               />
             )
           })}
-          <Brush
-            dataKey="year"
-            stroke={theme.color.primary.blue}
-            startIndex={startIndex}
-            endIndex={endIndex}
-            onDragEnd={(e: any) => {
-              const start = e.startIndex
-              const end = e.endIndex
-              handleRangeChange(start, end)
-            }}
-          />
+          {yearsArray.length > 1 && (
+            <Brush
+              dataKey="year"
+              stroke={theme.color.primary.blue}
+              startIndex={startIndex}
+              endIndex={endIndex}
+              onDragEnd={(e: any) => {
+                const start = e.startIndex
+                const end = e.endIndex
+                handleRangeChange(start, end)
+              }}
+            />
+          )}
         </BarChart>
       </ResponsiveContainer>
     </div>
