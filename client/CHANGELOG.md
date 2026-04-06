@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed date facets rendering when negative years are selected ([#868](https://github.com/project-lux/lux-frontend/issues/868)).
+
 ### Removed
 
 ## v1.66.1 - 2026-4-2
