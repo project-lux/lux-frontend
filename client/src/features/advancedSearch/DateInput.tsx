@@ -16,8 +16,8 @@ import {
   isDayOrMonthToLuxNumberAsString,
   getYearToDisplay,
   isValid,
-  getDefaultDate,
   getLuxISOString,
+  getISOYearMonthDay,
 } from '../../lib/facets/dateParser'
 import DayDropdown from '../dates/DayDropdown'
 import MonthDropdown from '../dates/MonthDropdown'
@@ -52,7 +52,7 @@ const DateInput: React.FC<IDateInput> = ({
   ariaLabel,
 }) => {
   const dispatch = useAppDispatch()
-  const { month, day, year } = getDefaultDate(currentValue)
+  const { month, day, year } = getISOYearMonthDay(currentValue)
   const daysArr = getDaysInMonthArray(month, year)
   const handleAddComparator = (selected: string): void => {
     dispatch(addRangeComparator({ comp: selected, stateId }))

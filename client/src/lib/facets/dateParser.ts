@@ -7,18 +7,30 @@ export interface IDateObj {
 }
 
 /**
- * Returns the year in the correct format for ISO date strings
+ * Returns the year entered by the user in the correct format for ISO date strings
  * @param {string} year; the year to be converted
  * @returns {string}
  */
-// Used by timelines, facets, and advanced search
-export const convertYearToISOYear = (year: string): string => {
-  const isoYear =
-    year[0] === '-'
-      ? `-${year.substring(1).padStart(6, '0')}`
-      : year.padStart(4, '0')
+export const getISOYear = (year: string): string => {
+  const isoYear = year.startsWith('-')
+    ? `-${year.substring(1).padStart(6, '0')}`
+    : year.padStart(4, '0')
   return isoYear
 }
+
+/**
+ * Returns the month entered by the user with padded zeros
+ * @param {string} month; the month selected
+ * @returns {string}
+ */
+export const getISOMonth = (month: string): string => month.padStart(2, '0')
+
+/**
+ * Returns the day entered by the user with padded zeros
+ * @param {string} date; the day selected
+ * @returns {string}
+ */
+export const getISODay = (date: string): string => date.padStart(2, '0')
 
 /**
  * Returns the year, month, and day based on what the user has selected
@@ -33,7 +45,7 @@ export const getISOYearMonthDay = (date: string): IDateObj => {
 
   const [dateString] = date.split('T')
   // parse a BCE date
-  if (dateString[0] === '-') {
+  if (dateString.startsWith('-')) {
     const temp = dateString.split('-')
     // if a user enters a negative plus a number
     if (temp.length === 4) {
@@ -50,11 +62,10 @@ export const getISOYearMonthDay = (date: string): IDateObj => {
     ;[year, month, day] = dateString.split('-')
   }
 
-  const isoYear =
-    year !== '' && year !== '-' ? convertYearToISOYear(year) : year
+  const isoYear = year !== '' && year !== '-' ? getISOYear(year) : year
   // have to add 1 to the value
-  const isoMonth = month.padStart(2, '0')
-  const isoDay = day.padStart(2, '0')
+  const isoMonth = getISOMonth(month)
+  const isoDay = getISODay(day)
 
   return {
     month: isoMonth,
@@ -64,25 +75,29 @@ export const getISOYearMonthDay = (date: string): IDateObj => {
 }
 
 /**
- * Returns a loosely formatted ISO string that would not be valid for the Date object but is valid for parsing and rendering purposes
+ * Returns a formatted ISO date string based on user's input
  * @param {string} date; the day selected
  * @param {string} month; the month selected
  * @param {string} year; the year selected
  * @returns {string}
  */
-// Used by facets, advanced search, and timelines
 export const getLuxISOString = (
   year: string,
   month: string,
   date: string,
-): string => `${year}-${month}-${date}T00:00:00.000Z`
+): string => {
+  const isoYear = getISOYear(year)
+  const isoMonth = getISOMonth(month)
+  const isoDay = getISODay(date)
+  return `${isoYear}-${isoMonth}-${isoDay}T00:00:00.000Z`
+}
 
 /**
  * Returns the date in the Javascript accepted ISO string format
  * @param {string} date; the date in LuxISOString format
  * @returns {string}
  */
-// Used by advanced search and getLUXTimestamp
+// Used by advanced search to validate and convert the date before submitting if necessary
 export const convertLuxISODateToISODate = (date: string): Date => {
   const { year, month, day } = getISOYearMonthDay(date)
   const dateObj = new Date(getLuxISOString(year, month, day))
@@ -99,13 +114,12 @@ export const isValidDateObject = (dateObj: string | Date): boolean =>
   dateObj instanceof Date && !isNaN(dateObj.getTime())
 
 /**
- * Returns the date in the Javascript accepted date timestamp
+ * Returns the date in the Javascript accepted date timestamp for the DateSlider component
  * @param {string} date; the date in LuxISOString format
  * @returns {string}
  */
-// Used by facets
 export const getLUXTimestamp = (luxISODate: string): number => {
-  const dateObj = convertLuxISODateToISODate(luxISODate)
+  const dateObj = new Date(luxISODate)
   if (isValidDateObject(dateObj)) {
     return dateObj.getTime()
   }
@@ -161,7 +175,12 @@ export const getDefaultDate = (date: string): IDateObj => {
     }
   }
 
-  return getISOYearMonthDay(date)
+  const dateObj = new Date(date)
+  return {
+    month: (dateObj.getUTCMonth() + 1).toString(),
+    day: dateObj.getUTCDate().toString(),
+    year: dateObj.getUTCFullYear().toString(),
+  }
 }
 
 /**
@@ -199,28 +218,13 @@ export const getDaysInMonthArray = (
 }
 
 /**
- * Returns the month with padded zeros
- * @param {string} month; the month selected
- * @returns {string}
- */
-// Used by facets
-export const getISOMonth = (month: string): string => month.padStart(2, '0')
-
-/**
- * Returns the day with padded zeros
- * @param {string} date; the day selected
- * @returns {string}
- */
-export const getISODay = (date: string): string => date.padStart(2, '0')
-
-/**
  * Checks if value given has leading 0s and displays appropriate number as a string
  * @param {string} value; the month or day to check
  * @returns {string}
  */
 // Used by facets and advanced search
 export const isDayOrMonthToLuxNumberAsString = (dayOrMonth: string): string =>
-  dayOrMonth[0] === '0' ? dayOrMonth.substring(1) : dayOrMonth
+  dayOrMonth.startsWith('0') ? dayOrMonth.substring(1) : dayOrMonth
 
 /**
  * Returns a year without preceding zeros

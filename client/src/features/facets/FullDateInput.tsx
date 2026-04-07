@@ -25,10 +25,7 @@ import {
   getLuxYear,
   getDaysInMonthArray,
   getLuxISOString,
-  convertYearToISOYear,
   getLUXTimestamp,
-  getISOMonth,
-  getISODay,
 } from '../../lib/facets/dateParser'
 import { numbersToMonths } from '../../config/advancedSearch/inputTypes'
 import DayDropdown from '../dates/DayDropdown'
@@ -244,17 +241,17 @@ const FullDateInput: React.FC<IFacets> = ({
     function addFacetToArray(array: Array<ICriteria>): void {
       const min = {
         [searchTermName]: getLuxISOString(
-          convertYearToISOYear(earliest.year),
-          getISOMonth(earliest.month),
-          getISODay(earliest.day),
+          earliest.year,
+          earliest.month,
+          earliest.day,
         ),
         _comp: '>=',
       }
       const max = {
         [searchTermName]: getLuxISOString(
-          convertYearToISOYear(latest.year),
-          getISOMonth(latest.month),
-          getISODay(latest.day),
+          latest.year,
+          latest.month,
+          latest.day,
         ),
         _comp: '<=',
       }
@@ -268,31 +265,19 @@ const FullDateInput: React.FC<IFacets> = ({
         <DateSlider
           min={getLUXTimestamp(
             getLuxISOString(
-              convertYearToISOYear(earliestFacet.year),
+              earliestFacet.year,
               earliestFacet.month,
               earliestFacet.day,
             ),
           )}
           max={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(maxDate.year),
-              maxDate.month,
-              maxDate.day,
-            ),
+            getLuxISOString(maxDate.year, maxDate.month, maxDate.day),
           )}
           earliestVal={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(earliest.year),
-              earliest.month,
-              earliest.day,
-            ),
+            getLuxISOString(earliest.year, earliest.month, earliest.day),
           ).toString()}
           latestVal={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(latest.year),
-              latest.month,
-              latest.day,
-            ),
+            getLuxISOString(latest.year, latest.month, latest.day),
           ).toString()}
           onEarliestChange={handleEarliestSliderChange}
           onLatestChange={handleLatestSliderChange}
