@@ -20,7 +20,7 @@ export default class SetParser extends EntityParser {
    * Returns event data from /members_exemplified_by
    * @returns {IEventInfo | null}
    */
-  getCreationEvent(): IEventInfo | null {
+  getSourceCreationEvent(): IEventInfo | null {
     const membersExemplifiedBy = forceArray(this.set.members_exemplified_by)
 
     for (const member of membersExemplifiedBy) {
@@ -36,7 +36,7 @@ export default class SetParser extends EntityParser {
    * Returns event data from /created_by
    * @returns {IEventInfo | null}
    */
-  getSourceCreationEvent(): IEventInfo | null {
+  getCreationEvent(): IEventInfo | null {
     const createdBy = this.set.created_by
     if (createdBy !== undefined) {
       return new EventParser(createdBy).getProductionEvent()
