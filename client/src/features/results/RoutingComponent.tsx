@@ -79,6 +79,11 @@ const RoutingComponent: React.FC = () => {
   if (isSuccess && data) {
     return (
       <div data-testid="entity-page">
+        <link
+          rel="describedby"
+          href={data.id}
+          type="application/ld+json;profile='https://linked.art/ns/v1/linked-art.json'"
+        />
         {alert.showAlert && (
           <MyCollectionsAlert
             variant={alert.alertVariant as string}
