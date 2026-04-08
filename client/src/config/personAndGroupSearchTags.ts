@@ -24,7 +24,7 @@ export const relatedObjectsAndWorks: IHalLinks = {
     tab: 'works',
   },
   worksAbout: {
-    title: 'Works About',
+    title: 'Works About or Related To',
     searchTag: 'lux:agentWorkAbout',
     tab: 'works',
   },
