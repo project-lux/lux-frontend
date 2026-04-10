@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
+// import { Alert } from 'react-bootstrap'
 
 import { getRouteNames } from '../../config/routerPages'
 import useAuthentication from '../../lib/hooks/useAuthentication'
@@ -20,6 +20,7 @@ import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 // import Callback from '../myCollections/LoginCallback'
 
 import Footer from './Footer'
+import MobileAlert from './MobileAlert'
 
 const RedirectOldProd: React.FC = () => {
   const { hostname, pathname, search } = window.location
@@ -92,15 +93,7 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {isMobile && (
-          <Alert
-            dismissible
-            variant="warning"
-            className="d-flex justify-content-center mb-0"
-          >
-            The Advanced Search feature is unavailable at this screen width.
-          </Alert>
-        )}
+        {isMobile && <MobileAlert storageKey="advancedSearchWarningMessage" />}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
