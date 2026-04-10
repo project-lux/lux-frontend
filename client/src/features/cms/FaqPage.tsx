@@ -126,17 +126,11 @@ const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
       <StyledFaqPageHeader>
         <h1 data-testid="faq-page-header">{title}</h1>
       </StyledFaqPageHeader>
-      <Row className="mx-0">
-        <Col xs={12} sm={12} md={12} lg={3} className="side-column order-lg-2">
+      <Row className="mx-0 pt-4">
+        <Col xs={12} sm={12} md={12} lg={3} className="side-column">
           <FaqSideBar />
         </Col>
-        <Col
-          xs={12}
-          sm={12}
-          md={12}
-          lg={9}
-          className="d-xl-flex faq-body order-lg-1"
-        >
+        <Col xs={12} sm={12} md={12} lg={9} className="d-xl-flex faq-body">
           <div className="main-column flex-fill">{groups}</div>
         </Col>
       </Row>

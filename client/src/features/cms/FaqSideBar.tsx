@@ -1,31 +1,31 @@
 import React from 'react'
-import { HashLink } from 'react-router-hash-link'
+import { NavLink } from 'react-router-dom'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
-import StyledFaqSideBar from '../../styles/features/cms/FaqSideBar'
+import StyledSideBar from '../../styles/features/cms/ContentPageSideBar'
 
 /**
  * Menu to be displayed on FAQ page.
  * @returns {JSX.Element}
  */
 const FaqSideBar: React.FC = () => (
-  <StyledFaqSideBar className="sidebar" data-testid="faq-page-side-bar">
-    <HashLink to="/content/faq#faq-header">
+  <StyledSideBar className="sidebar" data-testid="faq-page-side-bar">
+    <NavLink to="/content/faq">
       {faqGroupLabels[FaqGroupKey.GENERAL_INFO]}
-    </HashLink>
-    <HashLink to="/content/simple-search#faq-header">
+    </NavLink>
+    <NavLink to="/content/simple-search">
       {faqGroupLabels[FaqGroupKey.SIMPLE_SEARCH]}
-    </HashLink>
-    <HashLink to="/content/advanced-search#faq-header">
+    </NavLink>
+    <NavLink to="/content/advanced-search">
       {faqGroupLabels[FaqGroupKey.ADVANCED_SEARCH]}
-    </HashLink>
-    <HashLink to="/content/result-views#faq-header">
+    </NavLink>
+    <NavLink to="/content/result-views">
       {faqGroupLabels[FaqGroupKey.RESULT_VIEWS]}
-    </HashLink>
-    <HashLink to="/content/item-records#faq-header">
+    </NavLink>
+    <NavLink to="/content/item-records">
       {faqGroupLabels[FaqGroupKey.ITEM_RECORDS]}
-    </HashLink>
-  </StyledFaqSideBar>
+    </NavLink>
+  </StyledSideBar>
 )
 
 export default FaqSideBar
