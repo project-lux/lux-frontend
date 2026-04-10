@@ -15,7 +15,6 @@ export const StyledFaqPage = styled.div`
   background-color: ${theme.color.offWhite};
 
   div.faq-body {
-    padding-top: ${theme.contentPage.headerGap};
     padding-bottom: ${theme.contentPage.footerGap};
     padding-left: ${theme.spacing.sectionAbsMarginX};
   }
