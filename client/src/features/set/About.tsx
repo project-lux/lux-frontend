@@ -71,6 +71,13 @@ const About: React.FC<IObject> = ({ data }) => {
                 id="set-publication"
               />
             ))}
+          {setCreationEvent !== null && hasData(setCreationEvent) && (
+            <ProductionEvent
+              event={setCreationEvent}
+              label="Creation of Archive"
+              id="set-creation"
+            />
+          )}
           {sourceObjectCreationEvent !== null &&
             hasData(sourceObjectCreationEvent) && (
               <ProductionEvent
@@ -79,13 +86,6 @@ const About: React.FC<IObject> = ({ data }) => {
                 id="set-source-object-creation"
               />
             )}
-          {setCreationEvent !== null && hasData(setCreationEvent) && (
-            <ProductionEvent
-              event={setCreationEvent}
-              label="Creation of Archive"
-              id="set-creation"
-            />
-          )}
           {notes !== null && <NotesContainer notes={notes} showBreakline />}
           {about.length > 0 && (
             <AboutSubsection

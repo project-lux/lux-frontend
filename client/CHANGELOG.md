@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed Works About on People and Group pages to Works About or Related To ([#581](https://github.com/project-lux/lux-frontend/issues/581)).
+- Changed archival events rendering and data parsing ([#605](https://github.com/project-lux/lux-frontend/issues/605)).
 
 ### Fixed
 
