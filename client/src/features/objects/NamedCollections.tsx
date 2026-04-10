@@ -32,6 +32,11 @@ const NamedCollections: React.FC<IApiText> = ({ entity }) => {
       .filter((link) => link !== undefined)
 
   if (isSuccess && data) {
+    const nonNullData = data.filter((coll: string | null) => coll !== null)
+    if (nonNullData.length === 0) {
+      return null
+    }
+
     return (
       <Row>
         <TextLabel label="Named Collections" />
