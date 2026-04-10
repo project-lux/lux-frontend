@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added spacing between Production event title and additional data ([#543](https://github.com/project-lux/lux-frontend/issues/543)).
+
 ### Changed
 
 ### Fixed
