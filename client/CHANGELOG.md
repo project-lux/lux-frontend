@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.67.0 - Unreleased
+
+### Added
+
+- Added spacing between Production event title and additional data ([#543](https://github.com/project-lux/lux-frontend/issues/543)).
+- Added spacing between facet name and count ([#614](https://github.com/project-lux/lux-frontend/issues/614)).
+- Added links from the web view to the data ([#286](https://github.com/project-lux/lux-frontend/issues/286)).
+
+### Changed
+
+- Changed Works About on People and Group pages to Works About or Related To ([#581](https://github.com/project-lux/lux-frontend/issues/581)).
+- Changed archival events rendering and data parsing ([#605](https://github.com/project-lux/lux-frontend/issues/605)).
+- Changed the layout of the FAQ page to match other CMS pages ([#669](https://github.com/project-lux/lux-frontend/issues/669)).
+
+### Fixed
+
+- Fixed date facets rendering when negative years are selected ([#868](https://github.com/project-lux/lux-frontend/issues/868)).
+
+### Removed
+
+- Removed instances of bugherd ([#331](https://github.com/project-lux/lux-frontend/issues/331)).
+
 ## v1.66.2 - 2026-4-2
 
 ### Fixed

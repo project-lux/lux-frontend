@@ -178,8 +178,7 @@ const Checkbox: React.FC<IProps> = ({
         data-testid={id}
       />
       <label className="form-check-label ms-2" htmlFor={id}>
-        {label}
-        {facet.totalItems ? `(${facet.totalItems})` : null}
+        {label} {facet.totalItems ? `(${facet.totalItems})` : null}
       </label>
     </div>
   )
