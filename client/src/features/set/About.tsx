@@ -92,7 +92,7 @@ const About: React.FC<IObject> = ({ data }) => {
             <AboutSubsection
               content={about}
               label="About"
-              id="sets-about-link-container"
+              id="about-subject-headings"
             />
           )}
           {represents.length > 0 && (
