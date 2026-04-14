@@ -63,6 +63,7 @@ const List: React.FC<IProps> = ({
     setDisplayLength(displayLength - unitLength)
   }
 
+  const showEras = TimelineParser.showYearEra(yearsArray)
   return (
     <React.Fragment>
       <dl data-testid="timeline-list-container">
@@ -71,7 +72,7 @@ const List: React.FC<IProps> = ({
             <HoverableRow>
               <Col xs={12} sm={12} md={6} lg={12} xl={6}>
                 <StyledDt data-testid={`${year}-label`}>
-                  {TimelineParser.getYearWithLabel(year)}
+                  {showEras ? TimelineParser.getYearWithLabel(year) : year}
                 </StyledDt>
               </Col>
               <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
