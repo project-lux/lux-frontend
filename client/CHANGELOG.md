@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.67.0 - Unreleased
+## v1.67.1 - 2026-4-14
+
+### Changed
+
+- Changed Works About on Event pages to Works About or Related To ([#581](https://github.com/project-lux/lux-frontend/issues/581)).
+
+## v1.67.0 - 2026-4-13
 
 ### Added
 
@@ -12,7 +18,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
-- Changed Works About on People and Group pages to Works About or Related To ([#581](https://github.com/project-lux/lux-frontend/issues/581)).
+- Changed Works About on People and Group, and Place pages to Works About or Related To ([#581](https://github.com/project-lux/lux-frontend/issues/581)).
 - Changed archival events rendering and data parsing ([#605](https://github.com/project-lux/lux-frontend/issues/605)).
 - Changed the layout of the FAQ page to match other CMS pages ([#669](https://github.com/project-lux/lux-frontend/issues/669)).
 
