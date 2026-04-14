@@ -29,7 +29,7 @@ export const getSelectedFacets = (
     }
     dateFacets.forEach((value, facetName) => {
       const { min, max } = value
-      updateMap(facetName, `${min} to ${max}`)
+      updateMap(`${facetName}`, `${min} to ${max}`)
     })
   } else {
     addObjToFacetMap(criteria)
@@ -64,14 +64,14 @@ export const getSelectedFacets = (
           const facetObj = dateFacets.get(facetName)
           const notNullFacetObj = facetObj || {}
           dateFacets.set(facetName, notNullFacetObj)
-          const dateString = new Date(searchObj[searchTerm])
-          const dateToRender = `${
-            dateString.getUTCMonth() + 1
-          }/${dateString.getUTCDate()}/${dateString.getUTCFullYear()}`
+          // const dateString = new Date(searchObj[searchTerm])
+          // const dateToRender = `${
+          //   dateString.getUTCMonth() + 1
+          // }/${dateString.getUTCDate()}/${dateString.getUTCFullYear()}`
           if (searchObj._comp === '>=') {
-            notNullFacetObj.min = dateToRender
+            notNullFacetObj.min = searchObj[searchTerm]
           } else {
-            notNullFacetObj.max = dateToRender
+            notNullFacetObj.max = searchObj[searchTerm]
           }
         } else {
           const value = idFacet

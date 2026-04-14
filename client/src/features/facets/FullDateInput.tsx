@@ -18,7 +18,7 @@ import { useGetFacetsSearchQuery } from '../../redux/api/ml_api'
 import {
   getDatesFromFacetValues,
   getDefaultDate,
-  IDateObj,
+  // IDateObj,
   getYearToDisplay,
   isDayOrMonthToLuxNumberAsString,
   isValid,
@@ -84,13 +84,13 @@ const FullDateInput: React.FC<IFacets> = ({
   const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
-  let earliestFacet = getDefaultDate('')
-  let defaultLatestFacet = getDefaultDate('')
+  let earliestFacet = null
+  let defaultLatestFacet = null
   if (facetValues.requests.hasOwnProperty('call1')) {
     const dates = getDatesFromFacetValues(facetValues.requests.call1)
     if (dates.length > 0) {
       // Default is the facet value
-      earliestFacet = dates[0]
+      earliestFacet = new Date(dates[0])
       // Get the earliest date based on user input
       const currentFacetDateValues = getSpecificFacetData(
         subTab ? subTab : tab,
@@ -103,18 +103,19 @@ const FullDateInput: React.FC<IFacets> = ({
         !isUndefined(currentFacetDateValues)
       ) {
         const setAsArray = [...currentFacetDateValues]
-        const earliestDate = setAsArray[0].split(' to ')[0]
-        const [month, day, year] = earliestDate.split('/')
-        earliestFacet = getDefaultDate(`${year}-${month}-${day}T00:00:00.000Z`)
+        earliestFacet = new Date(setAsArray[0].split(' to ')[0])
+        console.log('EARLIEST: ', earliestFacet)
       }
-      defaultLatestFacet = dates[dates.length - 1]
+      defaultLatestFacet = new Date(dates[dates.length - 1])
+      console.log('DEFAULT LATEST: ', defaultLatestFacet)
+      console.log('')
     }
   }
   const dispatch = useAppDispatch()
-  const [earliest, setEarliest] = useState<IDateObj>(earliestFacet)
-  const [latest, setLatest] = useState<IDateObj>(defaultLatestFacet)
+  const [earliest, setEarliest] = useState<Date | null>(earliestFacet)
+  const [latest, setLatest] = useState<Date | null>(defaultLatestFacet)
   // This will only change upon retrieving the last date year
-  const [maxDate, setMaxDate] = useState<IDateObj>(defaultLatestFacet)
+  const [maxDate, setMaxDate] = useState<Date | null>(defaultLatestFacet)
   const { data, isSuccess } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
     facets: {},

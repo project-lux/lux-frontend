@@ -8,6 +8,7 @@ import {
   getISOYearMonthDay,
   getYearToDisplay,
   getDatesFromFacetValues,
+  removeNonNumericCharacters,
   isDayOrMonthToLuxNumberAsString,
   isValid,
   isValidDateObject,
@@ -236,6 +237,13 @@ describe('dateParser functions', () => {
       const year = '2024'
       const value = getLuxYear(year)
       expect(value).toEqual(year)
+    })
+  })
+
+  describe('removeNonNumericCharacters', () => {
+    it('returns only numeric characters from a string', () => {
+      const value = removeNonNumericCharacters('ab-12 c3!4')
+      expect(value).toEqual('1234')
     })
   })
 

@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added support for years in advanced search ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+
 ### Changed
 
 ### Fixed

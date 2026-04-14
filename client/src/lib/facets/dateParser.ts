@@ -184,6 +184,14 @@ export const getLuxYear = (year: string): string => {
   return year
 }
 
+/**
+ * Returns only the numeric characters from a string
+ * @param {string} value; the string to sanitize
+ * @returns {string}
+ */
+export const removeNonNumericCharacters = (value: string): string =>
+  value.replace(/\D/g, '')
+
 // Used by facets and advanced search
 export const getDaysInMonthArray = (
   month: string,
@@ -245,15 +253,15 @@ export const getYearToDisplay = (year: string): string => {
  * @returns {number}
  */
 // Used by getDatesFromFacetValues
-const sortByYears = (a: IDateObj, b: IDateObj): number => {
-  const aInt = parseInt(a.year, 10)
-  const bInt = parseInt(b.year, 10)
+const sortByYears = (a: string, b: string): number => {
+  const aDate = new Date(a)
+  const bDate = new Date(b)
 
-  if (aInt < bInt) {
+  if (aDate < bDate) {
     return -1
   }
 
-  if (aInt > bInt) {
+  if (aDate > bDate) {
     return 1
   }
 
@@ -268,13 +276,13 @@ const sortByYears = (a: IDateObj, b: IDateObj): number => {
 // Used by facets
 export const getDatesFromFacetValues = (
   facetValues: Array<IOrderedItems>,
-): Array<IDateObj> => {
+): Array<string> => {
   const dates = facetValues
     .filter((facet) => facet.value !== null)
     .map((facet) => {
       const { value } = facet
-      return getDefaultDate(String(value))
+      return value as string
     })
 
-  return dates.sort((a: IDateObj, b: IDateObj) => sortByYears(a, b))
+  return dates.sort((a: string, b: string) => sortByYears(a, b))
 }
