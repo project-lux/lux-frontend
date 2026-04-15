@@ -69,8 +69,10 @@ const SetSnippet: React.FC<ISearchData> = ({
     const publicationAgent = set.getPublicationAgent() || null
     const publicationDate = set.getPublicationDate() || null
     const images = set.getImages()
-    const identifiers = set.getIdentifiers()
-
+    let identifiers = set.getIdentifiers()
+    if (set.isClassifiedAs(config.aat.exhibition)) {
+      identifiers = []
+    }
     const snippetDataComponent = (
       <React.Fragment>
         <StyledDl>
