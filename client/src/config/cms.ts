@@ -110,14 +110,16 @@ export enum FaqGroupKey {
   GENERAL_INFO = '1',
   SIMPLE_SEARCH = '2',
   ADVANCED_SEARCH = '3',
-  RESULT_VIEWS = '4',
-  ITEM_RECORDS = '5',
+  ADVANCED_SEARCH_TERMS = '4',
+  RESULT_VIEWS = '5',
+  ITEM_RECORDS = '6',
 }
 
 export const faqPageRouteToKey: { [key: string]: Array<FaqGroupKey> } = {
   faq: [FaqGroupKey.GENERAL_INFO],
   'simple-search': [FaqGroupKey.SIMPLE_SEARCH],
   'advanced-search': [FaqGroupKey.ADVANCED_SEARCH],
+  'advanced-search-terms': [FaqGroupKey.ADVANCED_SEARCH_TERMS],
   'result-views': [FaqGroupKey.RESULT_VIEWS],
   'item-records': [FaqGroupKey.ITEM_RECORDS],
 }
@@ -131,8 +133,10 @@ export function faqGroupKeyFromString(s: string): FaqGroupKey {
     case '3':
       return FaqGroupKey.ADVANCED_SEARCH
     case '4':
-      return FaqGroupKey.RESULT_VIEWS
+      return FaqGroupKey.ADVANCED_SEARCH_TERMS
     case '5':
+      return FaqGroupKey.RESULT_VIEWS
+    case '6':
       return FaqGroupKey.ITEM_RECORDS
   }
   return FaqGroupKey.NO_GROUP
@@ -143,6 +147,7 @@ export const faqGroupKeys = [
   FaqGroupKey.GENERAL_INFO,
   FaqGroupKey.SIMPLE_SEARCH,
   FaqGroupKey.ADVANCED_SEARCH,
+  FaqGroupKey.ADVANCED_SEARCH_TERMS,
   FaqGroupKey.RESULT_VIEWS,
   FaqGroupKey.ITEM_RECORDS,
 ]
@@ -152,7 +157,8 @@ export const faqGroupLabels: { [key in FaqGroupKey]: string } = {
   [FaqGroupKey.NO_GROUP]: 'Default',
   [FaqGroupKey.GENERAL_INFO]: 'General Information',
   [FaqGroupKey.SIMPLE_SEARCH]: 'Simple Search',
-  [FaqGroupKey.ADVANCED_SEARCH]: 'Advanced Search',
+  [FaqGroupKey.ADVANCED_SEARCH]: 'Advanced Search Information',
+  [FaqGroupKey.ADVANCED_SEARCH_TERMS]: 'Advanced Search Terms',
   [FaqGroupKey.RESULT_VIEWS]: 'Result Views',
   [FaqGroupKey.ITEM_RECORDS]: 'Item Records',
 }

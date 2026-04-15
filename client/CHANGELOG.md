@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added underline to links on hover ([#873](https://github.com/project-lux/lux-frontend/issues/873)).
+- Added advanced search config link to FAQ menu ([#731](https://github.com/project-lux/lux-frontend/issues/731)).
 
 ### Changed
 

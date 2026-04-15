@@ -19,6 +19,9 @@ const FaqSideBar: React.FC = () => (
     <NavLink to="/content/advanced-search">
       {faqGroupLabels[FaqGroupKey.ADVANCED_SEARCH]}
     </NavLink>
+    <NavLink to="/content/advanced-search-terms">
+      {faqGroupLabels[FaqGroupKey.ADVANCED_SEARCH_TERMS]}
+    </NavLink>
     <NavLink to="/content/result-views">
       {faqGroupLabels[FaqGroupKey.RESULT_VIEWS]}
     </NavLink>
