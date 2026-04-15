@@ -1,5 +1,6 @@
 import React, { type JSX } from 'react'
 import { Col, Row } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
 import useTitle from '../../lib/hooks/useTitle'
@@ -12,6 +13,7 @@ import {
   StyledFaqPageHeader,
   StyledFaqGroupSection,
 } from '../../styles/features/cms/FaqPage'
+import AdvancedSearchTermsGroupElems from '../advancedSearchConfig/AdvancedSearchConfig'
 
 import FaqSideBar from './FaqSideBar'
 
@@ -111,13 +113,13 @@ const title = 'Frequently Asked Questions'
 const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
   const result = useGetFaqQuery()
   let groups: JSX.Element[] = []
+  const { pathname } = useLocation()
 
   useTitle(title)
 
   if (result.isSuccess && result.data) {
     const parser = new FaqParser(result.data)
     const faqs = parser.getFaqs(groupKeys)
-
     groups = createGroupElems(faqs)
   }
 
@@ -131,7 +133,13 @@ const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
           <FaqSideBar />
         </Col>
         <Col xs={12} sm={12} md={12} lg={9} className="d-xl-flex faq-body">
-          <div className="main-column flex-fill">{groups}</div>
+          <div className="main-column flex-fill">
+            {pathname.includes('advanced-search-terms') ? (
+              <AdvancedSearchTermsGroupElems />
+            ) : (
+              groups
+            )}
+          </div>
         </Col>
       </Row>
     </StyledFaqPage>
