@@ -3,6 +3,7 @@ import { ISearchResults } from './ISearchResults'
 export interface ITimelineCriteria {
   totalItems: number
   searchParams: string
+  searchTag: string
 }
 
 export interface IYear {
@@ -19,6 +20,7 @@ export interface ITransformedData {
   totalItems: number
   searchTag: string
   id: string
+  halLink: string
 }
 
 export type TimelineSearchResult = Array<{

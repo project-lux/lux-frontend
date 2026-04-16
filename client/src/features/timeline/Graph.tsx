@@ -21,7 +21,7 @@ import {
 import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { facetNameMap } from '../../config/timeline'
+import { halLinkMapToLegendName } from '../../config/timeline'
 
 import CustomTooltip from './CustomTooltip'
 import CustomLegend from './CustomLegend'
@@ -75,7 +75,7 @@ const Graph: React.FC<IProps> = ({
   const [selectedLegend, setSelectedLegend] = useState<string | null>(null)
   // Get the relationships that are used in the timeline data to determine which relationships to show in the legend
   const relationshipsToShowInLegend =
-    TimelineParser.getFacetsUsedForLegend(timelineData)
+    TimelineParser.getHalLinksUsedForLegend(timelineData)
   const activeLegend = hoveredLegend || selectedLegend
 
   const handleOnHover = (value: string | null): void => {
@@ -165,34 +165,37 @@ const Graph: React.FC<IProps> = ({
               />
             }
           />
-          {Array.from(facetNameMap.entries()).map(([facetKey, facetLabel]) => {
-            if (!relationshipsToShowInLegend.includes(facetKey)) {
-              return null
-            }
-            let defaultLegend = 'focused'
-            if (isNull(activeLegend)) {
-              defaultLegend = 'focused'
-            } else if (activeLegend === facetKey) {
-              defaultLegend = 'focused'
-            } else {
-              defaultLegend = 'unFocused'
-            }
-            return (
-              <Bar
-                key={facetKey}
-                dataKey={`${facetKey}.totalItems`}
-                stackId="a"
-                fill={
-                  theme.color.graphs[
-                    facetKey as keyof typeof theme.color.graphs
-                  ][defaultLegend as 'focused' | 'unFocused']
-                }
-                name={facetLabel || facetKey}
-                yAxisId="total"
-                shape={(p: any) => getShape(p)}
-              />
-            )
-          })}
+          {Array.from(halLinkMapToLegendName.entries()).map(
+            ([halLinkKey, label]) => {
+              if (!relationshipsToShowInLegend.includes(halLinkKey)) {
+                return null
+              }
+              const graphKey = label as keyof typeof theme.color.graphs
+              let defaultLegend = 'focused'
+              if (isNull(activeLegend)) {
+                defaultLegend = 'focused'
+              } else if (activeLegend === halLinkKey) {
+                defaultLegend = 'focused'
+              } else {
+                defaultLegend = 'unFocused'
+              }
+              return (
+                <Bar
+                  key={halLinkKey}
+                  dataKey={`${halLinkKey}.totalItems`}
+                  stackId="a"
+                  fill={
+                    theme.color.graphs[graphKey][
+                      defaultLegend as 'focused' | 'unFocused'
+                    ]
+                  }
+                  name={label || halLinkKey}
+                  yAxisId="total"
+                  shape={(p: any) => getShape(p)}
+                />
+              )
+            },
+          )}
           {yearsArray.length > 1 && (
             <Brush
               dataKey="year"
