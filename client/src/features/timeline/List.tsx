@@ -7,7 +7,10 @@ import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
-import { ITimelinesTransformed } from '../../types/ITimelines'
+import {
+  ITimelineCriteria,
+  ITimelinesTransformed,
+} from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
 
 import ListRow from './ListRow'
@@ -81,15 +84,19 @@ const List: React.FC<IProps> = ({
                 </StyledDd>
               </StyledResponsiveCol>
             </HoverableRow>
-            {Object.keys(transformedData[year]).map((searchTag, ind) => {
-              if (searchTag !== 'total' && searchTag !== 'criteria') {
+            {Object.keys(transformedData[year]).map((halLink, ind) => {
+              const yearData = transformedData[year][
+                halLink
+              ] as ITimelineCriteria
+              if (halLink !== 'total' && halLink !== 'criteria') {
                 return (
-                  <dl className="my-0" key={`${year}-${searchTag}-${ind}`}>
+                  <dl className="my-0" key={`${year}-${halLink}-${ind}`}>
                     <ListRow
                       searchTags={searchTags}
                       data={transformedData}
                       year={year}
-                      searchTag={searchTag}
+                      halLink={halLink}
+                      searchTag={yearData.searchTag}
                     />
                   </dl>
                 )

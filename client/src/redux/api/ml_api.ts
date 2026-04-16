@@ -174,9 +174,9 @@ export const mlApi: any = createApi({
         }
       },
     }),
-    getTimeline: builder.query<any, Array<string>>({
-      queryFn(hrefs) {
-        return getTimelines(hrefs)
+    getTimeline: builder.query<any, Record<string, { href: string }>>({
+      queryFn(halLinks) {
+        return getTimelines(halLinks)
       },
     }),
     getCollection: builder.query<
