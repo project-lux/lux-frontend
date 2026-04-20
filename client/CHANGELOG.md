@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed sort titles from rendering ([#638](https://github.com/project-lux/lux-frontend/issues/638)).
+
 ## v1.67.0 - 2026-4-13
 
 ### Added
