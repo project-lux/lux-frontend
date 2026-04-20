@@ -1,6 +1,7 @@
 import React, { type JSX } from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
+import { Row } from 'react-bootstrap'
 
 import useApiText from '../../lib/hooks/useApiText'
 import { capitalizeLabels } from '../../lib/parse/data/helper'
@@ -32,8 +33,10 @@ const AgentsRow: React.FC<{
   label: string
   uri: string
   id: string
+  references: IEventReference[]
   changeColumnWidths: boolean
-}> = ({ label, uri, id, changeColumnWidths }) => {
+}> = ({ label, uri, id, references, changeColumnWidths }) => {
+  console.log(references)
   const auth = useAuth()
   const loc = useLocation()
   const { value: agentLabel, isReady: agentLabelIsReady } = useApiText({
@@ -43,7 +46,7 @@ const AgentsRow: React.FC<{
   })
 
   return (
-    <StyledAgents className="row" key={uri}>
+    <StyledAgents className="mb-2 pb-2" key={uri}>
       <div className={changeColumnWidths ? rightPanelKeyClass : keyClass}>
         <dt>
           {agentLabelIsReady &&
@@ -60,6 +63,21 @@ const AgentsRow: React.FC<{
           hrClassName="productionBodyEventHr"
         />
       </div>
+      {references.length > 0 &&
+        references.map((ref) => (
+          <React.Fragment>
+            <div className={changeColumnWidths ? rightPanelKeyClass : keyClass}>
+              <dt />
+            </div>
+            <div
+              className={changeColumnWidths ? rightPanelValueClass : valueClass}
+            >
+              <dd data-testid={`${id}-agent-reference-content`}>
+                {ref.content}
+              </dd>
+            </div>
+          </React.Fragment>
+        ))}
     </StyledAgents>
   )
 }
@@ -75,32 +93,18 @@ const agentRow = (
   const agentViews: JSX.Element[] = []
 
   for (const agent of agents) {
-    const { role, id } = agent
+    const { role, id, references } = agent
 
     agentViews.push(
       <AgentsRow
         key={`${role}-${id}`}
         label={role}
         uri={id}
+        references={references}
         id={componentId}
         changeColumnWidths={stackKeyValuePairs}
       />,
     )
-
-    for (const ref of agent.references) {
-      agentViews.push(
-        <StyledAgents className="row" key={ref.content}>
-          <div className={keyClassName}>
-            <dt />
-          </div>
-          <div className={`${valueClassName} mb-2`}>
-            <dd data-testid={`${componentId}-agent-reference-content`}>
-              {ref.content}
-            </dd>
-          </div>
-        </StyledAgents>,
-      )
-    }
   }
   return agentViews
 }
@@ -121,14 +125,14 @@ const referenceRow = (
 
     const refLabel = showReferenceLabel && typeLabelIsReady ? typeLabel : null
     return (
-      <div className="row" key={content}>
+      <Row key={content}>
         <div className={keyClass}>
           <dt>{refLabel !== null && capitalizeLabels(refLabel)}</dt>
         </div>
         <div className={valueClass}>
           <dd>{content}</dd>
         </div>
-      </div>
+      </Row>
     )
   })
 
@@ -147,17 +151,17 @@ const ProductionEventBody: React.FC<IProps> = ({
     <React.Fragment>
       {agentRow(agents, keyClassName, valueClassName, stackKeyValuePairs, id)}
       {dates.length > 0 && (
-        <div className="row">
+        <Row>
           <div className={keyClassName}>
             <dt>When</dt>
           </div>
           <div className={valueClassName}>
             <dd data-testid={`${id}-event-dates`}>{dates[0]}</dd>
           </div>
-        </div>
+        </Row>
       )}
       {locations.length > 0 && (
-        <div className="row">
+        <Row>
           <div className={keyClassName}>
             <dt>Where</dt>
           </div>
@@ -168,10 +172,10 @@ const ProductionEventBody: React.FC<IProps> = ({
               </dd>
             ))}
           </div>
-        </div>
+        </Row>
       )}
       {techniques.length > 0 && (
-        <div className="row">
+        <Row>
           <div className={keyClassName}>
             <dt>Technique</dt>
           </div>
@@ -180,10 +184,10 @@ const ProductionEventBody: React.FC<IProps> = ({
               {RecordLinksList(techniques)}
             </dd>
           </div>
-        </div>
+        </Row>
       )}
       {timePeriods.length > 0 && (
-        <div className="row">
+        <Row>
           <div className={keyClassName}>
             <dt>Time Period</dt>
           </div>
@@ -192,7 +196,7 @@ const ProductionEventBody: React.FC<IProps> = ({
               {RecordLinksList(timePeriods)}
             </dd>
           </div>
-        </div>
+        </Row>
       )}
       {references.length > 0 && referenceRow(references, showReferenceLabel)}
     </React.Fragment>
