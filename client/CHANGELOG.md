@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the padding between Show All/Fewers Rows button and Search LUX button in the advanced search ([#687](https://github.com/project-lux/lux-frontend/issues/687)).
+
 ### Fixed
 
 ### Removed
