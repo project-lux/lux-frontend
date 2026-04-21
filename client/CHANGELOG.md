@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added underline to links on hover ([#873](https://github.com/project-lux/lux-frontend/issues/873)).
+
 ### Changed
 
 - Changed the padding between Show All/Fewers Rows button and Search LUX button in the advanced search ([#687](https://github.com/project-lux/lux-frontend/issues/687)).
