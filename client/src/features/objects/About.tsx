@@ -14,6 +14,7 @@ import { hasData } from '../../lib/parse/data/helper'
 import SubjectOf from '../common/SubjectOf'
 import { subjectOf } from '../../config/objectsSearchTags'
 import ClassContainer from '../common/ClassContainer'
+import StyledH2 from '../../styles/shared/H2'
 
 import DimensionsContainer from './DimensionsContainer'
 import RelatedEvents from './RelatedEvents'
@@ -49,7 +50,7 @@ const About: React.FC<IObject> = ({ data }) => {
   return (
     <StyledEntityPageSection className="row" data-testid="about-object">
       <Col xs={12}>
-        <h2>About</h2>
+        <StyledH2>About</StyledH2>
       </Col>
       <Col xs={12}>
         <dl>

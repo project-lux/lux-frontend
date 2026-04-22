@@ -7,6 +7,7 @@ import PlaceParser from '../../lib/parse/data/PlaceParser'
 import IPlace from '../../types/data/IPlace'
 import WebPages from '../common/WebPages'
 import StyledHr from '../../styles/shared/Hr'
+import StyledH2 from '../../styles/shared/H2'
 
 interface IProps {
   entity: IPlace
@@ -28,7 +29,7 @@ const About: React.FC<IProps> = ({ entity }) => {
 
   return (
     <div data-testid="about-place">
-      <h2 data-testid="place-page-about-header">About {name}</h2>
+      <StyledH2 data-testid="place-page-about-header">About {name}</StyledH2>
       <dl>
         {names !== null && (
           <NamesContainer

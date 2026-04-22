@@ -9,6 +9,7 @@ import WorkParser from '../../lib/parse/data/WorkParser'
 import LinkContainer from '../common/LinkContainer'
 import { setEvent } from '../../config/collectionsSearchTags'
 import ApiAboutData from '../common/ApiAboutData'
+import StyledH2 from '../../styles/shared/H2'
 
 interface IObject {
   data: IEntity
@@ -26,10 +27,8 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
 
   return (
     <div data-testid="about-collection">
-      <h3 className="px-3 pt-2" data-testid="collection-name-header">
-        About {name}
-      </h3>
-      <div className="px-3">
+      <StyledH2 data-testid="collection-name-header">About {name}</StyledH2>
+      <dl>
         {names !== null && (
           <div className="row">
             <NamesContainer names={names} />
@@ -62,7 +61,7 @@ const AboutCollection: React.FC<IObject> = ({ data }) => {
         {data._links && (
           <ApiAboutData providedLinks={data._links} configuredLink={setEvent} />
         )}
-      </div>
+      </dl>
     </div>
   )
 }

@@ -16,6 +16,7 @@ import IdentifiersList from '../common/IdentifiersList'
 import ExternalLink from '../common/ExternalLink'
 import StyledHr from '../../styles/shared/Hr'
 import ClassContainer from '../common/ClassContainer'
+import StyledH2 from '../../styles/shared/H2'
 
 interface IProps {
   entity: IEntity
@@ -45,7 +46,7 @@ const About: React.FC<IProps> = ({ entity }) => {
 
   return (
     <div data-testid="about-event">
-      <h2 data-testid="event-about-header">About {name}</h2>
+      <StyledH2 data-testid="event-about-header">About {name}</StyledH2>
       <dl>
         {names !== null && (
           <NamesContainer

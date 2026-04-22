@@ -9,6 +9,7 @@ import NamesContainer from '../common/NamesContainer'
 import ClassContainer from '../common/ClassContainer'
 import WebPages from '../common/WebPages'
 import StyledHr from '../../styles/shared/Hr'
+import StyledH2 from '../../styles/shared/H2'
 
 import Dates from './Dates'
 import Activity from './Activity'
@@ -52,7 +53,7 @@ const About: React.FC<IProps> = ({ data }) => {
 
   return (
     <div data-testid="about-person-group">
-      <h2 data-testid="person-page-about-header">About {name}</h2>
+      <StyledH2 data-testid="person-page-about-header">About {name}</StyledH2>
       <dl className="about-person-and-group-dl">
         {names !== null && (
           <NamesContainer

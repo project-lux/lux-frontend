@@ -14,6 +14,7 @@ import IdentifiersContainer from '../common/IdentifiersContainer'
 import DetailedLinkContainer from '../works/DetailedLinkContainer'
 import { hasData } from '../../lib/parse/data/helper'
 import AboutSubsection from '../works/AboutSubsection'
+import StyledH2 from '../../styles/shared/H2'
 
 interface IObject {
   data: IEntity
@@ -43,7 +44,7 @@ const About: React.FC<IObject> = ({ data }) => {
   return (
     <StyledEntityPageSection className="row" data-testid="about-set">
       <Col xs={12}>
-        <h2>About</h2>
+        <StyledH2>About</StyledH2>
       </Col>
       <Col xs={12}>
         <dl>
