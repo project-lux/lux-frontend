@@ -15,7 +15,6 @@ import IEntity from '../../types/data/IEntity'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import theme from '../../styles/theme'
-import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import AddToCollectionButton from '../myCollections/AddToCollectionButton'
 import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -93,10 +92,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
     alertMessage: '',
     alertVariant: 'primary',
   })
-  const [isMobile, setIsMobile] = useState<boolean>(
-    window.innerWidth < theme.breakpoints.md,
-  )
-  useResizeableWindow(setIsMobile)
+
   const agentData = AgentData(primaryAgent)
 
   const element = new EntityParser(entity)
@@ -165,11 +161,14 @@ const EntityHeader: React.FC<IEntityHeader> = ({
         />
       )}
       <StyledEntityHeader>
-        <Col xs={12} sm={12} md={12} lg={isMobile ? 12 : 9}>
+        <Col xs={12} sm={12} md={12} lg={isAuthenticated ? 9 : 12}>
           <Row>
             <Col xs={12} className="d-flex text-start p-0">
               <h1 className="d-flex">
-                <span data-testid="entity-header">
+                <span
+                  data-testid="entity-header"
+                  style={{ overflowWrap: 'anywhere' }}
+                >
                   <Tooltip html={helperText} placement="bottom">
                     <StyledImg
                       src={typeIcon}
@@ -217,7 +216,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
             xs={12}
             sm={12}
             md={12}
-            lg={isMobile ? 12 : 3}
+            lg={3}
             className="d-flex align-items-center justify-content-center"
           >
             <AddToCollectionButton

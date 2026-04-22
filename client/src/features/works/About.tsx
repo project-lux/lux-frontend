@@ -16,6 +16,7 @@ import SubjectOf from '../common/SubjectOf'
 import { subjectOf, workContains } from '../../config/worksSearchTags'
 import ApiAboutData from '../common/ApiAboutData'
 import ClassContainer from '../common/ClassContainer'
+import StyledH2 from '../../styles/shared/H2'
 
 import DetailedLinkContainer from './DetailedLinkContainer'
 import AboutSubsection from './AboutSubsection'
@@ -67,7 +68,7 @@ const About: React.FC<IObject> = ({ entity }) => {
   return (
     <StyledEntityPageSection className="row" data-testid="about-work">
       <Col xs={12}>
-        <h2>About</h2>
+        <StyledH2>About</StyledH2>
       </Col>
       <Col xs={12}>
         <dl>

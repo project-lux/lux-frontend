@@ -15,6 +15,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed long titles from expanding past their container ([#699](https://github.com/project-lux/lux-frontend/issues/699)).
+
 ### Removed
 
 - Removed sort titles from rendering ([#638](https://github.com/project-lux/lux-frontend/issues/638)).
