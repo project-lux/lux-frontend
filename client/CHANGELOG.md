@@ -17,6 +17,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed long titles from expanding past their container ([#699](https://github.com/project-lux/lux-frontend/issues/699)).
 - Fixed labeling within Creation event data rendering ([#905](https://github.com/project-lux/lux-frontend/issues/905)).
+- Fixed gap in box shadow on advanced search container ([#710](https://github.com/project-lux/lux-frontend/issues/710)).
 
 ### Removed
 

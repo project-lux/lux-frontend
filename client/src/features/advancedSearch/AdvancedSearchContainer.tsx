@@ -107,7 +107,14 @@ const AdvancedSearchContainer: React.FC = () => {
       }
 
   return (
-    <Row className="mx-3 mb-3" style={{ flexWrap: 'nowrap' }}>
+    <Row
+      className="mx-3 mb-3"
+      style={{
+        flexWrap: 'nowrap',
+        boxShadow: `0px 4px 5px 0px ${theme.color.black20}`,
+        borderRadius: theme.border.radius,
+      }}
+    >
       <StyledContainer
         className="advancedSearchBody"
         $asBodyBorderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
@@ -172,7 +179,7 @@ const AdvancedSearchContainer: React.FC = () => {
       >
         <div
           style={{
-            borderLeft: `0.5px solid ${theme.color.black65}`,
+            borderLeft: `2px solid ${theme.color.black10}`,
             height: '95%',
             position: 'absolute',
             width: '0%',
