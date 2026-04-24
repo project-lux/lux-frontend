@@ -36,7 +36,6 @@ const AgentsRow: React.FC<{
   references: IEventReference[]
   changeColumnWidths: boolean
 }> = ({ label, uri, id, references, changeColumnWidths }) => {
-  console.log(references)
   const auth = useAuth()
   const loc = useLocation()
   const { value: agentLabel, isReady: agentLabelIsReady } = useApiText({
