@@ -42,6 +42,9 @@ export const luxWikidataManifestPrefix = getString(
 export const luxFeedbackUrl = getString(
   import.meta.env.REACT_APP_LUX_FEEDBACK_URL,
 )
+export const bugherdApiKey = getString(
+  import.meta.env.REACT_APP_BUGHERD_API_KEY,
+)
 export const oidcAuthority = getString(import.meta.env.REACT_APP_OIDC_AUTHORITY)
 export const oidcClientId = getString(import.meta.env.REACT_APP_OIDC_CLIENT_ID)
 export const oidcRedirectUri = getString(

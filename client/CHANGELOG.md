@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.67.2 - 2026-4-24
+
+### Removed
+
+- Removed changes made regarding issue 331 ([#331](https://github.com/project-lux/lux-frontend/issues/331)).
+
 ## v1.67.1 - 2026-4-14
 
 ### Changed
