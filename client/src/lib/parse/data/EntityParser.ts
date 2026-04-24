@@ -763,13 +763,13 @@ export default class EntityParser {
 
     const aboutData = about
       .map((obj) => {
-        const ids: Array<string> = []
+        const ids: Array<string | undefined> = []
         if (obj.hasOwnProperty('created_by')) {
           obj.created_by.influenced_by.map((influencedBy: IEntity) => {
-            ids.push(influencedBy.id!)
+            ids.push(influencedBy.id)
           })
         }
-        return ids
+        return ids.filter((id) => id !== undefined)
       })
       .filter((arr) => arr.length !== 0)
 

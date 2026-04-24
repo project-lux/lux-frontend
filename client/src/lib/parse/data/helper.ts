@@ -341,6 +341,42 @@ export const getLabelBasedOnEntityType = (path: string): string => {
 }
 
 /**
+ * Returns the tab of the record based on its uri
+ * @param {string} uri the uri used to determine the tab
+ * @returns {string}
+ */
+export const getSubjectHeadingObject = (uri: string): Record<string, any> => {
+  let searchTerm = ''
+  if (uri.includes('object') || uri.includes('digital')) {
+    searchTerm = 'aboutItem'
+  }
+  if (uri.includes('text') || uri.includes('visual')) {
+    searchTerm = 'aboutWork'
+  }
+  if (uri.includes('person') || uri.includes('group')) {
+    searchTerm = 'aboutAgent'
+  }
+  if (uri.includes('place')) {
+    searchTerm = 'aboutPlace'
+  }
+  if (uri.includes('concept')) {
+    searchTerm = 'aboutConcept'
+  }
+  if (uri.includes('activity') || uri.includes('period')) {
+    searchTerm = 'aboutEvent'
+  }
+
+  return {
+    [searchTerm]: {
+      id: uri.replace(
+        `${config.env.dataApiBaseUrl}`,
+        'https://lux.collections.yale.edu/',
+      ),
+    },
+  }
+}
+
+/**
  * Returns name to be displayed as the primary name
  * This requires parsing all nested objects in /identified_by where the /type='Name'
  * @param {Array<any>} identifiers the array of objects from /identified_by

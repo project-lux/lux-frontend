@@ -132,7 +132,7 @@ const About: React.FC<IObject> = ({ entity }) => {
             <AboutSubsection
               content={about}
               label="About"
-              id="works-about-link-container"
+              id="about-subject-headings"
             />
           )}
           {represents.length > 0 && (
