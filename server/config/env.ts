@@ -36,6 +36,8 @@ export const maintenanceMode = getBool(process.env.MAINTENANCE_MODE) || false
 export const maintenanceMessage = getString(process.env.MAINTENANCE_MESSAGE)
 export const cacheViewerMode = getBool(process.env.CACHE_VIEWER_MODE)
 
+export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
+
 export const oidcAuthority = getString(process.env.OIDC_AUTHORITY)
 export const oidcClientId = getString(process.env.OIDC_CLIENT_ID)
 export const oidcRedirectUri = getString(process.env.OIDC_REDIRECT_URI)

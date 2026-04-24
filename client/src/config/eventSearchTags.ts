@@ -13,7 +13,7 @@ export const relatedEntites: IHalLinks = {
     tab: 'objects',
   },
   works: {
-    title: 'Works About',
+    title: 'Works About or Related To',
     searchTag: 'lux:eventWorksAbout',
     tab: 'works',
   },
