@@ -25,13 +25,13 @@ const StyledButtonCol = styled(Col)`
 const getHalLinks = (
   searchTags: IHalLinks,
   providedHalLinks: any,
-): Array<string> => {
-  const filteredHalLinks: Array<string> = []
+): Record<string, { href: string }> => {
+  const filteredHalLinks: Record<string, { href: string }> = {}
 
   Object.keys(providedHalLinks || {}).map((link: string) =>
     Object.keys(searchTags).map((tag) => {
       if (searchTags[tag].searchTag === link) {
-        filteredHalLinks.push(providedHalLinks[link].href)
+        filteredHalLinks[link] = { href: providedHalLinks[link].href }
       }
       return null
     }),
