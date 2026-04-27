@@ -8,7 +8,6 @@ import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import theme from '../../styles/theme'
-import AdvancedSearchConfig from '../advancedSearchConfig/AdvancedSearchConfig'
 import CmsRoutingComponent from '../cms/CmsRoutingComponent'
 import ErrorPage from '../error/ErrorPage'
 import Header from '../header/Header'
@@ -132,10 +131,10 @@ const LuxRoutes: React.FC = () => {
           {/* BEGIN CMS pages */}
           <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
           {/* END CMS pages */}
-          <Route
+          {/* <Route
             path="/view/advanced-search-config"
             element={<AdvancedSearchConfig />}
-          />
+          /> */}
 
           <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>

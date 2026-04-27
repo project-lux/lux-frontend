@@ -87,13 +87,19 @@ const Graph: React.FC<IProps> = ({
   }
 
   useEffect(() => {
+    const showEras = TimelineParser.showYearEra(yearsArray)
     setGraphData(
       yearsArray.map((year) => {
         const barData = timelineData.hasOwnProperty(year)
           ? timelineData[year]
           : { total: 0 }
+        let yearLabel = year
+        // If any of the years are negative, set the year, display the era (BCE/CE) in the label
+        if (showEras) {
+          yearLabel = TimelineParser.getYearWithLabel(year)
+        }
         return {
-          year: TimelineParser.getYearWithLabel(year),
+          year: yearLabel,
           yearKey: year,
           ...barData,
         }

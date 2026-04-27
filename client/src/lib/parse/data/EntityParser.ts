@@ -153,8 +153,11 @@ export default class EntityParser {
 
         // Get the label of the list of names from either the nested classified_as or nested identified_by
         if (classifiedAs.length > 0) {
-          // Filter out inverted terms classifications
-          const ids = getClassifiedAs(classifiedAs, [config.aat.invertedTerms])
+          // Filter out inverted terms classifications and sort title classifications
+          const ids = getClassifiedAs(classifiedAs, [
+            config.aat.invertedTerms,
+            config.aat.sortTitle,
+          ])
           // check if there are multiple classifications for a name
           if (ids.length > 0) {
             ;[label] = ids
@@ -760,13 +763,13 @@ export default class EntityParser {
 
     const aboutData = about
       .map((obj) => {
-        const ids: Array<string> = []
+        const ids: Array<string | undefined> = []
         if (obj.hasOwnProperty('created_by')) {
           obj.created_by.influenced_by.map((influencedBy: IEntity) => {
-            ids.push(influencedBy.id!)
+            ids.push(influencedBy.id)
           })
         }
-        return ids
+        return ids.filter((id) => id !== undefined)
       })
       .filter((arr) => arr.length !== 0)
 

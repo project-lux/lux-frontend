@@ -1,19 +1,11 @@
 import React, { type JSX } from 'react'
-import { Col, Row } from 'react-bootstrap'
 
-import useTitle from '../../lib/hooks/useTitle'
 import {
   advancedSearchTitles,
   scopeToTabTranslation,
   searchScope,
 } from '../../config/searchTypes'
-import { useGetFaqQuery } from '../../redux/api/cmsApi'
-import {
-  StyledFaqPage,
-  StyledFaqPageHeader,
-  StyledFaqGroupSection,
-} from '../../styles/features/cms/FaqPage'
-import FaqSideBar from '../cms/FaqSideBar'
+import { StyledFaqGroupSection } from '../../styles/features/cms/FaqPage'
 import config from '../../config/config'
 
 const createAccordionItem = (scope: string): JSX.Element => {
@@ -90,56 +82,30 @@ const scrollToTop = (): void => {
   window.scrollTo(0, 0)
 }
 
-const createGroupElems = (): JSX.Element[] =>
-  ['Advanced Search Terms'].map((groupName, ind) => {
-    const accordion = createAccordion(groupName)
-    const groupKey = groupName
+const AdvancedSearchTermsGroupElems: React.FC = () => (
+  <React.Fragment>
+    {['Advanced Search Terms'].map((groupName, ind) => {
+      const accordion = createAccordion(groupName)
+      const groupKey = groupName
 
-    return (
-      <React.Fragment key={groupKey}>
-        <StyledFaqGroupSection
-          id={createGroupElemId(groupName)}
-          data-testid={`faq-page-body-${ind}`}
-        >
-          <h2 id="faq-header">Advanced Search Terms</h2>
-          {accordion}
-        </StyledFaqGroupSection>
-        <div className="d-flex justify-content-end">
-          <button type="button" className="back-to-top" onClick={scrollToTop}>
-            Back to Top
-          </button>
-        </div>
-      </React.Fragment>
-    )
-  })
+      return (
+        <React.Fragment key={groupKey}>
+          <StyledFaqGroupSection
+            id={createGroupElemId(groupName)}
+            data-testid={`faq-page-body-${ind}`}
+          >
+            <h2 id="faq-header">Advanced Search Terms</h2>
+            {accordion}
+          </StyledFaqGroupSection>
+          <div className="d-flex justify-content-end">
+            <button type="button" className="back-to-top" onClick={scrollToTop}>
+              Back to Top
+            </button>
+          </div>
+        </React.Fragment>
+      )
+    })}
+  </React.Fragment>
+)
 
-const title = 'Frequently Asked Questions'
-
-const AdvancedSearchConfig: React.FC = () => {
-  const result = useGetFaqQuery()
-  let groups: JSX.Element[] = []
-
-  useTitle(title)
-
-  if (result.isSuccess && result.data) {
-    groups = createGroupElems()
-  }
-
-  return (
-    <StyledFaqPage data-testid="faq-page">
-      <StyledFaqPageHeader>
-        <h1 data-testid="faq-page-header">{title}</h1>
-      </StyledFaqPageHeader>
-      <Row className="mx-0 pt-4">
-        <Col xs={12} sm={12} md={12} lg={3} className="side-column">
-          <FaqSideBar />
-        </Col>
-        <Col xs={12} sm={12} md={12} lg={9} className="d-xl-flex faq-body">
-          <div className="main-column flex-fill">{groups}</div>
-        </Col>
-      </Row>
-    </StyledFaqPage>
-  )
-}
-
-export default AdvancedSearchConfig
+export default AdvancedSearchTermsGroupElems

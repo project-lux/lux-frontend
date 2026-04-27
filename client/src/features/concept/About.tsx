@@ -8,6 +8,7 @@ import LinkContainer from '../common/LinkContainer'
 import ClassContainer from '../common/ClassContainer'
 import WebPages from '../common/WebPages'
 import StyledHr from '../../styles/shared/Hr'
+import StyledH2 from '../../styles/shared/H2'
 
 interface IProps {
   entity: IEntity
@@ -30,7 +31,7 @@ const About: React.FC<IProps> = ({ entity }) => {
 
   return (
     <div data-testid="about-concept">
-      <h2 data-testid="concept-about-header">About {name}</h2>
+      <StyledH2 data-testid="concept-about-header">About {name}</StyledH2>
       <dl>
         {names !== null && (
           <NamesContainer

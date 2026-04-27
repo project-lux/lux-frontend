@@ -1,6 +1,7 @@
+import { Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const Agents = styled.div`
+const Agents = styled(Row)`
   dt {
     width: 100%;
     overflow-wrap: break-word;

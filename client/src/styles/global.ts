@@ -125,6 +125,10 @@ const GlobalStyle = createGlobalStyle`
   a {
     color: ${theme.color.link};
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   dt {

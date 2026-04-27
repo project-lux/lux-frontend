@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.68.0 - 2026-04-27
+
+### Added
+
+- Added underline to links on hover ([#873](https://github.com/project-lux/lux-frontend/issues/873)).
+- Added advanced search config link to FAQ menu ([#731](https://github.com/project-lux/lux-frontend/issues/731)).
+- Added search links for subject headings ([#765](https://github.com/project-lux/lux-frontend/issues/765)).
+- Added spacing between data points for event data on Objects and Works ([#675](https://github.com/project-lux/lux-frontend/issues/675)).
+
+### Changed
+
+- Changed the padding between Show All/Fewers Rows button and Search LUX button in the advanced search ([#687](https://github.com/project-lux/lux-frontend/issues/687)).
+- Changed labeling for timeline data ([#665](https://github.com/project-lux/lux-frontend/issues/665)).
+
+### Fixed
+
+- Fixed long titles from expanding past their container ([#699](https://github.com/project-lux/lux-frontend/issues/699)).
+- Fixed labeling within Creation event data rendering ([#905](https://github.com/project-lux/lux-frontend/issues/905)).
+
+### Removed
+
+- Removed sort titles from rendering ([#638](https://github.com/project-lux/lux-frontend/issues/638)).
+
 ## v1.67.2 - 2026-4-24
 
 ### Removed

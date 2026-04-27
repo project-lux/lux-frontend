@@ -26,6 +26,18 @@ export default class TimelineParser {
   }
 
   /**
+   * Determines if any of the years are in the BCE era
+   * @param {Array<string>} years; the array of years to check
+   * @returns {boolean}
+   */
+  static showYearEra(years: Array<string>): boolean {
+    if (parseInt(years[0], 10) < 0) {
+      return true
+    }
+    return false
+  }
+
+  /**
    * Returns the year from the date string provided
    * @param {string} facetValue; the date provided by the data as a string
    * @returns {string | null}
