@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the advanced search date parsing ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+- Changed timeline data parsing and rendering functions to not rely on facet names ([#518](https://github.com/project-lux/lux-frontend/issues/518)).
 
 ### Fixed
 
@@ -27,7 +28,6 @@ All notable changes to this project will be documented in this file.
 
 - Changed the padding between Show All/Fewers Rows button and Search LUX button in the advanced search ([#687](https://github.com/project-lux/lux-frontend/issues/687)).
 - Changed labeling for timeline data ([#665](https://github.com/project-lux/lux-frontend/issues/665)).
-- Changed timeline data parsing and rendering functions to not rely on facet names ([#518](https://github.com/project-lux/lux-frontend/issues/518)).
 
 ### Fixed
 

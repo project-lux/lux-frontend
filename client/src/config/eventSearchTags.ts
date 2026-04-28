@@ -105,10 +105,6 @@ export const timelines: IHalLinks = {
     searchTag: 'lux:eventItemIncludedTime',
     tab: 'objects',
   },
-  itemProductionDate: {
-    searchTag: 'lux:eventItemMadeTime',
-    tab: 'objects',
-  },
   workCreationOrPublicationDate: {
     searchTag: 'lux:eventWorksAboutTime',
     tab: 'works',
