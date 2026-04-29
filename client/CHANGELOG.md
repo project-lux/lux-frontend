@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the advanced search date parsing ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+
 ### Fixed
 
 ### Removed

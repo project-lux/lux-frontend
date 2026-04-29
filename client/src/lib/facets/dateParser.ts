@@ -153,15 +153,20 @@ export const isValid = (d: number, m: number, y: number): boolean =>
  */
 // Used by facets and advanced search
 export const getDefaultDate = (date: string): IDateObj => {
-  if (date === '') {
+  const dateObj = new Date(date)
+  if (isValidDateObject(dateObj)) {
     return {
-      month: '1',
-      day: '1',
-      year: '',
+      month: (dateObj.getUTCMonth() + 1).toString(),
+      day: dateObj.getUTCDate().toString(),
+      year: dateObj.getUTCFullYear().toString(),
     }
   }
 
-  return getISOYearMonthDay(date)
+  return {
+    month: '1',
+    day: '1',
+    year: '',
+  }
 }
 
 /**
