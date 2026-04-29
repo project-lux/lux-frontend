@@ -33,8 +33,11 @@ const TimelineData: React.FC<{
 
   if (transformedData !== null) {
     return (
-      <Row className="overflow-scroll" style={{ height: '90%' }}>
-        <Col xs={12}>
+      <Row style={{ height: '90%' }}>
+        <Col
+          xs={12}
+          style={display === 'list' ? { height: '100%' } : undefined}
+        >
           {display === 'list' ? (
             <List
               sortedKeys={sortedKeys}
