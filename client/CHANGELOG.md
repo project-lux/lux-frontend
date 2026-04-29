@@ -23,6 +23,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed date parsing errors ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+- Fixed the overflow scroll on timelines to only appear when needed ([#684](https://github.com/project-lux/lux-frontend/issues/684)).
 
 ### Removed
 
