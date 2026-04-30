@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Row } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
+import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { searchScope } from '../../config/searchTypes'
@@ -9,6 +10,7 @@ import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
   ISimpleSearchState,
+  resetState,
 } from '../../redux/slices/simpleSearchSlice'
 import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
@@ -42,18 +44,40 @@ const StyledSearchBox = styled.div`
     }
   }
 
+  .btn {
+    &:hover {
+      background-color: ${theme.color.lightGray};
+    }
+
+    &:focus {
+      border: 2px solid ${theme.color.link};
+    }
+  }
+
   .submitButton {
     background-color: ${theme.color.white};
-    border-radius: 0 ${theme.searchBox.borderRadiusMobile}
-      ${theme.searchBox.borderRadiusMobile} 0;
     height: 50px;
     font-size: 1.5rem;
+    border-left: 1px solid #979797;
+    border-radius: 0 ${theme.searchBox.borderRadiusMobile}
+      ${theme.searchBox.borderRadiusMobile} 0;
 
     @media (min-width: ${theme.breakpoints.md}px) {
       font-size: 2rem;
       height: 72px;
       border-radius: 0 ${theme.searchBox.borderRadius}
         ${theme.searchBox.borderRadius} 0;
+    }
+  }
+
+  .clearButton {
+    background-color: ${theme.color.white};
+    height: 50px;
+    font-size: 1.5rem;
+
+    @media (min-width: ${theme.breakpoints.md}px) {
+      font-size: 2rem;
+      height: 72px;
     }
   }
 `
@@ -109,6 +133,12 @@ const SearchBox: React.FC<{
   ): void => {
     const { value } = event.currentTarget
     dispatch(addSimpleSearchInput({ value }))
+  }
+
+  const handleClearSearch = (): void => {
+    dispatch(resetState())
+    setIsError(false)
+    inputRef.current?.focus()
   }
 
   const validateInput = (): boolean => {
@@ -167,6 +197,9 @@ const SearchBox: React.FC<{
     }
   }, [isSearchOpen])
 
+  const hasInputValue =
+    !isNull(currentState.value) && currentState.value.length > 0
+
   return (
     <Row className={`${isResults ? 'py-3' : ''} mx-0`}>
       <div className="col-12 d-flex justify-content-center">
@@ -192,6 +225,17 @@ const SearchBox: React.FC<{
                 value={currentState.value !== null ? currentState.value : ''}
                 data-testid={`${id}-search-submit-input`}
               />
+              {hasInputValue && (
+                <button
+                  type="button"
+                  className="btn clearButton"
+                  aria-label="clear search input"
+                  onClick={handleClearSearch}
+                  data-testid={`${id}-search-clear-button`}
+                >
+                  <i className="bi bi-x-lg" />
+                </button>
+              )}
               <div className="input-group-append submitButtonDiv">
                 <button
                   disabled={!validateInput()}
