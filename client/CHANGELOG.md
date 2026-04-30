@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added objects included, works about, works caused by, and sets caused by to timelines on Event pages ([#518](https://github.com/project-lux/lux-frontend/issues/518)).
+- Added Clear Search button to search input ([#725](https://github.com/project-lux/lux-frontend/issues/725)).
 
 ### Changed
 
