@@ -11,6 +11,7 @@ import {
 import StyledDropdown from '../../styles/shared/Dropdown'
 import { dropdownGroupings, scopeToAriaLabel } from '../../config/searchTypes'
 import { capitalizeLabels } from '../../lib/parse/data/helper'
+import theme from '../../styles/theme'
 
 interface IDropdown {
   dropdownType:
@@ -119,7 +120,10 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
               if (!isUndefined(options[scopeName])) {
                 return (
                   <React.Fragment key={scopeName}>
-                    <Dropdown.ItemText className="border-bottom fw-bold">
+                    <Dropdown.ItemText
+                      className="fw-bold"
+                      style={{ backgroundColor: theme.color.lightGray }}
+                    >
                       {scopeToAriaLabel[scopeName] !== undefined
                         ? capitalizeLabels(scopeToAriaLabel[scopeName])
                         : capitalizeLabels(scopeName)}
@@ -127,7 +131,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
                     {Object.entries(options[scopeName]).map(([term, label]) => (
                       <Dropdown.Item
                         key={`${scopeName}-${term}`}
-                        className="ps-4"
+                        className="ps-5"
                         as="button"
                         eventKey={term}
                         id={term}
