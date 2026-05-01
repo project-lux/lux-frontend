@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the overflow scroll on timelines to only appear when needed ([#684](https://github.com/project-lux/lux-frontend/issues/684)).
+
 ### Removed
 
 ## v1.68.0 - 2026-04-27
