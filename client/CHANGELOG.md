@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file.
 - Added Concept Class to concept results snippets ([#732](https://github.com/project-lux/lux-frontend/issues/732)).
 - Added descriptive text to advanced search date input rows ([#734](https://github.com/project-lux/lux-frontend/issues/734)).
 - Added hierarchy label in results snippets ([#797](https://github.com/project-lux/lux-frontend/issues/797)).
+- Added Clear Search button to search input ([#728](https://github.com/project-lux/lux-frontend/issues/728)).
 
 ### Changed
 
@@ -20,6 +21,7 @@ All notable changes to this project will be documented in this file.
 - Changed place tabs Works Created and Works Published to Works Created or Published ([#633](https://github.com/project-lux/lux-frontend/issues/633)).
 - Changed advanced search dropdown headers styling ([#693](https://github.com/project-lux/lux-frontend/issues/693)).
 - Changed the Can I Reuse It? text ([#816](https://github.com/project-lux/lux-frontend/issues/816)).
+- Changed advanced search input to remain when switching text fields ([#725](https://github.com/project-lux/lux-frontend/issues/725)).
 
 ### Fixed
 

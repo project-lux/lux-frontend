@@ -117,11 +117,6 @@ const App: React.FC = () => {
     )
   }
 
-  // The necessary API endpoint variables failed to load
-  if (localEnvError) {
-    pushClientEvent('Error', 'Triggered', 'API Endpoints Configuration Error')
-  }
-
   // The advanced search configuration failed to load
   if (advancedSearchConfigError) {
     pushClientEvent('Error', 'Triggered', 'Advanced Search Configuration Error')
