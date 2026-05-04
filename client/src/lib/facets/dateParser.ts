@@ -7,6 +7,21 @@ export interface IDateObj {
 }
 
 /**
+ * Returns the month with padded zeros
+ * @param {string} month; the month selected
+ * @returns {string}
+ */
+// Used by facets
+export const getISOMonth = (month: string): string => month.padStart(2, '0')
+
+/**
+ * Returns the day with padded zeros
+ * @param {string} date; the day selected
+ * @returns {string}
+ */
+export const getISODay = (date: string): string => date.padStart(2, '0')
+
+/**
  * Returns the year in the correct format for ISO date strings
  * @param {string} year; the year to be converted
  * @returns {string}
@@ -21,11 +36,10 @@ export const convertYearToISOYear = (year: string): string => {
 }
 
 /**
- * Returns the year, month, and day based on what the user has selected
+ * Returns the year, month, and day based on what the user has selected in the advanced search dropdown
  * @param {string} date; the date string in a loose ISO format
  * @returns {IDateObj}
  */
-// Used by convertLuxISODateToISODate
 export const getISOYearMonthDay = (date: string): IDateObj => {
   let month = '0'
   let day = '1'
@@ -153,6 +167,14 @@ export const isValid = (d: number, m: number, y: number): boolean =>
  */
 // Used by facets and advanced search
 export const getDefaultDate = (date: string): IDateObj => {
+  if (date === '') {
+    return {
+      month: '1',
+      day: '1',
+      year: '',
+    }
+  }
+
   const dateObj = new Date(date)
   if (isValidDateObject(dateObj)) {
     return {
@@ -162,11 +184,7 @@ export const getDefaultDate = (date: string): IDateObj => {
     }
   }
 
-  return {
-    month: '1',
-    day: '1',
-    year: '',
-  }
+  return getISOYearMonthDay(date)
 }
 
 /**
@@ -202,21 +220,6 @@ export const getDaysInMonthArray = (
   }
   return arr
 }
-
-/**
- * Returns the month with padded zeros
- * @param {string} month; the month selected
- * @returns {string}
- */
-// Used by facets
-export const getISOMonth = (month: string): string => month.padStart(2, '0')
-
-/**
- * Returns the day with padded zeros
- * @param {string} date; the day selected
- * @returns {string}
- */
-export const getISODay = (date: string): string => date.padStart(2, '0')
 
 /**
  * Checks if value given has leading 0s and displays appropriate number as a string
