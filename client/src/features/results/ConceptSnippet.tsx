@@ -76,14 +76,22 @@ const ConceptSnippet: React.FC<IProps> = ({
               </Col>
             </Row>
           )}
+          <Row>
+            <Col>
+              <StyledDt>Part Of</StyledDt>
+              <StyledDd data-testid="concept-snippet-part-of">
+                <GenericBreadcrumbHierarchy
+                  key={concept.json.id}
+                  entity={data}
+                  id="concept-snippet"
+                  getNextEntityUri={getNextConceptUris}
+                  maxLength={10}
+                  columnClassName="px-0"
+                />
+              </StyledDd>
+            </Col>
+          </Row>
         </StyledDl>
-        <GenericBreadcrumbHierarchy
-          key={concept.json.id}
-          entity={data}
-          id="concept-snippet"
-          getNextEntityUri={getNextConceptUris}
-          maxLength={10}
-        />
       </React.Fragment>
     )
 
