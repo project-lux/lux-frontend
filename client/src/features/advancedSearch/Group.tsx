@@ -27,6 +27,7 @@ import AdvancedSearchDropdown from './Dropdown'
 import AdvancedSearchForm from './Form'
 import OptionsButton, { GROUP_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
+import DescriptiveText from './DescriptiveText'
 // import Connector from './Connector'
 
 interface IProps {
@@ -150,9 +151,7 @@ const Group: React.FC<IGroup> = ({
                 selected={selectedKey}
                 id={id}
               />
-              <p className="d-flex mb-0 text-nowrap justify-content-center align-items-center">
-                the following
-              </p>
+              <DescriptiveText text="the following" />
               <OptionsButton
                 state={state}
                 stateId={stateId}
