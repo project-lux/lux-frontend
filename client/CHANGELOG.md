@@ -19,6 +19,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed date parsing errors ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+
 ### Removed
 
 ## v1.68.0 - 2026-04-27
