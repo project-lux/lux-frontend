@@ -1,5 +1,4 @@
 import React, { useEffect, useState, type JSX } from 'react'
-import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
@@ -21,6 +20,7 @@ interface IProps {
   maxLength: number
   // className modifier to change styling/alignment of the component based on context
   columnClassName?: string
+  rowClassName?: string
 }
 
 // This component is used to display breadcrumb hierarchies. Currently used in result snippets and entity headers for Objects (when part of archives), Sets (when an archive), Concepts, and Places
@@ -31,6 +31,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   linkFilter,
   maxLength,
   columnClassName,
+  rowClassName = '',
 }) => {
   const [done, setDone] = useState(false)
   const [entities, setEntities] = useState([entity])
@@ -104,15 +105,15 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
     }
 
     return (
-      <Row>
-        <Col
+      <div className={rowClassName}>
+        <div
           className={columnClassName || ''}
           data-testid={`${id}-generic-breadcrumb-hierarchy`}
           role="navigation"
         >
           {links} {'>'} {entityName}
-        </Col>
-      </Row>
+        </div>
+      </div>
     )
   }
 
