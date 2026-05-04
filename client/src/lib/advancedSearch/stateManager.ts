@@ -18,6 +18,7 @@ import {
   isInput,
   isRangeInput,
   isRecordTypeInput,
+  isTextInput,
 } from './advancedSearchParser'
 import { getStateId } from './stateId'
 
@@ -96,6 +97,7 @@ export const getFieldToEntityRelationship = (
  */
 export const getExistingValue = (
   obj: IAdvancedSearchState,
+  selected: string,
 ): IAdvancedSearchState | null => {
   let existingValue: any | null = null
   // Determine if object already contains a property or group
@@ -104,12 +106,20 @@ export const getExistingValue = (
     existingValue = obj[property]
   }
   // Check if existing value is a comparator
-  if (
-    typeof existingValue === 'string' &&
-    comparators.hasOwnProperty(existingValue)
-  ) {
+  if (comparators.hasOwnProperty(existingValue)) {
     existingValue = null
   }
+
+  const fieldsAreBothTextInput = isTextInput(property) && isTextInput(selected)
+  if (fieldsAreBothTextInput) {
+    existingValue = obj[property]
+  }
+
+  if (typeof existingValue === 'string' && !fieldsAreBothTextInput) {
+    existingValue = null
+  }
+
+  // remove the old property as the new one replaces it
   delete obj[property]
 
   const optionsKeys = ['_weight', '_complete', '_options']
@@ -137,7 +147,7 @@ export const addFieldSelectionHelper = (
   parentBgColor?: 'bg-white' | 'bg-light',
 ): Record<string, any> | null => {
   if (objectToUpdate !== null) {
-    const existingValue = getExistingValue(objectToUpdate)
+    const existingValue = getExistingValue(objectToUpdate, selected)
     const newObject: IAdvancedSearchState = {
       _stateId: getStateId(),
     }
@@ -152,7 +162,6 @@ export const addFieldSelectionHelper = (
       objectToUpdate[selected] =
         existingValue !== null ? existingValue : [newObject]
     } else if (isInput(selected)) {
-      // Text input
       if (
         !isRecordTypeInput(selected) &&
         (typeof existingValue !== 'string' ||
