@@ -110,9 +110,9 @@ export enum FaqGroupKey {
   GENERAL_INFO = '1',
   SIMPLE_SEARCH = '2',
   ADVANCED_SEARCH = '3',
-  ADVANCED_SEARCH_TERMS = '4',
-  RESULT_VIEWS = '5',
-  ITEM_RECORDS = '6',
+  ADVANCED_SEARCH_TERMS = 'terms',
+  RESULT_VIEWS = '4',
+  ITEM_RECORDS = '5',
 }
 
 export const faqPageRouteToKey: { [key: string]: Array<FaqGroupKey> } = {
@@ -132,11 +132,11 @@ export function faqGroupKeyFromString(s: string): FaqGroupKey {
       return FaqGroupKey.SIMPLE_SEARCH
     case '3':
       return FaqGroupKey.ADVANCED_SEARCH
-    case '4':
+    case 'terms':
       return FaqGroupKey.ADVANCED_SEARCH_TERMS
-    case '5':
+    case '4':
       return FaqGroupKey.RESULT_VIEWS
-    case '6':
+    case '5':
       return FaqGroupKey.ITEM_RECORDS
   }
   return FaqGroupKey.NO_GROUP
