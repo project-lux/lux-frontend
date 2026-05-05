@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 - Added Clear Search button to search input ([#725](https://github.com/project-lux/lux-frontend/issues/725)).
 - Added Concept Class to concept results snippets ([#732](https://github.com/project-lux/lux-frontend/issues/732)).
 - Added descriptive text to advanced search date input rows ([#734](https://github.com/project-lux/lux-frontend/issues/734)).
+- Added hierarchy label in results snippets ([#797](https://github.com/project-lux/lux-frontend/issues/797)).
 
 ### Changed
 
