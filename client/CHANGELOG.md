@@ -26,6 +26,12 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+## v1.68.1 - 2026-05-05
+
+### Fixed
+
+- Fixed the FAQ rendering ([#731](https://github.com/project-lux/lux-frontend/issues/731)).
+
 ## v1.68.0 - 2026-04-27
 
 ### Added
