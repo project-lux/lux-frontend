@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 - Fixed date parsing errors ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
 - Fixed alignment issues ([#820](https://github.com/project-lux/lux-frontend/issues/820)).
+- Fixed the hierarchy label from rendering on results pages ([#797](https://github.com/project-lux/lux-frontend/issues/797)).
 
 ### Removed
 
