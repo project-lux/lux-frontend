@@ -1,7 +1,7 @@
 import React from 'react'
 import { useLocation, Link } from 'react-router-dom'
 import { isNull, isUndefined } from 'lodash'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
@@ -79,36 +79,41 @@ const ArchiveHierarchyContainer: React.FC<IProps> = ({
       : 'View records from this archive with images'
 
     return (
-      <StyledEntityPageSection data-testid="explore-the-archive-hierarchy">
-        <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
-        {/* Render the collapsible child componentstarting with the oldest ancestor */}
-        <ArchiveHierarchyChild
-          child={data.highestAncestorId as string}
-          skipApiCalls={false}
-          key={pathname}
-          ancestors={ancestors}
-          currentEntity={entityData.entity}
-        />
+      <StyledEntityPageSection
+        className="row"
+        data-testid="explore-the-archive-hierarchy"
+      >
+        <Col xs={12}>
+          <h2>Explore {currentEntityIsArchive ? 'the Archive' : ''}</h2>
+        </Col>
+        <Col xs={12}>
+          {/* Render the collapsible child componentstarting with the oldest ancestor */}
+          <ArchiveHierarchyChild
+            child={data.highestAncestorId as string}
+            skipApiCalls={false}
+            key={pathname}
+            ancestors={ancestors}
+            currentEntity={entityData.entity}
+          />
+        </Col>
         {/* Render the search link for users to view entities with images on the results page */}
         {objectsWithImagesHalLink !== null && (
-          <Row className="mt-3">
-            <Col>
-              <Link
-                to={{
-                  pathname: `/view/results/objects`,
-                  search: searchString,
-                }}
-                onClick={() =>
-                  pushClientEvent('Search Link', 'Selected', searchLinkLabel)
-                }
-                className="fw-bold"
-                data-testid="image-link"
-              >
-                {searchLinkLabel}
-                <i className="bi bi-camera-fill ms-2" />
-              </Link>
-            </Col>
-          </Row>
+          <Col xs={12} className="mt-3">
+            <Link
+              to={{
+                pathname: `/view/results/objects`,
+                search: searchString,
+              }}
+              onClick={() =>
+                pushClientEvent('Search Link', 'Selected', searchLinkLabel)
+              }
+              className="fw-bold"
+              data-testid="image-link"
+            >
+              {searchLinkLabel}
+              <i className="bi bi-camera-fill ms-2" />
+            </Link>
+          </Col>
         )}
       </StyledEntityPageSection>
     )

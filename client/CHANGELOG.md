@@ -24,6 +24,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed date parsing errors ([#566](https://github.com/project-lux/lux-frontend/issues/566)).
+- Fixed alignment issues ([#820](https://github.com/project-lux/lux-frontend/issues/820)).
 
 ### Removed
 

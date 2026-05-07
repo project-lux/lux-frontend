@@ -93,7 +93,7 @@ const PlaceSnippet: React.FC<IProps> = ({
                   maxLength={8}
                   getNextEntityUri={getNextPlaceUris}
                   id="place-snippet"
-                  columnClassName="px-0"
+                  divClassName="px-0"
                 />
               </StyledDd>
             </Col>

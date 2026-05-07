@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
+import { Col } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import IEntity from '../../types/data/IEntity'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import WorksSnippet from '../results/WorksSnippet'
 import theme from '../../styles/theme'
-import StyledObjectWorkHeader from '../../styles/shared/ObjectWorkHeader'
 import LuxOverlay from '../common/LuxOverlay'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import StyledHr from '../../styles/shared/Hr'
 
 interface IApiText {
   entity: IEntity
@@ -14,6 +16,10 @@ interface IApiText {
 }
 
 const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
+  const [isMobile, setIsMobile] = useState<boolean>(
+    window.innerWidth < theme.breakpoints.md,
+  )
+  useResizeableWindow(setIsMobile)
   const [displayLength, setDisplayLength] = useState<number>(defaultLength)
 
   const object = new ObjectParser(entity)
@@ -28,22 +34,21 @@ const Carries: React.FC<IApiText> = ({ entity, defaultLength = 5 }) => {
   }
 
   return (
-    <StyledEntityPageSection data-testid="carries-container">
-      <StyledObjectWorkHeader>
+    <StyledEntityPageSection className="row" data-testid="carries-container">
+      <Col xs={12}>
         <span className="d-flex flex-wrap">
           <h2>This Object includes the following Works</h2>
           <LuxOverlay />
         </span>
-      </StyledObjectWorkHeader>
+        {isMobile && <StyledHr width="100%" />}
+      </Col>
       {/* uri is not needed in this case */}
       {carries.slice(0, displayLength).map((work) => (
-        <div key={work} className="row">
-          <div className="col-12">
-            <WorksSnippet uri={work} view="list" />
-          </div>
+        <div key={work} className="col-12">
+          <WorksSnippet uri={work} view="list" />
         </div>
       ))}
-      <div className="mt-2">
+      <div className="col-12 mt-2">
         {displayLength < carriesLength && (
           <button
             type="button"

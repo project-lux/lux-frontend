@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useRef, useState } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -95,73 +95,73 @@ const TimelineContainer: React.FC<{
     if (sortedTimelineYears.length !== 0) {
       return (
         <StyledEntityPageSection
-          className={`timelineContainer${isFullscreen ? 'Fullscreen' : ''}`}
+          className={`timelineContainer${isFullscreen ? 'Fullscreen' : ''} row`}
           data-testid={`timeline-container${isFullscreen ? '-fullscreen' : ''}`}
           ref={timelineRef}
         >
-          <Row>
-            <Col xs={12} sm={8} md={8} lg={8} xl={8}>
-              <h2>Timeline of Related Objects/Works</h2>
-            </Col>
-            <StyledButtonCol
-              xs={12}
-              sm={4}
-              md={4}
-              lg={4}
-              xl={4}
-              className="d-flex"
-            >
-              <div className="h-50">
-                <StyledDisplaySwitchButton
-                  onClick={() =>
-                    setDisplay(display === 'graph' ? 'list' : 'graph')
-                  }
-                  role="button"
-                  aria-label={`View the hierarchy ${
-                    display === 'graph' ? 'list' : 'graph'
+          <Col xs={12} sm={8} md={8} lg={8} xl={8}>
+            <h2>Timeline of Related Objects/Works</h2>
+          </Col>
+          <StyledButtonCol
+            xs={12}
+            sm={4}
+            md={4}
+            lg={4}
+            xl={4}
+            className="d-flex"
+          >
+            <div className="h-50">
+              <StyledDisplaySwitchButton
+                onClick={() =>
+                  setDisplay(display === 'graph' ? 'list' : 'graph')
+                }
+                role="button"
+                aria-label={`View the hierarchy ${
+                  display === 'graph' ? 'list' : 'graph'
+                }`}
+                data-testid={`view-${display === 'graph' ? 'list' : 'graph'}-button`}
+              >
+                <i
+                  className={`bi ${
+                    display === 'graph' ? 'bi-list-ul' : 'bi-bar-chart-line'
                   }`}
-                  data-testid={`view-${display === 'graph' ? 'list' : 'graph'}-button`}
-                >
-                  <i
-                    className={`bi ${
-                      display === 'graph' ? 'bi-list-ul' : 'bi-bar-chart-line'
-                    }`}
-                    style={{ fontSize: '1.5rem' }}
-                  />
-                </StyledDisplaySwitchButton>
-                <StyledDisplaySwitchButton
-                  onClick={() => setFullscreen()}
-                  role="button"
-                  aria-label={
-                    isFullscreen
-                      ? 'Minimize the viewport'
-                      : 'Expand to fullscreen'
-                  }
-                  data-testid={
-                    isFullscreen
-                      ? 'minimize-timeline-container-button'
-                      : 'fullscreen-timeline-container-button'
-                  }
-                >
-                  <i
-                    className={`bi ${
-                      isFullscreen
-                        ? 'bi-fullscreen-exit'
-                        : 'bi-arrows-fullscreen'
-                    }`}
-                    style={{ fontSize: '1.5rem' }}
-                  />
-                </StyledDisplaySwitchButton>
-              </div>
-            </StyledButtonCol>
-          </Row>
-          <Hr $hiddenOnDesktop width="100%" className="mb-2" />
-          <TimelineData
-            display={display}
-            sortedKeys={sortedTimelineYears}
-            transformedData={timelineData}
-            searchTags={searchTags}
-          />
+                  style={{ fontSize: '1.5rem' }}
+                />
+              </StyledDisplaySwitchButton>
+              <StyledDisplaySwitchButton
+                onClick={() => setFullscreen()}
+                role="button"
+                aria-label={
+                  isFullscreen
+                    ? 'Minimize the viewport'
+                    : 'Expand to fullscreen'
+                }
+                data-testid={
+                  isFullscreen
+                    ? 'minimize-timeline-container-button'
+                    : 'fullscreen-timeline-container-button'
+                }
+              >
+                <i
+                  className={`bi ${
+                    isFullscreen ? 'bi-fullscreen-exit' : 'bi-arrows-fullscreen'
+                  }`}
+                  style={{ fontSize: '1.5rem' }}
+                />
+              </StyledDisplaySwitchButton>
+            </div>
+          </StyledButtonCol>
+          <Col xs={12}>
+            <Hr $hiddenOnDesktop width="100%" className="mb-2" />
+          </Col>
+          <Col xs={12}>
+            <TimelineData
+              display={display}
+              sortedKeys={sortedTimelineYears}
+              transformedData={timelineData}
+              searchTags={searchTags}
+            />
+          </Col>
         </StyledEntityPageSection>
       )
     }

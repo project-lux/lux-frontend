@@ -86,7 +86,7 @@ const ConceptSnippet: React.FC<IProps> = ({
                   id="concept-snippet"
                   getNextEntityUri={getNextConceptUris}
                   maxLength={10}
-                  columnClassName="px-0"
+                  divClassName="px-0"
                 />
               </StyledDd>
             </Col>

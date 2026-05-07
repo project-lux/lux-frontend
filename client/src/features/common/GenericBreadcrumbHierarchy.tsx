@@ -19,8 +19,7 @@ interface IProps {
   // the maximum number of hierarchy results to display
   maxLength: number
   // className modifier to change styling/alignment of the component based on context
-  columnClassName?: string
-  rowClassName?: string
+  divClassName?: string
 }
 
 // This component is used to display breadcrumb hierarchies. Currently used in result snippets and entity headers for Objects (when part of archives), Sets (when an archive), Concepts, and Places
@@ -30,8 +29,7 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   getNextEntityUri,
   linkFilter,
   maxLength,
-  columnClassName,
-  rowClassName = '',
+  divClassName,
 }) => {
   const [done, setDone] = useState(false)
   const [entities, setEntities] = useState([entity])
@@ -105,14 +103,12 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
     }
 
     return (
-      <div className={rowClassName}>
-        <div
-          className={columnClassName || ''}
-          data-testid={`${id}-generic-breadcrumb-hierarchy`}
-          role="navigation"
-        >
-          {links} {'>'} {entityName}
-        </div>
+      <div
+        className={divClassName || ''}
+        data-testid={`${id}-generic-breadcrumb-hierarchy`}
+        role="navigation"
+      >
+        {links} {'>'} {entityName}
       </div>
     )
   }

@@ -104,7 +104,7 @@ const SetSnippet: React.FC<ISearchData> = ({
                   id="set-snippet"
                   getNextEntityUri={getNextSetUris}
                   maxLength={10}
-                  columnClassName="px-0"
+                  divClassName="px-0"
                 />
               </StyledDd>
             </Col>
