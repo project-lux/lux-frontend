@@ -12,8 +12,8 @@ import {
   ITimelinesTransformed,
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
-import OverflowScrollContainer from '../common/OverflowScrollContainer'
 
+import OverflowScrollContainer from './OverflowScrollContainer'
 import ListRow from './ListRow'
 
 interface IProps {

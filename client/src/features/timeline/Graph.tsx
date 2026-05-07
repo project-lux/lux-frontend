@@ -25,6 +25,7 @@ import { halLinkMapToLegendName } from '../../config/timeline'
 
 import CustomTooltip from './CustomTooltip'
 import CustomLegend from './CustomLegend'
+import OverflowScrollContainer from './OverflowScrollContainer'
 
 interface IProps {
   timelineData: ITimelinesTransformed
@@ -124,9 +125,9 @@ const Graph: React.FC<IProps> = ({
   }
 
   return (
-    <div
-      className="highlight-bar-charts"
-      style={{ userSelect: 'none', width: '100%' }}
+    <OverflowScrollContainer
+      style={{ height: '100%', userSelect: 'none', width: '100%' }}
+      className="highlight-bar-charts timelineGraphOverflowScrollContainer"
       data-testid="timeline-graph-container"
     >
       <ResponsiveContainer width="100%" height={500} className="p-3">
@@ -211,7 +212,7 @@ const Graph: React.FC<IProps> = ({
           )}
         </BarChart>
       </ResponsiveContainer>
-    </div>
+    </OverflowScrollContainer>
   )
 }
 
