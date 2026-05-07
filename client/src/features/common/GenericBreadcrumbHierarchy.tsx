@@ -1,10 +1,13 @@
 import React, { useEffect, useState, type JSX } from 'react'
+import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 import { useGetItemsQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { getParentData } from '../../lib/util/hierarchyHelpers'
+import StyledDt from '../../styles/shared/DescriptionTerm'
+import StyledDd from '../../styles/shared/DescriptionDetail'
 
 import RecordLink from './RecordLink'
 
@@ -20,6 +23,9 @@ interface IProps {
   maxLength: number
   // className modifier to change styling/alignment of the component based on context
   divClassName?: string
+  isResultSnippet?: boolean
+  snippetClassName?: string
+  snippetLabel?: string
 }
 
 // This component is used to display breadcrumb hierarchies. Currently used in result snippets and entity headers for Objects (when part of archives), Sets (when an archive), Concepts, and Places
@@ -30,6 +36,9 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   linkFilter,
   maxLength,
   divClassName,
+  isResultSnippet = false,
+  snippetClassName = '',
+  snippetLabel,
 }) => {
   const [done, setDone] = useState(false)
   const [entities, setEntities] = useState([entity])
@@ -100,6 +109,25 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
 
     if (links.length === 0) {
       return null // don't show the hierarchy is there's no parent
+    }
+
+    if (isResultSnippet) {
+      return (
+        <Row>
+          <Col>
+            <StyledDt>{snippetLabel}</StyledDt>
+            <StyledDd data-testid={snippetClassName}>
+              <div
+                className={divClassName || ''}
+                data-testid={`${id}-generic-breadcrumb-hierarchy`}
+                role="navigation"
+              >
+                {links} {'>'} {entityName}
+              </div>
+            </StyledDd>
+          </Col>
+        </Row>
+      )
     }
 
     return (
