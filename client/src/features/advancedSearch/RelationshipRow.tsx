@@ -27,6 +27,7 @@ import AdvancedSearchForm from './Form'
 import OptionsButton, { RELATIONSHIP_ROW_TYPE } from './OptionsButton'
 import RemoveButton from './RemoveButton'
 import InputFieldSet from './InputFieldset'
+import DescriptiveText from './DescriptiveText'
 
 // const StyledBorderDiv = styled.div`
 //   position: absolute;
@@ -165,9 +166,10 @@ const RelationshipRow: React.FC<IRelationshipRow> = ({
                 nestedLevel={nestedLevel}
                 rowType={RELATIONSHIP_ROW_TYPE}
               />
-              <p className="mb-0 d-flex align-items-center text-nowrap w-auto mb-0 me-2">
-                {scopeToAriaLabel[scopeToPassToNestedForm]} that
-              </p>
+              <DescriptiveText
+                text={`${scopeToAriaLabel[scopeToPassToNestedForm]} that`}
+                className="me-2"
+              />
               {hasChildInputField && (
                 <InputFieldSet
                   stateId={state._stateId as string}

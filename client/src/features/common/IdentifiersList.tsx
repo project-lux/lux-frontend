@@ -20,7 +20,7 @@ const IdentifiersList: React.FC<IIdentifiers> = ({
   <React.Fragment>
     {identifiers.map((identifier, ind) => (
       <StyledDataRow
-        className="row"
+        className="row mt-0"
         key={`${identifier.label}_${ind}`}
         data-testid={`identifiers-list-row-${ind}`}
       >

@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { Col, Row } from 'react-bootstrap'
+import { Col } from 'react-bootstrap'
 
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import ILinks from '../../types/data/ILinks'
@@ -71,27 +71,27 @@ const HierarchyContainer: React.FC<IProps> = ({
   if ((isSuccess && data) || skip) {
     return (
       <StyledEntityPageSection
-        className="hierarchyContainer p-4"
+        className="hierarchyContainer row"
         ref={hierarchyRef}
         data-testid="explore-the-hierarchy"
       >
-        <Row>
-          <Col xs={12}>
-            <h2>Explore</h2>
-          </Col>
-        </Row>
-        <ListContainer
-          parents={parents}
-          descendents={(data as ISearchResults) || {}}
-          currentEntity={entity}
-        >
-          {parents.length > currentState.defaultDisplayLength && (
-            <MoreLessButton
-              parentsArrayLength={parents.length}
-              displayLength={currentState.currentPageLength}
-            />
-          )}
-        </ListContainer>
+        <Col xs={12}>
+          <h2>Explore</h2>
+        </Col>
+        <Col xs={12}>
+          <ListContainer
+            parents={parents}
+            descendents={(data as ISearchResults) || {}}
+            currentEntity={entity}
+          >
+            {parents.length > currentState.defaultDisplayLength && (
+              <MoreLessButton
+                parentsArrayLength={parents.length}
+                displayLength={currentState.currentPageLength}
+              />
+            )}
+          </ListContainer>
+        </Col>
       </StyledEntityPageSection>
     )
   }

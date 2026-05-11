@@ -77,6 +77,16 @@ export default class ConceptParser extends EntityParser {
   }
 
   /**
+   * Gets the concept class for concepts
+   * @returns {string}
+   */
+  getEntityClassName(): string {
+    const entityClass = this.getEntityClass('concept')
+    // The AAT has some concepts classified as Type, which is not a helpful class name to display to users, so we change it to General Concept
+    return entityClass === 'Type' ? 'General Concept' : entityClass
+  }
+
+  /**
    * Gets the data to be displayed in the About section
    * @returns {Record<string, null | string | Array<any> | IContentWithLanguage> | null}
    */
@@ -84,15 +94,13 @@ export default class ConceptParser extends EntityParser {
     string,
     null | string | Array<any> | IContentWithLanguage
   > | null {
-    const entityClass = this.getEntityClass('concept')
-
     const data: Record<
       string,
       null | string | Array<any> | IContentWithLanguage
     > = {
       name: this.getPrimaryName(config.aat.langen),
       names: this.getNames(),
-      entityClass: entityClass === 'Type' ? 'General Concept' : entityClass,
+      entityClass: this.getEntityClassName(),
       types: this.getTypes(),
       notes: this.getNotes(),
       influences: this.getInfluencedBy(),

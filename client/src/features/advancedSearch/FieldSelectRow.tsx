@@ -13,6 +13,7 @@ import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup
 import AdvancedSearchDropdown from './Dropdown'
 import RemoveButton from './RemoveButton'
 import TextInput from './TextInput'
+import DescriptiveText from './DescriptiveText'
 
 interface IFieldSelectRow {
   stateId: string
@@ -89,7 +90,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             id={`multiple-fields-${stateId}`}
           />
           <div className="d-flex w-auto align-items-center">
-            <p className="mx-2 mb-0 text-nowrap">or</p>
+            <DescriptiveText text="or" className="mx-2" />
           </div>
           <AdvancedSearchDropdown
             dropdownType="singleFieldSelection"
@@ -102,7 +103,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             scope={scope}
           />
           <div className="d-flex w-auto align-items-center">
-            <p className="mx-2 mb-0 text-nowrap">or Have Name</p>
+            <DescriptiveText text="or Have Name" className="me-2" />
           </div>
           <TextInput
             key={state.name}

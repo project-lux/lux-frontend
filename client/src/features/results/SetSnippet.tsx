@@ -94,14 +94,18 @@ const SetSnippet: React.FC<ISearchData> = ({
               </Col>
             </Row>
           )}
+          <GenericBreadcrumbHierarchy
+            key={set.json.id}
+            entity={data}
+            id="set-snippet"
+            getNextEntityUri={getNextSetUris}
+            maxLength={10}
+            divClassName="px-0"
+            isResultSnippet
+            snippetClassName="set-snippet-member-of"
+            snippetLabel="Member Of"
+          />
         </StyledDl>
-        <GenericBreadcrumbHierarchy
-          key={set.json.id}
-          entity={data}
-          id="set-snippet"
-          getNextEntityUri={getNextSetUris}
-          maxLength={10}
-        />
       </React.Fragment>
     )
 

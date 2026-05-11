@@ -5,11 +5,16 @@ import theme from '../../theme'
 
 const EntityHeader = styled(Row)`
   margin: 0;
-  padding: 1rem;
+  padding-left: 2rem;
+  padding-right: 1rem;
   background-color: ${theme.color.white};
 
   h1 {
     margin-bottom: 0.5rem;
+  }
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    padding-left: 2.5rem;
   }
 `
 

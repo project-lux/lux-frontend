@@ -13,6 +13,7 @@ import theme from '../../styles/theme'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
+import { halLinkMapToLegendName } from '../../config/timeline'
 
 const HoverableRow = styled(Row)`
   &:hover {
@@ -28,26 +29,17 @@ const ListRow: React.FC<{
   searchTags: IHalLinks
   data: ITimelinesTransformed
   year: string
+  halLink: string
   searchTag: string
-}> = ({ searchTags, data, year, searchTag }) => {
-  const facetNameMap: Map<string, string> = new Map([
-    ['itemProductionDate', 'Objects Produced'],
-    ['itemEncounteredDate', 'Objects Encountered'],
-    ['workCreationDate', 'Works Created'],
-    ['workPublicationDate', 'Works Published'],
-    ['workCreationOrPublicationDate', 'Works About'],
-  ])
-
+}> = ({ searchTags, data, year, halLink, searchTag }) => {
   const { tab } = searchTags[searchTag]
-  const { searchParams, totalItems } = data[year][
-    searchTag
-  ] as ITimelineCriteria
+  const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
 
   return (
-    <HoverableRow key={`${searchTag}-${year}`}>
+    <HoverableRow key={`${halLink}-${year}`}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
-        <StyledDt data-testid={`${year}-${searchTag}-relationship`}>
-          {facetNameMap.get(searchTag)}
+        <StyledDt data-testid={`${year}-${halLink}-relationship`}>
+          {halLinkMapToLegendName.get(halLink)}
         </StyledDt>
       </Col>
       <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>

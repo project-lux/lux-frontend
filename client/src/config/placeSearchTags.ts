@@ -13,14 +13,9 @@ export const relatedObjectsAndWorks: IHalLinks = {
     searchTag: 'lux:placeMadeDiscoveredItem',
     tab: 'objects',
   },
-  worksCreatedAt: {
-    title: 'Works Created At',
-    searchTag: 'lux:placeCreatedWork',
-    tab: 'works',
-  },
-  worksPublishedAt: {
-    title: 'Works Published At',
-    searchTag: 'lux:placePublishedWork',
+  worksCreatedPublishedAt: {
+    title: 'Works Created or Published At',
+    searchTag: 'lux:placeCreatedPublishedWork',
     tab: 'works',
   },
   worksAboutPlace: {

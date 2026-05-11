@@ -164,6 +164,9 @@ const ObjectSnippet: React.FC<ISearchData> = ({
             getNextEntityUri={getNextSetUris}
             linkFilter={isEntityAnArchive}
             maxLength={8}
+            isResultSnippet
+            snippetClassName="object-snippet-member-of"
+            snippetLabel="Member Of"
           />
         )}
       </React.Fragment>

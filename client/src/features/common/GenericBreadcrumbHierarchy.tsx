@@ -6,6 +6,8 @@ import IEntity from '../../types/data/IEntity'
 import { useGetItemsQuery } from '../../redux/api/ml_api'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { getParentData } from '../../lib/util/hierarchyHelpers'
+import StyledDt from '../../styles/shared/DescriptionTerm'
+import StyledDd from '../../styles/shared/DescriptionDetail'
 
 import RecordLink from './RecordLink'
 
@@ -20,7 +22,10 @@ interface IProps {
   // the maximum number of hierarchy results to display
   maxLength: number
   // className modifier to change styling/alignment of the component based on context
-  columnClassName?: string
+  divClassName?: string
+  isResultSnippet?: boolean
+  snippetClassName?: string
+  snippetLabel?: string
 }
 
 // This component is used to display breadcrumb hierarchies. Currently used in result snippets and entity headers for Objects (when part of archives), Sets (when an archive), Concepts, and Places
@@ -30,7 +35,10 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   getNextEntityUri,
   linkFilter,
   maxLength,
-  columnClassName,
+  divClassName,
+  isResultSnippet = false,
+  snippetClassName = '',
+  snippetLabel,
 }) => {
   const [done, setDone] = useState(false)
   const [entities, setEntities] = useState([entity])
@@ -103,16 +111,33 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
       return null // don't show the hierarchy is there's no parent
     }
 
+    if (isResultSnippet) {
+      return (
+        <Row>
+          <Col>
+            <StyledDt>{snippetLabel}</StyledDt>
+            <StyledDd data-testid={snippetClassName}>
+              <div
+                className={divClassName || ''}
+                data-testid={`${id}-generic-breadcrumb-hierarchy`}
+                role="navigation"
+              >
+                {links} {'>'} {entityName}
+              </div>
+            </StyledDd>
+          </Col>
+        </Row>
+      )
+    }
+
     return (
-      <Row>
-        <Col
-          className={columnClassName || ''}
-          data-testid={`${id}-generic-breadcrumb-hierarchy`}
-          role="navigation"
-        >
-          {links} {'>'} {entityName}
-        </Col>
-      </Row>
+      <div
+        className={divClassName || ''}
+        data-testid={`${id}-generic-breadcrumb-hierarchy`}
+        role="navigation"
+      >
+        {links} {'>'} {entityName}
+      </div>
     )
   }
 

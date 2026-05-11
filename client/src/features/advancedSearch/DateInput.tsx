@@ -23,6 +23,7 @@ import DayDropdown from '../dates/DayDropdown'
 import MonthDropdown from '../dates/MonthDropdown'
 
 import AdvancedSearchDropdown from './Dropdown'
+import DescriptiveText from './DescriptiveText'
 
 interface IDateInput {
   label: string
@@ -91,6 +92,7 @@ const DateInput: React.FC<IDateInput> = ({
       className="d-flex justify-content-between"
       data-testid={`${field}-${stateId}-date-input`}
     >
+      <DescriptiveText text="a date" className="me-2" />
       <label htmlFor={comparatorsId} className="d-none">
         Select a comparator
       </label>

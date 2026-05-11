@@ -68,7 +68,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
               <GenericBreadcrumbHierarchy
                 key={setParser.json.id}
                 entity={data}
-                columnClassName="px-0"
+                divClassName="px-0"
                 id="sets-page"
                 getNextEntityUri={getNextSetUris}
                 linkFilter={isEntityAnArchive}
@@ -99,7 +99,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
           </Col>
           <Col lg={4}>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-              <StyledEntityPageSection>
+              <StyledEntityPageSection className="row">
                 <HowDoISeeIt data={data} />
               </StyledEntityPageSection>
               <Row>

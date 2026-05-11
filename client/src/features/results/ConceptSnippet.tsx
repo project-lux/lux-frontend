@@ -50,6 +50,7 @@ const ConceptSnippet: React.FC<IProps> = ({
     const concept = new ConceptParser(data)
     const images = concept.getImages()
     const descriptions = concept.getDescriptions(config.aat.langen)
+    const className = concept.getEntityClassName()
 
     const snippetDataComponent = (
       <React.Fragment>
@@ -65,14 +66,28 @@ const ConceptSnippet: React.FC<IProps> = ({
               </Col>
             </Row>
           )}
+          {className && (
+            <Row>
+              <Col>
+                <StyledDt>Concept Class</StyledDt>
+                <StyledDd data-testid="concept-snippet-class">
+                  {className}
+                </StyledDd>
+              </Col>
+            </Row>
+          )}
+          <GenericBreadcrumbHierarchy
+            key={concept.json.id}
+            entity={data}
+            id="concept-snippet"
+            getNextEntityUri={getNextConceptUris}
+            maxLength={10}
+            divClassName="px-0"
+            isResultSnippet
+            snippetClassName="concept-snippet-part-of"
+            snippetLabel="Part Of"
+          />
         </StyledDl>
-        <GenericBreadcrumbHierarchy
-          key={concept.json.id}
-          entity={data}
-          id="concept-snippet"
-          getNextEntityUri={getNextConceptUris}
-          maxLength={10}
-        />
       </React.Fragment>
     )
 

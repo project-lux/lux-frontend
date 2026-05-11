@@ -50,7 +50,7 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
             id="concept-page"
             getNextEntityUri={getNextConceptUris}
             maxLength={10}
-            columnClassName="px-0"
+            divClassName="px-0"
           />
         </EntityHeader>
       </ErrorBoundary>

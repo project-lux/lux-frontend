@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import { reuse } from '../../config/tooltips'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import WorkParser from '../../lib/parse/data/WorkParser'
-import StyledDataRow from '../../styles/shared/DataRow'
+// import StyledDataRow from '../../styles/shared/DataRow'
 import IEntity from '../../types/data/IEntity'
 import { INoteContent } from '../../types/IContentWithLanguage'
 
@@ -39,7 +39,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
   }
 
   return (
-    <StyledDataRow className="row" data-testid="can-i-reuse-it">
+    <React.Fragment data-testid="can-i-reuse-it">
       <Col xs={12}>
         <h2 data-testid="can-i-reuse-it-header">Can I re-use it?</h2>
       </Col>
@@ -66,7 +66,10 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
         )}
         {entityType !== 'work' && carries.length > 0 && (
           <p data-testid="rights-information-statement">
-            Rights information may be available on the associated Works page.
+            Rights information may be available on the associated Works listed
+            on this page. See section{' '}
+            <strong>This Object includes the following Works</strong> to view
+            rights and re-use information.
           </p>
         )}
         {carries.length === 0 && subjectTo.length === 0 && (
@@ -95,7 +98,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
           linkCategory="FAQ Rights Info"
         />
       </Col>
-    </StyledDataRow>
+    </React.Fragment>
   )
 }
 

@@ -62,9 +62,10 @@ const CustomTooltip: React.FC<IProps> = ({ active, payload, searchTags }) => {
       >
         {payload.length > 0 ? payload[0].payload.year : 'unknown year'}
         {payload.map((obj: Record<string, any>, ind: number) => {
-          const searchTag = obj.dataKey.replace('.totalItems', '')
+          const halLink = obj.dataKey.replace('.totalItems', '')
+          const { searchTag } = obj.payload[halLink]
           const { tab } = searchTags[searchTag]
-          const { searchParams } = obj.payload[searchTag] as ITimelineCriteria
+          const { searchParams } = obj.payload[halLink] as ITimelineCriteria
 
           return (
             <Row key={ind}>

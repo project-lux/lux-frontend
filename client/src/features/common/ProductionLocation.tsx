@@ -41,7 +41,7 @@ const ProductionLocation: React.FC<IProps> = ({ location }) => {
         <GenericBreadcrumbHierarchy
           key={data.id}
           entity={data}
-          columnClassName="mt-2"
+          divClassName="mt-2"
           maxLength={8}
           getNextEntityUri={getNextPlaceUris}
           id="event-location"

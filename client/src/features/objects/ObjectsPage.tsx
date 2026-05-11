@@ -55,7 +55,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
             <GenericBreadcrumbHierarchy
               key={element.json.id}
               entity={data}
-              columnClassName="px-0"
+              divClassName="px-0"
               id="object-page"
               getNextEntityUri={getNextSetUris}
               linkFilter={isEntityAnArchive}
@@ -94,7 +94,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
             </Col>
             <Col lg={4}>
               <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <StyledEntityPageSection>
+                <StyledEntityPageSection className="row">
                   <HowDoISeeIt data={data} />
                   <CanIReuseIt entity={data} entityType="object" />
                 </StyledEntityPageSection>

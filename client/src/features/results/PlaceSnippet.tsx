@@ -79,14 +79,20 @@ const PlaceSnippet: React.FC<IProps> = ({
 
     const snippetDataComponent = (
       <React.Fragment>
-        <StyledDl>{types.length > 0 && <TypeList types={types} />}</StyledDl>
-        <GenericBreadcrumbHierarchy
-          key={place.json.id}
-          entity={data}
-          maxLength={8}
-          getNextEntityUri={getNextPlaceUris}
-          id="place-snippet"
-        />
+        <StyledDl>
+          {types.length > 0 && <TypeList types={types} />}
+          <GenericBreadcrumbHierarchy
+            key={place.json.id}
+            entity={data}
+            maxLength={8}
+            getNextEntityUri={getNextPlaceUris}
+            id="place-snippet"
+            divClassName="px-0"
+            isResultSnippet
+            snippetClassName="place-snippet-part-of"
+            snippetLabel="Part Of"
+          />
+        </StyledDl>
       </React.Fragment>
     )
 

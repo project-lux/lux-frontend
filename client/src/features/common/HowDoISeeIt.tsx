@@ -7,7 +7,6 @@ import { setUnit } from '../../config/setsSearchTags'
 import { access } from '../../config/tooltips'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
-import StyledDataRow from '../../styles/shared/DataRow'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 import IEntity from '../../types/data/IEntity'
@@ -79,20 +78,22 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
   }
 
   return (
-    <StyledDataRow className="row" data-testid="how-do-i-see-it">
+    <React.Fragment data-testid="how-do-i-see-it">
       <Col xs={12}>
         <h2>How do I see it?</h2>
       </Col>
       {accessStatement.length > 0 && (
-        <StyledDl data-testid="access-statement-dl mb-0">
-          <NotesContainer
-            notes={{ Access: accessStatement }}
-            id="access-statement"
-            expandColumns
-            labelTooltipText={access}
-            hrClassName="accessStatementHr"
-          />
-        </StyledDl>
+        <Col xs={12}>
+          <StyledDl data-testid="access-statement-dl mb-0">
+            <NotesContainer
+              notes={{ Access: accessStatement }}
+              id="access-statement"
+              expandColumns
+              labelTooltipText={access}
+              hrClassName="accessStatementHr"
+            />
+          </StyledDl>
+        </Col>
       )}
       {accessPoints.length > 0 &&
         accessPoints.map((accessPoint) => (
@@ -166,7 +167,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
       <Col xs={12}>
         <StyledHr className="howDoISeeItHr" width="100%" />
       </Col>
-    </StyledDataRow>
+    </React.Fragment>
   )
 }
 
