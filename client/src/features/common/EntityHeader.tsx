@@ -160,7 +160,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
           onClose={handleCloseCreateCollectionModal}
         />
       )}
-      <StyledEntityHeader>
+      <StyledEntityHeader className="py-3">
         <Col xs={12} sm={12} md={12} lg={isAuthenticated ? 9 : 12}>
           <Row>
             <Col xs={12} className="d-flex text-start p-0">
@@ -176,7 +176,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
                       id="icon"
                       height={70}
                       width={70}
-                      className="mx-2"
+                      className="me-2"
                       data-testid="entity-icon-img"
                     />
                   </Tooltip>
@@ -204,7 +204,7 @@ const EntityHeader: React.FC<IEntityHeader> = ({
               </h1>
             </Col>
             {agentData && (
-              <Col className="text-start p-0">
+              <Col xs={12} className="text-start p-0">
                 <AgentInHeader data={agentData} />
               </Col>
             )}

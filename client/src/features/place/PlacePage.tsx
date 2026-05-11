@@ -54,7 +54,7 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
           <GenericBreadcrumbHierarchy
             key={place.json.id}
             entity={data}
-            columnClassName="px-0"
+            divClassName="px-0"
             maxLength={8}
             getNextEntityUri={getNextPlaceUris}
             id="place-page"
