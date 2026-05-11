@@ -13,6 +13,7 @@ import {
 } from '../../types/ITimelines'
 import { IHalLinks } from '../../types/IHalLinks'
 
+import OverflowScrollContainer from './OverflowScrollContainer'
 import ListRow from './ListRow'
 
 interface IProps {
@@ -68,8 +69,11 @@ const List: React.FC<IProps> = ({
 
   const showEras = TimelineParser.showYearEra(yearsArray)
   return (
-    <React.Fragment>
-      <dl data-testid="timeline-list-container">
+    <OverflowScrollContainer
+      style={{ height: '100%' }}
+      className="timelineListOverflowScrollContainer"
+    >
+      <dl id="timeline-list-container" data-testid="timeline-list-container">
         {sortedYearsRange.slice(0, displayLength).map((year) => (
           <StyledDiv key={year} className="mb-2">
             <HoverableRow>
@@ -125,7 +129,7 @@ const List: React.FC<IProps> = ({
           Show Less
         </button>
       )}
-    </React.Fragment>
+    </OverflowScrollContainer>
   )
 }
 
