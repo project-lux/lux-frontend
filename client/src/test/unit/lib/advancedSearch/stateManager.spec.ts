@@ -198,7 +198,9 @@ describe('stateManager functions', () => {
     ]
 
     it('returns the existing value for that field', () => {
-      expect(getExistingValue(mockStateWithGroup)).toStrictEqual(existingField)
+      expect(getExistingValue(mockStateWithGroup, '')).toStrictEqual(
+        existingField,
+      )
     })
   })
 

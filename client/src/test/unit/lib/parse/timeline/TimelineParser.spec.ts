@@ -13,6 +13,7 @@ describe('TimelineParser', () => {
       const transformedResults = TimelineParser.addSearchTagToFacetValues(
         mockItemFacets,
         'itemProductionDate',
+        '',
       )
       expect(transformedResults).toStrictEqual(mockItemFacetsTransformed)
     })
