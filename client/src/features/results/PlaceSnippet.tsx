@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Card, Col, Row } from 'react-bootstrap'
+import { Card, Col } from 'react-bootstrap'
 
 import EntityParser from '../../lib/parse/data/EntityParser'
 import Map from '../common/Map'
 import StyledHr from '../../styles/shared/Hr'
 import StyledDl from '../../styles/shared/DescriptionList'
-import StyledDt from '../../styles/shared/DescriptionTerm'
-import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledImageContainer from '../../styles/shared/ImageDiv'
 import TypeList from '../common/TypeList'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
@@ -83,21 +81,17 @@ const PlaceSnippet: React.FC<IProps> = ({
       <React.Fragment>
         <StyledDl>
           {types.length > 0 && <TypeList types={types} />}
-          <Row>
-            <Col>
-              <StyledDt>Part Of</StyledDt>
-              <StyledDd data-testid="place-snippet-part-of">
-                <GenericBreadcrumbHierarchy
-                  key={place.json.id}
-                  entity={data}
-                  maxLength={8}
-                  getNextEntityUri={getNextPlaceUris}
-                  id="place-snippet"
-                  divClassName="px-0"
-                />
-              </StyledDd>
-            </Col>
-          </Row>
+          <GenericBreadcrumbHierarchy
+            key={place.json.id}
+            entity={data}
+            maxLength={8}
+            getNextEntityUri={getNextPlaceUris}
+            id="place-snippet"
+            divClassName="px-0"
+            isResultSnippet
+            snippetClassName="place-snippet-part-of"
+            snippetLabel="Part Of"
+          />
         </StyledDl>
       </React.Fragment>
     )
