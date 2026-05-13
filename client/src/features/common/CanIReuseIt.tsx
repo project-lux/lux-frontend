@@ -39,7 +39,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
   }
 
   return (
-    <React.Fragment data-testid="can-i-reuse-it">
+    <div data-testid="can-i-reuse-it">
       <Col xs={12}>
         <h2 data-testid="can-i-reuse-it-header">Can I re-use it?</h2>
       </Col>
@@ -98,7 +98,7 @@ const CanIReuseIt: React.FC<IProps> = ({ entity, entityType }) => {
           linkCategory="FAQ Rights Info"
         />
       </Col>
-    </React.Fragment>
+    </div>
   )
 }
 

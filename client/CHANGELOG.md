@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.69.1 - 2026-05-13
+
+### Fixed
+
+- Fixed components where data-testid were not rendering ([#820](https://github.com/project-lux/lux-frontend/issues/820)).
+
 ## v1.69.0 - 2026-05-11
 
 ### Added

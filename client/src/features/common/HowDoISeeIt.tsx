@@ -78,7 +78,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
   }
 
   return (
-    <React.Fragment data-testid="how-do-i-see-it">
+    <div data-testid="how-do-i-see-it">
       <Col xs={12}>
         <h2>How do I see it?</h2>
       </Col>
@@ -167,7 +167,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
       <Col xs={12}>
         <StyledHr className="howDoISeeItHr" width="100%" />
       </Col>
-    </React.Fragment>
+    </div>
   )
 }
 
