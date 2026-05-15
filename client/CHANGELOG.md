@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 
 - Updated packages ([#985](https://github.com/project-lux/lux-frontend/issues/985)).
 - Migrated from yarn to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
+- Changed the access tooltip styling and functionality ([#711](https://github.com/project-lux/lux-frontend/issues/711)).
 
 ### Fixed
 

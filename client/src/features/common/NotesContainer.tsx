@@ -19,7 +19,7 @@ interface INotes {
   id?: string
   showBreakline?: boolean
   expandColumns?: boolean
-  labelTooltipText?: string
+  showPopover?: boolean
   hrClassName?: string
 }
 
@@ -28,7 +28,7 @@ const NotesContainer: React.FC<INotes> = ({
   id = 'notes-container',
   showBreakline,
   expandColumns = false,
-  labelTooltipText = '',
+  showPopover = false,
   hrClassName = '',
 }) => {
   const [showHr, setShowHr] = useState<boolean>(
@@ -61,7 +61,7 @@ const NotesContainer: React.FC<INotes> = ({
             <TextLabel
               className={textLabelWidth}
               label={noteLabel}
-              tooltipText={labelTooltipText}
+              showPopover={showPopover}
             />
             <ExpandableList
               className={textValueWidth}
