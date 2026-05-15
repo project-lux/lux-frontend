@@ -1,6 +1,7 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { useAuth } from 'react-oidc-context'
+import { Button } from 'react-bootstrap'
 
 import useApiText from '../../lib/hooks/useApiText'
 import {
@@ -8,18 +9,20 @@ import {
   transformStringForTestId,
 } from '../../lib/parse/data/helper'
 
-import Tooltip from './Tooltip'
+import Tooltip, { Placement } from './Tooltip'
 
 interface ITextLabelProps {
   className?: string
   label?: string
   tooltipText?: string
+  tooltipPlacement?: Placement
 }
 
 const TextLabel: React.FC<ITextLabelProps> = ({
   className = 'col-md-3',
   label,
   tooltipText = '',
+  tooltipPlacement,
 }) => {
   const auth = useAuth()
   const loc = useLocation()
@@ -27,12 +30,19 @@ const TextLabel: React.FC<ITextLabelProps> = ({
     tooltipText === '' ? (
       ''
     ) : (
-      <Tooltip html={tooltipText} placement="bottom">
-        <i
-          className="bi bi-question-circle"
-          style={{ fontSize: '1rem', marginLeft: '0.2rem' }}
-          data-testid="tooltip-icon"
-        />
+      <Tooltip html={tooltipText} placement={tooltipPlacement}>
+        <Button
+          variant="info"
+          className="p-0"
+          data-testid="tooltip-button"
+          style={{ border: 'none', background: 'none' }}
+        >
+          <i
+            className="bi bi-question-circle"
+            style={{ fontSize: '1rem', marginLeft: '0.2rem' }}
+            data-testid="tooltip-icon"
+          />
+        </Button>
       </Tooltip>
     )
 

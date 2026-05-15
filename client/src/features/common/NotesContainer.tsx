@@ -13,6 +13,7 @@ import ExpandableList from './ExpandableList'
 import TextLabel from './TextLabel'
 import TextNote from './TextNote'
 import TextValue from './TextValue'
+import { Placement } from './Tooltip'
 
 interface INotes {
   notes: IContentWithLanguage
@@ -20,6 +21,7 @@ interface INotes {
   showBreakline?: boolean
   expandColumns?: boolean
   labelTooltipText?: string
+  tooltipPlacement?: Placement
   hrClassName?: string
 }
 
@@ -29,6 +31,7 @@ const NotesContainer: React.FC<INotes> = ({
   showBreakline,
   expandColumns = false,
   labelTooltipText = '',
+  tooltipPlacement,
   hrClassName = '',
 }) => {
   const [showHr, setShowHr] = useState<boolean>(
@@ -62,6 +65,7 @@ const NotesContainer: React.FC<INotes> = ({
               className={textLabelWidth}
               label={noteLabel}
               tooltipText={labelTooltipText}
+              tooltipPlacement={tooltipPlacement}
             />
             <ExpandableList
               className={textValueWidth}

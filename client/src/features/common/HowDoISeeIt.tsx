@@ -90,6 +90,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
               id="access-statement"
               expandColumns
               labelTooltipText={access}
+              tooltipPlacement="right"
               hrClassName="accessStatementHr"
             />
           </StyledDl>

@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
-type Placement = 'top' | 'bottom' | 'left' | 'right'
+export type Placement = 'top' | 'bottom' | 'left' | 'right'
 
 interface IProps {
   html: string
@@ -20,6 +20,10 @@ const arrowBorderColors: { [key: string]: string } = {
   left: `transparent transparent transparent ${theme.color.gray}`,
   right: `transparent ${theme.color.gray} transparent transparent `,
 }
+
+const StyledOverlay = styled(OverlayTrigger)`
+  tabindex: 0;
+`
 
 const StyledTooltip = styled(ReactTooltip)<{ placement: Placement }>`
   &.show {
@@ -56,9 +60,14 @@ const Tooltip: React.FC<IProps> = ({
   )
 
   return (
-    <OverlayTrigger placement={placement} overlay={renderTooltip(placement)}>
+    <StyledOverlay
+      show
+      placement={placement}
+      trigger={['focus', 'click']}
+      overlay={renderTooltip(placement)}
+    >
       {children}
-    </OverlayTrigger>
+    </StyledOverlay>
   )
 }
 
