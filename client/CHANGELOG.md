@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the mobile warning message ([#564](https://github.com/project-lux/lux-frontend/issues/564)).
+
 ### Fixed
 
 - Fixed background color of mobile results tabs ([#904](https://github.com/project-lux/lux-frontend/issues/904)).
