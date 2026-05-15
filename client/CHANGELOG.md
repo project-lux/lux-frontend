@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed background color of mobile results tabs ([#904](https://github.com/project-lux/lux-frontend/issues/904)).
+
 ### Removed
 
 ## v1.69.1 - 2026-05-13
