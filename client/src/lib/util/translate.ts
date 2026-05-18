@@ -6,6 +6,7 @@ interface ITranslateParameters {
   query: string
   isAiSearch: boolean
   scope: string
+  prevQuery?: string
   onSuccess: (translatedString: string) => void
   onError: () => void
   onLoading: () => void
@@ -15,12 +16,16 @@ export function translate({
   query,
   isAiSearch,
   scope,
+  prevQuery,
   onSuccess,
   onError,
   onLoading,
 }: ITranslateParameters): void {
   const urlParams = new URLSearchParams()
   urlParams.set('q', query)
+  if (prevQuery) {
+    urlParams.set('prevQuery', prevQuery)
+  }
   const updatedScope = isAiSearch ? '' : `/${scope}`
   onLoading()
   fetchWithToken(
