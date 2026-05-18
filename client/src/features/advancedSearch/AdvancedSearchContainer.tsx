@@ -31,6 +31,7 @@ import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
 import HelpText from './HelpText'
 import SubmitButton from './SubmitButton'
+import AiSearchAccordion from './AiSearchAccordion'
 
 /**
  * Container for holding the advanced search components.
@@ -48,6 +49,9 @@ const AdvancedSearchContainer: React.FC = () => {
   const queryTab = urlParams.get('qt') || tab
   const fromSearchLink = urlParams.has('searchLink')
     ? urlParams.get('searchLink') === 'true'
+    : false
+  const isAiSearch = urlParams.has('aiSearch')
+    ? urlParams.get('aiSearch') === 'true'
     : false
 
   const dispatch = useAppDispatch()
@@ -159,6 +163,9 @@ const AdvancedSearchContainer: React.FC = () => {
                     </div>
                   )}
                   <StyledHr width="100%" />
+                  {isAiSearch && (
+                    <AiSearchAccordion currentScope={scope} resultsTab={tab} />
+                  )}
                   <SubmitButton state={currentState} />
                 </Form>
               </Col>
