@@ -228,8 +228,16 @@ const SearchBox: React.FC<{
           }
           inputRef.current!.value = ''
           setIsError(false)
-          setIsLoading(false)
-          pushClientEvent('Search Button', 'Submit', 'Simple Search')
+          if (isAiSearch) {
+            setIsAiSearchLoading(false)
+          } else {
+            setIsSimpleSearchLoading(false)
+          }
+          pushClientEvent(
+            'Search Button',
+            'Submit',
+            isAiSearch ? 'AI Search' : 'Simple Search',
+          )
           navigate(
             {
               pathname: `/view/results/${newTab}`,
