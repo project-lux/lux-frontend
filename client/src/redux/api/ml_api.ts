@@ -51,8 +51,17 @@ export const mlApi: any = createApi({
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
       query: (searchParams) => {
-        const { q, filterResults, page, tab, subTab, user, sort, rnd } =
-          searchParams
+        const {
+          q,
+          filterResults,
+          page,
+          pageLength,
+          tab,
+          subTab,
+          user,
+          sort,
+          rnd,
+        } = searchParams
         // const facetString = formatFacetSearchRequestUrl(searchParams)
         const urlParams = new URLSearchParams()
         urlParams.set('q', q)
@@ -69,6 +78,9 @@ export const mlApi: any = createApi({
         }
         if (!isUndefined(page)) {
           urlParams.set('page', `${page}`)
+        }
+        if (!isUndefined(pageLength)) {
+          urlParams.set('pageLength', pageLength.toString())
         }
         if (!isUndefined(filterResults) && !isNull(filterResults)) {
           urlParams.set('filterResults', filterResults)

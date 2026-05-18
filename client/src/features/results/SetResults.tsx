@@ -39,6 +39,9 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const paramPrefix = getParamPrefix(currentTab)
   const pageParam = `${paramPrefix}p`
   const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
+  const pageLength: number = urlParams.has('pageLength')
+    ? parseInt(urlParams.get('pageLength')!, 10)
+    : 20
   const sort = urlParams.get(`${currentTab}Sort`)
   const view: string = urlParams.has('view')
     ? (urlParams.get('view') as string)
@@ -136,11 +139,11 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
                     {resultsList(data.orderedItems)}
                   </Row>
                 )}
-                {estimate >= 20 && (
+                {estimate >= pageLength && (
                   <Paginate
                     estimate={estimate}
                     currentPage={parseInt(page, 10)}
-                    pageSize={20}
+                    pageSize={pageLength}
                   />
                 )}
               </React.Fragment>

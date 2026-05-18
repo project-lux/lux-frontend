@@ -106,6 +106,9 @@ const ResultsPage: React.FC = () => {
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
   const querySubTab = urlParams.get('sQt') || subTab
+  const pageLength = urlParams.has('pageLength')
+    ? parseInt(urlParams.get('pageLength')!, 10)
+    : 20
   const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
@@ -140,6 +143,7 @@ const ResultsPage: React.FC = () => {
       page,
       tab,
       subTab,
+      pageLength,
       user,
       sort,
       facets: {},
