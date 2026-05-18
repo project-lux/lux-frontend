@@ -13,7 +13,10 @@ import { ISearchResponse } from '../../types/ISearchResponse'
 import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import { advancedSearchTitles } from '../../config/searchTypes'
+import {
+  advancedSearchTitles,
+  DEFAULT_PAGE_LENGTH,
+} from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 // import config from '../../config/config'
@@ -106,6 +109,9 @@ const ResultsPage: React.FC = () => {
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
   const querySubTab = urlParams.get('sQt') || subTab
+  const pageLength = urlParams.has('pageLength')
+    ? parseInt(urlParams.get('pageLength')!, 10)
+    : DEFAULT_PAGE_LENGTH
   const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
@@ -140,6 +146,7 @@ const ResultsPage: React.FC = () => {
       page,
       tab,
       subTab,
+      pageLength,
       user,
       sort,
       facets: {},

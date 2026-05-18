@@ -17,6 +17,7 @@ import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import RecordLink from '../common/RecordLink'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import SnippetHeader from './SnippetHeader'
 
@@ -34,7 +35,7 @@ const PlaceSnippet: React.FC<IProps> = ({
   view,
   totalResults,
   index,
-  pageLength = 20,
+  pageLength = DEFAULT_PAGE_LENGTH,
   titleOfTabbedContent,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
