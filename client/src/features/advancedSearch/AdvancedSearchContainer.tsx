@@ -31,6 +31,7 @@ import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
 import HelpText from './HelpText'
 import SubmitButton from './SubmitButton'
+import AiSearchAccordion from './AiSearchAccordion'
 
 /**
  * Container for holding the advanced search components.
@@ -159,6 +160,7 @@ const AdvancedSearchContainer: React.FC = () => {
                     </div>
                   )}
                   <StyledHr width="100%" />
+                  <AiSearchAccordion currentScope={scope} resultsTab={tab} />
                   <SubmitButton state={currentState} />
                 </Form>
               </Col>
