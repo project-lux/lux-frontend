@@ -118,7 +118,8 @@ const SearchBox: React.FC<{
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
-  const [isLoading, setIsLoading] = useState(false)
+  const [isSimpleSearchLoading, setIsSimpleSearchLoading] = useState(false)
+  const [isAiSearchLoading, setIsAiSearchLoading] = useState(false)
   const [isAiSearch, setIsAiSearch] = useState<boolean>(false)
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
@@ -222,7 +223,11 @@ const SearchBox: React.FC<{
           }
           inputRef.current!.value = ''
           setIsError(false)
-          setIsLoading(false)
+          if (isAiSearch) {
+            setIsAiSearchLoading(false)
+          } else {
+            setIsSimpleSearchLoading(false)
+          }
           pushClientEvent(
             'Search Button',
             'Submit',
@@ -241,10 +246,15 @@ const SearchBox: React.FC<{
           )
         },
         onError: () => {
-          setIsLoading(false)
+          isAiSearch
+            ? setIsAiSearchLoading(false)
+            : setIsSimpleSearchLoading(false)
           setIsError(true)
         },
-        onLoading: () => setIsLoading(true),
+        onLoading: () =>
+          isAiSearch
+            ? setIsAiSearchLoading(true)
+            : setIsSimpleSearchLoading(true),
       })
     }
   }
@@ -308,7 +318,7 @@ const SearchBox: React.FC<{
                   onClick={() => setIsAiSearch(true)}
                   data-testid={`${id}-ai-search-submit-button`}
                 >
-                  {isLoading ? (
+                  {isAiSearchLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <i className="bi bi-stars" />
@@ -322,7 +332,7 @@ const SearchBox: React.FC<{
                   onClick={() => setIsAiSearch(false)}
                   data-testid={`${id}-search-submit-button`}
                 >
-                  {isLoading ? (
+                  {isSimpleSearchLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <i className="bi bi-search" />
