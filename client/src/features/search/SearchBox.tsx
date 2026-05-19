@@ -82,6 +82,8 @@ const StyledSearchBox = styled.div`
   }
 `
 
+const MAX_WORDS = 100
+
 const SearchBox: React.FC<{
   unselectable?: boolean
   closeSearchBox?: () => void
@@ -97,6 +99,7 @@ const SearchBox: React.FC<{
   setIsError,
   isSearchOpen = false,
 }) => {
+  const [isValid, setIsValid] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState(false)
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
@@ -128,11 +131,31 @@ const SearchBox: React.FC<{
 
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // Helper to count words
+  const wordCount = (str: string): number => {
+    return str.trim().split(/\s+/).filter(Boolean).length
+  }
+
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
   ): void => {
     const { value } = event.currentTarget
-    dispatch(addSimpleSearchInput({ value }))
+    const words = value
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0)
+
+    if (words.length > MAX_WORDS) {
+      inputRef.current?.setCustomValidity(
+        `Search cannot exceed ${MAX_WORDS} words.`,
+      )
+      inputRef.current?.reportValidity()
+      setIsValid(false)
+    } else {
+      inputRef.current?.setCustomValidity('') // Valid state
+      setIsValid(true)
+      dispatch(addSimpleSearchInput({ value }))
+    }
   }
 
   const handleClearSearch = (): void => {
@@ -143,7 +166,13 @@ const SearchBox: React.FC<{
 
   const validateInput = (): boolean => {
     const { value } = currentState
-    return value !== null && value.trim() !== '' // ignore empty search string
+    if (value === null || value.trim() === '') {
+      return false
+    }
+    if (wordCount(value) > 100) {
+      return false
+    }
+    return true
   }
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -217,13 +246,14 @@ const SearchBox: React.FC<{
               <input
                 id={id}
                 type="text"
-                className="form-control"
+                className="form-control searchBox"
                 placeholder="Search LUX"
                 onChange={handleInputChange}
                 ref={inputRef}
                 tabIndex={isUnselectable ? -1 : 0}
                 value={currentState.value !== null ? currentState.value : ''}
                 data-testid={`${id}-search-submit-input`}
+                aria-invalid={!isValid}
               />
               {hasInputValue && (
                 <button
