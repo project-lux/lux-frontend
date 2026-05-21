@@ -42,7 +42,8 @@ class App {
 
     exp.get('/env', (req: express.Request, res: express.Response) => {
       res.json({
-        dataApiBaseUrl: env.dataApiBaseUrl,
+        // I added :8080 for local testing, but in production the data API is served from the same host and port as the frontend, so we can just use the protocol and hostname to construct the base URL
+        dataApiBaseUrl: `${req.protocol}://${req.hostname}:8080/`,
         cmsApiBaseUrl: env.cmsApiBaseUrl,
         wikidataImagePathname: env.wikidataImagePathname,
         luxWikidataManifestPrefix: env.luxWikidataManifestPrefix,
