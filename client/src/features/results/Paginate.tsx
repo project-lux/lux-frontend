@@ -121,14 +121,7 @@ const Paginate: React.FC<IPagination> = ({
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     handleAnalytics()
-    if (!isUndefined(handleSelectionOfPage)) {
-      handleSelectionOfPage(pageValue)
-    } else {
-      navigate({
-        pathname: `${pathname}`,
-        search: `?${newURL}&${pageParam}=${pageValue}`,
-      })
-    }
+    handlePageSelection(pageValue)
   }
 
   const paginationRange = Paginator({

@@ -160,7 +160,14 @@ const Navigation: React.FC<INavigation> = ({
               {Object.entries(searchScope).map(([key, value]) => (
                 <StyledNavLink
                   key={key}
-                  to={`/view/results/${key}${key === 'collections' ? '/all' : ''}?${
+                  // TODO: implement when My Collections work proceeds
+                  // to={`/view/results/${key}${key === 'collections' ? '/all' : ''}?${
+                  //   (advancedSearch && !urlParams.has('qt') && key !== qt) ||
+                  //   isSwitchToSimpleSearch
+                  //     ? `${urlParams.toString()}&qt=${tab}`
+                  //     : urlParams.toString()
+                  // }`}
+                  to={`/view/results/${key}?${
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
                     isSwitchToSimpleSearch
                       ? `${urlParams.toString()}&qt=${tab}`
