@@ -2,6 +2,8 @@
  * Various mapping scenarios for retrieving and rendering data in React components.
  */
 
+import { OverlayKey } from './cms'
+
 /**
  * Object containing a mapping of the entity types to their corresponding data types.
  * This is used to route users to the appropriate view/component.
@@ -100,3 +102,16 @@ export const dropdownGroupings: Array<string> = [
 ]
 
 export const DEFAULT_PAGE_LENGTH = 20
+
+/**
+ * Used in advanced search for aria-labels based on the current advanced search row's scope.
+ */
+export const resultsHeaderOverlays: Record<string, OverlayKey> = {
+  objects: 'objects',
+  works: 'works',
+  collections: 'collections',
+  people: 'peopleAndOrgs',
+  places: 'places',
+  concepts: 'conceptsAndGroupings',
+  events: 'events',
+}
