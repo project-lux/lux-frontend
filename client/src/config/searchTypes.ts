@@ -84,3 +84,5 @@ export const dropdownGroupings: Array<string> = [
   'concept',
   'event',
 ]
+
+export const DEFAULT_PAGE_LENGTH = 20

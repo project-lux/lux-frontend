@@ -1,6 +1,7 @@
 export interface ISearchParams {
   q: string
   filterResults?: string
+  pageLength?: number
   page?: number
   tab?: string
   subTab?: string

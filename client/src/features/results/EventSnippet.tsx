@@ -14,6 +14,7 @@ import StyledSnippetTitle from '../../styles/features/results/SnippetTitle'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import SnippetHeader from './SnippetHeader'
 
@@ -31,7 +32,7 @@ const EventSnippet: React.FC<IProps> = ({
   view,
   totalResults,
   index,
-  pageLength = 20,
+  pageLength = DEFAULT_PAGE_LENGTH,
   titleOfTabbedContent,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(

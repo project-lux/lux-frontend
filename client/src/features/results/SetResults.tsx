@@ -14,6 +14,7 @@ import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
 import config from '../../config/config'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -39,6 +40,9 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const paramPrefix = getParamPrefix(currentTab)
   const pageParam = `${paramPrefix}p`
   const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
+  const pageLength: number = urlParams.has('pageLength')
+    ? parseInt(urlParams.get('pageLength')!, 10)
+    : DEFAULT_PAGE_LENGTH
   const sort = urlParams.get(`${currentTab}Sort`)
   const view: string = urlParams.has('view')
     ? (urlParams.get('view') as string)
@@ -136,11 +140,11 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
                     {resultsList(data.orderedItems)}
                   </Row>
                 )}
-                {estimate >= 20 && (
+                {estimate >= pageLength && (
                   <Paginate
                     estimate={estimate}
                     currentPage={parseInt(page, 10)}
-                    pageSize={20}
+                    pageSize={pageLength}
                   />
                 )}
               </React.Fragment>

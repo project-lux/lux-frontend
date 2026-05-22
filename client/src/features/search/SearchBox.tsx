@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { searchScope } from '../../config/searchTypes'
+import { DEFAULT_PAGE_LENGTH, searchScope } from '../../config/searchTypes'
 import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
@@ -159,6 +159,7 @@ const SearchBox: React.FC<{
           delete query._scope
           newUrlParams.set('q', JSON.stringify(query))
           newUrlParams.set('sq', valueToSubmit)
+          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
           if (closeSearchBox) {
             closeSearchBox()
           }

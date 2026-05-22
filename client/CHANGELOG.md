@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
+- Removed instances of hard coded pageLength in results ([#926](https://github.com/project-lux/lux-frontend/issues/926)).
+
 ## v1.69.1 - 2026-05-13
 
 ### Fixed
