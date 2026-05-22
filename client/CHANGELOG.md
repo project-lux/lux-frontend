@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed capitalization in advanced search for consistency ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
+
 ### Fixed
 
 - Fixed background color of mobile results tabs ([#904](https://github.com/project-lux/lux-frontend/issues/904)).

@@ -103,7 +103,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             scope={scope}
           />
           <div className="d-flex w-auto align-items-center">
-            <DescriptiveText text="or Have Name" className="me-2" />
+            <DescriptiveText text="or Have name" className="me-2" />
           </div>
           <TextInput
             key={state.name}
