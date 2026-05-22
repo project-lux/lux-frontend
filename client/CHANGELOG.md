@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed background color of mobile results tabs ([#904](https://github.com/project-lux/lux-frontend/issues/904)).
+- Fixed page shake when paginating in results ([#821](https://github.com/project-lux/lux-frontend/issues/821)).
 
 ### Removed
 
