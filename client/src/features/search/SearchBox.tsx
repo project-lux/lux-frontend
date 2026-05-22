@@ -132,20 +132,20 @@ const SearchBox: React.FC<{
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Helper to count words
-  const wordCount = (str: string): number => {
-    return str.trim().split(/\s+/).filter(Boolean).length
+  const countWords = (str: string): number => {
+    return str
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length
   }
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
   ): void => {
     const { value } = event.currentTarget
-    const words = value
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0)
+    const wordCount = countWords(value)
 
-    if (words.length > MAX_WORDS) {
+    if (wordCount > MAX_WORDS) {
       inputRef.current?.setCustomValidity(
         `Search cannot exceed ${MAX_WORDS} words.`,
       )
@@ -169,7 +169,7 @@ const SearchBox: React.FC<{
     if (value === null || value.trim() === '') {
       return false
     }
-    if (wordCount(value) > 100) {
+    if (countWords(value) > MAX_WORDS) {
       return false
     }
     return true
