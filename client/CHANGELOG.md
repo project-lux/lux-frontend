@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.70.0 - Unreleased
+
+### Added
+
+- Added search input validation to ensure a user can't submit more than 100 words ([#847](https://github.com/project-lux/lux-frontend/issues/847)).
+
+### Changed
+
+- Changed capitalization in advanced search for consistency ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
+
+### Fixed
+
+- Fixed background color of mobile results tabs ([#904](https://github.com/project-lux/lux-frontend/issues/904)).
+- Fixed page shake when paginating in results ([#821](https://github.com/project-lux/lux-frontend/issues/821)).
+
+### Removed
+
+- Removed instances of hard coded pageLength in results ([#926](https://github.com/project-lux/lux-frontend/issues/926)).
+
 ## v1.69.1 - 2026-05-13
 
 ### Fixed

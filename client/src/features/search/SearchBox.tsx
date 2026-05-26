@@ -5,7 +5,7 @@ import styled from 'styled-components'
 import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { searchScope } from '../../config/searchTypes'
+import { DEFAULT_PAGE_LENGTH, searchScope } from '../../config/searchTypes'
 import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
@@ -82,6 +82,8 @@ const StyledSearchBox = styled.div`
   }
 `
 
+const MAX_WORDS = 100
+
 const SearchBox: React.FC<{
   unselectable?: boolean
   closeSearchBox?: () => void
@@ -97,6 +99,7 @@ const SearchBox: React.FC<{
   setIsError,
   isSearchOpen = false,
 }) => {
+  const [isValid, setIsValid] = useState<boolean>(true)
   const [isLoading, setIsLoading] = useState(false)
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
@@ -128,11 +131,31 @@ const SearchBox: React.FC<{
 
   const inputRef = useRef<HTMLInputElement>(null)
 
+  // Helper to count words
+  const countWords = (str: string): number => {
+    return str
+      .trim()
+      .split(/\s+/)
+      .filter((word) => word.length > 0).length
+  }
+
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
   ): void => {
     const { value } = event.currentTarget
-    dispatch(addSimpleSearchInput({ value }))
+    const wordCount = countWords(value)
+
+    if (wordCount > MAX_WORDS) {
+      inputRef.current?.setCustomValidity(
+        `Search cannot exceed ${MAX_WORDS} words.`,
+      )
+      inputRef.current?.reportValidity()
+      setIsValid(false)
+    } else {
+      inputRef.current?.setCustomValidity('') // Valid state
+      setIsValid(true)
+      dispatch(addSimpleSearchInput({ value }))
+    }
   }
 
   const handleClearSearch = (): void => {
@@ -143,7 +166,13 @@ const SearchBox: React.FC<{
 
   const validateInput = (): boolean => {
     const { value } = currentState
-    return value !== null && value.trim() !== '' // ignore empty search string
+    if (value === null || value.trim() === '') {
+      return false
+    }
+    if (countWords(value) > MAX_WORDS) {
+      return false
+    }
+    return true
   }
 
   const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -159,6 +188,7 @@ const SearchBox: React.FC<{
           delete query._scope
           newUrlParams.set('q', JSON.stringify(query))
           newUrlParams.set('sq', valueToSubmit)
+          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
           if (closeSearchBox) {
             closeSearchBox()
           }
@@ -217,13 +247,14 @@ const SearchBox: React.FC<{
               <input
                 id={id}
                 type="text"
-                className="form-control"
+                className="form-control searchBox"
                 placeholder="Search LUX"
                 onChange={handleInputChange}
                 ref={inputRef}
                 tabIndex={isUnselectable ? -1 : 0}
                 value={currentState.value !== null ? currentState.value : ''}
                 data-testid={`${id}-search-submit-input`}
+                aria-invalid={!isValid}
               />
               {hasInputValue && (
                 <button

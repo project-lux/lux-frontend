@@ -103,38 +103,13 @@ const LuxRoutes: React.FC = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/index.html" element={<Landing />} />
-
-          {/* BEGIN data/search views */}
-          {/* <Route path="/view/results/collections" element={<ResultsPage />}>
-            <Route path="all" element={<ResultsPage />} />
-            <Route path="lux-collections" element={<ResultsPage />} />
-            <Route path="my-collections" element={<ResultsPage />} />
-          </Route> */}
-          {/* TODO: continue testing */}
-          {/* <Route path="/signin-oidc" element={<Callback />} />
-          <Route path="/view/results/:tab" element={<ResultsPage />}>
-            <Route
-              path=":subTab"
-              element={
-                <PrivateRoute>
-                  <ResultsPage />
-                </PrivateRoute>
-              }
-            />
-          </Route> */}
-          <Route path="/view/results/:tab" element={<ResultsPage />}>
-            <Route path=":subTab" element={<ResultsPage />} />
-          </Route>
+          <Route path="/view/results/:tab" element={<ResultsPage />} />
           <Route path="/view/*" element={<RoutingComponent />} />
           {/* END data/search views */}
 
           {/* BEGIN CMS pages */}
           <Route path="/content/:pageKey" element={<CmsRoutingComponent />} />
           {/* END CMS pages */}
-          {/* <Route
-            path="/view/advanced-search-config"
-            element={<AdvancedSearchConfig />}
-          /> */}
 
           <Route path="*" element={<ErrorPage code={404} />} />
         </Routes>

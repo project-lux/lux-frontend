@@ -16,6 +16,7 @@ import Editor from '../myCollections/Editor'
 import config from '../../config/config'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import SnippetHeader from './SnippetHeader'
 
@@ -33,7 +34,7 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({
   view,
   totalResults,
   index,
-  pageLength = 20,
+  pageLength = DEFAULT_PAGE_LENGTH,
   titleOfTabbedContent,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(

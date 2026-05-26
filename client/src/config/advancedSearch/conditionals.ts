@@ -1,7 +1,7 @@
 export const conditionals: Record<string, string> = {
-  AND: 'have All of',
-  OR: 'have Any of',
-  NOT: 'have None of',
+  AND: 'have all of',
+  OR: 'have any of',
+  NOT: 'have none of',
 }
 
 export const conditionalsLabeling: Record<string, string> = {

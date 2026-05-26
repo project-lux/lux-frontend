@@ -37,7 +37,7 @@ const MobileTabButton: React.FC<IProps> = ({
       role={role}
       className="border border-0 w-100"
       onClick={() => handleClick()}
-      actionBgColor={theme.color.primary.blue}
+      actionBgColor={theme.color.white}
     >
       <Row>
         <Col xs={2}>

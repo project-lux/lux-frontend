@@ -10,6 +10,7 @@ import {
 } from '../../lib/parse/search/searchResultParser'
 import Paginate from '../results/Paginate'
 import { IOrderedItems } from '../../types/ISearchResults'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import ArchiveHierarchyChild from './ArchiveHierarchyChild'
 
@@ -72,7 +73,7 @@ const ArchiveHierarchyChildrenContainer: React.FC<{
           <Paginate
             estimate={getEstimates(data)}
             currentPage={isUndefined(page) ? pageOfEntity : page}
-            pageSize={20}
+            pageSize={DEFAULT_PAGE_LENGTH}
             handleSelectionOfPage={handlePagination}
             isArchive
             xxlGridSize={12}
