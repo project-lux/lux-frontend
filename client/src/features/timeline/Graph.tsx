@@ -160,6 +160,7 @@ const Graph: React.FC<IProps> = ({
                 payload={undefined}
                 activeLegend={activeLegend}
                 selectedLegend={selectedLegend}
+                isMobile={isMobile}
                 handleOnHover={handleOnHover}
                 handleOnClick={handleOnClick}
               />

@@ -146,8 +146,8 @@ const Group: React.FC<IGroup> = ({
                 options={conditionals}
                 handleChange={addOption}
                 className="multipleFieldSelection"
-                dropdownHeaderText="Have multiple fields"
-                ariaLabel={`${ariaLabelForDropdowns} Have multiple fields`}
+                dropdownHeaderText="have multiple fields"
+                ariaLabel={`${ariaLabelForDropdowns} have multiple fields`}
                 selected={selectedKey}
                 id={id}
               />
