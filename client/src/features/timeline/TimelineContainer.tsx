@@ -154,7 +154,7 @@ const TimelineContainer: React.FC<{
           <Col xs={12}>
             <Hr $hiddenOnDesktop width="100%" className="mb-2" />
           </Col>
-          <Col xs={12}>
+          <Col xs={12} style={{ height: '90%' }}>
             <TimelineData
               display={display}
               sortedKeys={sortedTimelineYears}

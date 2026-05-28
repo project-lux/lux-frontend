@@ -85,8 +85,8 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             options={conditionals}
             handleChange={addOption}
             className="multipleFieldSelection mx-0"
-            dropdownHeaderText="Have multiple fields"
-            ariaLabel={`${ariaLabel} Have multiple fields`}
+            dropdownHeaderText="have multiple fields"
+            ariaLabel={`${ariaLabel} have multiple fields`}
             id={`multiple-fields-${stateId}`}
           />
           <div className="d-flex w-auto align-items-center">
@@ -97,13 +97,13 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
             options={getSingleFieldDropdownOptions(scope)}
             handleChange={addOption}
             className="singleFieldSelection ms-2"
-            dropdownHeaderText="Have a single field"
+            dropdownHeaderText="have a single field"
             ariaLabel={`${ariaLabel} single field selection`}
             id={`single-fields-${stateId}`}
             scope={scope}
           />
           <div className="d-flex w-auto align-items-center">
-            <DescriptiveText text="or Have name" className="me-2" />
+            <DescriptiveText text="or have name" className="me-2" />
           </div>
           <TextInput
             key={state.name}

@@ -5,6 +5,7 @@ interface IProps {
   payload: any
   activeLegend: string | null
   selectedLegend: string | null
+  isMobile: boolean
   handleOnClick: (value: string | null) => void
   handleOnHover: (value: string | null) => void
 }
@@ -13,12 +14,13 @@ const CustomLegend: React.FC<IProps> = ({
   payload,
   activeLegend,
   selectedLegend,
+  isMobile,
   handleOnClick,
   handleOnHover,
 }) => {
   if (payload && payload.length > 0) {
     return (
-      <div className="d-flex justify-content-center">
+      <div className={isMobile ? '' : 'd-flex justify-content-center'}>
         {payload.map(
           (
             entry: {

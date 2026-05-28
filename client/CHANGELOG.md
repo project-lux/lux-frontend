@@ -12,7 +12,14 @@ All notable changes to this project will be documented in this file.
 
 ### Removed
 
-## v1.70.0 - 2026-5-26
+## v1.70.1 - 2026-05-28
+
+### Fixed
+
+- Fixed timeline scrolling issue ([#820](https://github.com/project-lux/lux-frontend/issues/820)).
+- Fixed advanced search capitalization ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
+
+## v1.70.0 - 2026-05-26
 
 ### Added
 
