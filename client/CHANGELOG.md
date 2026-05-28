@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the subject headings search links ([#957](https://github.com/project-lux/lux-frontend/issues/957)).
+
 ### Removed
 
 ## v1.70.1 - 2026-05-28

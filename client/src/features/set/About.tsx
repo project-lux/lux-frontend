@@ -88,13 +88,7 @@ const About: React.FC<IObject> = ({ data }) => {
               />
             )}
           {notes !== null && <NotesContainer notes={notes} showBreakline />}
-          {about.length > 0 && (
-            <AboutSubsection
-              content={about}
-              label="About"
-              id="about-subject-headings"
-            />
-          )}
+          {about.length > 0 && <AboutSubsection content={about} />}
           {represents.length > 0 && (
             <React.Fragment>
               <DetailedLinkContainer
