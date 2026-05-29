@@ -1,12 +1,16 @@
-import React, { ChangeEvent } from 'react'
+import React, { ChangeEvent, useState } from 'react'
 import { Accordion, Form } from 'react-bootstrap'
 import { useLocation, useNavigate } from 'react-router-dom'
 
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { translate } from '../../lib/util/translate'
-import { scopeToTabTranslation } from '../../config/searchTypes'
+import {
+  DEFAULT_PAGE_LENGTH,
+  scopeToTabTranslation,
+} from '../../config/searchTypes'
 import LoadingSpinner from '../common/LoadingSpinner'
+import AiQueryOptions from '../search/AiQueryOptions'
 
 interface IProps {
   currentScope: string
@@ -16,12 +20,14 @@ interface IProps {
 /**
  * Component for expanding the advanced search with an AI search option.
  * @param {string} currentScope sets the current scope of the advanced search
- * @param {string} resultsTab sets the current results tab to determine where to navigate after submitting the AI search
  * @returns
  */
-const AiSearchAccordion: React.FC<IProps> = ({ currentScope, resultsTab }) => {
+const AiSearchAccordion: React.FC<IProps> = ({ currentScope }) => {
   const [newQuery, setNewQuery] = React.useState<string>('')
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [aiDisambiguation, setAiDisambiguation] =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    useState<Array<any>>([])
   const navigate = useNavigate()
   const { search } = useLocation()
   const fullSearchQuery = new URLSearchParams(search)
@@ -38,22 +44,28 @@ const AiSearchAccordion: React.FC<IProps> = ({ currentScope, resultsTab }) => {
       scope: currentScope,
       prevQuery: translatedQuery,
       onSuccess: (translatedString) => {
-        let newTab = resultsTab
         const jsonTranslatedString = JSON.parse(translatedString)
-        newTab = scopeToTabTranslation[jsonTranslatedString._scope]
+        console.log(jsonTranslatedString)
         const newUrlParams = new URLSearchParams()
-        const newJSONQuery = JSON.parse(translatedString)
-        delete newJSONQuery._scope
-        newUrlParams.set('q', JSON.stringify(newJSONQuery))
-        newUrlParams.set('sq', newQuery)
-        newUrlParams.set('aiSearch', 'true')
-        setNewQuery('')
-        setIsLoading(false)
-        pushClientEvent('Search Button', 'Submit', 'AI Updated Search')
-        navigate({
-          pathname: `/view/results/${newTab}`,
-          search: `${newUrlParams.toString()}`,
-        })
+        if (jsonTranslatedString.length > 1) {
+          setAiDisambiguation(jsonTranslatedString)
+          return
+        } else {
+          const newTranslatedQuery = jsonTranslatedString[0].query
+          const newTab = scopeToTabTranslation[newTranslatedQuery._scope]
+          delete newTranslatedQuery._scope
+          newUrlParams.set('q', JSON.stringify(newTranslatedQuery))
+          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+          newUrlParams.set('aiSearch', 'true')
+          newUrlParams.set('sq', newQuery)
+          setIsLoading(false)
+          setNewQuery('')
+          pushClientEvent('Search Button', 'Submit', 'AI Updated Search')
+          navigate({
+            pathname: `/view/results/${newTab}`,
+            search: `${newUrlParams.toString()}`,
+          })
+        }
       },
       onError: () => setIsLoading(false),
       onLoading: () => setIsLoading(true),
@@ -81,6 +93,7 @@ const AiSearchAccordion: React.FC<IProps> = ({ currentScope, resultsTab }) => {
               type="text"
               placeholder="Enter new query"
               value={newQuery}
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               onChange={(e: ChangeEvent<any>) => setNewQuery(e.target.value)}
             />
           </Form.Group>
@@ -91,6 +104,9 @@ const AiSearchAccordion: React.FC<IProps> = ({ currentScope, resultsTab }) => {
           >
             Submit Updated AI Search {isLoading && <LoadingSpinner />}
           </PrimaryButton>
+          {aiDisambiguation.length > 0 && (
+            <AiQueryOptions aiDisambiguation={aiDisambiguation} />
+          )}
         </Accordion.Body>
       </Accordion.Item>
     </Accordion>
