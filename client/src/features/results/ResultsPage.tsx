@@ -198,6 +198,7 @@ const ResultsPage: React.FC = () => {
       <ResultsSearchContainer
         key={tab}
         isSimpleSearch={hasSimpleSearchQuery}
+        isAiSearch={isAiSearch}
         urlParams={urlParams}
         queryString={queryString}
         search={search}

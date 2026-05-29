@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Row } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { Col, Row } from 'react-bootstrap'
+import { useNavigate, useLocation, useParams, Link } from 'react-router-dom'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
 
@@ -121,6 +121,9 @@ const SearchBox: React.FC<{
   const [isSimpleSearchLoading, setIsSimpleSearchLoading] = useState(false)
   const [isAiSearchLoading, setIsAiSearchLoading] = useState(false)
   const [isAiSearch, setIsAiSearch] = useState<boolean>(false)
+  const [aiDisambiguation, setAiDisambiguation] =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    useState<Array<any>>([])
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -204,46 +207,64 @@ const SearchBox: React.FC<{
         isAiSearch,
         scope: searchScope[tab],
         onSuccess: (translatedString) => {
-          let newTab = tab
-          if (isAiSearch) {
-            const jsonTranslatedString = JSON.parse(translatedString)
-            newTab = scopeToTabTranslation[jsonTranslatedString._scope]
-          }
           const newUrlParams = new URLSearchParams()
-          const query = JSON.parse(translatedString)
-          delete query._scope
-          newUrlParams.set('q', JSON.stringify(query))
-          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-          if (!isAiSearch) {
-            newUrlParams.set('sq', valueToSubmit)
-          }
-          newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
+          let newTab = tab
           if (closeSearchBox) {
             closeSearchBox()
           }
           inputRef.current!.value = ''
           setIsError(false)
-          if (isAiSearch) {
-            setIsAiSearchLoading(false)
-          } else {
-            setIsSimpleSearchLoading(false)
-          }
+          setIsSimpleSearchLoading(false)
           pushClientEvent(
             'Search Button',
             'Submit',
             isAiSearch ? 'AI Search' : 'Simple Search',
           )
-          navigate(
-            {
-              pathname: `/view/results/${newTab}`,
-              search: `${newUrlParams.toString()}`,
-            },
-            {
-              state: {
-                fromNonResultsPage: !isResults,
+          if (isAiSearch) {
+            setIsAiSearchLoading(false)
+            const jsonTranslatedString = JSON.parse(translatedString)
+            if (jsonTranslatedString.length > 1) {
+              setAiDisambiguation(jsonTranslatedString)
+              return
+            } else {
+              const query = jsonTranslatedString[0].query
+              newTab = scopeToTabTranslation[query._scope]
+              delete query._scope
+              newUrlParams.set('q', JSON.stringify(query))
+              newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+              newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
+              newUrlParams.set('sq', valueToSubmit)
+              setIsAiSearch(false)
+              navigate(
+                {
+                  pathname: `/view/results/${newTab}`,
+                  search: `${newUrlParams.toString()}`,
+                },
+                {
+                  state: {
+                    fromNonResultsPage: !isResults,
+                  },
+                },
+              )
+            }
+          } else {
+            const query = JSON.parse(translatedString)
+            delete query._scope
+            newUrlParams.set('q', JSON.stringify(query))
+            newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+            newUrlParams.set('sq', valueToSubmit)
+            navigate(
+              {
+                pathname: `/view/results/${newTab}`,
+                search: `${newUrlParams.toString()}`,
               },
-            },
-          )
+              {
+                state: {
+                  fromNonResultsPage: !isResults,
+                },
+              },
+            )
+          }
         },
         onError: () => {
           isAiSearch
@@ -343,6 +364,36 @@ const SearchBox: React.FC<{
           </form>
         </StyledSearchBox>
       </div>
+      {aiDisambiguation.length > 1 && (
+        <React.Fragment>
+          <Col xs={12} className="mt-3 d-flex justify-content-center">
+            <strong>
+              Your query returned more than one option. Please select a query to
+              continue:
+            </strong>
+          </Col>
+          <Col xs={12} className="mt-2 d-flex justify-content-center">
+            <ul>
+              {aiDisambiguation.map((queryData) => (
+                <li>
+                  <Link
+                    to={{
+                      pathname: `/view/results/${scopeToTabTranslation[queryData.query._scope]}`,
+                      search: `q=${JSON.stringify(queryData.query)}&pageLength=${DEFAULT_PAGE_LENGTH}&aiSearch=true&sq=${queryData.parsed}`,
+                    }}
+                    onClick={() => setIsAiSearch(false)}
+                  >
+                    {queryData.natural}
+                  </Link>
+                  <ul className="ms-3">
+                    <li>Parsed Query: {queryData.parsed}</li>
+                  </ul>
+                </li>
+              ))}
+            </ul>
+          </Col>
+        </React.Fragment>
+      )}
     </Row>
   )
 }
