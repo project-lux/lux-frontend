@@ -18,6 +18,20 @@ export const searchTypes: Record<string, string> = {
 }
 
 /**
+ * Object containing a mapping of the entity types to their corresponding data types.
+ * This is used by the Subject Headings search links.
+ */
+export const searchTypesToResultsTabs: Record<string, string> = {
+  item: 'HumanMadeObject,DigitalObject',
+  work: 'LinguisticObject,VisualItem',
+  set: 'Set',
+  agent: 'Person,Group',
+  place: 'Place',
+  concept: 'Currency,Language,Material,MeasurementUnit,Type',
+  event: 'Activity,Period,Event',
+}
+
+/**
  * MarkLogic requires the following mapped object to determine the correct tab to MarkLogic data type.
  * Several functions depend on the values of this object to all be strings with unique first characters
  */

@@ -31,6 +31,7 @@ const About: React.FC<IObject> = ({ data }) => {
   const {
     names,
     itemType,
+    type,
     identifiers,
     setCreationEvent,
     about,
@@ -88,13 +89,7 @@ const About: React.FC<IObject> = ({ data }) => {
               />
             )}
           {notes !== null && <NotesContainer notes={notes} showBreakline />}
-          {about.length > 0 && (
-            <AboutSubsection
-              content={about}
-              label="About"
-              id="about-subject-headings"
-            />
-          )}
+          {about.length > 0 && <AboutSubsection content={about} type={type} />}
           {represents.length > 0 && (
             <React.Fragment>
               <DetailedLinkContainer
