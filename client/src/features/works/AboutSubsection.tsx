@@ -8,19 +8,24 @@ import TextValue from '../common/TextValue'
 import { isObjectOrWork } from '../../lib/util/uri'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { scopeToTabTranslation } from '../../config/searchTypes'
+import {
+  scopeToTabTranslation,
+  searchTypesToResultsTabs,
+} from '../../config/searchTypes'
 import { capitalizeLabels } from '../../lib/parse/data/helper'
 
 import SubjectHeadingsList from './SubjectHeadingsList'
 
 interface ILinkData {
   content: Array<Array<string> | string>
+  type: string
   expandColumns?: boolean
 }
 
 // Show an expandable list of links with a label in the left column
 const AboutSubsection: React.FC<ILinkData> = ({
   content,
+  type,
   expandColumns = false,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -30,8 +35,9 @@ const AboutSubsection: React.FC<ILinkData> = ({
 
   const { pathname } = useLocation()
   let halLinkScope = 'work'
-  Object.keys(scopeToTabTranslation).forEach((key) => {
-    if (pathname.includes(key)) {
+  // Get the scope based on the entity type
+  Object.keys(searchTypesToResultsTabs).forEach((key) => {
+    if (searchTypesToResultsTabs[key].includes(type)) {
       halLinkScope = key
     }
   })
