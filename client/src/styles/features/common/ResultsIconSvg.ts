@@ -8,15 +8,14 @@ interface IProps {
 
 const ResultsIconSvg = styled.object<IProps>`
   position: relative;
-  border: ${(props) => props.border || '2px solid #00356b'};
   border-radius: 1px;
   padding: 3px;
-  height: 40px;
-  width: 40px;
-  top: calc(35% - 10px);
+  height: 60px;
+  width: 60px;
+  top: calc(35% - 20px);
 
   @media (min-width: ${theme.breakpoints.sm}px) {
-    top: calc(45% - 10px);
+    top: calc(45% - 20px);
   }
 `
 export default ResultsIconSvg

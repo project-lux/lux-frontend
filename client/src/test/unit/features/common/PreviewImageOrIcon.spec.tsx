@@ -38,7 +38,7 @@ describe('PreviewImageOrIcon', () => {
   it('renders the icon', async () => {
     render(<PreviewImageOrIcon images={[]} entity={mockObject} />)
 
-    const icon = screen.getByTestId('entitiy-type-icon')
+    const icon = screen.getByTestId('entity-type-icon')
     expect(icon).toBeInTheDocument()
   })
 })
