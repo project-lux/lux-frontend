@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed the results page icons styling ([#956](https://github.com/project-lux/lux-frontend/issues/956)).
+
 ### Fixed
 
 - Fixed the subject headings search links ([#957](https://github.com/project-lux/lux-frontend/issues/957)).
