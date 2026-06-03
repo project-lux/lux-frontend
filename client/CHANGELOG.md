@@ -9,6 +9,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed the results page icons styling ([#956](https://github.com/project-lux/lux-frontend/issues/956)).
+- Changed advanced search input to remain when switching date fields ([#954](https://github.com/project-lux/lux-frontend/issues/954)).
+- Changed advanced search input to remain when switching boolean fields ([#955](https://github.com/project-lux/lux-frontend/issues/954)).
+- Changed advanced search group selection to remain when switching between groups ([#973](https://github.com/project-lux/lux-frontend/issues/973)).
 
 ### Fixed
 
