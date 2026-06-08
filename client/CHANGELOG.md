@@ -2,11 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.71.0 - Unreleased
+
+### Added
+
+### Changed
+
+- Changed the results page icons styling ([#956](https://github.com/project-lux/lux-frontend/issues/956)).
+- Changed advanced search input to remain when switching date fields ([#954](https://github.com/project-lux/lux-frontend/issues/954)).
+- Changed advanced search input to remain when switching boolean fields ([#955](https://github.com/project-lux/lux-frontend/issues/954)).
+- Changed advanced search group selection to remain when switching between groups ([#973](https://github.com/project-lux/lux-frontend/issues/973)).
+
+### Fixed
+
+- Fixed the subject headings search links ([#957](https://github.com/project-lux/lux-frontend/issues/957)).
+
+### Removed
+
 ## v1.70.1 - 2026-05-28
 
 ### Fixed
 
-- Fixed timeline scrolling issue ([#944](https://github.com/project-lux/lux-frontend/issues/944)).
+- Fixed timeline scrolling issue ([#820](https://github.com/project-lux/lux-frontend/issues/820)).
 - Fixed advanced search capitalization ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
 
 ## v1.70.0 - 2026-05-26

@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 
 import RecordLink from '../common/RecordLink'
 import { getSubjectHeadingObject } from '../../lib/parse/data/helper'
@@ -8,20 +9,33 @@ import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import SearchResultsLink from '../relatedLists/SearchResultsLink'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { scopeToTabTranslation } from '../../config/searchTypes'
 
 interface ILinkData {
   subjectHeadings: Array<string> | string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const formatSubjectHeadingHalLink = (params: Record<string, any>): string => {
+const formatSubjectHeadingHalLink = (
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  params: Record<string, any>,
+  scope: string,
+): string => {
   const urlParams = new URLSearchParams()
   urlParams.set('q', JSON.stringify(params))
-  return `${config.env.dataApiBaseUrl}api/search/work?${urlParams.toString()}`
+  return `${config.env.dataApiBaseUrl}api/search/${scope}?${urlParams.toString()}`
 }
 
 // Show an expandable list of links with a label in the left column
 const SubjectHeadingsList: React.FC<ILinkData> = ({ subjectHeadings }) => {
+  const { pathname } = useLocation()
+  let halLinkScope = 'work'
+  Object.keys(scopeToTabTranslation).forEach((key) => {
+    if (pathname.includes(key)) {
+      halLinkScope = key
+    }
+  })
+  const searchResultsTab = scopeToTabTranslation[halLinkScope]
+
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -33,7 +47,10 @@ const SubjectHeadingsList: React.FC<ILinkData> = ({ subjectHeadings }) => {
   const subjectHeadingsSearchCriteria = {
     AND: subjectHeadingsSearchCriteriaObjects,
   }
-  const halLink = formatSubjectHeadingHalLink(subjectHeadingsSearchCriteria)
+  const halLink = formatSubjectHeadingHalLink(
+    subjectHeadingsSearchCriteria,
+    halLinkScope,
+  )
   const { isSuccess, data } = useGetSearchRelationshipQuery({
     uri: halLink,
   })
@@ -58,8 +75,8 @@ const SubjectHeadingsList: React.FC<ILinkData> = ({ subjectHeadings }) => {
             data={data}
             eventTitle="Subject Headings Search Link"
             url={halLink}
-            scope="works"
-            additionalLinkText={isMobile ? 'work' : ''}
+            scope={searchResultsTab}
+            additionalLinkText={isMobile ? searchResultsTab : ''}
           />
         )}
       </Col>

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { isNull } from 'lodash'
+
 import { conditionals } from '../../config/advancedSearch/conditionals'
-import { comparators } from '../../config/advancedSearch/inputTypes'
 import {
   addRemoveConfig,
   getDefaultSearchOptions,
@@ -13,7 +14,7 @@ import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import {
   getProperty,
   isBooleanInput,
-  // isDateInput,
+  isDateInput,
   isGroup,
   isInput,
   isRangeInput,
@@ -89,6 +90,52 @@ export const getFieldToEntityRelationship = (
   return searchTermConfig !== undefined ? searchTermConfig.relation : null
 }
 
+export type PropertyType =
+  | 'text'
+  | 'date'
+  | 'boolean'
+  | 'range'
+  | 'group'
+  | 'type'
+
+// Helper function to determine if the current field and selected field are the same type of input, such as text, date, boolean, or range.
+const arePropertiesTheSameType = (
+  currentProperty: string,
+  selectedProperty: string,
+): PropertyType | null => {
+  if (
+    Object.keys(conditionals).includes(currentProperty) &&
+    Object.keys(conditionals).includes(selectedProperty)
+  ) {
+    return 'group'
+  }
+  // check if the properties are text input
+  if (isTextInput(currentProperty) && isTextInput(selectedProperty)) {
+    return 'text'
+  }
+  // check if the properties are date input
+  if (isDateInput(currentProperty) && isDateInput(selectedProperty)) {
+    return 'date'
+  }
+  // check if the properties are boolean input
+  if (isBooleanInput(currentProperty) && isBooleanInput(selectedProperty)) {
+    return 'boolean'
+  }
+  // check if the properties are range input
+  if (isRangeInput(currentProperty) && isRangeInput(selectedProperty)) {
+    return 'range'
+  }
+  // check if the properties are record type input
+  if (
+    isRecordTypeInput(currentProperty) &&
+    isRecordTypeInput(selectedProperty)
+  ) {
+    return 'type'
+  }
+
+  return null
+}
+
 /**
  * Get existing value of property
  * @param obj IAdvancedSearchState; current object
@@ -98,94 +145,98 @@ export const getFieldToEntityRelationship = (
 export const getExistingValue = (
   obj: IAdvancedSearchState,
   selected: string,
-): IAdvancedSearchState | null => {
-  let existingValue: any | null = null
+): Array<
+  string | number | Record<string, any> | Record<string, any>[] | null
+> => {
+  let existingValue = null
+  let comparator = null
   // Determine if object already contains a property or group
   const property = getProperty(obj)
-  if (Object.keys(conditionals).includes(property)) {
+  const propertyType = arePropertiesTheSameType(property, selected)
+  if (propertyType === null) {
+    return []
+  }
+
+  if (
+    propertyType === 'text' ||
+    propertyType === 'type' ||
+    propertyType === 'boolean' ||
+    propertyType === 'group'
+  ) {
     existingValue = obj[property]
   }
-  // Check if existing value is a comparator
-  if (comparators.hasOwnProperty(existingValue)) {
-    existingValue = null
-  }
 
-  const fieldsAreBothTextInput = isTextInput(property) && isTextInput(selected)
-  if (fieldsAreBothTextInput) {
+  if (propertyType === 'range' || propertyType === 'date') {
     existingValue = obj[property]
+    comparator = obj._comp
   }
 
-  if (typeof existingValue === 'string' && !fieldsAreBothTextInput) {
-    existingValue = null
-  }
-
-  // remove the old property as the new one replaces it
-  delete obj[property]
-
-  const optionsKeys = ['_weight', '_complete', '_options']
-  Object.keys(obj).map((objKey) => {
-    if (optionsKeys.includes(objKey)) {
-      delete obj[objKey]
-    }
-    return null
-  })
-
-  return existingValue
+  return [existingValue, comparator]
 }
 
 /**
  * Add a field or update a field
  * @param {Record<string, any> | null} objectToUpdate object in state to update
  * @param {string} scope scope of the current selected field
- * @param {string} selected current selected field
+ * @param {string} selectedProperty current selected field
  * @returns {Record<string, any> | null}
  */
 export const addFieldSelectionHelper = (
   objectToUpdate: Record<string, any> | null,
   scope: string,
-  selected: string,
+  selectedProperty: string,
   parentBgColor?: 'bg-white' | 'bg-light',
 ): Record<string, any> | null => {
   if (objectToUpdate !== null) {
-    const existingValue = getExistingValue(objectToUpdate, selected)
+    // Initialize the new object with a new _stateId
     const newObject: IAdvancedSearchState = {
       _stateId: getStateId(),
     }
 
-    if (Object.keys(conditionals).includes(selected)) {
+    // get any existing values for the field being added
+    const [existingValue, comparator] = getExistingValue(
+      objectToUpdate,
+      selectedProperty,
+    )
+
+    // Get the current property for the object being updated
+    const currentProperty = getProperty(objectToUpdate)
+    const arePropertiesTheSame = arePropertiesTheSameType(
+      currentProperty,
+      selectedProperty,
+    )
+
+    // Delete the old properties that are not needed
+    delete objectToUpdate[currentProperty]
+    delete objectToUpdate._comp
+
+    // If the current and selected property are the same type of input, such as text, date, boolean, range, or group, retain the existing value when adding a new field
+    if (!isNull(arePropertiesTheSame)) {
+      // Set the new object's property to the existing value if the current and selected properties are the same type of input; otherwise, set to null
+      if (!isNull(existingValue)) {
+        objectToUpdate[selectedProperty] = existingValue
+      }
+
+      // Set the new object's _comp if the existing value has a comparator
+      if (!isNull(comparator)) {
+        objectToUpdate._comp = comparator
+      }
+    } else if (Object.keys(conditionals).includes(selectedProperty)) {
       // Group selected
       // add _bgColor for rendering purposes
       if (!objectToUpdate.hasOwnProperty('_bgColor')) {
         objectToUpdate._bgColor =
           parentBgColor === 'bg-white' ? 'bg-light' : 'bg-white'
       }
-      objectToUpdate[selected] =
-        existingValue !== null ? existingValue : [newObject]
-    } else if (isInput(selected)) {
-      if (
-        !isRecordTypeInput(selected) &&
-        (typeof existingValue !== 'string' ||
-          isRangeInput(selected) ||
-          isBooleanInput(selected))
-      ) {
-        objectToUpdate[selected] = ''
-        delete objectToUpdate._comp
-      } else {
-        objectToUpdate[selected] = existingValue !== null ? existingValue : ''
-      }
+      objectToUpdate[selectedProperty] = [newObject]
+    } else if (isInput(selectedProperty)) {
+      objectToUpdate[selectedProperty] = ''
     } else {
-      // Field with entity relationship
-
-      if (Array.isArray(existingValue) || typeof existingValue === 'string') {
-        objectToUpdate[selected] = newObject
-      } else {
-        objectToUpdate[selected] =
-          existingValue !== null ? existingValue : newObject
-      }
+      objectToUpdate[selectedProperty] = newObject
     }
 
     // update options with default
-    let options = getDefaultSearchOptions(scope, selected)
+    let options = getDefaultSearchOptions(scope, selectedProperty)
     if (options !== null) {
       if (options.includes('exact')) {
         options = [
