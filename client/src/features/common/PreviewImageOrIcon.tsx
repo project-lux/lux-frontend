@@ -60,7 +60,7 @@ const PreviewImageOrIcon: React.FC<IObjectsBy> = ({
       className={className || ''}
       height={height}
       width={width}
-      data-testid="entitiy-type-icon"
+      data-testid="entity-type-icon"
     >
       <Tooltip html={helperText} placement="top">
         <ResultsIconSvg

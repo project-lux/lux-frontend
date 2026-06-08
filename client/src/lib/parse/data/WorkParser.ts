@@ -186,6 +186,7 @@ export default class WorkParser extends EntityParser {
     const entityClass = this.getEntityClass('work')
     const data: Record<string, any> = {
       types: this.getTypes(),
+      type: this.getType(),
       titles: this.getNames(true),
       entityClass,
       identifiers: this.getIdentifiers(),

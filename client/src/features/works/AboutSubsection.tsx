@@ -5,33 +5,43 @@ import { Col, Row } from 'react-bootstrap'
 import StyledHr from '../../styles/shared/Hr'
 import ExpandableList from '../common/ExpandableList'
 import TextValue from '../common/TextValue'
-import TextLabel from '../common/TextLabel'
 import { isObjectOrWork } from '../../lib/util/uri'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import {
+  scopeToTabTranslation,
+  searchTypesToResultsTabs,
+} from '../../config/searchTypes'
+import { capitalizeLabels } from '../../lib/parse/data/helper'
 
 import SubjectHeadingsList from './SubjectHeadingsList'
 
 interface ILinkData {
   content: Array<Array<string> | string>
-  id: string
-  label?: string
+  type: string
   expandColumns?: boolean
 }
 
 // Show an expandable list of links with a label in the left column
 const AboutSubsection: React.FC<ILinkData> = ({
   content,
-  id,
-  label,
+  type,
   expandColumns = false,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const { pathname } = useLocation()
-
   useResizeableWindow(setIsMobile)
+
+  const { pathname } = useLocation()
+  let halLinkScope = 'work'
+  // Get the scope based on the entity type
+  Object.keys(searchTypesToResultsTabs).forEach((key) => {
+    if (searchTypesToResultsTabs[key].includes(type)) {
+      halLinkScope = key
+    }
+  })
+  const searchResultsTab = scopeToTabTranslation[halLinkScope]
 
   const values = content.map((c: Array<string> | string) => (
     <SubjectHeadingsList subjectHeadings={c} />
@@ -39,9 +49,9 @@ const AboutSubsection: React.FC<ILinkData> = ({
 
   if (content && content.length > 0) {
     return (
-      <Row id={id} data-testid={`${id}-row`}>
+      <Row id="about-subject-headings" data-testid="about-subject-headings-row">
         <Col xl={3} lg={3} md={12} sm={12}>
-          {label !== undefined && <TextLabel label={label} />}
+          <dt>About</dt>
         </Col>
         <Col xl={9} lg={9} md={12} sm={12}>
           <Row>
@@ -51,7 +61,7 @@ const AboutSubsection: React.FC<ILinkData> = ({
                   <dt>Subjects</dt>
                 </Col>
                 <Col xs={5}>
-                  <dt>Matching Works</dt>
+                  <dt>Matching {capitalizeLabels(searchResultsTab)}</dt>
                 </Col>
               </React.Fragment>
             )}
