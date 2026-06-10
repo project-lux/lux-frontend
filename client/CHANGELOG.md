@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added the tag environment variable to be returned with the /env endpoint ([#978](https://github.com/project-lux/lux-frontend/issues/978)).
+
 ### Changed
 
 ### Fixed

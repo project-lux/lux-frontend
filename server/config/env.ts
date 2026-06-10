@@ -22,6 +22,7 @@ function getString(s: string | undefined): string | null {
 export const port = getInt(process.env.APP_PORT) || 8088
 export const numInstances = getInt(process.env.NUM_INSTANCES) || -1
 
+export const version = getString(process.env.TAG_TO_DEPLOY)
 export const dataApiBaseUrl = getString(process.env.DATA_API_BASE_URL)
 export const cmsApiBaseUrl = getString(process.env.CMS_API_BASE_URL)
 export const wikidataImagePathname = getString(
