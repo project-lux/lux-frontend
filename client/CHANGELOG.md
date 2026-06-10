@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed packages to updated versions for maintenance ([#972](https://github.com/project-lux/lux-frontend/issues/972)).
+
 ### Fixed
 
 ### Removed
