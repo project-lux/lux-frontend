@@ -99,28 +99,28 @@ describe('dateParser functions', () => {
       const years = getDatesFromFacetValues(mockFacetValues)
       expect(years).toEqual([
         {
-          day: '01',
-          month: '01',
-          year: '-001980',
+          day: '1',
+          month: '1',
+          year: '-1980',
         },
         {
-          day: '01',
-          month: '01',
-          year: '-001974',
+          day: '1',
+          month: '1',
+          year: '-1974',
         },
         {
-          day: '01',
-          month: '01',
+          day: '1',
+          month: '1',
           year: '1977',
         },
         {
-          day: '01',
-          month: '01',
+          day: '1',
+          month: '1',
           year: '1982',
         },
         {
-          day: '01',
-          month: '01',
+          day: '1',
+          month: '1',
           year: '1983',
         },
       ])
