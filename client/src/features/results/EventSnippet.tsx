@@ -93,6 +93,7 @@ const EventSnippet: React.FC<IProps> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="event-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />

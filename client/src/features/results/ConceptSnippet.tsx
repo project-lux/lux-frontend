@@ -98,6 +98,7 @@ const ConceptSnippet: React.FC<IProps> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="concept-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />

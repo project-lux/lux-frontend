@@ -111,6 +111,7 @@ const WorksSnippet: React.FC<ISearchData> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="work-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />

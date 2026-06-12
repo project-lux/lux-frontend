@@ -103,6 +103,7 @@ const PlaceSnippet: React.FC<IProps> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="place-snippet-header"
               snippetData={snippetDataComponent}
               mapComponent={mapComponent}
               titleOfTabbedContent={titleOfTabbedContent}

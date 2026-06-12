@@ -1,7 +1,18 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
+import { vi } from 'vitest'
 
 import TextContainer from '../../../../features/common/TextContainer'
+import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
+
+const mockEntity = reusableMinimalEntity('American')
+
+vi.mock('../../../../redux/api/ml_api', () => ({
+  useGetItemQuery: () => ({
+    data: mockEntity,
+    isSuccess: true,
+  }),
+}))
 
 describe('TextContainer', () => {
   it('renders', async () => {
