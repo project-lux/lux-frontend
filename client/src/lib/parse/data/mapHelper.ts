@@ -1,4 +1,4 @@
-import * as W from 'wellknown' // WKT parser
+import { wktToGeoJSON } from 'betterknown'
 import bbox from '@turf/bbox'
 import centroid from '@turf/centroid'
 import L from 'leaflet'
@@ -11,7 +11,8 @@ export const cleanWkt = (wkt: string): string =>
     .replace(/\s+\)/, ')')
 
 export interface IWktParseResult {
-  geoJson: W.GeoJSONGeometryOrNull
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  geoJson: any | null
   type: string
   center: L.LatLngExpression
   bounds: L.LatLngBoundsExpression
@@ -21,7 +22,7 @@ export interface IWktParseResult {
 
 export const parseWkt = (wktStr: string): IWktParseResult => {
   const s = cleanWkt(wktStr)
-  const geo: W.GeoJSONGeometryOrNull = W.parse(s)
+  const geo = wktToGeoJSON(s)
   const res = {
     geoJson: geo,
     type: geo === null ? 'Point' : geo.type,
