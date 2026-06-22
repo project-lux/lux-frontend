@@ -12,6 +12,7 @@ All notable changes to this project will be documented in this file.
 
 - Changed packages to updated versions for maintenance ([#972](https://github.com/project-lux/lux-frontend/issues/972)).
 - Changed bootstrap icons usage and version ([#953](https://github.com/project-lux/lux-frontend/issues/953)).
+- Changed the breadcrumb hierarchy rendering ([#959](https://github.com/project-lux/lux-frontend/issues/#959)).
 
 ### Fixed
 
