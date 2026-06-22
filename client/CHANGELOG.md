@@ -2,7 +2,23 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.71.0 - Unreleased
+## v1.72.0 - Unreleased
+
+### Added
+
+- Added the tag environment variable to be returned with the /env endpoint ([#978](https://github.com/project-lux/lux-frontend/issues/978)).
+
+### Changed
+
+- Changed packages to updated versions for maintenance ([#972](https://github.com/project-lux/lux-frontend/issues/972)).
+- Changed bootstrap icons usage and version ([#953](https://github.com/project-lux/lux-frontend/issues/953)).
+- Changed the breadcrumb hierarchy rendering ([#959](https://github.com/project-lux/lux-frontend/issues/#959)).
+
+### Fixed
+
+### Removed
+
+## v1.71.0 - 2026-6-8
 
 ### Added
 

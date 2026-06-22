@@ -42,6 +42,7 @@ class App {
 
     exp.get('/env', (req: express.Request, res: express.Response) => {
       res.json({
+        version: env.version,
         dataApiBaseUrl: env.dataApiBaseUrl,
         cmsApiBaseUrl: env.cmsApiBaseUrl,
         wikidataImagePathname: env.wikidataImagePathname,

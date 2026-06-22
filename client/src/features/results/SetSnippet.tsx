@@ -14,7 +14,10 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import PreviewImageOrIcon from '../common/PreviewImageOrIcon'
 import GenericBreadcrumbHierarchy from '../common/GenericBreadcrumbHierarchy'
-import { getNextSetUris } from '../../lib/util/hierarchyHelpers'
+import {
+  getNextSetUris,
+  isEntityAnArchive,
+} from '../../lib/util/hierarchyHelpers'
 import config from '../../config/config'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import theme from '../../styles/theme'
@@ -100,6 +103,7 @@ const SetSnippet: React.FC<ISearchData> = ({
             entity={data}
             id="set-snippet"
             getNextEntityUri={getNextSetUris}
+            linkFilter={isEntityAnArchive}
             maxLength={10}
             divClassName="px-0"
             isResultSnippet
