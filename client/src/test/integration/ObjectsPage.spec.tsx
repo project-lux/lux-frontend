@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import config from '../../config/config'
 import { reusableMinimalEntity } from '../data/reusableMinimalEntity'
 import { archive as mockArchive } from '../data/archive'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import physicalObjectsMockApi from './utils/physicalObjectsMockApi'
@@ -56,6 +57,7 @@ describe('Objects page', () => {
     workResultsMockApi()
     sharedMock()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('Works included', () => {
@@ -128,9 +130,9 @@ describe('Objects page', () => {
     })
 
     it('renders the notes', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Notes Label/i)
+      await findAllByTestId(/objects-notes-container-0/i)
       const notes = screen.getByTestId('objects-notes-container-0')
       expect(notes).toBeInTheDocument()
     })

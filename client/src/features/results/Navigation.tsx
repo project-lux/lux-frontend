@@ -152,7 +152,7 @@ const Navigation: React.FC<INavigation> = ({
     return (
       <Row className="mx-1 mt-3 d-block">
         <Col xs={12}>
-          <StyledNavbar data-testid="results-page-navbar pb-0">
+          <StyledNavbar data-testid="results-page-navbar">
             <Nav
               className={`w-100 h-100 ${subTab ? '' : 'justify-content-between'} flex-row`}
             >

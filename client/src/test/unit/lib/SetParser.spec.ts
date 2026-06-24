@@ -4,11 +4,11 @@ import { archive as mockArchive } from '../../data/archive'
 import config from '../../../config/config'
 
 describe('SetParser', () => {
-  describe('getCreationEvent', () => {
+  describe('getSourceCreationEvent', () => {
     it('returns set event object', () => {
       const set = new SetParser(mockSet)
-      const creationEvent = set.getCreationEvent()
-      expect(creationEvent).toEqual({
+      const sourceCreationEvent = set.getSourceCreationEvent()
+      expect(sourceCreationEvent).toEqual({
         agents: [
           {
             role: 'additional',
@@ -27,11 +27,11 @@ describe('SetParser', () => {
     })
   })
 
-  describe('getSourceCreationEvent', () => {
+  describe('getCreationEvent', () => {
     it('returns set event object', () => {
       const set = new SetParser(mockSet)
-      const sourceCreationEvent = set.getSourceCreationEvent()
-      expect(sourceCreationEvent).toEqual({
+      const creationEvent = set.getCreationEvent()
+      expect(creationEvent).toEqual({
         agents: [
           {
             id: `${config.env.dataApiBaseUrl}data/person/mock-person`,

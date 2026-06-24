@@ -35,16 +35,42 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock the about call
   nock(apiUrl)
-    .get('/data/concept/about-1?profile=results')
+    .get('/data/concept/about-1')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock About')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
 
-  // Mock the imprint statement label call
   nock(apiUrl)
-    .get('/data/concept/about-2?profile=results')
+    .get('/data/concept/about-1?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock About')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  const mockAboutOneUri = 'data/text/mock-linguistic-object'
+  nock(apiUrl)
+    .get(
+      '/api/search/work?q=%7B%22AND%22%3A%5B%7B%22aboutConcept%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fconcept%2Fabout-1%22%7D%7D%5D%7D',
+    )
+    .reply(200, JSON.stringify(mockResults(mockAboutOneUri, 1266)), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/concept/about-2?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock About 2')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  const mockAboutTwoUri = 'data/text/mock-linguistic-object'
+  nock(apiUrl)
+    .get(
+      '/api/search/work?q=%7B%22AND%22%3A%5B%7B%22aboutConcept%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fconcept%2Fabout-2%22%7D%7D%5D%7D',
+    )
+    .reply(200, JSON.stringify(mockResults(mockAboutTwoUri, 1266)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
@@ -53,14 +79,6 @@ export default function linguisticObjectsMockApi(): void {
   nock(apiUrl)
     .get('/data/concept/represents?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Represents')), {
-      'Access-Control-Allow-Origin': '*',
-      'Content-type': 'application/json',
-    })
-
-  // Mock the production call
-  nock(apiUrl)
-    .get('/data/concept/production?profile=results')
-    .reply(200, JSON.stringify(reusableMinimalEntity('Publication')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

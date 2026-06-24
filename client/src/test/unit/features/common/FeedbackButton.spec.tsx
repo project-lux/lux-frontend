@@ -1,25 +1,17 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
 import { BrowserRouter } from 'react-router-dom'
-import { vi } from 'vitest'
+// import { vi } from 'vitest'
 
 import FeedbackButton from '../../../../features/common/FeedbackButton'
 import config from '../../../../config/config'
-
-const mockPathname = `${config.env.dataApiBaseUrl}mock-path`
-
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useLocation: () => ({
-      pathname: mockPathname,
-      search: '',
-    }),
-  }
-})
+import { setMockLocation } from '../../../utils/mockUseLocation'
 
 describe('FeedbackButton', () => {
+  beforeEach(async () => {
+    setMockLocation({ pathname: '/mock/pathname' })
+  })
+
   it('renders', async () => {
     render(<FeedbackButton />)
 
@@ -33,7 +25,7 @@ describe('FeedbackButton', () => {
     const link = screen.getByTestId('submit-feedback-button')
     expect(link).toHaveAttribute(
       'href',
-      `${config.env.luxFeedbackUrl}https%3A%2F%2Fendpoint.yale.edu%2Fttps%3A%2F%2Fendpoint.yale.edu%2Fmock-path`,
+      `${config.env.luxFeedbackUrl}https%3A%2F%2Fendpoint.yale.edu%2Fmock%2Fpathname`,
     )
   })
 
@@ -70,7 +62,7 @@ describe('FeedbackButton', () => {
       const link = screen.getByTestId('feedback-external-link')
       expect(link).toHaveAttribute(
         'href',
-        `${config.env.luxFeedbackUrl}https%3A%2F%2Fendpoint.yale.edu%2Fttps%3A%2F%2Fendpoint.yale.edu%2Fmock-path`,
+        `${config.env.luxFeedbackUrl}https%3A%2F%2Fendpoint.yale.edu%2Fmock%2Fpathname`,
       )
     })
   })

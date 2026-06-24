@@ -103,6 +103,7 @@ const PlaceSnippet: React.FC<IProps> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="place-snippet-header"
               snippetData={snippetDataComponent}
               mapComponent={mapComponent}
               titleOfTabbedContent={titleOfTabbedContent}
@@ -132,7 +133,7 @@ const PlaceSnippet: React.FC<IProps> = ({
             <Card.Body>
               <StyledSnippetTitle
                 className="card-title d-flex"
-                data-testid="grid-view-object-results-snippet-title"
+                data-testid="grid-view-place-results-snippet-title"
               >
                 <RecordLink
                   url={data.id}

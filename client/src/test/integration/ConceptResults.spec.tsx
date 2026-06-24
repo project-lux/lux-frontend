@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { sortBy } from '../../config/sortingOptions'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -10,14 +11,15 @@ import estimatesMockApi from './utils/estimatesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Concept results page', () => {
-  const page =
-    '/view/results/concepts?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
-
+  const page = '/view/results/concepts'
+  const search =
+    '?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
   beforeEach(async () => {
     conceptResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page, search })
   })
 
   describe('Results header', () => {
@@ -59,11 +61,11 @@ describe('Concept results page', () => {
   })
 
   describe('ConceptSnippet', () => {
-    it('renders the title with the link to the record', async () => {
+    it('renders the concept title with the link to the record', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Concept/i)
-      const header = screen.getByTestId('concept-results-snippet-title')
+      const header = screen.getByTestId('results-snippet-title')
       expect(header).toHaveTextContent('Mock Concept')
     })
 

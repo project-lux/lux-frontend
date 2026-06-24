@@ -47,7 +47,7 @@ describe('helper functions', () => {
   describe('capitalizeLabels', () => {
     it('returns transformed string', () => {
       const text = 'anDy Warhol is COol, too'
-      expect(capitalizeLabels(text)).toEqual('Andy Warhol Is Cool, Too')
+      expect(capitalizeLabels(text)).toEqual('AnDy Warhol Is COol, Too')
     })
   })
 

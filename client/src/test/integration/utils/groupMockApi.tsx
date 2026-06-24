@@ -91,6 +91,18 @@ export default function groupMockApi(): void {
       },
     )
 
+  // mock the api call for classified_as data
+  nock(apiUrl)
+    .get('/data/concept/classified-as-1-label?profile=results')
+    .reply(
+      200,
+      JSON.stringify(reusableMinimalEntity('Mock Classified As 1 Label')),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
+
   nock(apiUrl)
     .get('/data/concept/classified-as-2?profile=name')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Classified As 2')), {
@@ -116,6 +128,13 @@ export default function groupMockApi(): void {
   // mock the api call for note label
   nock(apiUrl)
     .get('/data/concept/biography-statement?profile=name')
+    .reply(200, JSON.stringify(reusableMinimalEntity('Mock Note Label')), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/concept/biography-statement?profile=results')
     .reply(200, JSON.stringify(reusableMinimalEntity('Mock Note Label')), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

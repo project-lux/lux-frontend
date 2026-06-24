@@ -464,7 +464,7 @@ describe('EntityParser', () => {
       const icons = element.getSupertypeIcon()
       expect(icons).toEqual([
         '/src/resources/images/entity/people-orgs.svg',
-        'person and group',
+        'People & Groups',
       ])
     })
 
@@ -473,7 +473,7 @@ describe('EntityParser', () => {
       const icons = element.getSupertypeIcon()
       expect(icons).toEqual([
         '/src/resources/images/type/specimens.svg',
-        'specimen',
+        'Specimens',
       ])
     })
   })

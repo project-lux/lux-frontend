@@ -1,6 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
+import { setMockLocation } from '../utils/mockUseLocation'
+
 import AppRender from './utils/AppRender'
 import personMockApi from './utils/personMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
@@ -13,6 +15,7 @@ describe('Person page', () => {
     personMockApi()
     sharedMock()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {

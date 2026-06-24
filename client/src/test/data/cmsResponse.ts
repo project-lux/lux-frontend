@@ -18,6 +18,15 @@ export const cmsWorksResponse: ICmsPage = {
   },
 }
 
+export const cmsCollectionsResponse: ICmsPage = {
+  data: {
+    attributes: {
+      title: 'Collections Description',
+      body: 'Description of the collections results.',
+    },
+  },
+}
+
 export const cmsPeopleAndGroupsResponse: ICmsPage = {
   data: {
     attributes: {

@@ -93,6 +93,17 @@ export default function sharedMock(): void {
       },
     )
 
+  nock(apiUrl)
+    .get('/data/concept/french-language?profile=name')
+    .reply(
+      200,
+      JSON.stringify(reusableMinimalEntity('French', frenchLanguageId)),
+      {
+        'Access-Control-Allow-Origin': '*',
+        'Content-type': 'application/json',
+      },
+    )
+
   // mock the api call for the dutch language
   nock(apiUrl)
     .get('/data/concept/dutch-language?profile=results')

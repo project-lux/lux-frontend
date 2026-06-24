@@ -22,7 +22,11 @@ const CmsRoutingComponent: React.FC = () => {
   // About pages with sidebar menu
   if (aboutPageRouteToKey.hasOwnProperty(key)) {
     return (
-      <ContentPage pageKey={aboutPageRouteToKey[key]} pages={aboutPagesMap} />
+      <ContentPage
+        pageKey={aboutPageRouteToKey[key]}
+        pages={aboutPagesMap}
+        testId="about-page"
+      />
     )
   }
 
@@ -32,6 +36,7 @@ const CmsRoutingComponent: React.FC = () => {
       <ContentPage
         pageKey={openAccessPageRouteToKey[key]}
         pages={openAccessRouteMap}
+        testId="open-access-page"
       />
     )
   }

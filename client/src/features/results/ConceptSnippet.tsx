@@ -98,6 +98,7 @@ const ConceptSnippet: React.FC<IProps> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="concept-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />
@@ -142,7 +143,7 @@ const ConceptSnippet: React.FC<IProps> = ({
             <Card.Body>
               <StyledSnippetTitle
                 className="card-title d-flex"
-                data-testid="grid-view-object-results-snippet-title"
+                data-testid="grid-view-concept-results-snippet-title"
               >
                 <RecordLink
                   url={data.id}
