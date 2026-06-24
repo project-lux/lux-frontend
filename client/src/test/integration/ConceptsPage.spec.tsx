@@ -1,6 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
+import { setMockLocation } from '../utils/mockUseLocation'
+
 import AppRender from './utils/AppRender'
 import conceptMockApi from './utils/conceptMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
@@ -13,6 +15,7 @@ describe('Concept page', () => {
     conceptMockApi()
     sharedMock()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {

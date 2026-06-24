@@ -14,8 +14,7 @@ const mockStore = {
   3: [mockData],
   4: [],
   5: [],
-  6: [],
-  7: [],
+  terms: [],
 }
 
 describe('Faqs exported functions', () => {
@@ -24,7 +23,7 @@ describe('Faqs exported functions', () => {
       {
         faqs: [mockData],
         key: '3',
-        title: 'Advanced Search',
+        title: 'Advanced Search Information',
       },
     ]
 

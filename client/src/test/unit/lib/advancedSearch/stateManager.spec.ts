@@ -178,29 +178,54 @@ describe('stateManager functions', () => {
   })
 
   describe('getExistingValue', () => {
-    const mockStateWithGroup: IAdvancedSearchState = {
-      _stateId: '1',
-      AND: [
+    it('returns the existing value for that field when the selected property is the same as the current property', () => {
+      const mockStateWithGroup: IAdvancedSearchState = {
+        _stateId: '1',
+        AND: [
+          {
+            _stateId: '1',
+            name: 'test',
+          },
+        ],
+        _options: [],
+      }
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const existingField: Array<Record<string, any>> = [
         {
           _stateId: '1',
           name: 'test',
         },
-      ],
-      _options: [],
-    }
+      ]
+      const existingValue = getExistingValue(mockStateWithGroup, 'AND')
+      expect(existingValue).toStrictEqual([existingField, null])
+    })
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const existingField: Array<Record<string, any>> = [
-      {
+    it('returns the existing value for that field when the selected and current properties are date types', () => {
+      const date: string = 'test'
+      const mockStateWithDate: IAdvancedSearchState = {
         _stateId: '1',
-        name: 'test',
-      },
-    ]
-
-    it('returns the existing value for that field', () => {
-      expect(getExistingValue(mockStateWithGroup, '')).toStrictEqual(
-        existingField,
+        producedDate: date,
+        _comp: '>',
+        _options: [],
+      }
+      const existingValue = getExistingValue(
+        mockStateWithDate,
+        'encounteredDate',
       )
+      expect(existingValue).toStrictEqual([date, '>'])
+    })
+
+    it('returns existing date value and comparator for date fields', () => {
+      const mockStateWithDate: IAdvancedSearchState = {
+        _stateId: '10',
+        producedDate: '1900',
+        _comp: 'gt',
+      }
+
+      expect(getExistingValue(mockStateWithDate, 'encounteredDate')).toEqual([
+        '1900',
+        'gt',
+      ])
     })
   })
 
@@ -277,6 +302,7 @@ describe('stateManager functions', () => {
         _stateId: '1',
         encounteredBy: {
           _stateId: '1',
+          _bgColor: 'bg-light',
           AND: [
             {
               _stateId: '1',
@@ -301,9 +327,12 @@ describe('stateManager functions', () => {
           'wildcarded',
         ],
       }
-      expect(
-        convertAqSearchParam('item', mockStateWithOptions, 'bg-white'),
-      ).toEqual(mockConvertedState)
+      const converted = convertAqSearchParam(
+        'item',
+        mockStateWithOptions,
+        'bg-white',
+      )
+      expect(converted).toEqual(mockConvertedState)
     })
   })
 
@@ -342,6 +371,7 @@ describe('stateManager functions', () => {
       expect(addFieldSelectionHelper(objectInState, 'item', 'AND')).toEqual({
         _stateId: '1',
         _options: [],
+        _bgColor: 'bg-white',
         AND: [
           {
             _stateId: '1',

@@ -59,6 +59,9 @@ export default class TimelineParser {
    * @returns {string}
    */
   static convertIdToSearchQueryParams(id: string): string {
+    if (!id) {
+      return ''
+    }
     const idUrl = new URL(id)
     return idUrl.search
   }

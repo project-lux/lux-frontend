@@ -14,7 +14,7 @@ export default function workResultsMockApi(): void {
   // Mock work search with the query "andy warhol"
   nock(apiUrl)
     .get(
-      '/api/search/work?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&sort=',
+      '/api/search/work?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&pageLength=20',
     )
     .reply(200, JSON.stringify(mockResults(mockWorkUri, 1266)), {
       'Access-Control-Allow-Origin': '*',
@@ -23,9 +23,13 @@ export default function workResultsMockApi(): void {
 
   // Mock the facets requests and return since they are not being tested with this mock api
   for (const facet of facetNamesLists.works) {
+    let sort = ''
+    if (facet.includes('Date')) {
+      sort = '&sort=asc'
+    }
     nock(apiUrl)
       .get(
-        `/api/facets/work?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}`,
+        `/api/facets/work?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}${sort}&page=1`,
       )
       .reply(200, JSON.stringify(null), {
         'Access-Control-Allow-Origin': '*',
@@ -49,9 +53,16 @@ export default function workResultsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // mock the api call for Creator
+  // mock the api call for Creators
   nock(apiUrl)
     .get('/data/group/created-by-carried-out-by-1?profile=name')
+    .reply(200, JSON.stringify(mockPerson), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(apiUrl)
+    .get('/data/group/created-by-carried-out-by-2?profile=name')
     .reply(200, JSON.stringify(mockPerson), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',

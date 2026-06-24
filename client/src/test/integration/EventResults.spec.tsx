@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { sortBy } from '../../config/sortingOptions'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -10,14 +11,16 @@ import eventResultsMockApi from './utils/eventResultsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Event results page', () => {
-  const page =
-    '/view/results/events?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
+  const page = '/view/results/events'
+  const search =
+    '?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
 
   beforeEach(async () => {
     eventResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page, search })
   })
 
   describe('Results header', () => {
@@ -57,10 +60,10 @@ describe('Event results page', () => {
 
   describe('EventSnippet', () => {
     it('renders the title with the link to the record', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Event/i)
-      const header = screen.getByTestId('event-results-snippet-title')
+      await findAllByTestId(/results-snippet-title/i)
+      const header = screen.getByTestId('results-snippet-title')
       expect(header).toHaveTextContent('Mock Event')
     })
 

@@ -108,9 +108,10 @@ const WorksSnippet: React.FC<ISearchData> = ({
     if (view === 'list') {
       return (
         <React.Fragment>
-          <div className="m-2 d-flex">
+          <div className="m-2 d-flex" data-testid="work-snippet-list-view">
             <SnippetHeader
               data={data}
+              className="work-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />

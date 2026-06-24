@@ -8,16 +8,6 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 const mockLabel = 'Mock Label'
 const mockEntity = reusableMinimalEntity(mockLabel)
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useLocation: () => ({
-      pathname: '/mock/pathname',
-    }),
-  }
-})
-
 vi.mock('../../../../redux/api/ml_api', () => ({
   useGetItemQuery: () => ({
     data: mockEntity,
