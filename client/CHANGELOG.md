@@ -10,6 +10,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the results page redirect to tab with results ([#958](https://github.com/project-lux/lux-frontend/issues/958)).
+
 ### Removed
 
 ## v1.72.0 - 2026-6-22
