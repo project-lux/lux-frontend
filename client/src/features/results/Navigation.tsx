@@ -116,7 +116,7 @@ const Navigation: React.FC<INavigation> = ({
   // If performing a simple search, check if the current tab has results
   if (simpleSearch && !isError) {
     if (estimates[tab] === 0) {
-      const tabWithResults = redirectToTabWithResults(data, state, tab)
+      const tabWithResults = redirectToTabWithResults(estimates, state, tab)
       if (tabWithResults !== null) {
         navigate({
           pathname: pathname.replace(tab, tabWithResults),

@@ -137,23 +137,26 @@ export const getEstimatesRequests = (
 }
 
 export const redirectToTabWithResults = (
-  estimates: Record<string, number>,
-  state: Record<string, boolean>,
+  estimates: Record<string, number | string> | undefined,
+  state: Record<string, boolean> | undefined,
   tab: string,
 ): string | null => {
-  if (estimates) {
-    if (state !== null && state !== undefined && state.fromNonResultsPage) {
-      for (const key of Object.keys(estimates)) {
-        const total = estimates[key] as number
+  if (!estimates || !state?.fromNonResultsPage) {
+    return null
+  }
 
-        for (const scopeKey of Object.keys(searchScope)) {
-          if (total !== 0 && tab !== scopeKey) {
-            return scopeKey
-          }
-        }
-      }
+  // Preserve tab priority by iterating in searchScope order.
+  for (const scopeKey of Object.keys(searchScope)) {
+    if (scopeKey === tab) {
+      continue
+    }
+
+    const total = estimates[scopeKey]
+    if (typeof total === 'number' && total > 0) {
+      return scopeKey
     }
   }
+
   return null
 }
 
