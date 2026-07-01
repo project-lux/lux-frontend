@@ -61,6 +61,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed capitalization in advanced search for consistency ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
+- Changed results page components ([#452](https://github.com/project-lux/lux-frontend/issues/452)).
 
 ### Fixed
 
