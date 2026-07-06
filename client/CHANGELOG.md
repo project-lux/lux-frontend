@@ -2,7 +2,19 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.72.0 - Unreleased
+## v1.73.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Fixed the results page redirect to tab with results ([#958](https://github.com/project-lux/lux-frontend/issues/958)).
+
+### Removed
+
+## v1.72.0 - 2026-6-22
 
 ### Added
 
@@ -51,6 +63,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Changed capitalization in advanced search for consistency ([#838](https://github.com/project-lux/lux-frontend/issues/838)).
+- Changed results page components ([#452](https://github.com/project-lux/lux-frontend/issues/452)).
 
 ### Fixed
 
