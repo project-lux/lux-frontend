@@ -2,7 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.73.0 - Unreleased
+## v1.74.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
+## v1.73.0 - 2026-7-6
 
 ### Added
 
