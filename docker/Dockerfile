@@ -12,19 +12,19 @@ RUN apt-get update && \
     rm -rf ./aws && \
     rm awscliv2.zip && \
     cd /src/client/ && \
-    yarn install && \
+    pnpm install && \
     npx browserslist@latest --update-db && \
-    yarn build && \
+    pnpm build && \
     cd /src/server/ && \
-    yarn install && \
-    yarn build && \
+    pnpm install && \
+    pnpm build && \
     cp package.json build/ && \
     mv /src/server/build /app && \
     rm -rf /src && \
     cd /app && \
-    yarn install --production && \
-    yarn cache clean && \
-    apt-get remove -y curl wget unzip yarn && \
+    pnpm install --production && \
+    pnpm cache clean && \
+    apt-get remove -y curl wget unzip pnpm && \
     apt-get autoremove -y && \
     rm -rf /var/lib/apt/lists/*
 

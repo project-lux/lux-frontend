@@ -1,0 +1,4 @@
+allowBuilds:
+  unrs-resolver: set this to true or false
+nodeVersion: "26.0.0"
+saveExact: true

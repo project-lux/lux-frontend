@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Updated packages ([#985](https://github.com/project-lux/lux-frontend/issues/985)).
+- Migrated from yarn to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
 
 ### Fixed
 

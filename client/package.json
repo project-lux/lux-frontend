@@ -1,6 +1,7 @@
 {
   "name": "lux-web-frontend",
   "version": "0.1.0",
+  "packageManager": "pnpm@11.10.0",
   "license": "UNLICENSED",
   "private": true,
   "type": "module",

@@ -1,0 +1,6 @@
+allowBuilds:
+  canvas: true
+  es5-ext: true
+  esbuild: true
+nodeVersion: "26.0.0"
+saveExact: true

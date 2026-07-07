@@ -54,7 +54,7 @@ export default [
       'dist/',
       'coverage/',
       'node_modules/',
-      'yarn.lock',
+      'pnpm-lock.yaml',
       'package.json',
       '/src/serviceWorker.ts',
       'eslint.config.js',
