@@ -13,13 +13,20 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
-import config from '../../config/config'
 import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
+import config from '../../config/config'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
+// Person/group-specific result rendering component.
+import PersonSnippet from './PersonSnippet'
 import NoResultsAlert from './NoResultsAlert'
+import WorksSnippet from './WorksSnippet'
+import ObjectSnippet from './ObjectSnippet'
 import SetSnippet from './SetSnippet'
+import PlaceSnippet from './PlaceSnippet'
+import ConceptSnippet from './ConceptSnippet'
+import EventSnippet from './EventSnippet'
 import MyCollectionSnippet from './MyCollectionSnippet'
 import Navigation from './Navigation'
 
@@ -28,14 +35,14 @@ interface IProps {
   isMobile: boolean
 }
 
-const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
+const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const auth = useAuth()
   const isAuthenticated = auth.isAuthenticated
   // Parse URL search params
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const queryString = urlParams.get('q') || ''
+  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
   const currentTab = subTab ? subTab : tab
   const paramPrefix = getParamPrefix(currentTab)
   const pageParam = `${paramPrefix}p`
@@ -69,35 +76,102 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
-  const resultsList = (results: Array<IOrderedItems>): Array<JSX.Element> =>
+  const resultsList = (
+    results: Array<IOrderedItems>,
+  ): Array<JSX.Element | undefined> =>
     results.map((result, ind) => {
-      if (config.env.featureMyCollections && subTab === 'my-collections') {
-        return (
-          <MyCollectionSnippet
-            key={result.id}
-            uri={result.id}
-            view={view}
-            totalResults={estimate}
-            index={ind + 1}
-          />
-        )
+      switch (tab) {
+        case 'objects':
+          return (
+            <ObjectSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'works':
+          return (
+            <WorksSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'collections':
+          // Used by My Collections feature
+          if (config.env.featureMyCollections && subTab === 'my-collections') {
+            return (
+              <MyCollectionSnippet
+                key={result.id}
+                uri={result.id}
+                view={view}
+                totalResults={estimate}
+                index={ind + 1}
+              />
+            )
+          }
+          return (
+            <SetSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'people':
+          return (
+            <PersonSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'places':
+          return (
+            <PlaceSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'concepts':
+          return (
+            <ConceptSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
+        case 'events':
+          return (
+            <EventSnippet
+              key={result.id}
+              uri={result.id}
+              view={view}
+              totalResults={estimate}
+              index={ind + 1}
+            />
+          )
       }
-
-      return (
-        <SetSnippet
-          key={result.id}
-          uri={result.id}
-          view={view}
-          totalResults={estimate}
-          index={ind + 1}
-        />
-      )
     })
 
   return (
-    <StyledEntityResultsRow className="collectionsResultsPage">
+    <StyledEntityResultsRow>
+      {/* Used for My Collections */}
       {config.env.featureMyCollections && isAuthenticated && (
         <React.Fragment>
+          {/* Nested-tab navigation is unique to collections/my-collections. */}
           <Navigation
             urlParams={urlParams}
             criteria={queryString !== '' ? JSON.parse(queryString) : null}
@@ -109,13 +183,7 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
       )}
       {(isSuccess || isError) && (
         <Col xs={12}>
-          <ResultsHeader
-            key={sort}
-            total={estimate}
-            label="Collections"
-            overlay="collections"
-            resultsData={data}
-          />
+          <ResultsHeader key={sort} total={estimate} resultsData={data} />
         </Col>
       )}
       <Col xs={12}>
@@ -131,7 +199,7 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
               <FacetContainer />
             </StyledResultsCol>
           )}
-          <Col xs={12} sm={12} md={9} lg={9}>
+          <Col xs={12} sm={12} md={9} lg={9} xl={9} xxl={9}>
             {!isFetching && isSuccess && data && (
               <React.Fragment>
                 {view === 'list' && resultsList(data.orderedItems)}
@@ -170,4 +238,4 @@ const SetResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   )
 }
 
-export default SetResults
+export default ResultsPageContent
