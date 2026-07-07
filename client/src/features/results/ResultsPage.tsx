@@ -9,7 +9,6 @@ import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import useTitle from '../../lib/hooks/useTitle'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
-import { ISearchResponse } from '../../types/ISearchResponse'
 import { getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
@@ -25,15 +24,9 @@ import { IRouteState } from '../../types/myCollections/IRouteState'
 import { getUsername } from '../../lib/myCollections/helper'
 import config from '../../config/config'
 
-import ConceptResults from './ConceptResults'
-import EventResults from './EventResults'
-import ObjectResults from './ObjectResults'
-import PersonResults from './PersonResults'
-import PlaceResults from './PlaceResults'
-import WorkResults from './WorksResults'
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
-import SetResults from './SetResults'
+import ResultsPageContent from './ResultsPageContent'
 
 const ResponsiveCol = styled(Col)`
   display: flex;
@@ -42,41 +35,6 @@ const ResponsiveCol = styled(Col)`
     display: none;
   }
 `
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getScopedResultsComponent: any = (
-  tab: string,
-  searchResponse: ISearchResponse,
-  isMobile: boolean,
-) => {
-  switch (tab) {
-    case 'objects':
-      return (
-        <ObjectResults searchResponse={searchResponse} isMobile={isMobile} />
-      )
-    case 'works':
-      return <WorkResults searchResponse={searchResponse} isMobile={isMobile} />
-    case 'collections':
-      return <SetResults searchResponse={searchResponse} isMobile={isMobile} />
-    case 'people':
-      return (
-        <PersonResults searchResponse={searchResponse} isMobile={isMobile} />
-      )
-    case 'places':
-      return (
-        <PlaceResults searchResponse={searchResponse} isMobile={isMobile} />
-      )
-    case 'concepts':
-      return (
-        <ConceptResults searchResponse={searchResponse} isMobile={isMobile} />
-      )
-    case 'events':
-      return (
-        <EventResults searchResponse={searchResponse} isMobile={isMobile} />
-      )
-  }
-  return null
-}
 
 const title = 'Results Page'
 
@@ -249,7 +207,10 @@ const ResultsPage: React.FC = () => {
             className={isMobile ? '' : 'px-0'}
             data-testid="results-page-search-results-container"
           >
-            {getScopedResultsComponent(tab, searchResponse, isMobile)}
+            <ResultsPageContent
+              searchResponse={searchResponse}
+              isMobile={isMobile}
+            />
           </Col>
         )}
       </StyledEntityPageSection>
