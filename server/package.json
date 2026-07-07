@@ -8,13 +8,13 @@
     "dev-prep": "yarn clean && mkdir -p build && cp .env* build/ && yarn copy-client && yarn compile",
     "dev": "concurrently --kill-others npm:compile-watch npm:nodemon",
     "build": "yarn clean && yarn compile && yarn copy-client",
-    "start": "cd build && node -r source-map-support/register index.js",
+    "start": "cd build && node -r --enable-source-maps index.js",
     "lint": "eslint . --ext .ts",
     "clean": "rm -rf build",
     "compile": "tsc -sourcemap",
     "compile-watch": "tsc --sourcemap --watch",
     "copy-client": "cp -r ../client/dist build/public",
-    "nodemon": "cd build && nodemon -r source-map-support/register -q index.js"
+    "nodemon": "cd build && nodemon -r --enable-source-maps -q index.js"
   },
   "dependencies": {
     "@types/cors": "^2.8.12",
@@ -24,7 +24,6 @@
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "5.2.1",
-    "source-map-support": "^0.5.21",
     "winston": "^3.3.3"
   },
   "devDependencies": {
