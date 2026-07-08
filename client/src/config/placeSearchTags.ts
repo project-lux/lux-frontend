@@ -114,32 +114,38 @@ export const hierarchyChildren: IHalLink = {
 
 // Used for rendering timelines
 export const timelines: IHalLinks = {
+  // Objects Produced
   itemProductionDate: {
     searchTag: 'lux:placeItemMadeTime',
     tab: 'objects',
     jsonSearchTerm: 'producedDate',
   },
+  // Objects Encountered
   itemEncounteredDate: {
     searchTag: 'lux:placeItemEncounteredTime',
     tab: 'objects',
     jsonSearchTerm: 'encounteredDate',
   },
+  // Works Created
   workCreationDate: {
     searchTag: 'lux:placeWorkCreatedTime',
     tab: 'works',
     jsonSearchTerm: 'createdDate',
   },
+  // Works Published
   workPublicationDate: {
     searchTag: 'lux:placeWorkPublishedTime',
     tab: 'works',
     jsonSearchTerm: 'publishedDate',
   },
+  // Works About or Related To
   workCreationOrPublicationDate: {
     searchTag: 'lux:placeWorkAboutTime',
     tab: 'works',
     jsonSearchTerm: 'publishedDate,createdDate',
   },
-  setAboutDate: {
+  // Collections About
+  setCreationOrPublicationDate: {
     searchTag: 'lux:placeSetAboutTime',
     tab: 'collections',
     jsonSearchTerm: 'publishedDate,createdDate',

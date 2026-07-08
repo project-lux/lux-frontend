@@ -14,6 +14,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed failing tests due to migration to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
+- Fixed the timeline configuration ([#981](https://github.com/project-lux/lux-frontend/issues/981)).
 
 ### Removed
 

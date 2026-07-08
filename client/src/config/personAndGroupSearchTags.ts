@@ -86,7 +86,7 @@ export const timelines: IHalLinks = {
     tab: 'works',
   },
   // Collections About
-  setAboutDate: {
+  setCreationOrPublicationDate: {
     searchTag: 'lux:agentSetAboutTime',
     tab: 'collections',
   },
