@@ -17,6 +17,7 @@ import {
 import config from '../../../config/config'
 import { pagePaths } from '../../../config/cms'
 import { aboutPageCmsResponse } from '../../data/aboutPageCmsResponse'
+import { contentPageCmsResponse } from '../../data/contentPageCmsResponse'
 import { faqPageCmsResponse } from '../../data/faqPageCmsResponse'
 import { termsOfUsePageCmsResponse } from '../../data/termsOfUsePageCmsResponse'
 
@@ -106,6 +107,14 @@ export default function cmsMockApi(): void {
   nock(cmsApiUrl)
     .get(`/${pagePaths.aboutLux}`)
     .reply(200, JSON.stringify(aboutPageCmsResponse), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // Open Access page api call
+  nock(cmsApiUrl)
+    .get(`/${pagePaths.openAccess}`)
+    .reply(200, JSON.stringify(contentPageCmsResponse), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

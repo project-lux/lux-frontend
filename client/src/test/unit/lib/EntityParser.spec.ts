@@ -21,6 +21,7 @@ import {
   primaryNameId,
 } from '../../data/helperObjects'
 import physicalObject, { physicalObject as mockObject } from '../../data/object'
+import { specimensIcon } from '../../../config/resources'
 
 describe('EntityParser', () => {
   describe('getWebPages', () => {
@@ -472,7 +473,7 @@ describe('EntityParser', () => {
       const element = new EntityParser(mockEntity)
       const icons = element.getSupertypeIcon()
       expect(icons).toEqual([
-        '/src/resources/images/type/specimens.svg',
+        specimensIcon,
         'Specimens',
       ])
     })

@@ -25,11 +25,11 @@ describe('CmsRoutingComponent', () => {
 
   describe('Open Access pages', () => {
     it('renders the content page for a valid open access route', async () => {
-      const { findAllByText } = render(
+      const { findAllByTestId } = render(
         <AppRender route="/content/open-access" />,
       )
 
-      await findAllByText(/Open Access/i)
+      await findAllByTestId(/open-access-page/i)
       const page = screen.getByTestId('open-access-page')
       expect(page).toBeInTheDocument()
     })

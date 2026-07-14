@@ -59,6 +59,7 @@
     "@types/wellknown": "0.5.8",
     "@typescript-eslint/eslint-plugin": "8.63.0",
     "@typescript-eslint/parser": "8.63.0",
+    "canvas": "3.2.3",
     "eslint": "9.39.4",
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-import": "2.32.0",
