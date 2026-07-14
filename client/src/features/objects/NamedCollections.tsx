@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { JSX } from 'react'
 import { Row } from 'react-bootstrap'
 
 import IEntity from '../../types/data/IEntity'
