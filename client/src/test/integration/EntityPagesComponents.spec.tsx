@@ -7,6 +7,8 @@ import config from '../../config/config'
 import { timelineResults as mockTimeline } from '../data/timelineResults'
 import * as eventTracking from '../../lib/pushClientEvent'
 import { relatedObjectsAndWorks } from '../../config/personAndGroupSearchTags'
+import TimelineParser from '../../lib/parse/timeline/TimelineParser'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import entityMockApi from './utils/entityMockApi'
@@ -28,6 +30,7 @@ describe('Entity pages relationship components', () => {
     entityMockApi()
     sharedMock()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('Related Objects and Works', () => {
@@ -73,7 +76,9 @@ describe('Entity pages relationship components', () => {
     })
 
     it('renders the related works snippet', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByText, findAllByTestId } = render(
+        <AppRender route={page} />,
+      )
 
       await findAllByText(relatedObjectsAndWorks.worksCreated.title as string)
       const worksTab = screen.getByTestId(
@@ -81,59 +86,101 @@ describe('Entity pages relationship components', () => {
       )
       fireEvent.click(worksTab)
 
-      await findAllByText(/Mock Work/i)
+      await findAllByTestId(/work-snippet-list-view/i)
       const snippet = screen.getByTestId('work-snippet-list-view')
       expect(snippet).toBeInTheDocument()
     })
   })
 
   describe('Timeline', () => {
-    it('renders the timeline', async () => {
+    beforeEach(() => {
+      vi.spyOn(
+        TimelineParser.prototype,
+        'getTransformedTimelineData',
+      ).mockReturnValue({
+        '1983': {
+          total: 27,
+          'lux:agentItemMadeTime': {
+            totalItems: 22,
+            searchParams: `?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1983-12-31T00:00:00.000Z","_comp":"<="},{"producedDate":"1983-01-01T00:00:00.000Z","_comp":">="}]}`,
+            searchTag: 'itemProductionDate',
+          },
+        },
+      })
+    })
+
+    it('renders the timeline graph', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Timeline of Related/i)
+      const timeline = screen.getByTestId('timeline-graph-container')
+      expect(timeline).toBeInTheDocument()
+    })
+
+    it('renders the timeline list', async () => {
+      const { findAllByTestId } = render(<AppRender route={page} />)
+
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const timeline = screen.getByTestId('timeline-container')
       expect(timeline).toBeInTheDocument()
     })
 
     it('renders the year', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Timeline of Related/i)
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const year = screen.getByTestId('1983-label')
       expect(year).toHaveTextContent('1983')
     })
 
     it('renders the corresponding year total', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Timeline of Related/i)
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const total = screen.getByTestId('1983-total')
       expect(total).toHaveTextContent('Total: 27')
     })
 
     it('renders the corresponding relationship', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Timeline of Related/i)
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const relation = screen.getByTestId(
-        '1983-itemProductionDate-relationship',
+        '1983-lux:agentItemMadeTime-relationship',
       )
       expect(relation).toHaveTextContent('Objects Produced')
     })
 
     it('renders the year search link', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Timeline of Related/i)
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const link = screen.getByTestId('1983-itemProductionDate-search-link')
       expect(link).toHaveTextContent('Show all 22 results')
     })
 
     it('renders the year search link with correct href', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Timeline of Related/i)
+      await findAllByTestId(/view-list-button/i)
+      const button = screen.getByTestId('view-list-button')
+      fireEvent.click(button)
+
       const link = screen.getByTestId('1983-itemProductionDate-search-link')
       expect(link).toHaveAttribute(
         'href',
@@ -240,7 +287,9 @@ describe('Entity pages relationship components', () => {
     })
 
     it('renders the list of results', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByText, findAllByTestId } = render(
+        <AppRender route={page} />,
+      )
 
       // find the accordion
       await findAllByText(/Concepts Influenced/i)
@@ -249,13 +298,15 @@ describe('Entity pages relationship components', () => {
       )
       fireEvent.click(accordionButton)
 
-      await findAllByText(/Mock Search Concept/i)
+      await findAllByTestId(/query-relations-list-row-0/i)
       const result = screen.getByTestId('query-relations-list-row-0')
       expect(result).toBeInTheDocument()
     })
 
     it('renders the show all results link with correct href', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByText, findAllByTestId } = render(
+        <AppRender route={page} />,
+      )
 
       // find the accordion
       await findAllByText(/Concepts Influenced/i)
@@ -264,12 +315,12 @@ describe('Entity pages relationship components', () => {
       )
       fireEvent.click(accordionButton)
 
-      await findAllByText(/Mock Search Concept/i)
+      await findAllByTestId(/search-related-list-link/i)
       // find the search link
       const link = screen.getByTestId('search-related-list-link')
       expect(link).toHaveAttribute(
         'href',
-        `/view/results/concepts?q=agentInfluencedConcepts&searchLink=true`,
+        '/view/results/concepts?q=%7B%22AND%22%3A%5B%7B%22influencedByAgent%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2F34f4eec7-7a03-49c8-b1be-976c2f6ba6ba%22%7D%7D%5D%7D&searchLink=true',
       )
     })
   })

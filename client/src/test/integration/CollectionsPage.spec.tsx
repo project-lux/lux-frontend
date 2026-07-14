@@ -1,6 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
+import { setMockLocation } from '../utils/mockUseLocation'
+
 import AppRender from './utils/AppRender'
 import collectionsMockApi from './utils/collectionsMockApi'
 import productionEventMockApi from './utils/productionEventMockApi'
@@ -13,10 +15,11 @@ describe('Collection page', () => {
     collectionsMockApi()
     productionEventMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {
-    it('renders the About name header', async () => {
+    it('renders the Collection About name header', async () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Collection/i)

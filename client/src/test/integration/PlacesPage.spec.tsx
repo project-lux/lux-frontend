@@ -2,6 +2,8 @@ import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 import { vi } from 'vitest'
 
+import { setMockLocation } from '../utils/mockUseLocation'
+
 import AppRender from './utils/AppRender'
 import placeMockApi from './utils/placesMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
@@ -16,6 +18,7 @@ describe('Place page', () => {
     placeMockApi()
     sharedMock()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {
@@ -44,10 +47,10 @@ describe('Place page', () => {
     })
 
     it('renders the place web pages', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/testing.com/i)
-      const links = screen.getByTestId('place-web-pages-0-external-link')
+      await findAllByTestId(/web-page-row/i)
+      const links = screen.getByTestId('web-page-row')
       expect(links).toBeInTheDocument()
     })
 

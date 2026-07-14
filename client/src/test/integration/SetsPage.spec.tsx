@@ -5,6 +5,7 @@ import { vi } from 'vitest'
 import config from '../../config/config'
 import { reusableMinimalEntity } from '../data/reusableMinimalEntity'
 import { archive as mockArchive } from '../data/archive'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import productionEventMockApi from './utils/productionEventMockApi'
@@ -50,13 +51,14 @@ describe('Set page', () => {
     sharedMock()
     productionEventMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {
     it('renders the set names', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Set/i)
+      await findAllByTestId(/names-container/i)
       const names = screen.getByTestId('names-container')
       expect(names).toBeInTheDocument()
     })
@@ -93,11 +95,11 @@ describe('Set page', () => {
       expect(id).toBeInTheDocument()
     })
 
-    it('renders the about', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+    it('renders the sets page about', async () => {
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock About/i)
-      const event = screen.getByTestId('set-about-link-container')
+      await findAllByTestId(/about-set/i)
+      const event = screen.getByTestId('about-set')
       expect(event).toBeInTheDocument()
     })
 

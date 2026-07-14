@@ -17,7 +17,7 @@ const WebPages: React.FC<{ webPages: Array<string> }> = ({ webPages }) => {
       <React.Fragment>
         <StyledHr width="100%" />
         <h3>Web Pages</h3>
-        <StyledDataRow className="row">
+        <StyledDataRow className="row" data-testid="web-page-row">
           <TextLabel className="col-md-12" />
           <ExpandableList
             className="col-md-12"
