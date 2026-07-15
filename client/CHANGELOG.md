@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed failing tests due to migration to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
+
 ### Removed
 
 ## v1.73.0 - 2026-7-6
