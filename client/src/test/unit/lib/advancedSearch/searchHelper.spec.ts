@@ -1,31 +1,35 @@
 import { getIcon } from '../../../../lib/advancedSearch/searchHelper'
+import {
+  conceptsIcon,
+  eventsIcon,
+  objectsIcon,
+  peopleOrgsIcon,
+  placesIcon,
+  workIcon,
+} from '../../../../config/resources'
 
 describe('searchHelper functions', () => {
   it('returns the objects icon', () => {
-    expect(getIcon('item')).toEqual('/src/resources/images/entity/objects.svg')
+    expect(getIcon('item')).toEqual(objectsIcon)
   })
 
   it('returns the works icon', () => {
-    expect(getIcon('work')).toEqual('/src/resources/images/entity/work.svg')
+    expect(getIcon('work')).toEqual(workIcon)
   })
 
   it('returns the people icon', () => {
-    expect(getIcon('agent')).toEqual(
-      '/src/resources/images/entity/people-orgs.svg',
-    )
+    expect(getIcon('agent')).toEqual(peopleOrgsIcon)
   })
 
   it('returns the places icon', () => {
-    expect(getIcon('place')).toEqual('/src/resources/images/entity/places.svg')
+    expect(getIcon('place')).toEqual(placesIcon)
   })
 
   it('returns the concepts icon', () => {
-    expect(getIcon('concept')).toEqual(
-      '/src/resources/images/entity/concepts.svg',
-    )
+    expect(getIcon('concept')).toEqual(conceptsIcon)
   })
 
   it('returns the events icon', () => {
-    expect(getIcon('event')).toEqual('/src/resources/images/entity/events.svg')
+    expect(getIcon('event')).toEqual(eventsIcon)
   })
 })
