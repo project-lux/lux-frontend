@@ -1,7 +1,13 @@
 {
   "name": "lux-frontend-server",
   "version": "0.1.0",
-  "packageManager": "pnpm@11.10.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "11.13.1",
+      "onFail": "error"
+    }
+  },
   "main": "index.ts",
   "license": "UNLICENSED",
   "private": true,
