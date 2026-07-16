@@ -7,7 +7,7 @@ import * as env from '../config/env'
 import * as log from '../lib/log'
 
 export type AppConfig = {
-  port: number
+  port: number;
 }
 
 const robotsProd = `User-agent: Twitterbot
