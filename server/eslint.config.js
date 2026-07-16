@@ -2,9 +2,7 @@
 import { fixupConfigRules, fixupPluginRules } from "@eslint/compat"
 import typescriptEslint from "@typescript-eslint/eslint-plugin"
 import _import from "eslint-plugin-import"
-import jsxA11Y from "eslint-plugin-jsx-a11y"
 import prettier from "eslint-plugin-prettier"
-import react from "eslint-plugin-react"
 import tsParser from "@typescript-eslint/parser"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -25,7 +23,6 @@ export default [
   ...fixupConfigRules(compat.extends(
     "plugin:import/errors",
     "plugin:import/warnings",
-    "plugin:jsx-a11y/strict",
     "prettier",
   )),
   {
@@ -44,9 +41,7 @@ export default [
     plugins: {
       "@typescript-eslint": fixupPluginRules(typescriptEslint),
       import: fixupPluginRules(_import),
-      "jsx-a11y": fixupPluginRules(jsxA11Y),
       prettier,
-      react: fixupPluginRules(react),
       "@stylistic": stylistic,
     },
     files: ["src/**/*.ts", "src/**/*.tsx"],
@@ -131,14 +126,6 @@ export default [
         }
       ],
       "import/prefer-default-export": 0,
-      "jsx-a11y/label-has-associated-control": [
-        2,
-        {
-          required: {
-            some: ["nesting", "id"]
-          }
-        }
-      ],
       "no-empty": [
         "error",
         {
@@ -151,25 +138,12 @@ export default [
       "no-underscore-dangle": 0,
       "no-use-before-define": [0],
       "prettier/prettier": 2,
-      "react/forbid-prop-types": 0,
-      "react/jsx-filename-extension": [
-        1,
-        {
-          extensions: [".tsx", ".ts"]
-        }
-      ],
-      "react/jsx-fragments": [2, "element"],
       "no-console": 0,
-      "react/jsx-one-expression-per-line": 0,
-      "react/require-default-props": 0
     },
     settings: {
-      react: {
-        version: "detect"
-      },
       "import/resolver": {
         node: {
-          extensions: [".js", ".jsx", ".ts", ".tsx"]
+          extensions: [".js", ".ts"]
         }
       }
     },

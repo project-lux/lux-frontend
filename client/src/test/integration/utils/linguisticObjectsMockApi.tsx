@@ -9,6 +9,16 @@ import { reusableMinimalEntity } from '../../data/reusableMinimalEntity'
 export default function linguisticObjectsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
 
+  // Some app requests trigger CORS preflight in jsdom; mock OPTIONS on the API host.
+  nock(apiUrl)
+    .persist()
+    .options(/.*/)
+    .reply(204, undefined, {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+      'Access-Control-Allow-Headers': '*',
+    })
+
   // Mock linguistic object call
   nock(apiUrl)
     .get('/data/text/mock-linguistic-object')
@@ -114,7 +124,8 @@ export default function linguisticObjectsMockApi(): void {
 
   // Mock workCarriedBy HAL link
   nock(apiUrl)
-    .get('/api/search/agent?q=workCarriedByMockHalLink')
+    .get('/api/search/item')
+    .query((query) => typeof query.q === 'string' && query.q.length > 0)
     .reply(200, JSON.stringify(mockResults('data/concept/concept', 1)), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
