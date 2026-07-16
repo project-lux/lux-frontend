@@ -71,7 +71,7 @@ describe('Linguistic Object page', () => {
       expect(partOf).toBeInTheDocument()
     })
 
-    it('renders the types', async () => {
+    it('renders the work types', async () => {
       const { findAllByTestId } = render(<AppRender route={page} />)
 
       await findAllByTestId(/works-types-link-container/i)

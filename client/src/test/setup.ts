@@ -42,11 +42,11 @@ vi.mock('../redux/api/ml_api', async () => {
   }
 })
 
-const ResizeObserverMock = vi.fn(() => ({
-  observe: vi.fn(),
-  unobserve: vi.fn(),
-  disconnect: vi.fn(),
-}))
+class ResizeObserverMock {
+  observe = vi.fn()
+  unobserve = vi.fn()
+  disconnect = vi.fn()
+}
 
 vi.stubGlobal('ResizeObserver', ResizeObserverMock)
 
