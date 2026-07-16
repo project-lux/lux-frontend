@@ -6,6 +6,8 @@ import express from 'express'
 import * as env from '../config/env.js'
 import * as log from '../lib/log.js'
 
+const currentDir = import.meta.dirname
+
 export type AppConfig = {
   port: number
 }
@@ -70,7 +72,7 @@ class App {
     })
 
     exp.use((req: express.Request, res: express.Response) => {
-      res.sendFile(path.join(__dirname, '..', 'public', 'index.html'))
+      res.sendFile(path.join(currentDir, '..', 'public', 'index.html'))
     })
 
     exp.listen(port, () => {

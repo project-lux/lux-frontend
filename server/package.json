@@ -31,7 +31,6 @@
     "@stylistic/eslint-plugin": "5.10.0",
     "@types/cors": "^2.8.12",
     "@types/express": "5.0.6",
-    "@types/node": "^17.0.23",
     "commander": "15.0.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -40,6 +39,7 @@
   },
   "devDependencies": {
     "@types/jest": "^29.2.0",
+    "@types/node": "^22.20.1",
     "@typescript-eslint/eslint-plugin": "8.63.0",
     "@typescript-eslint/parser": "8.63.0",
     "ast-types": "^0.14.2",
