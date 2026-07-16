@@ -2,9 +2,9 @@ import 'dotenv/config'
 import os from 'os'
 import cluster from 'cluster'
 
-import { newApp } from './app/app'
-import * as env from './config/env'
-import * as log from './lib/log'
+import { newApp } from './app/app.js'
+import * as env from './config/env.js'
+import * as log from './lib/log.js'
 
 const numCores = os.cpus().length
 const numInstances = env.numInstances === -1 ? numCores * 2 : env.numInstances

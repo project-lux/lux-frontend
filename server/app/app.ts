@@ -3,11 +3,11 @@ import path from 'path'
 import cors from 'cors'
 import express from 'express'
 
-import * as env from '../config/env'
-import * as log from '../lib/log'
+import * as env from '../config/env.js'
+import * as log from '../lib/log.js'
 
 export type AppConfig = {
-  port: number;
+  port: number
 }
 
 const robotsProd = `User-agent: Twitterbot
