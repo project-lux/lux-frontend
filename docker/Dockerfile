@@ -12,11 +12,11 @@ RUN apt-get update && \
     rm -rf ./aws && \
     rm awscliv2.zip && \
     wget -qO- https://get.pnpm.io/install.sh | \
-      env PNPM_VERSION=11.13.0 ENV="$HOME/.bashrc" SHELL="$(which bash)" bash - && \
+      env PNPM_VERSION=11.13.1 ENV="$HOME/.bashrc" SHELL="$(which bash)" bash - && \
     . $HOME/.bashrc && \
     cd /src/client/ && \
     pnpm install && \
-    npx -y browserslist@latest --update-db && \
+    pnpm dlx -y browserslist@latest --update-db && \
     pnpm build && \
     cd /src/server/ && \
     pnpm install && \
