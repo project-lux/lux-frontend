@@ -31,12 +31,33 @@ const ListRow: React.FC<{
   year: string
   halLink: string
   searchTag: string
-}> = ({ searchTags, data, year, halLink, searchTag }) => {
+  rowRefs: React.MutableRefObject<Array<HTMLDivElement | null>>
+  index: number
+  linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
+  linkIndex: number
+}> = ({
+  searchTags,
+  data,
+  year,
+  halLink,
+  searchTag,
+  rowRefs,
+  index,
+  linkRefs,
+  linkIndex,
+}) => {
   const { tab } = searchTags[searchTag]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
 
   return (
-    <HoverableRow key={`${halLink}-${year}`}>
+    <HoverableRow
+      key={`${halLink}-${year}`}
+      role="option"
+      tabIndex={-1}
+      ref={(element: HTMLDivElement | null) => {
+        rowRefs.current[index] = element
+      }}
+    >
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${halLink}-relationship`}>
           {halLinkMapToLegendName.get(halLink)}
@@ -48,6 +69,10 @@ const ListRow: React.FC<{
             to={{
               pathname: `/view/results/${tab}`,
               search: `${searchParams}&searchLink=true`,
+            }}
+            tabIndex={-1}
+            ref={(el) => {
+              linkRefs.current[linkIndex] = el
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
