@@ -472,10 +472,7 @@ describe('EntityParser', () => {
     it('returns array with icon and alt text of specimen', () => {
       const element = new EntityParser(mockEntity)
       const icons = element.getSupertypeIcon()
-      expect(icons).toEqual([
-        specimensIcon,
-        'Specimens',
-      ])
+      expect(icons).toEqual([specimensIcon, 'Specimens'])
     })
   })
 

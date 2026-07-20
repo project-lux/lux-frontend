@@ -10,14 +10,11 @@ export default function linguisticObjectsMockApi(): void {
   const apiUrl = config.env.dataApiBaseUrl || ''
 
   // Some app requests trigger CORS preflight in jsdom; mock OPTIONS on the API host.
-  nock(apiUrl)
-    .persist()
-    .options(/.*/)
-    .reply(204, undefined, {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
-      'Access-Control-Allow-Headers': '*',
-    })
+  nock(apiUrl).persist().options(/.*/).reply(204, undefined, {
+    'Access-Control-Allow-Origin': '*',
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,DELETE,OPTIONS',
+    'Access-Control-Allow-Headers': '*',
+  })
 
   // Mock linguistic object call
   nock(apiUrl)
