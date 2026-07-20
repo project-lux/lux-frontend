@@ -62,7 +62,8 @@ const ResultsPage: React.FC = () => {
   const urlParams = new URLSearchParams(search)
   const fromLandingPage = isFromLandingPage(state as { [key: string]: boolean })
   // Check if current tab q exist
-  const hasSimpleSearchQuery = urlParams.has('sq')
+  const hasSimpleSearchQuery =
+    urlParams.has('sq') && urlParams.get('aiSearch') === 'false'
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
@@ -74,6 +75,7 @@ const ResultsPage: React.FC = () => {
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
+  const isAiSearch = urlParams.get('aiSearch') === 'true' || false
   const facetSearchString = urlParams.get(`${paramPrefix}f`) || null
   let searchStringWithFacets = ''
 
@@ -100,6 +102,7 @@ const ResultsPage: React.FC = () => {
   const searchResponse = useSearchQuery(
     {
       q: searchStringWithFacets,
+      isAiSearch,
       filterResults,
       page,
       tab,
@@ -153,6 +156,7 @@ const ResultsPage: React.FC = () => {
       <ResultsSearchContainer
         key={tab}
         isSimpleSearch={hasSimpleSearchQuery}
+        isAiSearch={isAiSearch}
         urlParams={urlParams}
         queryString={queryString}
         search={search}
