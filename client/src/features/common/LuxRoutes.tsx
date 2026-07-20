@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-// import { Alert } from 'react-bootstrap'
 
 import { getRouteNames } from '../../config/routerPages'
 import useAuthentication from '../../lib/hooks/useAuthentication'
@@ -15,9 +14,6 @@ import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import RoutingComponent from '../results/RoutingComponent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-
-// import PrivateRoute from '../myCollections/PrivateRoute'
-// import Callback from '../myCollections/LoginCallback'
 
 import Footer from './Footer'
 import MobileAlert from './MobileAlert'
@@ -93,7 +89,7 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {isMobile && <MobileAlert storageKey="advancedSearchWarningMessage" />}
+        {isMobile && <MobileAlert />}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
