@@ -9,7 +9,7 @@ import EntityResultsDescription from '../cms/EntityResultsDescription'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
-const StyledButton = styled(Button)`
+export const StyledButton = styled(Button)`
   color: ${theme.color.link};
   background-color: white;
   margin-left: 0px;
@@ -18,6 +18,7 @@ const StyledButton = styled(Button)`
 
   &:hover {
     text-decoration: underline;
+    color: ${theme.color.link};
   }
 
   @media (min-width: ${theme.breakpoints.md}px) {

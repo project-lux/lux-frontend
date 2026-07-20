@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
-type Placement = 'top' | 'bottom' | 'left' | 'right'
+export type Placement = 'top' | 'bottom' | 'left' | 'right'
 
 interface IProps {
   html: string

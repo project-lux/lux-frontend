@@ -8,33 +8,22 @@ import {
   transformStringForTestId,
 } from '../../lib/parse/data/helper'
 
-import Tooltip from './Tooltip'
+import InfoPopover from './InfoPopover'
 
 interface ITextLabelProps {
   className?: string
   label?: string
-  tooltipText?: string
+  showPopover?: boolean
 }
 
 const TextLabel: React.FC<ITextLabelProps> = ({
   className = 'col-md-3',
   label,
-  tooltipText = '',
+  showPopover = false,
 }) => {
   const auth = useAuth()
   const loc = useLocation()
-  const tooltip =
-    tooltipText === '' ? (
-      ''
-    ) : (
-      <Tooltip html={tooltipText} placement="bottom">
-        <i
-          className="bi bi-question-circle"
-          style={{ fontSize: '1rem', marginLeft: '0.2rem' }}
-          data-testid="tooltip-icon"
-        />
-      </Tooltip>
-    )
+  const popover = showPopover ? <InfoPopover /> : null
 
   // Get apiText in case there is a label that contains the base url
   let displayLabel = label
@@ -62,12 +51,12 @@ const TextLabel: React.FC<ITextLabelProps> = ({
       {displayLabel ? (
         <dt className="mb-1">
           {displayLabel}
-          {tooltip}
+          {popover}
         </dt>
       ) : (
         <dt hidden>
           Label unknown
-          {tooltip}
+          {popover}
         </dt>
       )}
     </div>
