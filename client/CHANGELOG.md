@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.74.0 - Unreleased
+## v1.74.1 - 2026-07-20
+
+### Fixed
+
+- Fixed typescript error ([#711](https://github.com/project-lux/lux-frontend/issues/711)).
+
+## v1.74.0 - 2026-07-20
 
 ### Added
 

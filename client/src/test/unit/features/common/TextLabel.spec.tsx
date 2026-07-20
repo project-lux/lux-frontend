@@ -31,7 +31,7 @@ describe('TextLabel', () => {
   })
 
   it('renders the tooltip', async () => {
-    render(<TextLabel label={mockLabel} tooltipText="mock tooltip text" />)
+    render(<TextLabel label={mockLabel} />)
 
     const tooltip = screen.getByTestId('tooltip-icon')
     expect(tooltip).toBeInTheDocument()
