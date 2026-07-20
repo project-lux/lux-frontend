@@ -14,6 +14,7 @@ import ContentPageSideBar from './ContentPageSideBar'
 interface IProps {
   pageKey: PageKey
   pages: Map<string, string>
+  testId: string
 }
 
 /**
@@ -21,7 +22,7 @@ interface IProps {
  * @param {PageKey} pageKey the name of the page used for retrieving the CMS data
  * @returns {JSX.Element}
  */
-const ContentPage: React.FC<IProps> = ({ pageKey, pages }) => {
+const ContentPage: React.FC<IProps> = ({ pageKey, pages, testId }) => {
   const result = useGetPageQuery({ pageKey })
   let title = ''
   let body = ''
@@ -46,7 +47,7 @@ const ContentPage: React.FC<IProps> = ({ pageKey, pages }) => {
 
   return (
     <React.Fragment>
-      <StyledContentPage className="mx-0" data-testid="about-page">
+      <StyledContentPage className="mx-0" data-testid={testId}>
         <Col xs={12} className="px-0">
           <h1 id="content-header" data-testid="content-page-header">
             {result.isLoading || result.isFetching ? 'Loading...' : title}

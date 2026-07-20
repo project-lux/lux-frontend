@@ -15,7 +15,7 @@ export default function placeResultsMockApi(): void {
   // Mock place search with the query "andy warhol"
   nock(apiUrl)
     .get(
-      '/api/search/event?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&sort=',
+      '/api/search/event?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&pageLength=20',
     )
     .reply(200, JSON.stringify(mockResults(mockEventUri, 6)), {
       'Access-Control-Allow-Origin': '*',
@@ -26,7 +26,7 @@ export default function placeResultsMockApi(): void {
   for (const facet of facetNamesLists.events) {
     nock(apiUrl)
       .get(
-        `/api/facets/event?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}&page=1`,
+        `/api/facets/event?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&name=${facet}&page=1&sort=asc`,
       )
       .reply(200, JSON.stringify(null), {
         'Access-Control-Allow-Origin': '*',

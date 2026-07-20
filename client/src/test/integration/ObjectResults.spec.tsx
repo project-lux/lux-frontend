@@ -3,6 +3,7 @@ import React from 'react'
 import { vi } from 'vitest'
 
 import { sortBy } from '../../config/sortingOptions'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import objectMockApi from './utils/objectResultsMockAPI'
 import AppRender from './utils/AppRender'
@@ -22,14 +23,16 @@ vi.mock('../../lib/util/collectionHelper', () => ({
 }))
 
 describe('Object results page', () => {
-  const page =
-    '/view/results/objects?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
+  const page = '/view/results/objects'
+  const search =
+    'q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&pageLength=20'
 
   beforeEach(async () => {
     objectMockApi()
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page, search })
   })
 
   describe('Results header', () => {
@@ -61,9 +64,14 @@ describe('Object results page', () => {
   })
 
   describe('Object results grid view', () => {
-    const gridViewPage =
-      '/view/results/objects?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&view=grid'
+    const gridViewSearch =
+      'q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&view=grid'
 
+    const gridViewPage = `${page}?${gridViewSearch}`
+
+    beforeEach(async () => {
+      setMockLocation({ pathname: page, search: gridViewSearch })
+    })
     it('renders the list view button', async () => {
       const { findAllByText } = render(<AppRender route={gridViewPage} />)
 
@@ -81,15 +89,17 @@ describe('Object results page', () => {
     })
 
     it('renders the event agent', async () => {
-      render(<AppRender route={gridViewPage} />)
+      const { findAllByTestId } = render(<AppRender route={gridViewPage} />)
 
+      await findAllByTestId(/grid-view-object-event-agent/i)
       const agent = screen.getByTestId('grid-view-object-event-agent')
       expect(agent).toBeInTheDocument()
     })
 
     it('renders the event dates', async () => {
-      render(<AppRender route={gridViewPage} />)
+      const { findAllByTestId } = render(<AppRender route={gridViewPage} />)
 
+      await findAllByTestId(/grid-view-event-date/i)
       const dates = screen.getByTestId('grid-view-event-date')
       expect(dates).toBeInTheDocument()
     })
@@ -125,7 +135,7 @@ describe('Object results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Object/i)
-      const header = screen.getByTestId('object-results-snippet-title')
+      const header = screen.getByTestId('results-snippet-title')
       expect(header).toHaveTextContent('Mock Object')
     })
 

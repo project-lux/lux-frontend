@@ -103,6 +103,7 @@ const MyCollectionSnippet: React.FC<ISearchData> = ({
           <div className="m-2 d-flex">
             <SnippetHeader
               data={data}
+              className="my-collection-snippet-header"
               snippetData={snippetDataComponent}
               titleOfTabbedContent={titleOfTabbedContent}
             />

@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { sortBy } from '../../config/sortingOptions'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -10,14 +11,16 @@ import personAndGroupResultsMockApi from './utils/personAndGroupMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
 
 describe('Person and Group results page', () => {
-  const page =
-    '/view/results/people?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
+  const page = '/view/results/people'
+  const search =
+    'q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&pageLength=20'
 
   beforeEach(async () => {
     personAndGroupResultsMockApi()
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page, search })
   })
 
   describe('Results header', () => {
@@ -49,8 +52,13 @@ describe('Person and Group results page', () => {
   })
 
   describe('Person and group results grid view', () => {
-    const gridViewPage =
-      '/view/results/people?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&view=grid'
+    const gridViewSearch =
+      'q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&view=grid'
+    const gridViewPage = `${page}?${gridViewSearch}`
+
+    beforeEach(async () => {
+      setMockLocation({ pathname: page, search: gridViewSearch })
+    })
 
     it('renders the list view button', async () => {
       const { findAllByText } = render(<AppRender route={gridViewPage} />)
@@ -78,9 +86,9 @@ describe('Person and Group results page', () => {
     })
 
     it('renders the image in grid view', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Mock Person/i)
+      await findAllByTestId(/results-snippet-preview-image/i)
       const icon = screen.getByTestId('results-snippet-preview-image')
       expect(icon).toBeInTheDocument()
     })
@@ -108,7 +116,7 @@ describe('Person and Group results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Mock Person/i)
-      const header = screen.getByTestId('person-group-results-snippet-title')
+      const header = screen.getByTestId('results-snippet-title')
       expect(header).toHaveTextContent('Mock Person')
     })
 

@@ -305,7 +305,9 @@ export const linguisticObject: IObject = {
       href: `${config.env.dataApiBaseUrl}data/object/3ba2c43e-e63d-49ba-8cae-46e1af2ebe48`,
     },
     'lux:workCarriedBy': {
-      href: `${config.env.dataApiBaseUrl}api/search/agent?q=workCarriedByMockHalLink`,
+      href: `${config.env.dataApiBaseUrl}api/search/item?q=%7B%22carriedByWork%22%3A%7B%22id%22%3A%22${encodeURIComponent(
+        `${config.env.dataApiBaseUrl}data/text/mock-linguistic-object`,
+      )}%22%7D%7D`,
       _estimate: 1,
     },
   },

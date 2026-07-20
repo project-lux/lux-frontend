@@ -17,6 +17,38 @@ vi.mock('../../../../redux/api/ml_api', () => ({
   }),
 }))
 
+vi.mock('../../../../redux/api/cmsApi', () => ({
+  useGetDescriptiveTextQuery: () => ({
+    data: {
+      data: {
+        attributes: {
+          body: 'Mock descriptive text',
+        },
+      },
+    },
+    isSuccess: true,
+  }),
+}))
+
+vi.mock('react-redux', async () => {
+  const actual = await vi.importActual('react-redux')
+  return {
+    ...actual,
+    useDispatch: vi.fn(),
+  }
+})
+
+vi.mock('../../../../app/hooks', () => ({
+  useAppSelector: vi.fn((selector) =>
+    selector({
+      myCollections: {
+        uuids: [],
+        scopeOfSelections: '',
+      },
+    }),
+  ),
+}))
+
 describe('Carries', () => {
   it('renders the works snippet', () => {
     render(
@@ -25,7 +57,7 @@ describe('Carries', () => {
       </BrowserRouter>,
     )
 
-    const carries = screen.getByTestId('work-snippet-list-view')
+    const carries = screen.getByTestId('work-snippet-header')
     expect(carries).toBeInTheDocument()
   })
 

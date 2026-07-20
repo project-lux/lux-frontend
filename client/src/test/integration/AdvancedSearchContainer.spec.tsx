@@ -1,9 +1,9 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
+import * as ReactRouterDom from 'react-router-dom'
 import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
-import { conditionals } from '../../config/advancedSearch/conditionals'
 import { nonSearchTermHelpText } from '../../config/advancedSearch/helpText'
 import config from '../../config/config'
 import { dimensions } from '../../config/advancedSearch/inputTypes'
@@ -35,15 +35,25 @@ describe('Advanced Search', () => {
   it('renders advanced search title', async () => {
     render(<AppRender route={page} />)
 
-    const header = screen.getByTestId('advanced-search-header')
+    const header = screen.getByTestId('objects-advanced-search-header')
     expect(header).toHaveTextContent('Search for Objects that...')
   })
 
   it('renders show all rows button', async () => {
-    const searchLinkPage = `/view/results/works?q={"AND":[{"OR":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"publishedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"creationInfluencedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}}]},{"publishedDate":"1975-12-31T00:00:00.000Z","_comp":"<="},{"publishedDate":"1975-01-01T00:00:00.000Z","_comp":">="}]}&searchLink=true`
+    const searchQuery = `?q={"AND":[{"OR":[{"createdBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"publishedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}},{"creationInfluencedBy":{"id":"${config.env.dataApiBaseUrl}data/person/34f4eec7-7a03-49c8-b1be-976c2f6ba6ba"}}]},{"publishedDate":"1975-12-31T00:00:00.000Z","_comp":"<="},{"publishedDate":"1975-01-01T00:00:00.000Z","_comp":">="}]}&searchLink=true`
+    const searchLinkPage = `/view/results/works${searchQuery}`
+
+    vi.spyOn(ReactRouterDom, 'useLocation').mockReturnValue({
+      pathname: '/view/results/works',
+      search: searchQuery,
+      hash: '',
+      state: null,
+      key: 'default',
+    })
+
     render(<AppRender route={searchLinkPage} />)
 
-    const button = screen.getByTestId('advanced-search-rows-button')
+    const button = await screen.findByTestId('advanced-search-rows-button')
     expect(button).toBeInTheDocument()
   })
 
@@ -82,16 +92,11 @@ describe('Advanced Search', () => {
         fireEvent.click(dropdownItem)
       })
       // expect the input row to be in the document
-      const inputRow = screen.getByTestId(`${field}-1-input-row`)
+      const inputRow = screen.getByTestId(`advanced-search-input-row`)
       expect(inputRow).toBeInTheDocument()
     })
 
     it('renders the Group component', async () => {
-      // advanced search fields that render the Group component
-      const conditionalKeys = Object.keys(conditionals)
-      const randomIndex = Math.floor(Math.random() * conditionalKeys.length)
-      const groupField = conditionalKeys[randomIndex]
-
       render(<AppRender route={page} />)
 
       // select the multiple field dropdown
@@ -100,15 +105,13 @@ describe('Advanced Search', () => {
         fireEvent.click(dropdown)
       })
       // select AND
-      const dropdownItem = screen.getByTestId(
-        `multiple-fields-1-${groupField}-option`,
-      )
+      const dropdownItem = screen.getByTestId(/multiple-fields-1-AND-option/i)
       await act(async () => {
         fireEvent.click(dropdownItem)
       })
 
       // expect the group to be in the document
-      const group = screen.getByTestId(`${groupField}-1-group-row`)
+      const group = screen.getByTestId('advanced-search-group-row')
       expect(group).toBeInTheDocument()
     })
 
@@ -343,7 +346,9 @@ describe('Advanced Search', () => {
       await act(async () => {
         fireEvent.mouseOver(dropdownOption)
       })
-      vi.runAllTimers()
+      await act(async () => {
+        vi.advanceTimersByTime(1000)
+      })
 
       expect(
         screen.getByText(config.advancedSearch.terms.item.name.helpText),
@@ -364,12 +369,16 @@ describe('Advanced Search', () => {
       await act(async () => {
         fireEvent.mouseOver(dropdownOption)
       })
-      vi.runAllTimers()
+      await act(async () => {
+        vi.advanceTimersByTime(1000)
+      })
 
       await act(async () => {
-        fireEvent.mouseLeave(dropdownOption)
+        fireEvent.mouseOut(dropdownOption)
       })
-      vi.runAllTimers()
+      await act(async () => {
+        vi.advanceTimersByTime(1000)
+      })
 
       expect(
         screen.getByText(nonSearchTermHelpText.fieldSelectRow.helpText),
@@ -432,5 +441,9 @@ describe('Advanced Search', () => {
     })
   })
 
-  afterEach(cleanup)
+  afterEach(() => {
+    cleanup()
+    vi.useRealTimers()
+    vi.restoreAllMocks()
+  })
 })

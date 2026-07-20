@@ -3,7 +3,7 @@ import mockPhysicalObject from '../../data/object'
 import { digitalObject as mockDigitalObject } from '../../data/digitalObject'
 import config from '../../../config/config'
 import IObject from '../../../types/data/IObject'
-import { callNumberId, typeOfPartId } from '../../data/helperObjects'
+import { typeOfPartId } from '../../data/helperObjects'
 
 describe('ObjectParser', () => {
   describe('getCurrentLocation', () => {
@@ -286,15 +286,10 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockPhysicalObject)
       const ids = object.getIdentifiers()
       const callNumber = ObjectParser.getCallNumber(ids)
-      expect(callNumber).toEqual({
-        label: callNumberId,
-        identifier: ['Mock Call Number'],
-        carriedOutBy: [],
-        equivalent: [config.aat.callNumber],
-      })
+      expect(callNumber).toEqual('Mock Call Number')
     })
 
-    it('returns an identifier if there is no call number', () => {
+    it('returns null if there is no call number', () => {
       const mockObject: IObject = {
         type: 'HumanMadeObject',
         identified_by: [
@@ -314,12 +309,7 @@ describe('ObjectParser', () => {
       const object = new ObjectParser(mockObject)
       const ids = object.getIdentifiers()
       const identifier = ObjectParser.getCallNumber(ids)
-      expect(identifier).toEqual({
-        label: `${config.env.dataApiBaseUrl}data/concept/not-call-number`,
-        identifier: ['Another identifier'],
-        carriedOutBy: [],
-        equivalent: [],
-      })
+      expect(identifier).toBeNull()
     })
   })
 

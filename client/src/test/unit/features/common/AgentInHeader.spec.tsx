@@ -15,16 +15,6 @@ vi.mock('../../../../redux/api/ml_api', () => ({
   }),
 }))
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useLocation: () => ({
-      pathname: 'mock-path',
-    }),
-  }
-})
-
 describe('AgentInHeader', () => {
   it('returns agent name', () => {
     render(<AgentInHeader data={mockAgentData} />)

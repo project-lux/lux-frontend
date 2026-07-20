@@ -92,7 +92,7 @@ const AdvancedSearchTermsGroupElems: React.FC = () => (
         <React.Fragment key={groupKey}>
           <StyledFaqGroupSection
             id={createGroupElemId(groupName)}
-            data-testid={`faq-page-body-${ind}`}
+            data-testid={`advanced-search-terms-faq-body-${ind}`}
           >
             <h2 id="faq-header">Advanced Search Terms</h2>
             {accordion}
