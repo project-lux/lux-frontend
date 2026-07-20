@@ -22,6 +22,7 @@ import { ResultsTab } from '../../types/ResultsTab'
 interface IProps {
   data: any
   snippetData: JSX.Element
+  className: string
   mapComponent?: JSX.Element
   children?: JSX.Element
   titleOfTabbedContent?: string
@@ -29,9 +30,10 @@ interface IProps {
 
 const SnippetHeader: React.FC<IProps> = ({
   data,
+  snippetData,
+  className,
   mapComponent,
   children,
-  snippetData,
   titleOfTabbedContent,
 }) => {
   const dispatch = useDispatch()
@@ -76,10 +78,10 @@ const SnippetHeader: React.FC<IProps> = ({
           <PreviewImageOrIcon images={images} entity={data} />
         )}
       </div>
-      <div className="flex-grow-1 ms-3">
+      <div className={`flex-grow-1 ms-3 ${className}`} data-testid={className}>
         <StyledSnippetTitle
           className="d-flex w-100"
-          data-testid="person-group-results-snippet-title"
+          data-testid="results-snippet-title"
         >
           <Link
             to={{

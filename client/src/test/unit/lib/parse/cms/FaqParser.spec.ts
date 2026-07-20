@@ -48,7 +48,7 @@ const mockResult = [
       },
     ],
     key: '3',
-    title: 'Advanced Search',
+    title: 'Advanced Search Information',
   },
 ]
 

@@ -2,11 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.73.0 - Unreleased
+## v1.74.0 - Unreleased
 
 ### Added
 
 ### Changed
+
+- Updated packages ([#985](https://github.com/project-lux/lux-frontend/issues/985)).
+- Migrated from yarn to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
+- Changed the access tooltip styling and functionality ([#711](https://github.com/project-lux/lux-frontend/issues/711)).
+
+### Fixed
+
+- Fixed failing tests due to migration to pnpm ([#989](https://github.com/project-lux/lux-frontend/issues/989)).
+- Fixed the timeline configuration ([#981](https://github.com/project-lux/lux-frontend/issues/981)).
+
+### Removed
+
+## v1.73.0 - 2026-7-6
+
+### Added
+
+### Changed
+
+- Changed the mobile warning message ([#564](https://github.com/project-lux/lux-frontend/issues/564)).
 
 ### Fixed
 

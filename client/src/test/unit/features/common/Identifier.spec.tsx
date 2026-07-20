@@ -8,16 +8,6 @@ import { reusableMinimalEntity } from '../../../data/reusableMinimalEntity'
 
 const mockEntity = reusableMinimalEntity('Identifier Label')
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
-  return {
-    ...actual,
-    useLocation: () => ({
-      pathname: 'mock-path',
-    }),
-  }
-})
-
 vi.mock('../../../../redux/api/ml_api', () => ({
   useGetNameQuery: () => ({
     data: mockEntity,
@@ -78,6 +68,6 @@ describe('Identifier', () => {
     )
 
     const label = screen.getByTestId('identifiers-text-label')
-    expect(label).toHaveTextContent('Identifier Label')
+    expect(label).toHaveTextContent('Identifiers')
   })
 })

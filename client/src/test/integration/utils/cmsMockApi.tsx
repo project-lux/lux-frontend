@@ -7,6 +7,7 @@ import {
   cmsPlacesResponse,
   cmsConceptsResponse,
   cmsEventsResponse,
+  cmsCollectionsResponse,
 } from '../../data/cmsResponse'
 import {
   langingPageCmsResponse,
@@ -16,8 +17,9 @@ import {
 import config from '../../../config/config'
 import { pagePaths } from '../../../config/cms'
 import { aboutPageCmsResponse } from '../../data/aboutPageCmsResponse'
-import { faqPageCmsResponse } from '../../data/faqPageCmsResponse'
 import { contentPageCmsResponse } from '../../data/contentPageCmsResponse'
+import { faqPageCmsResponse } from '../../data/faqPageCmsResponse'
+import { termsOfUsePageCmsResponse } from '../../data/termsOfUsePageCmsResponse'
 
 export default function cmsMockApi(): void {
   const cmsApiUrl = config.env.cmsApiBaseUrl || ''
@@ -60,6 +62,13 @@ export default function cmsMockApi(): void {
     })
 
   nock(cmsApiUrl)
+    .get(`/node/overlays/2fd03ca8-626d-44df-893a-3a94a4941612`)
+    .reply(200, JSON.stringify(cmsCollectionsResponse), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  nock(cmsApiUrl)
     .get(`/node/overlays/76db9289-5023-421a-9f22-f3057d0f87cc`)
     .reply(200, JSON.stringify(cmsPeopleAndGroupsResponse), {
       'Access-Control-Allow-Origin': '*',
@@ -87,10 +96,25 @@ export default function cmsMockApi(): void {
       'Content-type': 'application/json',
     })
 
+  nock(cmsApiUrl)
+    .get(`/node/overlays/427b2feb-ffe9-4a12-9624-d45f9356b5e0`)
+    .reply(200, JSON.stringify(cmsEventsResponse), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
   // About page api call
   nock(cmsApiUrl)
     .get(`/${pagePaths.aboutLux}`)
     .reply(200, JSON.stringify(aboutPageCmsResponse), {
+      'Access-Control-Allow-Origin': '*',
+      'Content-type': 'application/json',
+    })
+
+  // Open Access page api call
+  nock(cmsApiUrl)
+    .get(`/${pagePaths.openAccess}`)
+    .reply(200, JSON.stringify(contentPageCmsResponse), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })
@@ -103,10 +127,10 @@ export default function cmsMockApi(): void {
       'Content-type': 'application/json',
     })
 
-  // Content page api call
+  // Terms of User page api call
   nock(cmsApiUrl)
-    .get(`/${pagePaths.openAccess}`)
-    .reply(200, JSON.stringify(contentPageCmsResponse), {
+    .get(`/${pagePaths.termsOfUse}`)
+    .reply(200, JSON.stringify(termsOfUsePageCmsResponse), {
       'Access-Control-Allow-Origin': '*',
       'Content-type': 'application/json',
     })

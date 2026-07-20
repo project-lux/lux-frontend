@@ -15,15 +15,17 @@ vi.mock('../../../../redux/api/ml_api', () => ({
     data: mockPerson,
     isSuccess: true,
   }),
+  useGetUserResultsQuery: () => ({
+    data: null,
+    isSuccess: false,
+  }),
 }))
 
-vi.mock('react-router-dom', async () => {
-  const actual = await vi.importActual('react-router-dom')
+vi.mock('react-redux', async () => {
+  const actual = await vi.importActual('react-redux')
   return {
     ...actual,
-    useLocation: () => ({
-      pathname: 'mock-path',
-    }),
+    useDispatch: vi.fn(),
   }
 })
 

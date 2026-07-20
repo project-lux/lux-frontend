@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import config from '../../config/config'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -15,6 +16,7 @@ describe('Landing page', () => {
     cmsMockApi()
     statsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('Search bar', () => {

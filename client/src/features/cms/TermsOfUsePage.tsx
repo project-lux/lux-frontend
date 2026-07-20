@@ -32,14 +32,14 @@ const TermsOfUsePage: React.FC<IProps> = ({ pageKey }) => {
   useTitle(title)
 
   return (
-    <StyledTermsOfUsePage className="row" data-testid="content-page">
+    <StyledTermsOfUsePage className="row" data-testid="terms-of-use-page">
       <Col>
         {result.isSuccess && result.data && (
           <React.Fragment>
-            <h1 data-testid="content-page-header">{title}</h1>
+            <h1 data-testid="terms-of-use-page-header">{title}</h1>
             <div
               dangerouslySetInnerHTML={{ __html: processHtml(body) }}
-              data-testid="content-page-body"
+              data-testid="terms-of-use-page-body"
             />
           </React.Fragment>
         )}

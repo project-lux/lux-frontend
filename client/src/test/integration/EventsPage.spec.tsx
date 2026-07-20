@@ -1,6 +1,8 @@
 import { cleanup, render, screen } from '@testing-library/react'
 import React from 'react'
 
+import { setMockLocation } from '../utils/mockUseLocation'
+
 import AppRender from './utils/AppRender'
 import eventsMockApi from './utils/eventsMockApi'
 import eventTrackingMock from './utils/eventTrackingMock'
@@ -13,6 +15,7 @@ describe('Events page', () => {
     eventsMockApi()
     eventTrackingMock()
     sharedMock()
+    setMockLocation({ pathname: page })
   })
 
   describe('About', () => {
@@ -41,9 +44,9 @@ describe('Events page', () => {
     })
 
     it('renders the dates', async () => {
-      const { findAllByText } = render(<AppRender route={page} />)
+      const { findAllByTestId } = render(<AppRender route={page} />)
 
-      await findAllByText(/Dates/i)
+      await findAllByTestId(/event-date-container/i)
       const date = screen.getByTestId('event-date-container')
       expect(date).toBeInTheDocument()
     })

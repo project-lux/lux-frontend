@@ -2,6 +2,7 @@ import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 
 import { sortBy } from '../../config/sortingOptions'
+import { setMockLocation } from '../utils/mockUseLocation'
 
 import AppRender from './utils/AppRender'
 import cmsMockApi from './utils/cmsMockApi'
@@ -11,8 +12,9 @@ import eventTrackingMock from './utils/eventTrackingMock'
 import sharedMock from './utils/sharedMockApi'
 
 describe('Place results page', () => {
-  const page =
-    '/view/results/places?q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol'
+  const page = '/view/results/places'
+  const search =
+    'q=%7B"AND"%3A%5B%7B"text"%3A"andy"%2C"_lang"%3A"en"%7D%2C%7B"text"%3A"warhol"%2C"_lang"%3A"en"%7D%5D%7D&sq=andy+warhol&pageLength=20'
 
   beforeEach(async () => {
     placeResultsMockApi()
@@ -20,6 +22,7 @@ describe('Place results page', () => {
     estimatesMockApi()
     cmsMockApi()
     eventTrackingMock()
+    setMockLocation({ pathname: page, search })
   })
 
   describe('Results header', () => {
@@ -62,7 +65,7 @@ describe('Place results page', () => {
       const { findAllByText } = render(<AppRender route={page} />)
 
       await findAllByText(/Pittsburgh/i)
-      const header = screen.getByTestId('place-results-snippet-title')
+      const header = screen.getByTestId('results-snippet-title')
       expect(header).toHaveTextContent('Pittsburgh')
     })
 

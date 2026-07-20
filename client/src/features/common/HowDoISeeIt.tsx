@@ -4,7 +4,6 @@ import sanitizeHtml from 'sanitize-html'
 
 import { unit } from '../../config/objectsSearchTags'
 import { setUnit } from '../../config/setsSearchTags'
-import { access } from '../../config/tooltips'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import ObjectParser from '../../lib/parse/data/ObjectParser'
 import StyledHr from '../../styles/shared/Hr'
@@ -89,7 +88,7 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
               notes={{ Access: accessStatement }}
               id="access-statement"
               expandColumns
-              labelTooltipText={access}
+              showPopover
               hrClassName="accessStatementHr"
             />
           </StyledDl>

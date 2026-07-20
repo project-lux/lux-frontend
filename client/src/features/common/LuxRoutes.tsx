@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
-import { Alert } from 'react-bootstrap'
 
 import { getRouteNames } from '../../config/routerPages'
 import useAuthentication from '../../lib/hooks/useAuthentication'
@@ -14,11 +13,10 @@ import Header from '../header/Header'
 import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import RoutingComponent from '../results/RoutingComponent'
-
-// import PrivateRoute from '../myCollections/PrivateRoute'
-// import Callback from '../myCollections/LoginCallback'
+import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 
 import Footer from './Footer'
+import MobileAlert from './MobileAlert'
 
 const RedirectOldProd: React.FC = () => {
   const { hostname, pathname, search } = window.location
@@ -42,9 +40,11 @@ const LuxRoutes: React.FC = () => {
 
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
-  const [showMobileAlert] = useState<boolean>(
+  const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  useResizeableWindow(setIsMobile)
+
   const routes = getRouteNames()
   const isNotAnEntityPage = routes.has(pathname)
 
@@ -89,16 +89,7 @@ const LuxRoutes: React.FC = () => {
         <Route path="/*" element={<Header />} />
       </Routes>
       <div className="container-fluid px-0" id="route-container">
-        {showMobileAlert && (
-          <Alert
-            dismissible
-            variant="info"
-            className="d-flex justify-content-center mb-0"
-          >
-            LUX is optimized for desktop use. Some features are not available on
-            mobile devices.
-          </Alert>
-        )}
+        {isMobile && <MobileAlert />}
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
