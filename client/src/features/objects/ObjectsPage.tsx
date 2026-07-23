@@ -34,7 +34,7 @@ const ObjectsPage: React.FC<{ data: IObject | IDigitalObject }> = ({
   const element = new ObjectParser(data)
   const personUri = element.getAgentFromProductionEvent() || undefined
   const memberOf = element.getMemberOf()
-  const objectsWithImagesHalLink = element.getHalLink(archive.searchTag)
+  const objectsWithImagesHalLink = element.getHalLink(archive.halLinkName)
   const halLinkTitle = archive.title
   const manifestId = element.getManifestId()
   const hierarchyData: {

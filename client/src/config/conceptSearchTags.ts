@@ -10,13 +10,13 @@ import { IHalLinks } from '../types/IHalLinks'
 export const relatedItems: IHalLinks = {
   itemTypes: {
     title: 'Object Types',
-    searchTag: 'lux:conceptItemTypes',
+    halLinkName: 'lux:conceptItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
     title: 'Work Types',
-    searchTag: 'lux:conceptWorkTypes',
+    halLinkName: 'lux:conceptWorkTypes',
     tab: 'works',
     jsonSearchTerm: 'classification',
   },
@@ -26,49 +26,45 @@ export const relatedItems: IHalLinks = {
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsRelated: {
     title: 'Objects Related',
-    searchTag: 'lux:conceptRelatedItems',
+    halLinkName: 'lux:conceptRelatedItems',
     tab: 'objects',
   },
   worksRelated: {
     title: 'Works Related',
-    searchTag: 'lux:conceptRelatedWorks',
+    halLinkName: 'lux:conceptRelatedWorks',
     tab: 'works',
   },
   collectionsRelated: {
     title: 'Collections Related',
-    searchTag: 'lux:conceptRelatedSets',
+    halLinkName: 'lux:conceptRelatedSets',
     tab: 'collections',
   },
 }
 
 // Used for rendering timelines
 export const timeline: IHalLinks = {
-  itemProductionDate: {
-    searchTag: 'lux:conceptItemMadeTime',
+  'lux:conceptItemMadeTime': {
+    halLinkName: 'lux:conceptItemMadeTime',
     tab: 'objects',
-    jsonSearchTerm: 'producedDate',
   },
-  itemEncounteredDate: {
-    searchTag: 'lux:conceptItemEncounteredTime',
+  'lux:conceptItemEncounteredTime': {
+    halLinkName: 'lux:conceptItemEncounteredTime',
     tab: 'objects',
-    jsonSearchTerm: 'encounteredDate',
   },
-  workPublicationDate: {
-    searchTag: 'lux:conceptWorkPublishedTime',
+  'lux:conceptWorkPublishedTime': {
+    halLinkName: 'lux:conceptWorkPublishedTime',
     tab: 'works',
-    jsonSearchTerm: 'publishedDate',
   },
-  workCreationDate: {
-    searchTag: 'lux:conceptWorkCreatedTime',
+  'lux:conceptWorkCreatedTime': {
+    halLinkName: 'lux:conceptWorkCreatedTime',
     tab: 'works',
-    jsonSearchTerm: 'createdDate',
   },
 }
 
 // Used for rendering related locations
 export const locations: IHalLink = {
   title: 'Related Locations',
-  searchTag: 'lux:conceptRelatedPlaces',
+  halLinkName: 'lux:conceptRelatedPlaces',
   tab: 'places',
 }
 
@@ -76,47 +72,47 @@ export const locations: IHalLink = {
 export const relatedAccordions: IHalLinks = {
   agents: {
     title: 'Related People and Groups',
-    searchTag: 'lux:conceptRelatedAgents',
+    halLinkName: 'lux:conceptRelatedAgents',
     tab: 'objects',
   },
   concepts: {
     title: 'Related Concepts',
-    searchTag: 'lux:conceptRelatedConcepts',
+    halLinkName: 'lux:conceptRelatedConcepts',
     tab: 'objects',
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',
-    searchTag: 'lux:conceptInfluencedConcepts',
+    halLinkName: 'lux:conceptInfluencedConcepts',
     tab: 'concepts',
   },
   agentNationality: {
     title: 'People and Groups with Nationality',
-    searchTag: 'lux:nationalityForAgent',
+    halLinkName: 'lux:nationalityForAgent',
     tab: 'people',
   },
   agentGender: {
     title: 'People with Gender',
-    searchTag: 'lux:genderForAgent',
+    halLinkName: 'lux:genderForAgent',
     tab: 'people',
   },
   agentOccupation: {
     title: 'People and Groups with Occupation/Role',
-    searchTag: 'lux:occupationForAgent',
+    halLinkName: 'lux:occupationForAgent',
     tab: 'people',
   },
   agentType: {
     title: 'People and Groups with Type',
-    searchTag: 'lux:typeForAgent',
+    halLinkName: 'lux:typeForAgent',
     tab: 'people',
   },
   placeType: {
     title: 'Places with Type',
-    searchTag: 'lux:typeForPlace',
+    halLinkName: 'lux:typeForPlace',
     tab: 'places',
   },
   eventType: {
     title: 'Events with Type',
-    searchTag: 'lux:typeForEvent',
+    halLinkName: 'lux:typeForEvent',
     tab: 'events',
   },
   ...relatedItems,
@@ -126,6 +122,6 @@ export const relatedAccordions: IHalLinks = {
 // Used for rendering hierarchy children
 export const hierarchyChildren: IHalLink = {
   title: '',
-  searchTag: 'lux:conceptChildren',
+  halLinkName: 'lux:conceptChildren',
   tab: 'concepts',
 }

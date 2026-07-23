@@ -22,7 +22,7 @@ const ApiAboutData: React.FC<IProps> = ({
   itemSpacing = 'double',
 }) => {
   const skip = !hasHalLinks({ event: configuredLink }, providedLinks)
-  const uri = !skip ? providedLinks[configuredLink.searchTag].href : ''
+  const uri = !skip ? providedLinks[configuredLink.halLinkName].href : ''
 
   const { data, isSuccess, isLoading } = useGetSearchRelationshipQuery(
     {

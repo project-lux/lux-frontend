@@ -73,8 +73,8 @@ const ConceptPage: React.FC<{ data: IConcept }> = ({ data }) => {
               searchTags={timeline}
               providedHalLinks={data._links}
             />
-            {/* {Object.keys(data._links).includes(locations.searchTag) && (
-                  <Locations halLink={data._links[locations.searchTag]} />
+            {/* {Object.keys(data._links).includes(locations.halLinkName) && (
+                  <Locations halLink={data._links[locations.halLinkName]} />
                 )} */}
             <Row className="my-3">
               <Col xs={12}>

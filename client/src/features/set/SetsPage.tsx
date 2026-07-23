@@ -56,7 +56,7 @@ const SetsPage: React.FC<{ data: ISet }> = ({ data }) => {
   }
   const isArchive = setParser.isArchive()
   const memberOf = setParser.getMemberOf()
-  const objectsWithImagesHalLink = setParser.getHalLink(archive.searchTag)
+  const objectsWithImagesHalLink = setParser.getHalLink(archive.halLinkName)
   const halLinkTitle = archive.title
 
   return (

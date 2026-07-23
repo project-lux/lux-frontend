@@ -30,8 +30,7 @@ const ListRow: React.FC<{
   data: ITimelinesTransformed
   year: string
   halLink: string
-  searchTag: string
-}> = ({ searchTags, data, year, halLink, searchTag }) => {
+}> = ({ searchTags, data, year, halLink }) => {
   const { tab } = searchTags[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
 
@@ -52,7 +51,7 @@ const ListRow: React.FC<{
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
             }
-            data-testid={`${year}-${searchTag}-search-link`}
+            data-testid={`${year}-${halLink}-search-link`}
           >
             Show all {totalItems} result
             {totalItems !== 1 && `s`}

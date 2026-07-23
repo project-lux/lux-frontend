@@ -18,7 +18,6 @@ export interface ITimelinesTransformed {
 export interface ITransformedData {
   value: string | null
   totalItems: number
-  searchTag: string
   id: string
   halLink: string
 }
