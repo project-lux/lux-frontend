@@ -66,37 +66,47 @@ export const locations: IHalLink = {
 // Used for rendering timelines
 export const timelines: IHalLinks = {
   // Objects Produced
-  itemProductionDate: {
+  'lux:agentItemMadeTime': {
     searchTag: 'lux:agentItemMadeTime',
     tab: 'objects',
   },
   // Objects Encountered By
-  itemEncounteredDate: {
+  'lux:agentItemEncounteredTime': {
     searchTag: 'lux:agentItemEncounteredTime',
     tab: 'objects',
   },
   // Works Created By
-  workCreationDate: {
+  'lux:agentWorkCreatedTime': {
     searchTag: 'lux:agentWorkCreatedTime',
     tab: 'works',
   },
   // Works Published By
-  workPublicationDate: {
+  'lux:agentWorkPublishedTime': {
     searchTag: 'lux:agentWorkPublishedTime',
     tab: 'works',
   },
+  // Works Influenced By
+  'lux:agentWorkInfluencedTime': {
+    searchTag: 'lux:agentWorkInfluencedTime',
+    tab: 'works',
+  },
+  // Works About
+  'lux:agentWorkAboutTime': {
+    searchTag: 'lux:agentWorkAboutTime',
+    tab: 'works',
+  },
   // Collections About
-  setCreationOrPublicationDate: {
+  'lux:agentSetAboutTime': {
     searchTag: 'lux:agentSetAboutTime',
     tab: 'collections',
   },
   // Collections Created By
-  setCreationDate: {
+  'lux:agentSetCreatedTime': {
     searchTag: 'lux:agentSetCreatedTime',
     tab: 'collections',
   },
   // Collections Published By
-  setPublicationDate: {
+  'lux:agentSetPublishedTime': {
     searchTag: 'lux:agentSetPublishedTime',
     tab: 'collections',
   },
