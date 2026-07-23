@@ -14,24 +14,24 @@ import FacetsRelatedList from './FacetsRelatedList'
 
 interface IProps {
   searchTermConfig: IHalLink
-  halLink: string
+  halLinkFromData: string
   index: number
 }
 
 /**
  * Renders the accordion item containing the accordion header and retrieves the HAL link data
  * @param {IHalLink} searchTermConfig known configuration for the given search tag
- * @param {string} halLink the HAL link in the entity's data
+ * @param {string} halLinkFromData the HAL link in the entity's data
  * @param {number} index the array index of the current HAL link
  * @returns {JSX.Element}
  */
 const FacetedListAccordionItem: React.FC<IProps> = ({
   searchTermConfig,
-  halLink,
+  halLinkFromData,
   index,
 }) => {
-  const { title, searchTag, jsonSearchTerm } = searchTermConfig
-  const searchTerm = searchTag.replace('lux:', '')
+  const { title, halLinkName, jsonSearchTerm } = searchTermConfig
+  const searchTerm = halLinkName.replace('lux:', '')
 
   const [activeAccordion, setActiveAccordion] = useState(false)
   const [page, setPage] = useState<number>(1)
@@ -42,7 +42,7 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
   })
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
-      uri: halLink,
+      uri: halLinkFromData,
       page: page.toString(),
     },
   )
@@ -73,7 +73,7 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
         })
       }
     }
-  }, [data, facets, halLink, isSuccess, page])
+  }, [data, facets, halLinkFromData, isSuccess, page])
 
   if (isSuccess && data) {
     // Check if the results contain any data
@@ -128,7 +128,7 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
             {isSuccess && data && (
               <FacetsRelatedList
                 activeAccordion={activeAccordion}
-                url={halLink}
+                url={halLinkFromData}
                 searchTerm={jsonSearchTerm || ''}
                 data={facets}
                 title={title || ''}

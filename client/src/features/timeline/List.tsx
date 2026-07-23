@@ -8,10 +8,9 @@ import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import {
-  ITimelineCriteria,
   ITimelinesTransformed,
+  ITimelineHalLinks,
 } from '../../types/ITimelines'
-import { IHalLinks } from '../../types/IHalLinks'
 
 import ListRow from './ListRow'
 
@@ -19,7 +18,7 @@ interface IProps {
   sortedKeys: Array<string>
   yearsArray: Array<string>
   transformedData: ITimelinesTransformed
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
 }
 
 const HoverableRow = styled(Row)`
@@ -44,7 +43,7 @@ const List: React.FC<IProps> = ({
   sortedKeys,
   yearsArray,
   transformedData,
-  searchTags,
+  halLinkConfig,
 }) => {
   // set the years to render based on user filtering
   const sortedYearsRange: Array<string> = []
@@ -85,18 +84,14 @@ const List: React.FC<IProps> = ({
               </StyledResponsiveCol>
             </HoverableRow>
             {Object.keys(transformedData[year]).map((halLink, ind) => {
-              const yearData = transformedData[year][
-                halLink
-              ] as ITimelineCriteria
               if (halLink !== 'total' && halLink !== 'criteria') {
                 return (
                   <dl className="my-0" key={`${year}-${halLink}-${ind}`}>
                     <ListRow
-                      searchTags={searchTags}
+                      halLinkConfig={halLinkConfig}
                       data={transformedData}
                       year={year}
                       halLink={halLink}
-                      searchTag={yearData.searchTag}
                     />
                   </dl>
                 )

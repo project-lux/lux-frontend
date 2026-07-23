@@ -18,7 +18,6 @@ export interface ITimelinesTransformed {
 export interface ITransformedData {
   value: string | null
   totalItems: number
-  searchTag: string
   id: string
   halLink: string
 }
@@ -32,4 +31,10 @@ export interface IGraphTimelineData {
   yearKey: string
   total: number
   [key: string]: ITimelineCriteria | string | number
+}
+
+export interface ITimelineHalLinks {
+  [key: string]: {
+    tab: string
+  }
 }

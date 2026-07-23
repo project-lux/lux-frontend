@@ -1,5 +1,6 @@
 import { IHalLink } from '../types/IHalLink'
 import { IHalLinks } from '../types/IHalLinks'
+import { ITimelineHalLinks } from '../types/ITimelines'
 
 /**
  * Contains configuration for React components for which search tags should be used to render data
@@ -10,32 +11,32 @@ import { IHalLinks } from '../types/IHalLinks'
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsInDepartment: {
     title: 'Objects in Collection',
-    searchTag: 'lux:departmentItems',
+    halLinkName: 'lux:departmentItems',
     tab: 'objects',
   },
   objectsCreated: {
     title: 'Objects Created, Encountered, or Influenced By',
-    searchTag: 'lux:agentMadeDiscoveredInfluencedItem',
+    halLinkName: 'lux:agentMadeDiscoveredInfluencedItem',
     tab: 'objects',
   },
   worksCreated: {
     title: 'Works Created, Published, or Influenced By',
-    searchTag: 'lux:agentCreatedPublishedInfluencedWork',
+    halLinkName: 'lux:agentCreatedPublishedInfluencedWork',
     tab: 'works',
   },
   worksAbout: {
     title: 'Works About or Related To',
-    searchTag: 'lux:agentWorkAbout',
+    halLinkName: 'lux:agentWorkAbout',
     tab: 'works',
   },
   collectionsCreatedPublishedInfluencedBy: {
     title: 'Collections Created, Published, or Influenced By',
-    searchTag: 'lux:agentCreatedPublishedInfluencedSet',
+    halLinkName: 'lux:agentCreatedPublishedInfluencedSet',
     tab: 'collections',
   },
   collectionsAboutEvent: {
     title: 'Collections About',
-    searchTag: 'lux:setAboutAgent',
+    halLinkName: 'lux:setAboutAgent',
     tab: 'collections',
   },
 }
@@ -44,13 +45,13 @@ export const relatedObjectsAndWorks: IHalLinks = {
 export const itemAndWorkTypes: IHalLinks = {
   itemTypes: {
     title: 'Object Types',
-    searchTag: 'lux:agentRelatedItemTypes',
+    halLinkName: 'lux:agentRelatedItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
     title: 'Work Types',
-    searchTag: 'lux:agentRelatedWorkTypes',
+    halLinkName: 'lux:agentRelatedWorkTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
@@ -59,60 +60,50 @@ export const itemAndWorkTypes: IHalLinks = {
 // Used for rendering related locations
 export const locations: IHalLink = {
   title: 'Related Locations',
-  searchTag: 'lux:agentRelatedPlaces',
+  halLinkName: 'lux:agentRelatedPlaces',
   tab: 'places',
 }
 
 // Used for rendering timelines
-export const timelines: IHalLinks = {
+export const timelines: ITimelineHalLinks = {
   // Objects Produced
   'lux:agentItemMadeTime': {
-    searchTag: 'lux:agentItemMadeTime',
     tab: 'objects',
   },
   // Objects Encountered By
   'lux:agentItemEncounteredTime': {
-    searchTag: 'lux:agentItemEncounteredTime',
     tab: 'objects',
   },
   // Objects Influenced By
   'lux:agentInfluencedItemsTime': {
-    searchTag: 'lux:agentInfluencedItemsTime',
     tab: 'objects',
   },
   // Works Created By
   'lux:agentWorkCreatedTime': {
-    searchTag: 'lux:agentWorkCreatedTime',
     tab: 'works',
   },
   // Works Published By
   'lux:agentWorkPublishedTime': {
-    searchTag: 'lux:agentWorkPublishedTime',
     tab: 'works',
   },
   // Works Influenced By
   'lux:agentInfluencedWorksTime': {
-    searchTag: 'lux:agentInfluencedWorksTime',
     tab: 'works',
   },
   // Works About
   'lux:agentWorkAboutTime': {
-    searchTag: 'lux:agentWorkAboutTime',
     tab: 'works',
   },
   // Collections About
   'lux:agentSetAboutTime': {
-    searchTag: 'lux:agentSetAboutTime',
     tab: 'collections',
   },
   // Collections Created By
   'lux:agentSetCreatedTime': {
-    searchTag: 'lux:agentSetCreatedTime',
     tab: 'collections',
   },
   // Collections Published By
   'lux:agentSetPublishedTime': {
-    searchTag: 'lux:agentSetPublishedTime',
     tab: 'collections',
   },
 }
@@ -121,48 +112,48 @@ export const timelines: IHalLinks = {
 export const relatedAccordions: IHalLinks = {
   agents: {
     title: 'Related People and Groups',
-    searchTag: 'lux:agentRelatedAgents',
+    halLinkName: 'lux:agentRelatedAgents',
     tab: 'objects',
   },
   founded: {
     title: 'Groups Founded',
-    searchTag: 'lux:agentFoundedByAgent',
+    halLinkName: 'lux:agentFoundedByAgent',
     tab: 'people',
   },
   materials: {
     title: 'Related Materials',
-    searchTag: 'lux:agentRelatedMaterials',
+    halLinkName: 'lux:agentRelatedMaterials',
     tab: 'concepts',
     jsonSearchTerm: 'material',
   },
   concepts: {
     title: 'Related Concepts',
-    searchTag: 'lux:agentRelatedConcepts',
+    halLinkName: 'lux:agentRelatedConcepts',
     tab: 'concepts',
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',
-    searchTag: 'lux:agentInfluencedConcepts',
+    halLinkName: 'lux:agentInfluencedConcepts',
     tab: 'concepts',
   },
   eventsCarriedOut: {
     title: 'Events Carried Out',
-    searchTag: 'lux:agentEventsCarriedOut',
+    halLinkName: 'lux:agentEventsCarriedOut',
     tab: 'events',
   },
   eventsContainingObjects: {
     title: 'Events Containing Objects Created By',
-    searchTag: 'lux:agentEventsUsingProducedObjects',
+    halLinkName: 'lux:agentEventsUsingProducedObjects',
     tab: 'events',
   },
   members: {
     title: 'Members',
-    searchTag: 'lux:agentAgentMemberOf',
+    halLinkName: 'lux:agentAgentMemberOf',
     tab: 'people',
   },
   collectionTypes: {
     title: 'Collection Types',
-    searchTag: 'lux:agentSetTypes',
+    halLinkName: 'lux:agentSetTypes',
     tab: 'collections',
     jsonSearchTerm: 'classification',
   },

@@ -9,7 +9,7 @@ import ILinks from '../../../../types/data/ILinks'
 const mockRelationships = {
   objects: {
     title: 'Related Objects',
-    searchTag: 'lux:relatedObjectsSearchTag',
+    halLinkName: 'lux:relatedObjectsSearchTag',
     tab: 'objects',
   },
 }

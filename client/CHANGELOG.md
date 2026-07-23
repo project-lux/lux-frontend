@@ -13,6 +13,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed timeline graph search links calling search-estimates endpoints for non-active tabs ([#1007](https://github.com/project-lux/lux-frontend/issues/1007)).
+- Fixed unused code and refactored naming convention of searchTag vs halLink ([#1004](https://github.com/project-lux/lux-frontend/issues/1004)).
 
 ### Removed
 

@@ -1,5 +1,6 @@
 import { IHalLink } from '../types/IHalLink'
 import { IHalLinks } from '../types/IHalLinks'
+import { ITimelineHalLinks } from '../types/ITimelines'
 
 /**
  * Contains configuration for React components for which search tags should be used to render data
@@ -9,36 +10,32 @@ import { IHalLinks } from '../types/IHalLinks'
 // Exhibition event
 export const setEvent: IHalLink = {
   title: 'Exhibition Event',
-  searchTag: 'lux:setEvents',
+  halLinkName: 'lux:setEvents',
 }
 
 // Tab content for related objects
 export const objectsIncluded: IHalLinks = {
   objects: {
     title: 'Objects Included',
-    searchTag: 'lux:setIncludedItems',
+    halLinkName: 'lux:setIncludedItems',
     tab: 'objects',
   },
 }
 
 // Used for rendering timeline data
-export const timeline: IHalLinks = {
-  itemProductionDate: {
-    searchTag: 'lux:setItemMadeTime',
+export const timeline: ITimelineHalLinks = {
+  'lux:setItemMadeTime': {
     tab: 'objects',
-    jsonSearchTerm: 'producedDate',
   },
-  itemEncounteredDate: {
-    searchTag: 'lux:setItemEncounteredTime',
+  'lux:setItemEncounteredTime': {
     tab: 'objects',
-    jsonSearchTerm: 'encounteredDate',
   },
 }
 
 export const relatedTypes: IHalLinks = {
   types: {
     title: 'Object Types',
-    searchTag: 'lux:setItemTypes',
+    halLinkName: 'lux:setItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
