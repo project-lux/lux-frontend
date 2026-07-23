@@ -75,7 +75,7 @@ const ArchiveHierarchyChild: React.FC<{
     const activeClassName = currentUriInHierarchy(data.id, pathname)
       ? 'active'
       : ''
-    const childrenHalLink = entity.getHalLink(setWithMemberOf.searchTag)
+    const childrenHalLink = entity.getHalLink(setWithMemberOf.halLinkName)
     // get the HAL link to retrieve the children of this entity
     // This HAL link is based on what the current page of the child entity is
     const currentPageHalLink = getHalLinkForChildren(data, ancestors)

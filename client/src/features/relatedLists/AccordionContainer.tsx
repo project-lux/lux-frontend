@@ -28,33 +28,33 @@ const AccordionContainer: React.FC<IProps> = ({
       const searchTagKeys = Object.keys(searchTags)
 
       return searchTagKeys.map((tag, index) => {
-        if (searchTags[tag].searchTag === link) {
-          const halLink = providedHalLinks[link].href
+        if (searchTags[tag].halLinkName === link) {
+          const halLinkUrl = providedHalLinks[link].href
 
-          const isRelatedList = halLink.includes('/api/related-list')
-          const isFacetedList = halLink.includes('/api/facets')
-          const isSearchResultsList = halLink.includes('/api/search')
+          const isRelatedList = halLinkUrl.includes('/api/related-list')
+          const isFacetedList = halLinkUrl.includes('/api/facets')
+          const isSearchResultsList = halLinkUrl.includes('/api/search')
 
           return (
             <React.Fragment key={tag}>
               {isRelatedList && (
                 <RelatedListAccordionItem
                   searchTermConfig={searchTags[tag]}
-                  halLink={halLink}
+                  halLinkFromData={halLinkUrl}
                   index={index}
                 />
               )}
               {isFacetedList && (
                 <FacetedListAccordionItem
                   searchTermConfig={searchTags[tag]}
-                  halLink={halLink}
+                  halLinkFromData={halLinkUrl}
                   index={index}
                 />
               )}
               {isSearchResultsList && (
                 <SearchResultsAccordionItem
                   searchTermConfig={searchTags[tag]}
-                  halLink={halLink}
+                  halLinkFromData={halLinkUrl}
                   index={index}
                 />
               )}

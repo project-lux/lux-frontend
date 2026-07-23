@@ -18,7 +18,7 @@ const CarriedBy: React.FC<{ entity: IEntity }> = ({ entity }) => {
   useResizeableWindow(setIsMobile)
 
   const work = new WorkParser(entity)
-  const workCarriedByQuery = work.getHalLink(carriedBy.searchTag)
+  const workCarriedByQuery = work.getHalLink(carriedBy.halLinkName)
 
   if (workCarriedByQuery === null) {
     return null

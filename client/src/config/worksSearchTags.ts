@@ -8,17 +8,17 @@ import { IHalLink } from '../types/IHalLink'
 // Used for retrieving and rendering carried by data
 export const carriedBy: IHalLink = {
   title: 'Carried By',
-  searchTag: 'lux:workCarriedBy',
+  halLinkName: 'lux:workCarriedBy',
 }
 
 // Used to request and display works that are the subject of a work
 export const subjectOf: IHalLink = {
   title: 'Subject Of',
-  searchTag: 'lux:workWorksAbout',
+  halLinkName: 'lux:workWorksAbout',
 }
 
 // Works that contain other works
 export const workContains: IHalLink = {
   title: 'Contains',
-  searchTag: 'lux:workIncludedWorks',
+  halLinkName: 'lux:workIncludedWorks',
 }

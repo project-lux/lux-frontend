@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed unused code and refactored naming convention of searchTag vs halLink ([#1004](https://github.com/project-lux/lux-frontend/issues/1004)).
+
 ### Removed
 
 ## v1.74.1 - 2026-07-20

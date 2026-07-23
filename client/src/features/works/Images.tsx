@@ -16,7 +16,7 @@ import WikiDataImageViewer from '../common/WikiDataImageViewer'
  */
 const Images: React.FC<{ entity: IEntity }> = ({ entity }) => {
   const element = new EntityParser(entity)
-  const elementCarriedByQuery = element.getHalLink(carriedBy.searchTag)
+  const elementCarriedByQuery = element.getHalLink(carriedBy.halLinkName)
   const skip = elementCarriedByQuery === null
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {

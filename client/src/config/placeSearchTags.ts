@@ -10,27 +10,27 @@ import { IHalLinks } from '../types/IHalLinks'
 export const relatedObjectsAndWorks: IHalLinks = {
   objectsRelated: {
     title: 'Objects Made or Encountered At',
-    searchTag: 'lux:placeMadeDiscoveredItem',
+    halLinkName: 'lux:placeMadeDiscoveredItem',
     tab: 'objects',
   },
   worksCreatedPublishedAt: {
     title: 'Works Created or Published At',
-    searchTag: 'lux:placeCreatedPublishedWork',
+    halLinkName: 'lux:placeCreatedPublishedWork',
     tab: 'works',
   },
   worksAboutPlace: {
     title: 'Works About or Related To',
-    searchTag: 'lux:placeWorkAbout',
+    halLinkName: 'lux:placeWorkAbout',
     tab: 'works',
   },
   collectionsCreatedAt: {
     title: 'Collections Created At',
-    searchTag: 'lux:setCreatedAtPlace',
+    halLinkName: 'lux:setCreatedAtPlace',
     tab: 'collections',
   },
   collectionsAboutPlace: {
     title: 'Collections About',
-    searchTag: 'lux:setAboutPlace',
+    halLinkName: 'lux:setAboutPlace',
     tab: 'collections',
   },
 }
@@ -39,19 +39,19 @@ export const relatedObjectsAndWorks: IHalLinks = {
 export const relatedTypes: IHalLinks = {
   itemTypes: {
     title: 'Object Types',
-    searchTag: 'lux:placeItemTypes',
+    halLinkName: 'lux:placeItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },
   workTypes: {
     title: 'Work Types',
-    searchTag: 'lux:placeWorkTypes',
+    halLinkName: 'lux:placeWorkTypes',
     tab: 'works',
     jsonSearchTerm: 'classification',
   },
   collectionTypes: {
     title: 'Collection Types',
-    searchTag: 'lux:placeSetTypes',
+    halLinkName: 'lux:placeSetTypes',
     tab: 'collections',
     jsonSearchTerm: 'classification',
   },
@@ -60,7 +60,7 @@ export const relatedTypes: IHalLinks = {
 // Used for rendering related locations
 export const locations: IHalLink = {
   title: 'Related Locations',
-  searchTag: 'lux:placeRelatedPlaces',
+  halLinkName: 'lux:placeRelatedPlaces',
   tab: 'places',
 }
 
@@ -68,37 +68,37 @@ export const locations: IHalLink = {
 export const relatedAccordions: IHalLinks = {
   agents: {
     title: 'Related People and Groups',
-    searchTag: 'lux:placeRelatedAgents',
+    halLinkName: 'lux:placeRelatedAgents',
     tab: 'objects',
   },
   agentsBornHere: {
     title: 'People Born and Groups Formed Here',
-    searchTag: 'lux:placeBornAgent',
+    halLinkName: 'lux:placeBornAgent',
     tab: 'people',
   },
   agentsDiedHere: {
     title: 'People Died and Groups Dissolved Here',
-    searchTag: 'lux:placeDiedAgent',
+    halLinkName: 'lux:placeDiedAgent',
     tab: 'people',
   },
   agentsActiveHere: {
     title: 'People and Groups Active Here',
-    searchTag: 'lux:placeActiveAgent',
+    halLinkName: 'lux:placeActiveAgent',
     tab: 'people',
   },
   concepts: {
     title: 'Related Concepts',
-    searchTag: 'lux:placeRelatedConcepts',
+    halLinkName: 'lux:placeRelatedConcepts',
     tab: 'objects',
   },
   conceptInfluenced: {
     title: 'Concepts Influenced',
-    searchTag: 'lux:placeInfluencedConcepts',
+    halLinkName: 'lux:placeInfluencedConcepts',
     tab: 'concepts',
   },
   events: {
     title: 'Events that Took Place Here',
-    searchTag: 'lux:placeEvents',
+    halLinkName: 'lux:placeEvents',
     tab: 'events',
   },
   ...relatedTypes,
@@ -108,46 +108,40 @@ export const relatedAccordions: IHalLinks = {
 // Used for rendering hierarchy children
 export const hierarchyChildren: IHalLink = {
   title: '',
-  searchTag: 'lux:placeParts',
+  halLinkName: 'lux:placeParts',
   tab: 'places',
 }
 
 // Used for rendering timelines
 export const timelines: IHalLinks = {
   // Objects Produced
-  itemProductionDate: {
-    searchTag: 'lux:placeItemMadeTime',
+  'lux:placeItemMadeTime': {
+    halLinkName: 'lux:placeItemMadeTime',
     tab: 'objects',
-    jsonSearchTerm: 'producedDate',
   },
   // Objects Encountered
-  itemEncounteredDate: {
-    searchTag: 'lux:placeItemEncounteredTime',
+  'lux:placeItemEncounteredTime': {
+    halLinkName: 'lux:placeItemEncounteredTime',
     tab: 'objects',
-    jsonSearchTerm: 'encounteredDate',
   },
   // Works Created
-  workCreationDate: {
-    searchTag: 'lux:placeWorkCreatedTime',
+  'lux:placeWorkCreatedTime': {
+    halLinkName: 'lux:placeWorkCreatedTime',
     tab: 'works',
-    jsonSearchTerm: 'createdDate',
   },
   // Works Published
-  workPublicationDate: {
-    searchTag: 'lux:placeWorkPublishedTime',
+  'lux:placeWorkPublishedTime': {
+    halLinkName: 'lux:placeWorkPublishedTime',
     tab: 'works',
-    jsonSearchTerm: 'publishedDate',
   },
   // Works About or Related To
-  workCreationOrPublicationDate: {
-    searchTag: 'lux:placeWorkAboutTime',
+  'lux:placeWorkAboutTime': {
+    halLinkName: 'lux:placeWorkAboutTime',
     tab: 'works',
-    jsonSearchTerm: 'publishedDate,createdDate',
   },
   // Collections About
-  setCreationOrPublicationDate: {
-    searchTag: 'lux:placeSetAboutTime',
+  'lux:placeSetAboutTime': {
+    halLinkName: 'lux:placeSetAboutTime',
     tab: 'collections',
-    jsonSearchTerm: 'publishedDate,createdDate',
   },
 }

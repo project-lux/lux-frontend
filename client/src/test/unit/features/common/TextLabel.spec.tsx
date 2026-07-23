@@ -30,10 +30,10 @@ describe('TextLabel', () => {
     expect(label).toBeInTheDocument()
   })
 
-  it('renders the tooltip', async () => {
-    render(<TextLabel label={mockLabel} />)
+  it('renders the popover button', async () => {
+    render(<TextLabel label={mockLabel} showPopover />)
 
-    const tooltip = screen.getByTestId('tooltip-icon')
+    const tooltip = screen.getByTestId('access-details-popover-button')
     expect(tooltip).toBeInTheDocument()
   })
 })

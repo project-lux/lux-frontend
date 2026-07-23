@@ -409,7 +409,7 @@ export const entity: IEntity = {
     self: {
       href: `${config.env.dataApiBaseUrl}data/object/72c1ebe6-d0b4-4ac1-8632-19d854b2bcd9`,
     },
-    [unit.searchTag]: {
+    [unit.halLinkName]: {
       href: `${config.env.dataApiBaseUrl}api/search/agent?q=%7BC%22memberOfInverse%22%3A%7B%22curated%22%3A%7B%22containing%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fobject%2F72c1ebe6-d0b4-4ac1-8632-19d854b2bcd9%22%7D%7D%7D%7D`,
       _estimate: 1,
     },

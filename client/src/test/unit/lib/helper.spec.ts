@@ -438,10 +438,10 @@ describe('helper functions', () => {
       const mockHalLinks: ILinks = mockEntity._links as ILinks
       const mockConfig: IHalLinks = {
         item: {
-          searchTag: 'lux:testHalLink1',
+          halLinkName: 'lux:testHalLink1',
         },
         work: {
-          searchTag: 'lux:testHalLink2',
+          halLinkName: 'lux:testHalLink2',
         },
       }
       const hasLinks = hasHalLinks(mockConfig, mockHalLinks)
@@ -452,10 +452,10 @@ describe('helper functions', () => {
       const mockHalLinks: ILinks = mockEntity._links as ILinks
       const mockConfig: IHalLinks = {
         item: {
-          searchTag: 'lux:testHalLink1',
+          halLinkName: 'lux:testHalLink1',
         },
         work: {
-          searchTag: 'lux:testHalLink3',
+          halLinkName: 'lux:testHalLink3',
         },
       }
       const hasLinks = hasHalLinks(mockConfig, mockHalLinks)

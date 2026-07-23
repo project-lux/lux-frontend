@@ -29,7 +29,7 @@ const tabsChildren = (
   Object.keys(relationships)
     .map((key) => {
       const tabSection = relationships[key]
-      const currentSearchTag = tabSection.searchTag
+      const currentSearchTag = tabSection.halLinkName
 
       // If the configured search tag exists in the returned HAL links, check for estimates
       if (!_.isNil(links) && Object.keys(links).includes(currentSearchTag)) {

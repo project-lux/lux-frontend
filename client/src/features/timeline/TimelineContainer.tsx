@@ -29,8 +29,8 @@ const getHalLinks = (
   const filteredHalLinks: Record<string, { href: string }> = {}
 
   Object.keys(providedHalLinks || {}).map((link: string) =>
-    Object.keys(searchTags).map((tag) => {
-      if (searchTags[tag].searchTag === link) {
+    Object.keys(searchTags).map((key) => {
+      if (searchTags[key].halLinkName === link) {
         filteredHalLinks[link] = { href: providedHalLinks[link].href }
       }
       return null

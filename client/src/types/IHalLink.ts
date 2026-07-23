@@ -1,6 +1,6 @@
 export interface IHalLink {
   title?: string
-  searchTag: string
+  halLinkName: string
   tab?: string
   jsonSearchTerm?: string
   facetName?: string // for parsing facet search result
