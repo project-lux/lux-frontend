@@ -9,36 +9,34 @@ import { IHalLinks } from '../types/IHalLinks'
 // Exhibition event
 export const setEvent: IHalLink = {
   title: 'Exhibition Event',
-  searchTag: 'lux:setEvents',
+  halLinkName: 'lux:setEvents',
 }
 
 // Tab content for related objects
 export const objectsIncluded: IHalLinks = {
   objects: {
     title: 'Objects Included',
-    searchTag: 'lux:setIncludedItems',
+    halLinkName: 'lux:setIncludedItems',
     tab: 'objects',
   },
 }
 
 // Used for rendering timeline data
 export const timeline: IHalLinks = {
-  itemProductionDate: {
-    searchTag: 'lux:setItemMadeTime',
+  'lux:setItemMadeTime': {
+    halLinkName: 'lux:setItemMadeTime',
     tab: 'objects',
-    jsonSearchTerm: 'producedDate',
   },
-  itemEncounteredDate: {
-    searchTag: 'lux:setItemEncounteredTime',
+  'lux:setItemEncounteredTime': {
+    halLinkName: 'lux:setItemEncounteredTime',
     tab: 'objects',
-    jsonSearchTerm: 'encounteredDate',
   },
 }
 
 export const relatedTypes: IHalLinks = {
   types: {
     title: 'Object Types',
-    searchTag: 'lux:setItemTypes',
+    halLinkName: 'lux:setItemTypes',
     tab: 'objects',
     jsonSearchTerm: 'classification',
   },

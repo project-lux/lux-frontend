@@ -170,7 +170,7 @@ describe('Entity pages relationship components', () => {
       const button = screen.getByTestId('view-list-button')
       fireEvent.click(button)
 
-      const link = screen.getByTestId('1983-itemProductionDate-search-link')
+      const link = screen.getByTestId('1983-lux:agentItemMadeTime-search-link')
       expect(link).toHaveTextContent('Show all 22 results')
     })
 
@@ -181,7 +181,7 @@ describe('Entity pages relationship components', () => {
       const button = screen.getByTestId('view-list-button')
       fireEvent.click(button)
 
-      const link = screen.getByTestId('1983-itemProductionDate-search-link')
+      const link = screen.getByTestId('1983-lux:agentItemMadeTime-search-link')
       expect(link).toHaveAttribute(
         'href',
         `/view/results/objects?q={"AND":[{"producedBy":{"id":"${config.env.dataApiBaseUrl}data/person/mock-person-1"}},{"producedDate":"1983-12-31T00:00:00.000Z","_comp":"<="},{"producedDate":"1983-01-01T00:00:00.000Z","_comp":">="}]}&searchLink=true`,

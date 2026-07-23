@@ -88,8 +88,8 @@ const PlacePage: React.FC<{ data: IPlace }> = ({ data }) => {
                 ) => Array<string>
               }
             />
-            {/* {Object.keys(data._links).includes(locations.searchTag) && (
-                  <Locations halLink={data._links[locations.searchTag]} />
+            {/* {Object.keys(data._links).includes(locations.halLink) && (
+                  <Locations halLink={data._links[locations.halLink]} />
                 )} */}
             <ErrorBoundary FallbackComponent={ErrorFallback}>
               <AccordionContainer

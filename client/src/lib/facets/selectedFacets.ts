@@ -84,10 +84,10 @@ export const getSelectedFacets = (
   }
 
   // helper function to make sure there is an existing set before adding values to map
-  function updateMap(searchTag: string, entityId: string): void {
-    if (!selectedFacetsMap.has(searchTag)) {
-      selectedFacetsMap.set(searchTag, new Set())
+  function updateMap(facetName: string, entityId: string): void {
+    if (!selectedFacetsMap.has(facetName)) {
+      selectedFacetsMap.set(facetName, new Set())
     }
-    selectedFacetsMap.get(searchTag)?.add(entityId)
+    selectedFacetsMap.get(facetName)?.add(entityId)
   }
 }

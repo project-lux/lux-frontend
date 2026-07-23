@@ -25,7 +25,7 @@ export const currentUriInHierarchy = (uri: string, pathname: string): boolean =>
  * @returns {string | null}
  */
 export const hasHierarchyHalLinks = (providedLinks: ILinks): string | null => {
-  const halLinkToCheck = setWithMemberOf.searchTag
+  const halLinkToCheck = setWithMemberOf.halLinkName
 
   if (providedLinks.hasOwnProperty(halLinkToCheck)) {
     return providedLinks[halLinkToCheck].href
@@ -84,7 +84,7 @@ export const getAncestorData = (data: {
           id: ancestor.entity.id!,
           childrenHalLink:
             ancestor.currentPageWithinParentResultsHalLink ||
-            parser.getHalLink(setWithMemberOf.searchTag),
+            parser.getHalLink(setWithMemberOf.halLinkName),
         }
       },
     )
