@@ -129,7 +129,7 @@ const Graph: React.FC<IProps> = ({
       style={{ userSelect: 'none', width: '100%' }}
       data-testid="timeline-graph-container"
     >
-      <ResponsiveContainer width="100%" height={500} className="p-3">
+      <ResponsiveContainer width="100%" height={500} className="p-3 mb-3">
         <BarChart
           data={graphData}
           margin={{
@@ -138,7 +138,6 @@ const Graph: React.FC<IProps> = ({
             left: 15,
             bottom: 5,
           }}
-          accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
