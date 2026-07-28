@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added Objects Influenced, Works Influenced, and Works About to people and group timelines ([#519](https://github.com/project-lux/lux-frontend/issues/519)).
+- Added Related Events accordions to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
 
 ### Changed
 
