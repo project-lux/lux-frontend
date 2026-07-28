@@ -31,36 +31,17 @@ const ListRow: React.FC<{
   year: string
   halLink: string
   searchTag: string
-  rowRefs: React.MutableRefObject<Array<HTMLDivElement | null>>
-  index: number
   linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
   linkIndex: number
-}> = ({
-  searchTags,
-  data,
-  year,
-  halLink,
-  searchTag,
-  rowRefs,
-  index,
-  linkRefs,
-  linkIndex,
-}) => {
+}> = ({ searchTags, data, year, halLink, searchTag, linkRefs, linkIndex }) => {
   const { tab } = searchTags[searchTag]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
-
+  const label = halLinkMapToLegendName.get(halLink)
   return (
-    <HoverableRow
-      key={`${halLink}-${year}`}
-      role="option"
-      tabIndex={-1}
-      ref={(element: HTMLDivElement | null) => {
-        rowRefs.current[index] = element
-      }}
-    >
+    <HoverableRow key={`${halLink}-${year}`} role="option" tabIndex={-1}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${halLink}-relationship`}>
-          {halLinkMapToLegendName.get(halLink)}
+          {label}
         </StyledDt>
       </Col>
       <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -70,6 +51,7 @@ const ListRow: React.FC<{
               pathname: `/view/results/${tab}`,
               search: `${searchParams}&searchLink=true`,
             }}
+            aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
             tabIndex={-1}
             ref={(el) => {
               linkRefs.current[linkIndex] = el

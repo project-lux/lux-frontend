@@ -126,45 +126,49 @@ const workPublicationDateFacets: Array<IOrderedItems> = [
   { ...defaultOrderedCollection, value: '1981-01-01T00:00:00Z', totalItems: 1 },
 ]
 
+export const itemProductionDateHalLink =
+  'https://endpoint.yale.edu/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D&name=itemProductionDate'
+export const workCreationDateHalLink =
+  'https://endpoint.yale.edu/api/facets/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%5D%7D&name=workCreationDate'
+export const workPublicationDateHalLink =
+  'https://endpoint.yale.edu/api/facets/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%5D%7D&name=workPublicationDate'
+
 export const timelineResults: Array<{ [key: string]: ISearchResults }> = [
   {
-    'https://endpoint.yale.edu/api/facets/item?q=%7B%22producedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D&name=itemProductionDate':
-      {
-        '@context': 'test',
-        id: 'uri',
+    [itemProductionDateHalLink]: {
+      '@context': 'test',
+      id: 'uri',
+      type: 'OrderedCollectionPage',
+      orderedItems: itemProductionDateFacets,
+      next: {
+        id: 'id',
         type: 'OrderedCollectionPage',
-        orderedItems: itemProductionDateFacets,
-        next: {
-          id: 'id',
-          type: 'OrderedCollectionPage',
-        },
       },
+    },
   },
   {
-    'https://endpoint.yale.edu/api/facets/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%5D%7D&name=workCreationDate':
-      {
-        '@context': 'test',
-        id: 'uri',
+    [workCreationDateHalLink]: {
+      '@context': 'test',
+      id: 'uri',
+      type: 'OrderedCollectionPage',
+      orderedItems: workCreationDateFacets,
+      next: {
+        id: 'id',
         type: 'OrderedCollectionPage',
-        orderedItems: workCreationDateFacets,
-        next: {
-          id: 'id',
-          type: 'OrderedCollectionPage',
-        },
       },
+    },
   },
   {
-    'https://endpoint.yale.edu/api/facets/work?q=%7B%22OR%22%3A%5B%7B%22createdBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%2C%7B%22publishedBy%22%3A%7B%22id%22%3A%22https%3A%2F%2Fendpoint.yale.edu%2Fdata%2Fperson%2Fmock-person-1%22%7D%7D%5D%7D&name=workPublicationDate':
-      {
-        '@context': 'test',
-        id: 'uri',
+    [workPublicationDateHalLink]: {
+      '@context': 'test',
+      id: 'uri',
+      type: 'OrderedCollectionPage',
+      orderedItems: workPublicationDateFacets,
+      next: {
+        id: 'id',
         type: 'OrderedCollectionPage',
-        orderedItems: workPublicationDateFacets,
-        next: {
-          id: 'id',
-          type: 'OrderedCollectionPage',
-        },
       },
+    },
   },
 ]
 
