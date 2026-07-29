@@ -21,6 +21,7 @@ import config from '../../config/config'
 import ExternalLink from './ExternalLink'
 import NotesContainer from './NotesContainer'
 import LinkContainer from './LinkContainer'
+import RtiPopover from './RtiPopover'
 
 interface IProps {
   data: IEntity
@@ -76,6 +77,11 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
     return null
   }
 
+  const rtiLinks = links.filter((siteLink) => siteLink.link.includes('/rti/'))
+  const nonRtiLinks = links.filter(
+    (siteLink) => !siteLink.link.includes('/rti/'),
+  )
+
   return (
     <div data-testid="how-do-i-see-it">
       <Col xs={12}>
@@ -105,11 +111,31 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
             style={{ marginBottom: theme.spacing.verticalItemDoubleSpacing }}
           />
         ))}
-      {links.map((link) => (
+      {nonRtiLinks.map((link) => (
         <div
           key={link.link}
           className="col-12"
-          style={{ marginBottom: theme.spacing.verticalItemDoubleSpacing }}
+          // style={{ marginBottom: theme.spacing.verticalItemDoubleSpacing }}
+          data-testid="site-links"
+        >
+          <ExternalLink
+            url={link.link}
+            name={
+              link.contentIdentifier !== '' ? link.contentIdentifier : link.link
+            }
+          />
+        </div>
+      ))}
+      {rtiLinks.length > 0 && (
+        <dt>
+          RTI Images <RtiPopover />
+        </dt>
+      )}
+      {rtiLinks.map((link) => (
+        <div
+          key={link.link}
+          className="col-12"
+          // style={{ marginBottom: theme.spacing.verticalItemDoubleSpacing }}
           data-testid="site-links"
         >
           <ExternalLink

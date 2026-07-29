@@ -8,7 +8,7 @@ import { StyledButton } from './LuxOverlay'
 
 export type Placement = 'top' | 'bottom' | 'left' | 'right'
 
-const InfoPopover: React.FC = () => {
+const AccessPopover: React.FC = () => {
   const [isOpen, setIsOpen] = React.useState(false)
 
   const getButtonText = (): string =>
@@ -78,4 +78,4 @@ const InfoPopover: React.FC = () => {
   )
 }
 
-export default InfoPopover
+export default AccessPopover

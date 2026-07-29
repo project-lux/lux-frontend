@@ -8,7 +8,7 @@ import {
   transformStringForTestId,
 } from '../../lib/parse/data/helper'
 
-import InfoPopover from './InfoPopover'
+import AccessPopover from './AccessPopover'
 
 interface ITextLabelProps {
   className?: string
@@ -23,7 +23,7 @@ const TextLabel: React.FC<ITextLabelProps> = ({
 }) => {
   const auth = useAuth()
   const loc = useLocation()
-  const popover = showPopover ? <InfoPopover /> : null
+  const popover = showPopover ? <AccessPopover /> : null
 
   // Get apiText in case there is a label that contains the base url
   let displayLabel = label
