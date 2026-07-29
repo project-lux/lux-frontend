@@ -27,7 +27,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
