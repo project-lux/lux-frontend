@@ -32,7 +32,7 @@ const ListRow: React.FC<{
   halLink: string
   searchTag: string
 }> = ({ searchTags, data, year, halLink, searchTag }) => {
-  const { tab } = searchTags[searchTag]
+  const { tab } = searchTags[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
 
   return (
