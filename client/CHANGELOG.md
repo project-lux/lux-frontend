@@ -12,6 +12,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed timeline graph search links calling search-estimates endpoints for non-active tabs ([#1007](https://github.com/project-lux/lux-frontend/issues/1007)).
+
 ### Removed
 
 ## v1.74.1 - 2026-07-20
