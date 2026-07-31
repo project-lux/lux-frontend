@@ -17,8 +17,8 @@ import theme from '../../styles/theme'
 import {
   IGraphTimelineData,
   ITimelinesTransformed,
+  ITimelineHalLinks,
 } from '../../types/ITimelines'
-import { IHalLinks } from '../../types/IHalLinks'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { halLinkMapToLegendName } from '../../config/timeline'
@@ -28,7 +28,7 @@ import CustomLegend from './CustomLegend'
 
 interface IProps {
   timelineData: ITimelinesTransformed
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
   yearsArray: Array<string>
   handleRangeChange: (start: number, end: number) => void
   startIndex: number
@@ -61,7 +61,7 @@ export const getInitialState = (
 
 const Graph: React.FC<IProps> = ({
   timelineData,
-  searchTags,
+  halLinkConfig,
   yearsArray,
   handleRangeChange,
   startIndex,
@@ -147,7 +147,7 @@ const Graph: React.FC<IProps> = ({
             trigger="click"
             content={
               <CustomTooltip
-                searchTags={searchTags}
+                halLinkConfig={halLinkConfig}
                 active={false}
                 payload={undefined}
               />

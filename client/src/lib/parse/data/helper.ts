@@ -461,9 +461,9 @@ export function hasHalLinks(
 ): boolean {
   let hasHalLinksBool = false
   Object.keys(providedHalLinks).map((link: string) =>
-    Object.keys(configuredHalLinks).map((tag) => {
+    Object.keys(configuredHalLinks).map((key) => {
       // If the search tag contains results
-      if (configuredHalLinks[tag].searchTag === link) {
+      if (configuredHalLinks[key].halLinkName === link) {
         hasHalLinksBool = true
       }
       return null

@@ -12,28 +12,28 @@ import RelatedList from './RelatedList'
 
 interface IProps {
   searchTermConfig: IHalLink
-  halLink: string
+  halLinkFromData: string
   index: number
 }
 
 /**
  * Renders the accordion item containing the accordion header and retrieves the HAL link data
  * @param {IHalLink} searchTermConfig known configuration for the given search tag
- * @param {string} halLink the HAL link in the entity's data
+ * @param {string} halLinkFromData the HAL link in the entity's data
  * @param {number} index the array index of the current HAL link
  * @returns {JSX.Element}
  */
 const RelatedListAccordionItem: React.FC<IProps> = ({
   searchTermConfig,
-  halLink,
+  halLinkFromData,
   index,
 }) => {
   const [activeAccordion, setActiveAccordion] = useState(false)
-  const { title, searchTag } = searchTermConfig
-  const searchTerm = searchTag.replace('lux:', '')
+  const { title, halLinkName } = searchTermConfig
+  const searchTerm = halLinkName.replace('lux:', '')
 
   const { data, isSuccess, isLoading, isError } = useGetRelatedListsQuery({
-    url: halLink,
+    url: halLinkFromData,
   })
 
   if (isSuccess) {
@@ -95,7 +95,7 @@ const RelatedListAccordionItem: React.FC<IProps> = ({
               <RelatedList
                 activeAccordion={activeAccordion}
                 results={data.results}
-                halLink={halLink}
+                halLinkUrl={halLinkFromData}
                 next={data.next}
                 title={title || ''}
               />
