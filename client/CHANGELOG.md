@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.75.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Fixed
+
+- Fixed the timeline list accessibility ([#865](https://github.com/project-lux/lux-frontend/issues/865)).
+
+### Removed
+
 ## v1.74.1 - 2026-07-20
 
 ### Fixed

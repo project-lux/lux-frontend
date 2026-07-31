@@ -33,3 +33,7 @@ export interface IGraphTimelineData {
   total: number
   [key: string]: ITimelineCriteria | string | number
 }
+
+export interface IYearRowIndexes {
+  linkIndexes: Record<string, number>
+}
