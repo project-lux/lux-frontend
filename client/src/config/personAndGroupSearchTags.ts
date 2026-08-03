@@ -126,6 +126,11 @@ export const relatedAccordions: IHalLinks = {
     tab: 'concepts',
     jsonSearchTerm: 'material',
   },
+  events: {
+    title: 'Related Events',
+    halLinkName: 'lux:agentRelatedEvents',
+    tab: 'events',
+  },
   concepts: {
     title: 'Related Concepts',
     halLinkName: 'lux:agentRelatedConcepts',
@@ -136,14 +141,14 @@ export const relatedAccordions: IHalLinks = {
     halLinkName: 'lux:agentInfluencedConcepts',
     tab: 'concepts',
   },
-  eventsCarriedOut: {
-    title: 'Events Carried Out',
-    halLinkName: 'lux:agentEventsCarriedOut',
-    tab: 'events',
-  },
   eventsContainingObjects: {
     title: 'Events Containing Objects Created By',
     halLinkName: 'lux:agentEventsUsingProducedObjects',
+    tab: 'events',
+  },
+  eventsCarriedOut: {
+    title: 'Events Carried Out',
+    halLinkName: 'lux:agentEventsCarriedOut',
     tab: 'events',
   },
   members: {
