@@ -2,8 +2,11 @@ export const halLinkMapToLegendName: Map<string, string> = new Map([
   // Agent Search Tags
   ['lux:agentItemMadeTime', 'Objects Produced'],
   ['lux:agentItemEncounteredTime', 'Objects Encountered'],
+  ['lux:agentInfluencedItemsTime', 'Objects Influenced'],
   ['lux:agentWorkCreatedTime', 'Works Created'],
   ['lux:agentWorkPublishedTime', 'Works Published'],
+  ['lux:agentInfluencedWorksTime', 'Works Influenced'],
+  ['lux:agentWorkAboutTime', 'Works About or Related To'],
   ['lux:agentSetAboutTime', 'Collections About'],
   ['lux:agentSetCreatedTime', 'Collections Created'],
   ['lux:agentSetPublishedTime', 'Collections Published'],

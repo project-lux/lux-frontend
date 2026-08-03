@@ -12,10 +12,9 @@ import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import {
-  ITimelineCriteria,
   ITimelinesTransformed,
+  ITimelineHalLinks,
 } from '../../types/ITimelines'
-import { IHalLinks } from '../../types/IHalLinks'
 
 import ListRow from './ListRow'
 
@@ -23,7 +22,7 @@ interface IProps {
   sortedKeys: Array<string>
   yearsArray: Array<string>
   transformedData: ITimelinesTransformed
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
 }
 
 const HoverableRow = styled(Row)`
@@ -48,7 +47,7 @@ const List: React.FC<IProps> = ({
   sortedKeys,
   yearsArray,
   transformedData,
-  searchTags,
+  halLinkConfig,
 }) => {
   // set the years to render based on user filtering
   const sortedYearsRange: Array<string> = []
@@ -188,24 +187,18 @@ const List: React.FC<IProps> = ({
                 </StyledDd>
               </StyledResponsiveCol>
             </HoverableRow>
-            {getRenderedHalLinks(transformedData, year).map((halLink, ind) => {
-              const yearData = transformedData[year][
-                halLink
-              ] as ITimelineCriteria
-              return (
-                <dl className="my-0" key={`${year}-${halLink}-${ind}`}>
-                  <ListRow
-                    searchTags={searchTags}
-                    data={transformedData}
-                    year={year}
-                    halLink={halLink}
-                    searchTag={yearData.searchTag}
-                    linkRefs={linkRefs}
-                    linkIndex={yearRows[year].linkIndexes[halLink]}
-                  />
-                </dl>
-              )
-            })}
+            {getRenderedHalLinks(transformedData, year).map((halLink, ind) => (
+              <dl className="my-0" key={`${year}-${halLink}-${ind}`}>
+                <ListRow
+                  halLinkConfig={halLinkConfig}
+                  data={transformedData}
+                  year={year}
+                  halLink={halLink}
+                  linkRefs={linkRefs}
+                  linkIndex={yearRows[year].linkIndexes[halLink]}
+                />
+              </dl>
+            ))}
           </StyledDiv>
         ))}
       </dl>

@@ -34,7 +34,8 @@ const HowDoISeeIt: React.FC<IProps> = ({ data }) => {
   // Parse the entity to get the appropriate HAL links for rendering the unit(s)
   const planYourVisitLinks = entity.getPlanYourVisitLink()
   const unitHalLink =
-    entity.getHalLink(unit.searchTag) || entity.getHalLink(setUnit.searchTag)
+    entity.getHalLink(unit.halLinkName) ||
+    entity.getHalLink(setUnit.halLinkName)
 
   // get the collection but skip request if data does not have a member_of property
   const {

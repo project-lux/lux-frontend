@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import {
   ITimelineCriteria,
   ITimelinesTransformed,
+  ITimelineHalLinks,
 } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { IHalLinks } from '../../types/IHalLinks'
 import theme from '../../styles/theme'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
@@ -26,15 +26,14 @@ const HoverableRow = styled(Row)`
 `
 
 const ListRow: React.FC<{
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
   data: ITimelinesTransformed
   year: string
   halLink: string
-  searchTag: string
   linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
   linkIndex: number
-}> = ({ searchTags, data, year, halLink, searchTag, linkRefs, linkIndex }) => {
-  const { tab } = searchTags[searchTag]
+}> = ({ halLinkConfig, data, year, halLink, linkRefs, linkIndex }) => {
+  const { tab } = halLinkConfig[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
   const label = halLinkMapToLegendName.get(halLink)
   return (
@@ -59,7 +58,7 @@ const ListRow: React.FC<{
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
             }
-            data-testid={`${year}-${searchTag}-search-link`}
+            data-testid={`${year}-${halLink}-search-link`}
           >
             Show all {totalItems} result
             {totalItems !== 1 && `s`}

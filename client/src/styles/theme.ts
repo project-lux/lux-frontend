@@ -152,6 +152,14 @@ const color = {
       focused: '#283593',
       unFocused: 'rgba(40, 53, 147, 0.2)',
     },
+    'Objects Influenced': {
+      focused: '#00838F',
+      unFocused: 'rgba(0, 131, 143, 0.2)',
+    },
+    'Works Influenced': {
+      focused: '#008F34',
+      unFocused: 'rgba(0, 143, 52, 0.2)',
+    },
     'Works Published': {
       focused: '#8D6E63',
       unFocused: 'rgba(141, 110, 99, 0.2)',

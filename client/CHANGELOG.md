@@ -6,10 +6,15 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added Objects Influenced, Works Influenced, and Works About to people and group timelines ([#519](https://github.com/project-lux/lux-frontend/issues/519)).
+- Added Related Events accordions to people and group pages ([#10](https://github.com/project-lux/lux-frontend/issues/10)).
+
 ### Changed
 
 ### Fixed
 
+- Fixed timeline graph search links calling search-estimates endpoints for non-active tabs ([#1007](https://github.com/project-lux/lux-frontend/issues/1007)).
+- Fixed unused code and refactored naming convention of searchTag vs halLink ([#1004](https://github.com/project-lux/lux-frontend/issues/1004)).
 - Fixed the timeline list accessibility ([#865](https://github.com/project-lux/lux-frontend/issues/865)).
 
 ### Removed

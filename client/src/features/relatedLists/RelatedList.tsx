@@ -14,7 +14,7 @@ import RelatedListRow from './RelatedListRow'
 interface IProps {
   activeAccordion: boolean
   results: IRelatedListResults
-  halLink: string
+  halLinkUrl: string
   title: string
   next?: {
     id: string
@@ -25,7 +25,7 @@ interface IProps {
 const RelatedList: React.FC<IProps> = ({
   activeAccordion,
   results,
-  halLink,
+  halLinkUrl,
   title,
   next,
 }) => {
@@ -39,7 +39,7 @@ const RelatedList: React.FC<IProps> = ({
   const handleClick = (page: number): void => {
     pushClientEvent('Pagination', 'Selected', 'Related List Accordion')
     fetchRelatedLists({
-      halLink,
+      halLink: halLinkUrl,
       page,
       onSuccess: (data) => {
         const parsedData = JSON.parse(data)

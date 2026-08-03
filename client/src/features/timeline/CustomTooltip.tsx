@@ -3,15 +3,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
-import { ITimelineCriteria } from '../../types/ITimelines'
+import { ITimelineCriteria, ITimelineHalLinks } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { IHalLinks } from '../../types/IHalLinks'
 import theme from '../../styles/theme'
 
 interface IProps {
   active: boolean
   payload: any
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
 }
 
 interface ILinkProps {
@@ -27,7 +26,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
@@ -48,7 +47,11 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
   )
 }
 
-const CustomTooltip: React.FC<IProps> = ({ active, payload, searchTags }) => {
+const CustomTooltip: React.FC<IProps> = ({
+  active,
+  payload,
+  halLinkConfig,
+}) => {
   if (active && payload && payload.length > 0) {
     return (
       <div
@@ -63,8 +66,7 @@ const CustomTooltip: React.FC<IProps> = ({ active, payload, searchTags }) => {
         {payload.length > 0 ? payload[0].payload.year : 'unknown year'}
         {payload.map((obj: Record<string, any>, ind: number) => {
           const halLink = obj.dataKey.replace('.totalItems', '')
-          const { searchTag } = obj.payload[halLink]
-          const { tab } = searchTags[searchTag]
+          const { tab } = halLinkConfig[halLink]
           const { searchParams } = obj.payload[halLink] as ITimelineCriteria
 
           return (
