@@ -1,8 +1,10 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-import { ITimelinesTransformed } from '../../types/ITimelines'
-import { IHalLinks } from '../../types/IHalLinks'
+import {
+  ITimelinesTransformed,
+  ITimelineHalLinks,
+} from '../../types/ITimelines'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 
 import List from './List'
@@ -12,8 +14,8 @@ const TimelineData: React.FC<{
   display: string
   sortedKeys: Array<string>
   transformedData: ITimelinesTransformed | null
-  searchTags: IHalLinks
-}> = ({ display, sortedKeys, transformedData, searchTags }) => {
+  halLinkConfig: ITimelineHalLinks
+}> = ({ display, sortedKeys, transformedData, halLinkConfig }) => {
   // Add additional years that were not returned with the data
   const yearsRange = TimelineParser.addYearsWithNoData(sortedKeys)
 
@@ -40,12 +42,12 @@ const TimelineData: React.FC<{
               sortedKeys={sortedKeys}
               yearsArray={yearsRange.slice(startIndex, endIndex + 1)}
               transformedData={transformedData}
-              searchTags={searchTags}
+              halLinkConfig={halLinkConfig}
             />
           ) : (
             <Graph
               timelineData={transformedData}
-              searchTags={searchTags}
+              halLinkConfig={halLinkConfig}
               yearsArray={yearsRange}
               startIndex={startIndex}
               endIndex={endIndex}

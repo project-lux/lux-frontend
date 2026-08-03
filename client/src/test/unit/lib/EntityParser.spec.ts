@@ -558,9 +558,9 @@ describe('EntityParser', () => {
   describe('getHalLink', () => {
     it('returns requested HAL link href', () => {
       const parser = new EntityParser(mockEntity)
-      const halLink = parser.getHalLink(unit.searchTag)
+      const halLink = parser.getHalLink(unit.halLinkName)
 
-      expect(halLink).toEqual(mockEntity._links![unit.searchTag].href)
+      expect(halLink).toEqual(mockEntity._links![unit.halLinkName].href)
     })
 
     it('returns null', () => {

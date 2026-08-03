@@ -14,11 +14,11 @@ interface IProps {
 
 const SubjectOf: React.FC<IProps> = ({ entity, halLinkConfig }) => {
   const parser = new EntityParser(entity)
-  const halLink = parser.getHalLink(halLinkConfig.searchTag)
-  const skip = halLink === null
+  const halLinkUrl = parser.getHalLink(halLinkConfig.halLinkName)
+  const skip = halLinkUrl === null
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
-      uri: halLink!,
+      uri: halLinkUrl!,
     },
     {
       skip,

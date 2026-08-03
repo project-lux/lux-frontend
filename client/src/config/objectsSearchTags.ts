@@ -8,18 +8,18 @@ import { IHalLink } from '../types/IHalLink'
 // Used to request and display collection data
 export const collection: IHalLink = {
   title: 'Collection',
-  searchTag: 'lux:itemDepartment',
+  halLinkName: 'lux:itemDepartment',
   facetName: 'responsibleCollections',
 }
 
 // Used to request and display unit data
 export const unit: IHalLink = {
   title: 'Responsible Unit',
-  searchTag: 'lux:itemUnit',
+  halLinkName: 'lux:itemUnit',
 }
 
 // Used to request and display items that are the subject of a work
 export const subjectOf: IHalLink = {
   title: 'Subject Of',
-  searchTag: 'lux:itemWorksAbout',
+  halLinkName: 'lux:itemWorksAbout',
 }

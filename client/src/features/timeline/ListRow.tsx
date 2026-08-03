@@ -6,9 +6,9 @@ import styled from 'styled-components'
 import {
   ITimelineCriteria,
   ITimelinesTransformed,
+  ITimelineHalLinks,
 } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { IHalLinks } from '../../types/IHalLinks'
 import theme from '../../styles/theme'
 import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
@@ -26,20 +26,21 @@ const HoverableRow = styled(Row)`
 `
 
 const ListRow: React.FC<{
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
   data: ITimelinesTransformed
   year: string
   halLink: string
-  searchTag: string
-}> = ({ searchTags, data, year, halLink, searchTag }) => {
-  const { tab } = searchTags[searchTag]
+  linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
+  linkIndex: number
+}> = ({ halLinkConfig, data, year, halLink, linkRefs, linkIndex }) => {
+  const { tab } = halLinkConfig[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
-
+  const label = halLinkMapToLegendName.get(halLink)
   return (
-    <HoverableRow key={`${halLink}-${year}`}>
+    <HoverableRow key={`${halLink}-${year}`} role="option" tabIndex={-1}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${halLink}-relationship`}>
-          {halLinkMapToLegendName.get(halLink)}
+          {label}
         </StyledDt>
       </Col>
       <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -49,10 +50,15 @@ const ListRow: React.FC<{
               pathname: `/view/results/${tab}`,
               search: `${searchParams}&searchLink=true`,
             }}
+            aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
+            tabIndex={-1}
+            ref={(el) => {
+              linkRefs.current[linkIndex] = el
+            }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')
             }
-            data-testid={`${year}-${searchTag}-search-link`}
+            data-testid={`${year}-${halLink}-search-link`}
           >
             Show all {totalItems} result
             {totalItems !== 1 && `s`}

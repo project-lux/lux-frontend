@@ -22,15 +22,15 @@ interface IProps {
 
 const getHalLink = (
   links: ILinks | undefined,
-  halLink: IHalLink,
+  halLinkConfig: IHalLink,
 ): string | null => {
   if (links === undefined) {
     return null
   }
 
-  const { searchTag } = halLink
-  if (links.hasOwnProperty(searchTag)) {
-    return links[searchTag].href
+  const { halLinkName } = halLinkConfig
+  if (links.hasOwnProperty(halLinkName)) {
+    return links[halLinkName].href
   }
 
   return null
@@ -45,7 +45,8 @@ const HierarchyContainer: React.FC<IProps> = ({
     (hierarchyState) => hierarchyState.hierarchy as IHierarchy,
   )
   const hierarchyRef = useRef<HTMLDivElement>(null)
-  const childrenUri = getHalLink(entity._links, halLink)
+  const halLinkConfig = halLink
+  const childrenUri = getHalLink(entity._links, halLinkConfig)
   const parents = getParentUris(entity)
 
   const skip = childrenUri === null

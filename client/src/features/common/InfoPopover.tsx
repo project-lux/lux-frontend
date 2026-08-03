@@ -17,6 +17,7 @@ const InfoPopover: React.FC = () => {
   const popover = (
     <Popover
       id="popover-basic"
+      data-testid="access-details-popover"
       style={{ maxWidth: '300px' }}
       title="Access details popover"
     >
@@ -60,7 +61,7 @@ const InfoPopover: React.FC = () => {
       <StyledButton
         variant="info"
         className="p-0"
-        data-testid="tooltip-button"
+        data-testid="access-details-popover-button"
         style={{ border: 'none', background: 'none' }}
       >
         <i
@@ -70,7 +71,7 @@ const InfoPopover: React.FC = () => {
             marginLeft: '0.2rem',
             marginRight: '0.2rem',
           }}
-          data-testid="tooltip-icon"
+          data-testid="access-details-popover-icon"
         />
         {getButtonText()}
       </StyledButton>

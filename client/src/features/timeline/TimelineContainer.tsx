@@ -7,7 +7,10 @@ import { IHalLinks } from '../../types/IHalLinks'
 import { useGetTimelineQuery } from '../../redux/api/ml_api'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import StyledDisplaySwitchButton from '../../styles/shared/DisplaySwitchButton'
-import { ITimelinesTransformed } from '../../types/ITimelines'
+import {
+  ITimelineHalLinks,
+  ITimelinesTransformed,
+} from '../../types/ITimelines'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import theme from '../../styles/theme'
 import Hr from '../../styles/shared/Hr'
@@ -23,14 +26,14 @@ const StyledButtonCol = styled(Col)`
 `
 
 const getHalLinks = (
-  searchTags: IHalLinks,
+  searchTags: IHalLinks | ITimelineHalLinks,
   providedHalLinks: any,
 ): Record<string, { href: string }> => {
   const filteredHalLinks: Record<string, { href: string }> = {}
 
   Object.keys(providedHalLinks || {}).map((link: string) =>
-    Object.keys(searchTags).map((tag) => {
-      if (searchTags[tag].searchTag === link) {
+    Object.keys(searchTags).map((key) => {
+      if (key === link) {
         filteredHalLinks[link] = { href: providedHalLinks[link].href }
       }
       return null
@@ -41,10 +44,10 @@ const getHalLinks = (
 }
 
 const TimelineContainer: React.FC<{
-  searchTags: IHalLinks
+  halLinkConfig: ITimelineHalLinks
   providedHalLinks: any
-}> = ({ searchTags, providedHalLinks }) => {
-  const links = getHalLinks(searchTags, providedHalLinks)
+}> = ({ halLinkConfig, providedHalLinks }) => {
+  const links = getHalLinks(halLinkConfig, providedHalLinks)
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false)
   const timelineRef = useRef<HTMLDivElement>(null)
   const [display, setDisplay] = useState<'list' | 'graph'>('graph')
@@ -159,7 +162,7 @@ const TimelineContainer: React.FC<{
               display={display}
               sortedKeys={sortedTimelineYears}
               transformedData={timelineData}
-              searchTags={searchTags}
+              halLinkConfig={halLinkConfig}
             />
           </Col>
         </StyledEntityPageSection>

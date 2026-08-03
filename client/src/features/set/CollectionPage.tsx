@@ -47,7 +47,7 @@ const CollectionPage: React.FC<IProps> = ({ data }) => {
             />
             <TimelineContainer
               key={`${data.id}-timeline`}
-              searchTags={timeline}
+              halLinkConfig={timeline}
               providedHalLinks={collection.json._links}
             />
             <AccordionContainer
