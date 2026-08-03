@@ -30,15 +30,17 @@ const ListRow: React.FC<{
   data: ITimelinesTransformed
   year: string
   halLink: string
-}> = ({ halLinkConfig, data, year, halLink }) => {
+  linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
+  linkIndex: number
+}> = ({ halLinkConfig, data, year, halLink, linkRefs, linkIndex }) => {
   const { tab } = halLinkConfig[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
-
+  const label = halLinkMapToLegendName.get(halLink)
   return (
-    <HoverableRow key={`${halLink}-${year}`}>
+    <HoverableRow key={`${halLink}-${year}`} role="option" tabIndex={-1}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${halLink}-relationship`}>
-          {halLinkMapToLegendName.get(halLink)}
+          {label}
         </StyledDt>
       </Col>
       <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
@@ -47,6 +49,11 @@ const ListRow: React.FC<{
             to={{
               pathname: `/view/results/${tab}`,
               search: `${searchParams}&searchLink=true`,
+            }}
+            aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
+            tabIndex={-1}
+            ref={(el) => {
+              linkRefs.current[linkIndex] = el
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', 'Timeline')

@@ -38,3 +38,7 @@ export interface ITimelineHalLinks {
     tab: string
   }
 }
+
+export interface IYearRowIndexes {
+  linkIndexes: Record<string, number>
+}
