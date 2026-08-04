@@ -58,7 +58,6 @@ const LuxRoutes: React.FC = () => {
       forceRefetch: isNotAnEntityPage, // force refetch if the user is on a non-entity page and then navigates to an entity page
     },
   )
-  console.log(isSuccess, data)
 
   const targetName = getTargetName(
     pathname,
@@ -67,8 +66,6 @@ const LuxRoutes: React.FC = () => {
     isSuccess,
     data,
   )
-  console.log('TARGET: ', targetName)
-  console.log('')
 
   useEffect(() => {
     // Set the current URL
