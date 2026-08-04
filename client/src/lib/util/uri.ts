@@ -28,6 +28,7 @@ export function getTargetName(
     targetName = entity.getPrimaryName(config.aat.primaryName)
   }
 
+  console.log('TARGET in function: ', targetName)
   return isUndefined(targetName) ? '404 Page Not Found' : targetName
 }
 

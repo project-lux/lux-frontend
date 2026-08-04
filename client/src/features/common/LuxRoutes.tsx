@@ -66,6 +66,8 @@ const LuxRoutes: React.FC = () => {
     isSuccess,
     data,
   )
+  console.log('TARGET: ', targetName)
+  console.log('')
 
   useEffect(() => {
     // Set the current URL

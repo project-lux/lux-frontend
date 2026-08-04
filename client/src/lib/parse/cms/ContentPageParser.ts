@@ -8,8 +8,6 @@ export class ContentPageParser {
   }
 
   getTitle(): string {
-    console.log('CMS DATA: ', this.data)
-    console.log('')
     return this.data.data.attributes.title
   }
 
