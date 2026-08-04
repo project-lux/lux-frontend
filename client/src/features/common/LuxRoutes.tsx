@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { getRouteNames } from '../../config/routerPages'
-import useAuthentication from '../../lib/hooks/useAuthentication'
+// import useAuthentication from '../../lib/hooks/useAuthentication'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { useGetItemQuery } from '../../redux/api/ml_api'
@@ -35,8 +35,8 @@ const RedirectOldProd: React.FC = () => {
 }
 
 const LuxRoutes: React.FC = () => {
-  const auth = useAuthentication()
-  const forceRefetch = auth.isAuthenticated
+  // const auth = useAuthentication()
+  // const forceRefetch = auth.isAuthenticated
 
   const { pathname, search } = useLocation()
   const [prevUrl, setPrevUrl] = useState('')
@@ -54,10 +54,11 @@ const LuxRoutes: React.FC = () => {
       uri: pathname.replace('/view/', ''),
     },
     {
-      skip: auth.isLoading === true || isNotAnEntityPage,
-      forceRefetch,
+      skip: isNotAnEntityPage,
+      forceRefetch: isNotAnEntityPage, // force refetch if the user is on a non-entity page and then navigates to an entity page
     },
   )
+  console.log(isSuccess, data)
 
   const targetName = getTargetName(
     pathname,
