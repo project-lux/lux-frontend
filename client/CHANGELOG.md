@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed the timeline legend overlapping the slider ([#881](https://github.com/project-lux/lux-frontend/issues/881)).
+- Fixed SiteImprove page title tracking logic issue ([#1023](https://github.com/project-lux/lux-frontend/issues/1023)).
 
 ### Removed
 
