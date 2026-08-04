@@ -6,7 +6,7 @@ import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
 import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
 import { getParamPrefix } from '../../lib/util/params'
@@ -135,7 +135,7 @@ const ResultsPage: React.FC = () => {
   }, [state])
 
   // Get title for accessibility purposes
-  useTitle(title)
+  // useTitle(title)
 
   // Get width of window
   useResizeableWindow(setIsMobile)

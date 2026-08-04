@@ -59,6 +59,14 @@ const LuxRoutes: React.FC = () => {
     },
   )
 
+  const targetName = getTargetName(
+    pathname,
+    routes,
+    isNotAnEntityPage,
+    isSuccess,
+    data,
+  )
+
   useEffect(() => {
     // Set the current URL
     // If the landing page does not have a named path, add it
@@ -67,13 +75,6 @@ const LuxRoutes: React.FC = () => {
     }${pathname === '/' ? '/landing' : pathname}${search}`
 
     // Get the target page name based on the current url
-    const targetName = getTargetName(
-      pathname,
-      routes,
-      isNotAnEntityPage,
-      isSuccess,
-      data,
-    )
 
     // Push a tracking event for a page change
     pushClientPageEvent(currentUrl, prevUrl, targetName)
@@ -82,6 +83,7 @@ const LuxRoutes: React.FC = () => {
 
   return (
     <React.Fragment>
+      <title>{targetName}</title>
       <RedirectOldProd />
       <Routes>
         <Route path="/view/results/*" element={<Header hideSearch />} />
