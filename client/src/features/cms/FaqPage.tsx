@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import { IFaq, IFaqGroup } from '../../lib/parse/cms/Faqs'
 import { FaqParser } from '../../lib/parse/cms/FaqParser'
 import { processHtml } from '../../lib/parse/cms/helper'
@@ -115,7 +115,7 @@ const FaqPage: React.FC<IProps> = ({ groupKeys }) => {
   let groups: JSX.Element[] = []
   const { pathname } = useLocation()
 
-  useTitle(title)
+  // useTitle(title)
 
   if (result.isSuccess && result.data) {
     const parser = new FaqParser(result.data)

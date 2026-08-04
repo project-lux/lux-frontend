@@ -2,7 +2,7 @@ import React from 'react'
 import { Col } from 'react-bootstrap'
 
 import { PageKey } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
+// import useTitle from '../../lib/hooks/useTitle'
 import ContentPageParser from '../../lib/parse/cms/ContentPageParser'
 import { processHtml } from '../../lib/parse/cms/helper'
 import { useGetPageQuery } from '../../redux/api/cmsApi'
@@ -29,7 +29,7 @@ const TermsOfUsePage: React.FC<IProps> = ({ pageKey }) => {
     body = parser.getBody()
   }
 
-  useTitle(title)
+  // useTitle(title)
 
   return (
     <StyledTermsOfUsePage className="row" data-testid="terms-of-use-page">
