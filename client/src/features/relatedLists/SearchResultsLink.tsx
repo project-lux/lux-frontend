@@ -14,6 +14,7 @@ interface IProps {
   url: string
   scope?: string
   additionalLinkText?: string
+  className?: string
 }
 
 const SearchResultsLink: React.FC<IProps> = ({
@@ -22,6 +23,7 @@ const SearchResultsLink: React.FC<IProps> = ({
   eventTitle,
   scope,
   additionalLinkText = '',
+  className = 'searchResultsLink',
 }) => {
   const estimate = getEstimates(data)
   const newScope = scope !== undefined ? scope : 'objects'
@@ -40,7 +42,7 @@ const SearchResultsLink: React.FC<IProps> = ({
 
   return (
     <Link
-      className="searchResultsLink"
+      className={className}
       to={{
         pathname: `/view/results/${newScope}`,
         search: searchString,

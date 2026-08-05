@@ -2,7 +2,7 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
-import StyledSearchLink from '../../styles/features/common/ObjectsContainerLinkRow'
+import StyledSearchButtonRow from '../../styles/features/common/SearchButtonRow'
 import StyledHr from '../../styles/shared/Hr'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
 import RecordLink from '../common/RecordLink'
@@ -73,21 +73,18 @@ const SearchResultRelatedList: React.FC<IProps> = ({
   return (
     <React.Fragment>
       {recordLinks(orderedItems)}
-      <StyledHr
-        width="100%"
-        className="mt-3 searchResultRelatedListHr"
-        $hiddenOnDesktop
-      />
-      <StyledSearchLink className="row py-2 text-start">
+      <StyledHr width="100%" className="mt-3 searchResultRelatedListHr" />
+      <StyledSearchButtonRow className="py-2 text-start">
         <Col xs={12} className="mt-1">
           <SearchResultsLink
+            className="searchResultLink"
             data={data}
             eventTitle={`Accordion ${title}`}
             url={url}
             scope={scope}
           />
         </Col>
-      </StyledSearchLink>
+      </StyledSearchButtonRow>
     </React.Fragment>
   )
 }
