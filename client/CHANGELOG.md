@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Updated Recharts to v3.x ([#1002](https://github.com/project-lux/lux-frontend/issues/1002)).
+
 ### Fixed
 
 ### Removed

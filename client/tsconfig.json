@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["dom", "dom.iterable", "ES2022"],
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "es6"],
     "types": ["vite/client"],
     "allowJs": true,
     "skipLibCheck": true,

@@ -36,7 +36,7 @@
     "react-redux": "9.2.0",
     "react-router-dom": "6.28.0",
     "react-router-hash-link": "2.4.3",
-    "recharts": "2.15.3",
+    "recharts": "3.10.1",
     "sanitize-html": "2.13.1",
     "universalviewer": "4.4.2",
     "vite": "8.1.1",

@@ -67,6 +67,7 @@ const Graph: React.FC<IProps> = ({
   startIndex,
   endIndex,
 }) => {
+  // console.log(handleRangeChange, startIndex, endIndex)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -126,10 +127,10 @@ const Graph: React.FC<IProps> = ({
   return (
     <div
       className="highlight-bar-charts"
-      style={{ userSelect: 'none', width: '100%' }}
+      style={{ userSelect: 'none', width: '100%', height: '500px' }}
       data-testid="timeline-graph-container"
     >
-      <ResponsiveContainer width="100%" height={500} className="p-3">
+      <ResponsiveContainer width="100%" className="p-3">
         <BarChart
           data={graphData}
           margin={{
@@ -138,7 +139,6 @@ const Graph: React.FC<IProps> = ({
             left: 15,
             bottom: 5,
           }}
-          accessibilityLayer
         >
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="year" allowDataOverflow />
@@ -208,6 +208,7 @@ const Graph: React.FC<IProps> = ({
                 const end = e.endIndex
                 handleRangeChange(start, end)
               }}
+              ariaLabel="Filter timeline by year range"
             />
           )}
         </BarChart>
