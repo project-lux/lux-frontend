@@ -8,6 +8,8 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Changed styling and layout of search buttons on entity pages ([#845](https://github.com/project-lux/lux-frontend/issues/845)).
+
 ### Fixed
 
 ### Removed

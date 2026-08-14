@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux'
 import { useAuth } from 'react-oidc-context'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
-import StyledObjectsContainerLinkRow from '../../styles/features/common/ObjectsContainerLinkRow'
+import StyledSearchButtonRow from '../../styles/features/common/SearchButtonRow'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
@@ -137,11 +137,11 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title, user }) => {
             />
           )}
           {resultsData(orderedItems, tab, title)}
-          <StyledObjectsContainerLinkRow className="p-2">
+          <StyledSearchButtonRow className="p-2">
             <Col xs={12}>
               <PrimaryButton
                 variant="link"
-                className="objectsContainerSearchLink"
+                className="searchResultLink"
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
@@ -155,7 +155,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title, user }) => {
                 {estimate !== 1 && `s`}
               </PrimaryButton>
             </Col>
-          </StyledObjectsContainerLinkRow>
+          </StyledSearchButtonRow>
         </React.Fragment>
       )
     }
