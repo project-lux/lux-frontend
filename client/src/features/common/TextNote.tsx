@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import sanitizeHtml from 'sanitize-html'
+import styled from 'styled-components'
 
 import LanguageSuperscript from './LanguageSuperscript'
 
@@ -19,76 +20,115 @@ const buttonStyle = {
   lineHeight: '24px',
 }
 
+const collapsedHtmlStyle = {
+  maxHeight: '7.5rem',
+  overflow: 'hidden',
+}
+
+const collapsedParagraphStyle = {
+  ...collapsedHtmlStyle,
+  display: 'block',
+}
+
+const StyledHtmlDiv = styled.div`
+  line-height: 24px;
+`
+
 const TextNote: React.FC<ITextNote> = ({
   content,
   id,
   language,
   htmlContent,
-  length = 1250,
+  length = 250,
 }) => {
   const [showLess, setShowLess] = useState(true)
   // This should hopefully never happen
   if (content === '' && htmlContent === undefined) {
     return null
   }
+
+  const sanitizedContent = sanitizeHtml(htmlContent || content)
   const linkName = showLess ? 'Show All' : 'Show Less'
   const isHtml = htmlContent !== undefined || content.includes('<span class=')
-
-  if (content.length < length || isHtml) {
-    return (
-      <div className="noteContainer" data-testid={`${id}-text-note`}>
-        <div className="noteContent" style={{ whiteSpace: 'pre-line' }}>
-          {isHtml ? (
-            <React.Fragment>
-              <div
-                dangerouslySetInnerHTML={{
-                  __html: sanitizeHtml(htmlContent || content),
-                }}
-              />
-              {language !== undefined && language !== '' && (
-                <LanguageSuperscript
-                  language={language}
-                  className="contentHtml"
-                  id="content-html-note"
-                />
-              )}
-            </React.Fragment>
-          ) : (
-            <div>
-              {content}{' '}
-              {language !== undefined && language !== '' && (
-                <LanguageSuperscript language={language} id="content-note" />
-              )}
-            </div>
-          )}
-        </div>
-      </div>
-    )
-  }
+  const textOnlyContent = isHtml
+    ? sanitizeHtml(sanitizedContent, {
+        allowedTags: [],
+        allowedAttributes: {},
+      })
+    : content
+  const shouldCollapse = textOnlyContent.length > length
+  const hasLanguage = language !== undefined && language !== ''
+  let containerClassName = shouldCollapse
+    ? 'collapsableNoteContainer'
+    : 'noteContainer'
+  let dataTestId = shouldCollapse
+    ? `${id}-collapsable-text-note`
+    : `${id}-text-note`
+  const contentClassName = isHtml
+    ? 'noteContentHtmlDiv'
+    : 'noteContentParagraph'
+  const languageId = isHtml
+    ? 'collapsable-content-html-note'
+    : 'collapsable-note-content'
 
   return (
-    <div
-      className="collapsableNoteContainer"
-      data-testid={`${id}-collapsable-text-note`}
-    >
-      <p className="noteContent" style={{ whiteSpace: 'pre-line' }}>
-        {showLess ? `${content.slice(0, length)}…` : content}
-        {language !== undefined && language !== '' && (
-          <LanguageSuperscript
-            language={language}
-            id="collapsable-note-content"
+    <div className={containerClassName} data-testid={dataTestId}>
+      {isHtml ? (
+        <div className={contentClassName} style={{ whiteSpace: 'pre-line' }}>
+          <StyledHtmlDiv
+            style={shouldCollapse && showLess ? collapsedHtmlStyle : undefined}
+            dangerouslySetInnerHTML={{
+              __html: sanitizedContent,
+            }}
           />
-        )}
-        &nbsp;
-        <button
-          type="button"
-          className="btn btn-link"
-          style={buttonStyle}
-          onClick={() => setShowLess(!showLess)}
-        >
-          {linkName}
-        </button>
-      </p>
+          {hasLanguage && (
+            <LanguageSuperscript
+              language={language}
+              className="contentHtml"
+              id={languageId}
+            />
+          )}
+          {shouldCollapse && (
+            <React.Fragment>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-link"
+                style={buttonStyle}
+                onClick={() => setShowLess(!showLess)}
+              >
+                {linkName}
+              </button>
+            </React.Fragment>
+          )}
+        </div>
+      ) : (
+        <p className={contentClassName} style={{ whiteSpace: 'pre-line' }}>
+          <span
+            style={
+              shouldCollapse && showLess ? collapsedParagraphStyle : undefined
+            }
+          >
+            {content}
+          </span>
+          {hasLanguage && (
+            <LanguageSuperscript language={language} id={languageId} />
+          )}
+          {shouldCollapse && (
+            <React.Fragment>
+              &nbsp;
+              <button
+                type="button"
+                className="btn btn-link"
+                style={buttonStyle}
+                onClick={() => setShowLess(!showLess)}
+              >
+                {linkName}
+              </button>
+            </React.Fragment>
+          )}
+        </p>
+      )}
     </div>
   )
 }

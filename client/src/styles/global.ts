@@ -103,7 +103,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  p {
+  p, span {
     color: ${theme.color.black};
     letter-spacing: 0;
     text-align: left;
