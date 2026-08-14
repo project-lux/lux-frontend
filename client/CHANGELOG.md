@@ -15,6 +15,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed hash links and react-router-hash-link ([#1002](https://github.com/project-lux/lux-frontend/issues/1002)).
+- Removed SiteImprove events on errors ([#937](https://github.com/project-lux/lux-frontend/issues/937)).
 
 ## v1.75.0 - 2026-08-03
 
