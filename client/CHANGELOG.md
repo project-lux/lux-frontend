@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 ### Fixed
 
+- Fixed the timeline legend overlapping the slider ([#881](https://github.com/project-lux/lux-frontend/issues/881)).
+
 ### Removed
 
 - Removed hash links and react-router-hash-link ([#1002](https://github.com/project-lux/lux-frontend/issues/1002)).
