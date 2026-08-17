@@ -67,24 +67,6 @@ const PrimaryButton = styled(Button)`
     }
   }
 
-  &.objectsContainerSearchLink {
-    background-color: ${theme.color.white};
-    color: ${theme.color.link};
-    padding: 0px;
-    border: none;
-
-    @media (min-width: ${theme.breakpoints.md}px) {
-      background-color: ${theme.color.primary.teal};
-      color: ${theme.color.white};
-      border-radius: 10px;
-      border-color: ${theme.color.primary.teal};
-      font-size: 16px;
-      font-weight: ${theme.font.weight.bold};
-      padding: 1rem;
-      text-decoration: none;
-    }
-  }
-
   &.addToCollectionOnEntityPageButton {
     background-color: ${theme.color.lightGray};
     color: ${theme.color.black};

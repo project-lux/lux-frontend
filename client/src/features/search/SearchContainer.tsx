@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { HashLink } from 'react-router-hash-link'
+import { Link } from 'react-router-dom'
 
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
@@ -68,7 +68,7 @@ const SearchContainer: React.FC<IProps> = ({
               <AdvancedSearchButton setIsError={setIsError} id={id} />
             </Col>
             <Col xs={6} className="d-inline-flex justify-content-end">
-              <HashLink
+              <Link
                 to="/content/simple-search"
                 style={{
                   ...searchTipsStyle,
@@ -84,7 +84,7 @@ const SearchContainer: React.FC<IProps> = ({
                 }
               >
                 Search Tips
-              </HashLink>
+              </Link>
             </Col>
           </LinksContainerRow>
         </Col>

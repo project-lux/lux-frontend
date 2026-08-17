@@ -20,7 +20,9 @@ const CustomLegend: React.FC<IProps> = ({
 }) => {
   if (payload && payload.length > 0) {
     return (
-      <div className={isMobile ? '' : 'd-flex justify-content-center'}>
+      <div
+        className={`mt-3 ${isMobile ? '' : 'd-flex justify-content-center'}`}
+      >
         {payload.map(
           (
             entry: {
