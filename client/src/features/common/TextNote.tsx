@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useLayoutEffect, useRef, useState } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import styled from 'styled-components'
 
@@ -11,7 +11,6 @@ interface ITextNote {
   id: string
   language?: string
   htmlContent?: string
-  length?: number
 }
 
 const buttonStyle = {
@@ -51,25 +50,45 @@ const TextNote: React.FC<ITextNote> = ({
   id,
   language,
   htmlContent,
-  length = 250,
 }) => {
   const [showLess, setShowLess] = useState(true)
+  const [hasOverflow, setHasOverflow] = useState(false)
+  const htmlContentRef = useRef<HTMLDivElement>(null)
+  const paragraphContentRef = useRef<HTMLSpanElement>(null)
+
+  const sanitizedContent = sanitizeHtml(htmlContent || content)
+  const linkName = showLess ? 'Show All' : 'Show Less'
+  const isHtml = htmlContent !== undefined || content.includes('<span class=')
+  const shouldCollapse = hasOverflow
+  const hasLanguage = language !== undefined && language !== ''
+
+  // Only measure while collapsed: the max-height/overflow-hidden style is
+  // what makes scrollHeight (full content) differ from clientHeight (capped)
+  // when the content actually overflows. While expanded there's nothing to
+  // measure, so we leave hasOverflow as-is rather than let it flip false.
+  useLayoutEffect(() => {
+    const node = htmlContentRef.current || paragraphContentRef.current
+    if (!node || !showLess) {
+      return undefined
+    }
+
+    const checkOverflow = (): void => {
+      setHasOverflow(node.scrollHeight > node.clientHeight)
+    }
+
+    checkOverflow()
+
+    const resizeObserver = new ResizeObserver(checkOverflow)
+    resizeObserver.observe(node)
+
+    return () => resizeObserver.disconnect()
+  }, [showLess, sanitizedContent])
+
   // This should hopefully never happen
   if (content === '' && htmlContent === undefined) {
     return null
   }
 
-  const sanitizedContent = sanitizeHtml(htmlContent || content)
-  const linkName = showLess ? 'Show All' : 'Show Less'
-  const isHtml = htmlContent !== undefined || content.includes('<span class=')
-  const textOnlyContent = isHtml
-    ? sanitizeHtml(sanitizedContent, {
-        allowedTags: [],
-        allowedAttributes: {},
-      })
-    : content
-  const shouldCollapse = textOnlyContent.length > length
-  const hasLanguage = language !== undefined && language !== ''
   let containerClassName = shouldCollapse
     ? 'collapsableNoteContainer'
     : 'noteContainer'
@@ -88,7 +107,8 @@ const TextNote: React.FC<ITextNote> = ({
       {isHtml ? (
         <div className={contentClassName} style={{ whiteSpace: 'pre-line' }}>
           <StyledHtmlDiv
-            style={shouldCollapse && showLess ? collapsedHtmlStyle : undefined}
+            ref={htmlContentRef}
+            style={showLess ? collapsedHtmlStyle : undefined}
             dangerouslySetInnerHTML={{
               __html: sanitizedContent,
             }}
@@ -117,9 +137,8 @@ const TextNote: React.FC<ITextNote> = ({
       ) : (
         <p className={contentClassName} style={{ whiteSpace: 'pre-line' }}>
           <span
-            style={
-              shouldCollapse && showLess ? collapsedParagraphStyle : undefined
-            }
+            ref={paragraphContentRef}
+            style={showLess ? collapsedParagraphStyle : undefined}
           >
             {content}
           </span>
