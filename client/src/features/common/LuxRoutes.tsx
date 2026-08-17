@@ -49,7 +49,8 @@ const LuxRoutes: React.FC = () => {
   useResizeableWindow(setIsMobile)
 
   const routes = useMemo(() => getRouteNames(), [])
-  const isNotAnEntityPage = routes.has(pathname)
+  // entity pages do not have a route name, so we need to check if the current pathname is in the route map
+  const hasRouteName = routes.has(pathname)
 
   // used to get the name of the page if on an entity page
   const { isSuccess, data } = useGetItemQuery(
@@ -57,22 +58,22 @@ const LuxRoutes: React.FC = () => {
       uri: pathname.replace('/view/', ''),
     },
     {
-      skip: isNotAnEntityPage,
-      forceRefetch: isNotAnEntityPage, // force refetch if the user is on a non-entity page and then navigates to an entity page
+      skip: hasRouteName,
+      forceRefetch: hasRouteName, // force refetch if the user is on a non-entity page and then navigates to an entity page
     },
   )
 
   const targetName = getTargetName(
     pathname,
     routes,
-    isNotAnEntityPage,
+    hasRouteName,
     isSuccess,
     data,
   )
 
   useEffect(() => {
     // For entity pages, wait to track until we have a resolved title from item data.
-    if (!isNotAnEntityPage && targetName === unknownPageName) {
+    if (!hasRouteName && targetName === unknownPageName) {
       return
     }
 
@@ -92,14 +93,7 @@ const LuxRoutes: React.FC = () => {
     pushClientPageEvent(currentUrl, prevUrlRef.current, targetName)
     prevUrlRef.current = currentUrl
     lastTrackedLocationKey.current = locationKey
-  }, [
-    locationKey,
-    pathname,
-    search,
-    targetName,
-    isNotAnEntityPage,
-    unknownPageName,
-  ])
+  }, [locationKey, pathname, search, targetName, hasRouteName, unknownPageName])
 
   return (
     <React.Fragment>

@@ -11,19 +11,19 @@ export function getPath(uri: string): string {
 export function getTargetName(
   pathname: string,
   routes: Map<string, string>,
-  isNotAnEntityPage: boolean,
+  hasRouteName: boolean,
   isSuccess: boolean,
   data: IEntity | undefined,
 ): string {
   let targetName
 
   // set the target name to the correct non-entity page
-  if (isNotAnEntityPage) {
+  if (hasRouteName) {
     targetName = routes.get(pathname)
     return isUndefined(targetName) ? 'Page Name Unknown' : targetName
   }
 
-  // set the taget name to the entity page
+  // set the target name to the entity page
   if (isSuccess && data) {
     const entity = new EntityParser(data)
     targetName = entity.getPrimaryName(config.aat.primaryName)
