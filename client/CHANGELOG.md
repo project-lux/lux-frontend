@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added support for Show More/Show Less on notes sections ([#634](https://github.com/project-lux/lux-frontend/issues/634)).
+
 ### Changed
 
 - Changed styling and layout of search buttons on entity pages ([#845](https://github.com/project-lux/lux-frontend/issues/845)).
