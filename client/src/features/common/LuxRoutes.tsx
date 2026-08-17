@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { getRouteNames } from '../../config/routerPages'
@@ -35,17 +35,20 @@ const RedirectOldProd: React.FC = () => {
 }
 
 const LuxRoutes: React.FC = () => {
+  const unknownPageName = 'Page Name Unknown'
+
   // const auth = useAuthentication()
   // const forceRefetch = auth.isAuthenticated
 
-  const { pathname, search } = useLocation()
-  const [prevUrl, setPrevUrl] = useState('')
+  const { pathname, search, key: locationKey } = useLocation()
+  const prevUrlRef = useRef('')
+  const lastTrackedLocationKey = useRef<string | null>(null)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
   useResizeableWindow(setIsMobile)
 
-  const routes = getRouteNames()
+  const routes = useMemo(() => getRouteNames(), [])
   const isNotAnEntityPage = routes.has(pathname)
 
   // used to get the name of the page if on an entity page
@@ -68,6 +71,15 @@ const LuxRoutes: React.FC = () => {
   )
 
   useEffect(() => {
+    // For entity pages, wait to track until we have a resolved title from item data.
+    if (!isNotAnEntityPage && targetName === unknownPageName) {
+      return
+    }
+
+    if (lastTrackedLocationKey.current === locationKey) {
+      return
+    }
+
     // Set the current URL
     // If the landing page does not have a named path, add it
     const currentUrl = `${window.location.protocol}//${
@@ -77,9 +89,17 @@ const LuxRoutes: React.FC = () => {
     // Get the target page name based on the current url
 
     // Push a tracking event for a page change
-    pushClientPageEvent(currentUrl, prevUrl, targetName)
-    setPrevUrl(currentUrl)
-  }, [data, isNotAnEntityPage, isSuccess, pathname, prevUrl, routes, search])
+    pushClientPageEvent(currentUrl, prevUrlRef.current, targetName)
+    prevUrlRef.current = currentUrl
+    lastTrackedLocationKey.current = locationKey
+  }, [
+    locationKey,
+    pathname,
+    search,
+    targetName,
+    isNotAnEntityPage,
+    unknownPageName,
+  ])
 
   return (
     <React.Fragment>
