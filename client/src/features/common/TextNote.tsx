@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import sanitizeHtml from 'sanitize-html'
 import styled from 'styled-components'
 
+import theme from '../../styles/theme'
+
 import LanguageSuperscript from './LanguageSuperscript'
 
 interface ITextNote {
@@ -31,7 +33,17 @@ const collapsedParagraphStyle = {
 }
 
 const StyledHtmlDiv = styled.div`
-  line-height: 24px;
+  color: ${theme.color.black};
+  letter-spacing: 0;
+  font-size: ${theme.font.mobile.bodyLight.size};
+  line-height: ${theme.font.mobile.bodyLight.lineHeight};
+  font-weight: ${theme.font.mobile.bodyLight.weight};
+
+  @media (min-width: ${theme.breakpoints.md}px) {
+    font-size: ${theme.font.desktop.bodyLight.size};
+    line-height: ${theme.font.desktop.bodyLight.lineHeight};
+    font-weight: ${theme.font.desktop.bodyLight.weight};
+  }
 `
 
 const TextNote: React.FC<ITextNote> = ({
