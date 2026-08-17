@@ -12,7 +12,6 @@ import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
 import { onSignIn } from './lib/auth/helper'
-import { pushClientEvent } from './lib/pushClientEvent'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;
@@ -106,20 +105,6 @@ const App: React.FC = () => {
   if (initFailure) {
     errorMessage =
       'Configuration from the backend failed to load. This may limit the functionality of the frontend.'
-  }
-
-  // Environment variables failed to load
-  if (environmentLoadingError) {
-    pushClientEvent(
-      'Error',
-      'Triggered',
-      'Environment Variables Configuration Error',
-    )
-  }
-
-  // The advanced search configuration failed to load
-  if (advancedSearchConfigError) {
-    pushClientEvent('Error', 'Triggered', 'Advanced Search Configuration Error')
   }
 
   if (envLoaded && config.env.maintenanceMode) {
