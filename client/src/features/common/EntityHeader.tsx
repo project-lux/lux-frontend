@@ -6,11 +6,7 @@ import { useLocation } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import StyledEntityHeader from '../../styles/features/common/EntityHeader'
-import {
-  useResizableName,
-  shortenIfNeeded,
-} from '../../lib/hooks/useResizableName'
-import useTitle from '../../lib/hooks/useTitle'
+import { useResizableName } from '../../lib/hooks/useResizableName'
 import IEntity from '../../types/data/IEntity'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
@@ -101,8 +97,6 @@ const EntityHeader: React.FC<IEntityHeader> = ({
 
   const { displayName, isNameLong, showLongName, setShowLongName } =
     useResizableName(name)
-
-  useTitle(shortenIfNeeded(displayName))
 
   useEffect(() => {
     if (state && state.hasOwnProperty('showAlert')) {
