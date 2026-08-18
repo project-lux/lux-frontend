@@ -2,7 +2,6 @@ import React from 'react'
 import { Alert, Col } from 'react-bootstrap'
 
 import { PageKey } from '../../config/cms'
-import useTitle from '../../lib/hooks/useTitle'
 import ContentPageParser from '../../lib/parse/cms/ContentPageParser'
 import { processHtml } from '../../lib/parse/cms/helper'
 import { useGetPageQuery } from '../../redux/api/cmsApi'
@@ -33,8 +32,6 @@ const ContentPage: React.FC<IProps> = ({ pageKey, pages, testId }) => {
     title = parser.getTitle()
     body = parser.getBody()
   }
-
-  useTitle(title)
 
   if (result.isError) {
     return (

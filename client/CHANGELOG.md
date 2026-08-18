@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.76.0 - Unreleased
+## v1.76.1 - 2026-08-18
+
+### Fixed
+
+- Fixed SiteImprove page title tracking logic issue ([#1023](https://github.com/project-lux/lux-frontend/issues/1023)).
+
+## v1.76.0 - 2026-08-17
 
 ### Added
 

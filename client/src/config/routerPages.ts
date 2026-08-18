@@ -35,6 +35,10 @@ const faqRouteMap = new Map([
     `${CMS_PREFIX}/advanced-search`,
     faqGroupLabels[FaqGroupKey.ADVANCED_SEARCH],
   ],
+  [
+    `${CMS_PREFIX}/advanced-search-terms`,
+    faqGroupLabels[FaqGroupKey.ADVANCED_SEARCH_TERMS],
+  ],
   [`${CMS_PREFIX}/result-views`, faqGroupLabels[FaqGroupKey.RESULT_VIEWS]],
   [`${CMS_PREFIX}/item-records`, faqGroupLabels[FaqGroupKey.ITEM_RECORDS]],
 ])
