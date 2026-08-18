@@ -4,7 +4,9 @@ import { fetchWithToken } from './fetchWithToken'
 
 interface ITranslateParameters {
   query: string
+  isAiSearch: boolean
   scope: string
+  prevQuery?: string
   onSuccess: (translatedString: string) => void
   onError: () => void
   onLoading: () => void
@@ -12,16 +14,22 @@ interface ITranslateParameters {
 
 export function translate({
   query,
+  isAiSearch,
   scope,
+  prevQuery,
   onSuccess,
   onError,
   onLoading,
 }: ITranslateParameters): void {
   const urlParams = new URLSearchParams()
   urlParams.set('q', query)
+  if (prevQuery) {
+    urlParams.set('prevQuery', prevQuery)
+  }
+  const updatedScope = isAiSearch ? '' : `/${scope}`
   onLoading()
   fetchWithToken(
-    `${getDataApiBaseUrl()}api/translate/${scope}?${urlParams.toString()}`,
+    `${getDataApiBaseUrl()}api/${isAiSearch ? 'ai-' : ''}translate${updatedScope}?${urlParams.toString()}`,
   )
     .then((response) => {
       if (response.ok) {
