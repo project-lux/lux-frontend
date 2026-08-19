@@ -19,6 +19,7 @@ const buttonStyle = {
   fontWeight: 200,
   height: '24px',
   lineHeight: '24px',
+  textDecoration: 'none',
 }
 
 const collapsedHtmlStyle = {
@@ -57,7 +58,7 @@ const TextNote: React.FC<ITextNote> = ({
   const paragraphContentRef = useRef<HTMLSpanElement>(null)
 
   const sanitizedContent = sanitizeHtml(htmlContent || content)
-  const linkName = showLess ? 'Show All' : 'Show Less'
+  const linkName = showLess ? 'Show all' : 'Show less'
   const isHtml = htmlContent !== undefined || content.includes('<span class=')
   const shouldCollapse = hasOverflow
   const hasLanguage = language !== undefined && language !== ''
@@ -102,6 +103,19 @@ const TextNote: React.FC<ITextNote> = ({
     ? 'collapsable-content-html-note'
     : 'collapsable-note-content'
 
+  const button = (
+    <React.Fragment>
+      {!showLess && ' '}
+      <button
+        type="button"
+        className="btn btn-link"
+        style={buttonStyle}
+        onClick={() => setShowLess(!showLess)}
+      >
+        <strong>[{linkName}]</strong>
+      </button>
+    </React.Fragment>
+  )
   return (
     <div className={containerClassName} data-testid={dataTestId}>
       {isHtml ? (
@@ -120,19 +134,7 @@ const TextNote: React.FC<ITextNote> = ({
               id={languageId}
             />
           )}
-          {shouldCollapse && (
-            <React.Fragment>
-              &nbsp;
-              <button
-                type="button"
-                className="btn btn-link"
-                style={buttonStyle}
-                onClick={() => setShowLess(!showLess)}
-              >
-                {linkName}
-              </button>
-            </React.Fragment>
-          )}
+          {shouldCollapse && button}
         </div>
       ) : (
         <p className={contentClassName} style={{ whiteSpace: 'pre-line' }}>
@@ -145,19 +147,7 @@ const TextNote: React.FC<ITextNote> = ({
           {hasLanguage && (
             <LanguageSuperscript language={language} id={languageId} />
           )}
-          {shouldCollapse && (
-            <React.Fragment>
-              &nbsp;
-              <button
-                type="button"
-                className="btn btn-link"
-                style={buttonStyle}
-                onClick={() => setShowLess(!showLess)}
-              >
-                {linkName}
-              </button>
-            </React.Fragment>
-          )}
+          {shouldCollapse && button}
         </p>
       )}
     </div>
