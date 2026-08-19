@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.76.2 - 2026-08-19
+
+### Fixed
+
+- Fixed styling of Show all/Show less button ([#634](https://github.com/project-lux/lux-frontend/issues/634)).
+
 ## v1.76.1 - 2026-08-18
 
 ### Fixed
