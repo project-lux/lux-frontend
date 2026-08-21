@@ -81,7 +81,7 @@ const FullDateInput: React.FC<IFacets> = ({
 }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
   let earliestFacet = getDefaultDate('')
@@ -93,7 +93,7 @@ const FullDateInput: React.FC<IFacets> = ({
       earliestFacet = dates[0]
       // Get the earliest date based on user input
       const currentFacetDateValues = getSpecificFacetData(
-        subTab ? subTab : tab,
+        tab,
         search,
         scope,
         facetName,

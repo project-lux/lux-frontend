@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import config from '../../config/config'
@@ -37,7 +36,6 @@ const Checkbox: React.FC<IProps> = ({
   facetQuery,
   scope,
 }) => {
-  const auth = useAuth()
   const loc = useLocation()
   const facetsState = useAppSelector(
     (state) => state.facetSelection as IFacetsSelected,
@@ -53,8 +51,8 @@ const Checkbox: React.FC<IProps> = ({
   const { pathname, search: currentSearch } = useLocation()
   const params = new URLSearchParams(currentSearch)
   const navigate = useNavigate()
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(subTab ? subTab : tab)
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = getParamPrefix(tab)
   const valueStr = String(facet.value)
   const id = `checklist-facet-${stripYaleIdPrefix(valueStr)}-${facetSection}`
 
@@ -65,7 +63,6 @@ const Checkbox: React.FC<IProps> = ({
     textOrUri: fromApi ? facetValue : '',
     pageUri: loc.pathname,
     filterByAatValue: config.aat.collectionItem,
-    auth,
   })
 
   // requires getting label before rendering it with capitalized content
@@ -90,7 +87,7 @@ const Checkbox: React.FC<IProps> = ({
       currentSearch,
       facetQuery,
       scope,
-      subTab ? subTab : tab,
+      tab,
     )
     dispatch(
       addLastSelectedFacet({

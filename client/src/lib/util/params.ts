@@ -1,12 +1,7 @@
-import { nestedPageLinks } from '../../config/myCollections/resultsTabs'
 import { searchScope } from '../../config/searchTypes'
 
-export const getParamPrefix = (tab: string): string => {
-  if (Object.keys(nestedPageLinks).includes(tab)) {
-    return `${tab.slice(0, 1)}c`
-  }
-  return searchScope[tab].slice(0, 1)
-}
+export const getParamPrefix = (tab: string): string =>
+  searchScope[tab].slice(0, 1)
 
 /**
  * Function to format the requests for search estimates on each tab.
@@ -18,7 +13,6 @@ export const getFacetParamsForSimpleSearchEstimatesRequest = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   criteria: Record<string, any>,
   urlParams: URLSearchParams,
-  isMyCollectionsNestedTab: boolean,
 ): Record<string, string> => {
   const searchEstimatesParams: Record<string, string> = {}
   Object.entries(searchScope).map(([key, value]) => {
@@ -29,20 +23,6 @@ export const getFacetParamsForSimpleSearchEstimatesRequest = (
       newCriteria = `{"AND":[${JSON.stringify(
         criteria,
       )},${urlParams.get(facetsParam)}]}`
-    }
-
-    if (key === 'collections' && isMyCollectionsNestedTab) {
-      Object.keys(nestedPageLinks).map((page) => {
-        let subTabNewCriteria = newCriteria
-        const subTabFacetKey = `${getParamPrefix(page)}f`
-        if (urlParams.has(subTabFacetKey)) {
-          subTabNewCriteria = `{"AND":[${JSON.stringify(
-            criteria,
-          )},${urlParams.get(subTabFacetKey)}]}`
-        }
-
-        searchEstimatesParams[page] = subTabNewCriteria
-      })
     }
 
     searchEstimatesParams[key] = newCriteria

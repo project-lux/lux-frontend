@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import { Container, Nav, NavDropdown, Navbar } from 'react-bootstrap'
+import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 
-import config from '../../config/config'
-import { signout, verifyToken } from '../../lib/auth/helper'
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'
 import SearchContainer from '../search/SearchContainer'
@@ -53,26 +50,11 @@ const StyledSpan = styled.span`
 `
 
 const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
-  const auth = useAuth()
-  const isLoggedIn = auth.isAuthenticated
-  // const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false)
   const [isSearchOpen, setIsSearchOpen] = useState(false)
   const displaySearch = isSearchOpen && !hideSearch
 
   const handlePushClientEvent = (link: string): void => {
     pushClientEvent('Internal Link', 'Selected', `Internal ${link}`)
-  }
-
-  if (config.env.featureMyCollections) {
-    if (auth.isAuthenticated) {
-      // console.log('Authenticated', auth.user)
-      if (auth.user) {
-        config.currentAccessToken = auth.user.access_token
-      }
-      verifyToken(auth.user?.access_token || '')
-    } else {
-      // console.log('Not authenticated')
-    }
   }
 
   return (
@@ -131,53 +113,6 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
               >
                 Help
               </NavLink>
-              {/* {config.env.featureMyCollections && !auth.isAuthenticated && ( */}
-              {config.env.featureMyCollections && !isLoggedIn && (
-                <NavLink
-                  to="#"
-                  className="nav-link"
-                  // TODO: revert to the signin function
-                  // onClick={() => setIsLoggedIn(true)}
-                  onClick={() => auth.signinRedirect()}
-                  data-testid="login-button"
-                >
-                  Login
-                </NavLink>
-              )}
-              {/* {config.env.featureMyCollections && auth.isAuthenticated && ( */}
-              {config.env.featureMyCollections && isLoggedIn && (
-                <React.Fragment>
-                  <NavLink
-                    // TODO: change to correspond with the correct results page
-                    to={`/view/results/collections/my-collections?q=${JSON.stringify({ _scope: 'set', createdBy: { username: auth.user?.profile['cognito:username'] } })}&viewingMyCollections=true&sQt=my-collections`}
-                    className="nav-link"
-                    data-testid="my-collections-button"
-                  >
-                    My Collections
-                  </NavLink>
-                  <NavDropdown
-                    title="username TBD"
-                    id="user-navbar-dropdown"
-                    data-testid="user-navbar-dropdown"
-                  >
-                    <NavDropdown.Item
-                      // TODO: change once the user's profile page is ready
-                      href="#"
-                      className="navDropdownItem"
-                    >
-                      View Profile
-                    </NavDropdown.Item>
-                    <NavDropdown.Item
-                      // TODO: revert to the signout function
-                      // onClick={() => setIsLoggedIn(false)}
-                      onClick={() => signout(auth)}
-                      className="navDropdownItem"
-                    >
-                      Logout
-                    </NavDropdown.Item>
-                  </NavDropdown>
-                </React.Fragment>
-              )}
               {hideSearch ? null : (
                 <React.Fragment>
                   <SeparatingLine />

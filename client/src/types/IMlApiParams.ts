@@ -4,8 +4,6 @@ export interface ISearchParams {
   pageLength?: number
   page?: number
   tab?: string
-  subTab?: string
-  user?: string
   facets: { [key: string]: string }
   facetNames?: string
   sort?: string

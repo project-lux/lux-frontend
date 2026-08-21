@@ -3,5 +3,4 @@
 // this will prevent any issues regarding undefined
 export type ResultsTab = {
   tab: string
-  subTab?: string
 }

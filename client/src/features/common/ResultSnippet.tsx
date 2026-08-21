@@ -1,9 +1,7 @@
 import type { JSX } from 'react'
 
-import config from '../../config/config'
 import ConceptSnippet from '../results/ConceptSnippet'
 import EventSnippet from '../results/EventSnippet'
-import MyCollectionSnippet from '../results/MyCollectionSnippet'
 import ObjectSnippet from '../results/ObjectSnippet'
 import PersonSnippet from '../results/PersonSnippet'
 import PlaceSnippet from '../results/PlaceSnippet'
@@ -25,12 +23,6 @@ const ResultSnippet = (
 
   if (tab === 'collections') {
     return <SetSnippet uri={uri} view="list" titleOfTabbedContent={title} />
-  }
-
-  if (config.env.featureMyCollections && tab === 'my-collections') {
-    return (
-      <MyCollectionSnippet uri={uri} view="list" titleOfTabbedContent={title} />
-    )
   }
 
   if (tab === 'people') {

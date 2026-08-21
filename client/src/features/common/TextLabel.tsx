@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 
 import useApiText from '../../lib/hooks/useApiText'
 import {
@@ -21,7 +20,6 @@ const TextLabel: React.FC<ITextLabelProps> = ({
   label,
   showPopover = false,
 }) => {
-  const auth = useAuth()
   const loc = useLocation()
   const popover = showPopover ? <InfoPopover /> : null
 
@@ -30,7 +28,6 @@ const TextLabel: React.FC<ITextLabelProps> = ({
   const { value: apiText, isReady: apiTextIsReady } = useApiText({
     textOrUri: label || '',
     pageUri: loc.pathname,
-    auth,
   })
 
   // Capitalize the text returned from the api if it did not come from the data
