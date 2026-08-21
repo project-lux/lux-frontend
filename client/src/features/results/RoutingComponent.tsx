@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 import _ from 'lodash'
 
 import { useGetItemQuery } from '../../redux/api/ml_api'
@@ -15,8 +14,6 @@ import EventPage from '../event/EventPage'
 import PlacePage from '../place/PlacePage'
 import ObjectsPage from '../objects/ObjectsPage'
 import IEntity from '../../types/data/IEntity'
-import MyCollectionsAlert from '../myCollections/Alert'
-import { IRouteState } from '../../types/myCollections/IRouteState'
 
 const getEntityPage = (data: IEntity): React.ReactElement | null => {
   if (data.type === 'HumanMadeObject' || data.type === 'DigitalObject') {
@@ -51,30 +48,10 @@ const getEntityPage = (data: IEntity): React.ReactElement | null => {
 }
 
 const RoutingComponent: React.FC = () => {
-  const auth = useAuth()
-  const forceRefetch = auth.isAuthenticated
-  const { pathname, state } = useLocation()
-  const { isSuccess, isLoading, isError, data, error } = useGetItemQuery(
-    {
-      uri: pathname.replace('/view/', ''),
-    },
-    {
-      skip: auth.isLoading === true,
-      forceRefetch,
-    },
-  )
-
-  const [alert, setAlert] = useState<IRouteState>({
-    showAlert: false,
-    alertMessage: '',
-    alertVariant: 'primary',
+  const { pathname } = useLocation()
+  const { isSuccess, isLoading, isError, data, error } = useGetItemQuery({
+    uri: pathname.replace('/view/', ''),
   })
-
-  useEffect(() => {
-    if (state && state.hasOwnProperty('showAlert')) {
-      setAlert(state as IRouteState)
-    }
-  }, [state])
 
   if (isSuccess && data) {
     return (
@@ -84,13 +61,6 @@ const RoutingComponent: React.FC = () => {
           href={data.id}
           type="application/ld+json;profile='https://linked.art/ns/v1/linked-art.json'"
         />
-        {alert.showAlert && (
-          <MyCollectionsAlert
-            variant={alert.alertVariant as string}
-            message={alert.alertMessage as string}
-            handleOnClose={setAlert}
-          />
-        )}
         {getEntityPage(data) || ''}
       </div>
     )

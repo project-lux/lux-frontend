@@ -1,39 +1,23 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useDispatch } from 'react-redux'
-import { useAuth } from 'react-oidc-context'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
 import StyledSearchButtonRow from '../../styles/features/common/SearchButtonRow'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
-import {
-  getEstimates,
-  getOrderedItemsIds,
-} from '../../lib/parse/search/searchResultParser'
+import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import config from '../../config/config'
-import StyledHr from '../../styles/shared/Hr'
-import {
-  IMyCollectionsResultsState,
-  resetState,
-} from '../../redux/slices/myCollectionsSlice'
-import { useAppSelector } from '../../app/hooks'
-import AddToCollectionButton from '../myCollections/AddToCollectionButton'
-import CreateCollectionModal from '../myCollections/CreateCollectionModal'
-import AddToCollectionModal from '../myCollections/AddToCollectionModal'
 
 import ResultSnippet from './ResultSnippet'
-import SelectAll from './SelectAll'
 
 interface IObjectsBy {
   uri: string // URI which is the argument of the search tag
   tab: string // scope - "objects", "works", etc
   title: string // the title of the current tab
-  user?: string
 }
 
 export const resultsData = (
@@ -56,20 +40,7 @@ export const resultsData = (
  * @param {string} tab the results tab to redirect to when a user selects Show all X results
  * @returns {JSX.Element}
  */
-const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title, user }) => {
-  const dispatch = useDispatch()
-  const auth = useAuth()
-  const [showAddToCollectionModal, setShowAddToCollectionModal] =
-    useState<boolean>(false)
-  const [showCreateCollectionModal, setShowCreateCollectionModal] =
-    useState<boolean>(false)
-  const currentMyCollectionState = useAppSelector(
-    (myCollectionsState) =>
-      myCollectionsState.myCollections as IMyCollectionsResultsState,
-  )
-  const { uuids, scopeOfSelections } = currentMyCollectionState
-  const isSelectAllChecked = uuids.length > 0 && scopeOfSelections === title
-
+const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
   // get relationship data
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
@@ -85,57 +56,13 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title, user }) => {
     return <p>Loading...</p>
   }
 
-  // event to handle the closing of the add to collection modal
-  const handleCloseAddModal = (): void => {
-    pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
-    dispatch(resetState())
-    setShowAddToCollectionModal(false)
-  }
-
-  // event to handle the closing of the create a collection modal
-  const handleCloseCreateCollectionModal = (): void => {
-    pushClientEvent('My Collections', 'Closed', 'Create Collections modal')
-    setShowCreateCollectionModal(false)
-    dispatch(resetState())
-  }
-
   if (isSuccess && data) {
     const { orderedItems } = data as ISearchResults
-    const resultsUuids = getOrderedItemsIds(data).slice(0, 5)
     const estimate = getEstimates(data)
 
     if (estimate > 0) {
       return (
         <React.Fragment>
-          {config.env.featureMyCollections && auth.isAuthenticated && (
-            <Row>
-              <Col className="d-flex justify-content-end py-3">
-                <AddToCollectionButton
-                  additionalClassName="addToCollectionTabbedContentButton me-2"
-                  setShowModal={setShowAddToCollectionModal}
-                  disabled={!isSelectAllChecked}
-                >
-                  <div>Add Selected to My Collections</div>
-                </AddToCollectionButton>
-                <SelectAll uuidsToAdd={resultsUuids} scope={title} />
-              </Col>
-              <StyledHr width="97%" />
-            </Row>
-          )}
-          {showAddToCollectionModal && (
-            <AddToCollectionModal
-              showModal={showAddToCollectionModal}
-              onClose={handleCloseAddModal}
-              showCreateNewModal={setShowCreateCollectionModal}
-              userUuid={user}
-            />
-          )}
-          {showCreateCollectionModal && (
-            <CreateCollectionModal
-              showModal={showCreateCollectionModal}
-              onClose={handleCloseCreateCollectionModal}
-            />
-          )}
           {resultsData(orderedItems, tab, title)}
           <StyledSearchButtonRow className="p-2">
             <Col xs={12}>

@@ -1,5 +1,3 @@
-import { AuthContextProps } from 'react-oidc-context'
-
 import { getDataApiBaseUrl } from '../../config/config'
 import { useGetItemQuery } from '../../redux/api/ml_api'
 import { apiText, stripYaleIdPrefix } from '../parse/data/helper'
@@ -7,7 +5,6 @@ import { apiText, stripYaleIdPrefix } from '../parse/data/helper'
 interface IApiTextInput {
   textOrUri: string // the text or uri to be transformed to text
   pageUri: string // the uri of the current page
-  auth: AuthContextProps
   filterByAatValue?: string // optional; the AAT to filter by
 }
 
@@ -21,8 +18,6 @@ export default function useApiText(input: IApiTextInput): IApiTextOutput {
     value: null,
     isReady: false,
   }
-  // Do not cache data locally if authenticated
-  const forceRefetch = input.auth.isAuthenticated
 
   const containsBaseUrl = input.textOrUri.includes(getDataApiBaseUrl())
   const uri = stripYaleIdPrefix(input.textOrUri)
@@ -30,8 +25,7 @@ export default function useApiText(input: IApiTextInput): IApiTextOutput {
   const { data, isSuccess, isError } = useGetItemQuery(
     { uri, profile: 'results' },
     {
-      skip: input.auth.isLoading === true || !containsBaseUrl,
-      forceRefetch,
+      skip: !containsBaseUrl,
     },
   )
 

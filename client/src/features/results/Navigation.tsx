@@ -2,7 +2,6 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
-import { useAuth } from 'react-oidc-context'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -29,16 +28,12 @@ import {
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { getUsername } from '../../lib/myCollections/helper'
-
-import MyCollectionsNavBar from './MyCollectionsNavBar'
 
 interface INavigation {
   urlParams: URLSearchParams
   criteria: any
   search: string
   isSwitchToSimpleSearch: boolean
-  isMyCollectionsNestedTab?: boolean
 }
 
 const Navigation: React.FC<INavigation> = ({
@@ -46,13 +41,7 @@ const Navigation: React.FC<INavigation> = ({
   criteria,
   search,
   isSwitchToSimpleSearch,
-  isMyCollectionsNestedTab = false,
 }) => {
-  const auth = useAuth()
-  const user = getUsername(auth)
-  const forceRefetch = auth.isAuthenticated
-  const viewingMyCollections = urlParams.get('viewingMyCollections')
-
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
@@ -68,7 +57,7 @@ const Navigation: React.FC<INavigation> = ({
     state: { [key: string]: boolean }
   }
 
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
   const searchType = isFromSearchLink
     ? 'advanced'
@@ -80,11 +69,7 @@ const Navigation: React.FC<INavigation> = ({
   // Simple search estimates request
   const params =
     simpleSearch && !isSwitchToSimpleSearch
-      ? getFacetParamsForSimpleSearchEstimatesRequest(
-          criteria,
-          urlParams,
-          isMyCollectionsNestedTab,
-        )
+      ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
       : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
 
   const { data, isSuccess, isFetching, isLoading, isError } =
@@ -95,12 +80,9 @@ const Navigation: React.FC<INavigation> = ({
         qt,
         params,
         isSwitchToSimpleSearch,
-        user,
-        viewingMyCollections,
       },
       {
-        skip: auth.isLoading === true || !hasCriteria,
-        forceRefetch,
+        skip: !hasCriteria,
       },
     )
 
@@ -132,30 +114,12 @@ const Navigation: React.FC<INavigation> = ({
     }`
   }
 
-  if (isMyCollectionsNestedTab) {
-    return (
-      <MyCollectionsNavBar
-        searchQueryString={
-          (advancedSearch && !urlParams.has('qt') && qt !== 'collections') ||
-          isSwitchToSimpleSearch
-            ? `${urlParams.toString()}&qt=${tab}`
-            : urlParams.toString()
-        }
-        nestedPage={subTab as string}
-        currentEstimates={estimates}
-        isLoading={isLoading}
-        isFetching={isFetching}
-      />
-    )
-  }
   if (!isMobile) {
     return (
       <Row className="mx-1 mt-3 d-block">
         <Col xs={12}>
           <StyledNavbar data-testid="results-page-navbar">
-            <Nav
-              className={`w-100 h-100 ${subTab ? '' : 'justify-content-between'} flex-row`}
-            >
+            <Nav className="w-100 h-100 justify-content-between flex-row">
               {/* iterating over searchScopes to ensure the order the buttons are rendered */}
               {Object.entries(searchScope).map(([key, value]) => (
                 <StyledNavLink
