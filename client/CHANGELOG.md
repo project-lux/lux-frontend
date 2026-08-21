@@ -1,6 +1,15 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## v1.76.2 - 2026-08-19
+
+### Added
+
+- Added Responsible Unit and Collection facets to Collection results ([#1033](https://github.com/project-lux/lux-frontend/issues/1033)).
+
+### Removed
+
+- Removed Part Of facet from Collection results ([#1033](https://github.com/project-lux/lux-frontend/issues/1033)).
 
 ## v1.76.2 - 2026-08-19
 

@@ -43,11 +43,11 @@ export const facets: IFacetConfig = {
       selectedLabel: (value) => recordTypes.item[value],
       buildQuery: (value) => ({ recordType: value }),
     },
-    responsibleCollections: {
+    itemResponsibleCollections: {
       sectionLabel: 'Collection',
       buildQuery: (value) => ({ memberOf: { id: value } }),
     },
-    responsibleUnits: {
+    itemResponsibleUnits: {
       sectionLabel: 'Responsible Unit',
       buildQuery: (value) => ({
         memberOf: {
@@ -102,6 +102,29 @@ export const facets: IFacetConfig = {
       selectedLabel: (value) => (value === 1 ? 'Is online' : 'Not online'),
       buildQuery: (value) => ({ isOnline: value }),
     },
+    setResponsibleCollections: {
+      sectionLabel: 'Collection',
+      buildQuery: (value) => ({ memberOf: { id: value } }),
+    },
+    setResponsibleUnits: {
+      sectionLabel: 'Responsible Unit',
+      buildQuery: (value) => ({
+        memberOf: {
+          curatedBy: {
+            OR: [
+              {
+                memberOf: {
+                  id: value,
+                },
+              },
+              {
+                id: value,
+              },
+            ],
+          },
+        },
+      }),
+    },
   },
   agent: {
     agentHasDigitalImage: {
@@ -144,8 +167,8 @@ export const facetNamesLists: IFacetNamesLists = {
     'itemProductionPlaceId',
     'itemProductionDate',
     'itemProductionTechniqueId',
-    'responsibleUnits',
-    'responsibleCollections',
+    'itemResponsibleUnits',
+    'itemResponsibleCollections',
   ],
   works: [
     'workHasDigitalImage',
@@ -185,7 +208,8 @@ export const facetNamesLists: IFacetNamesLists = {
     'setPublicationPlaceId',
     'setPublicationDate',
     'setCurationAgentId',
-    'setPartOfId',
+    'setResponsibleCollections',
+    'setResponsibleUnits',
   ],
   people: [
     'agentHasDigitalImage',
@@ -265,8 +289,8 @@ export const facetLabels: { [key: string]: string } = {
   itemRecordType: 'Object Class',
   placePartOfId: 'Part Of',
   placeTypeId: 'Categorized As',
-  responsibleCollections: 'Collection',
-  responsibleUnits: 'Responsible Unit',
+  itemResponsibleCollections: 'Collection',
+  itemResponsibleUnits: 'Responsible Unit',
   setAboutAgentId: 'About Person or Group',
   setAboutConceptId: 'About Concept',
   setAboutEventId: 'About Event',
@@ -280,7 +304,8 @@ export const facetLabels: { [key: string]: string } = {
   setCurationAgentId: 'Curated By',
   setHasDigitalImage: 'Has Digital Image',
   setIsOnline: 'Is Online',
-  setPartOfId: 'Part Of',
+  setResponsibleCollections: 'Collection',
+  setResponsibleUnits: 'Responsible Unit',
   setPublicationAgentId: 'Published By',
   setPublicationPlaceId: 'Published At',
   setPublicationDate: 'Published Date',
@@ -483,10 +508,6 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       searchTermName: 'isOnline',
       idFacet: false,
     },
-    setPartOfId: {
-      searchTermName: 'partOf',
-      idFacet: true,
-    },
     setPublicationAgentId: {
       searchTermName: 'publishedBy',
       idFacet: true,
@@ -640,7 +661,7 @@ export const whereAtYaleSearchTermFacets = {
             for (const obj of searchObj.memberOf.curatedBy.OR) {
               if (obj.id) {
                 returnValue.push({
-                  facetName: 'responsibleUnits',
+                  facetName: 'itemResponsibleUnits',
                   value: obj.id,
                 })
               }
@@ -649,7 +670,34 @@ export const whereAtYaleSearchTermFacets = {
         }
         if (searchObj.memberOf.id) {
           returnValue.push({
-            facetName: 'responsibleCollections',
+            facetName: 'itemResponsibleCollections',
+            value: searchObj.memberOf.id,
+          })
+        }
+      }
+      returnValue = returnValue.length === 0 ? null : returnValue
+      return returnValue
+    },
+  },
+  set: {
+    memberOf: (searchObj: ICriteria) => {
+      let returnValue: Array<ICriteria> | null = []
+      if (searchObj.memberOf) {
+        if (searchObj.memberOf?.curatedBy) {
+          if (searchObj.memberOf?.curatedBy.OR) {
+            for (const obj of searchObj.memberOf.curatedBy.OR) {
+              if (obj.id) {
+                returnValue.push({
+                  facetName: 'setResponsibleUnits',
+                  value: obj.id,
+                })
+              }
+            }
+          }
+        }
+        if (searchObj.memberOf.id) {
+          returnValue.push({
+            facetName: 'setResponsibleCollections',
             value: searchObj.memberOf.id,
           })
         }
@@ -837,10 +885,6 @@ export const searchTermFacets: ISearchTermToFacetConfig = {
     isOnline: {
       facetName: 'setIsOnline',
       idFacet: false,
-    },
-    partOf: {
-      facetName: 'setPartOfId',
-      idFacet: true,
     },
     publishedBy: {
       facetName: 'setPublicationAgentId',
