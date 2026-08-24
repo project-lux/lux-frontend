@@ -10,12 +10,14 @@ const StickySearchContainer: React.FC = () => {
     color: string
     textDecoration: string
   }>({ color: theme.color.link, textDecoration: 'none' })
+  const [isSticky, setIsSticky] = useState<boolean>(false)
 
   useEffect(() => {
     const listenScrollEvent = (): void => {
       if (window.scrollY < 208) {
         setBgColor(theme.color.white)
         setSearchTipsStyle({ color: theme.color.link, textDecoration: 'none' })
+        setIsSticky(false)
       }
       if (window.scrollY > 208) {
         setBgColor(theme.color.primary.darkBlue)
@@ -23,6 +25,7 @@ const StickySearchContainer: React.FC = () => {
           color: theme.color.white,
           textDecoration: 'underline',
         })
+        setIsSticky(true)
       }
     }
 
@@ -35,8 +38,9 @@ const StickySearchContainer: React.FC = () => {
     <SearchContainer
       className="sticky-top"
       bgColor={bgColor}
-      searchTipsStyle={searchTipsStyle}
+      linkStyle={searchTipsStyle}
       id="landing-page-search-container"
+      isStickyHeaderActive={isSticky}
     />
   )
 }
