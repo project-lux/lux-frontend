@@ -2,11 +2,18 @@
 
 All notable changes to this project will be documented in this file.
 
-## v1.77.0 - Unreleased
+## Unreleased
+
+### Added
+
+- Added AI assisted search toggle button ([#1011](https://github.com/project-lux/lux-frontend/issues/1011)).
+
+## v1.77.0 - 2026-08-31
 
 ### Removed
 
 - Removed features specific to My Collections, which is no longer part of LUX's roadmap ([#1031](https://github.com/project-lux/lux-frontend/issues/1031)).
+### Added
 
 ## v1.76.2 - 2026-08-19
 
