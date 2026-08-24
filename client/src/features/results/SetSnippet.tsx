@@ -25,7 +25,6 @@ import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import ProductionSnippet from './ProductionSnippet'
 import SnippetHeader from './SnippetHeader'
-import MyCollectionSnippet from './MyCollectionSnippet'
 
 interface ISearchData {
   uri: string
@@ -57,17 +56,6 @@ const SetSnippet: React.FC<ISearchData> = ({
   if (isSuccess && data) {
     const set = new WorkParser(data)
     const types = set.getTypes()
-    if (types.includes(config.aat.personalCollection)) {
-      return (
-        <MyCollectionSnippet
-          uri={uri}
-          view={view}
-          totalResults={totalResults}
-          index={index}
-          titleOfTabbedContent={titleOfTabbedContent}
-        />
-      )
-    }
     const agents = set.getProductionAgents() || null
     const date = set.getProductionDate() || null
     const publicationAgent = set.getPublicationAgent() || null

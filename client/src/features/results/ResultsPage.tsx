@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert, Col } from 'react-bootstrap'
-import { useAuth } from 'react-oidc-context'
 import styled from 'styled-components'
 
 import { useAppDispatch } from '../../app/hooks'
@@ -17,11 +16,6 @@ import {
 } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-// import config from '../../config/config'
-import MyCollectionsAlert from '../myCollections/Alert'
-import { IRouteState } from '../../types/myCollections/IRouteState'
-import { getUsername } from '../../lib/myCollections/helper'
-import config from '../../config/config'
 
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
@@ -38,34 +32,25 @@ const ResponsiveCol = styled(Col)`
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
-  const auth = useAuth()
-  const user = getUsername(auth)
-
   const dispatch = useAppDispatch()
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = getParamPrefix(subTab ? subTab : tab)
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const [alert, setAlert] = useState<IRouteState>({
-    showAlert: false,
-    alertMessage: '',
-    alertVariant: 'primary',
-  })
 
   const { search, state } = useLocation() as {
     search: string
-    state: IRouteState
+    state: { [key: string]: boolean }
   }
 
   const urlParams = new URLSearchParams(search)
-  const fromLandingPage = isFromLandingPage(state as { [key: string]: boolean })
+  const fromLandingPage = isFromLandingPage(state)
   // Check if current tab q exist
   const hasSimpleSearchQuery = urlParams.has('sq')
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
-  const querySubTab = urlParams.get('sQt') || subTab
   const pageLength = urlParams.has('pageLength')
     ? parseInt(urlParams.get('pageLength')!, 10)
     : DEFAULT_PAGE_LENGTH
@@ -88,9 +73,6 @@ const ResultsPage: React.FC = () => {
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined
 
-  // Do not let RTK query serve the cached response if the user is logged in
-  const forceRefetch = auth.isAuthenticated
-
   /*
    Query will be skipped if the user has entered empty search string
    Or if there are no search params visible in the URL string, indicating
@@ -102,20 +84,14 @@ const ResultsPage: React.FC = () => {
       filterResults,
       page,
       tab,
-      subTab,
       pageLength,
-      user,
       sort,
       facets: {},
       rnd,
     },
     {
       skip:
-        auth.isLoading === true ||
-        searchStringWithFacets === '' ||
-        fromLandingPage ||
-        tab !== queryTab,
-      forceRefetch,
+        searchStringWithFacets === '' || fromLandingPage || tab !== queryTab,
     },
   )
 
@@ -127,25 +103,12 @@ const ResultsPage: React.FC = () => {
     }
   }, [dispatch, hasSimpleSearchQuery])
 
-  useEffect(() => {
-    if (state && state.hasOwnProperty('showAlert')) {
-      setAlert(state as IRouteState)
-    }
-  }, [state])
-
   // Get width of window
   useResizeableWindow(setIsMobile)
 
   return (
     <div data-testid="results-page">
       <h1 hidden>{title}</h1>
-      {alert.showAlert && (
-        <MyCollectionsAlert
-          variant={alert.alertVariant as string}
-          message={alert.alertMessage as string}
-          handleOnClose={setAlert}
-        />
-      )}
       <ResultsSearchContainer
         key={tab}
         isSimpleSearch={hasSimpleSearchQuery}
@@ -179,10 +142,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab ||
-        (config.env.featureMyCollections &&
-          tab !== queryTab &&
-          subTab !== querySubTab) ? (
+        {tab !== queryTab ? (
           <Col>
             <Alert
               variant="info"

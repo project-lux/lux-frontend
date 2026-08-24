@@ -1,5 +1,4 @@
 import React, { useState, type JSX } from 'react'
-import { useAuth } from 'react-oidc-context'
 import _, { isUndefined } from 'lodash'
 
 import { IHalLinks } from '../../types/IHalLinks'
@@ -7,9 +6,6 @@ import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
 import { transformStringForTestId } from '../../lib/parse/data/helper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { useGetUserResultsQuery } from '../../redux/api/ml_api'
-import { ISearchResults } from '../../types/ISearchResults'
-import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
 
 import ObjectsContainer from './ObjectsContainer'
 import Tabs from './Tabs'
@@ -24,7 +20,6 @@ const tabsChildren = (
   links: Record<string, { href: string }>,
   relationships: IHalLinks,
   isMobile: boolean,
-  user?: ISearchResults,
 ): Array<JSX.Element> =>
   Object.keys(relationships)
     .map((key) => {
@@ -55,11 +50,6 @@ const tabsChildren = (
               uri={links[currentSearchTag].href}
               tab={tabSection.tab as string}
               title={tabSection.title as string}
-              user={
-                getOrderedItemsIds(user).length > 0
-                  ? getOrderedItemsIds(user)[0]
-                  : undefined
-              }
             />
           </StyledEntityPageSection>
         )
@@ -73,25 +63,14 @@ const RelatedObjectsWorksAndCollections: React.FC<IRelated> = ({
   relationships,
   type,
 }) => {
-  const auth = useAuth()
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
 
   useResizeableWindow(setIsMobile)
 
-  const username = auth.user?.profile['cognito:username']
-
-  // get the current logged in user's record
-  const { data } = useGetUserResultsQuery(
-    {
-      username,
-    },
-    { skip: !auth.isAuthenticated || !username },
-  )
-
   if (!isUndefined(links)) {
-    const tabs = tabsChildren(links, relationships, isMobile, data)
+    const tabs = tabsChildren(links, relationships, isMobile)
     if (tabs.length !== 0) {
       return <Tabs>{tabs}</Tabs>
     }

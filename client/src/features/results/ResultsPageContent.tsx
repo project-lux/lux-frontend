@@ -2,7 +2,6 @@
 import React, { JSX } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
-import { useAuth } from 'react-oidc-context'
 
 import { IOrderedItems } from '../../types/ISearchResults'
 import FacetContainer from '../facets/FacetContainer'
@@ -14,7 +13,6 @@ import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
 import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
-import config from '../../config/config'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -27,8 +25,6 @@ import SetSnippet from './SetSnippet'
 import PlaceSnippet from './PlaceSnippet'
 import ConceptSnippet from './ConceptSnippet'
 import EventSnippet from './EventSnippet'
-import MyCollectionSnippet from './MyCollectionSnippet'
-import Navigation from './Navigation'
 
 interface IProps {
   searchResponse: ISearchResponse
@@ -36,26 +32,20 @@ interface IProps {
 }
 
 const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
-  const auth = useAuth()
-  const isAuthenticated = auth.isAuthenticated
   // Parse URL search params
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
-  const queryString = urlParams.get('q') || ''
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
-  const currentTab = subTab ? subTab : tab
-  const paramPrefix = getParamPrefix(currentTab)
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const paramPrefix = getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
   const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
   const pageLength: number = urlParams.has('pageLength')
     ? parseInt(urlParams.get('pageLength')!, 10)
     : DEFAULT_PAGE_LENGTH
-  const sort = urlParams.get(`${currentTab}Sort`)
+  const sort = urlParams.get(`${tab}Sort`)
   const view: string = urlParams.has('view')
     ? (urlParams.get('view') as string)
     : 'list'
-  const isSwitchToSimpleSearch =
-    urlParams.get('fromAdvanced') === 'true' || false
 
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
@@ -102,18 +92,6 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
             />
           )
         case 'collections':
-          // Used by My Collections feature
-          if (config.env.featureMyCollections && subTab === 'my-collections') {
-            return (
-              <MyCollectionSnippet
-                key={result.id}
-                uri={result.id}
-                view={view}
-                totalResults={estimate}
-                index={ind + 1}
-              />
-            )
-          }
           return (
             <SetSnippet
               key={result.id}
@@ -168,19 +146,6 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
 
   return (
     <StyledEntityResultsRow>
-      {/* Used for My Collections */}
-      {config.env.featureMyCollections && isAuthenticated && (
-        <React.Fragment>
-          {/* Nested-tab navigation is unique to collections/my-collections. */}
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-            isMyCollectionsNestedTab
-          />
-        </React.Fragment>
-      )}
       {(isSuccess || isError) && (
         <Col xs={12}>
           <ResultsHeader key={sort} total={estimate} resultsData={data} />

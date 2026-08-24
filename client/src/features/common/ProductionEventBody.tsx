@@ -1,6 +1,5 @@
 import React, { type JSX } from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 import { Row } from 'react-bootstrap'
 
 import useApiText from '../../lib/hooks/useApiText'
@@ -36,12 +35,10 @@ const AgentsRow: React.FC<{
   references: IEventReference[]
   changeColumnWidths: boolean
 }> = ({ label, uri, id, references, changeColumnWidths }) => {
-  const auth = useAuth()
   const loc = useLocation()
   const { value: agentLabel, isReady: agentLabelIsReady } = useApiText({
     textOrUri: label,
     pageUri: loc.pathname,
-    auth,
   })
 
   return (
@@ -114,12 +111,10 @@ const referenceRow = (
 ): JSX.Element[] =>
   refs.map((ref) => {
     const { type, content } = ref
-    const auth = useAuth()
     const loc = useLocation()
     const { value: typeLabel, isReady: typeLabelIsReady } = useApiText({
       textOrUri: type,
       pageUri: loc.pathname,
-      auth,
     })
 
     const refLabel = showReferenceLabel && typeLabelIsReady ? typeLabel : null

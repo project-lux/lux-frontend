@@ -1,6 +1,5 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
-import { useAuth } from 'react-oidc-context'
 import styled from 'styled-components'
 
 import useApiText from '../../lib/hooks/useApiText'
@@ -27,13 +26,11 @@ const StyledSpan = styled.span`
  */
 const AgentInHeader: React.FC<IAgents> = ({ data }) => {
   const { name, birthYear, deathYear, nationalities } = data
-  const auth = useAuth()
   const loc = useLocation()
   const nationalityStr = forceArray(nationalities)[0] || ''
   const { value: nationality, isReady: nationalityIsReady } = useApiText({
     textOrUri: nationalityStr,
     pageUri: loc.pathname,
-    auth,
   })
 
   return (

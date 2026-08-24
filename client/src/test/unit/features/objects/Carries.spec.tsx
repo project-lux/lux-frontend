@@ -38,17 +38,6 @@ vi.mock('react-redux', async () => {
   }
 })
 
-vi.mock('../../../../app/hooks', () => ({
-  useAppSelector: vi.fn((selector) =>
-    selector({
-      myCollections: {
-        uuids: [],
-        scopeOfSelections: '',
-      },
-    }),
-  ),
-}))
-
 describe('Carries', () => {
   it('renders the works snippet', () => {
     render(

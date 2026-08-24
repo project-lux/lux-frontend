@@ -484,7 +484,7 @@ export const facetSearchTerms: IFacetToSearchTermConfig = {
       idFacet: false,
     },
     setPartOfId: {
-      searchTermName: 'partOf',
+      searchTermName: 'memberOf',
       idFacet: true,
     },
     setPublicationAgentId: {
