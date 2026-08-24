@@ -57,7 +57,7 @@ describe('uri exported functions', () => {
       const data = undefined
       expect(
         getTargetName(pathname, routes, isNotAnEntityPage, isSuccess, data),
-      ).toEqual('404 Page Not Found')
+      ).toEqual('Page Name Unknown')
     })
   })
 })

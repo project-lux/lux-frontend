@@ -2,7 +2,6 @@ import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Route, Routes, useLocation } from 'react-router-dom'
 
 import { getRouteNames } from '../../config/routerPages'
-// import useAuthentication from '../../lib/hooks/useAuthentication'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
 import { getTargetName } from '../../lib/util/uri'
 import { useGetItemQuery } from '../../redux/api/ml_api'
@@ -36,10 +35,6 @@ const RedirectOldProd: React.FC = () => {
 
 const LuxRoutes: React.FC = () => {
   const unknownPageName = 'Page Name Unknown'
-
-  // const auth = useAuthentication()
-  // const forceRefetch = auth.isAuthenticated
-
   const { pathname, search, key: locationKey } = useLocation()
   const prevUrlRef = useRef('')
   const lastTrackedLocationKey = useRef<string | null>(null)
