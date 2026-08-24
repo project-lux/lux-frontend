@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## v1.77.0 - Unreleased
+
+### Added
+
+- Added AI assisted search toggle button ([#1011](https://github.com/project-lux/lux-frontend/issues/1011)).
+
 ## v1.76.2 - 2026-08-19
 
 ### Fixed
