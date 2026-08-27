@@ -1,37 +1,47 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import styled from 'styled-components'
 
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
 import ToggleButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import AiToggleButton from '../aiAssistedSearch/ToggleButton'
 
 import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
 import ErrorMessage from './ErrorMessage'
 
+const LinkDivider = styled.span`
+  border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
+  height: 1.25rem;
+  margin: 0 1rem;
+`
+
 interface IProps {
   className: string
   id: string
   bgColor: string
-  searchTipsStyle?: {
+  linkStyle?: {
     color: string
     textDecoration: string
   }
   isResultsPage?: boolean
+  isStickyHeaderActive?: boolean
 }
 
 const SearchContainer: React.FC<IProps> = ({
   className,
   id,
   bgColor,
-  searchTipsStyle = {
+  linkStyle = {
     color: theme.color.link,
     textDecoration: 'none',
   },
   isResultsPage = false,
+  isStickyHeaderActive = false,
 }) => {
   const [isError, setIsError] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -64,14 +74,21 @@ const SearchContainer: React.FC<IProps> = ({
           className="d-flex justify-content-center align-items-center mt-3"
         >
           <LinksContainerRow>
-            <Col xs={6} className="d-inline-flex justify-content-start">
+            <Col
+              xs={12}
+              className="d-inline-flex justify-content-center align-items-center"
+            >
               <AdvancedSearchButton setIsError={setIsError} id={id} />
-            </Col>
-            <Col xs={6} className="d-inline-flex justify-content-end">
+              <LinkDivider />
+              <AiToggleButton
+                linkStyle={linkStyle}
+                isStickyHeaderActive={isStickyHeaderActive}
+              />
+              <LinkDivider />
               <Link
                 to="/content/simple-search"
                 style={{
-                  ...searchTipsStyle,
+                  ...linkStyle,
                   fontWeight: '400',
                   fontSize: '1rem',
                 }}
