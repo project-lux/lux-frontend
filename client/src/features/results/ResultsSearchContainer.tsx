@@ -19,6 +19,7 @@ import Navigation from './Navigation'
 
 interface IProps {
   isSimpleSearch: boolean
+  isAiSearch: boolean
   urlParams: URLSearchParams
   queryString: string
   search: string
@@ -27,6 +28,7 @@ interface IProps {
 
 const ResultsSearchContainer: React.FC<IProps> = ({
   isSimpleSearch,
+  isAiSearch,
   urlParams,
   queryString,
   search,
@@ -53,7 +55,9 @@ const ResultsSearchContainer: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' || isMobile) && (
+      {(currentSearchState.searchType === 'simple' ||
+        isMobile ||
+        !isAiSearch) && (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -69,7 +73,11 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
         </React.Fragment>
       )}
-      {!(currentSearchState.searchType === 'simple' || isMobile) && (
+      {!(
+        currentSearchState.searchType === 'simple' ||
+        isMobile ||
+        !isAiSearch
+      ) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation
