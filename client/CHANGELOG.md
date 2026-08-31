@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added AI assisted search toggle button ([#1011](https://github.com/project-lux/lux-frontend/issues/1011)).
+- Added AI interpretation row ([#1013](https://github.com/project-lux/lux-frontend/issues/1013)).
 
 ## v1.76.2 - 2026-08-19
 
