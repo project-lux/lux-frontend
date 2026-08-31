@@ -19,8 +19,7 @@ import {
 import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-
-import AiQueryOptions from './AiQueryOptions'
+import Disambiguation from '../aiAssistedSearch/Disambiguation'
 
 const StyledSearchBox = styled.div`
   display: flex;
@@ -394,8 +393,9 @@ const SearchBox: React.FC<{
         </StyledSearchBox>
       </div>
       {aiDisambiguation.length > 1 && (
-        <AiQueryOptions
+        <Disambiguation
           aiDisambiguation={aiDisambiguation}
+          searchString={currentState.value !== null ? currentState.value : ''}
           setIsAiSearch={setIsAiSearch}
         />
       )}
