@@ -10,7 +10,7 @@ import {
   scopeToTabTranslation,
 } from '../../config/searchTypes'
 import LoadingSpinner from '../common/LoadingSpinner'
-import AiQueryOptions from '../search/AiQueryOptions'
+import AiQueryOptions from '../aiAssistedSearch/Disambiguation'
 
 interface IProps {
   currentScope: string

@@ -6,12 +6,16 @@ import {
   DEFAULT_PAGE_LENGTH,
   scopeToTabTranslation,
 } from '../../config/searchTypes'
+import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
+
+import KeywordSearchLink from './KeywordSearchLink'
+import InterpretationRow from './InterpretationRow'
 
 const AiQueryOptions: React.FC<{
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  aiDisambiguation: Array<any>
+  aiDisambiguation: Array<IAiDisambiguation>
+  searchString: string
   setIsAiSearch?: (x: boolean) => void
-}> = ({ aiDisambiguation, setIsAiSearch }) => (
+}> = ({ aiDisambiguation, searchString, setIsAiSearch }) => (
   <React.Fragment>
     <Col xs={12} className="mt-3 d-flex justify-content-center">
       <strong>
@@ -20,21 +24,22 @@ const AiQueryOptions: React.FC<{
       </strong>
     </Col>
     <Col xs={12} className="mt-2 d-flex justify-content-center">
-      <ul>
+      <KeywordSearchLink searchString={searchString} />
+    </Col>
+    <Col xs={12} className="mt-2 d-flex justify-content-center">
+      <ul className="list-unstyled">
         {aiDisambiguation.map((queryData) => (
           <li>
             <Link
               to={{
-                pathname: `/view/results/${scopeToTabTranslation[queryData.query._scope]}`,
+                pathname: `/view/results/${scopeToTabTranslation[queryData.query._scope as string]}`,
                 search: `q=${JSON.stringify(queryData.query)}&pageLength=${DEFAULT_PAGE_LENGTH}&aiSearch=true&sq=${queryData.natural}`,
               }}
               onClick={() => setIsAiSearch && setIsAiSearch(false)}
             >
               {queryData.natural}
             </Link>
-            <ul className="ms-3">
-              <li>Parsed Query: {queryData.parsed}</li>
-            </ul>
+            <InterpretationRow disambiguation={queryData} />
           </li>
         ))}
       </ul>
