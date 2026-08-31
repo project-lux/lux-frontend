@@ -37,8 +37,6 @@ export function defaultAats(): IAat {
     namedCollection: 'http://vocab.getty.edu/aat/300456764',
     nationality: 'http://vocab.getty.edu/aat/300379842',
     occupation: 'http://vocab.getty.edu/aat/300263369',
-    // TODO: change once an AAT is assigned
-    personalCollection: 'https://todo.concept.my.collection',
     plantSpecimens: 'http://vocab.getty.edu/aat/300430421',
     primaryName: 'http://vocab.getty.edu/aat/300404670',
     role: 'http://vocab.getty.edu/aat/300435108',

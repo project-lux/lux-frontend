@@ -15,10 +15,6 @@ vi.mock('../../../../redux/api/ml_api', () => ({
     data: mockPerson,
     isSuccess: true,
   }),
-  useGetUserResultsQuery: () => ({
-    data: null,
-    isSuccess: false,
-  }),
 }))
 
 vi.mock('react-redux', async () => {

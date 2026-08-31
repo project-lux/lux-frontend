@@ -1,10 +1,8 @@
-import React, { CSSProperties, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
-import { useAuth } from 'react-oidc-context'
-import { useDispatch } from 'react-redux'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -22,36 +20,9 @@ import {
   searchScope,
 } from '../../config/searchTypes'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
-import CreateCollectionButton from '../myCollections/CreateCollectionButton'
-import AddToCollectionButton from '../myCollections/AddToCollectionButton'
-import ManageCollectionsButton from '../myCollections/ManageCollectionsButton'
-import { useAppSelector } from '../../app/hooks'
-import {
-  IMyCollectionsResultsState,
-  resetState,
-} from '../../redux/slices/myCollectionsSlice'
 import { ISearchResults } from '../../types/ISearchResults'
-import { getOrderedItemsIds } from '../../lib/parse/search/searchResultParser'
-import AddToCollectionModal from '../myCollections/AddToCollectionModal'
-import DeleteCollectionModal from '../myCollections/DeleteCollectionModal'
-import CreateCollectionModal from '../myCollections/CreateCollectionModal'
-import SelectAll from '../common/SelectAll'
-import { useGetUserResultsQuery } from '../../redux/api/ml_api'
 
 import Sort from './Sort'
-
-const StyledCol = styled(Col)`
-  margin-bottom: 12px;
-  margin-top: 12px;
-  justify-content: flex-start;
-
-  @media (min-width: ${theme.breakpoints.lg}px) {
-    justify-content: flex-end;
-    text-align: right;
-    margin-top: 0px;
-    margin-bottom: 0px;
-  }
-`
 
 const StyledDiv = styled.div`
   display: none;
@@ -66,57 +37,24 @@ interface IResultsHeader {
   resultsData?: ISearchResults
 }
 
-const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
-  const dispatch = useDispatch()
+const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
     search: string
   }
-  const { tab, subTab } = useParams<keyof ResultsTab>() as ResultsTab
+  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const queryString = new URLSearchParams(search)
   const label = advancedSearchTitles[tab] || ''
   const overlay = resultsHeaderOverlays[tab]
 
-  // Is the user authenticated
-  const auth = useAuth()
-
-  const username = auth.user?.profile['cognito:username']
-
-  // get the current logged in user's record
-  const { data, isSuccess } = useGetUserResultsQuery(
-    {
-      username,
-    },
-    { skip: !auth.isAuthenticated || !username },
-  )
-
-  // const userIsAuthenticated = true
-  const userIsAuthenticated = auth.isAuthenticated
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
   const [redirect, setRedirect] = useState<boolean>(false)
-  const [showAddToCollectionModal, setShowAddToCollectionModal] =
-    useState<boolean>(false)
-  const [showDeleteCollectionModal, setShowDeleteCollectionModal] =
-    useState<boolean>(false)
-  const [showCreateCollectionModal, setShowCreateCollectionModal] =
-    useState<boolean>(false)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
-
-  const resultsUuids = getOrderedItemsIds(resultsData)
-  const currentMyCollectionState = useAppSelector(
-    (myCollectionsState) =>
-      myCollectionsState.myCollections as IMyCollectionsResultsState,
-  )
-  const { uuids, scopeOfSelections } = currentMyCollectionState
-  // The select all checkbox will be checked as long as there are 1 or more entities selected
-  const isSelectAllChecked =
-    uuids.length > 0 &&
-    (scopeOfSelections === subTab || scopeOfSelections === tab)
 
   useEffect(() => {
     if (redirect !== false) {
@@ -152,123 +90,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
     })
   }
 
-  // event to handle the closing of the add to collection modal
-  const handleCloseAddModal = (): void => {
-    pushClientEvent('My Collections', 'Closed', 'Add to My Collections modal')
-    setShowAddToCollectionModal(false)
-    dispatch(resetState())
-  }
-
-  // event to handle the closing of the delete a collection modal
-  const handleCloseDeleteCollectionModal = (): void => {
-    setShowDeleteCollectionModal(false)
-    pushClientEvent('My Collections', 'Closed', 'Delete Collections modal')
-    dispatch(resetState())
-  }
-
-  // event to handle the closing of the create a collection modal
-  const handleCloseCreateCollectionModal = (): void => {
-    pushClientEvent('My Collections', 'Closed', 'Create Collections modal')
-    setShowCreateCollectionModal(false)
-    dispatch(resetState())
-  }
-
-  let headerButtonsColWidth = 6
-  let descriptiveTextColMd = 12
-  let descriptiveTextColLg = 3
-  let descriptiveTextColXl = 4
-  let headerButtonsColMd = 12
-  let headerButtonsColLg = 9
-  let headerButtonsColXl = 8
-  if (!userIsAuthenticated) {
-    headerButtonsColWidth = 12
-    descriptiveTextColMd = 7
-    descriptiveTextColLg = 7
-    descriptiveTextColXl = 7
-    headerButtonsColMd = 5
-    headerButtonsColLg = 5
-    headerButtonsColXl = 5
-  }
-
-  // render the appropriate button based on the items selected and the current tab
-  const additionalClassNameOfMyCollectionsButton =
-    width < theme.breakpoints.sm ? 'w-100 me-0' : 'me-2'
-  let buttonToRender = (
-    <AddToCollectionButton
-      additionalClassName={additionalClassNameOfMyCollectionsButton}
-      disabled={!isSelectAllChecked}
-      setShowModal={setShowAddToCollectionModal}
-      data-testid="add-to-my-collections-button"
-    >
-      <React.Fragment>
-        <i className="bi bi-plus-lg mx-2 d-inline-block ms-0" />
-        Add to My Collections
-      </React.Fragment>
-    </AddToCollectionButton>
-  )
-  if (subTab === 'my-collections') {
-    buttonToRender = (
-      <CreateCollectionButton
-        additionalClassName={additionalClassNameOfMyCollectionsButton}
-        setShowModal={setShowCreateCollectionModal}
-      />
-    )
-    if (isSelectAllChecked) {
-      buttonToRender = (
-        <ManageCollectionsButton
-          additionalClassName={additionalClassNameOfMyCollectionsButton}
-          setShowAddToCollectionModal={setShowAddToCollectionModal}
-          setShowDeleteCollectionModal={setShowDeleteCollectionModal}
-        />
-      )
-    }
-  }
-
-  const justifyContent =
-    width < theme.breakpoints.lg
-      ? 'justify-content-start'
-      : 'justify-content-end'
-
-  // Sticky header when user is logged in
-  const headerStyle: CSSProperties | undefined = userIsAuthenticated
-    ? {
-        position: 'sticky',
-        top: 0,
-        zIndex: 999,
-      }
-    : undefined
-
   return (
-    <div style={headerStyle}>
-      {showAddToCollectionModal && (
-        <AddToCollectionModal
-          showModal={showAddToCollectionModal}
-          onClose={handleCloseAddModal}
-          showCreateNewModal={setShowCreateCollectionModal}
-          userUuid={
-            isSuccess && getOrderedItemsIds(data).length > 0
-              ? getOrderedItemsIds(data)[0]
-              : undefined
-          }
-        />
-      )}
-      {showDeleteCollectionModal && (
-        <DeleteCollectionModal
-          showModal={showDeleteCollectionModal}
-          onClose={handleCloseDeleteCollectionModal}
-          userUuid={
-            isSuccess && getOrderedItemsIds(data).length > 0
-              ? getOrderedItemsIds(data)[0]
-              : undefined
-          }
-        />
-      )}
-      {showCreateCollectionModal && (
-        <CreateCollectionModal
-          showModal={showCreateCollectionModal}
-          onClose={handleCloseCreateCollectionModal}
-        />
-      )}
+    <div>
       <Row className="resultsHeaderTitleRow">
         <Col className="resultsHeaderTitleCol">
           <StyledResultsHeader
@@ -287,9 +110,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
           className="resultsHeaderDescriptiveTextCol"
           xs={12}
           sm={12}
-          md={descriptiveTextColMd}
-          lg={descriptiveTextColLg}
-          xl={descriptiveTextColXl}
+          md={7}
+          lg={7}
+          xl={7}
         >
           <div
             className="descriptiveText"
@@ -299,24 +122,22 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
             data-testid="results-page-cms-descriptor"
           />
         </Col>
-        <StyledCol
+        <Col
           xs={12}
           sm={12}
-          md={headerButtonsColMd}
-          lg={headerButtonsColLg}
-          xl={headerButtonsColXl}
+          md={5}
+          lg={5}
+          xl={5}
           className="d-flex align-items-end resultsHeaderOptionsCol"
           data-testid="results-header-options"
         >
-          <Row
-            className={`w-100 d-flex ${justifyContent} resultsHeaderOptionsRow`}
-          >
+          <Row className="w-100 d-flex justify-content-end resultsHeaderOptionsRow">
             <Col
               xs={12}
               sm={12}
               md={6}
-              lg={headerButtonsColWidth}
-              className={`d-flex ${width < theme.breakpoints.sm ? 'w-100' : 'w-auto'} ${justifyContent} resultsHeaderSortingCol`}
+              lg={12}
+              className={`d-flex ${width < theme.breakpoints.sm ? 'w-100' : 'w-auto'} justify-content-end resultsHeaderSortingCol`}
             >
               <div
                 className={`d-flex toggleViewButtonDiv ${isMobile ? 'w-100 order-2' : 'order-1'}`}
@@ -328,7 +149,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
                     changeView(currentView === 'list' ? 'grid' : 'list')
                   }
                   style={{
-                    // borderRadius: theme.border.radius,
                     backgroundColor: theme.color.lightGray,
                     color: theme.color.trueBlack,
                     border: theme.color.trueBlack,
@@ -363,23 +183,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, resultsData }) => {
               </div>
               <Sort />
             </Col>
-            {userIsAuthenticated && (
-              <Col
-                xs={12}
-                sm={12}
-                md={6}
-                lg={6}
-                className={`d-flex ${isMobile ? 'mt-2 flex-wrap' : 'w-auto px-0'} ${justifyContent} resultsHeaderMyCollectionsOptionsCol`}
-              >
-                {buttonToRender}
-                <SelectAll
-                  uuidsToAdd={resultsUuids}
-                  scope={subTab ? subTab : tab}
-                />
-              </Col>
-            )}
           </Row>
-        </StyledCol>
+        </Col>
         {isMobile && (
           <MobileSelectedFacets
             tab={tab}

@@ -1,5 +1,4 @@
 import config from '../../../config/config'
-import { IRouteState } from '../../../types/myCollections/IRouteState'
 
 /**
  * Reads the sorting config value and translates it for ML
@@ -31,7 +30,9 @@ export const formatSortParameter = (sort: string | undefined): string => {
  * @param {Record<string, boolean>} state the state passed via React Router, not Redux state
  * @returns {boolean}
  */
-export const isFromLandingPage = (state: IRouteState): boolean =>
+export const isFromLandingPage = (
+  state: { [key: string]: boolean } | null | undefined,
+): boolean =>
   state !== null &&
   state !== undefined &&
   state.hasOwnProperty('fromLandingPage')

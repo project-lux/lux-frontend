@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { useLocation } from 'react-router-dom'
 import { Col } from 'react-bootstrap'
-import { useAuth } from 'react-oidc-context'
 
 import useApiText from '../../lib/hooks/useApiText'
 import { capitalizeLabels } from '../../lib/parse/data/helper'
@@ -35,12 +34,10 @@ const ProductionEvent: React.FC<IProps> = ({
   )
   useResizeableWindow(setIsMobile)
 
-  const auth = useAuth()
   const loc = useLocation()
   const { value: labelName, isReady: labelNameIsReady } = useApiText({
     textOrUri: label,
     pageUri: loc.pathname,
-    auth,
   })
   const [textValueWidth, textLabelWidth] = getColumnWidth(expandColumns)
 

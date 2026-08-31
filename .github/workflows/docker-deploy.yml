@@ -44,10 +44,6 @@ jobs:
           echo "MAINTENANCE_MODE=${{ vars.MAINTENANCE_MODE }}" >> _env
           echo "MAINTENANCE_MESSAGE=${{ vars.MAINTENANCE_MESSAGE }}" >> _env
           echo "BUGHERD_API_KEY=${{ vars.BUGHERD_API_KEY }}" >> _env
-          echo "OIDC_AUTHORITY=${{ vars.OIDC_AUTHORITY }}" >> _env
-          echo "OIDC_CLIENT_ID=${{ vars.OIDC_CLIENT_ID }}" >> _env
-          echo "OIDC_REDIRECT_URI=${{ vars.OIDC_REDIRECT_URI }}" >> _env
-          echo "FEATURE_MY_COLLECTIONS=${{ vars.FEATURE_MY_COLLECTIONS }}" >> _env
           set -x
           env-to-json.py _env config.json
       - name: Deploy Docker Image
