@@ -76,7 +76,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
       {!(
         currentSearchState.searchType === 'simple' ||
         isMobile ||
-        !isAiSearch
+        isAiSearch
       ) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
