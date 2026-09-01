@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
@@ -23,6 +23,8 @@ import Disambiguation from '../aiAssistedSearch/Disambiguation'
 
 const StyledSearchBox = styled.div`
   display: flex;
+  position: relative;
+  z-index: 1001;
   width: ${theme.searchBox.width};
   border: solid 1px #979797;
   border-radius: ${theme.searchBox.borderRadiusMobile};
@@ -104,24 +106,24 @@ const StyledSearchBox = styled.div`
 const MAX_WORDS = 100
 
 const SearchBox: React.FC<{
+  id: string
+  isAiSearch: boolean
   unselectable?: boolean
   closeSearchBox?: () => void
-  id: string
   isResults?: boolean
   setIsError: (x: boolean) => void
   isSearchOpen?: boolean
 }> = ({
+  id,
+  isAiSearch,
   unselectable: isUnselectable,
   closeSearchBox,
-  id,
   isResults,
   setIsError,
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
-  const [isSimpleSearchLoading, setIsSimpleSearchLoading] = useState(false)
-  const [isAiSearchLoading, setIsAiSearchLoading] = useState(false)
-  const [isAiSearch, setIsAiSearch] = useState<boolean>(false)
+  const [isSearchLoading, setIsSearchLoading] = useState(false)
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
@@ -154,6 +156,7 @@ const SearchBox: React.FC<{
   const navigate = useNavigate()
 
   const inputRef = useRef<HTMLInputElement>(null)
+  const disambiguationRef = useRef<HTMLDivElement>(null)
 
   // Helper to count words
   const countWords = (str: string): number => {
@@ -208,48 +211,21 @@ const SearchBox: React.FC<{
         isAiSearch,
         scope: searchScope[tab],
         onSuccess: (translatedString) => {
-          let newTab = tab
-          if (isAiSearch) {
-            const jsonTranslatedString = JSON.parse(translatedString)
-            newTab = scopeToTabTranslation[jsonTranslatedString._scope]
-          }
           const newUrlParams = new URLSearchParams()
-          const query = JSON.parse(translatedString)
-          delete query._scope
-          newUrlParams.set('q', JSON.stringify(query))
-          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-          if (!isAiSearch) {
-            newUrlParams.set('sq', valueToSubmit)
-          }
-          newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
+          let newTab = tab
           if (closeSearchBox) {
             closeSearchBox()
           }
           inputRef.current!.value = ''
           setIsError(false)
-          if (isAiSearch) {
-            setIsAiSearchLoading(false)
-          } else {
-            setIsSimpleSearchLoading(false)
-          }
+          setIsSearchLoading(false)
           pushClientEvent(
             'Search Button',
             'Submit',
             isAiSearch ? 'AI Search' : 'Simple Search',
           )
-          navigate(
-            {
-              pathname: `/view/results/${newTab}`,
-              search: `${newUrlParams.toString()}`,
-            },
-            {
-              state: {
-                fromNonResultsPage: !isResults,
-              },
-            },
-          )
           if (isAiSearch) {
-            setIsAiSearchLoading(false)
+            setIsSearchLoading(false)
             const jsonTranslatedString = JSON.parse(translatedString)
             if (jsonTranslatedString.length > 1) {
               setAiDisambiguation(jsonTranslatedString)
@@ -262,7 +238,6 @@ const SearchBox: React.FC<{
               newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
               newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
               newUrlParams.set('sq', valueToSubmit)
-              setIsAiSearch(false)
               navigate(
                 {
                   pathname: `/view/results/${newTab}`,
@@ -295,15 +270,10 @@ const SearchBox: React.FC<{
           }
         },
         onError: () => {
-          isAiSearch
-            ? setIsAiSearchLoading(false)
-            : setIsSimpleSearchLoading(false)
+          setIsSearchLoading(false)
           setIsError(true)
         },
-        onLoading: () =>
-          isAiSearch
-            ? setIsAiSearchLoading(true)
-            : setIsSimpleSearchLoading(true),
+        onLoading: () => setIsSearchLoading(true),
       })
     }
   }
@@ -318,12 +288,39 @@ const SearchBox: React.FC<{
     }
   }, [isSearchOpen])
 
+  useEffect(() => {
+    if (aiDisambiguation.length <= 1) {
+      return undefined
+    }
+
+    // Close the Disambiguation dropdown on any click outside of it
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        disambiguationRef.current &&
+        !disambiguationRef.current.contains(event.target as Node)
+      ) {
+        setAiDisambiguation([])
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [aiDisambiguation])
+
   const hasInputValue =
     !isNull(currentState.value) && currentState.value.length > 0
 
   return (
     <Row className={`${isResults ? 'py-3' : ''} mx-0`}>
-      <div className="col-12 d-flex justify-content-center">
+      <Col
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        xxl={12}
+        className="d-flex justify-content-center"
+      >
         <StyledSearchBox>
           <form
             className="w-100"
@@ -362,26 +359,11 @@ const SearchBox: React.FC<{
                 <button
                   disabled={!validateInput()}
                   type="submit"
-                  className="btn submitAiButton submitSearch"
-                  aria-label="submit AI search input"
-                  onClick={() => setIsAiSearch(true)}
-                  data-testid={`${id}-ai-search-submit-button`}
-                >
-                  {isAiSearchLoading ? (
-                    <LoadingSpinner />
-                  ) : (
-                    <i className="bi bi-stars" />
-                  )}
-                </button>
-                <button
-                  disabled={!validateInput()}
-                  type="submit"
                   className="btn submitButton submitSearch"
                   aria-label="submit search input"
-                  onClick={() => setIsAiSearch(false)}
                   data-testid={`${id}-search-submit-button`}
                 >
-                  {isSimpleSearchLoading ? (
+                  {isSearchLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <i className="bi bi-search" />
@@ -391,13 +373,23 @@ const SearchBox: React.FC<{
             </div>
           </form>
         </StyledSearchBox>
-      </div>
+      </Col>
       {aiDisambiguation.length > 1 && (
-        <Disambiguation
-          aiDisambiguation={aiDisambiguation}
-          searchString={currentState.value !== null ? currentState.value : ''}
-          setIsAiSearch={setIsAiSearch}
-        />
+        <Col
+          ref={disambiguationRef}
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          xxl={12}
+          className="d-flex justify-content-center"
+        >
+          <Disambiguation
+            aiDisambiguation={aiDisambiguation}
+            searchString={currentState.value !== null ? currentState.value : ''}
+          />
+        </Col>
       )}
     </Row>
   )

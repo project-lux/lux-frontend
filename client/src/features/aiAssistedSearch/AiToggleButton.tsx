@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
 import AiInfoPopover from './AiInfoPopover'
-
-const AI_ASSISTED_SEARCH_STORAGE_KEY = 'aiAssistedSearchActive'
 
 interface IToggleButtonProps {
   linkStyle: {
@@ -13,6 +11,8 @@ interface IToggleButtonProps {
     textDecoration: string
   }
   isStickyHeaderActive: boolean
+  isAiSearch: boolean
+  handleToggle: () => void
 }
 
 const StyledWrapper = styled.div`
@@ -105,31 +105,19 @@ const StyledSwitchSlider = styled.span<{
 const AiToggleButton: React.FC<IToggleButtonProps> = ({
   linkStyle,
   isStickyHeaderActive,
+  isAiSearch,
+  handleToggle,
 }) => {
-  const [isActive, setIsActive] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
-
-  const handleToggle = (): void => {
-    const nextIsActive = !isActive
-    setIsActive(nextIsActive)
-    localStorage.setItem(
-      AI_ASSISTED_SEARCH_STORAGE_KEY,
-      JSON.stringify(nextIsActive),
-    )
-  }
-
   return (
     <StyledWrapper>
       <StyledSwitch className="aiAssistedSearchToggleButton">
         <StyledSwitchInput
           type="checkbox"
-          checked={isActive}
+          checked={isAiSearch}
           onChange={handleToggle}
         />
         <StyledSwitchSlider
-          $isActive={isActive}
+          $isActive={isAiSearch}
           $color={linkStyle.color}
           isStickyHeaderActive={isStickyHeaderActive}
         />

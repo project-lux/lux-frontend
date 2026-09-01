@@ -34,6 +34,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
+  console.log(isAiSearch)
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -55,9 +56,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        !isAiSearch) && (
+      {(currentSearchState.searchType === 'simple' || isMobile) && (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -73,11 +72,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
         </React.Fragment>
       )}
-      {!(
-        currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        isAiSearch
-      ) && (
+      {!(currentSearchState.searchType === 'simple' || isMobile) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation
