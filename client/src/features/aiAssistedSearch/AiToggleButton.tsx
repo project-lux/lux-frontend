@@ -1,11 +1,9 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
 
 import AiInfoPopover from './AiInfoPopover'
-
-const AI_ASSISTED_SEARCH_STORAGE_KEY = 'aiAssistedSearchActive'
 
 interface IToggleButtonProps {
   linkStyle: {
@@ -13,6 +11,9 @@ interface IToggleButtonProps {
     textDecoration: string
   }
   isStickyHeaderActive: boolean
+  isAiSearch: boolean
+  handleToggle: () => void
+  isInHeader?: boolean
 }
 
 const StyledWrapper = styled.div`
@@ -48,6 +49,7 @@ const StyledSwitchSlider = styled.span<{
   $isActive: boolean
   $color: string
   isStickyHeaderActive: boolean
+  isInHeader: boolean
 }>`
   position: absolute;
   inset: 0;
@@ -81,7 +83,7 @@ const StyledSwitchSlider = styled.span<{
     height: 18px;
     border-radius: 50%;
     background-color: ${(props): string => {
-      if (props.$isActive && props.isStickyHeaderActive) {
+      if (props.$isActive && (props.isStickyHeaderActive || props.isInHeader)) {
         return theme.color.primary.blue
       }
       if (!props.$isActive && props.isStickyHeaderActive) {
@@ -105,33 +107,23 @@ const StyledSwitchSlider = styled.span<{
 const AiToggleButton: React.FC<IToggleButtonProps> = ({
   linkStyle,
   isStickyHeaderActive,
+  isAiSearch,
+  handleToggle,
+  isInHeader = false,
 }) => {
-  const [isActive, setIsActive] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
-
-  const handleToggle = (): void => {
-    const nextIsActive = !isActive
-    setIsActive(nextIsActive)
-    localStorage.setItem(
-      AI_ASSISTED_SEARCH_STORAGE_KEY,
-      JSON.stringify(nextIsActive),
-    )
-  }
-
   return (
     <StyledWrapper>
       <StyledSwitch className="aiAssistedSearchToggleButton">
         <StyledSwitchInput
           type="checkbox"
-          checked={isActive}
+          checked={isAiSearch}
           onChange={handleToggle}
         />
         <StyledSwitchSlider
-          $isActive={isActive}
+          $isActive={isAiSearch}
           $color={linkStyle.color}
           isStickyHeaderActive={isStickyHeaderActive}
+          isInHeader={isInHeader}
         />
       </StyledSwitch>
       <StyledLabel

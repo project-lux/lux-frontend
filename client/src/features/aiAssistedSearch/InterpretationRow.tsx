@@ -13,16 +13,13 @@ const InterpretationRow: React.FC<IProps> = ({ disambiguation }) => {
       disambiguation.query,
     )
   return (
-    <span className="d-inline-flex flex-nowrap align-items-center justify-content-start text-nowrap">
+    <span className="d-inline-flex flex-wrap align-items-center justify-content-start">
       {Object.keys(interpretation).map((key, ind) => {
         if (key === '_scope') {
           return null
         }
         return (
-          <div
-            key={key}
-            className="d-inline-flex align-items-center text-nowrap"
-          >
+          <div key={key} className="d-inline-flex align-items-center flex-wrap">
             <strong className="me-2">{key}:</strong> {interpretation[key]}{' '}
             &nbsp;
             {ind !== Object.keys(interpretation).length - 1 && (

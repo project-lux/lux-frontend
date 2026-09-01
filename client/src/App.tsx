@@ -11,6 +11,7 @@ import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
 import { activateSearchBroadcast } from './lib/searchBroadcast'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from './features/search/SearchContainer'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;
@@ -35,6 +36,12 @@ function embedBugherdScript(): void {
 }
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if (localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY) === null) {
+      localStorage.setItem(AI_ASSISTED_SEARCH_STORAGE_KEY, JSON.stringify(true))
+    }
+  }, [])
+
   // true if either local or remote env vars are available
   const [envLoaded, setEnvLoaded] = useState(false)
 
