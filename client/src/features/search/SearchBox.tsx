@@ -121,7 +121,7 @@ const SearchBox: React.FC<{
   const [isValid, setIsValid] = useState<boolean>(true)
   const [isSimpleSearchLoading, setIsSimpleSearchLoading] = useState(false)
   const [isAiSearchLoading, setIsAiSearchLoading] = useState(false)
-  const [isAiSearch, setIsAiSearch] = useState<boolean>(false)
+  const [isAiSearch, setIsAiSearch] = useState<boolean>(true)
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
@@ -235,7 +235,7 @@ const SearchBox: React.FC<{
               newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
               newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
               newUrlParams.set('sq', valueToSubmit)
-              setIsAiSearch(false)
+              // setIsAiSearch(false)
               navigate(
                 {
                   pathname: `/view/results/${newTab}`,
@@ -351,7 +351,7 @@ const SearchBox: React.FC<{
                   type="submit"
                   className="btn submitButton submitSearch"
                   aria-label="submit search input"
-                  onClick={() => setIsAiSearch(false)}
+                  onClick={() => setIsAiSearch(true)}
                   data-testid={`${id}-search-submit-button`}
                 >
                   {isSimpleSearchLoading ? (

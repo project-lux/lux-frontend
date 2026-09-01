@@ -17,16 +17,16 @@ const AiQueryOptions: React.FC<{
   setIsAiSearch?: (x: boolean) => void
 }> = ({ aiDisambiguation, searchString, setIsAiSearch }) => (
   <React.Fragment>
-    <Col xs={12} className="mt-3 d-flex justify-content-center">
-      <strong>
-        Your query returned more than one option. Please select a query to
-        continue:
-      </strong>
+    <Col xs={12} className="mt-3 d-flex justify-content-start">
+      <strong>Keyword Search</strong>
     </Col>
-    <Col xs={12} className="mt-2 d-flex justify-content-center">
+    <Col xs={12} className="mt-2 d-flex justify-content-start">
       <KeywordSearchLink searchString={searchString} />
     </Col>
-    <Col xs={12} className="mt-2 d-flex justify-content-center">
+    <Col xs={12}>
+      <strong>AI-Assisted Suggestions</strong>
+    </Col>
+    <Col xs={12} className="mt-2 d-flex justify-content-start">
       <ul className="list-unstyled">
         {aiDisambiguation.map((queryData) => (
           <li>

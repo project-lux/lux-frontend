@@ -104,7 +104,11 @@ const AiSearchAccordion: React.FC<IProps> = ({ currentScope }) => {
             Submit Updated AI Search {isLoading && <LoadingSpinner />}
           </PrimaryButton>
           {aiDisambiguation.length > 0 && (
-            <AiQueryOptions aiDisambiguation={aiDisambiguation} />
+            <AiQueryOptions
+              aiDisambiguation={aiDisambiguation}
+              searchString={newQuery !== null ? newQuery : ''}
+              setIsAiSearch={() => null}
+            />
           )}
         </Accordion.Body>
       </Accordion.Item>
