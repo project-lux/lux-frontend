@@ -22,10 +22,11 @@ interface IToggleSearchButton {
 /**
  * Button to switch between advanced search and simple search.
  * @param {(x: boolean) => void} setIsError callback function to set error message on the current search form
+ * @param {boolean} isAiSearch boolean to determine if user has AI assisted search enabled
  * @param {(x: boolean) => void} setShowModal optional; only used when switching to simple search, set AlertModal showModal value
  * @returns {JSX.Element}
  */
-const ToggleButton: React.FC<IToggleSearchButton> = ({
+const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
   setIsError,
   setShowModal = () => null,
 }) => {
@@ -105,4 +106,4 @@ const ToggleButton: React.FC<IToggleSearchButton> = ({
   )
 }
 
-export default ToggleButton
+export default ToggleSearchButton

@@ -47,7 +47,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
     } else {
       dispatch(changeCurrentSearchState({ value: 'simple' }))
     }
-  }, [isSimpleSearch, dispatch])
+  }, [isSimpleSearch, isAiSearch, dispatch])
 
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
@@ -55,9 +55,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        !isAiSearch) && (
+      {(currentSearchState.searchType === 'simple' || isMobile) && (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -73,11 +71,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
         </React.Fragment>
       )}
-      {!(
-        currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        isAiSearch
-      ) && (
+      {!(currentSearchState.searchType === 'simple' || isMobile) && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation

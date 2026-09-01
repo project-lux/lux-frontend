@@ -5,10 +5,10 @@ import styled from 'styled-components'
 
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
-import ToggleButton from '../advancedSearch/ToggleSearchButton'
+import ToggleSearchButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import AiToggleButton from '../aiAssistedSearch/ToggleButton'
+import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
 
 import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
@@ -30,7 +30,10 @@ interface IProps {
   }
   isResultsPage?: boolean
   isStickyHeaderActive?: boolean
+  isInHeader?: boolean
 }
+
+export const AI_ASSISTED_SEARCH_STORAGE_KEY = 'aiAssistedSearchActive'
 
 const SearchContainer: React.FC<IProps> = ({
   className,
@@ -42,11 +45,27 @@ const SearchContainer: React.FC<IProps> = ({
   },
   isResultsPage = false,
   isStickyHeaderActive = false,
+  isInHeader = false,
 }) => {
   const [isError, setIsError] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
+
+  // Set both the local storage and the component state
+  const handleToggle = (): void => {
+    const nextIsActive = !isAiSearch
+    setIsAiSearch(nextIsActive)
+    localStorage.setItem(
+      AI_ASSISTED_SEARCH_STORAGE_KEY,
+      JSON.stringify(nextIsActive),
+    )
+  }
+
   useResizeableWindow(setIsMobile)
 
   return (
@@ -57,15 +76,27 @@ const SearchContainer: React.FC<IProps> = ({
     >
       <Col xs={12}>
         {isError && <ErrorMessage onClose={setIsError} />}
-        <SearchBox id={id} setIsError={setIsError} isResults={isResultsPage} />
+        <SearchBox
+          id={id}
+          setIsError={setIsError}
+          isResults={isResultsPage}
+          isAiSearch={isAiSearch}
+        />
       </Col>
       {isResultsPage ? (
         <Col xs={12} className="d-flex justify-content-center">
           <div
-            className="d-flex justify-content-end"
+            className="d-flex justify-content-end align-items-center"
             style={{ width: theme.searchBox.width }}
           >
-            <ToggleButton setIsError={setIsError} />
+            <ToggleSearchButton setIsError={setIsError} />
+            <LinkDivider />
+            <AiToggleButton
+              linkStyle={linkStyle}
+              isStickyHeaderActive={isStickyHeaderActive}
+              isAiSearch={isAiSearch}
+              handleToggle={handleToggle}
+            />
           </div>
         </Col>
       ) : (
@@ -83,6 +114,9 @@ const SearchContainer: React.FC<IProps> = ({
               <AiToggleButton
                 linkStyle={linkStyle}
                 isStickyHeaderActive={isStickyHeaderActive}
+                isAiSearch={isAiSearch}
+                handleToggle={handleToggle}
+                isInHeader={isInHeader}
               />
               <LinkDivider />
               <Link

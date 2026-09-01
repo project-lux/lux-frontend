@@ -131,6 +131,7 @@ const Header: React.FC<{ hideSearch?: boolean }> = ({ hideSearch }) => {
           className="headerSearchContainer"
           bgColor={theme.color.primary.darkBlue}
           id="header-search-container"
+          isInHeader={true}
           linkStyle={{
             color: theme.color.white,
             textDecoration: 'underline',
