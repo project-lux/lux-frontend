@@ -10,7 +10,7 @@ import {
   scopeToTabTranslation,
 } from '../../config/searchTypes'
 import LoadingSpinner from '../common/LoadingSpinner'
-import AiQueryOptions from '../search/AiQueryOptions'
+import Disambiguation from '../aiAssistedSearch/Disambiguation'
 
 interface IProps {
   currentScope: string
@@ -104,7 +104,10 @@ const AiSearchAccordion: React.FC<IProps> = ({ currentScope }) => {
             Submit Updated AI Search {isLoading && <LoadingSpinner />}
           </PrimaryButton>
           {aiDisambiguation.length > 0 && (
-            <AiQueryOptions aiDisambiguation={aiDisambiguation} />
+            <Disambiguation
+              aiDisambiguation={aiDisambiguation}
+              searchString={newQuery !== null ? newQuery : ''}
+            />
           )}
         </Accordion.Body>
       </Accordion.Item>
