@@ -10,7 +10,7 @@ import { useGetAdvancedSearchConfigQuery } from './redux/api/ml_api'
 import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
-import { AI_ASSISTED_SEARCH_STORAGE_KEY } from './features/search/SearchContainer'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from './config/aiAssistedSearch/variables'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;

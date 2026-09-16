@@ -9,6 +9,7 @@ import ToggleSearchButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 
 import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
@@ -32,8 +33,6 @@ interface IProps {
   isStickyHeaderActive?: boolean
   isInHeader?: boolean
 }
-
-export const AI_ASSISTED_SEARCH_STORAGE_KEY = 'aiAssistedSearchActive'
 
 const SearchContainer: React.FC<IProps> = ({
   className,
