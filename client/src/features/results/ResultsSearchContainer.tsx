@@ -20,6 +20,7 @@ import Navigation from './Navigation'
 interface IProps {
   isSimpleSearch: boolean
   isAiSearch: boolean
+  isAiRefinementSearch: boolean
   urlParams: URLSearchParams
   queryString: string
   search: string
@@ -29,6 +30,7 @@ interface IProps {
 const ResultsSearchContainer: React.FC<IProps> = ({
   isSimpleSearch,
   isAiSearch,
+  isAiRefinementSearch,
   urlParams,
   queryString,
   search,
@@ -53,9 +55,13 @@ const ResultsSearchContainer: React.FC<IProps> = ({
     (state) => state.currentSearch as ICurrentSearchState,
   )
 
+  const showAdvancedSearch =
+    (currentSearchState.searchType !== 'simple' || !isMobile) &&
+    isAiRefinementSearch
+
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' || isMobile) && (
+      {/* {showSimpleSearch && (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -70,8 +76,8 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
         </React.Fragment>
-      )}
-      {!(currentSearchState.searchType === 'simple' || isMobile) && (
+      )} */}
+      {showAdvancedSearch ? (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation
@@ -82,6 +88,21 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           />
           <AdvancedSearchContainer key={tab} />
         </ErrorBoundary>
+      ) : (
+        <React.Fragment>
+          <SearchContainer
+            className="resultsSearchContainer"
+            bgColor="transparent"
+            id="results-search-container"
+            isResultsPage
+          />
+          <Navigation
+            urlParams={urlParams}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
+        </React.Fragment>
       )}
     </React.Fragment>
   )
