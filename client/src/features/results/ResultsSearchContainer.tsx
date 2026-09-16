@@ -20,6 +20,7 @@ import Navigation from './Navigation'
 interface IProps {
   isSimpleSearch: boolean
   isAiSearch: boolean
+  isAiRefinementSearch: boolean
   urlParams: URLSearchParams
   queryString: string
   search: string
@@ -29,6 +30,7 @@ interface IProps {
 const ResultsSearchContainer: React.FC<IProps> = ({
   isSimpleSearch,
   isAiSearch,
+  isAiRefinementSearch,
   urlParams,
   queryString,
   search,
@@ -52,26 +54,32 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   const currentSearchState = useAppSelector(
     (state) => state.currentSearch as ICurrentSearchState,
   )
+  const showAdvancedSearch =
+    currentSearchState.searchType !== 'simple' ||
+    !isMobile ||
+    isAiRefinementSearch
 
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' || isMobile) && (
-        <React.Fragment>
-          <SearchContainer
-            className="resultsSearchContainer"
-            bgColor="transparent"
-            id="results-search-container"
-            isResultsPage
-          />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-        </React.Fragment>
-      )}
-      {!(currentSearchState.searchType === 'simple' || isMobile) && (
+      {currentSearchState.searchType === 'simple' ||
+        isMobile ||
+        (!isAiRefinementSearch && (
+          <React.Fragment>
+            <SearchContainer
+              className="resultsSearchContainer"
+              bgColor="transparent"
+              id="results-search-container"
+              isResultsPage
+            />
+            <Navigation
+              urlParams={urlParams}
+              criteria={queryString !== '' ? JSON.parse(queryString) : null}
+              search={search}
+              isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            />
+          </React.Fragment>
+        ))}
+      {showAdvancedSearch && (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation

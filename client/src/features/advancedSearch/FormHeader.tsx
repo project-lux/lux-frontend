@@ -8,6 +8,7 @@ import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import { changeClearedAdvancedSearch } from '../../redux/slices/currentSearchSlice'
+import StyledOriginalQuery from '../../styles/features/aiAssistedSearch/OriginalQuery'
 
 const StyledH3 = styled.h3`
   font-size: 24px;
@@ -21,7 +22,11 @@ const StyledH3 = styled.h3`
  * @param {string} tab the scope of the parent object
  * @returns {JSX.Element}
  */
-const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
+const FormHeader: React.FC<{
+  tab: string
+  isAiSearch: boolean
+  originalSearchString: string | null
+}> = ({ tab, isAiSearch, originalSearchString }) => {
   const dispatch = useAppDispatch()
   const handleResetForm = (): void => {
     dispatch(resetHelpTextState())
@@ -32,9 +37,18 @@ const FormHeader: React.FC<{ tab: string }> = ({ tab }) => {
   return (
     <Row className="mt-3 mb-4">
       <Col sm={10} xs={12} className="d-flex align-middle">
-        <StyledH3 data-testid={`${tab}-advanced-search-header`}>
-          Search for {advancedSearchTitles[tab]} that...
-        </StyledH3>
+        {isAiSearch ? (
+          <span className="d-flex justify-content-start align-items-center">
+            <StyledH3>Searching for:&nbsp;</StyledH3>
+            <StyledOriginalQuery>
+              "{originalSearchString || ''}"
+            </StyledOriginalQuery>
+          </span>
+        ) : (
+          <StyledH3 data-testid={`${tab}-advanced-search-header`}>
+            Search for {advancedSearchTitles[tab]} that...
+          </StyledH3>
+        )}
       </Col>
       <Col
         sm={2}

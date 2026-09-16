@@ -9,7 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added AI assisted search toggle button ([#1011](https://github.com/project-lux/lux-frontend/issues/1011)).
 - Added AI interpretation row ([#1013](https://github.com/project-lux/lux-frontend/issues/1013)).
 - Added AI disambiguation ([#1014](https://github.com/project-lux/lux-frontend/issues/1014)).
-
+- Added AI Refinement ([#1015](https://github.com/project-lux/lux-frontend/issues/1015)).
 
 ## v1.77.0 - 2026-08-31
 
