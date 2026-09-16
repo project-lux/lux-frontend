@@ -21,6 +21,8 @@ import {
 } from '../../config/searchTypes'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
+import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
+import { AI_SEARCH_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
 
@@ -48,6 +50,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const queryString = new URLSearchParams(search)
   const label = advancedSearchTitles[tab] || ''
   const overlay = resultsHeaderOverlays[tab]
+  const isAiSearch = queryString.get(AI_SEARCH_PARAM) === 'true'
 
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -195,6 +198,16 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           />
         )}
       </Row>
+      {isAiSearch && (
+        <Row className="aiAssistedSearchRefinementRow px-2">
+          <Col xs={12} sm={12} md={12} lg={12} xl={12} className="my-2">
+            <InterpretationContainer
+              className="refineSearchWithAiButton"
+              showRefineButton
+            />
+          </Col>
+        </Row>
+      )}
       <StyledHr width="100%" className="my-2 resultsHeaderHr" />
     </div>
   )
