@@ -3,7 +3,7 @@ import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
 
-import config from '../../config/config'
+import config, { getDataApiBaseUrl } from '../../config/config'
 import { getFacetLabel } from '../../lib/facets/helper'
 import { removeFacet } from '../../lib/facets/removeFilter'
 import EntityParser from '../../lib/parse/data/EntityParser'
@@ -60,8 +60,11 @@ const SelectedFacet: React.FC<ISelected> = ({
 
   let label = getFacetLabel(scope, searchTag, option)
 
+  const dataApiBaseUrl = getDataApiBaseUrl()
   const nameResult = useGetNameQuery(
-    label.match('https://') ? { uri: stripYaleIdPrefix(option) } : skipToken,
+    dataApiBaseUrl !== '' && label.includes(dataApiBaseUrl)
+      ? { uri: stripYaleIdPrefix(option) }
+      : skipToken,
   )
 
   if (nameResult.isSuccess && nameResult.data) {

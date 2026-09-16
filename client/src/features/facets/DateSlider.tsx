@@ -109,9 +109,20 @@ const DateSlider: React.FC<IProps> = ({
   const maxValRef = useRef<HTMLInputElement>(null)
   const range = useRef<HTMLDivElement>(null)
 
+  // Keep the bounds in sync as the facet values are retrieved
+  useEffect(() => {
+    setMinVal(min)
+    setMaxVal(max)
+  }, [min, max])
+
   // Convert to percentage
   const getPercent = useCallback(
     (value: string) => {
+      // The range has no width if the facet values could not provide one
+      if (max === min) {
+        return 0
+      }
+
       const valueAsNumber = Number(value)
       return Math.round(((valueAsNumber - min) / (max - min)) * 100)
     },

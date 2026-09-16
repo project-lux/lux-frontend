@@ -3,6 +3,7 @@ import React, { useRef } from 'react'
 import { useAppDispatch } from '../../app/hooks'
 import config from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
+import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import { useGetNameQuery } from '../../redux/api/ml_api'
 import { addTextValue } from '../../redux/slices/advancedSearchSlice'
 import { StyledInput } from '../../styles/features/advancedSearch/Input'
@@ -70,9 +71,7 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
-  const uri = currentValue
-    ? currentValue.replace('https://lux.collections.yale.edu/data/', '')
-    : ''
+  const uri = currentValue ? stripYaleIdPrefix(currentValue) : ''
   const { data, isSuccess } = useGetNameQuery(
     { uri },
     { skip: field !== 'id' || currentValue === undefined },

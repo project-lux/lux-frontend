@@ -1,6 +1,12 @@
 // This is a template to add custom site tracking for analytics.
 // The pushClientEvent function is implemented on most actionable features within LUX
 // and can be configured with any site analytics services.
+// The pushClientPageEvent function is called on every client-side page change.
+
+// The analytics provider is expected to add this queue to the window in index.html.
+// It is absent in local development, so all pushes are guarded.
+const getQueue = (): Array<unknown[]> | undefined =>
+  (window as unknown as { _sz?: Array<unknown[]> })._sz
 
 export const pushClientEvent = (
   category: string,
@@ -10,5 +16,13 @@ export const pushClientEvent = (
   const args = label
     ? ['event', category, action, label]
     : ['event', category, action]
-  window._sz.push(args)
+  getQueue()?.push(args)
+}
+
+export const pushClientPageEvent = (
+  currentUrl: string,
+  previousUrl: string,
+  pageName: string,
+): void => {
+  getQueue()?.push(['page', currentUrl, previousUrl, pageName])
 }

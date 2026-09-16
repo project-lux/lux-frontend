@@ -14,6 +14,9 @@ import {
   convertYearToISOYear,
   convertLuxISODateToISODate,
   getLUXTimestamp,
+  getTimestampFromDateObj,
+  getGenericDateRange,
+  getDateFromSelectedFacetValue,
 } from '../../../../lib/facets/dateParser'
 import { IOrderedItems } from '../../../../types/ISearchResults'
 
@@ -305,6 +308,64 @@ describe('dateParser functions', () => {
       const mockYear = '-002024'
       const year = getYearToDisplay(mockYear)
       expect(year).toEqual('-2024')
+    })
+  })
+  describe('getTimestampFromDateObj', () => {
+    it('returns the timestamp of the date', () => {
+      const timestamp = getTimestampFromDateObj({
+        month: '1',
+        day: '1',
+        year: '1983',
+      })
+      expect(timestamp).toEqual(new Date('1983-01-01T00:00:00.000Z').getTime())
+    })
+
+    it('returns 0 for an invalid date', () => {
+      const timestamp = getTimestampFromDateObj({
+        month: 'undefined',
+        day: 'undefined',
+        year: 'undefined',
+      })
+      expect(timestamp).toEqual(0)
+    })
+  })
+
+  describe('getGenericDateRange', () => {
+    it('returns a range of year 0 to the current year', () => {
+      const { earliest, latest } = getGenericDateRange()
+      expect(earliest).toEqual({ month: '1', day: '1', year: '0' })
+      expect(latest).toEqual({
+        month: '12',
+        day: '31',
+        year: new Date().getUTCFullYear().toString(),
+      })
+    })
+
+    it('returns an ascending range', () => {
+      const { earliest, latest } = getGenericDateRange()
+      expect(getTimestampFromDateObj(latest)).toBeGreaterThan(
+        getTimestampFromDateObj(earliest),
+      )
+    })
+  })
+
+  describe('getDateFromSelectedFacetValue', () => {
+    it('returns the date of the selected facet value', () => {
+      const date = getDateFromSelectedFacetValue('5/1/1983')
+      expect(date).toEqual({ month: '05', day: '01', year: '1983' })
+    })
+
+    it('returns the date of a BCE selected facet value', () => {
+      const date = getDateFromSelectedFacetValue('1/1/-500')
+      expect(date).toEqual({ month: '01', day: '01', year: '-000500' })
+    })
+
+    it('returns null if the value is not a date', () => {
+      expect(getDateFromSelectedFacetValue('undefined')).toBeNull()
+    })
+
+    it('returns null if the value is missing parts of the date', () => {
+      expect(getDateFromSelectedFacetValue('5/1')).toBeNull()
     })
   })
 })

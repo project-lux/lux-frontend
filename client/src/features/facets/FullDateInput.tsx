@@ -26,9 +26,11 @@ import {
   getDaysInMonthArray,
   getLuxISOString,
   convertYearToISOYear,
-  getLUXTimestamp,
   getISOMonth,
   getISODay,
+  getTimestampFromDateObj,
+  getGenericDateRange,
+  getDateFromSelectedFacetValue,
 } from '../../lib/facets/dateParser'
 import { numbersToMonths } from '../../config/advancedSearch/inputTypes'
 import DayDropdown from '../dates/DayDropdown'
@@ -84,8 +86,10 @@ const FullDateInput: React.FC<IFacets> = ({
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = searchScope[tab].slice(0, 1)
 
-  let earliestFacet = getDefaultDate('')
-  let defaultLatestFacet = getDefaultDate('')
+  // Fall back on a generic range when the facet values can not provide one
+  const genericRange = getGenericDateRange()
+  let earliestFacet = genericRange.earliest
+  let defaultLatestFacet = genericRange.latest
   if (facetValues.requests.hasOwnProperty('call1')) {
     const dates = getDatesFromFacetValues(facetValues.requests.call1)
     if (dates.length > 0) {
@@ -103,9 +107,13 @@ const FullDateInput: React.FC<IFacets> = ({
         !isUndefined(currentFacetDateValues)
       ) {
         const setAsArray = [...currentFacetDateValues]
-        const earliestDate = setAsArray[0].split(' to ')[0]
-        const [month, day, year] = earliestDate.split('/')
-        earliestFacet = getDefaultDate(`${year}-${month}-${day}T00:00:00.000Z`)
+        const selectedEarliestDate = isUndefined(setAsArray[0])
+          ? null
+          : getDateFromSelectedFacetValue(setAsArray[0].split(' to ')[0])
+        // Keep the facet value if the selected date can not be parsed
+        if (!isNull(selectedEarliestDate)) {
+          earliestFacet = selectedEarliestDate
+        }
       }
       defaultLatestFacet = dates[dates.length - 1]
     }
@@ -132,8 +140,12 @@ const FullDateInput: React.FC<IFacets> = ({
       const yearsOfLastPage = getDatesFromFacetValues(orderedItems)
       const yearsOfLastPageLength = yearsOfLastPage.length
       const lastYearOfRange = yearsOfLastPage[yearsOfLastPageLength - 1]
-      setLatest(lastYearOfRange)
-      setMaxDate(lastYearOfRange)
+      // The requested page holds no dates if the server returns fewer pages than
+      // the estimated total; keep the current range rather than clearing it
+      if (!isUndefined(lastYearOfRange)) {
+        setLatest(lastYearOfRange)
+        setMaxDate(lastYearOfRange)
+      }
     }
   }, [data, isSuccess])
 
@@ -262,38 +274,33 @@ const FullDateInput: React.FC<IFacets> = ({
     }
   }
 
+  // The slider and the year inputs require an ascending range, which the facet values
+  // do not provide if they are returned out of order or are missing entirely
+  const facetRangeStart = getTimestampFromDateObj(earliestFacet)
+  const facetRangeEnd = getTimestampFromDateObj(maxDate)
+  const hasValidRange = facetRangeEnd > facetRangeStart
+  const rangeStart = hasValidRange ? earliestFacet : genericRange.earliest
+  const rangeEnd = hasValidRange ? maxDate : genericRange.latest
+  const rangeStartTimestamp = hasValidRange
+    ? facetRangeStart
+    : getTimestampFromDateObj(genericRange.earliest)
+  const rangeEndTimestamp = hasValidRange
+    ? facetRangeEnd
+    : getTimestampFromDateObj(genericRange.latest)
+  // The selected dates can fall outside of the range while it is being retrieved
+  const clampToRange = (timestamp: number): number =>
+    Math.min(Math.max(timestamp, rangeStartTimestamp), rangeEndTimestamp)
+
   return (
     <form className="w-100" onSubmit={submitHandler}>
       <div className="input-group d-block">
         <DateSlider
-          min={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(earliestFacet.year),
-              earliestFacet.month,
-              earliestFacet.day,
-            ),
-          )}
-          max={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(maxDate.year),
-              maxDate.month,
-              maxDate.day,
-            ),
-          )}
-          earliestVal={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(earliest.year),
-              earliest.month,
-              earliest.day,
-            ),
+          min={rangeStartTimestamp}
+          max={rangeEndTimestamp}
+          earliestVal={clampToRange(
+            getTimestampFromDateObj(earliest),
           ).toString()}
-          latestVal={getLUXTimestamp(
-            getLuxISOString(
-              convertYearToISOYear(latest.year),
-              latest.month,
-              latest.day,
-            ),
-          ).toString()}
+          latestVal={clampToRange(getTimestampFromDateObj(latest)).toString()}
           onEarliestChange={handleEarliestSliderChange}
           onLatestChange={handleLatestSliderChange}
         />
@@ -339,7 +346,7 @@ const FullDateInput: React.FC<IFacets> = ({
             onChange={(e) => handleEarliestYearChange(e.target.value)}
             placeholder="Enter a year"
             value={getYearToDisplay(earliest.year)}
-            min={parseInt(earliestFacet.year, 10)}
+            min={parseInt(rangeStart.year, 10)}
             max={parseInt(latest.year, 10)}
             aria-label="Enter a year"
             required
@@ -388,7 +395,7 @@ const FullDateInput: React.FC<IFacets> = ({
             placeholder="Enter a year"
             value={getYearToDisplay(latest.year)}
             min={parseInt(earliest.year, 10)}
-            max={parseInt(maxDate.year, 10)}
+            max={parseInt(rangeEnd.year, 10)}
             aria-label="Enter a year"
             required
           />

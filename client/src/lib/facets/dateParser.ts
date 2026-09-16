@@ -247,6 +247,58 @@ export const getYearToDisplay = (year: string): string => {
 // Facets functions (for now)
 
 /**
+ * Returns the timestamp of a date object
+ * @param {IDateObj} date; the date to convert
+ * @returns {number}
+ */
+// Used by facets
+export const getTimestampFromDateObj = (date: IDateObj): number =>
+  getLUXTimestamp(
+    getLuxISOString(convertYearToISOYear(date.year), date.month, date.day),
+  )
+
+/**
+ * Returns the date range to fall back on when the facet values can not provide one,
+ * spanning year 0 through the end of the current year
+ * @returns {{ earliest: IDateObj; latest: IDateObj }}
+ */
+// Used by facets
+export const getGenericDateRange = (): {
+  earliest: IDateObj
+  latest: IDateObj
+} => ({
+  earliest: { month: '1', day: '1', year: '0' },
+  latest: {
+    month: '12',
+    day: '31',
+    year: new Date().getUTCFullYear().toString(),
+  },
+})
+
+/**
+ * Returns the date object of a selected date facet value formatted as M/D/YYYY or
+ * null if the value can not be parsed
+ * @param {string} value; the selected date facet value
+ * @returns {IDateObj | null}
+ */
+// Used by facets
+export const getDateFromSelectedFacetValue = (
+  value: string,
+): IDateObj | null => {
+  const [month, day, year] = value.split('/')
+
+  if (
+    [month, day, year].some(
+      (part) => part === undefined || part === '' || isNaN(Number(part)),
+    )
+  ) {
+    return null
+  }
+
+  return getDefaultDate(`${year}-${month}-${day}T00:00:00.000Z`)
+}
+
+/**
  * Compares 2 values to determine if they are greater or less than each other
  * @param {IDateObj} a; the date to check
  * @param {IDateObj} b; the date to check
