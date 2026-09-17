@@ -7,10 +7,6 @@ import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 import { searchScope } from '../../config/searchTypes'
 import { translate } from '../../lib/util/translate'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
-import {
-  ICurrentSearchState,
-  changeCurrentSearchState,
-} from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
@@ -34,16 +30,14 @@ const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
   const { pathname, search } = useLocation()
   const navigate = useNavigate()
   const urlParams = new URLSearchParams(search)
+  // default to simple
+  const searchType = urlParams.get('searchType') || 'simple'
 
   const simpleSearchState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
   const { value } = simpleSearchState
   const scope = searchScope[tab]
-
-  const currentSearchState = useAppSelector(
-    (state) => state.currentSearch as ICurrentSearchState,
-  )
 
   const dispatch = useAppDispatch()
 
@@ -52,8 +46,8 @@ const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
     pushClientEvent('Search Switch', 'Selected', 'To Advanced Search')
     if (searchString === '') {
       dispatch(addAqParamValue({ scope, aqParamValue: '{}' }))
-      dispatch(changeCurrentSearchState({ value: 'advanced' }))
       urlParams.delete('sq')
+      urlParams.set('searchType', 'advanced')
       navigate(`${pathname}?${urlParams.toString()}`)
       return
     }
@@ -62,12 +56,12 @@ const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
       scope,
       isAiSearch: false,
       onSuccess: (translatedString) => {
-        dispatch(changeCurrentSearchState({ value: 'advanced' }))
         const translatedObject = JSON.parse(translatedString)
         delete translatedObject._scope
         const noScopeJSON = JSON.stringify(translatedObject)
         dispatch(addAqParamValue({ scope, aqParamValue: noScopeJSON }))
         urlParams.delete('sq')
+        urlParams.set('searchType', 'advanced')
         urlParams.set('q', noScopeJSON)
         urlParams.set('qt', tab)
         navigate(`${pathname}?${urlParams.toString()}`)
@@ -82,7 +76,7 @@ const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
   }
 
   const buttonText =
-    currentSearchState.searchType === 'advanced'
+    searchType === 'advanced' || searchType === 'aiAssisted'
       ? 'Simple Search'
       : 'Advanced Search'
 
@@ -95,7 +89,7 @@ const ToggleSearchButton: React.FC<IToggleSearchButton> = ({
       value="searchToggle"
       aria-label={`Switch to ${buttonText}`}
       onClick={() =>
-        currentSearchState.searchType === 'simple'
+        searchType === 'simple'
           ? handleSwitchToAdvancedSearch()
           : handleSwitchToSimpleSearch()
       }
