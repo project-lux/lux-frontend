@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
@@ -6,11 +6,6 @@ import theme from '../../styles/theme'
 import AdvancedSearchContainer from '../advancedSearch/AdvancedSearchContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
 import SearchContainer from '../search/SearchContainer'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  ICurrentSearchState,
-  changeCurrentSearchState,
-} from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import Header from '../advancedSearch/Header'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -18,8 +13,7 @@ import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import Navigation from './Navigation'
 
 interface IProps {
-  isSimpleSearch: boolean
-  isAiSearch: boolean
+  isAdvancedSearch: boolean
   isAiRefinementSearch: boolean
   urlParams: URLSearchParams
   queryString: string
@@ -28,8 +22,7 @@ interface IProps {
 }
 
 const ResultsSearchContainer: React.FC<IProps> = ({
-  isSimpleSearch,
-  isAiSearch,
+  isAdvancedSearch,
   isAiRefinementSearch,
   urlParams,
   queryString,
@@ -42,23 +35,8 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   )
   useResizeableWindow(setIsMobile)
 
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    if (!isSimpleSearch) {
-      dispatch(changeCurrentSearchState({ value: 'advanced' }))
-    } else {
-      dispatch(changeCurrentSearchState({ value: 'simple' }))
-    }
-  }, [isSimpleSearch, isAiSearch, dispatch])
-
-  const currentSearchState = useAppSelector(
-    (state) => state.currentSearch as ICurrentSearchState,
-  )
-
   const showAdvancedSearch =
-    (currentSearchState.searchType !== 'simple' || !isMobile) &&
-    isAiRefinementSearch
-
+    (isAdvancedSearch && !isMobile) || isAiRefinementSearch
   return (
     <React.Fragment>
       {/* {showSimpleSearch && (

@@ -6,6 +6,7 @@ import { Col, Row } from 'react-bootstrap'
 import { ITimelineCriteria, ITimelineHalLinks } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import theme from '../../styles/theme'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   active: boolean
@@ -26,7 +27,7 @@ const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true&searchLink=true`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
