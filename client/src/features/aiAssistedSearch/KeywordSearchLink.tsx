@@ -5,7 +5,7 @@ import config from '../../config/config'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetTranslateKeywordSearchQuery } from '../../redux/api/ml_api'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
-import { AI_SEARCH_PARAM } from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   searchString: string
@@ -45,7 +45,8 @@ const KeywordSearchLink: React.FC<IProps> = ({ searchString, onSelect }) => {
     delete dataCopy._scope
     newUrlParams.set('q', JSON.stringify(dataCopy))
     newUrlParams.set('sq', searchString)
-    newUrlParams.set(AI_SEARCH_PARAM, 'false')
+    // TODO: this may change depending on how keyword searches are interpretted
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'simple')
 
     return (
       <Link

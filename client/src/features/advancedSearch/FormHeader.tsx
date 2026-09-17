@@ -14,7 +14,7 @@ import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
 import theme from '../../styles/theme'
 import {
   AI_ASSISTED_SEARCH_STORAGE_KEY,
-  AI_SEARCH_PARAM,
+  SEARCH_TYPE_PARAM,
   AI_REFINEMENT_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
@@ -58,7 +58,8 @@ const FormHeader: React.FC<{
       JSON.stringify(nextIsActive),
     )
     const newUrlParams = new URLSearchParams(search)
-    newUrlParams.delete(AI_SEARCH_PARAM)
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
+    newUrlParams.set('qt', tab)
     newUrlParams.delete(AI_REFINEMENT_PARAM)
     newUrlParams.delete('sq')
     navigate({
@@ -100,17 +101,15 @@ const FormHeader: React.FC<{
         xs={12}
         className="d-flex justify-content-end align-items-center"
       >
-        {isAiSearch && (
-          <AiToggleButton
-            linkStyle={{
-              color: theme.color.link,
-              textDecoration: 'none',
-            }}
-            isStickyHeaderActive={false}
-            isAiSearch={isAiSearch}
-            handleToggle={handleToggle}
-          />
-        )}
+        <AiToggleButton
+          linkStyle={{
+            color: theme.color.link,
+            textDecoration: 'none',
+          }}
+          isStickyHeaderActive={false}
+          isAiSearch={isAiSearch}
+          handleToggle={handleToggle}
+        />
         <LinkButton
           variant="link"
           type="reset"

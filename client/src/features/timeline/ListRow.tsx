@@ -48,7 +48,7 @@ const ListRow: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `${searchParams}&searchLink=true`,
+              search: `${searchParams}&searchLink=true&searchType=advanced`,
             }}
             aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
             tabIndex={-1}
