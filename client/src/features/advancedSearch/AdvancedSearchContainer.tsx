@@ -27,7 +27,7 @@ import {
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
 import theme from '../../styles/theme'
-import { AI_SEARCH_PARAM } from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import RefinementContainer from '../aiAssistedSearch/RefinementContainer'
 
 import AdvancedSearchForm from './Form'
@@ -53,9 +53,9 @@ const AdvancedSearchContainer: React.FC = () => {
   const fromSearchLink = urlParams.has('searchLink')
     ? urlParams.get('searchLink') === 'true'
     : false
-  const isAiSearch = urlParams.has(AI_SEARCH_PARAM)
-    ? urlParams.get(AI_SEARCH_PARAM) === 'true'
-    : false
+  const isAiSearch =
+    urlParams.has(SEARCH_TYPE_PARAM) &&
+    urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
 
   const dispatch = useAppDispatch()
 
@@ -65,9 +65,10 @@ const AdvancedSearchContainer: React.FC = () => {
     const filteredSearch = filterAdvancedSearch(scope, currentState)
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
     // TODO: return to this once we have an idea as to how the advanced search should work
     // if (isAiSearch) {
-    //   newUrlParams.set(AI_SEARCH_PARAM, 'true')
+    //   newUrlParams.set(SEARCH_TYPE_PARAM, 'true')
     //   if (!isNull(originalSearchString)) {
     //     newUrlParams.set('sq', originalSearchString as string)
     //   }

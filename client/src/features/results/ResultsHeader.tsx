@@ -24,7 +24,7 @@ import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
 import {
   AI_REFINEMENT_PARAM,
-  AI_SEARCH_PARAM,
+  SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
@@ -53,7 +53,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const queryString = new URLSearchParams(search)
   const label = advancedSearchTitles[tab] || ''
   const overlay = resultsHeaderOverlays[tab]
-  const isAiSearch = queryString.get(AI_SEARCH_PARAM) === 'true'
+  const isAiSearch =
+    queryString.has(SEARCH_TYPE_PARAM) &&
+    queryString.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
   const isAiRefinement = queryString.get(AI_REFINEMENT_PARAM) === 'true'
 
   const [isMobile, setIsMobile] = useState<boolean>(

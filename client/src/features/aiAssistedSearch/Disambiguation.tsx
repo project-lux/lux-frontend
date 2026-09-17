@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import {
   AI_REFINEMENT_PARAM,
-  AI_SEARCH_PARAM,
+  SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 import {
   DEFAULT_PAGE_LENGTH,
@@ -80,7 +80,7 @@ const Disambiguation: React.FC<{
                   <Link
                     to={{
                       pathname: `/view/results/${scopeToTabTranslation[queryData.query._scope as string]}`,
-                      search: `q=${JSON.stringify(queryData.query)}&pageLength=${DEFAULT_PAGE_LENGTH}&${AI_SEARCH_PARAM}=true&sq=${queryData.natural}${isAiRefinementSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
+                      search: `q=${JSON.stringify(queryData.query)}&pageLength=${DEFAULT_PAGE_LENGTH}&${SEARCH_TYPE_PARAM}=aiAssisted&sq=${queryData.natural}${isAiRefinementSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
                     }}
                     className="fw-medium"
                     onClick={onSelect}

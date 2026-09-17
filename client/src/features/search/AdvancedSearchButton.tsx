@@ -12,6 +12,7 @@ import { getParamPrefix } from '../../lib/util/params'
 import Tooltip from '../common/Tooltip'
 import EntityResultsDescription from '../cms/EntityResultsDescription'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   setIsError: (x: boolean) => void
@@ -33,7 +34,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
       `To Advanced Search ${entityType}`,
     )
     if (searchString === '') {
-      navigate(`/view/results/${entityType}?q=`, {
+      navigate(`/view/results/${entityType}?q=&${SEARCH_TYPE_PARAM}=advanced`, {
         state: {
           fromLandingPage: true,
         },
@@ -48,6 +49,7 @@ const AdvancedSearchButton: React.FC<IProps> = ({ setIsError, id }) => {
         const urlParams = new URLSearchParams()
         urlParams.set('q', translatedString)
         urlParams.set(`${getParamPrefix(entityType)}p`, '1')
+        urlParams.set(SEARCH_TYPE_PARAM, 'advanced')
         navigate(`/view/results/${entityType}?${urlParams.toString()}`)
       },
       onError: () => setIsError(true),

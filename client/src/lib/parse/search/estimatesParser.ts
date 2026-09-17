@@ -4,10 +4,10 @@ import { IEstimateItems } from '../../../types/ISearchEstimates'
 import { ISearchResultsErrorData } from '../../../types/ISearchResults'
 import { fetchSearchEstimates } from '../../util/fetchSearchEstimates'
 
-export const isAdvancedSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isAdvancedSearch = (searchType: string): boolean =>
   searchType === 'advanced'
 
-export const isSimpleSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
 
 export const transformAdvancedSearchEstimates = (
