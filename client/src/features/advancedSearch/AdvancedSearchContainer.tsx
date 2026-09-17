@@ -175,11 +175,7 @@ const AdvancedSearchContainer: React.FC = () => {
       >
         <div className="advanced-search-form-wrapper">
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FormHeader
-              tab={tab}
-              isAiSearch={isAiSearch}
-              originalSearchString={originalSearchString}
-            />
+            <FormHeader tab={tab} originalSearchString={originalSearchString} />
             <StyledHr width="100%" />
             {isAiSearch && (
               <RefinementContainer currentScope={scope} resultsTab={tab} />
