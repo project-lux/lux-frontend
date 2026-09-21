@@ -27,4 +27,8 @@ jobs:
             https://github.com/${{ github.repository }}.git \
             --branch ${{ env.TAG_OR_BRANCH }} --single-branch --depth 1
           cd $REPO_NAME
+          # npm install --package-lock-only is a temporary fix for FOSSA failing
+          # to process pnpm-lock.yaml correctly.
+          cd client && npm install --package-lock-only --legacy-peer-deps && cd ../
+          cd server && npm install --package-lock-only --legacy-peer-deps && cd ../
           FOSSA_API_KEY=${{ secrets.FOSSA_API_KEY }} fossa analyze --team "${{ vars.FOSSA_TEAM }}"
