@@ -20,7 +20,7 @@ import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import Disambiguation from '../aiAssistedSearch/Disambiguation'
-import { AI_SEARCH_PARAM } from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 const StyledSearchBox = styled.div`
   display: flex;
@@ -237,7 +237,10 @@ const SearchBox: React.FC<{
               delete query._scope
               newUrlParams.set('q', JSON.stringify(query))
               newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-              newUrlParams.set(AI_SEARCH_PARAM, isAiSearch ? 'true' : 'false')
+              newUrlParams.set(
+                SEARCH_TYPE_PARAM,
+                isAiSearch ? 'aiAssisted' : 'simple',
+              )
               newUrlParams.set('sq', valueToSubmit)
               navigate(
                 {

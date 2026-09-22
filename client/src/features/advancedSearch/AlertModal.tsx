@@ -5,7 +5,6 @@ import { isNull } from 'lodash'
 
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
@@ -33,13 +32,13 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
   const dispatch = useAppDispatch()
 
   const handleContinueToSimpleSearch = (): void => {
-    dispatch(changeCurrentSearchState({ value: 'simple' }))
     dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
     onClose()
     dispatch(resetState())
     const { value } = simpleSearchState
     urlParams.set('sq', !isNull(value) ? value : '')
     urlParams.set('fromAdvanced', 'true')
+    urlParams.set('searchType', 'simple')
     // urlParams.delete('qt')
     pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
     navigate(`${pathname}?${urlParams.toString()}`)

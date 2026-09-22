@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Accordion, Col, Row, Form } from 'react-bootstrap'
+import { Col, Row, Form } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 // import { isNull } from 'lodash'
@@ -15,7 +15,10 @@ import {
   IAdvancedSearchState,
   resetState,
 } from '../../redux/slices/advancedSearchSlice'
-import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
+import {
+  addSelectedHelpText,
+  resetHelpTextState,
+} from '../../redux/slices/helpTextSlice'
 import { StyledContainer } from '../../styles/features/advancedSearch/AdvancedSearchContainers'
 import StyledHr from '../../styles/shared/Hr'
 import { ErrorFallback } from '../error/ErrorFallback'
@@ -27,19 +30,27 @@ import {
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
 import theme from '../../styles/theme'
-import { AI_SEARCH_PARAM } from '../../config/aiAssistedSearch/variables'
-import RefinementContainer from '../aiAssistedSearch/RefinementContainer'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
 import HelpText from './HelpText'
 import SubmitButton from './SubmitButton'
 
+interface IProps {
+  formClassName: string
+  helpTextClassName: string
+}
+
 /**
  * Container for holding the advanced search components.
  * @returns
  */
-const AdvancedSearchContainer: React.FC = () => {
+const AdvancedSearchContainer: React.FC<IProps> = ({
+  formClassName,
+  helpTextClassName,
+}) => {
   const [showAllRows, setShowAllRows] = useState<boolean>(true)
   const formRef = useRef(null)
   const navigate = useNavigate()
@@ -53,21 +64,30 @@ const AdvancedSearchContainer: React.FC = () => {
   const fromSearchLink = urlParams.has('searchLink')
     ? urlParams.get('searchLink') === 'true'
     : false
-  const isAiSearch = urlParams.has(AI_SEARCH_PARAM)
-    ? urlParams.get(AI_SEARCH_PARAM) === 'true'
-    : false
+  const isAiSearch =
+    urlParams.has(SEARCH_TYPE_PARAM) &&
+    urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
 
   const dispatch = useAppDispatch()
 
+  // Handle the Clear Search button action
+  const handleResetForm = (): void => {
+    dispatch(resetHelpTextState())
+    dispatch(resetState())
+    dispatch(changeClearedAdvancedSearch({ value: true }))
+  }
+
+  // Handle the form submission action
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
     // eslint-disable-next-line @typescript-eslint/no-use-before-define
     const filteredSearch = filterAdvancedSearch(scope, currentState)
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
     // TODO: return to this once we have an idea as to how the advanced search should work
     // if (isAiSearch) {
-    //   newUrlParams.set(AI_SEARCH_PARAM, 'true')
+    //   newUrlParams.set(SEARCH_TYPE_PARAM, 'true')
     //   if (!isNull(originalSearchString)) {
     //     newUrlParams.set('sq', originalSearchString as string)
     //   }
@@ -120,90 +140,94 @@ const AdvancedSearchContainer: React.FC = () => {
         minHeight: '150px',
       }
 
-  const advancedSearchFormRow = (
-    <Row className="mb-2 advancedSearchFormRow">
-      <Col xs={12} sm={12}>
-        <Form
-          onSubmit={handleSubmit}
-          className="mt-3"
-          aria-describedby="help-text"
-          data-testid="testing"
-        >
-          <div
-            style={formStyle}
-            ref={formRef}
-            id="advanced-search-form-content"
-            className="mt-3 mb-3 ps-2"
-          >
-            <AdvancedSearchForm
-              state={currentState}
-              parentScope={scope}
-              parentStateId={currentState._stateId as string}
-              nestedLevel={0}
-            />
-          </div>
-          {hideAdvancedSearch && queryTab === tab && (
-            <div style={{ height: '50px' }}>
-              <StyledAddButton
-                type="button"
-                onClick={handleShowRows}
-                className={`show${
-                  showAllRows ? 'Less' : 'All'
-                }AdvancedSearchRows w-auto`}
-                value={`show${showAllRows ? 'Less' : 'All'}AdvancedSearchRows`}
-                aria-label={`Show ${
-                  showAllRows ? 'less' : 'all'
-                } advanced search rows`}
-                data-testid="advanced-search-rows-button"
-              >
-                Show {showAllRows ? 'All' : 'Fewer'} Rows
-              </StyledAddButton>
-            </div>
-          )}
-          <SubmitButton state={currentState} />
-        </Form>
-      </Col>
-    </Row>
-  )
-
   return (
-    <Row className="mx-3 mb-3" style={{ flexWrap: 'nowrap' }}>
+    <Row
+      className={`${isAiSearch ? '' : 'mx-3 mb-3'}`}
+      style={{ flexWrap: 'nowrap' }}
+    >
       <StyledContainer
-        className="advancedSearchBody"
+        className={formClassName}
         $asBodyBorderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
         data-testid="advanced-search-form-container"
       >
         <div className="advanced-search-form-wrapper">
           <ErrorBoundary FallbackComponent={ErrorFallback}>
-            <FormHeader
-              tab={tab}
-              isAiSearch={isAiSearch}
-              originalSearchString={originalSearchString}
-            />
-            <StyledHr width="100%" />
-            {isAiSearch && (
-              <RefinementContainer currentScope={scope} resultsTab={tab} />
-            )}
-            {isAiSearch ? (
-              <Accordion className="bg-light">
-                <Accordion.Item eventKey="0">
-                  <Accordion.Header className="d-flex align-items-center">
-                    Refine with Query Builder&nbsp;
-                    <p className="mb-0">
-                      Use fields and conditions to build a more precise search.
-                    </p>
-                  </Accordion.Header>
-                  <Accordion.Body>{advancedSearchFormRow}</Accordion.Body>
-                </Accordion.Item>
-              </Accordion>
+            {!isAiSearch ? (
+              <React.Fragment>
+                <FormHeader
+                  tab={tab}
+                  originalSearchString={originalSearchString}
+                  handleResetForm={handleResetForm}
+                />
+                <StyledHr width="100%" />
+              </React.Fragment>
             ) : (
-              advancedSearchFormRow
+              <Row>
+                <Col
+                  xs={12}
+                  className="d-flex justify-content-end align-items-center"
+                >
+                  <LinkButton
+                    variant="link"
+                    type="reset"
+                    className="resetAdvancedSearchForm"
+                    onClick={handleResetForm}
+                    data-testid="reset-button"
+                    aria-label="Clear Search"
+                  >
+                    Clear Search
+                  </LinkButton>
+                </Col>
+              </Row>
             )}
+            <Row className="mb-2 advancedSearchFormRow">
+              <Col xs={12} sm={12}>
+                <Form
+                  onSubmit={handleSubmit}
+                  className="mt-3"
+                  aria-describedby="help-text"
+                  data-testid="testing"
+                >
+                  <div
+                    style={formStyle}
+                    ref={formRef}
+                    id="advanced-search-form-content"
+                    className="mt-3 mb-3 ps-2"
+                  >
+                    <AdvancedSearchForm
+                      state={currentState}
+                      parentScope={scope}
+                      parentStateId={currentState._stateId as string}
+                      nestedLevel={0}
+                    />
+                  </div>
+                  {hideAdvancedSearch && queryTab === tab && (
+                    <div style={{ height: '50px' }}>
+                      <StyledAddButton
+                        type="button"
+                        onClick={handleShowRows}
+                        className={`show${
+                          showAllRows ? 'Less' : 'All'
+                        }AdvancedSearchRows w-auto`}
+                        value={`show${showAllRows ? 'Less' : 'All'}AdvancedSearchRows`}
+                        aria-label={`Show ${
+                          showAllRows ? 'less' : 'all'
+                        } advanced search rows`}
+                        data-testid="advanced-search-rows-button"
+                      >
+                        Show {showAllRows ? 'All' : 'Fewer'} Rows
+                      </StyledAddButton>
+                    </div>
+                  )}
+                  <SubmitButton state={currentState} />
+                </Form>
+              </Col>
+            </Row>
           </ErrorBoundary>
         </div>
       </StyledContainer>
       <StyledContainer
-        className="helpText"
+        className={helpTextClassName}
         $helpTextBorderTopRightRadius={tab === 'events' ? '0px' : undefined}
       >
         <div
