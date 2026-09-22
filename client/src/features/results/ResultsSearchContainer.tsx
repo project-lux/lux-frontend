@@ -9,6 +9,7 @@ import SearchContainer from '../search/SearchContainer'
 import { ResultsTab } from '../../types/ResultsTab'
 import Header from '../advancedSearch/Header'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import RefinementContainer from '../aiAssistedSearch/RefinementContainer'
 
 import Navigation from './Navigation'
 
@@ -64,7 +65,15 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             search={search}
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
-          <AdvancedSearchContainer key={tab} />
+          {isAiRefinementSearch ? (
+            <RefinementContainer />
+          ) : (
+            <AdvancedSearchContainer
+              key={tab}
+              formClassName="advancedSearchBody"
+              helpTextClassName="helpText"
+            />
+          )}
         </ErrorBoundary>
       ) : (
         <React.Fragment>

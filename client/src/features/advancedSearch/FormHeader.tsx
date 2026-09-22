@@ -3,12 +3,8 @@ import { useNavigate, useLocation } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { useAppDispatch } from '../../app/hooks'
 import { advancedSearchTitles } from '../../config/searchTypes'
-import { resetState } from '../../redux/slices/advancedSearchSlice'
-import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
-import { changeClearedAdvancedSearch } from '../../redux/slices/currentSearchSlice'
 import StyledOriginalQuery from '../../styles/features/aiAssistedSearch/OriginalQuery'
 import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
 import theme from '../../styles/theme'
@@ -32,22 +28,16 @@ const StyledH3 = styled.h3`
  * @returns {JSX.Element}
  */
 const FormHeader: React.FC<{
+  handleResetForm?: () => void
   tab: string
   originalSearchString: string | null
-}> = ({ tab, originalSearchString }) => {
+}> = ({ tab, originalSearchString, handleResetForm }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
     const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
     return storedIsActive ? JSON.parse(storedIsActive) : false
   })
-
-  const dispatch = useAppDispatch()
-  const handleResetForm = (): void => {
-    dispatch(resetHelpTextState())
-    dispatch(resetState())
-    dispatch(changeClearedAdvancedSearch({ value: true }))
-  }
 
   // Set both the local storage and the component state
   const handleToggle = (): void => {
@@ -110,16 +100,18 @@ const FormHeader: React.FC<{
           isAiSearch={isAiSearch}
           handleToggle={handleToggle}
         />
-        <LinkButton
-          variant="link"
-          type="reset"
-          className="resetAdvancedSearchForm"
-          onClick={handleResetForm}
-          data-testid="reset-button"
-          aria-label="Clear Search"
-        >
-          Clear Search
-        </LinkButton>
+        {!isAiSearch && (
+          <LinkButton
+            variant="link"
+            type="reset"
+            className="resetAdvancedSearchForm"
+            onClick={handleResetForm}
+            data-testid="reset-button"
+            aria-label="Clear Search"
+          >
+            Clear Search
+          </LinkButton>
+        )}
       </Col>
     </Row>
   )
