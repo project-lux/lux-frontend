@@ -20,6 +20,7 @@ import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import Disambiguation from '../aiAssistedSearch/Disambiguation'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 const StyledSearchBox = styled.div`
   display: flex;
@@ -236,7 +237,10 @@ const SearchBox: React.FC<{
               delete query._scope
               newUrlParams.set('q', JSON.stringify(query))
               newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-              newUrlParams.set('aiSearch', isAiSearch ? 'true' : 'false')
+              newUrlParams.set(
+                SEARCH_TYPE_PARAM,
+                isAiSearch ? 'aiAssisted' : 'simple',
+              )
               newUrlParams.set('sq', valueToSubmit)
               navigate(
                 {
@@ -374,7 +378,7 @@ const SearchBox: React.FC<{
           </form>
         </StyledSearchBox>
       </Col>
-      {aiDisambiguation.length > 1 && (
+      {aiDisambiguation.length > 0 && (
         <Col
           ref={disambiguationRef}
           xs={12}
@@ -388,6 +392,7 @@ const SearchBox: React.FC<{
           <Disambiguation
             aiDisambiguation={aiDisambiguation}
             searchString={currentState.value !== null ? currentState.value : ''}
+            className="searchBoxDisambiguation"
           />
         </Col>
       )}

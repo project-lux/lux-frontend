@@ -5,9 +5,11 @@ import config from '../../config/config'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetTranslateKeywordSearchQuery } from '../../redux/api/ml_api'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   searchString: string
+  onSelect?: () => void
 }
 
 /**
@@ -24,7 +26,7 @@ export function removeStopWords(searchString: string): string {
     .join(' ')
 }
 
-const KeywordSearchLink: React.FC<IProps> = ({ searchString }) => {
+const KeywordSearchLink: React.FC<IProps> = ({ searchString, onSelect }) => {
   const tab = useParams<{ tab: string }>().tab || 'objects'
   const linkText = removeStopWords(searchString)
 
@@ -43,7 +45,8 @@ const KeywordSearchLink: React.FC<IProps> = ({ searchString }) => {
     delete dataCopy._scope
     newUrlParams.set('q', JSON.stringify(dataCopy))
     newUrlParams.set('sq', searchString)
-    newUrlParams.set('aiSearch', 'false')
+    // TODO: this may change depending on how keyword searches are interpretted
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'simple')
 
     return (
       <Link
@@ -53,7 +56,10 @@ const KeywordSearchLink: React.FC<IProps> = ({ searchString }) => {
           pathname: `/view/results/${scope}`,
           search: newUrlParams.toString(),
         }}
-        onClick={() => pushClientEvent('Keyword Search', 'Selected', linkText)}
+        onClick={() => {
+          pushClientEvent('Keyword Search', 'Selected', linkText)
+          onSelect?.()
+        }}
         data-testid="keyword-search-link"
         className="fw-medium"
       >
