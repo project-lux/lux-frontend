@@ -13,6 +13,7 @@ import Landing from '../landing/LandingPage'
 import ResultsPage from '../results/ResultsPage'
 import RoutingComponent from '../results/RoutingComponent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import AdvancedSearchPage from '../advancedSearch/Page'
 
 import Footer from './Footer'
 import MobileAlert from './MobileAlert'
@@ -105,6 +106,7 @@ const LuxRoutes: React.FC = () => {
           <Route path="/" element={<Landing />} />
           <Route path="/landing" element={<Landing />} />
           <Route path="/index.html" element={<Landing />} />
+          <Route path="/view/results/" element={<AdvancedSearchPage />} />
           <Route path="/view/results/:tab" element={<ResultsPage />} />
           <Route path="/view/*" element={<RoutingComponent />} />
           {/* END data/search views */}

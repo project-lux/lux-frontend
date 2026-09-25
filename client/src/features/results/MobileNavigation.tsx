@@ -12,6 +12,7 @@ import {
   defaultEstimates,
   isAdvancedSearch,
   isSimpleSearch,
+  isAiAssistedSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -54,12 +55,11 @@ const MobileNavigation: React.FC<IProps> = ({
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
-  const searchType = isFromSearchLink
-    ? 'advanced'
-    : currentSearchState.searchType
+  const { qt, facetRequest } = getUrlState(urlParams, tab)
+  const searchType = currentSearchState.searchType
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
+  const aiAssistedSearch = isAiAssistedSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
@@ -117,7 +117,8 @@ const MobileNavigation: React.FC<IProps> = ({
     navigate(
       `/view/results/${key}?${
         (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-        isSwitchToSimpleSearch
+        isSwitchToSimpleSearch ||
+        aiAssistedSearch
           ? `${urlParams.toString()}&qt=${tab}`
           : urlParams.toString()
       }`,

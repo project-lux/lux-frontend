@@ -50,6 +50,7 @@ const InterpretationContainer: React.FC<IProps> = ({
           natural: '',
           query,
         }}
+        currentTab={tab}
       />
       {showRefineButton && (
         <LinkButton

@@ -10,6 +10,9 @@ export const isAdvancedSearch = (searchType: string): boolean =>
 export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
 
+export const isAiAssistedSearch = (searchType: string): boolean =>
+  searchType === 'aiAssisted'
+
 export const transformAdvancedSearchEstimates = (
   data: { [key: string]: IEstimateItems } | undefined,
   tab: string,

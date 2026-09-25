@@ -37,7 +37,17 @@ export const advancedSearchSlice = createSlice({
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    // New
+    addScope: (
+      state,
+      action: PayloadAction<{
+        scope: string
+      }>,
+    ) => {
+      const { scope } = action.payload
+      state._stateId = getStateId()
+      state._bgColor = 'bg-white'
+      state._scope = scope
+    },
     addFieldSelection: (
       state,
       action: PayloadAction<{
@@ -220,6 +230,7 @@ export const advancedSearchSlice = createSlice({
         AqParamValueToJson,
         AqParamValueToJson._bgColor || 'bg-white',
       )
+      convertedAqParam._scope = scope
       return convertedAqParam
     },
     remove: (
@@ -238,6 +249,7 @@ export const advancedSearchSlice = createSlice({
 })
 
 export const {
+  addScope,
   addFieldSelection,
   addTextValue,
   addNewGroupChild,

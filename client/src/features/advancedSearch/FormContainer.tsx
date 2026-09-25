@@ -2,10 +2,10 @@ import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row, Form } from 'react-bootstrap'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
-// import { isNull } from 'lodash'
+import { isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { searchScope } from '../../config/searchTypes'
+import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
 import {
   filterAdvancedSearch,
   getAdvancedSearchDepth,
@@ -30,13 +30,18 @@ import {
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
 import theme from '../../styles/theme'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 
 import AdvancedSearchForm from './Form'
 import FormHeader from './FormHeader'
 import HelpText from './HelpText'
 import SubmitButton from './SubmitButton'
+import ScopeSelectionRow from './ScopeSelectionRow'
 
 interface IProps {
   formClassName: string
@@ -47,15 +52,20 @@ interface IProps {
  * Container for holding the advanced search components.
  * @returns
  */
-const AdvancedSearchContainer: React.FC<IProps> = ({
+const FormContainer: React.FC<IProps> = ({
   formClassName,
   helpTextClassName,
 }) => {
   const [showAllRows, setShowAllRows] = useState<boolean>(true)
+  const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
   const formRef = useRef(null)
   const navigate = useNavigate()
+  // tab can be undefined
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const scope = searchScope[tab]
+  const scope = searchScope[tab] || null
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
   const query = urlParams.has('q') ? (urlParams.get('q') as string) : ''
@@ -64,9 +74,9 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
   const fromSearchLink = urlParams.has('searchLink')
     ? urlParams.get('searchLink') === 'true'
     : false
-  const isAiSearch =
-    urlParams.has(SEARCH_TYPE_PARAM) &&
-    urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
+  const isAiSearchWithRefinement =
+    urlParams.has(AI_REFINEMENT_PARAM) &&
+    urlParams.get(AI_REFINEMENT_PARAM) === 'true'
 
   const dispatch = useAppDispatch()
 
@@ -75,29 +85,6 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
     dispatch(resetHelpTextState())
     dispatch(resetState())
     dispatch(changeClearedAdvancedSearch({ value: true }))
-  }
-
-  // Handle the form submission action
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    // eslint-disable-next-line @typescript-eslint/no-use-before-define
-    const filteredSearch = filterAdvancedSearch(scope, currentState)
-    const newUrlParams = new URLSearchParams()
-    newUrlParams.set('q', JSON.stringify(filteredSearch))
-    newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
-    // TODO: return to this once we have an idea as to how the advanced search should work
-    // if (isAiSearch) {
-    //   newUrlParams.set(SEARCH_TYPE_PARAM, 'true')
-    //   if (!isNull(originalSearchString)) {
-    //     newUrlParams.set('sq', originalSearchString as string)
-    //   }
-    // }
-    const resultsTab = tab !== undefined ? tab : 'objects'
-    pushClientEvent('Search Button', 'Submit', 'Advanced Search')
-    navigate({
-      pathname: `/view/results/${resultsTab}`,
-      search: `?${newUrlParams.toString()}`,
-    })
   }
 
   const handleShowRows = (): void => {
@@ -109,9 +96,12 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
       if (query === '') {
         dispatch(resetState())
         dispatch(addSelectedHelpText({ value: 'fieldSelectRow' }))
-      } else {
+      } else if (scope !== null) {
         dispatch(addAqParamValue({ scope, aqParamValue: query }))
         dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
+      }
+      if (isAiSearchWithRefinement) {
+        setIsAiSearch(true)
       }
       dispatch(changeClearedAdvancedSearch({ value: false }))
     }
@@ -123,6 +113,40 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
   const asSearchState = useAppSelector(
     (searchState) => searchState.currentSearch as ICurrentSearchState,
   )
+
+  // Handle the form submission action
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+
+    const filteredSearch = filterAdvancedSearch(
+      scope || (currentState._scope as string | null),
+      currentState,
+    )
+    const newScope = currentState._scope
+      ? (currentState._scope as string)
+      : 'objects'
+    const newResultTab = scopeToTabTranslation[newScope]
+    const newUrlParams = new URLSearchParams()
+    newUrlParams.set('q', JSON.stringify(filteredSearch))
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
+    newUrlParams.set(
+      AI_REFINEMENT_PARAM,
+      isAiSearchWithRefinement ? 'true' : 'false',
+    )
+    newUrlParams.set(`${newScope.slice(0, 1)}p`, '1')
+    // TODO: return to this once we have an idea as to how the advanced search should work
+    // if (isAiSearch) {
+    //   newUrlParams.set(SEARCH_TYPE_PARAM, 'true')
+    //   if (!isNull(originalSearchString)) {
+    //     newUrlParams.set('sq', originalSearchString as string)
+    //   }
+    // }
+    pushClientEvent('Search Button', 'Submit', 'Advanced Search')
+    navigate({
+      pathname: `/view/results/${newResultTab}`,
+      search: `?${newUrlParams.toString()}`,
+    })
+  }
 
   // Calculate the number of rows in the currently submitted search
   const numberOfRows = getAdvancedSearchDepth(
@@ -158,6 +182,12 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
                   tab={tab}
                   originalSearchString={originalSearchString}
                   handleResetForm={handleResetForm}
+                  currentSearchScope={
+                    !isUndefined(currentState._scope)
+                      ? scopeToTabTranslation[currentState._scope as string] ||
+                        undefined
+                      : undefined
+                  }
                 />
                 <StyledHr width="100%" />
               </React.Fragment>
@@ -194,12 +224,22 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
                     id="advanced-search-form-content"
                     className="mt-3 mb-3 ps-2"
                   >
-                    <AdvancedSearchForm
-                      state={currentState}
-                      parentScope={scope}
-                      parentStateId={currentState._stateId as string}
-                      nestedLevel={0}
-                    />
+                    <ScopeSelectionRow />
+                    {currentState._scope !== undefined && (
+                      <div className="ms-4">
+                        <AdvancedSearchForm
+                          state={currentState}
+                          parentScope={currentState._scope as string}
+                          parentStateId={currentState._stateId as string}
+                          nestedLevel={0}
+                          parentBgColor={
+                            (currentState._bgColor as
+                              | 'bg-white'
+                              | 'bg-light') || 'bg-white'
+                          }
+                        />
+                      </div>
+                    )}
                   </div>
                   {hideAdvancedSearch && queryTab === tab && (
                     <div style={{ height: '50px' }}>
@@ -243,4 +283,4 @@ const AdvancedSearchContainer: React.FC<IProps> = ({
     </Row>
   )
 }
-export default AdvancedSearchContainer
+export default FormContainer
