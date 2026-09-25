@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
+import { isUndefined } from 'lodash'
 
 import { advancedSearchTitles } from '../../config/searchTypes'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
@@ -30,8 +31,9 @@ const StyledH3 = styled.h3`
 const FormHeader: React.FC<{
   handleResetForm?: () => void
   tab: string
+  currentSearchScope?: string
   originalSearchString: string | null
-}> = ({ tab, originalSearchString, handleResetForm }) => {
+}> = ({ tab, originalSearchString, handleResetForm, currentSearchScope }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
@@ -49,11 +51,20 @@ const FormHeader: React.FC<{
     )
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
-    newUrlParams.set('qt', tab)
-    newUrlParams.delete(AI_REFINEMENT_PARAM)
+    // Only add this parameter if the tab is defined
+    // New advanced searches will not have the tab defined
+    if (!isUndefined(tab)) {
+      newUrlParams.set('qt', tab)
+    }
+    // If setting the AI search to true, then the AI_REFINEMENT_PARAM should be added to the URL and set to true
+    if (nextIsActive) {
+      newUrlParams.set(AI_REFINEMENT_PARAM, 'true')
+    } else {
+      newUrlParams.delete(AI_REFINEMENT_PARAM)
+    }
     newUrlParams.delete('sq')
     navigate({
-      pathname,
+      pathname: `${pathname}${!isUndefined(currentSearchScope) ? `/${currentSearchScope}` : ''}`,
       search: `?${newUrlParams.toString()}`,
     })
   }
@@ -78,7 +89,8 @@ const FormHeader: React.FC<{
           </span>
         ) : (
           <StyledH3 data-testid={`${tab}-advanced-search-header`}>
-            Search for {advancedSearchTitles[tab]} that...
+            Search for
+            {isUndefined(tab) ? '...' : ` ${advancedSearchTitles[tab]} that...`}
           </StyledH3>
         )}
       </Col>

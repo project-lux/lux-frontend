@@ -12,6 +12,10 @@ All notable changes to this project will be documented in this file.
 - Added AI refinement row to the results page ([#1015](https://github.com/project-lux/lux-frontend/issues/1015)).
 - Added AI refinement form ([#1016](https://github.com/project-lux/lux-frontend/issues/1016)).
 
+### Changed
+
+- Changed the advanced search functionality to accommodate the new AI features ([#1017](https://github.com/project-lux/lux-frontend/issues/1017)).
+
 ## v1.77.0 - 2026-08-31
 
 ### Removed

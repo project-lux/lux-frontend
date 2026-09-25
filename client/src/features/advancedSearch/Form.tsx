@@ -46,11 +46,11 @@ const AdvancedSearchForm: React.FC<IAdvancedSearchForm> = ({
   childInd = undefined,
   siblings = undefined,
   parentGroupName = undefined,
-  parentBgColor = 'bg-light',
+  parentBgColor = 'bg-white',
   hasYoungerSiblings = false,
 }) => {
   const stateKeys = Object.keys(state)
-
+  console.log(parentBgColor)
   // Used to determine the background color of the current row based on the background color of the parent group
   const rowBgColor =
     parentBgColor === 'bg-white'

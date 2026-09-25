@@ -401,7 +401,7 @@ export const convertAqSearchParam = (
 ): IAdvancedSearchState => {
   let newBgColor = parentBgColor
   const keys = Object.keys(jsonAqParamValue)
-  // Remove scope as it is not needed for rendering and scope gets passed via the current tab
+  // Remove scope as it is not needed where it is currently nested
   if (keys.includes('_scope')) {
     delete jsonAqParamValue._scope
   }

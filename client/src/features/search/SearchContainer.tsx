@@ -9,9 +9,12 @@ import ToggleSearchButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
-import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
+import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
-import AdvancedSearchButton from './AdvancedSearchButton'
 import SearchBox from './SearchBox'
 import ErrorMessage from './ErrorMessage'
 
@@ -108,7 +111,23 @@ const SearchContainer: React.FC<IProps> = ({
               xs={12}
               className="d-inline-flex justify-content-center align-items-center"
             >
-              <AdvancedSearchButton setIsError={setIsError} id={id} />
+              <Link
+                to={`/view/results?${isAiSearch ? `${AI_REFINEMENT_PARAM}=true` : ''}&${SEARCH_TYPE_PARAM}=advanced`}
+                style={{
+                  ...linkStyle,
+                  fontWeight: '400',
+                  fontSize: '1rem',
+                }}
+                onClick={() =>
+                  pushClientEvent(
+                    'Search Switch',
+                    'Selected',
+                    'To Advanced Search',
+                  )
+                }
+              >
+                Advanced Search
+              </Link>
               <LinkDivider />
               <AiToggleButton
                 linkStyle={linkStyle}

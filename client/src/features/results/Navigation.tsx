@@ -2,6 +2,7 @@
 import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
+import { isUndefined } from 'lodash'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
@@ -131,7 +132,12 @@ const Navigation: React.FC<INavigation> = ({
                       : urlParams.toString()
                   }`}
                   className={getClassNameOfNavLink(key)}
-                  onClick={() => {
+                  onClick={(
+                    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+                  ) => {
+                    if (isUndefined(qt)) {
+                      e.preventDefault()
+                    }
                     pushClientEvent(
                       'Results Tab',
                       'Selected',

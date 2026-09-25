@@ -46,6 +46,7 @@ const ReactBootstrapDropdown = styled(Dropdown)`
   .dropdown-menu.show {
     max-height: 400px;
     overflow-y: scroll;
+    z-index: 1002;
   }
 
   .dropdown-item.active {
