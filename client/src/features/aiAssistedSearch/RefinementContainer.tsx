@@ -6,12 +6,13 @@ import StyledSearchButton from '../../styles/features/aiAssistedSearch/SearchBut
 import { translate } from '../../lib/util/translate'
 import LoadingSpinner from '../common/LoadingSpinner'
 import theme from '../../styles/theme'
-import AdvancedSearchContainer from '../advancedSearch/AdvancedSearchContainer'
+import AdvancedSearchFormContainer from '../advancedSearch/FormContainer'
 import { ResultsTab } from '../../types/ResultsTab'
 import { searchScope } from '../../config/searchTypes'
 import { StyledContainer } from '../../styles/features/advancedSearch/AdvancedSearchContainers'
 import FormHeader from '../advancedSearch/FormHeader'
 import StyledHr from '../../styles/shared/Hr'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Disambiguation from './Disambiguation'
 import InterpretationContainer from './InterpretationContainer'
@@ -30,6 +31,21 @@ const RefinementContainer: React.FC = () => {
     ? fullSearchQuery.get('sq')
     : null
   const translatedQuery = fullSearchQuery.get('q') || ''
+  const searchType = fullSearchQuery.has(SEARCH_TYPE_PARAM)
+    ? fullSearchQuery.get(SEARCH_TYPE_PARAM)
+    : null
+  const isNewAdvancedSearch =
+    translatedQuery.length === 0 && searchType === 'advanced'
+  // Labels and text for the AI-assisted search form based on whether it's a new search or a refinement
+  const formLabel = isNewAdvancedSearch
+    ? 'AI-Assisted Search'
+    : 'Refine Search with AI'
+  const formText = isNewAdvancedSearch
+    ? 'Search using natural language.'
+    : 'Use natural language to refine this search.'
+  const accordionLabel = isNewAdvancedSearch
+    ? 'Search with Query Builder'
+    : 'Refine with Query Builder'
 
   const [newQuery, setNewQuery] = React.useState<string>(
     originalSearchString || '',
@@ -48,7 +64,7 @@ const RefinementContainer: React.FC = () => {
       query: newQuery,
       isAiSearch: true,
       scope,
-      prevQuery: translatedQuery,
+      prevQuery: translatedQuery.length > 0 ? translatedQuery : undefined,
       onSuccess: (translatedString) => {
         const jsonTranslatedString = JSON.parse(translatedString)
         if (jsonTranslatedString.length > 0) {
@@ -112,12 +128,10 @@ const RefinementContainer: React.FC = () => {
                 controlId="formBasicEmail"
               >
                 <Form.Label className="fw-bold" id="refine-search-label">
-                  Refine Search with AI
+                  {formLabel}
                 </Form.Label>
                 &nbsp;
-                <Form.Text>
-                  Use natural language to refine this search.
-                </Form.Text>
+                <Form.Text>{formText}</Form.Text>
                 <div className="position-relative mb-3">
                   <InputGroup
                     size="lg"
@@ -186,13 +200,13 @@ const RefinementContainer: React.FC = () => {
           <Accordion className="bg-light">
             <Accordion.Item eventKey="0">
               <Accordion.Header className="d-flex align-items-center">
-                Refine with Query Builder&nbsp;
+                {accordionLabel}&nbsp;
                 <p className="mb-0">
                   Use fields and conditions to build a more precise search.
                 </p>
               </Accordion.Header>
               <Accordion.Body>
-                <AdvancedSearchContainer
+                <AdvancedSearchFormContainer
                   formClassName="refinementAdvancedSearchContainer"
                   helpTextClassName="refinementHelpText"
                 />

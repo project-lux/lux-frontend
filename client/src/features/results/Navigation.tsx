@@ -15,6 +15,7 @@ import {
   defaultEstimates,
   isAdvancedSearch,
   isSimpleSearch,
+  isAiAssistedSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -57,6 +58,7 @@ const Navigation: React.FC<INavigation> = ({
   const { qt, facetRequest, searchType } = getUrlState(urlParams, tab)
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
+  const aiAssistedSearch = isAiAssistedSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
@@ -117,17 +119,11 @@ const Navigation: React.FC<INavigation> = ({
               {Object.entries(searchScope).map(([key, value]) => (
                 <StyledNavLink
                   key={key}
-                  // TODO: implement when My Collections work proceeds
-                  // to={`/view/results/${key}${key === 'collections' ? '/all' : ''}?${
-                  //   (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                  //   isSwitchToSimpleSearch
-                  //     ? `${urlParams.toString()}&qt=${tab}`
-                  //     : urlParams.toString()
-                  // }`}
                   to={`/view/results/${key}?${
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                    isSwitchToSimpleSearch
-                      ? `${urlParams.toString()}&qt=${tab}`
+                    isSwitchToSimpleSearch ||
+                    aiAssistedSearch
+                      ? `${urlParams.toString()}&qt=${tab || key}`
                       : urlParams.toString()
                   }`}
                   className={getClassNameOfNavLink(key)}

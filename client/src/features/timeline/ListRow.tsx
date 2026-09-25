@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
@@ -14,6 +14,10 @@ import StyledDd from '../../styles/shared/DescriptionDetail'
 import StyledDt from '../../styles/shared/DescriptionTerm'
 import StyledResponsiveCol from '../../styles/shared/ResponsiveCol'
 import { halLinkMapToLegendName } from '../../config/timeline'
+import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
+  AI_REFINEMENT_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
 const HoverableRow = styled(Row)`
   &:hover {
@@ -33,6 +37,10 @@ const ListRow: React.FC<{
   linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
   linkIndex: number
 }> = ({ halLinkConfig, data, year, halLink, linkRefs, linkIndex }) => {
+  const [isAiSearch] = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
   const { tab } = halLinkConfig[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
   const label = halLinkMapToLegendName.get(halLink)
@@ -48,7 +56,7 @@ const ListRow: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `${searchParams}&searchLink=true&searchType=advanced`,
+              search: `${searchParams}&searchLink=true&searchType=advanced${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
             }}
             aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
             tabIndex={-1}
