@@ -1,3 +1,5 @@
+import { isUndefined } from 'lodash'
+
 import { searchScope } from '../../config/searchTypes'
 
 export const getParamPrefix = (tab: string): string =>
@@ -43,8 +45,12 @@ export const getFacetParamsForAdvancedSearchEstimatesRequest = (
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   criteria: Record<string, any>,
   urlParams: URLSearchParams,
-  queryTab: string,
+  queryTab?: string,
 ): string => {
+  if (isUndefined(queryTab)) {
+    return ''
+  }
+
   let searchEstimatesParams = ''
   const facetsParam = `${getParamPrefix(queryTab)}f`
   if (urlParams.has(facetsParam)) {

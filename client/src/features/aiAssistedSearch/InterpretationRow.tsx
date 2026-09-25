@@ -2,15 +2,21 @@ import React from 'react'
 
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
+import { searchScope } from '../../config/searchTypes'
 
 interface IProps {
   disambiguation: IAiDisambiguation
+  currentTab?: string
 }
 
-const InterpretationRow: React.FC<IProps> = ({ disambiguation }) => {
+const InterpretationRow: React.FC<IProps> = ({
+  disambiguation,
+  currentTab,
+}) => {
   const interpretation =
     AiDisambigationParser.getAiDisambiguationInterpretation(
       disambiguation.query,
+      searchScope[currentTab as string] || undefined,
     )
   return (
     <span className="d-inline-flex flex-wrap align-items-center justify-content-start">

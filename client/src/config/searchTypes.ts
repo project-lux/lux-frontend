@@ -88,6 +88,18 @@ export const scopeToAriaLabel: Record<string, string> = {
 }
 
 /**
+ * Used in advanced search when selecting the scope of the search
+ */
+export const scopeToOptionLabel: Record<string, string> = {
+  item: 'Objects',
+  work: 'Works',
+  set: 'Collections',
+  agent: 'People & Groups',
+  place: 'Places',
+  concept: 'Concepts',
+  event: 'Events',
+}
+/**
  * Used in advanced search for rendering dropdown menu options
  */
 export const dropdownGroupings: Array<string> = [

@@ -130,14 +130,15 @@ export default class AiDisambigationParser {
    */
   static getAiDisambiguationInterpretation(
     query: IAdvancedSearchState,
+    scope?: string,
   ): Record<string, Array<string>> {
     const initialObj: Record<string, Array<string>> = {}
     // return this.aiDisambiguation.map((aiDis: IAiDisambiguation) => {
-    const scope = query._scope as string
+    const effectiveScope = scope || (query._scope as string)
     return AiDisambigationParser.parseAiDisambiguationQuery(
       initialObj,
       query,
-      scope,
+      effectiveScope,
       '',
     )
   }
