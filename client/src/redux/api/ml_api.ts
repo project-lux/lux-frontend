@@ -35,6 +35,7 @@ export const mlApi: any = createApi({
 
         let scope = ''
         if (!isUndefined(tab)) {
+          // If the search is an AI search, do not set a scope
           scope = searchScope[tab]
         }
         if (!isUndefined(page)) {

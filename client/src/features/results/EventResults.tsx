@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { JSX } from 'react'
+import React from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
@@ -16,38 +16,31 @@ import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
-// Person/group-specific result rendering component.
-import PersonSnippet from './PersonSnippet'
-import NoResultsAlert from './NoResultsAlert'
-import WorksSnippet from './WorksSnippet'
-import ObjectSnippet from './ObjectSnippet'
-import SetSnippet from './SetSnippet'
-import PlaceSnippet from './PlaceSnippet'
-import ConceptSnippet from './ConceptSnippet'
 import EventSnippet from './EventSnippet'
+import NoResultsAlert from './NoResultsAlert'
 
 interface IProps {
   searchResponse: ISearchResponse
   isMobile: boolean
 }
 
-const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
-  // Parse URL search params
+const EventResults: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   const { search } = useLocation()
-  const urlParams = new URLSearchParams(search)
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
+  const queryString = new URLSearchParams(search)
   const paramPrefix = getParamPrefix(tab)
   const pageParam = `${paramPrefix}p`
-  const page: any = urlParams.has(pageParam) ? urlParams.get(pageParam) : 1
-  const pageLength: number = urlParams.has('pageLength')
-    ? parseInt(urlParams.get('pageLength')!, 10)
+  const page: any = queryString.has(pageParam) ? queryString.get(pageParam) : 1
+  const pageLength: number = queryString.has('pageLength')
+    ? parseInt(queryString.get('pageLength')!, 10)
     : DEFAULT_PAGE_LENGTH
-  const sort = urlParams.get(`${tab}Sort`)
-  const view: string = urlParams.has('view')
-    ? (urlParams.get('view') as string)
-    : 'list'
+  const sort = queryString.get(`${tab}Sort`)
   const hasSimpleSearchQuery =
     queryString.has('sq') && !queryString.has('aiSearch')
+  const view: string = queryString.has('view')
+    ? (queryString.get('view') as string)
+    : 'list'
+
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
 
@@ -67,89 +60,30 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     return null
   }
 
-  const resultsList = (
-    results: Array<IOrderedItems>,
-  ): Array<JSX.Element | undefined> =>
-    results.map((result, ind) => {
-      switch (tab) {
-        case 'objects':
-          return (
-            <ObjectSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'works':
-          return (
-            <WorksSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'collections':
-          return (
-            <SetSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'people':
-          return (
-            <PersonSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'places':
-          return (
-            <PlaceSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'concepts':
-          return (
-            <ConceptSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-        case 'events':
-          return (
-            <EventSnippet
-              key={result.id}
-              uri={result.id}
-              view={view}
-              totalResults={estimate}
-              index={ind + 1}
-            />
-          )
-      }
-    })
+  const resultsList = (results: Array<IOrderedItems>): JSX.Element[] =>
+    results.map((result, ind) => (
+      <EventSnippet
+        key={result.id}
+        uri={result.id}
+        view={view}
+        totalResults={estimate}
+        index={ind + 1}
+      />
+    ))
 
   return (
-    <StyledEntityResultsRow>
+    <StyledEntityResultsRow
+      $borderTopLeftRadius={hasSimpleSearchQuery ? '0px' : undefined}
+    >
       {(isSuccess || isError) && (
         <Col xs={12}>
-          <ResultsHeader key={sort} total={estimate} resultsData={data} />
+          <ResultsHeader
+            key={sort}
+            total={estimate}
+            label="Events"
+            overlay="events"
+            resultsData={data}
+          />
         </Col>
       )}
       <Col xs={12}>
@@ -165,7 +99,7 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
               <FacetContainer />
             </StyledResultsCol>
           )}
-          <Col xs={12} sm={12} md={9} lg={9} xl={9} xxl={9}>
+          <Col xs={12} sm={12} md={9} lg={9}>
             {!isFetching && isSuccess && data && (
               <React.Fragment>
                 {view === 'list' && resultsList(data.orderedItems)}
@@ -204,4 +138,4 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
   )
 }
 
-export default ResultsPageContent
+export default EventResults
