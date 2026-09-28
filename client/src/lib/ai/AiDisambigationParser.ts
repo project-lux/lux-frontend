@@ -80,6 +80,11 @@ export default class AiDisambigationParser {
   ): { [key: string]: Array<string> } {
     const keys = Object.keys(query)
     for (const key of keys) {
+      // Skip over special keys that are not part of the actual query fields
+      if (key === '_scope' || key === '_options' || key === '_comp') {
+        continue
+      }
+
       const nestedObject = query[key]
 
       if (!Array.isArray(nestedObject) && typeof nestedObject === 'object') {
