@@ -3,10 +3,14 @@ import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
+import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 import { ITimelineCriteria, ITimelineHalLinks } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import theme from '../../styles/theme'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   active: boolean
@@ -22,12 +26,15 @@ interface ILinkProps {
 
 const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
   const [underline, setUnderline] = useState<boolean>(false)
-
+  const [isAiSearch] = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
   return (
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')

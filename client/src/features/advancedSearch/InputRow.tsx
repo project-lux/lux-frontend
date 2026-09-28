@@ -6,7 +6,7 @@ import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup
 import RemoveButton from './RemoveButton'
 import InputFieldSet from './InputFieldset'
 
-interface IFieldSelectRow {
+interface IInputRow {
   stateId: string
   scope: string
   selectedKey: string
@@ -26,7 +26,7 @@ interface IFieldSelectRow {
  * @param {number} nestedLevel level of depth within the advanced search state
  * @returns {JSX.Element}
  */
-const InputRow: React.FC<IFieldSelectRow> = ({
+const InputRow: React.FC<IInputRow> = ({
   stateId,
   scope,
   selectedKey,

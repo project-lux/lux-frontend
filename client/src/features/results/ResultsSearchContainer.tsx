@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
+import Alert from 'react-bootstrap/esm/Alert'
 
 import theme from '../../styles/theme'
-import AdvancedSearchContainer from '../advancedSearch/AdvancedSearchContainer'
+import AdvancedSearchFormContainer from '../advancedSearch/FormContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
 import SearchContainer from '../search/SearchContainer'
 import { ResultsTab } from '../../types/ResultsTab'
@@ -36,26 +37,9 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   )
   useResizeableWindow(setIsMobile)
 
-  const showAdvancedSearch =
-    (isAdvancedSearch && !isMobile) || isAiRefinementSearch
+  const showAdvancedSearch = isAdvancedSearch || isAiRefinementSearch
   return (
     <React.Fragment>
-      {/* {showSimpleSearch && (
-        <React.Fragment>
-          <SearchContainer
-            className="resultsSearchContainer"
-            bgColor="transparent"
-            id="results-search-container"
-            isResultsPage
-          />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-        </React.Fragment>
-      )} */}
       {showAdvancedSearch ? (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
@@ -65,10 +49,19 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             search={search}
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
-          {isAiRefinementSearch ? (
+          {isMobile ? (
+            <Alert
+              variant="warning"
+              className="mt-3"
+              data-testid="mobile-advanced-search-alert"
+            >
+              The Advanced Search Page is not accessible on mobile devices.
+              Please use a desktop or tablet to access this page.
+            </Alert>
+          ) : isAiRefinementSearch ? (
             <RefinementContainer />
           ) : (
-            <AdvancedSearchContainer
+            <AdvancedSearchFormContainer
               key={tab}
               formClassName="advancedSearchBody"
               helpTextClassName="helpText"
