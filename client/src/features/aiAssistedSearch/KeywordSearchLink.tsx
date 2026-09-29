@@ -44,9 +44,9 @@ const KeywordSearchLink: React.FC<IProps> = ({ searchString, onSelect }) => {
     const scope = scopeToTabTranslation[dataCopy._scope]
     delete dataCopy._scope
     newUrlParams.set('q', JSON.stringify(dataCopy))
-    newUrlParams.set('sq', searchString)
+    newUrlParams.set('sq', linkText)
     // TODO: this may change depending on how keyword searches are interpretted
-    newUrlParams.set(SEARCH_TYPE_PARAM, 'simple')
+    newUrlParams.set(SEARCH_TYPE_PARAM, 'aiAssisted')
 
     return (
       <Link

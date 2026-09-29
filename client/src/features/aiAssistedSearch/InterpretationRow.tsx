@@ -24,15 +24,34 @@ const InterpretationRow: React.FC<IProps> = ({
         if (key === '_scope') {
           return null
         }
-        return (
-          <div key={key} className="d-inline-flex align-items-center flex-wrap">
-            <strong className="me-2">{key}:</strong> {interpretation[key]}{' '}
-            &nbsp;
-            {ind !== Object.keys(interpretation).length - 1 && (
-              <span className="me-2">|</span>
-            )}
-          </div>
-        )
+        if (interpretation[key].length === 1) {
+          return (
+            <div
+              key={key}
+              className="d-inline-flex align-items-center flex-wrap"
+            >
+              <strong className="me-2">{key}:</strong> {interpretation[key]}{' '}
+              &nbsp;
+              {ind !== Object.keys(interpretation).length - 1 && (
+                <span className="me-2">|</span>
+              )}
+            </div>
+          )
+        }
+        // If there are multiple values for one search term, render each one separately
+        if (interpretation[key].length > 1) {
+          return interpretation[key].map((item, textInd) => (
+            <div
+              key={textInd}
+              className="d-inline-flex align-items-center flex-wrap"
+            >
+              <strong className="me-2">{key}:</strong> {item} &nbsp;
+              {textInd !== interpretation[key].length - 1 && (
+                <span className="me-2">|</span>
+              )}
+            </div>
+          ))
+        }
       })}
     </span>
   )
