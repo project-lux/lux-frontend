@@ -1,8 +1,12 @@
+import { isUndefined } from 'lodash'
+
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
 // import config from '../../config/config'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import { getFieldToEntityRelationship } from '../advancedSearch/stateManager'
+import { isValidDateObject, getDefaultDate } from '../facets/dateParser'
+import { comparators } from '../../config/advancedSearch/inputTypes'
 
 export default class AiDisambigationParser {
   aiDisambiguation: Array<IAiDisambiguation>
@@ -61,15 +65,31 @@ export default class AiDisambigationParser {
     return this.aiDisambiguation.map((option) => option.query)
   }
 
+  static convertAdvancedSearchValue = (value: string | number): string => {
+    if (typeof value === 'number') {
+      return value === 1 ? 'Yes' : 'No'
+    }
+    const dateObj = new Date(value)
+    if (isValidDateObject(dateObj)) {
+      const { year, month, day } = getDefaultDate(value)
+      return `${month}-${day}-${year}`
+    }
+    return value
+  }
+
   static getFieldLabel = (
     parentScope: string,
     searchTerm: string,
+    comparator?: string,
   ): string | null => {
     const searchTermConfig = advancedSearch().terms[parentScope][searchTerm]
-    // config.advancedSearch.terms[parentScope][searchTerm]
-    return searchTermConfig !== undefined
-      ? searchTermConfig.aiInterpretationLabel
-      : null
+    if (!isUndefined(searchTermConfig)) {
+      if (searchTermConfig.relation === 'date' && !isUndefined(comparator)) {
+        return `${searchTermConfig.aiInterpretationLabel} ${comparators[comparator as string] || ''}`
+      }
+      return searchTermConfig.aiInterpretationLabel
+    }
+    return null
   }
 
   static parseAiDisambiguationQuery(
@@ -81,23 +101,33 @@ export default class AiDisambigationParser {
     const keys = Object.keys(query)
     for (const key of keys) {
       // Skip over special keys that are not part of the actual query fields
-      if (key === '_scope' || key === '_options' || key === '_comp') {
+      if (
+        key === '_scope' ||
+        key === '_options' ||
+        key === '_comp' ||
+        key === '_lang'
+      ) {
         continue
       }
 
       const nestedObject = query[key]
+      const relation = getFieldToEntityRelationship(scope, key) || ''
+      const fieldLabel =
+        AiDisambigationParser.getFieldLabel(
+          scope,
+          key,
+          query._comp as string | undefined,
+        ) || key
 
       if (!Array.isArray(nestedObject) && typeof nestedObject === 'object') {
-        const relation = getFieldToEntityRelationship(scope, key) || ''
-        const fieldLabel = AiDisambigationParser.getFieldLabel(scope, key)
         AiDisambigationParser.parseAiDisambiguationQuery(
           obj,
           nestedObject,
           relation,
-          fieldLabel || key,
+          fieldLabel,
         )
       }
-
+      // > < >= <= ==
       if (Array.isArray(nestedObject)) {
         nestedObject.map((nestedObj) =>
           AiDisambigationParser.parseAiDisambiguationQuery(
@@ -109,19 +139,24 @@ export default class AiDisambigationParser {
         )
       }
 
-      if (typeof nestedObject === 'string') {
+      if (
+        typeof nestedObject === 'string' ||
+        typeof nestedObject === 'number'
+      ) {
+        const newValue =
+          AiDisambigationParser.convertAdvancedSearchValue(nestedObject)
         if (prevField === '') {
-          if (obj.hasOwnProperty(key)) {
-            obj[key].push(nestedObject)
+          if (obj.hasOwnProperty(fieldLabel)) {
+            obj[fieldLabel].push(newValue)
           } else {
-            obj[key] = [nestedObject]
+            obj[fieldLabel] = [newValue]
           }
         } else {
           const field = prevField as string
           if (obj.hasOwnProperty(field)) {
-            obj[field].push(nestedObject)
+            obj[field].push(newValue)
           } else {
-            obj[field] = [nestedObject]
+            obj[field] = [newValue]
           }
         }
       }

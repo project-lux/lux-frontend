@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Accordion, Col, Form, InputGroup, Row } from 'react-bootstrap'
 import { useLocation, useParams } from 'react-router-dom'
+import styled from 'styled-components'
 
 import StyledSearchButton from '../../styles/features/aiAssistedSearch/SearchButton'
 import { translate } from '../../lib/util/translate'
@@ -17,6 +18,12 @@ import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import Disambiguation from './Disambiguation'
 import InterpretationContainer from './InterpretationContainer'
 
+const StyledAccordionHeader = styled(Accordion.Header)`
+  :after {
+    margin-left: 0px;
+  }
+`
+
 /**
  * Component for expanding the advanced search with an AI search option.
  * @param {string} currentScope sets the current scope of the advanced search
@@ -31,6 +38,7 @@ const RefinementContainer: React.FC = () => {
     ? fullSearchQuery.get('sq')
     : null
   const translatedQuery = fullSearchQuery.get('q') || ''
+  // const currentQueryTab = fullSearchQuery.get('qt') || ''
   const searchType = fullSearchQuery.has(SEARCH_TYPE_PARAM)
     ? fullSearchQuery.get(SEARCH_TYPE_PARAM)
     : null
@@ -51,6 +59,7 @@ const RefinementContainer: React.FC = () => {
     originalSearchString || '',
   )
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
+  const [isAccordionExpanded, setIsAccordionExpanded] = useState(false)
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
@@ -105,12 +114,14 @@ const RefinementContainer: React.FC = () => {
       >
         <FormHeader tab={tab} originalSearchString={originalSearchString} />
         <StyledHr width="100%" />
+        {/* {currentQueryTab === tab && ( */}
         <Col xs={12} className="mt-2">
           <InterpretationContainer
             className="refineSearchWithoutAiButton"
             showRefineButton={false}
           />
         </Col>
+        {/* )} */}
         <Col xs={12}>
           <div
             className="p-3 my-3"
@@ -197,14 +208,23 @@ const RefinementContainer: React.FC = () => {
           </div>
         </Col>
         <Col xs={12}>
-          <Accordion className="bg-light">
+          <Accordion
+            className="bg-light"
+            onSelect={(eventKey) => setIsAccordionExpanded(eventKey === '0')}
+          >
             <Accordion.Item eventKey="0">
-              <Accordion.Header className="d-flex align-items-center">
+              <StyledAccordionHeader className="d-flex align-items-center">
                 {accordionLabel}&nbsp;
                 <p className="mb-0">
                   Use fields and conditions to build a more precise search.
                 </p>
-              </Accordion.Header>
+                <span
+                  className="ms-auto me-2"
+                  style={{ color: theme.color.link }}
+                >
+                  {isAccordionExpanded ? 'Collapse' : 'Expand'}
+                </span>
+              </StyledAccordionHeader>
               <Accordion.Body>
                 <AdvancedSearchFormContainer
                   formClassName="refinementAdvancedSearchContainer"

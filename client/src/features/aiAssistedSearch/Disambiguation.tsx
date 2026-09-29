@@ -67,7 +67,10 @@ const Disambiguation: React.FC<{
       </Col>
       <Col xs={12}>
         <p className="mb-0 fw-semibold">
-          <i className="bi bi-stars" />
+          <i
+            className="bi bi-stars"
+            style={{ color: theme.color.primary.blue }}
+          />
           AI-Assisted Suggestions
         </p>
       </Col>

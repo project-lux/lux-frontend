@@ -41,8 +41,11 @@ const InterpretationContainer: React.FC<IProps> = ({
       className={`d-inline-flex flex-wrap align-items-center justify-content-start w-100 p-2 ${className}`}
     >
       <p className="mb-0 fw-semibold">
-        <i className="bi bi-stars" />
-        AI-Assisted Suggestions:&nbsp;
+        <i
+          className="bi bi-stars"
+          style={{ color: theme.color.primary.blue }}
+        />
+        AI-Assisted Interpretation:&nbsp;
       </p>
       <InterpretationRow
         disambiguation={{

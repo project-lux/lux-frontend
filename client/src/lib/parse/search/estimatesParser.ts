@@ -92,7 +92,11 @@ export const getEstimatesRequests = (
   qt: string,
   isSwitchToSimpleSearch: boolean,
 ): any => {
-  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
+  if (
+    isAdvancedSearch(searchType) ||
+    isAiAssistedSearch(searchType) ||
+    isSwitchToSimpleSearch
+  ) {
     return getAdvancedSearchEstimates(params as string, qt)
   }
 
