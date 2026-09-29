@@ -193,7 +193,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         producedDate: {
           label: 'were created on',
-          aiInterpretationLabel: 'Created On',
+          aiInterpretationLabel: 'Created',
           helpText:
             'Search for Objects by the date on which they were created.',
           relation: 'date',
@@ -227,7 +227,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         encounteredDate: {
           label: 'were encountered on',
-          aiInterpretationLabel: 'Encountered On',
+          aiInterpretationLabel: 'Encountered',
           helpText:
             'Search for Objects by the date on which they were encountered or found.',
           relation: 'date',
@@ -450,7 +450,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         createdDate: {
           label: 'were created on',
-          aiInterpretationLabel: 'Created On',
+          aiInterpretationLabel: 'Created',
           helpText:
             'Search for Works by the date on which they were authored or created. Note the difference with Publication Date.',
           relation: 'date',
@@ -477,7 +477,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         publishedDate: {
           label: 'were published on',
-          aiInterpretationLabel: 'Published On',
+          aiInterpretationLabel: 'Published',
           helpText:
             'Search for Works by the date on which they were published. Note the difference with Creation Date, which is when the work was originally conceived by its creator.',
           relation: 'date',
@@ -667,7 +667,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         createdDate: {
           label: 'were created on',
-          aiInterpretationLabel: 'Created On',
+          aiInterpretationLabel: 'Created',
           helpText:
             'Search for Collections by the date on which they were created. Note the difference with Publication Date.',
           relation: 'date',
@@ -692,7 +692,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         publishedDate: {
           label: 'were published on',
-          aiInterpretationLabel: 'Published On',
+          aiInterpretationLabel: 'Published',
           helpText:
             'Search for Collections by the date on which they were published. Note the difference with Creation Date, which is when the collection was originally conceived by its creator.',
           relation: 'date',
@@ -821,7 +821,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         endDate: {
           label: 'died or dissolved on',
-          aiInterpretationLabel: 'Died Or Dissolved On',
+          aiInterpretationLabel: 'Died Or Dissolved',
           helpText:
             'Search for People & Groups by the date on which they died or were dissolved.',
           relation: 'date',
@@ -965,7 +965,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         startDate: {
           label: 'were born or formed on',
-          aiInterpretationLabel: 'Born Or Formed On',
+          aiInterpretationLabel: 'Born Or Formed',
           helpText:
             'Search People & Groups by the date on which they were born or formed.',
           relation: 'date',
@@ -991,7 +991,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         activeDate: {
           label: 'were professionally active on',
-          aiInterpretationLabel: 'Professionally Active On',
+          aiInterpretationLabel: 'Professionally Active',
           helpText:
             'Search for People & Groups by the dates on which they were professionally active.',
           relation: 'date',
@@ -1457,7 +1457,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         endDate: {
           label: 'ended on',
-          aiInterpretationLabel: 'Ended On',
+          aiInterpretationLabel: 'Ended',
           helpText: 'Search for Events by the date on which they ended.',
           relation: 'date',
         },
@@ -1494,7 +1494,7 @@ export function advancedSearch(): IAdvancedSearchConfig {
         },
         startDate: {
           label: 'started on',
-          aiInterpretationLabel: 'Started On',
+          aiInterpretationLabel: 'Started',
           helpText: 'Search for Events by the date on which they started.',
           relation: 'date',
         },
