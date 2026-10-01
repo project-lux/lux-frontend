@@ -5,7 +5,7 @@ import { Row, Col, Nav } from 'react-bootstrap'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
 import { resetHelpTextState } from '../../redux/slices/helpTextSlice'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import { useAppDispatch } from '../../app/hooks'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
 import { advancedSearchTitles, searchScope } from '../../config/searchTypes'
 import StyledNavLink from '../../styles/features/results/NavLink'
@@ -15,11 +15,11 @@ import {
   defaultEstimates,
   isAdvancedSearch,
   isSimpleSearch,
+  isAiAssistedSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { ResultsTab } from '../../types/ResultsTab'
-import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import {
   getFacetParamsForAdvancedSearchEstimatesRequest,
   getFacetParamsForSimpleSearchEstimatesRequest,
@@ -45,9 +45,6 @@ const Navigation: React.FC<INavigation> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const currentSearchState = useAppSelector(
-    (state) => state.currentSearch as ICurrentSearchState,
-  )
 
   const dispatch = useAppDispatch()
 
@@ -58,12 +55,10 @@ const Navigation: React.FC<INavigation> = ({
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
-  const searchType = isFromSearchLink
-    ? 'advanced'
-    : currentSearchState.searchType
+  const { qt, facetRequest, searchType } = getUrlState(urlParams, tab)
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
+  const aiAssistedSearch = isAiAssistedSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
@@ -124,17 +119,11 @@ const Navigation: React.FC<INavigation> = ({
               {Object.entries(searchScope).map(([key, value]) => (
                 <StyledNavLink
                   key={key}
-                  // TODO: implement when My Collections work proceeds
-                  // to={`/view/results/${key}${key === 'collections' ? '/all' : ''}?${
-                  //   (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                  //   isSwitchToSimpleSearch
-                  //     ? `${urlParams.toString()}&qt=${tab}`
-                  //     : urlParams.toString()
-                  // }`}
                   to={`/view/results/${key}?${
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                    isSwitchToSimpleSearch
-                      ? `${urlParams.toString()}&qt=${tab}`
+                    isSwitchToSimpleSearch ||
+                    aiAssistedSearch
+                      ? `${urlParams.toString()}&qt=${tab || key}`
                       : urlParams.toString()
                   }`}
                   className={getClassNameOfNavLink(key)}

@@ -10,7 +10,7 @@ import { ICriteria } from '../../types/ISearchResults'
 import SelectedFacet from './SelectedFacet'
 import MobileSortSelection from './MobileSortSelection'
 
-const StyledSelectionContainer = styled(Col)`
+const StyledSelectionSpan = styled.span`
   background: ${theme.color.lightBabyBlue};
   overflow-x: scroll;
   white-space: nowrap;
@@ -69,11 +69,15 @@ const MobileSelectedFacets: React.FC<IProps> = ({
 
   if ((facetQuery && selectedFacets) || hasSorting) {
     return (
-      <StyledSelectionContainer
+      <Col
         xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
         className="py-2 selectedFacetsMobileContainer"
       >
-        <span className="d-flex">
+        <StyledSelectionSpan className="d-flex p-2">
           {facetQuery && selectedFacets && selectedFacets.size > 0
             ? getSelectedFacets(selectedFacets, facetQuery)
             : null}
@@ -84,8 +88,8 @@ const MobileSelectedFacets: React.FC<IProps> = ({
               selectedDirection={selectedSortDirection}
             />
           ) : null}
-        </span>
-      </StyledSelectionContainer>
+        </StyledSelectionSpan>
+      </Col>
     )
   }
 

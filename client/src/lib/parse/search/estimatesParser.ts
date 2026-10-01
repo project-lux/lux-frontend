@@ -4,11 +4,14 @@ import { IEstimateItems } from '../../../types/ISearchEstimates'
 import { ISearchResultsErrorData } from '../../../types/ISearchResults'
 import { fetchSearchEstimates } from '../../util/fetchSearchEstimates'
 
-export const isAdvancedSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isAdvancedSearch = (searchType: string): boolean =>
   searchType === 'advanced'
 
-export const isSimpleSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
+
+export const isAiAssistedSearch = (searchType: string): boolean =>
+  searchType === 'aiAssisted'
 
 export const transformAdvancedSearchEstimates = (
   data: { [key: string]: IEstimateItems } | undefined,
@@ -89,7 +92,11 @@ export const getEstimatesRequests = (
   qt: string,
   isSwitchToSimpleSearch: boolean,
 ): any => {
-  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
+  if (
+    isAdvancedSearch(searchType) ||
+    isAiAssistedSearch(searchType) ||
+    isSwitchToSimpleSearch
+  ) {
     return getAdvancedSearchEstimates(params as string, qt)
   }
 

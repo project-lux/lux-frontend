@@ -159,6 +159,24 @@ export const mlApi: any = createApi({
         }),
       },
     ),
+    getTranslateKeywordSearch: builder.query<
+      ISearchResults | ISearchResultsError,
+      {
+        searchString: string
+        isAiSearch: boolean
+        scope: string
+      }
+    >({
+      query: ({ searchString, isAiSearch, scope }) => {
+        const urlParams = new URLSearchParams()
+        urlParams.set('q', searchString)
+
+        return {
+          url: `api/${isAiSearch ? 'ai-' : ''}translate/${scope}?${urlParams.toString()}`,
+          method: 'GET',
+        }
+      },
+    }),
     getStats: builder.query<IStats, void>({
       query: () => ({
         url: `api/stats`,
@@ -251,5 +269,6 @@ export const {
   useGetSearchRelationshipQuery,
   useGetStatsQuery,
   useGetTimelineQuery,
+  useGetTranslateKeywordSearchQuery,
   useSearchQuery,
 } = mlApi

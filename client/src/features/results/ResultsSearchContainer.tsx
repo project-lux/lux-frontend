@@ -1,25 +1,22 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
+import Alert from 'react-bootstrap/esm/Alert'
 
 import theme from '../../styles/theme'
-import AdvancedSearchContainer from '../advancedSearch/AdvancedSearchContainer'
+import AdvancedSearchFormContainer from '../advancedSearch/FormContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
 import SearchContainer from '../search/SearchContainer'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  ICurrentSearchState,
-  changeCurrentSearchState,
-} from '../../redux/slices/currentSearchSlice'
 import { ResultsTab } from '../../types/ResultsTab'
 import Header from '../advancedSearch/Header'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import RefinementContainer from '../aiAssistedSearch/RefinementContainer'
 
 import Navigation from './Navigation'
 
 interface IProps {
-  isSimpleSearch: boolean
-  isAiSearch: boolean
+  isAdvancedSearch: boolean
+  isAiRefinementSearch: boolean
   urlParams: URLSearchParams
   queryString: string
   search: string
@@ -27,8 +24,8 @@ interface IProps {
 }
 
 const ResultsSearchContainer: React.FC<IProps> = ({
-  isSimpleSearch,
-  isAiSearch,
+  isAdvancedSearch,
+  isAiRefinementSearch,
   urlParams,
   queryString,
   search,
@@ -40,24 +37,38 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   )
   useResizeableWindow(setIsMobile)
 
-  const dispatch = useAppDispatch()
-  useEffect(() => {
-    if (!isSimpleSearch) {
-      dispatch(changeCurrentSearchState({ value: 'advanced' }))
-    } else {
-      dispatch(changeCurrentSearchState({ value: 'simple' }))
-    }
-  }, [isSimpleSearch, dispatch])
-
-  const currentSearchState = useAppSelector(
-    (state) => state.currentSearch as ICurrentSearchState,
-  )
-
+  const showAdvancedSearch = isAdvancedSearch || isAiRefinementSearch
   return (
     <React.Fragment>
-      {(currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        !isAiSearch) && (
+      {showAdvancedSearch ? (
+        <ErrorBoundary FallbackComponent={ErrorFallback}>
+          <Header />
+          <Navigation
+            urlParams={urlParams}
+            criteria={queryString !== '' ? JSON.parse(queryString) : null}
+            search={search}
+            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+          />
+          {isMobile ? (
+            <Alert
+              variant="warning"
+              className="mb-3 mx-3"
+              data-testid="mobile-advanced-search-alert"
+            >
+              The Advanced Search Page is not accessible on mobile devices.
+              Please use a desktop or tablet to access this page.
+            </Alert>
+          ) : isAiRefinementSearch ? (
+            <RefinementContainer />
+          ) : (
+            <AdvancedSearchFormContainer
+              key={tab}
+              formClassName="advancedSearchBody"
+              helpTextClassName="helpText"
+            />
+          )}
+        </ErrorBoundary>
+      ) : (
         <React.Fragment>
           <SearchContainer
             className="resultsSearchContainer"
@@ -72,22 +83,6 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
         </React.Fragment>
-      )}
-      {!(
-        currentSearchState.searchType === 'simple' ||
-        isMobile ||
-        !isAiSearch
-      ) && (
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Header />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-          <AdvancedSearchContainer key={tab} />
-        </ErrorBoundary>
       )}
     </React.Fragment>
   )

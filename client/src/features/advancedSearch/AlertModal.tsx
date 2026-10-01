@@ -1,18 +1,22 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { isNull } from 'lodash'
+// import { useNavigate, useLocation } from 'react-router-dom'
+// import { isNull } from 'lodash'
 
-import { resetState } from '../../redux/slices/advancedSearchSlice'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
-import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
-import { pushClientEvent } from '../../lib/pushClientEvent'
-import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
+// import { resetState } from '../../redux/slices/advancedSearchSlice'
+// import { useAppDispatch, useAppSelector } from '../../app/hooks'
+// import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
+// import { pushClientEvent } from '../../lib/pushClientEvent'
+// import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 
 interface IAlertModal {
   showModal: boolean
+  onConfirm: () => void
   onClose: () => void
+  title: string
+  text: string
+  confirmButtonText: string
+  cancelButtonText: string
 }
 
 /**
@@ -21,29 +25,37 @@ interface IAlertModal {
  * @param {() => void} onClose function to close the modal
  * @returns
  */
-const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
-  const simpleSearchState = useAppSelector(
-    (state) => state.simpleSearch as ISimpleSearchState,
-  )
+const AlertModal: React.FC<IAlertModal> = ({
+  showModal,
+  onConfirm,
+  onClose,
+  title,
+  text,
+  confirmButtonText,
+  cancelButtonText,
+}) => {
+  // const simpleSearchState = useAppSelector(
+  //   (state) => state.simpleSearch as ISimpleSearchState,
+  // )
 
-  const { pathname, search } = useLocation()
-  const navigate = useNavigate()
-  const urlParams = new URLSearchParams(search)
+  // const { pathname, search } = useLocation()
+  // const navigate = useNavigate()
+  // const urlParams = new URLSearchParams(search)
 
-  const dispatch = useAppDispatch()
+  // const dispatch = useAppDispatch()
 
-  const handleContinueToSimpleSearch = (): void => {
-    dispatch(changeCurrentSearchState({ value: 'simple' }))
-    dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
-    onClose()
-    dispatch(resetState())
-    const { value } = simpleSearchState
-    urlParams.set('sq', !isNull(value) ? value : '')
-    urlParams.set('fromAdvanced', 'true')
-    // urlParams.delete('qt')
-    pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
-    navigate(`${pathname}?${urlParams.toString()}`)
-  }
+  // const handleContinueToSimpleSearch = (): void => {
+  //   dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
+  //   onClose()
+  //   dispatch(resetState())
+  //   const { value } = simpleSearchState
+  //   urlParams.set('sq', !isNull(value) ? value : '')
+  //   urlParams.set('fromAdvanced', 'true')
+  //   urlParams.set('searchType', 'simple')
+  //   // urlParams.delete('qt')
+  //   pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
+  //   navigate(`${pathname}?${urlParams.toString()}`)
+  // }
 
   return (
     <Modal
@@ -58,18 +70,15 @@ const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
     >
       <Modal.Dialog className="my-0">
         <Modal.Header closeButton>
-          <Modal.Title id="modalTitle">Warning</Modal.Title>
+          <Modal.Title id="modalTitle">{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body id="modalBody">
-          You are about to leave the advanced search form. All input will be
-          lost. Do you wish to continue?
-        </Modal.Body>
+        <Modal.Body id="modalBody">{text}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={() => onClose()}>
-            Close
+            {cancelButtonText}
           </Button>
-          <Button variant="primary" onClick={handleContinueToSimpleSearch}>
-            Continue
+          <Button variant="primary" onClick={onConfirm}>
+            {confirmButtonText}
           </Button>
         </Modal.Footer>
       </Modal.Dialog>

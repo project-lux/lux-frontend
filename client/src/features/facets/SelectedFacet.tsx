@@ -90,7 +90,7 @@ const SelectedFacet: React.FC<ISelected> = ({
 
   return (
     <StyledSelectedFacetContainer className="me-1 px-1">
-      <span className="pe-2 testing">
+      <span className="pe-2">
         <b>{additionalLabel !== '' ? `${additionalLabel}: ` : ''}</b>
         {label}
       </span>
