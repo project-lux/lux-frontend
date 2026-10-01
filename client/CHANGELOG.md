@@ -11,6 +11,8 @@ All notable changes to this project will be documented in this file.
 - Added AI disambiguation ([#1014](https://github.com/project-lux/lux-frontend/issues/1014)).
 - Added AI refinement row to the results page ([#1015](https://github.com/project-lux/lux-frontend/issues/1015)).
 - Added AI refinement form ([#1016](https://github.com/project-lux/lux-frontend/issues/1016)).
+- Added opt-in to AI assisted search modal ([#1018](https://github.com/project-lux/lux-frontend/issues/1018)).
+- Added opt-out to AI assisted search modal ([#1019](https://github.com/project-lux/lux-frontend/issues/1019)).
 
 ### Changed
 

@@ -1,16 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { RefObject, useEffect, useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import {
-  DEFAULT_PAGE_LENGTH,
-  scopeToTabTranslation,
-  searchScope,
-} from '../../config/searchTypes'
-import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
   ISimpleSearchState,
@@ -18,9 +12,13 @@ import {
 } from '../../redux/slices/simpleSearchSlice'
 import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
-import { pushClientEvent } from '../../lib/pushClientEvent'
 import Disambiguation from '../aiAssistedSearch/Disambiguation'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import {
+  countWords,
+  validateInput,
+} from '../../lib/parse/search/searchBoxHelper'
+
+import { MAX_WORDS } from './SearchContainer'
 
 const StyledSearchBox = styled.div`
   display: flex;
@@ -104,30 +102,30 @@ const StyledSearchBox = styled.div`
   }
 `
 
-const MAX_WORDS = 100
-
 const SearchBox: React.FC<{
   id: string
-  isAiSearch: boolean
+  submitForm: (event: React.FormEvent<HTMLFormElement>) => void
+  isSearchLoading: boolean
+  inputRef: RefObject<HTMLInputElement | null>
+  aiDisambiguation: Array<any>
+  setAiDisambiguation: (value: Array<any>) => void
   unselectable?: boolean
-  closeSearchBox?: () => void
   isResults?: boolean
   setIsError: (x: boolean) => void
   isSearchOpen?: boolean
 }> = ({
   id,
-  isAiSearch,
+  submitForm,
+  isSearchLoading,
+  inputRef,
+  aiDisambiguation,
+  setAiDisambiguation,
   unselectable: isUnselectable,
-  closeSearchBox,
   isResults,
   setIsError,
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
-  const [isSearchLoading, setIsSearchLoading] = useState(false)
-  const [aiDisambiguation, setAiDisambiguation] =
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    useState<Array<any>>([])
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -135,7 +133,6 @@ const SearchBox: React.FC<{
 
   let simpleQuery: string | null = null
   const { search } = useLocation()
-  const tab = useParams<{ tab: string }>().tab || 'objects'
   const queryString = new URLSearchParams(search)
   simpleQuery = queryString.get('sq') || ''
 
@@ -154,18 +151,7 @@ const SearchBox: React.FC<{
     }
   }, [isResults, simpleQuery])
 
-  const navigate = useNavigate()
-
-  const inputRef = useRef<HTMLInputElement>(null)
   const disambiguationRef = useRef<HTMLDivElement>(null)
-
-  // Helper to count words
-  const countWords = (str: string): number => {
-    return str
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length
-  }
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
@@ -190,96 +176,6 @@ const SearchBox: React.FC<{
     dispatch(resetState())
     setIsError(false)
     inputRef.current?.focus()
-  }
-
-  const validateInput = (): boolean => {
-    const { value } = currentState
-    if (value === null || value.trim() === '') {
-      return false
-    }
-    if (countWords(value) > MAX_WORDS) {
-      return false
-    }
-    return true
-  }
-
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    if (validateInput()) {
-      const valueToSubmit = checkForStopWords(currentState.value!)
-      translate({
-        query: valueToSubmit,
-        isAiSearch,
-        scope: searchScope[tab],
-        onSuccess: (translatedString) => {
-          const newUrlParams = new URLSearchParams()
-          let newTab = tab
-          if (closeSearchBox) {
-            closeSearchBox()
-          }
-          inputRef.current!.value = ''
-          setIsError(false)
-          setIsSearchLoading(false)
-          pushClientEvent(
-            'Search Button',
-            'Submit',
-            isAiSearch ? 'AI Search' : 'Simple Search',
-          )
-          if (isAiSearch) {
-            setIsSearchLoading(false)
-            const jsonTranslatedString = JSON.parse(translatedString)
-            if (jsonTranslatedString.length > 1) {
-              setAiDisambiguation(jsonTranslatedString)
-              return
-            } else {
-              const query = jsonTranslatedString[0].query
-              newTab = scopeToTabTranslation[query._scope]
-              delete query._scope
-              newUrlParams.set('q', JSON.stringify(query))
-              newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-              newUrlParams.set(
-                SEARCH_TYPE_PARAM,
-                isAiSearch ? 'aiAssisted' : 'simple',
-              )
-              newUrlParams.set('sq', valueToSubmit)
-              navigate(
-                {
-                  pathname: `/view/results/${newTab}`,
-                  search: `${newUrlParams.toString()}`,
-                },
-                {
-                  state: {
-                    fromNonResultsPage: !isResults,
-                  },
-                },
-              )
-            }
-          } else {
-            const query = JSON.parse(translatedString)
-            delete query._scope
-            newUrlParams.set('q', JSON.stringify(query))
-            newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-            newUrlParams.set('sq', valueToSubmit)
-            navigate(
-              {
-                pathname: `/view/results/${newTab}`,
-                search: `${newUrlParams.toString()}`,
-              },
-              {
-                state: {
-                  fromNonResultsPage: !isResults,
-                },
-              },
-            )
-          }
-        },
-        onError: () => {
-          setIsSearchLoading(false)
-          setIsError(true)
-        },
-        onLoading: () => setIsSearchLoading(true),
-      })
-    }
   }
 
   useEffect(() => {
@@ -328,7 +224,7 @@ const SearchBox: React.FC<{
         <StyledSearchBox>
           <form
             className="w-100"
-            onSubmit={submitHandler}
+            onSubmit={submitForm}
             data-testid={`${id}-simple-search-form`}
           >
             <div className="input-group">
@@ -361,7 +257,7 @@ const SearchBox: React.FC<{
               )}
               <div className="input-group-append submitButtonDiv">
                 <button
-                  disabled={!validateInput()}
+                  disabled={!validateInput(currentState)}
                   type="submit"
                   className="btn submitButton submitSearch"
                   aria-label="submit search input"

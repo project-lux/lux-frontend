@@ -417,6 +417,31 @@ describe('Advanced Search', () => {
       )
       expect(modal).toBeInTheDocument()
     })
+
+    it('focuses the refinement input after switching to AI-assisted search', async () => {
+      render(<AppRender route={page} />)
+
+      fireEvent.click(screen.getByTestId(/search-toggle-button/i))
+      fireEvent.click(
+        screen.getByRole('button', { name: 'Use AI-Assisted Search' }),
+      )
+
+      const refinementInput = await screen.findByRole('textbox', {
+        name: /AI-Assisted Search/i,
+      })
+      expect(refinementInput).toHaveFocus()
+    })
+
+    it('does not focus the refinement input on direct navigation', async () => {
+      render(
+        <AppRender route={`${page}&searchType=advanced&refineAiSearch=true`} />,
+      )
+
+      const refinementInput = await screen.findByRole('textbox', {
+        name: /AI-Assisted Search/i,
+      })
+      expect(refinementInput).not.toHaveFocus()
+    })
   })
 
   describe('OptionsButton', () => {

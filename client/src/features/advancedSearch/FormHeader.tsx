@@ -13,7 +13,18 @@ import {
   AI_ASSISTED_SEARCH_STORAGE_KEY,
   SEARCH_TYPE_PARAM,
   AI_REFINEMENT_PARAM,
+  OPT_IN_MODAL_TEXT,
+  OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TEXT,
+  OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TITLE,
+  OPT_IN_MODAL_CONFIRM_BUTTON_TEXT,
+  OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CANCEL_BUTTON_TEXT,
+  OPT_IN_MODAL_TITLE,
+  OPT_IN_WITH_ADVANCED_SEARCH_MODAL_CANCEL_BUTTON_TEXT,
+  OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CONFIRM_BUTTON_TEXT,
 } from '../../config/aiAssistedSearch/variables'
+import { pushClientEvent } from '../../lib/pushClientEvent'
+
+import AlertModal from './AlertModal'
 
 const StyledH3 = styled.h3`
   font-size: 24px;
@@ -40,9 +51,19 @@ const FormHeader: React.FC<{
     const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
     return storedIsActive ? JSON.parse(storedIsActive) : false
   })
+  const [showModal, setShowModal] = useState<boolean>(false)
+
+  const handleCloseModal = (): void => {
+    setShowModal(false)
+    pushClientEvent(
+      'Search Switch',
+      'Selected',
+      'Cancel Switch to Simple Search',
+    )
+  }
 
   // Set both the local storage and the component state
-  const handleToggle = (): void => {
+  const handleConfirmToggleSwitch = (): void => {
     const nextIsActive = !isAiSearch
     setIsAiSearch(nextIsActive)
     localStorage.setItem(
@@ -63,10 +84,13 @@ const FormHeader: React.FC<{
       newUrlParams.delete(AI_REFINEMENT_PARAM)
     }
     newUrlParams.delete('sq')
-    navigate({
-      pathname: `${pathname}${!isUndefined(currentSearchScope) && isUndefined(tab) ? `/${currentSearchScope}` : ''}`,
-      search: `?${newUrlParams.toString()}`,
-    })
+    navigate(
+      {
+        pathname: `${pathname}${!isUndefined(currentSearchScope) && isUndefined(tab) ? `/${currentSearchScope}` : ''}`,
+        search: `?${newUrlParams.toString()}`,
+      },
+      { state: { focusRefinementInput: nextIsActive } },
+    )
   }
 
   return (
@@ -80,6 +104,33 @@ const FormHeader: React.FC<{
         xs={12}
         className="d-flex align-middle"
       >
+        {showModal && (
+          <AlertModal
+            showModal={showModal}
+            onConfirm={handleConfirmToggleSwitch}
+            onClose={handleCloseModal}
+            title={
+              isAiSearch
+                ? OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TITLE
+                : OPT_IN_MODAL_TITLE
+            }
+            text={
+              isAiSearch
+                ? OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TEXT
+                : OPT_IN_MODAL_TEXT
+            }
+            confirmButtonText={
+              isAiSearch
+                ? OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CONFIRM_BUTTON_TEXT
+                : OPT_IN_MODAL_CONFIRM_BUTTON_TEXT
+            }
+            cancelButtonText={
+              isAiSearch
+                ? OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CANCEL_BUTTON_TEXT
+                : OPT_IN_WITH_ADVANCED_SEARCH_MODAL_CANCEL_BUTTON_TEXT
+            }
+          />
+        )}
         {isAiSearch ? (
           <span className="d-flex justify-content-start align-items-center">
             <StyledH3>Searching for:&nbsp;</StyledH3>
@@ -110,7 +161,7 @@ const FormHeader: React.FC<{
           }}
           isStickyHeaderActive={false}
           isAiSearch={isAiSearch}
-          handleToggle={handleToggle}
+          handleToggle={() => setShowModal(true)}
         />
         {!isAiSearch && (
           <LinkButton

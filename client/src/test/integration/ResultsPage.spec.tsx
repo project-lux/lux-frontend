@@ -1,9 +1,11 @@
-import { cleanup, render, screen } from '@testing-library/react'
+import { cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
 import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 import config from '../../config/config'
+import { translate } from '../../lib/util/translate'
 import { setMockLocation } from '../utils/mockUseLocation'
 import { setMockEstimatesQuery } from '../utils/mockUseGetEstimatesQuery'
 
@@ -42,6 +44,12 @@ vi.mock('../../lib/parse/search/estimatesParser', () => ({
   isAdvancedSearch: vi.fn(),
   isSimpleSearch: vi.fn(),
 }))
+
+vi.mock('../../lib/util/translate', async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import('../../lib/util/translate')>()
+  return { ...actual, translate: vi.fn() }
+})
 
 describe('Results page shared components', () => {
   config.advancedSearch = advancedSearch()
@@ -109,6 +117,45 @@ describe('Results page shared components', () => {
           'results-search-container-simple-search-form',
         )
         expect(simpleSearch).toBeInTheDocument()
+      })
+
+      it('shows disambiguation for the current search after enabling AI-assisted search', async () => {
+        localStorage.setItem(AI_ASSISTED_SEARCH_STORAGE_KEY, 'false')
+        vi.mocked(translate).mockImplementation(
+          ({ query, onLoading, onSuccess }) => {
+            expect(query).toBe('andy warhol')
+            onLoading()
+            onSuccess(
+              JSON.stringify([
+                {
+                  natural: 'works by Andy Warhol',
+                  parsed: '',
+                  query: { _scope: 'work' },
+                },
+                {
+                  natural: 'objects depicting Andy Warhol',
+                  parsed: '',
+                  query: { _scope: 'object' },
+                },
+              ]),
+            )
+          },
+        )
+
+        const { container } = render(<AppRender route={validPage} />)
+        await screen.findAllByText(/Objects results/i)
+        const toggle = container.querySelector<HTMLInputElement>(
+          '#results-search-container .aiAssistedSearchToggleButton input',
+        )
+
+        expect(toggle).not.toBeNull()
+        fireEvent.click(toggle!)
+        fireEvent.click(
+          screen.getByRole('button', { name: 'Use AI-Assisted Search' }),
+        )
+
+        expect(await screen.findByText('works by Andy Warhol')).toBeVisible()
+        expect(screen.getByText('objects depicting Andy Warhol')).toBeVisible()
       })
     })
   })

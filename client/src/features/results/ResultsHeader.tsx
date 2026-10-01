@@ -22,10 +22,7 @@ import {
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
-import {
-  AI_REFINEMENT_PARAM,
-  SEARCH_TYPE_PARAM,
-} from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
 
@@ -56,7 +53,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const isAiSearch =
     queryString.has(SEARCH_TYPE_PARAM) &&
     queryString.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
-  const isAiRefinement = queryString.get(AI_REFINEMENT_PARAM) === 'true'
 
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -204,7 +200,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           />
         )}
       </Row>
-      {isAiSearch && !isAiRefinement && (
+      {isAiSearch && (
         <Row className="aiAssistedSearchRefinementRow px-2">
           <Col xs={12} sm={12} md={12} lg={12} xl={12} className="my-2">
             <InterpretationContainer
