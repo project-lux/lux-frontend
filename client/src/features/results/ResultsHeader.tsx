@@ -22,10 +22,7 @@ import {
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
-import {
-  AI_REFINEMENT_PARAM,
-  SEARCH_TYPE_PARAM,
-} from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
 
@@ -37,6 +34,11 @@ const StyledDiv = styled.div`
   }
 `
 
+const StyledDescriptiveText = styled.div`
+  p {
+    margin-bottom: 0px;
+  }
+`
 interface IResultsHeader {
   total: number
   resultsData?: ISearchResults
@@ -56,7 +58,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const isAiSearch =
     queryString.has(SEARCH_TYPE_PARAM) &&
     queryString.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
-  const isAiRefinement = queryString.get(AI_REFINEMENT_PARAM) === 'true'
 
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -123,7 +124,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           lg={7}
           xl={7}
         >
-          <div
+          <StyledDescriptiveText
             className="descriptiveText"
             dangerouslySetInnerHTML={{
               __html: sanitizeHtml(descriptiveText),
@@ -131,16 +132,34 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
             data-testid="results-page-cms-descriptor"
           />
         </Col>
+        {/* If the search is an AI assisted search and the user is on a mobile device, show the interpretation container at this location */}
+        {isAiSearch && isMobile && (
+          <Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+            className="my-2 aiAssistedSearchRefinementRow"
+          >
+            <InterpretationContainer
+              className="refineSearchWithAiButton"
+              showRefineButton={!isMobile}
+            />
+          </Col>
+        )}
         <Col
           xs={12}
           sm={12}
           md={5}
           lg={5}
           xl={5}
-          className="d-flex align-items-end resultsHeaderOptionsCol"
+          className={`d-flex align-items-end justify-content-end resultsHeaderOptionsCol ${width < theme.breakpoints.sm ? 'px-0' : ''}`}
           data-testid="results-header-options"
         >
-          <Row className="w-100 d-flex justify-content-end resultsHeaderOptionsRow">
+          <Row
+            className={`w-100 h-100 d-flex justify-content-end resultsHeaderOptionsRow ${width < theme.breakpoints.sm ? 'mx-0' : ''}`}
+          >
             <Col
               xs={12}
               sm={12}
@@ -204,7 +223,8 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           />
         )}
       </Row>
-      {isAiSearch && !isAiRefinement && (
+      {/* If the search is an AI assisted search and the user is NOT on a mobile device, show the interpretation container at this location */}
+      {isAiSearch && !isMobile && (
         <Row className="aiAssistedSearchRefinementRow px-2">
           <Col xs={12} sm={12} md={12} lg={12} xl={12} className="my-2">
             <InterpretationContainer
