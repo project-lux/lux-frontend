@@ -1,22 +1,39 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
 import theme from '../../styles/theme'
-import ToggleSearchButton from '../advancedSearch/ToggleSearchButton'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import AiToggleButton from '../aiAssistedSearch/AiToggleButton'
 import {
   AI_ASSISTED_SEARCH_STORAGE_KEY,
-  AI_REFINEMENT_PARAM,
+  OPT_IN_MODAL_CANCEL_BUTTON_TEXT,
+  OPT_IN_MODAL_CONFIRM_BUTTON_TEXT,
+  OPT_IN_MODAL_TEXT,
+  OPT_IN_MODAL_TITLE,
+  OPT_OUT_MODAL_TITLE,
+  OPT_OUT_MODAL_TEXT,
+  OPT_OUT_MODAL_CONFIRM_BUTTON_TEXT,
+  OPT_OUT_MODAL_CANCEL_BUTTON_TEXT,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
+import AlertModal from '../advancedSearch/AlertModal'
+import {
+  DEFAULT_PAGE_LENGTH,
+  scopeToTabTranslation,
+  searchScope,
+} from '../../config/searchTypes'
+import { checkForStopWords, translate } from '../../lib/util/translate'
+import { useAppSelector } from '../../app/hooks'
+import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
+import { validateInput } from '../../lib/parse/search/searchBoxHelper'
 
 import SearchBox from './SearchBox'
 import ErrorMessage from './ErrorMessage'
+import AdvancedSearchLink from './AdvancedSearchLink'
 
 const LinkDivider = styled.span`
   border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
@@ -37,6 +54,8 @@ interface IProps {
   isInHeader?: boolean
 }
 
+export const MAX_WORDS = 100
+
 const SearchContainer: React.FC<IProps> = ({
   className,
   id,
@@ -49,6 +68,12 @@ const SearchContainer: React.FC<IProps> = ({
   isStickyHeaderActive = false,
   isInHeader = false,
 }) => {
+  const navigate = useNavigate()
+  const { pathname, search } = useLocation()
+  const tab = useParams<{ tab: string }>().tab || 'objects'
+
+  const [showModal, setShowModal] = useState<boolean>(false)
+  const [isSearchLoading, setIsSearchLoading] = useState(false)
   const [isError, setIsError] = useState<boolean>(false)
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -57,18 +82,160 @@ const SearchContainer: React.FC<IProps> = ({
     const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
     return storedIsActive ? JSON.parse(storedIsActive) : false
   })
+  const [aiDisambiguation, setAiDisambiguation] =
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    useState<Array<any>>([])
 
-  // Set both the local storage and the component state
-  const handleToggle = (): void => {
+  // Refs
+  const inputRef = useRef<HTMLInputElement>(null)
+
+  const currentState = useAppSelector(
+    (state) => state.simpleSearch as ISimpleSearchState,
+  )
+
+  const handleCloseModal = (): void => {
+    setShowModal(false)
+    pushClientEvent(
+      'Search Switch',
+      'Selected',
+      'Cancel Switch to Simple Search',
+    )
+  }
+
+  const handleAiSearchToggle = (): void => {
     const nextIsActive = !isAiSearch
     setIsAiSearch(nextIsActive)
     localStorage.setItem(
       AI_ASSISTED_SEARCH_STORAGE_KEY,
       JSON.stringify(nextIsActive),
     )
+    if (isResultsPage) {
+      const newUrlParams = new URLSearchParams(search)
+      if (!nextIsActive) {
+        newUrlParams.set(SEARCH_TYPE_PARAM, 'simple')
+      } else {
+        newUrlParams.set(SEARCH_TYPE_PARAM, 'aiAssisted')
+      }
+
+      navigate({
+        pathname,
+        search: `?${newUrlParams.toString()}`,
+      })
+    }
+  }
+
+  // Set both the local storage and the component state
+  const handleConfirmToggleSwitch = (): void => {
+    const isTurningAiSearchOn = !isAiSearch
+    handleAiSearchToggle()
+    if (isResultsPage && isTurningAiSearchOn && validateInput(currentState)) {
+      translate({
+        query: checkForStopWords(currentState.value!),
+        isAiSearch: true,
+        scope: searchScope[tab],
+        onSuccess: (translatedString) => {
+          setAiDisambiguation(JSON.parse(translatedString))
+          setIsSearchLoading(false)
+          setIsError(false)
+        },
+        onError: () => {
+          setIsSearchLoading(false)
+          setIsError(true)
+        },
+        onLoading: () => setIsSearchLoading(true),
+      })
+    }
+    pushClientEvent(
+      'Search Switch',
+      'Selected',
+      isAiSearch
+        ? 'Confirm Switch to Standard Search'
+        : 'Confirm Switch to AI-Assisted Search',
+    )
+    setShowModal(false)
+  }
+
+  const handleToggle = (): void => {
+    setShowModal(true)
   }
 
   useResizeableWindow(setIsMobile)
+
+  const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
+    event.preventDefault()
+    if (validateInput(currentState)) {
+      const valueToSubmit = checkForStopWords(currentState.value!)
+      translate({
+        query: valueToSubmit,
+        isAiSearch,
+        scope: searchScope[tab],
+        onSuccess: (translatedString) => {
+          const newUrlParams = new URLSearchParams()
+          let newTab = tab
+          inputRef.current!.value = ''
+          setIsError(false)
+          setIsSearchLoading(false)
+          pushClientEvent(
+            'Search Button',
+            'Submit',
+            isAiSearch ? 'AI Search' : 'Simple Search',
+          )
+          if (isAiSearch) {
+            setIsSearchLoading(false)
+            const jsonTranslatedString = JSON.parse(translatedString)
+            if (jsonTranslatedString.length > 1) {
+              setAiDisambiguation(jsonTranslatedString)
+              return
+            } else {
+              const query = jsonTranslatedString[0].query
+              newTab = scopeToTabTranslation[query._scope]
+              delete query._scope
+              newUrlParams.set('q', JSON.stringify(query))
+              newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+              newUrlParams.set(
+                SEARCH_TYPE_PARAM,
+                isAiSearch ? 'aiAssisted' : 'simple',
+              )
+              newUrlParams.set('sq', valueToSubmit)
+              navigate(
+                {
+                  pathname: `/view/results/${newTab}`,
+                  search: `${newUrlParams.toString()}`,
+                },
+                {
+                  state: {
+                    fromNonResultsPage: !isResultsPage,
+                  },
+                },
+              )
+            }
+          } else {
+            const query = JSON.parse(translatedString)
+            delete query._scope
+            newUrlParams.set('q', JSON.stringify(query))
+            newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+            newUrlParams.set('sq', valueToSubmit)
+            navigate(
+              {
+                pathname: `/view/results/${newTab}`,
+                search: `${newUrlParams.toString()}`,
+              },
+              {
+                state: {
+                  fromNonResultsPage: !isResultsPage,
+                },
+              },
+            )
+          }
+        },
+        onError: () => {
+          setIsSearchLoading(false)
+          setIsError(true)
+        },
+        onLoading: () => setIsSearchLoading(true),
+      })
+    }
+  }
 
   return (
     <Row
@@ -76,13 +243,36 @@ const SearchContainer: React.FC<IProps> = ({
       style={{ backgroundColor: bgColor }}
       id={id}
     >
+      {showModal && (
+        <AlertModal
+          showModal={showModal}
+          onConfirm={handleConfirmToggleSwitch}
+          onClose={handleCloseModal}
+          title={isAiSearch ? OPT_OUT_MODAL_TITLE : OPT_IN_MODAL_TITLE}
+          text={isAiSearch ? OPT_OUT_MODAL_TEXT : OPT_IN_MODAL_TEXT}
+          confirmButtonText={
+            isAiSearch
+              ? OPT_OUT_MODAL_CONFIRM_BUTTON_TEXT
+              : OPT_IN_MODAL_CONFIRM_BUTTON_TEXT
+          }
+          cancelButtonText={
+            isAiSearch
+              ? OPT_OUT_MODAL_CANCEL_BUTTON_TEXT
+              : OPT_IN_MODAL_CANCEL_BUTTON_TEXT
+          }
+        />
+      )}
       <Col xs={12}>
         {isError && <ErrorMessage onClose={setIsError} />}
         <SearchBox
           id={id}
           setIsError={setIsError}
           isResults={isResultsPage}
-          isAiSearch={isAiSearch}
+          submitForm={submitHandler}
+          isSearchLoading={isSearchLoading}
+          inputRef={inputRef}
+          aiDisambiguation={aiDisambiguation}
+          setAiDisambiguation={setAiDisambiguation}
         />
       </Col>
       {isResultsPage ? (
@@ -91,7 +281,7 @@ const SearchContainer: React.FC<IProps> = ({
             className="d-flex justify-content-end align-items-center"
             style={{ width: theme.searchBox.width }}
           >
-            <ToggleSearchButton setIsError={setIsError} />
+            <AdvancedSearchLink linkStyle={linkStyle} isAiSearch={isAiSearch} />
             <LinkDivider />
             <AiToggleButton
               linkStyle={linkStyle}
@@ -111,29 +301,16 @@ const SearchContainer: React.FC<IProps> = ({
               xs={12}
               className="d-inline-flex justify-content-center align-items-center"
             >
-              <Link
-                to={`/view/results?${isAiSearch ? `${AI_REFINEMENT_PARAM}=true` : ''}&${SEARCH_TYPE_PARAM}=advanced`}
-                style={{
-                  ...linkStyle,
-                  fontWeight: '400',
-                  fontSize: '1rem',
-                }}
-                onClick={() =>
-                  pushClientEvent(
-                    'Search Switch',
-                    'Selected',
-                    'To Advanced Search',
-                  )
-                }
-              >
-                Advanced Search
-              </Link>
+              <AdvancedSearchLink
+                linkStyle={linkStyle}
+                isAiSearch={isAiSearch}
+              />
               <LinkDivider />
               <AiToggleButton
                 linkStyle={linkStyle}
                 isStickyHeaderActive={isStickyHeaderActive}
                 isAiSearch={isAiSearch}
-                handleToggle={handleToggle}
+                handleToggle={handleAiSearchToggle}
                 isInHeader={isInHeader}
               />
               <LinkDivider />
