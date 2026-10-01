@@ -121,14 +121,12 @@ const RefinementContainer: React.FC = () => {
       >
         <FormHeader tab={tab} originalSearchString={originalSearchString} />
         <StyledHr width="100%" />
-        {/* {currentQueryTab === tab && ( */}
         <Col xs={12} className="mt-2">
           <InterpretationContainer
             className="refineSearchWithoutAiButton"
             showRefineButton={false}
           />
         </Col>
-        {/* )} */}
         <Col xs={12}>
           <div
             className="p-3 my-3"

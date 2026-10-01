@@ -1,4 +1,10 @@
-import React, { RefObject, useEffect, useRef, useState } from 'react'
+import React, {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
@@ -126,6 +132,7 @@ const SearchBox: React.FC<{
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
+  const [searchBoxWidth, setSearchBoxWidth] = useState<number>()
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -152,6 +159,27 @@ const SearchBox: React.FC<{
   }, [isResults, simpleQuery])
 
   const disambiguationRef = useRef<HTMLDivElement>(null)
+  const searchBoxRef = useRef<HTMLDivElement>(null)
+
+  useLayoutEffect(() => {
+    const searchBox = searchBoxRef.current
+    if (searchBox === null) {
+      return undefined
+    }
+
+    const updateSearchBoxWidth = (): void => {
+      const width = searchBox.getBoundingClientRect().width
+      if (width > 0) {
+        setSearchBoxWidth(width)
+      }
+    }
+
+    updateSearchBoxWidth()
+    const resizeObserver = new ResizeObserver(updateSearchBoxWidth)
+    resizeObserver.observe(searchBox)
+
+    return () => resizeObserver.disconnect()
+  }, [])
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
@@ -221,7 +249,7 @@ const SearchBox: React.FC<{
         xxl={12}
         className="d-flex justify-content-center"
       >
-        <StyledSearchBox>
+        <StyledSearchBox ref={searchBoxRef}>
           <form
             className="w-100"
             onSubmit={submitForm}
@@ -289,6 +317,7 @@ const SearchBox: React.FC<{
             aiDisambiguation={aiDisambiguation}
             searchString={currentState.value !== null ? currentState.value : ''}
             className="searchBoxDisambiguation"
+            width={searchBoxWidth}
           />
         </Col>
       )}
