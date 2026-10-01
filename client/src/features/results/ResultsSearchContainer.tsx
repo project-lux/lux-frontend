@@ -52,7 +52,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
           {isMobile ? (
             <Alert
               variant="warning"
-              className="mt-3"
+              className="mb-3 mx-3"
               data-testid="mobile-advanced-search-alert"
             >
               The Advanced Search Page is not accessible on mobile devices.
