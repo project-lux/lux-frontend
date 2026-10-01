@@ -17,8 +17,9 @@ import theme from '../../styles/theme'
 import KeywordSearchLink from './KeywordSearchLink'
 import InterpretationRow from './InterpretationRow'
 
-const StyledDisambiguation = styled(Row)`
-  width: ${theme.searchBox.width};
+const StyledDisambiguation = styled(Row)<{ $width?: number }>`
+  width: ${(props): string =>
+    props.$width === undefined ? '100%' : `${props.$width}px`};
   border: solid 1px #979797;
   border-top: 0;
   border-top-left-radius: 0px;
@@ -51,14 +52,15 @@ const Disambiguation: React.FC<{
   searchString: string
   className: string
   onSelect?: () => void
-}> = ({ aiDisambiguation, searchString, className, onSelect }) => {
+  width?: number
+}> = ({ aiDisambiguation, searchString, className, onSelect, width }) => {
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
   const isAiRefinementSearch =
     urlParams.get(AI_REFINEMENT_PARAM) === 'true' || false
 
   return (
-    <StyledDisambiguation className={className}>
+    <StyledDisambiguation className={className} $width={width}>
       <Col xs={12} className="mt-3 d-flex justify-content-start">
         <p className="mb-0 fw-semibold">Keyword Search</p>
       </Col>

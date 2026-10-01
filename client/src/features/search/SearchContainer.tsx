@@ -39,6 +39,10 @@ const LinkDivider = styled.span`
   border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
   height: 1.25rem;
   margin: 0 1rem;
+
+  @media (min-width: ${theme.breakpoints.md}) {
+    display: none;
+  }
 `
 
 interface IProps {
@@ -281,8 +285,15 @@ const SearchContainer: React.FC<IProps> = ({
             className="d-flex justify-content-end align-items-center"
             style={{ width: theme.searchBox.width }}
           >
-            <AdvancedSearchLink linkStyle={linkStyle} isAiSearch={isAiSearch} />
-            <LinkDivider />
+            {!isMobile && (
+              <React.Fragment>
+                <AdvancedSearchLink
+                  linkStyle={linkStyle}
+                  isAiSearch={isAiSearch}
+                />
+                <LinkDivider />
+              </React.Fragment>
+            )}
             <AiToggleButton
               linkStyle={linkStyle}
               isStickyHeaderActive={isStickyHeaderActive}
@@ -301,11 +312,15 @@ const SearchContainer: React.FC<IProps> = ({
               xs={12}
               className="d-inline-flex justify-content-center align-items-center"
             >
-              <AdvancedSearchLink
-                linkStyle={linkStyle}
-                isAiSearch={isAiSearch}
-              />
-              <LinkDivider />
+              {!isMobile && (
+                <React.Fragment>
+                  <AdvancedSearchLink
+                    linkStyle={linkStyle}
+                    isAiSearch={isAiSearch}
+                  />
+                  <LinkDivider />
+                </React.Fragment>
+              )}
               <AiToggleButton
                 linkStyle={linkStyle}
                 isStickyHeaderActive={isStickyHeaderActive}
