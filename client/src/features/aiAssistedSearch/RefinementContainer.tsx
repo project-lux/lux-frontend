@@ -30,7 +30,7 @@ const StyledAccordionHeader = styled(Accordion.Header)`
  * @returns
  */
 const RefinementContainer: React.FC = () => {
-  const { search } = useLocation()
+  const { search, state } = useLocation()
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
   const fullSearchQuery = new URLSearchParams(search)
@@ -63,7 +63,14 @@ const RefinementContainer: React.FC = () => {
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
+  const refinementInputRef = useRef<HTMLInputElement>(null)
   const disambiguationRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (state?.focusRefinementInput) {
+      refinementInputRef.current?.focus()
+    }
+  }, [state])
 
   const handleAiSearchSubmit = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
@@ -159,6 +166,7 @@ const RefinementContainer: React.FC = () => {
                       <i className="bi bi-search" />
                     </InputGroup.Text>
                     <Form.Control
+                      ref={refinementInputRef}
                       type="text"
                       placeholder={originalSearchString || ''}
                       value={newQuery}
