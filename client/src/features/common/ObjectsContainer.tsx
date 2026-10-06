@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import React from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
@@ -12,8 +12,9 @@ import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import config from '../../config/config'
 import {
-  AI_ASSISTED_SEARCH_STORAGE_KEY,
-  AI_REFINEMENT_PARAM,
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
 import ResultSnippet from './ResultSnippet'
@@ -45,11 +46,6 @@ export const resultsData = (
  * @returns {JSX.Element}
  */
 const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
-  const [isAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
-
   // get relationship data
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
@@ -81,7 +77,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
-                )}&searchLink=true&searchType=advanced${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`}
+                )}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`}
                 onClick={() =>
                   pushClientEvent('Search Link', 'Selected', `Tab ${title}`)
                 }

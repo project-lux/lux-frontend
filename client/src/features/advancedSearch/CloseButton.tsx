@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React from 'react'
 
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
-import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 
 interface ICloseButton {
   setShowModal?: (x: boolean) => void
@@ -15,11 +14,6 @@ interface ICloseButton {
  * @returns {JSX.Element}
  */
 const CloseButton: React.FC<ICloseButton> = ({ setShowModal = () => null }) => {
-  const [isAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
-
   const handleSwitchToSimpleSearch = (): void => {
     setShowModal(true)
   }
@@ -35,7 +29,7 @@ const CloseButton: React.FC<ICloseButton> = ({ setShowModal = () => null }) => {
       onClick={() => handleSwitchToSimpleSearch()}
       data-testid="search-toggle-button"
     >
-      Close {isAiSearch ? 'Refine' : 'Advanced'} Search
+      Close Advanced Search
     </LinkButton>
   )
 }

@@ -34,11 +34,11 @@ const RefinementContainer: React.FC = () => {
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const scope = searchScope[tab]
   const fullSearchQuery = new URLSearchParams(search)
-  const originalSearchString = fullSearchQuery.has('sq')
-    ? fullSearchQuery.get('sq')
-    : null
+  const originalSearchString =
+    fullSearchQuery.has('sq') && fullSearchQuery.get('qt') === tab
+      ? fullSearchQuery.get('sq')
+      : null
   const translatedQuery = fullSearchQuery.get('q') || ''
-  // const currentQueryTab = fullSearchQuery.get('qt') || ''
   const searchType = fullSearchQuery.has(SEARCH_TYPE_PARAM)
     ? fullSearchQuery.get(SEARCH_TYPE_PARAM)
     : null
@@ -195,7 +195,7 @@ const RefinementContainer: React.FC = () => {
                         aiDisambiguation={aiDisambiguation}
                         searchString={newQuery !== null ? newQuery : ''}
                         className="refinementDisambiguation"
-                        onSelect={() => setAiDisambiguation([])}
+                        resetDisambiguation={setAiDisambiguation}
                       />
                     </div>
                   )}

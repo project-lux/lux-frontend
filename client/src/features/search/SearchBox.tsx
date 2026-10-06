@@ -23,6 +23,7 @@ import {
   countWords,
   validateInput,
 } from '../../lib/parse/search/searchBoxHelper'
+import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 
 import { MAX_WORDS } from './SearchContainer'
 
@@ -113,8 +114,8 @@ const SearchBox: React.FC<{
   submitForm: (event: React.FormEvent<HTMLFormElement>) => void
   isSearchLoading: boolean
   inputRef: RefObject<HTMLInputElement | null>
-  aiDisambiguation: Array<any>
-  setAiDisambiguation: (value: Array<any>) => void
+  aiDisambiguation: Array<IAiDisambiguation>
+  setAiDisambiguation: (value: Array<IAiDisambiguation>) => void
   unselectable?: boolean
   isResults?: boolean
   setIsError: (x: boolean) => void
@@ -247,7 +248,7 @@ const SearchBox: React.FC<{
         lg={12}
         xl={12}
         xxl={12}
-        className="d-flex justify-content-center"
+        className="d-flex justify-content-center px-0"
       >
         <StyledSearchBox ref={searchBoxRef}>
           <form
@@ -318,6 +319,7 @@ const SearchBox: React.FC<{
             searchString={currentState.value !== null ? currentState.value : ''}
             className="searchBoxDisambiguation"
             width={searchBoxWidth}
+            resetDisambiguation={setAiDisambiguation}
           />
         </Col>
       )}

@@ -1,15 +1,16 @@
 import React from 'react'
-import { Link, useParams } from 'react-router-dom'
+import { Link, useParams, useLocation } from 'react-router-dom'
 
 import config from '../../config/config'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetTranslateKeywordSearchQuery } from '../../redux/api/ml_api'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
+import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 
 interface IProps {
   searchString: string
-  onSelect?: () => void
+  resetDisambiguation: (value: Array<IAiDisambiguation>) => void
 }
 
 /**
@@ -26,7 +27,11 @@ export function removeStopWords(searchString: string): string {
     .join(' ')
 }
 
-const KeywordSearchLink: React.FC<IProps> = ({ searchString, onSelect }) => {
+const KeywordSearchLink: React.FC<IProps> = ({
+  searchString,
+  resetDisambiguation,
+}) => {
+  const { search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
   const linkText = removeStopWords(searchString)
 
@@ -38,27 +43,26 @@ const KeywordSearchLink: React.FC<IProps> = ({ searchString, onSelect }) => {
   })
 
   if (isSuccess && data) {
-    const newUrlParams = new URLSearchParams()
     const dataString = JSON.stringify(data)
     const dataCopy = JSON.parse(dataString)
     const scope = scopeToTabTranslation[dataCopy._scope]
     delete dataCopy._scope
-    newUrlParams.set('q', JSON.stringify(dataCopy))
-    newUrlParams.set('sq', linkText)
-    // TODO: this may change depending on how keyword searches are interpretted
-    newUrlParams.set(SEARCH_TYPE_PARAM, 'aiAssisted')
+    const newUrlParams = AiDisambigationParser.getUrlParams(
+      search,
+      dataCopy,
+      linkText,
+      tab,
+    )
 
     return (
       <Link
         to={{
-          // default to objects page
-          // TODO: change to the current results scope or default to objects
           pathname: `/view/results/${scope}`,
           search: newUrlParams.toString(),
         }}
         onClick={() => {
           pushClientEvent('Keyword Search', 'Selected', linkText)
-          onSelect?.()
+          resetDisambiguation([])
         }}
         data-testid="keyword-search-link"
         className="fw-medium"

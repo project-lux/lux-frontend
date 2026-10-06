@@ -123,7 +123,7 @@ const Navigation: React.FC<INavigation> = ({
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
                     isSwitchToSimpleSearch ||
                     aiAssistedSearch
-                      ? `${urlParams.toString()}&qt=${tab || key}`
+                      ? `${urlParams.toString()}${!urlParams.has('qt') ? `&qt=${tab || key}` : ''}`
                       : urlParams.toString()
                   }`}
                   className={getClassNameOfNavLink(key)}

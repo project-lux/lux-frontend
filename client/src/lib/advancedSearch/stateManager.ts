@@ -328,7 +328,7 @@ export const removeObjectFromState = (
   if (objectToRemovePropIsGroup) {
     Object.keys(objectToRemove).map((key) => {
       // if the key is not the _stateId and the object is at the top level
-      if (key !== '_stateId') {
+      if (key !== '_stateId' && key !== '_scope') {
         delete objectToRemove[key]
       }
       return null

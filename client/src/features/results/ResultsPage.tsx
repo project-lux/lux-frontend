@@ -15,9 +15,12 @@ import {
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import {
-  AI_REFINEMENT_PARAM,
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
@@ -34,6 +37,11 @@ const ResponsiveCol = styled(Col)`
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
+  // const [isAiSearch] = useState<boolean>(() => {
+  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+  //   return storedIsActive ? JSON.parse(storedIsActive) : false
+  // })
+
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -57,14 +65,14 @@ const ResultsPage: React.FC = () => {
     urlParams.has(SEARCH_TYPE_PARAM) &&
     urlParams.get(SEARCH_TYPE_PARAM) === 'advanced'
   // if the SEARCH_TYPE_PARAM is set to 'aiAssisted' then the current search is an AI assisted search
-  const isAiSearch =
-    urlParams.has(SEARCH_TYPE_PARAM) &&
-    urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
+  // const isAiSearch =
+  //   urlParams.has(SEARCH_TYPE_PARAM) &&
+  //   urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
   // if the AI_REFINEMENT_PARAM is set to true then the user has selected to refine their AI assisted search
-  const isAiRefinementSearch =
-    (urlParams.has(AI_REFINEMENT_PARAM) &&
-      urlParams.get(AI_REFINEMENT_PARAM) === 'true') ||
-    false
+  // const isAiRefinementSearch =
+  //   (urlParams.has(AI_REFINEMENT_PARAM) &&
+  //     urlParams.get(AI_REFINEMENT_PARAM) === 'true') ||
+  //   false
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
@@ -89,6 +97,11 @@ const ResultsPage: React.FC = () => {
   const sort = urlParams.has(`${paramPrefix}s`)
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined
+
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
 
   /*
    Query will be skipped if the user has entered empty search string
@@ -122,7 +135,6 @@ const ResultsPage: React.FC = () => {
       <ResultsSearchContainer
         key={tab}
         isAdvancedSearch={isAdvancedSearch}
-        isAiRefinementSearch={isAiRefinementSearch}
         urlParams={urlParams}
         queryString={queryString}
         search={search}
