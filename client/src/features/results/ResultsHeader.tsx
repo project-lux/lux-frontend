@@ -22,17 +22,11 @@ import {
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+// import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 import Sort from './Sort'
-
-const StyledDiv = styled.div`
-  display: none;
-
-  @media (min-width: ${theme.breakpoints.md}px) {
-    display: inline;
-  }
-`
 
 const StyledDescriptiveText = styled.div`
   p {
@@ -45,6 +39,11 @@ interface IResultsHeader {
 }
 
 const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
+  // const [isAiSearch] = useState<boolean>(() => {
+  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+  //   return storedIsActive ? JSON.parse(storedIsActive) : false
+  // })
+
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
@@ -55,9 +54,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const queryString = new URLSearchParams(search)
   const label = advancedSearchTitles[tab] || ''
   const overlay = resultsHeaderOverlays[tab]
-  const isAiSearch =
-    queryString.has(SEARCH_TYPE_PARAM) &&
-    queryString.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
 
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -65,6 +61,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const [redirect, setRedirect] = useState<boolean>(false)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
+
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
 
   useEffect(() => {
     if (redirect !== false) {
@@ -102,17 +103,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
 
   return (
     <div>
-      <Row className="resultsHeaderTitleRow">
-        <Col className="resultsHeaderTitleCol">
+      <Row className="px-2 resultsHeaderTitleRow">
+        <Col className="resultsHeaderTitleCol d-inline-flex align-items-center">
           <StyledResultsHeader
             className="mb-0 resultsHeaderTitle"
             data-testid="results-header-title"
           >
-            <StyledDiv>
-              {total} {label} results
-            </StyledDiv>
-            {(tab === 'objects' || tab === 'works') && <LuxOverlay />}
+            {total} {label} results
           </StyledResultsHeader>
+          {(tab === 'objects' || tab === 'works') && <LuxOverlay />}
         </Col>
       </Row>
       <Row className="px-2 resultsHeaderControlsRow">

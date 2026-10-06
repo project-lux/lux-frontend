@@ -9,7 +9,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import ErrorMessage from '../search/ErrorMessage'
 import {
   SEARCH_TYPE_PARAM,
-  AI_REFINEMENT_PARAM,
+  // AI_REFINEMENT_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
 import CloseButton from './CloseButton'
@@ -23,9 +23,9 @@ const Header: React.FC = () => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const queryParams = new URLSearchParams(search)
-  const isRefineSearch = queryParams.has(AI_REFINEMENT_PARAM)
-    ? queryParams.get(AI_REFINEMENT_PARAM) === 'true'
-    : false
+  // const isRefineSearch = queryParams.has(AI_REFINEMENT_PARAM)
+  //   ? queryParams.get(AI_REFINEMENT_PARAM) === 'true'
+  //   : false
   const searchType = queryParams.has(SEARCH_TYPE_PARAM)
     ? queryParams.get(SEARCH_TYPE_PARAM)
     : null
@@ -48,12 +48,8 @@ const Header: React.FC = () => {
       'Selected',
       'Confirm Switch to Simple Search',
     )
-    // if the search is being refined and it is an aiAssisted search, remove the refinement parameter
-    if (isRefineSearch) {
-      queryParams.delete(AI_REFINEMENT_PARAM)
-    }
     // If it is an advanced search and not a refinement, set the search type to simple
-    if (!isRefineSearch && searchType === 'advanced') {
+    if (searchType === 'advanced') {
       queryParams.set(SEARCH_TYPE_PARAM, 'simple')
     }
     navigate({
@@ -68,14 +64,7 @@ const Header: React.FC = () => {
   let confirmButtonText = 'Use Standard Search'
   let cancelButtonText = 'Keep Advanced Search'
 
-  if (isRefineSearch) {
-    title = 'Close the Refine Search?'
-    text =
-      'Are you sure you want to close the refine search? You will lose any refinement changes you have not submitted.'
-    confirmButtonText = 'Close Refine Search'
-    cancelButtonText = 'Keep Refine Search'
-  }
-  if (searchType === 'advanced' && !isRefineSearch) {
+  if (searchType === 'advanced') {
     title = 'Close the Advanced Search?'
     text =
       'Are you sure you want to close the advanced search? You will lose any advanced search changes you have not submitted.'

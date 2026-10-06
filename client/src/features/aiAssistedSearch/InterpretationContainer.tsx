@@ -3,11 +3,12 @@ import { useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Accordion } from 'react-bootstrap'
 
-import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
+// import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 import theme from '../../styles/theme'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import { ResultsTab } from '../../types/ResultsTab'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import InterpretationRow from './InterpretationRow'
 
@@ -46,9 +47,12 @@ const InterpretationContainer: React.FC<IProps> = ({
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const { search } = useLocation()
   const urlSearchParams = new URLSearchParams(search)
+  const currentQueryTab = urlSearchParams.get('qt')
+  urlSearchParams.set(SEARCH_TYPE_PARAM, 'advanced')
+
   // set a default empty object for query if 'q' parameter is not present
   let query = {}
-  if (urlSearchParams.has('q')) {
+  if (urlSearchParams.has('q') && currentQueryTab === tab) {
     query = JSON.parse(urlSearchParams.get('q')!)
   }
 
@@ -80,6 +84,7 @@ const InterpretationContainer: React.FC<IProps> = ({
       </StyledAccordion>
     )
   }
+
   return (
     <StyledSpan
       className={`d-inline-flex flex-wrap align-items-center justify-content-start w-100 p-2 ${className}`}
@@ -96,7 +101,7 @@ const InterpretationContainer: React.FC<IProps> = ({
       {showRefineButton && (
         <LinkButton
           variant="link"
-          href={`/view/results/${tab}${search}&${AI_REFINEMENT_PARAM}=true`}
+          href={`/view/results/${tab}?${urlSearchParams.toString()}`}
           data-testid="refine-search-with-ai-button"
           className="ms-auto text-decoration-none"
         >

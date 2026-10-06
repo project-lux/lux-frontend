@@ -12,6 +12,7 @@ import {
 } from '../../lib/advancedSearch/advancedSearchParser'
 import {
   addAqParamValue,
+  addScope,
   IAdvancedSearchState,
   resetState,
 } from '../../redux/slices/advancedSearchSlice'
@@ -30,11 +31,7 @@ import {
   changeClearedAdvancedSearch,
 } from '../../redux/slices/currentSearchSlice'
 import theme from '../../styles/theme'
-import {
-  AI_ASSISTED_SEARCH_STORAGE_KEY,
-  AI_REFINEMENT_PARAM,
-  SEARCH_TYPE_PARAM,
-} from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 
 import AdvancedSearchForm from './Form'
@@ -57,10 +54,10 @@ const FormContainer: React.FC<IProps> = ({
   helpTextClassName,
 }) => {
   const [showAllRows, setShowAllRows] = useState<boolean>(true)
-  const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
+  // const [isAiSearch] = useState<boolean>(() => {
+  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+  //   return storedIsActive ? JSON.parse(storedIsActive) : false
+  // })
   const formRef = useRef(null)
   const navigate = useNavigate()
   // tab can be undefined
@@ -74,9 +71,9 @@ const FormContainer: React.FC<IProps> = ({
   const fromSearchLink = urlParams.has('searchLink')
     ? urlParams.get('searchLink') === 'true'
     : false
-  const isAiSearchWithRefinement =
-    urlParams.has(AI_REFINEMENT_PARAM) &&
-    urlParams.get(AI_REFINEMENT_PARAM) === 'true'
+  // const isAiSearchWithRefinement =
+  //   urlParams.has(AI_REFINEMENT_PARAM) &&
+  //   urlParams.get(AI_REFINEMENT_PARAM) === 'true'
 
   const dispatch = useAppDispatch()
 
@@ -85,6 +82,11 @@ const FormContainer: React.FC<IProps> = ({
     dispatch(resetHelpTextState())
     dispatch(resetState())
     dispatch(changeClearedAdvancedSearch({ value: true }))
+    dispatch(
+      addScope({
+        scope: searchScope[tab],
+      }),
+    )
   }
 
   const handleShowRows = (): void => {
@@ -96,14 +98,19 @@ const FormContainer: React.FC<IProps> = ({
       if (query === '') {
         dispatch(resetState())
         dispatch(addSelectedHelpText({ value: 'fieldSelectRow' }))
+        if (scope !== null) {
+          dispatch(addScope({ scope }))
+        }
       } else if (scope !== null) {
         dispatch(addAqParamValue({ scope, aqParamValue: query }))
         dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
       }
-      if (isAiSearchWithRefinement) {
-        setIsAiSearch(true)
-      }
+      // if (isAiSearchWithRefinement) {
+      //   setIsAiSearch(true)
+      // }
       dispatch(changeClearedAdvancedSearch({ value: false }))
+    } else {
+      dispatch(resetState())
     }
   }, [dispatch, scope, query, tab, queryTab])
 
@@ -113,6 +120,7 @@ const FormContainer: React.FC<IProps> = ({
   const asSearchState = useAppSelector(
     (searchState) => searchState.currentSearch as ICurrentSearchState,
   )
+  const isAiSearch = asSearchState.isAiSearch
 
   // Handle the form submission action
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
@@ -129,18 +137,12 @@ const FormContainer: React.FC<IProps> = ({
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
-    newUrlParams.set(
-      AI_REFINEMENT_PARAM,
-      isAiSearchWithRefinement ? 'true' : 'false',
-    )
     newUrlParams.set(`${newScope.slice(0, 1)}p`, '1')
-    // TODO: return to this once we have an idea as to how the advanced search should work
-    // if (isAiSearch) {
-    //   newUrlParams.set(SEARCH_TYPE_PARAM, 'true')
-    //   if (!isNull(originalSearchString)) {
-    //     newUrlParams.set('sq', originalSearchString as string)
-    //   }
-    // }
+    newUrlParams.set('qt', newResultTab)
+    // newUrlParams.set(
+    //   AI_REFINEMENT_PARAM,
+    //   isAiSearchWithRefinement ? 'true' : 'false',
+    // )
     pushClientEvent('Search Button', 'Submit', 'Advanced Search')
     navigate({
       pathname: `/view/results/${newResultTab}`,
