@@ -8,6 +8,9 @@ const ResultsHeader = styled.h2`
   letter-spacing: 0;
   text-align: left;
   font-weight: 200;
-  margin-right: 0.5em;
+
+  @media (max-width: ${theme.breakpoints.md}px) {
+    display: none;
+  }
 `
 export default ResultsHeader

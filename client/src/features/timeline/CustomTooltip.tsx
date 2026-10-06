@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import {
-  AI_ASSISTED_SEARCH_STORAGE_KEY,
-  AI_REFINEMENT_PARAM,
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 import { ITimelineCriteria, ITimelineHalLinks } from '../../types/ITimelines'
@@ -26,15 +26,12 @@ interface ILinkProps {
 
 const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
   const [underline, setUnderline] = useState<boolean>(false)
-  const [isAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
+
   return (
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')

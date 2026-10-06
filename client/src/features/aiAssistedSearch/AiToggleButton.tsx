@@ -20,6 +20,10 @@ const StyledWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 8px;
+
+  @media (max-width: ${theme.breakpoints.md}px) {
+    gap: 4px;
+  }
 `
 
 const StyledLabel = styled.span<{

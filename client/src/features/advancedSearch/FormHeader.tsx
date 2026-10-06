@@ -4,6 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 
+import { useAppDispatch } from '../../app/hooks'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import StyledOriginalQuery from '../../styles/features/aiAssistedSearch/OriginalQuery'
@@ -12,7 +13,7 @@ import theme from '../../styles/theme'
 import {
   AI_ASSISTED_SEARCH_STORAGE_KEY,
   SEARCH_TYPE_PARAM,
-  AI_REFINEMENT_PARAM,
+  // AI_REFINEMENT_PARAM,
   OPT_IN_MODAL_TEXT,
   OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TEXT,
   OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_TITLE,
@@ -23,6 +24,8 @@ import {
   OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CONFIRM_BUTTON_TEXT,
 } from '../../config/aiAssistedSearch/variables'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { changeIsAiSearch } from '../../redux/slices/currentSearchSlice'
+import LinkDivider from '../../styles/features/search/LinkDivider'
 
 import AlertModal from './AlertModal'
 
@@ -46,6 +49,7 @@ const FormHeader: React.FC<{
   originalSearchString: string | null
 }> = ({ tab, originalSearchString, handleResetForm, currentSearchScope }) => {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const { pathname, search } = useLocation()
   const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
     const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
@@ -66,6 +70,7 @@ const FormHeader: React.FC<{
   const handleConfirmToggleSwitch = (): void => {
     const nextIsActive = !isAiSearch
     setIsAiSearch(nextIsActive)
+    dispatch(changeIsAiSearch({ value: nextIsActive }))
     localStorage.setItem(
       AI_ASSISTED_SEARCH_STORAGE_KEY,
       JSON.stringify(nextIsActive),
@@ -78,12 +83,13 @@ const FormHeader: React.FC<{
       newUrlParams.set('qt', tab)
     }
     // If setting the AI search to true, then the AI_REFINEMENT_PARAM should be added to the URL and set to true
-    if (nextIsActive) {
-      newUrlParams.set(AI_REFINEMENT_PARAM, 'true')
-    } else {
-      newUrlParams.delete(AI_REFINEMENT_PARAM)
-    }
+    // if (nextIsActive) {
+    //   newUrlParams.set(AI_REFINEMENT_PARAM, 'true')
+    // } else {
+    //   newUrlParams.delete(AI_REFINEMENT_PARAM)
+    // }
     newUrlParams.delete('sq')
+    setShowModal(false)
     navigate(
       {
         pathname: `${pathname}${!isUndefined(currentSearchScope) && isUndefined(tab) ? `/${currentSearchScope}` : ''}`,
@@ -134,9 +140,11 @@ const FormHeader: React.FC<{
         {isAiSearch ? (
           <span className="d-flex justify-content-start align-items-center">
             <StyledH3>Searching for:&nbsp;</StyledH3>
-            <StyledOriginalQuery>
-              "{originalSearchString || ''}"
-            </StyledOriginalQuery>
+            {originalSearchString && (
+              <StyledOriginalQuery>
+                "{originalSearchString}"
+              </StyledOriginalQuery>
+            )}
           </span>
         ) : (
           <StyledH3 data-testid={`${tab}-advanced-search-header`}>
@@ -164,16 +172,19 @@ const FormHeader: React.FC<{
           handleToggle={() => setShowModal(true)}
         />
         {!isAiSearch && (
-          <LinkButton
-            variant="link"
-            type="reset"
-            className="resetAdvancedSearchForm"
-            onClick={handleResetForm}
-            data-testid="reset-button"
-            aria-label="Clear Search"
-          >
-            Clear Search
-          </LinkButton>
+          <React.Fragment>
+            <LinkDivider />
+            <LinkButton
+              variant="link"
+              type="reset"
+              className="resetAdvancedSearchForm"
+              onClick={handleResetForm}
+              data-testid="reset-button"
+              aria-label="Clear Search"
+            >
+              Clear Search
+            </LinkButton>
+          </React.Fragment>
         )}
       </Col>
     </Row>

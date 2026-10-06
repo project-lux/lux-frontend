@@ -1,9 +1,8 @@
 import React, { useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
-import styled from 'styled-components'
 
-import { LinksContainerRow } from '../../styles/features/search/LinksContainerRow'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import theme from '../../styles/theme'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
@@ -27,23 +26,14 @@ import {
   searchScope,
 } from '../../config/searchTypes'
 import { checkForStopWords, translate } from '../../lib/util/translate'
-import { useAppSelector } from '../../app/hooks'
 import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 import { validateInput } from '../../lib/parse/search/searchBoxHelper'
+import { changeIsAiSearch } from '../../redux/slices/currentSearchSlice'
+import LinkDivider from '../../styles/features/search/LinkDivider'
 
 import SearchBox from './SearchBox'
 import ErrorMessage from './ErrorMessage'
 import AdvancedSearchLink from './AdvancedSearchLink'
-
-const LinkDivider = styled.span`
-  border-left: 1px solid ${theme.color.secondary.cornflowerBlue};
-  height: 1.25rem;
-  margin: 0 1rem;
-
-  @media (min-width: ${theme.breakpoints.md}) {
-    display: none;
-  }
-`
 
 interface IProps {
   className: string
@@ -72,6 +62,7 @@ const SearchContainer: React.FC<IProps> = ({
   isStickyHeaderActive = false,
   isInHeader = false,
 }) => {
+  const dispatch = useAppDispatch()
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
@@ -109,6 +100,8 @@ const SearchContainer: React.FC<IProps> = ({
   const handleAiSearchToggle = (): void => {
     const nextIsActive = !isAiSearch
     setIsAiSearch(nextIsActive)
+    dispatch(changeIsAiSearch({ value: nextIsActive }))
+
     localStorage.setItem(
       AI_ASSISTED_SEARCH_STORAGE_KEY,
       JSON.stringify(nextIsActive),
@@ -187,7 +180,7 @@ const SearchContainer: React.FC<IProps> = ({
           if (isAiSearch) {
             setIsSearchLoading(false)
             const jsonTranslatedString = JSON.parse(translatedString)
-            if (jsonTranslatedString.length > 1) {
+            if (jsonTranslatedString.length > 0) {
               setAiDisambiguation(jsonTranslatedString)
               return
             } else {
@@ -279,77 +272,47 @@ const SearchContainer: React.FC<IProps> = ({
           setAiDisambiguation={setAiDisambiguation}
         />
       </Col>
-      {isResultsPage ? (
-        <Col xs={12} className="d-flex justify-content-center">
-          <div
-            className="d-flex justify-content-end align-items-center"
-            style={{ width: theme.searchBox.width }}
-          >
-            {!isMobile && (
-              <React.Fragment>
-                <AdvancedSearchLink
-                  linkStyle={linkStyle}
-                  isAiSearch={isAiSearch}
-                />
-                <LinkDivider />
-              </React.Fragment>
-            )}
-            <AiToggleButton
-              linkStyle={linkStyle}
-              isStickyHeaderActive={isStickyHeaderActive}
-              isAiSearch={isAiSearch}
-              handleToggle={handleToggle}
-            />
-          </div>
-        </Col>
-      ) : (
-        <Col
-          xs={12}
-          className="d-flex justify-content-center align-items-center mt-3"
+      <Col
+        xs={12}
+        className={`d-flex justify-content-center ${isResultsPage ? '' : 'mt-3'}`}
+      >
+        <div
+          className={`d-inline-flex justify-content-${isResultsPage ? 'end' : 'center'} align-items-center`}
+          style={{ width: theme.searchBox.width }}
         >
-          <LinksContainerRow>
-            <Col
-              xs={12}
-              className="d-inline-flex justify-content-center align-items-center"
-            >
-              {!isMobile && (
-                <React.Fragment>
-                  <AdvancedSearchLink
-                    linkStyle={linkStyle}
-                    isAiSearch={isAiSearch}
-                  />
-                  <LinkDivider />
-                </React.Fragment>
-              )}
-              <AiToggleButton
-                linkStyle={linkStyle}
-                isStickyHeaderActive={isStickyHeaderActive}
-                isAiSearch={isAiSearch}
-                handleToggle={handleAiSearchToggle}
-                isInHeader={isInHeader}
-              />
+          {!isMobile && (
+            <React.Fragment>
+              <AdvancedSearchLink linkStyle={linkStyle} />
               <LinkDivider />
-              <Link
-                to="/content/simple-search"
-                style={{
-                  ...linkStyle,
-                  fontWeight: '400',
-                  fontSize: '1rem',
-                }}
-                onClick={() =>
-                  pushClientEvent(
-                    'Internal Link',
-                    'Selected',
-                    'Internal Search Tips',
-                  )
-                }
-              >
-                Search Tips
-              </Link>
-            </Col>
-          </LinksContainerRow>
-        </Col>
-      )}
+            </React.Fragment>
+          )}
+          <AiToggleButton
+            linkStyle={linkStyle}
+            isStickyHeaderActive={isStickyHeaderActive}
+            isAiSearch={isAiSearch}
+            handleToggle={isResultsPage ? handleToggle : handleAiSearchToggle}
+            isInHeader={isInHeader}
+          />
+          <LinkDivider />
+          <Link
+            to="/content/simple-search"
+            style={{
+              ...linkStyle,
+              fontWeight: '400',
+              fontSize: '1rem',
+            }}
+            onClick={() =>
+              pushClientEvent(
+                'Internal Link',
+                'Selected',
+                'Internal Search Tips',
+              )
+            }
+          >
+            Search Tips
+          </Link>
+        </div>
+      </Col>
     </Row>
   )
 }
