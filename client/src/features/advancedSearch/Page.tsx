@@ -2,7 +2,6 @@ import React from 'react'
 import { useLocation } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
-import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 import ResultsSearchContainer from '../results/ResultsSearchContainer'
 import { ErrorFallback } from '../error/ErrorFallback'
 
@@ -14,10 +13,10 @@ const AdvancedSearchPage: React.FC = () => {
   }
 
   const urlParams = new URLSearchParams(search)
-  const isAiRefinementSearch =
-    (urlParams.has(AI_REFINEMENT_PARAM) &&
-      urlParams.get(AI_REFINEMENT_PARAM) === 'true') ||
-    false
+  // const isAiRefinementSearch =
+  //   (urlParams.has(AI_REFINEMENT_PARAM) &&
+  //     urlParams.get(AI_REFINEMENT_PARAM) === 'true') ||
+  //   false
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const isSwitchToSimpleSearch =
@@ -30,7 +29,6 @@ const AdvancedSearchPage: React.FC = () => {
         <ResultsSearchContainer
           key="advanced-search-page"
           isAdvancedSearch
-          isAiRefinementSearch={isAiRefinementSearch}
           urlParams={urlParams}
           queryString={queryString}
           search={search}

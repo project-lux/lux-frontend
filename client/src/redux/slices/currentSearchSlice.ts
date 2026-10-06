@@ -3,11 +3,13 @@ import type { PayloadAction } from '@reduxjs/toolkit'
 
 export interface ICurrentSearchState {
   searchType: 'advanced' | 'simple'
+  isAiSearch: boolean
   clearedAdvancedSearch: boolean
 }
 
 const initialState: ICurrentSearchState = {
   searchType: 'simple',
+  isAiSearch: true, // default to true
   clearedAdvancedSearch: false,
 }
 
@@ -31,6 +33,10 @@ export const currentSearchSlice = createSlice({
       const { value } = action.payload
       state.searchType = value
     },
+    changeIsAiSearch: (state, action: PayloadAction<{ value: boolean }>) => {
+      const { value } = action.payload
+      state.isAiSearch = value
+    },
     resetState: () => initialState,
   },
 })
@@ -38,6 +44,7 @@ export const currentSearchSlice = createSlice({
 export const {
   changeClearedAdvancedSearch,
   changeCurrentSearchState,
+  changeIsAiSearch,
   resetState,
 } = currentSearchSlice.actions
 

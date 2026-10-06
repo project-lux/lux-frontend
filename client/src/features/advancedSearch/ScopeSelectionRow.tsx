@@ -1,6 +1,8 @@
 import React, { MouseEvent } from 'react'
+import styled from 'styled-components'
 import { Row, Col, Dropdown } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
+import { isUndefined } from 'lodash'
 
 import StyledDropdown from '../../styles/shared/Dropdown'
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
@@ -24,6 +26,23 @@ import theme from '../../styles/theme'
 import { ResultsTab } from '../../types/ResultsTab'
 
 import DescriptiveText from './DescriptiveText'
+
+const StyledRow = styled(Row)<{ showConnectingLine: boolean }>`
+  ${({ showConnectingLine }) =>
+    showConnectingLine &&
+    `
+      &:after {
+        border: 0.5px solid #8095e8;
+        left: 0;
+        right: 0;
+        width: 0;
+        height: 35px;
+        display: inline-block;
+        content: '';
+        margin-left: 135px;
+      }
+  `}
+`
 
 let timeout: NodeJS.Timeout
 
@@ -78,7 +97,7 @@ const ScopeSelectionRow: React.FC = () => {
   }
 
   return (
-    <Row className="mb-4">
+    <StyledRow showConnectingLine={!isUndefined(currentState._scope)}>
       <Col xs={12} style={{ backgroundColor: theme.color.advancedSearchRow }}>
         <StyledInputGroupDiv>
           <span className="w-100 d-flex ps-2 py-2">
@@ -126,7 +145,7 @@ const ScopeSelectionRow: React.FC = () => {
           </span>
         </StyledInputGroupDiv>
       </Col>
-    </Row>
+    </StyledRow>
   )
 }
 

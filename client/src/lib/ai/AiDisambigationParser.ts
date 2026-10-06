@@ -7,6 +7,8 @@ import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import { getFieldToEntityRelationship } from '../advancedSearch/stateManager'
 import { isValidDateObject, getDefaultDate } from '../facets/dateParser'
 import { comparators } from '../../config/advancedSearch/inputTypes'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 export default class AiDisambigationParser {
   aiDisambiguation: Array<IAiDisambiguation>
@@ -63,6 +65,34 @@ export default class AiDisambigationParser {
    */
   getQueries(): Array<object> {
     return this.aiDisambiguation.map((option) => option.query)
+  }
+
+  /**
+   * Return the query params for the links available in the disambiguation
+   * @param {string} search - The current search string from the URL
+   * @param {IAdvancedSearchState} queryData - The advanced search query object generated from the user's initial search string
+   * @param {string} sq - The natural query string
+   * @param {string} qt - The current query tab
+   * @returns {URLSearchParams}
+   */
+  static getUrlParams = (
+    search: string,
+    queryData: IAdvancedSearchState,
+    sq: string,
+    qt: string,
+  ): URLSearchParams => {
+    const newUrlParams = new URLSearchParams(search)
+    newUrlParams.set('q', JSON.stringify(queryData))
+    newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+    newUrlParams.set('sq', sq)
+    newUrlParams.set('qt', qt)
+    newUrlParams.set(
+      SEARCH_TYPE_PARAM,
+      newUrlParams.has(SEARCH_TYPE_PARAM)
+        ? (newUrlParams.get(SEARCH_TYPE_PARAM) as string)
+        : 'simple',
+    )
+    return newUrlParams
   }
 
   static convertAdvancedSearchValue = (value: string | number): string => {
