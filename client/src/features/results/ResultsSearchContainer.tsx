@@ -59,7 +59,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
           {isAiSearch ? (
-            <RefinementContainer />
+            <RefinementContainer key={search} />
           ) : (
             <AdvancedSearchFormContainer
               key={tab}

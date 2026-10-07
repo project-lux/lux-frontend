@@ -92,6 +92,7 @@ export default class AiDisambigationParser {
         ? (newUrlParams.get(SEARCH_TYPE_PARAM) as string)
         : 'simple',
     )
+    newUrlParams.delete('openQB')
     return newUrlParams
   }
 

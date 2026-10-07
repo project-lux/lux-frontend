@@ -44,6 +44,9 @@ const RefinementContainer: React.FC = () => {
     : null
   const isNewAdvancedSearch =
     translatedQuery.length === 0 && searchType === 'advanced'
+  const isAdvancedSearchAccordionOpenByDefault = fullSearchQuery.has('openQB')
+    ? fullSearchQuery.get('openQB') === 'true'
+    : false
   // Labels and text for the AI-assisted search form based on whether it's a new search or a refinement
   const formLabel = isNewAdvancedSearch
     ? 'AI-Assisted Search'
@@ -59,7 +62,9 @@ const RefinementContainer: React.FC = () => {
     originalSearchString || '',
   )
   const [isLoading, setIsLoading] = React.useState<boolean>(false)
-  const [isAccordionExpanded, setIsAccordionExpanded] = useState(false)
+  const [isAccordionExpanded, setIsAccordionExpanded] = useState(
+    isAdvancedSearchAccordionOpenByDefault,
+  )
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
@@ -111,6 +116,11 @@ const RefinementContainer: React.FC = () => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [aiDisambiguation])
+
+  const handleDisambiguationLinkSelection = (): void => {
+    setIsAccordionExpanded(false)
+    setAiDisambiguation([])
+  }
 
   return (
     <Row className="ai-search-refinement-container mx-3 mb-3">
@@ -195,7 +205,7 @@ const RefinementContainer: React.FC = () => {
                         aiDisambiguation={aiDisambiguation}
                         searchString={newQuery !== null ? newQuery : ''}
                         className="refinementDisambiguation"
-                        resetDisambiguation={setAiDisambiguation}
+                        resetDisambiguation={handleDisambiguationLinkSelection}
                       />
                     </div>
                   )}
@@ -208,7 +218,7 @@ const RefinementContainer: React.FC = () => {
                 onClick={(e) => handleAiSearchSubmit(e)}
               >
                 <i className="bi bi-stars" />
-                Search{isLoading && <LoadingSpinner />}
+                Search&nbsp;{isLoading && <LoadingSpinner size="sm" />}
               </StyledSearchButton>
             </div>
           </div>
@@ -216,6 +226,7 @@ const RefinementContainer: React.FC = () => {
         <Col xs={12}>
           <Accordion
             className="bg-light"
+            defaultActiveKey={isAccordionExpanded ? '0' : null}
             onSelect={(eventKey) => setIsAccordionExpanded(eventKey === '0')}
           >
             <Accordion.Item eventKey="0">

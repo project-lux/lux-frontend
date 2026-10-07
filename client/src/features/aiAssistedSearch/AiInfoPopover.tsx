@@ -18,10 +18,10 @@ const AiInfoPopover: React.FC<IProps> = ({ buttonColor }) => {
       style={{ maxWidth: '300px' }}
       title="Access details popover"
     >
-      <Popover.Header as="h3">What is AI Assisted Search?</Popover.Header>
       <Popover.Body>
-        <p className="mt-2 mb-0">
-          This is some information about the AI Assisted Search feature.
+        <p className="mb-0">
+          Enables the LUX AI to interpret and provide suggestions for your
+          search.
         </p>
       </Popover.Body>
     </Popover>

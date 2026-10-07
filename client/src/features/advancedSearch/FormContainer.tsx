@@ -109,6 +109,9 @@ const FormContainer: React.FC<IProps> = ({
       //   setIsAiSearch(true)
       // }
       dispatch(changeClearedAdvancedSearch({ value: false }))
+    } else if (scope !== null) {
+      // the scope should change based on what tab a user is on
+      dispatch(addScope({ scope }))
     } else {
       dispatch(resetState())
     }
@@ -139,6 +142,7 @@ const FormContainer: React.FC<IProps> = ({
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
     newUrlParams.set(`${newScope.slice(0, 1)}p`, '1')
     newUrlParams.set('qt', newResultTab)
+    newUrlParams.set('openQB', 'true')
     // newUrlParams.set(
     //   AI_REFINEMENT_PARAM,
     //   isAiSearchWithRefinement ? 'true' : 'false',
