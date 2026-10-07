@@ -10,14 +10,18 @@ const AdvancedSearchLink: React.FC<{
   linkStyle: React.CSSProperties
 }> = ({ linkStyle }) => {
   const { pathname, search } = useLocation()
+  const newPathname = pathname.includes('/view/results')
+    ? pathname
+    : `/view/results`
   const searchParams = new URLSearchParams(search)
-  const query = searchParams.get('q') || ''
-  const sq = searchParams.get('sq')
-  const qt = searchParams.get('qt')
+  searchParams.set(SEARCH_TYPE_PARAM, 'advanced')
 
   return (
     <Link
-      to={`${pathname === '/' ? '/view/results' : pathname}?${query !== '' ? `q=${encodeURIComponent(query)}` : ''}${sq ? `&sq=${sq}` : ''}${qt ? `&qt=${qt}` : ''}&${SEARCH_TYPE_PARAM}=advanced`}
+      to={{
+        pathname: newPathname,
+        search: searchParams.toString(),
+      }}
       style={{
         ...linkStyle,
         fontWeight: '400',

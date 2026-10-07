@@ -77,17 +77,6 @@ const FormHeader: React.FC<{
     )
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
-    // Only add this parameter if the tab is defined
-    // New advanced searches will not have the tab defined
-    if (!isUndefined(tab)) {
-      newUrlParams.set('qt', tab)
-    }
-    // If setting the AI search to true, then the AI_REFINEMENT_PARAM should be added to the URL and set to true
-    // if (nextIsActive) {
-    //   newUrlParams.set(AI_REFINEMENT_PARAM, 'true')
-    // } else {
-    //   newUrlParams.delete(AI_REFINEMENT_PARAM)
-    // }
     newUrlParams.delete('sq')
     setShowModal(false)
     navigate(

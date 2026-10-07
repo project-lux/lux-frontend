@@ -45,7 +45,7 @@ const Disambiguation: React.FC<{
   aiDisambiguation: Array<IAiDisambiguation>
   searchString: string
   className: string
-  resetDisambiguation: (value: Array<IAiDisambiguation>) => void
+  resetDisambiguation: () => void
   width?: number
 }> = ({
   aiDisambiguation,
@@ -101,7 +101,7 @@ const Disambiguation: React.FC<{
                         search: newUrlParams.toString(),
                       }}
                       className="fw-medium"
-                      onClick={(): void => resetDisambiguation([])}
+                      onClick={(): void => resetDisambiguation()}
                     >
                       {queryData.natural}
                     </Link>

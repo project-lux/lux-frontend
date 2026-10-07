@@ -218,7 +218,7 @@ const SearchBox: React.FC<{
   }, [isSearchOpen])
 
   useEffect(() => {
-    if (aiDisambiguation.length <= 1) {
+    if (aiDisambiguation.length === 0) {
       return undefined
     }
 
@@ -235,6 +235,10 @@ const SearchBox: React.FC<{
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [aiDisambiguation])
+
+  const handleDisambiguationLinkSelection = (): void => {
+    setAiDisambiguation([])
+  }
 
   const hasInputValue =
     !isNull(currentState.value) && currentState.value.length > 0
@@ -319,7 +323,7 @@ const SearchBox: React.FC<{
             searchString={currentState.value !== null ? currentState.value : ''}
             className="searchBoxDisambiguation"
             width={searchBoxWidth}
-            resetDisambiguation={setAiDisambiguation}
+            resetDisambiguation={handleDisambiguationLinkSelection}
           />
         </Col>
       )}

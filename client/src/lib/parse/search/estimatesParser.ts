@@ -10,9 +10,6 @@ export const isAdvancedSearch = (searchType: string): boolean =>
 export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
 
-export const isAiAssistedSearch = (searchType: string): boolean =>
-  searchType === 'aiAssisted'
-
 export const transformAdvancedSearchEstimates = (
   data: { [key: string]: IEstimateItems } | undefined,
   tab: string,
@@ -92,11 +89,7 @@ export const getEstimatesRequests = (
   qt: string,
   isSwitchToSimpleSearch: boolean,
 ): any => {
-  if (
-    isAdvancedSearch(searchType) ||
-    isAiAssistedSearch(searchType) ||
-    isSwitchToSimpleSearch
-  ) {
+  if (isAdvancedSearch(searchType) || isSwitchToSimpleSearch) {
     return getAdvancedSearchEstimates(params as string, qt)
   }
 

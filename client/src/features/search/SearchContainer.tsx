@@ -108,12 +108,9 @@ const SearchContainer: React.FC<IProps> = ({
     )
     if (isResultsPage) {
       const newUrlParams = new URLSearchParams(search)
-      if (!nextIsActive) {
-        newUrlParams.set(SEARCH_TYPE_PARAM, 'simple')
-      } else {
-        newUrlParams.set(SEARCH_TYPE_PARAM, 'aiAssisted')
+      if (!newUrlParams.has('qt')) {
+        newUrlParams.set('qt', tab)
       }
-
       navigate({
         pathname,
         search: `?${newUrlParams.toString()}`,

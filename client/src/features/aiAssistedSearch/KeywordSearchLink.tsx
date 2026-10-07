@@ -6,11 +6,10 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetTranslateKeywordSearchQuery } from '../../redux/api/ml_api'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
-import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 
 interface IProps {
   searchString: string
-  resetDisambiguation: (value: Array<IAiDisambiguation>) => void
+  resetDisambiguation: () => void
 }
 
 /**
@@ -33,11 +32,10 @@ const KeywordSearchLink: React.FC<IProps> = ({
 }) => {
   const { search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
-  const linkText = removeStopWords(searchString)
 
   // get the keyword search translated to the appropriate JSON format
   const { data, isSuccess, isLoading } = useGetTranslateKeywordSearchQuery({
-    searchString: linkText,
+    searchString,
     isAiSearch: false,
     scope: searchScope[tab],
   })
@@ -50,7 +48,7 @@ const KeywordSearchLink: React.FC<IProps> = ({
     const newUrlParams = AiDisambigationParser.getUrlParams(
       search,
       dataCopy,
-      linkText,
+      searchString,
       tab,
     )
 
@@ -61,13 +59,13 @@ const KeywordSearchLink: React.FC<IProps> = ({
           search: newUrlParams.toString(),
         }}
         onClick={() => {
-          pushClientEvent('Keyword Search', 'Selected', linkText)
-          resetDisambiguation([])
+          pushClientEvent('Keyword Search', 'Selected', searchString)
+          resetDisambiguation()
         }}
         data-testid="keyword-search-link"
         className="fw-medium"
       >
-        {linkText}
+        {searchString}
       </Link>
     )
   }
