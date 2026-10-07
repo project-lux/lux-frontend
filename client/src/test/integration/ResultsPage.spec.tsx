@@ -132,11 +132,6 @@ describe('Results page shared components', () => {
                   parsed: '',
                   query: { _scope: 'work' },
                 },
-                {
-                  natural: 'objects depicting Andy Warhol',
-                  parsed: '',
-                  query: { _scope: 'object' },
-                },
               ]),
             )
           },
@@ -155,7 +150,10 @@ describe('Results page shared components', () => {
         )
 
         expect(await screen.findByText('works by Andy Warhol')).toBeVisible()
-        expect(screen.getByText('objects depicting Andy Warhol')).toBeVisible()
+        fireEvent.mouseDown(document.body)
+        expect(
+          screen.queryByText('works by Andy Warhol'),
+        ).not.toBeInTheDocument()
       })
     })
   })
