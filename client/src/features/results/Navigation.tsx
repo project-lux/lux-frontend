@@ -15,7 +15,6 @@ import {
   defaultEstimates,
   isAdvancedSearch,
   isSimpleSearch,
-  isAiAssistedSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -58,7 +57,6 @@ const Navigation: React.FC<INavigation> = ({
   const { qt, facetRequest, searchType } = getUrlState(urlParams, tab)
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
-  const aiAssistedSearch = isAiAssistedSearch(searchType)
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
@@ -121,8 +119,7 @@ const Navigation: React.FC<INavigation> = ({
                   key={key}
                   to={`/view/results/${key}?${
                     (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                    isSwitchToSimpleSearch ||
-                    aiAssistedSearch
+                    isSwitchToSimpleSearch
                       ? `${urlParams.toString()}${!urlParams.has('qt') ? `&qt=${tab || key}` : ''}`
                       : urlParams.toString()
                   }`}
