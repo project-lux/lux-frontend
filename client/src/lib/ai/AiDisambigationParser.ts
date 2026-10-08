@@ -68,6 +68,20 @@ export default class AiDisambigationParser {
   }
 
   /**
+   * Return the string to show a user in the keyword search link
+   * @returns {string}
+   */
+  getKeywordSearchString(): string {
+    const { query } = this.aiDisambiguation[0]
+    const interpretation =
+      AiDisambigationParser.getAiDisambiguationInterpretation(
+        query,
+        query._scope as string,
+      )
+    return Object.values(interpretation).flat().join(' ')
+  }
+
+  /**
    * Return the query params for the links available in the disambiguation
    * @param {string} search - The current search string from the URL
    * @param {IAdvancedSearchState} queryData - The advanced search query object generated from the user's initial search string
@@ -81,18 +95,14 @@ export default class AiDisambigationParser {
     sq: string,
     qt: string,
     isKeywordSearch: boolean,
+    searchType: string,
   ): URLSearchParams => {
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set('q', JSON.stringify(queryData))
     newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
     newUrlParams.set('sq', sq)
     newUrlParams.set('qt', qt)
-    newUrlParams.set(
-      SEARCH_TYPE_PARAM,
-      newUrlParams.has(SEARCH_TYPE_PARAM)
-        ? (newUrlParams.get(SEARCH_TYPE_PARAM) as string)
-        : 'simple',
-    )
+    newUrlParams.set(SEARCH_TYPE_PARAM, searchType)
     newUrlParams.delete('openQB')
     if (!isKeywordSearch) {
       newUrlParams.delete('isKeywordSearch')

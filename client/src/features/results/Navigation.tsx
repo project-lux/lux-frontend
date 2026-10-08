@@ -90,6 +90,7 @@ const Navigation: React.FC<INavigation> = ({
     data,
   )
 
+  console.log(estimates)
   // Get width of window
   useResizeableWindow(setIsMobile)
 
