@@ -10,6 +10,7 @@ import { useGetAdvancedSearchConfigQuery } from './redux/api/ml_api'
 import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
+import { activateSearchBroadcast } from './lib/searchBroadcast'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;
@@ -86,8 +87,14 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    if (initialized && !config.env.luxEnv.includes('production')) {
-      embedBugherdScript()
+    if (initialized) {
+      // `initialized` is also set on failure, in which case the allowlist is
+      // empty and search broadcasting stays off.
+      activateSearchBroadcast()
+
+      if (!config.env.luxEnv.includes('production')) {
+        embedBugherdScript()
+      }
     }
   }, [initialized])
 

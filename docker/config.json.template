@@ -42,5 +42,9 @@
   {
     "key": "MAINTENANCE_MESSAGE",
     "value": "LUX is down for maintenance. Please come back later."
+  },
+  {
+    "key": "BROADCAST_SEARCH_ALLOWED_ORIGINS",
+    "value": ""
   }
 ]

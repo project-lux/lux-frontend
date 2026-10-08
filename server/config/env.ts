@@ -38,3 +38,9 @@ export const maintenanceMessage = getString(process.env.MAINTENANCE_MESSAGE)
 export const cacheViewerMode = getBool(process.env.CACHE_VIEWER_MODE)
 
 export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
+
+// Comma-separated list of origins permitted to request search broadcasts.
+// Defaults to an empty string rather than null so /env never emits null and
+// an unset variable disables the feature.
+export const broadcastSearchAllowedOrigins =
+  getString(process.env.BROADCAST_SEARCH_ALLOWED_ORIGINS) || ''
