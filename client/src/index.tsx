@@ -6,6 +6,12 @@ import { Provider } from 'react-redux'
 
 import App from './App'
 import { store } from './app/store'
+import { installSearchBroadcastListener } from './lib/searchBroadcast'
+
+// Registered before the first render so a BROADCAST_SEARCH sent immediately
+// after load is captured. Requests are only authorized later, once the
+// allowlist arrives with the rest of the configuration.
+installSearchBroadcastListener()
 
 const container = document.getElementById('root')
 

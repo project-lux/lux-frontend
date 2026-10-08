@@ -33,6 +33,7 @@ class Config {
       luxWikidataManifestPrefix: localEnv.luxWikidataManifestPrefix,
       luxFeedbackUrl: localEnv.luxFeedbackUrl,
       bugherdApiKey: localEnv.bugherdApiKey,
+      broadcastSearchAllowedOrigins: localEnv.broadcastSearchAllowedOrigins,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -51,6 +52,8 @@ class Config {
       luxWikidataManifestPrefix: data.luxWikidataManifestPrefix,
       luxFeedbackUrl: data.luxFeedbackUrl,
       bugherdApiKey: data.bugherdApiKey,
+      // Defaulted because a server predating this feature omits the key
+      broadcastSearchAllowedOrigins: data.broadcastSearchAllowedOrigins ?? '',
     }
   }
 
