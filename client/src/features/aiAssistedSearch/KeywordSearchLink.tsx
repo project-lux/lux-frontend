@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link, useParams, useLocation } from 'react-router-dom'
 
-import config from '../../config/config'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetTranslateKeywordSearchQuery } from '../../redux/api/ml_api'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
@@ -10,20 +9,6 @@ import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
 interface IProps {
   searchString: string
   resetDisambiguation: () => void
-}
-
-/**
- * Removes any words in the config's stop words list from the searchString.
- */
-export function removeStopWords(searchString: string): string {
-  return searchString
-    .split(/\s+/)
-    .filter(
-      (word) =>
-        word !== '' &&
-        !config.advancedSearch.stopWords.includes(word.toLowerCase()),
-    )
-    .join(' ')
 }
 
 const KeywordSearchLink: React.FC<IProps> = ({
@@ -50,6 +35,7 @@ const KeywordSearchLink: React.FC<IProps> = ({
       dataCopy,
       searchString,
       tab,
+      true,
     )
 
     return (

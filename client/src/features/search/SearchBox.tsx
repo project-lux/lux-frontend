@@ -324,6 +324,7 @@ const SearchBox: React.FC<{
             className="searchBoxDisambiguation"
             width={searchBoxWidth}
             resetDisambiguation={handleDisambiguationLinkSelection}
+            generateNewSuggestions={submitForm}
           />
         </Col>
       )}

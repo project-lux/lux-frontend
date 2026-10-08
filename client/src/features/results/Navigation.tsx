@@ -14,6 +14,7 @@ import LoadingSpinner from '../common/LoadingSpinner'
 import {
   defaultEstimates,
   isAdvancedSearch,
+  isKeywordSearch,
   isSimpleSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
@@ -57,11 +58,15 @@ const Navigation: React.FC<INavigation> = ({
   const { qt, facetRequest, searchType } = getUrlState(urlParams, tab)
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
+  const keywordSearch = isKeywordSearch(
+    urlParams.get('isKeywordSearch') ?? 'false',
+  )
+
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
   const params =
-    simpleSearch && !isSwitchToSimpleSearch
+    (simpleSearch || keywordSearch) && !isSwitchToSimpleSearch
       ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
       : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
 
