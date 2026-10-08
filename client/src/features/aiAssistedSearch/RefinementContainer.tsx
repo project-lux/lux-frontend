@@ -157,7 +157,7 @@ const RefinementContainer: React.FC = () => {
                   {formLabel}
                 </Form.Label>
                 &nbsp;
-                <Form.Text>{formText}</Form.Text>
+                <Form.Text style={{ fontSize: '16px' }}>{formText}</Form.Text>
                 <div className="position-relative mb-3">
                   <InputGroup
                     size="lg"
@@ -206,6 +206,7 @@ const RefinementContainer: React.FC = () => {
                         searchString={newQuery !== null ? newQuery : ''}
                         className="refinementDisambiguation"
                         resetDisambiguation={handleDisambiguationLinkSelection}
+                        generateNewSuggestions={handleAiSearchSubmit}
                       />
                     </div>
                   )}

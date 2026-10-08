@@ -64,15 +64,9 @@ const ResultsPage: React.FC = () => {
   const isAdvancedSearch =
     urlParams.has(SEARCH_TYPE_PARAM) &&
     urlParams.get(SEARCH_TYPE_PARAM) === 'advanced'
-  // if the SEARCH_TYPE_PARAM is set to 'aiAssisted' then the current search is an AI assisted search
-  // const isAiSearch =
-  //   urlParams.has(SEARCH_TYPE_PARAM) &&
-  //   urlParams.get(SEARCH_TYPE_PARAM) === 'aiAssisted'
-  // if the AI_REFINEMENT_PARAM is set to true then the user has selected to refine their AI assisted search
-  // const isAiRefinementSearch =
-  //   (urlParams.has(AI_REFINEMENT_PARAM) &&
-  //     urlParams.get(AI_REFINEMENT_PARAM) === 'true') ||
-  //   false
+  const isKeywordSearch =
+    urlParams.has('isKeywordSearch') &&
+    urlParams.get('isKeywordSearch') === 'true'
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
@@ -102,7 +96,7 @@ const ResultsPage: React.FC = () => {
     (searchState) => searchState.currentSearch as ICurrentSearchState,
   )
   const isAiSearch = asSearchState.isAiSearch
-
+  const skipSearchQuery = tab !== queryTab && isAdvancedSearch
   /*
    Query will be skipped if the user has entered empty search string
    Or if there are no search params visible in the URL string, indicating
@@ -121,8 +115,7 @@ const ResultsPage: React.FC = () => {
       rnd,
     },
     {
-      skip:
-        searchStringWithFacets === '' || fromLandingPage || tab !== queryTab,
+      skip: searchStringWithFacets === '' || fromLandingPage || skipSearchQuery,
     },
   )
 
@@ -161,7 +154,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab ? (
+        {tab !== queryTab && !isKeywordSearch ? (
           <Col>
             <Alert
               variant="info"
