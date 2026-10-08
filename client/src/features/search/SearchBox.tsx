@@ -320,7 +320,6 @@ const SearchBox: React.FC<{
         >
           <Disambiguation
             aiDisambiguation={aiDisambiguation}
-            searchString={currentState.value !== null ? currentState.value : ''}
             className="searchBoxDisambiguation"
             width={searchBoxWidth}
             resetDisambiguation={handleDisambiguationLinkSelection}

@@ -18,6 +18,10 @@ All notable changes to this project will be documented in this file.
 
 - Changed the advanced search functionality to accommodate the new AI features ([#1017](https://github.com/project-lux/lux-frontend/issues/1017)).
 
+### Fixed
+
+- Fixed keyword search ([#1014](https://github.com/project-lux/lux-frontend/issues/1014)).
+
 ## v1.77.0 - 2026-08-31
 
 ### Removed
