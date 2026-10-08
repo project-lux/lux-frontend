@@ -186,6 +186,7 @@ export const mlApi: any = createApi({
         qt: string
         params: Record<string, string> | string
         isSwitchToSimpleSearch: boolean
+        isCurrentSearchKeywordSearch: boolean
       }
     >({
       queryFn({
