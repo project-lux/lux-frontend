@@ -203,7 +203,6 @@ const RefinementContainer: React.FC = () => {
                     <div ref={disambiguationRef}>
                       <Disambiguation
                         aiDisambiguation={aiDisambiguation}
-                        searchString={newQuery !== null ? newQuery : ''}
                         className="refinementDisambiguation"
                         resetDisambiguation={handleDisambiguationLinkSelection}
                         generateNewSuggestions={handleAiSearchSubmit}

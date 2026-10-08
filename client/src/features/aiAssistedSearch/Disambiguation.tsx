@@ -43,7 +43,6 @@ const StyledDisambiguation = styled(Row)<{ $width?: number }>`
 
 const Disambiguation: React.FC<{
   aiDisambiguation: Array<IAiDisambiguation>
-  searchString: string
   className: string
   resetDisambiguation: () => void
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -51,17 +50,11 @@ const Disambiguation: React.FC<{
   width?: number
 }> = ({
   aiDisambiguation,
-  searchString,
   className,
   resetDisambiguation,
   width,
   generateNewSuggestions,
 }) => {
-  // const { search } = useLocation()
-  // const urlParams = new URLSearchParams(search)
-  // const isAiRefinementSearch =
-  //   urlParams.get(AI_REFINEMENT_PARAM) === 'true' || false
-
   const { search } = useLocation()
   const lineHeight = { lineHeight: '1.5rem' }
 
@@ -79,7 +72,7 @@ const Disambiguation: React.FC<{
       </Col>
       <Col xs={12} className="mb-3 d-flex justify-content-start">
         <KeywordSearchLink
-          searchString={searchString}
+          keywordSearchFromDisambiguation={aiDisambiguation[0]}
           resetDisambiguation={resetDisambiguation}
         />
       </Col>
@@ -94,7 +87,7 @@ const Disambiguation: React.FC<{
       </Col>
       <Col xs={12} className="mt-2 d-flex justify-content-start">
         <Row as="ul" className="list-unstyled mb-0">
-          {aiDisambiguation.map((queryData, ind) => {
+          {aiDisambiguation.slice(1).map((queryData, ind) => {
             const newTab =
               scopeToTabTranslation[queryData.query._scope as string]
             const newUrlParams = AiDisambigationParser.getUrlParams(
@@ -103,6 +96,7 @@ const Disambiguation: React.FC<{
               queryData.natural,
               newTab,
               false,
+              'advanced',
             )
             return (
               <Col as="li" xs={12} key={ind} className="mb-2">
