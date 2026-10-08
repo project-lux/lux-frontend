@@ -48,11 +48,14 @@ const InterpretationContainer: React.FC<IProps> = ({
   const { search } = useLocation()
   const urlSearchParams = new URLSearchParams(search)
   const currentQueryTab = urlSearchParams.get('qt')
-  urlSearchParams.set(SEARCH_TYPE_PARAM, 'advanced')
+  const isKeywordSearch = urlSearchParams.get('isKeywordSearch') === 'true'
 
   // set a default empty object for query if 'q' parameter is not present
   let query = {}
-  if (urlSearchParams.has('q') && currentQueryTab === tab) {
+  if (
+    (urlSearchParams.has('q') && currentQueryTab) === tab ||
+    isKeywordSearch
+  ) {
     query = JSON.parse(urlSearchParams.get('q')!)
   }
 
@@ -62,6 +65,8 @@ const InterpretationContainer: React.FC<IProps> = ({
       AI-Assisted Interpretation:&nbsp;
     </p>
   )
+
+  urlSearchParams.set(SEARCH_TYPE_PARAM, 'advanced')
 
   if (isMobile) {
     return (

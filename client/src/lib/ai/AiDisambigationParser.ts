@@ -80,6 +80,7 @@ export default class AiDisambigationParser {
     queryData: IAdvancedSearchState,
     sq: string,
     qt: string,
+    isKeywordSearch: boolean,
   ): URLSearchParams => {
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set('q', JSON.stringify(queryData))
@@ -93,6 +94,11 @@ export default class AiDisambigationParser {
         : 'simple',
     )
     newUrlParams.delete('openQB')
+    if (!isKeywordSearch) {
+      newUrlParams.delete('isKeywordSearch')
+    } else {
+      newUrlParams.set('isKeywordSearch', 'true')
+    }
     return newUrlParams
   }
 

@@ -81,8 +81,6 @@ const AgentsRow: React.FC<{
 // Create top level agent row
 const agentRow = (
   agents: IEventAgent[],
-  keyClassName: string,
-  valueClassName: string,
   stackKeyValuePairs: boolean,
   componentId: string,
 ): JSX.Element[] => {
@@ -143,7 +141,7 @@ const ProductionEventBody: React.FC<IProps> = ({
 
   return (
     <React.Fragment>
-      {agentRow(agents, keyClassName, valueClassName, stackKeyValuePairs, id)}
+      {agentRow(agents, stackKeyValuePairs, id)}
       {dates.length > 0 && (
         <Row>
           <div className={keyClassName}>
