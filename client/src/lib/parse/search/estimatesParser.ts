@@ -96,7 +96,6 @@ export const getEstimatesRequests = (
     return getAdvancedSearchEstimates(params as string, qt)
   }
 
-  console.log(params)
   return getSimpleSearchEstimates(params as Record<string, string>)
 }
 

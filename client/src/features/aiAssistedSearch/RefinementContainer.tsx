@@ -14,6 +14,7 @@ import { StyledContainer } from '../../styles/features/advancedSearch/AdvancedSe
 import FormHeader from '../advancedSearch/FormHeader'
 import StyledHr from '../../styles/shared/Hr'
 import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import Disambiguation from './Disambiguation'
 import InterpretationContainer from './InterpretationContainer'
@@ -81,6 +82,11 @@ const RefinementContainer: React.FC = () => {
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
   ): void => {
     event.preventDefault()
+    pushClientEvent(
+      'Search Button',
+      'Submit',
+      isNewAdvancedSearch ? 'AI-Assisted Search' : 'Refined Search',
+    )
     translate({
       query: newQuery,
       isAiSearch: true,
@@ -120,6 +126,15 @@ const RefinementContainer: React.FC = () => {
   const handleDisambiguationLinkSelection = (): void => {
     setIsAccordionExpanded(false)
     setAiDisambiguation([])
+  }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const handleAccordionSelect = (eventKey: any): void => {
+    setIsAccordionExpanded(eventKey === '0')
+    pushClientEvent(
+      'Accordion Item',
+      isAccordionExpanded ? 'Close' : 'Open',
+      'Advanced Search',
+    )
   }
 
   return (
@@ -241,7 +256,7 @@ const RefinementContainer: React.FC = () => {
           <Accordion
             className="bg-light"
             defaultActiveKey={isAccordionExpanded ? '0' : null}
-            onSelect={(eventKey) => setIsAccordionExpanded(eventKey === '0')}
+            onSelect={(eventKey) => handleAccordionSelect(eventKey)}
             data-testid="query-builder-accordion"
           >
             <Accordion.Item eventKey="0">
