@@ -28,7 +28,7 @@ const AdvancedSearchLink: React.FC<{
         fontSize: '1rem',
       }}
       onClick={() =>
-        pushClientEvent('Search Switch', 'Selected', 'To Advanced Search')
+        pushClientEvent('Search Link', 'Selected', 'To Advanced Search')
       }
     >
       Advanced Search

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 import theme from '../../styles/theme'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import AiInfoPopover from './AiInfoPopover'
 
@@ -115,13 +116,22 @@ const AiToggleButton: React.FC<IToggleButtonProps> = ({
   handleToggle,
   isInHeader = false,
 }) => {
+  const handleToggleClick = (): void => {
+    pushClientEvent(
+      'Toggle Button',
+      'Selected',
+      `AI-Assisted Search ${isAiSearch ? 'Off' : 'On'}`,
+    )
+    handleToggle()
+  }
+
   return (
     <StyledWrapper>
       <StyledSwitch className="aiAssistedSearchToggleButton">
         <StyledSwitchInput
           type="checkbox"
           checked={isAiSearch}
-          onChange={handleToggle}
+          onChange={handleToggleClick}
           data-testid="toggle-ai-assisted-search-button"
         />
         <StyledSwitchSlider

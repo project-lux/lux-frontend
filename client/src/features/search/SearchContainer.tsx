@@ -17,14 +17,9 @@ import {
   OPT_OUT_MODAL_TEXT,
   OPT_OUT_MODAL_CONFIRM_BUTTON_TEXT,
   OPT_OUT_MODAL_CANCEL_BUTTON_TEXT,
-  SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 import AlertModal from '../advancedSearch/AlertModal'
-import {
-  DEFAULT_PAGE_LENGTH,
-  scopeToTabTranslation,
-  searchScope,
-} from '../../config/searchTypes'
+import { DEFAULT_PAGE_LENGTH, searchScope } from '../../config/searchTypes'
 import { checkForStopWords, translate } from '../../lib/util/translate'
 import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 import { validateInput } from '../../lib/parse/search/searchBoxHelper'
@@ -93,7 +88,7 @@ const SearchContainer: React.FC<IProps> = ({
     pushClientEvent(
       'Search Switch',
       'Selected',
-      'Cancel Switch to Simple Search',
+      isAiSearch ? 'Keep AI-Assisted Search' : 'Keep Standard Search',
     )
   }
 
@@ -142,9 +137,7 @@ const SearchContainer: React.FC<IProps> = ({
     pushClientEvent(
       'Search Switch',
       'Selected',
-      isAiSearch
-        ? 'Confirm Switch to Standard Search'
-        : 'Confirm Switch to AI-Assisted Search',
+      isAiSearch ? 'Use Standard Search' : 'Use AI-Assisted Search',
     )
     setShowModal(false)
   }
@@ -172,36 +165,18 @@ const SearchContainer: React.FC<IProps> = ({
           pushClientEvent(
             'Search Button',
             'Submit',
-            isAiSearch ? 'AI Search' : 'Simple Search',
+            isAiSearch ? 'AI-Assisted Search' : 'Simple Search',
           )
           if (isAiSearch) {
+            // Event to push the user's search string to the analytics site
+            pushClientEvent('Search Button', 'Submit', valueToSubmit)
             setIsSearchLoading(false)
             const jsonTranslatedString = JSON.parse(translatedString)
             if (jsonTranslatedString.length > 0) {
               setAiDisambiguation(jsonTranslatedString)
               return
             } else {
-              const query = jsonTranslatedString[0].query
-              newTab = scopeToTabTranslation[query._scope]
-              delete query._scope
-              newUrlParams.set('q', JSON.stringify(query))
-              newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-              newUrlParams.set(
-                SEARCH_TYPE_PARAM,
-                isAiSearch ? 'aiAssisted' : 'simple',
-              )
-              newUrlParams.set('sq', valueToSubmit)
-              navigate(
-                {
-                  pathname: `/view/results/${newTab}`,
-                  search: `${newUrlParams.toString()}`,
-                },
-                {
-                  state: {
-                    fromNonResultsPage: !isResultsPage,
-                  },
-                },
-              )
+              setIsError(true)
             }
           } else {
             const query = JSON.parse(translatedString)

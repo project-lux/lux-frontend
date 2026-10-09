@@ -42,7 +42,7 @@ const KeywordSearchLink: React.FC<IProps> = ({
         search: newUrlParams.toString(),
       }}
       onClick={() => {
-        pushClientEvent('Keyword Search', 'Selected', natural)
+        pushClientEvent('Search Link', 'Selected', 'Keyword Search')
         resetDisambiguation()
       }}
       data-testid="keyword-search-link"
