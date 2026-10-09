@@ -127,7 +127,7 @@ const RefinementContainer: React.FC = () => {
       <StyledContainer
         className="refinementSearchBody"
         $asBodyBorderTopLeftRadius={tab === 'objects' ? '0px' : undefined}
-        data-testid="refined-search-form-container"
+        data-testid="refine-search-container"
       >
         <FormHeader tab={tab} originalSearchString={originalSearchString} />
         <StyledHr width="100%" />
@@ -186,6 +186,11 @@ const RefinementContainer: React.FC = () => {
                         setNewQuery(e.target.value)
                       }
                       aria-describedby="refine-search-label"
+                      data-testid={
+                        isNewAdvancedSearch
+                          ? 'ai-assisted-search-input'
+                          : 'refine-search-input'
+                      }
                     />
                     {newQuery !== '' && (
                       <button
@@ -193,7 +198,11 @@ const RefinementContainer: React.FC = () => {
                         className="btn clearButton bg-white"
                         aria-label="clear search input"
                         onClick={() => setNewQuery('')}
-                        data-testid="refine-search-clear-button"
+                        data-testid={
+                          isNewAdvancedSearch
+                            ? 'ai-assisted-search-clear-button'
+                            : 'refine-search-clear-button'
+                        }
                       >
                         <i className="bi bi-x-lg" />
                       </button>
@@ -216,6 +225,11 @@ const RefinementContainer: React.FC = () => {
                 type="submit"
                 className="mb-3 p-2"
                 onClick={(e) => handleAiSearchSubmit(e)}
+                data-testid={
+                  isNewAdvancedSearch
+                    ? 'ai-assisted-search-submit-button'
+                    : 'refine-search-submit-button'
+                }
               >
                 <i className="bi bi-stars" />
                 Search&nbsp;{isLoading && <LoadingSpinner size="sm" />}
@@ -228,6 +242,7 @@ const RefinementContainer: React.FC = () => {
             className="bg-light"
             defaultActiveKey={isAccordionExpanded ? '0' : null}
             onSelect={(eventKey) => setIsAccordionExpanded(eventKey === '0')}
+            data-testid="query-builder-accordion"
           >
             <Accordion.Item eventKey="0">
               <StyledAccordionHeader className="d-flex align-items-center">

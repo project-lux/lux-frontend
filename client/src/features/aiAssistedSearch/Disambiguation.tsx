@@ -109,6 +109,7 @@ const Disambiguation: React.FC<{
                       }}
                       className="fw-medium"
                       onClick={(): void => resetDisambiguation()}
+                      data-testid={`disambiguation-search-link-${ind}`}
                     >
                       {queryData.natural}
                     </Link>

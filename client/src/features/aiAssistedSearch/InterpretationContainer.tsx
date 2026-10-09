@@ -107,7 +107,7 @@ const InterpretationContainer: React.FC<IProps> = ({
         <LinkButton
           variant="link"
           href={`/view/results/${tab}?${urlSearchParams.toString()}`}
-          data-testid="refine-search-with-ai-button"
+          data-testid="refine-search-link"
           className="ms-auto text-decoration-none"
         >
           Refine Search
