@@ -62,7 +62,7 @@ const FormHeader: React.FC<{
     pushClientEvent(
       'Search Switch',
       'Selected',
-      'Cancel Switch to Simple Search',
+      isAiSearch ? 'Keep AI-Assisted Search' : 'Keep Advanced Search',
     )
   }
 
@@ -79,6 +79,11 @@ const FormHeader: React.FC<{
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
     newUrlParams.delete('sq')
     setShowModal(false)
+    pushClientEvent(
+      'Search Switch',
+      'Selected',
+      nextIsActive ? 'Use AI-Assisted Search' : 'Use Advanced Search',
+    )
     navigate(
       {
         pathname: `${pathname}${!isUndefined(currentSearchScope) && isUndefined(tab) ? `/${currentSearchScope}` : ''}`,

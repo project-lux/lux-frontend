@@ -9,6 +9,7 @@ import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import { ResultsTab } from '../../types/ResultsTab'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import InterpretationRow from './InterpretationRow'
 
@@ -109,6 +110,9 @@ const InterpretationContainer: React.FC<IProps> = ({
           href={`/view/results/${tab}?${urlSearchParams.toString()}`}
           data-testid="refine-search-link"
           className="ms-auto text-decoration-none"
+          onClick={(): void =>
+            pushClientEvent('Search Link', 'Selected', 'Refine Search')
+          }
         >
           Refine Search
         </LinkButton>
