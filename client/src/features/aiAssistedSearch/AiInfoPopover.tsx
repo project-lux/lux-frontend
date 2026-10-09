@@ -38,7 +38,7 @@ const AiInfoPopover: React.FC<IProps> = ({ buttonColor }) => {
           background: 'none',
           color: buttonColor,
         }}
-        aria-label="Learn more about AI Assisted Search"
+        aria-label="Learn more about AI-Assisted Search"
       >
         <i
           className="bi bi-info-circle"

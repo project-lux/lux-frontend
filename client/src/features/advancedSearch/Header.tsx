@@ -8,8 +8,8 @@ import { ErrorFallback } from '../error/ErrorFallback'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import ErrorMessage from '../search/ErrorMessage'
 import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
   SEARCH_TYPE_PARAM,
-  // AI_REFINEMENT_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
 import CloseButton from './CloseButton'
@@ -20,12 +20,13 @@ import AlertModal from './AlertModal'
  * @returns
  */
 const Header: React.FC = () => {
+  const isAiSearch = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const queryParams = new URLSearchParams(search)
-  // const isRefineSearch = queryParams.has(AI_REFINEMENT_PARAM)
-  //   ? queryParams.get(AI_REFINEMENT_PARAM) === 'true'
-  //   : false
   const searchType = queryParams.has(SEARCH_TYPE_PARAM)
     ? queryParams.get(SEARCH_TYPE_PARAM)
     : null
@@ -37,7 +38,7 @@ const Header: React.FC = () => {
     pushClientEvent(
       'Search Switch',
       'Selected',
-      'Cancel Switch to Simple Search',
+      isAiSearch ? 'Keep AI-Assisted Search' : 'Keep Standard Search',
     )
   }
 
@@ -46,7 +47,7 @@ const Header: React.FC = () => {
     pushClientEvent(
       'Search Switch',
       'Selected',
-      'Confirm Switch to Simple Search',
+      isAiSearch ? 'Use Standard Search' : 'Use AI-Assisted Search',
     )
     // If it is an advanced search and not a refinement, set the search type to simple
     if (searchType === 'advanced') {

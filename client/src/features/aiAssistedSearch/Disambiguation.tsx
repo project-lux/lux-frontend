@@ -7,6 +7,7 @@ import { scopeToTabTranslation } from '../../config/searchTypes'
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import theme from '../../styles/theme'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
+import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import KeywordSearchLink from './KeywordSearchLink'
 import InterpretationRow from './InterpretationRow'
@@ -65,6 +66,11 @@ const Disambiguation: React.FC<{
     resetDisambiguation()
   }
 
+  const handleDisambiguationLinkClick = (): void => {
+    pushClientEvent('Search Link', 'Selected', 'Disambiguation')
+    resetDisambiguation()
+  }
+
   return (
     <StyledDisambiguation className={className} $width={width}>
       <Col xs={12} className="mt-3 d-flex justify-content-start">
@@ -108,7 +114,7 @@ const Disambiguation: React.FC<{
                         search: newUrlParams.toString(),
                       }}
                       className="fw-medium"
-                      onClick={(): void => resetDisambiguation()}
+                      onClick={(): void => handleDisambiguationLinkClick()}
                       data-testid={`disambiguation-search-link-${ind}`}
                     >
                       {queryData.natural}
