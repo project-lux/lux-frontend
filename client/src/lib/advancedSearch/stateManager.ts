@@ -328,7 +328,7 @@ export const removeObjectFromState = (
   if (objectToRemovePropIsGroup) {
     Object.keys(objectToRemove).map((key) => {
       // if the key is not the _stateId and the object is at the top level
-      if (key !== '_stateId') {
+      if (key !== '_stateId' && key !== '_scope') {
         delete objectToRemove[key]
       }
       return null
@@ -401,7 +401,7 @@ export const convertAqSearchParam = (
 ): IAdvancedSearchState => {
   let newBgColor = parentBgColor
   const keys = Object.keys(jsonAqParamValue)
-  // Remove scope as it is not needed for rendering and scope gets passed via the current tab
+  // Remove scope as it is not needed where it is currently nested
   if (keys.includes('_scope')) {
     delete jsonAqParamValue._scope
   }

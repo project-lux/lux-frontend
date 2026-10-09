@@ -1,13 +1,18 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ErrorBoundary } from 'react-error-boundary'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 import StyledTitleHeader from '../../styles/features/advancedSearch/TitleHeader'
 import { ErrorFallback } from '../error/ErrorFallback'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import ErrorMessage from '../search/ErrorMessage'
+import {
+  AI_ASSISTED_SEARCH_STORAGE_KEY,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
-import ToggleButton from './ToggleSearchButton'
+import CloseButton from './CloseButton'
 import AlertModal from './AlertModal'
 
 /**
@@ -15,6 +20,16 @@ import AlertModal from './AlertModal'
  * @returns
  */
 const Header: React.FC = () => {
+  const isAiSearch = useState<boolean>(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    return storedIsActive ? JSON.parse(storedIsActive) : false
+  })
+  const navigate = useNavigate()
+  const { pathname, search } = useLocation()
+  const queryParams = new URLSearchParams(search)
+  const searchType = queryParams.has(SEARCH_TYPE_PARAM)
+    ? queryParams.get(SEARCH_TYPE_PARAM)
+    : null
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean>(false)
 
@@ -23,15 +38,56 @@ const Header: React.FC = () => {
     pushClientEvent(
       'Search Switch',
       'Selected',
-      'Cancel Switch to Simple Search',
+      isAiSearch ? 'Keep AI-Assisted Search' : 'Keep Standard Search',
     )
+  }
+
+  const handleOnConfirm = (): void => {
+    setShowModal(false)
+    pushClientEvent(
+      'Search Switch',
+      'Selected',
+      isAiSearch ? 'Use Standard Search' : 'Use AI-Assisted Search',
+    )
+    // If it is an advanced search and not a refinement, set the search type to simple
+    if (searchType === 'advanced') {
+      queryParams.set(SEARCH_TYPE_PARAM, 'simple')
+    }
+    navigate({
+      pathname,
+      search: `?${queryParams.toString()}`,
+    })
+  }
+
+  let title = 'Switch to Standard Search?'
+  let text =
+    'Are you sure you want to switch to simple search? You will lose your advanced search settings.'
+  let confirmButtonText = 'Use Standard Search'
+  let cancelButtonText = 'Keep Advanced Search'
+
+  if (searchType === 'advanced') {
+    title = 'Close the Advanced Search?'
+    text =
+      'Are you sure you want to close the advanced search? You will lose any advanced search changes you have not submitted.'
+    confirmButtonText = 'Close Advanced Search'
   }
 
   return (
     <Row className="mx-0">
       <ErrorBoundary FallbackComponent={ErrorFallback}>
         {showModal && (
-          <AlertModal showModal={showModal} onClose={handleCloseModal} />
+          <AlertModal
+            showModal={showModal}
+            onConfirm={handleOnConfirm}
+            onClose={handleCloseModal}
+            title={title}
+            text={text}
+            confirmButtonText={confirmButtonText}
+            cancelButtonText={cancelButtonText}
+            confirmButtonDataTestId="close-advanced-search-button"
+            cancelButtonDataTestId="keep-advanced-search-button"
+            modalDataTestId="close-advanced-search-modal"
+          />
         )}
         {isError && (
           <Col xs={12} className="mt-2 w-75">
@@ -48,10 +104,7 @@ const Header: React.FC = () => {
               xs={12}
               className="d-flex align-items-center justify-content-end"
             >
-              <ToggleButton
-                setIsError={setIsError}
-                setShowModal={setShowModal}
-              />
+              <CloseButton setShowModal={setShowModal} key={search} />
             </Col>
           </StyledTitleHeader>
         </Col>

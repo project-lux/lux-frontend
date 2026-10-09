@@ -11,6 +11,11 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import config from '../../config/config'
+import {
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
 import ResultSnippet from './ResultSnippet'
 
@@ -72,7 +77,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
-                )}&searchLink=true`}
+                )}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`}
                 onClick={() =>
                   pushClientEvent('Search Link', 'Selected', `Tab ${title}`)
                 }

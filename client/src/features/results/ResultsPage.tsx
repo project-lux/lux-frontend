@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation, useParams } from 'react-router-dom'
 import { Alert, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
-import { useAppDispatch } from '../../app/hooks'
-import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
 import { getParamPrefix } from '../../lib/util/params'
@@ -16,6 +14,13 @@ import {
 } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import {
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
@@ -32,7 +37,11 @@ const ResponsiveCol = styled(Col)`
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
-  const dispatch = useAppDispatch()
+  // const [isAiSearch] = useState<boolean>(() => {
+  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+  //   return storedIsActive ? JSON.parse(storedIsActive) : false
+  // })
+
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
@@ -47,8 +56,17 @@ const ResultsPage: React.FC = () => {
   const urlParams = new URLSearchParams(search)
   const fromLandingPage = isFromLandingPage(state)
   // Check if current tab q exist
-  const hasSimpleSearchQuery =
-    urlParams.has('sq') && urlParams.get('aiSearch') === 'false'
+  // logic to determine if the current search is a simple search
+  const isSimpleSearch =
+    urlParams.has(SEARCH_TYPE_PARAM) &&
+    urlParams.get(SEARCH_TYPE_PARAM) === 'simple'
+  // logic to determine if the current search is an advanced search
+  const isAdvancedSearch =
+    urlParams.has(SEARCH_TYPE_PARAM) &&
+    urlParams.get(SEARCH_TYPE_PARAM) === 'advanced'
+  const isKeywordSearch =
+    urlParams.has('isKeywordSearch') &&
+    urlParams.get('isKeywordSearch') === 'true'
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
@@ -59,7 +77,6 @@ const ResultsPage: React.FC = () => {
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
     urlParams.get('fromAdvanced') === 'true' || false
-  const isAiSearch = urlParams.get('aiSearch') === 'true' || false
   const facetSearchString = urlParams.get(`${paramPrefix}f`) || null
   let searchStringWithFacets = ''
 
@@ -75,6 +92,11 @@ const ResultsPage: React.FC = () => {
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined
 
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
+  const skipSearchQuery = tab !== queryTab && isAdvancedSearch
   /*
    Query will be skipped if the user has entered empty search string
    Or if there are no search params visible in the URL string, indicating
@@ -93,18 +115,9 @@ const ResultsPage: React.FC = () => {
       rnd,
     },
     {
-      skip:
-        searchStringWithFacets === '' || fromLandingPage || tab !== queryTab,
+      skip: searchStringWithFacets === '' || fromLandingPage || skipSearchQuery,
     },
   )
-
-  useEffect(() => {
-    if (!hasSimpleSearchQuery) {
-      dispatch(changeCurrentSearchState({ value: 'advanced' }))
-    } else {
-      dispatch(changeCurrentSearchState({ value: 'simple' }))
-    }
-  }, [dispatch, hasSimpleSearchQuery])
 
   // Get width of window
   useResizeableWindow(setIsMobile)
@@ -114,8 +127,7 @@ const ResultsPage: React.FC = () => {
       <h1 hidden>{title}</h1>
       <ResultsSearchContainer
         key={tab}
-        isSimpleSearch={hasSimpleSearchQuery}
-        isAiSearch={isAiSearch}
+        isAdvancedSearch={isAdvancedSearch}
         urlParams={urlParams}
         queryString={queryString}
         search={search}
@@ -124,20 +136,16 @@ const ResultsPage: React.FC = () => {
       <StyledEntityPageSection
         className="row mx-3 resultsEntityPageSection results"
         $borderTopLeftRadius={
-          tab === 'objects' && !isMobile && hasSimpleSearchQuery
-            ? '0px'
-            : undefined
+          tab === 'objects' && !isMobile && isSimpleSearch ? '0px' : undefined
         }
         $borderTopRightRadius={
-          tab === 'events' && !isMobile && hasSimpleSearchQuery
-            ? '0px'
-            : undefined
+          tab === 'events' && !isMobile && isSimpleSearch ? '0px' : undefined
         }
       >
         {isMobile && (
           <ResponsiveCol xs={12} className="px-0">
             <MobileNavigation
-              isSimpleSearch={hasSimpleSearchQuery}
+              isSimpleSearch={isSimpleSearch}
               urlParams={urlParams}
               queryString={queryString}
               search={search}
@@ -146,7 +154,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab ? (
+        {tab !== queryTab && !isKeywordSearch ? (
           <Col>
             <Alert
               variant="info"

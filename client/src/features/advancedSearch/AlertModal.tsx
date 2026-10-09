@@ -1,18 +1,25 @@
 import React from 'react'
 import { Button, Modal } from 'react-bootstrap'
-import { useNavigate, useLocation } from 'react-router-dom'
-import { isNull } from 'lodash'
+// import { useNavigate, useLocation } from 'react-router-dom'
+// import { isNull } from 'lodash'
 
-import { resetState } from '../../redux/slices/advancedSearchSlice'
-import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { changeCurrentSearchState } from '../../redux/slices/currentSearchSlice'
-import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
-import { pushClientEvent } from '../../lib/pushClientEvent'
-import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
+// import { resetState } from '../../redux/slices/advancedSearchSlice'
+// import { useAppDispatch, useAppSelector } from '../../app/hooks'
+// import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
+// import { pushClientEvent } from '../../lib/pushClientEvent'
+// import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 
 interface IAlertModal {
   showModal: boolean
+  onConfirm: () => void
   onClose: () => void
+  title: string
+  text: string
+  confirmButtonText: string
+  cancelButtonText: string
+  confirmButtonDataTestId: string
+  cancelButtonDataTestId: string
+  modalDataTestId: string
 }
 
 /**
@@ -21,60 +28,51 @@ interface IAlertModal {
  * @param {() => void} onClose function to close the modal
  * @returns
  */
-const AlertModal: React.FC<IAlertModal> = ({ showModal, onClose }) => {
-  const simpleSearchState = useAppSelector(
-    (state) => state.simpleSearch as ISimpleSearchState,
-  )
-
-  const { pathname, search } = useLocation()
-  const navigate = useNavigate()
-  const urlParams = new URLSearchParams(search)
-
-  const dispatch = useAppDispatch()
-
-  const handleContinueToSimpleSearch = (): void => {
-    dispatch(changeCurrentSearchState({ value: 'simple' }))
-    dispatch(addSelectedHelpText({ value: 'searchSwitch' }))
-    onClose()
-    dispatch(resetState())
-    const { value } = simpleSearchState
-    urlParams.set('sq', !isNull(value) ? value : '')
-    urlParams.set('fromAdvanced', 'true')
-    // urlParams.delete('qt')
-    pushClientEvent('Search Switch', 'Selected', 'Continue To Simple Search')
-    navigate(`${pathname}?${urlParams.toString()}`)
-  }
-
-  return (
-    <Modal
-      show={showModal}
-      onHide={() => onClose()}
-      backdrop="static"
-      keyboard={false}
-      animation={false}
-      aria-describedby="modalBody"
-      aria-labelledby="modalTitle"
-      data-testid="alert-modal"
-    >
-      <Modal.Dialog className="my-0">
-        <Modal.Header closeButton>
-          <Modal.Title id="modalTitle">Warning</Modal.Title>
-        </Modal.Header>
-        <Modal.Body id="modalBody">
-          You are about to leave the advanced search form. All input will be
-          lost. Do you wish to continue?
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => onClose()}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleContinueToSimpleSearch}>
-            Continue
-          </Button>
-        </Modal.Footer>
-      </Modal.Dialog>
-    </Modal>
-  )
-}
+const AlertModal: React.FC<IAlertModal> = ({
+  showModal,
+  onConfirm,
+  onClose,
+  title,
+  text,
+  confirmButtonText,
+  cancelButtonText,
+  confirmButtonDataTestId,
+  cancelButtonDataTestId,
+  modalDataTestId,
+}) => (
+  <Modal
+    show={showModal}
+    onHide={() => onClose()}
+    backdrop="static"
+    keyboard={false}
+    animation={false}
+    aria-describedby="modalBody"
+    aria-labelledby="modalTitle"
+    data-testid={modalDataTestId}
+  >
+    <Modal.Dialog className="m-0">
+      <Modal.Header closeButton>
+        <Modal.Title id="modalTitle">{title}</Modal.Title>
+      </Modal.Header>
+      <Modal.Body id="modalBody">{text}</Modal.Body>
+      <Modal.Footer>
+        <Button
+          variant="secondary"
+          onClick={() => onClose()}
+          data-testid={cancelButtonDataTestId}
+        >
+          {cancelButtonText}
+        </Button>
+        <Button
+          variant="primary"
+          onClick={() => onConfirm()}
+          data-testid={confirmButtonDataTestId}
+        >
+          {confirmButtonText}
+        </Button>
+      </Modal.Footer>
+    </Modal.Dialog>
+  </Modal>
+)
 
 export default AlertModal

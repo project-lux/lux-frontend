@@ -7,6 +7,23 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added AI assisted search toggle button ([#1011](https://github.com/project-lux/lux-frontend/issues/1011)).
+- Added AI interpretation row ([#1013](https://github.com/project-lux/lux-frontend/issues/1013)).
+- Added AI disambiguation ([#1014](https://github.com/project-lux/lux-frontend/issues/1014)).
+- Added AI refinement row to the results page ([#1015](https://github.com/project-lux/lux-frontend/issues/1015)).
+- Added AI refinement form ([#1016](https://github.com/project-lux/lux-frontend/issues/1016)).
+- Added opt-in to AI assisted search modal ([#1018](https://github.com/project-lux/lux-frontend/issues/1018)).
+- Added opt-out to AI assisted search modal ([#1019](https://github.com/project-lux/lux-frontend/issues/1019)).
+- Added functionality for switching tabs with AI assisted search on ([#1020](https://github.com/project-lux/lux-frontend/issues/1020)).
+- Added data-testids to new AI assisted search components ([#1050](https://github.com/project-lux/lux-frontend/issues/1050)).
+- Added SiteImprove events to new AI assisted search components ([#1051](https://github.com/project-lux/lux-frontend/issues/1051)).
+
+### Changed
+
+- Changed the advanced search functionality to accommodate the new AI features ([#1017](https://github.com/project-lux/lux-frontend/issues/1017)).
+
+### Fixed
+
+- Fixed keyword search ([#1014](https://github.com/project-lux/lux-frontend/issues/1014)).
 
 ## v1.77.0 - 2026-08-31
 

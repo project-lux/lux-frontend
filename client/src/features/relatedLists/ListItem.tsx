@@ -16,6 +16,11 @@ import { useGetItemQuery } from '../../redux/api/ml_api'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
+import {
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   activeAccordion: boolean
@@ -102,7 +107,7 @@ const ListItem: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${searchQ}&searchLink=true`,
+              search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)

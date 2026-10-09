@@ -7,6 +7,10 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+// import {
+//   AI_ASSISTED_SEARCH_STORAGE_KEY,
+//   AI_REFINEMENT_PARAM,
+// } from '../../config/aiAssistedSearch/variables'
 
 interface IProps {
   data: ISearchResults
@@ -36,9 +40,9 @@ const SearchResultsLink: React.FC<IProps> = ({
     estimate !== 1 ? 's' : ''
   }`
   const searchQ = formatHalLink(url, searchScope[newScope])
-  const searchString = `${searchQ}&searchLink=true${
+  const searchString = `${searchQ}&searchLink=true&searchType=advanced${
     sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-  }`
+  }&qt=${newScope}`
 
   return (
     <Link

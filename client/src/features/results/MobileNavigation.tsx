@@ -11,6 +11,7 @@ import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import {
   defaultEstimates,
   isAdvancedSearch,
+  isKeywordSearch,
   isSimpleSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
@@ -54,17 +55,18 @@ const MobileNavigation: React.FC<IProps> = ({
   }
 
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const { qt, facetRequest, isFromSearchLink } = getUrlState(urlParams, tab)
-  const searchType = isFromSearchLink
-    ? 'advanced'
-    : currentSearchState.searchType
+  const { qt, facetRequest } = getUrlState(urlParams, tab)
+  const searchType = currentSearchState.searchType
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
+  const keywordSearch = isKeywordSearch(
+    urlParams.get('isKeywordSearch') ?? 'false',
+  )
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
   const params =
-    simpleSearch && !isSwitchToSimpleSearch
+    (simpleSearch || keywordSearch) && !isSwitchToSimpleSearch
       ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
       : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
 

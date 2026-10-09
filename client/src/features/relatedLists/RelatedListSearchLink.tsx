@@ -5,6 +5,11 @@ import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { convertToANDQuery } from '../../lib/parse/search/queryParser'
+import {
+  // AI_ASSISTED_SEARCH_STORAGE_KEY,
+  // AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 
 interface ILinkParams {
   scope: string
@@ -35,7 +40,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `q=${searchQ}&searchLink=true`,
+        search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)
