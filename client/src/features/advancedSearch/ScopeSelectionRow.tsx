@@ -102,7 +102,10 @@ const ScopeSelectionRow: React.FC = () => {
         <StyledInputGroupDiv>
           <span className="w-100 d-flex ps-2 py-2">
             <DescriptiveText text="I want to find" className="me-2" />
-            <StyledDropdown id="advanced-search-scope-dropdown">
+            <StyledDropdown
+              id="advanced-search-scope-dropdown"
+              data-testid="advanced-search-scope-dropdown"
+            >
               <Dropdown.Toggle
                 id="advanced-search-scope-toggle"
                 aria-label="Select a scope for the advanced search."
@@ -124,7 +127,7 @@ const ScopeSelectionRow: React.FC = () => {
                     id={key}
                     aria-label={value}
                     aria-describedby="help-text"
-                    data-testid={`advanced-search-${key}-option`}
+                    data-testid={`advanced-search-scope-dropdown-option-${key}`}
                     active={selectedScope === key}
                     onClick={(e: MouseEvent<HTMLButtonElement>) =>
                       handleOptionSelection(e)

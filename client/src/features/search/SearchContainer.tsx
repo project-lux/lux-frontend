@@ -254,6 +254,19 @@ const SearchContainer: React.FC<IProps> = ({
               ? OPT_OUT_MODAL_CANCEL_BUTTON_TEXT
               : OPT_IN_MODAL_CANCEL_BUTTON_TEXT
           }
+          confirmButtonDataTestId={
+            isAiSearch
+              ? 'use-standard-search-button'
+              : 'use-ai-assisted-search-button'
+          }
+          cancelButtonDataTestId={
+            isAiSearch
+              ? 'keep-ai-assisted-search-button'
+              : 'keep-standard-search-button'
+          }
+          modalDataTestId={
+            isAiSearch ? 'ai-off-alert-modal' : 'ai-on-alert-modal'
+          }
         />
       )}
       <Col xs={12}>

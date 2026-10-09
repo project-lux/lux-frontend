@@ -122,6 +122,7 @@ const AiToggleButton: React.FC<IToggleButtonProps> = ({
           type="checkbox"
           checked={isAiSearch}
           onChange={handleToggle}
+          data-testid="toggle-ai-assisted-search-button"
         />
         <StyledSwitchSlider
           $isActive={isAiSearch}

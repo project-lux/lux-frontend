@@ -19,7 +19,10 @@ const InterpretationRow: React.FC<IProps> = ({
       searchScope[currentTab as string] || undefined,
     )
   return (
-    <span className="d-inline-flex flex-wrap align-items-center justify-content-start">
+    <span
+      className="d-inline-flex flex-wrap align-items-center justify-content-start"
+      data-testid="ai-interpretation-row"
+    >
       {Object.keys(interpretation).map((key, ind) => {
         if (key === '_scope') {
           return null
