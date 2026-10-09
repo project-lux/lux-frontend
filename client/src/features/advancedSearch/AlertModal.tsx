@@ -17,6 +17,9 @@ interface IAlertModal {
   text: string
   confirmButtonText: string
   cancelButtonText: string
+  confirmButtonDataTestId: string
+  cancelButtonDataTestId: string
+  modalDataTestId: string
 }
 
 /**
@@ -33,6 +36,9 @@ const AlertModal: React.FC<IAlertModal> = ({
   text,
   confirmButtonText,
   cancelButtonText,
+  confirmButtonDataTestId,
+  cancelButtonDataTestId,
+  modalDataTestId,
 }) => (
   <Modal
     show={showModal}
@@ -42,7 +48,7 @@ const AlertModal: React.FC<IAlertModal> = ({
     animation={false}
     aria-describedby="modalBody"
     aria-labelledby="modalTitle"
-    data-testid="alert-modal"
+    data-testid={modalDataTestId}
   >
     <Modal.Dialog className="m-0">
       <Modal.Header closeButton>
@@ -50,10 +56,18 @@ const AlertModal: React.FC<IAlertModal> = ({
       </Modal.Header>
       <Modal.Body id="modalBody">{text}</Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={() => onClose()}>
+        <Button
+          variant="secondary"
+          onClick={() => onClose()}
+          data-testid={cancelButtonDataTestId}
+        >
           {cancelButtonText}
         </Button>
-        <Button variant="primary" onClick={() => onConfirm()}>
+        <Button
+          variant="primary"
+          onClick={() => onConfirm()}
+          data-testid={confirmButtonDataTestId}
+        >
           {confirmButtonText}
         </Button>
       </Modal.Footer>

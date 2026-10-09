@@ -83,6 +83,9 @@ const Header: React.FC = () => {
             text={text}
             confirmButtonText={confirmButtonText}
             cancelButtonText={cancelButtonText}
+            confirmButtonDataTestId="close-advanced-search-button"
+            cancelButtonDataTestId="keep-advanced-search-button"
+            modalDataTestId="close-advanced-search-modal"
           />
         )}
         {isError && (
