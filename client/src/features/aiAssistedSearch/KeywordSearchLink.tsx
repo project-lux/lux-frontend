@@ -24,7 +24,7 @@ const KeywordSearchLink: React.FC<IProps> = ({
   const { natural, query } = keywordSearchFromDisambiguation
   const queryString = JSON.stringify(query)
   const queryCopy = JSON.parse(queryString)
-  const scope = scopeToTabTranslation[queryCopy._scope]
+  const scope = tab || scopeToTabTranslation[queryCopy._scope]
   delete queryCopy._scope
   const newUrlParams = AiDisambigationParser.getUrlParams(
     search,
@@ -33,6 +33,7 @@ const KeywordSearchLink: React.FC<IProps> = ({
     tab,
     true,
     'simple',
+    false,
   )
 
   return (

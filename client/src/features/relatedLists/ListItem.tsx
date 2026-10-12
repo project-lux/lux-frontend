@@ -17,10 +17,11 @@ import { stripYaleIdPrefix } from '../../lib/parse/data/helper'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import config from '../../config/config'
 import {
-  // AI_ASSISTED_SEARCH_STORAGE_KEY,
-  // AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
+  AI_REFINEMENT_PARAM,
 } from '../../config/aiAssistedSearch/variables'
+import { useAppSelector } from '../../app/hooks'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 
 interface IProps {
   activeAccordion: boolean
@@ -55,6 +56,11 @@ const ListItem: React.FC<IProps> = ({
   title,
   itemSpacing = 'single',
 }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
+
   const { data, isSuccess } = useGetItemQuery(
     {
       uri: stripYaleIdPrefix(uri),
@@ -107,7 +113,7 @@ const ListItem: React.FC<IProps> = ({
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
+              search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
             }}
             onClick={() =>
               pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)

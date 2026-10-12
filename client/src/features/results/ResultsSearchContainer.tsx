@@ -10,9 +10,9 @@ import { ResultsTab } from '../../types/ResultsTab'
 import Header from '../advancedSearch/Header'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import RefinementContainer from '../aiAssistedSearch/RefinementContainer'
-// import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { useAppSelector } from '../../app/hooks'
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Navigation from './Navigation'
 
@@ -31,11 +31,6 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   search,
   isSwitchToSimpleSearch,
 }) => {
-  // const [isAiSearch] = useState<boolean>(() => {
-  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-  //   return storedIsActive ? JSON.parse(storedIsActive) : false
-  // })
-
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
@@ -46,10 +41,14 @@ const ResultsSearchContainer: React.FC<IProps> = ({
     (searchState) => searchState.currentSearch as ICurrentSearchState,
   )
   const isAiSearch = asSearchState.isAiSearch
+  const isRefineSearch = urlParams.has(AI_REFINEMENT_PARAM)
+    ? urlParams.get(AI_REFINEMENT_PARAM) === 'true'
+    : false
   const showAdvancedSearch = isAdvancedSearch
+
   return (
     <React.Fragment>
-      {showAdvancedSearch && !isMobile ? (
+      {(showAdvancedSearch || isRefineSearch) && !isMobile ? (
         <ErrorBoundary FallbackComponent={ErrorFallback}>
           <Header />
           <Navigation
@@ -58,7 +57,7 @@ const ResultsSearchContainer: React.FC<IProps> = ({
             search={search}
             isSwitchToSimpleSearch={isSwitchToSimpleSearch}
           />
-          {isAiSearch ? (
+          {isAiSearch && isRefineSearch ? (
             <RefinementContainer key={search} />
           ) : (
             <AdvancedSearchFormContainer

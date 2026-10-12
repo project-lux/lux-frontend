@@ -11,7 +11,6 @@ import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import {
   defaultEstimates,
   isAdvancedSearch,
-  isKeywordSearch,
   isSimpleSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
@@ -24,6 +23,7 @@ import {
   getFacetParamsForSimpleSearchEstimatesRequest,
   getUrlState,
 } from '../../lib/util/params'
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import MobileTabButton from './MobileTabButton'
 
@@ -59,16 +59,15 @@ const MobileNavigation: React.FC<IProps> = ({
   const searchType = currentSearchState.searchType
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
-  const keywordSearch = isKeywordSearch(
-    urlParams.get('isKeywordSearch') ?? 'false',
-  )
+  const refineSearchIsOpen = urlParams.get(AI_REFINEMENT_PARAM) === 'true'
+
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
   const params =
-    (simpleSearch || keywordSearch) && !isSwitchToSimpleSearch
-      ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
-      : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
+    advancedSearch || refineSearchIsOpen
+      ? getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
+      : getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
 
   const { data, isSuccess, isFetching, isLoading, isError } =
     useGetEstimatesQuery(

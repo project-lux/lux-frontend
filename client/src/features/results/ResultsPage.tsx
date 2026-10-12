@@ -14,11 +14,7 @@ import {
 } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import {
-  // AI_ASSISTED_SEARCH_STORAGE_KEY,
-  // AI_REFINEMENT_PARAM,
-  SEARCH_TYPE_PARAM,
-} from '../../config/aiAssistedSearch/variables'
+import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { useAppSelector } from '../../app/hooks'
 
@@ -37,11 +33,6 @@ const ResponsiveCol = styled(Col)`
 const title = 'Results Page'
 
 const ResultsPage: React.FC = () => {
-  // const [isAiSearch] = useState<boolean>(() => {
-  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-  //   return storedIsActive ? JSON.parse(storedIsActive) : false
-  // })
-
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const paramPrefix = getParamPrefix(tab)
   const [isMobile, setIsMobile] = useState<boolean>(
