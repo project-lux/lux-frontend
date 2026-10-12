@@ -14,7 +14,6 @@ import LoadingSpinner from '../common/LoadingSpinner'
 import {
   defaultEstimates,
   isAdvancedSearch,
-  isKeywordSearch,
   isSimpleSearch,
   redirectToTabWithResults,
 } from '../../lib/parse/search/estimatesParser'
@@ -28,6 +27,7 @@ import {
 import { getIcon } from '../../lib/advancedSearch/searchHelper'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 interface INavigation {
   urlParams: URLSearchParams
@@ -58,17 +58,15 @@ const Navigation: React.FC<INavigation> = ({
   const { qt, facetRequest, searchType } = getUrlState(urlParams, tab)
   const advancedSearch = isAdvancedSearch(searchType)
   const simpleSearch = isSimpleSearch(searchType)
-  const keywordSearch = isKeywordSearch(
-    urlParams.get('isKeywordSearch') ?? 'false',
-  )
+  const refineSearchIsOpen = urlParams.get(AI_REFINEMENT_PARAM) === 'true'
 
   const hasCriteria = criteria !== null && criteria !== undefined
 
   // Simple search estimates request
   const params =
-    (simpleSearch || keywordSearch) && !isSwitchToSimpleSearch
-      ? getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
-      : getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
+    advancedSearch || refineSearchIsOpen
+      ? getFacetParamsForAdvancedSearchEstimatesRequest(criteria, urlParams, qt)
+      : getFacetParamsForSimpleSearchEstimatesRequest(criteria, urlParams)
 
   const { data, isSuccess, isFetching, isLoading, isError } =
     useGetEstimatesQuery(

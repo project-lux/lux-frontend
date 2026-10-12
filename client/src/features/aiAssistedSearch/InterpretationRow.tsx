@@ -1,12 +1,27 @@
 import React from 'react'
+import { useLocation } from 'react-router-dom'
 
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
 import { searchScope } from '../../config/searchTypes'
+import useApiText from '../../lib/hooks/useApiText'
 
 interface IProps {
   disambiguation: IAiDisambiguation
   currentTab?: string
+}
+
+const InterpretationValue: React.FC<{ value: string }> = ({ value }) => {
+  const location = useLocation()
+  const { value: interpretedValue, isReady } = useApiText({
+    textOrUri: value,
+    pageUri: location.pathname,
+  })
+
+  if (isReady && interpretedValue !== null && interpretedValue !== '') {
+    return interpretedValue
+  }
+  return null
 }
 
 const InterpretationRow: React.FC<IProps> = ({
@@ -33,8 +48,8 @@ const InterpretationRow: React.FC<IProps> = ({
               key={key}
               className="d-inline-flex align-items-center flex-wrap"
             >
-              <strong className="me-2">{key}:</strong> {interpretation[key]}{' '}
-              &nbsp;
+              <strong className="me-2">{key}:</strong>{' '}
+              <InterpretationValue value={interpretation[key][0]} /> &nbsp;
               {ind !== Object.keys(interpretation).length - 1 && (
                 <span className="me-2">|</span>
               )}
@@ -48,7 +63,8 @@ const InterpretationRow: React.FC<IProps> = ({
               key={textInd}
               className="d-inline-flex align-items-center flex-wrap"
             >
-              <strong className="me-2">{key}:</strong> {item} &nbsp;
+              <strong className="me-2">{key}:</strong>{' '}
+              <InterpretationValue value={item} /> &nbsp;
               {textInd !== interpretation[key].length - 1 && (
                 <span className="me-2">|</span>
               )}

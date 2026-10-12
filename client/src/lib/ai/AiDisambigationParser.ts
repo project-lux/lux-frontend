@@ -7,7 +7,10 @@ import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import { getFieldToEntityRelationship } from '../advancedSearch/stateManager'
 import { isValidDateObject, getDefaultDate } from '../facets/dateParser'
 import { comparators } from '../../config/advancedSearch/inputTypes'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
+import {
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
 
 export default class AiDisambigationParser {
@@ -96,6 +99,7 @@ export default class AiDisambigationParser {
     qt: string,
     isKeywordSearch: boolean,
     searchType: string,
+    isRefineSearch: boolean,
   ): URLSearchParams => {
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set('q', JSON.stringify(queryData))
@@ -109,6 +113,8 @@ export default class AiDisambigationParser {
     } else {
       newUrlParams.set('isKeywordSearch', 'true')
     }
+    newUrlParams.set(AI_REFINEMENT_PARAM, isRefineSearch ? 'true' : 'false')
+
     return newUrlParams
   }
 

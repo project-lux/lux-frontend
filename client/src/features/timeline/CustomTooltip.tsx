@@ -4,13 +4,14 @@ import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 
 import {
-  // AI_ASSISTED_SEARCH_STORAGE_KEY,
-  // AI_REFINEMENT_PARAM,
+  AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 import { ITimelineCriteria, ITimelineHalLinks } from '../../types/ITimelines'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import theme from '../../styles/theme'
+import { useAppSelector } from '../../app/hooks'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 
 interface IProps {
   active: boolean
@@ -26,12 +27,16 @@ interface ILinkProps {
 
 const TooltipLink: React.FC<ILinkProps> = ({ obj, tab, searchQ }) => {
   const [underline, setUnderline] = useState<boolean>(false)
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
 
   return (
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
+        search: `${searchQ}&collapseSearch=true&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', 'Timeline Search Link')
