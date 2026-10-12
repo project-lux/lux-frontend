@@ -3,6 +3,10 @@ import { Link, useLocation } from 'react-router-dom'
 import { Button, Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import {
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import theme from '../../styles/theme'
@@ -57,6 +61,7 @@ const Disambiguation: React.FC<{
   generateNewSuggestions,
 }) => {
   const { search } = useLocation()
+  const urlParams = new URLSearchParams(search)
   const lineHeight = { lineHeight: '1.5rem' }
 
   const handleGenerateNewSuggestions = (
@@ -102,7 +107,8 @@ const Disambiguation: React.FC<{
               queryData.natural,
               newTab,
               false,
-              'advanced',
+              urlParams.get(SEARCH_TYPE_PARAM) || 'simple',
+              urlParams.get(AI_REFINEMENT_PARAM) === 'true',
             )
             return (
               <Col as="li" xs={12} key={ind} className="mb-2">

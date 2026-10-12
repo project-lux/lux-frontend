@@ -1,20 +1,29 @@
 import { Link, useLocation } from 'react-router-dom'
 
+import { useAppSelector } from '../../app/hooks'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import {
-  // AI_REFINEMENT_PARAM,
+  AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
 const AdvancedSearchLink: React.FC<{
   linkStyle: React.CSSProperties
 }> = ({ linkStyle }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   const { pathname, search } = useLocation()
   const newPathname = pathname.includes('/view/results')
     ? pathname
     : `/view/results`
   const searchParams = new URLSearchParams(search)
   searchParams.set(SEARCH_TYPE_PARAM, 'advanced')
+  if (isAiSearch) {
+    searchParams.set(AI_REFINEMENT_PARAM, 'true')
+  }
 
   return (
     <Link

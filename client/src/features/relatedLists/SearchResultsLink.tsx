@@ -1,16 +1,15 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 import { formatHalLink } from '../../lib/parse/search/queryParser'
 import { ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { getAllParamsFromHalLink } from '../../lib/parse/search/halLinkHelper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-// import {
-//   AI_ASSISTED_SEARCH_STORAGE_KEY,
-//   AI_REFINEMENT_PARAM,
-// } from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 interface IProps {
   data: ISearchResults
@@ -29,6 +28,10 @@ const SearchResultsLink: React.FC<IProps> = ({
   additionalLinkText = '',
   className = 'searchResultsLink',
 }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   const estimate = getEstimates(data)
   const newScope = scope !== undefined ? scope : 'objects'
   const resultsEndpoint = searchScope[newScope]
@@ -42,7 +45,7 @@ const SearchResultsLink: React.FC<IProps> = ({
   const searchQ = formatHalLink(url, searchScope[newScope])
   const searchString = `${searchQ}&searchLink=true&searchType=advanced${
     sort !== null ? `&${resultsEndpoint[0]}s=${sort}` : ''
-  }&qt=${newScope}`
+  }&qt=${newScope}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`
 
   return (
     <Link

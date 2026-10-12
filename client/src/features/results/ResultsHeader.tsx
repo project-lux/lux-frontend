@@ -22,7 +22,6 @@ import {
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
-// import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { useAppSelector } from '../../app/hooks'
 
@@ -39,11 +38,6 @@ interface IResultsHeader {
 }
 
 const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
-  // const [isAiSearch] = useState<boolean>(() => {
-  //   const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-  //   return storedIsActive ? JSON.parse(storedIsActive) : false
-  // })
-
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string

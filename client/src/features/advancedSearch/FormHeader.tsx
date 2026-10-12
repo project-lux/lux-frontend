@@ -4,7 +4,7 @@ import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { advancedSearchTitles } from '../../config/searchTypes'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import StyledOriginalQuery from '../../styles/features/aiAssistedSearch/OriginalQuery'
@@ -22,6 +22,7 @@ import {
   OPT_IN_MODAL_TITLE,
   OPT_IN_WITH_ADVANCED_SEARCH_MODAL_CANCEL_BUTTON_TEXT,
   OPT_OUT_WITH_ADVANCED_SEARCH_MODAL_CONFIRM_BUTTON_TEXT,
+  AI_REFINEMENT_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { changeIsAiSearch } from '../../redux/slices/currentSearchSlice'
@@ -51,10 +52,10 @@ const FormHeader: React.FC<{
   const navigate = useNavigate()
   const dispatch = useAppDispatch()
   const { pathname, search } = useLocation()
-  const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   const [showModal, setShowModal] = useState<boolean>(false)
 
   const handleCloseModal = (): void => {
@@ -69,7 +70,6 @@ const FormHeader: React.FC<{
   // Set both the local storage and the component state
   const handleConfirmToggleSwitch = (): void => {
     const nextIsActive = !isAiSearch
-    setIsAiSearch(nextIsActive)
     dispatch(changeIsAiSearch({ value: nextIsActive }))
     localStorage.setItem(
       AI_ASSISTED_SEARCH_STORAGE_KEY,
@@ -78,6 +78,11 @@ const FormHeader: React.FC<{
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
     newUrlParams.delete('sq')
+    if (!nextIsActive) {
+      newUrlParams.delete(AI_REFINEMENT_PARAM)
+    } else {
+      newUrlParams.set(AI_REFINEMENT_PARAM, 'true')
+    }
     setShowModal(false)
     pushClientEvent(
       'Search Switch',
