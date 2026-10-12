@@ -14,6 +14,9 @@ import ResultsPage from '../results/ResultsPage'
 import RoutingComponent from '../results/RoutingComponent'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import AdvancedSearchPage from '../advancedSearch/Page'
+import { changeIsAiSearch } from '../../redux/slices/currentSearchSlice'
+import { useAppDispatch } from '../../app/hooks'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from '../../config/aiAssistedSearch/variables'
 
 import Footer from './Footer'
 import MobileAlert from './MobileAlert'
@@ -35,6 +38,7 @@ const RedirectOldProd: React.FC = () => {
 }
 
 const LuxRoutes: React.FC = () => {
+  const dispatch = useAppDispatch()
   const unknownPageName = 'Page Name Unknown'
   const { pathname, search, key: locationKey } = useLocation()
   const prevUrlRef = useRef('')
@@ -90,6 +94,12 @@ const LuxRoutes: React.FC = () => {
     prevUrlRef.current = currentUrl
     lastTrackedLocationKey.current = locationKey
   }, [locationKey, pathname, search, targetName, hasRouteName, unknownPageName])
+
+  useEffect(() => {
+    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
+    const isAiActive = storedIsActive ? JSON.parse(storedIsActive) : false
+    dispatch(changeIsAiSearch({ value: isAiActive }))
+  }, [])
 
   return (
     <React.Fragment>

@@ -1,6 +1,6 @@
 export const SEARCH_TYPE_PARAM = 'searchType'
 export const AI_ASSISTED_SEARCH_STORAGE_KEY = 'aiAssistedSearchActive'
-export const AI_REFINEMENT_PARAM = 'refineAiSearch'
+export const AI_REFINEMENT_PARAM = 'isRefineSearch'
 // Text used for the switch to AI assisted search modal
 export const OPT_IN_MODAL_TEXT =
   "AI-Assisted Search will interpret your current query and will return different results. You'll also gain access to AI-powered search refinement and suggestions. You can switch back to Standard Search at any time."

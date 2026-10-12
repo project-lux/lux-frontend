@@ -9,6 +9,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import ErrorMessage from '../search/ErrorMessage'
 import {
   AI_ASSISTED_SEARCH_STORAGE_KEY,
+  AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
 
@@ -53,6 +54,7 @@ const Header: React.FC = () => {
     if (searchType === 'advanced') {
       queryParams.set(SEARCH_TYPE_PARAM, 'simple')
     }
+    queryParams.set(AI_REFINEMENT_PARAM, 'false')
     navigate({
       pathname,
       search: `?${queryParams.toString()}`,

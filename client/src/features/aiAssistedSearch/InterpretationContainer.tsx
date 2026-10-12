@@ -3,12 +3,14 @@ import { useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 import { Accordion } from 'react-bootstrap'
 
-// import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
+import {
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
 import theme from '../../styles/theme'
 import LinkButton from '../../styles/features/advancedSearch/LinkButton'
 import { ResultsTab } from '../../types/ResultsTab'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
-import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import InterpretationRow from './InterpretationRow'
@@ -50,7 +52,8 @@ const InterpretationContainer: React.FC<IProps> = ({
   const urlSearchParams = new URLSearchParams(search)
   const currentQueryTab = urlSearchParams.get('qt')
   const isKeywordSearch = urlSearchParams.get('isKeywordSearch') === 'true'
-
+  urlSearchParams.set('qt', tab)
+  urlSearchParams.set(AI_REFINEMENT_PARAM, 'true')
   // set a default empty object for query if 'q' parameter is not present
   let query = {}
   if (

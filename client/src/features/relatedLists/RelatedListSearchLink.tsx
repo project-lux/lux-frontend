@@ -6,10 +6,11 @@ import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { convertToANDQuery } from '../../lib/parse/search/queryParser'
 import {
-  // AI_ASSISTED_SEARCH_STORAGE_KEY,
-  // AI_REFINEMENT_PARAM,
+  AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 interface ILinkParams {
   scope: string
@@ -28,6 +29,10 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
   total,
   label,
 }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   const tab = scopeToTabTranslation[scope]
 
   const linkLabel = `Show all ${total || ''} ${label || ''} result${
@@ -40,7 +45,7 @@ const RelatedListSearchLink: React.FC<ILinkParams> = ({
     <Link
       to={{
         pathname: `/view/results/${tab}`,
-        search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}`,
+        search: `q=${searchQ}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
       }}
       onClick={() =>
         pushClientEvent('Search Link', 'Selected', `Accordion ${title}`)

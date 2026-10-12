@@ -61,6 +61,10 @@ const SearchContainer: React.FC<IProps> = ({
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const tab = useParams<{ tab: string }>().tab || 'objects'
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch,
+  )
+  const isAiSearch = asSearchState.isAiSearch
 
   const [showModal, setShowModal] = useState<boolean>(false)
   const [isSearchLoading, setIsSearchLoading] = useState(false)
@@ -68,10 +72,6 @@ const SearchContainer: React.FC<IProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const [isAiSearch, setIsAiSearch] = useState<boolean>(() => {
-    const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
-    return storedIsActive ? JSON.parse(storedIsActive) : false
-  })
   const [aiDisambiguation, setAiDisambiguation] =
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useState<Array<any>>([])
@@ -94,7 +94,6 @@ const SearchContainer: React.FC<IProps> = ({
 
   const handleAiSearchToggle = (): void => {
     const nextIsActive = !isAiSearch
-    setIsAiSearch(nextIsActive)
     dispatch(changeIsAiSearch({ value: nextIsActive }))
 
     localStorage.setItem(
