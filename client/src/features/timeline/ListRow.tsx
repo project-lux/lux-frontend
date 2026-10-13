@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 import {
   ITimelineCriteria,
   ITimelinesTransformed,
@@ -33,6 +36,10 @@ const ListRow: React.FC<{
   linkRefs: React.MutableRefObject<Array<HTMLAnchorElement | null>>
   linkIndex: number
 }> = ({ halLinkConfig, data, year, halLink, linkRefs, linkIndex }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   const { tab } = halLinkConfig[halLink]
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
   const label = halLinkMapToLegendName.get(halLink)
@@ -48,7 +55,7 @@ const ListRow: React.FC<{
           <Link
             to={{
               pathname: `/view/results/${tab}`,
-              search: `${searchParams}&searchLink=true`,
+              search: `${searchParams}&searchLink=true&searchType=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
             }}
             aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
             tabIndex={-1}

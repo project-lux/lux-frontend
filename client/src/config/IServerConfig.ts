@@ -9,4 +9,6 @@ export interface IServerConfig {
   luxWikidataManifestPrefix: string
   luxFeedbackUrl: string
   bugherdApiKey: string
+  /** Comma-separated origins allowed to request search broadcasts. */
+  broadcastSearchAllowedOrigins: string
 }

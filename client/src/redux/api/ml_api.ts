@@ -1,13 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { isNull, isUndefined } from 'lodash'
 
 import { ISearchParams, IItemParams } from '../../types/IMlApiParams'
 import { ISearchResults, ISearchResultsError } from '../../types/ISearchResults'
 import { IRelatedListEntryTransformed } from '../../types/IRelatedLists'
 import { transformRelatedListResults } from '../../lib/parse/search/relatedListsParser'
 import { getDataApiBaseUrl } from '../../config/config'
-import { formatSortParameter } from '../../lib/parse/search/queryParser'
+import { buildSearchRequestUrl } from '../../lib/parse/search/buildSearchUrl'
 import IEntity from '../../types/data/IEntity'
 import { replaceBaseUrl } from '../../lib/parse/data/helper'
 import { IAdvancedSearchConfigResponse } from '../../types/IAdvancedSearchConfigResponse'
@@ -27,37 +26,10 @@ export const mlApi: any = createApi({
   tagTypes: ['Results', 'Item', 'Items', 'Estimates'],
   endpoints: (builder) => ({
     search: builder.query<ISearchResults | ISearchResultsError, ISearchParams>({
-      query: (searchParams) => {
-        const { q, filterResults, page, pageLength, tab, sort, rnd } =
-          searchParams
-        const urlParams = new URLSearchParams()
-        urlParams.set('q', q)
-
-        let scope = ''
-        if (!isUndefined(tab)) {
-          scope = searchScope[tab]
-        }
-        if (!isUndefined(page)) {
-          urlParams.set('page', `${page}`)
-        }
-        if (!isUndefined(pageLength)) {
-          urlParams.set('pageLength', pageLength.toString())
-        }
-        if (!isUndefined(filterResults) && !isNull(filterResults)) {
-          urlParams.set('filterResults', filterResults)
-        }
-        if (!isUndefined(sort)) {
-          urlParams.set('sort', formatSortParameter(sort))
-        }
-        if (rnd !== undefined) {
-          urlParams.set('rnd', `${rnd}`)
-        }
-
-        return {
-          url: `api/search/${scope}?${urlParams.toString()}`,
-          method: 'GET',
-        }
-      },
+      query: (searchParams) => ({
+        url: buildSearchRequestUrl(searchParams),
+        method: 'GET',
+      }),
       providesTags: ['Results'],
     }),
     getFacetsSearch: builder.query<
@@ -158,6 +130,24 @@ export const mlApi: any = createApi({
         }),
       },
     ),
+    getTranslateKeywordSearch: builder.query<
+      ISearchResults | ISearchResultsError,
+      {
+        searchString: string
+        isAiSearch: boolean
+        scope: string
+      }
+    >({
+      query: ({ searchString, isAiSearch, scope }) => {
+        const urlParams = new URLSearchParams()
+        urlParams.set('q', searchString)
+
+        return {
+          url: `api/${isAiSearch ? 'ai-' : ''}translate/${scope}?${urlParams.toString()}`,
+          method: 'GET',
+        }
+      },
+    }),
     getStats: builder.query<IStats, void>({
       query: () => ({
         url: `api/stats`,
@@ -196,6 +186,7 @@ export const mlApi: any = createApi({
         qt: string
         params: Record<string, string> | string
         isSwitchToSimpleSearch: boolean
+        isCurrentSearchKeywordSearch: boolean
       }
     >({
       queryFn({
@@ -250,5 +241,6 @@ export const {
   useGetSearchRelationshipQuery,
   useGetStatsQuery,
   useGetTimelineQuery,
+  useGetTranslateKeywordSearchQuery,
   useSearchQuery,
 } = mlApi

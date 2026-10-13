@@ -10,6 +10,8 @@ import { useGetAdvancedSearchConfigQuery } from './redux/api/ml_api'
 import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
+import { activateSearchBroadcast } from './lib/searchBroadcast'
+import { AI_ASSISTED_SEARCH_STORAGE_KEY } from './config/aiAssistedSearch/variables'
 
 const Maintenance = styled.div`
   font-size: 1.5rem;
@@ -34,6 +36,12 @@ function embedBugherdScript(): void {
 }
 
 const App: React.FC = () => {
+  useEffect(() => {
+    if (localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY) === null) {
+      localStorage.setItem(AI_ASSISTED_SEARCH_STORAGE_KEY, JSON.stringify(true))
+    }
+  }, [])
+
   // true if either local or remote env vars are available
   const [envLoaded, setEnvLoaded] = useState(false)
 
@@ -86,8 +94,14 @@ const App: React.FC = () => {
   }
 
   useEffect(() => {
-    if (initialized && !config.env.luxEnv.includes('production')) {
-      embedBugherdScript()
+    if (initialized) {
+      // `initialized` is also set on failure, in which case the allowlist is
+      // empty and search broadcasting stays off.
+      activateSearchBroadcast()
+
+      if (!config.env.luxEnv.includes('production')) {
+        embedBugherdScript()
+      }
     }
   }, [initialized])
 

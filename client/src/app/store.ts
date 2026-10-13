@@ -10,6 +10,7 @@ import currentSearchReducer from '../redux/slices/currentSearchSlice'
 import { configApi } from '../redux/api/configApi'
 import { cmsApi } from '../redux/api/cmsApi'
 import { mlApi } from '../redux/api/ml_api'
+import { searchBroadcastMiddleware } from '../redux/middleware/searchBroadcastMiddleware'
 
 export const store = configureStore({
   reducer: {
@@ -25,6 +26,10 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
+      // Must come before mlApi.middleware: RTK Query's middleware does not
+      // forward the condition-rejection action that a cache hit produces, so
+      // anything after it only ever sees fresh fetches.
+      .concat(searchBroadcastMiddleware)
       .concat(configApi.middleware)
       .concat(mlApi.middleware)
       .concat(cmsApi.middleware),

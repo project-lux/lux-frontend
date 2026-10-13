@@ -33,6 +33,64 @@
 1. Create an pushClientEvent.ts file in the [/src/lib](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts) folder
 2. Copy the contents of [pushClientEvent.ts.template](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts.template) and add any functions required for site analytics.
 
+## Search broadcasting
+
+An external page that embeds LUX in an iframe, or opens it in a new window, can
+subscribe to the searches the user runs. This is off unless an operator sets
+`BROADCAST_SEARCH_ALLOWED_ORIGINS` (see `.env.template`).
+
+### Protocol
+
+1. Post `{ type: 'BROADCAST_SEARCH' }` to the LUX window. Do this on the
+   iframe's `load` event -- LUX installs its listener while the page's module
+   scripts run, which is always before `load` fires.
+2. If the sender's origin is in the allowlist, LUX posts a `LUX_SEARCH` message
+   for every subsequent search:
+
+   ```js
+   {
+     type: 'LUX_SEARCH',
+     params: { q, tab, page, pageLength, sort, filterResults, rnd },
+     url: 'api/search/item?q=...',        // relative to the data API
+     absoluteUrl: 'https://.../api/search/item?q=...',
+     timestamp: 1758200000000,
+   }
+   ```
+
+   `params.q` is the search criteria as JSON, and is what the user typed.
+
+There is no acknowledgement and no unsubscribe: a request stays in effect until
+the LUX page reloads. A request from an origin outside the allowlist is ignored
+silently, so receiving nothing means either the origin was rejected or the
+feature is disabled.
+
+### Notes for integrators
+
+- Only the most recent subscriber receives messages.
+- Origins must match exactly -- scheme, host and port. Wildcards are rejected.
+- Messages are posted to your specific origin, never `*`. If your page
+  navigates elsewhere, messages are silently dropped.
+- A search served from LUX's cache (a back-navigation, say) is broadcast too,
+  so the same `url` can arrive more than once. De-duplicate on `url` if you
+  need strictly distinct searches.
+
+### Example embedder
+
+```html
+<iframe id="lux" src="https://lux.example.edu/view/results/objects?q=..."></iframe>
+<script>
+  const frame = document.getElementById('lux')
+  frame.addEventListener('load', () => {
+    frame.contentWindow.postMessage({ type: 'BROADCAST_SEARCH' }, 'https://lux.example.edu')
+  })
+  window.addEventListener('message', (event) => {
+    if (event.origin !== 'https://lux.example.edu') return
+    if (event.data?.type !== 'LUX_SEARCH') return
+    console.log('search:', event.data.params, event.data.url)
+  })
+</script>
+```
+
 ## Available Scripts
 
 In the project directory, you can run:

@@ -45,3 +45,6 @@ export const luxFeedbackUrl = getString(
 export const bugherdApiKey = getString(
   import.meta.env.REACT_APP_BUGHERD_API_KEY,
 )
+export const broadcastSearchAllowedOrigins = getString(
+  import.meta.env.REACT_APP_BROADCAST_SEARCH_ALLOWED_ORIGINS,
+)

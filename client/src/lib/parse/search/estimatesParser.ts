@@ -4,11 +4,14 @@ import { IEstimateItems } from '../../../types/ISearchEstimates'
 import { ISearchResultsErrorData } from '../../../types/ISearchResults'
 import { fetchSearchEstimates } from '../../util/fetchSearchEstimates'
 
-export const isAdvancedSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isAdvancedSearch = (searchType: string): boolean =>
   searchType === 'advanced'
 
-export const isSimpleSearch = (searchType: 'advanced' | 'simple'): boolean =>
+export const isSimpleSearch = (searchType: string): boolean =>
   searchType === 'simple'
+
+export const isKeywordSearch = (isKeywordSearchParam: string): boolean =>
+  isKeywordSearchParam === 'true'
 
 export const transformAdvancedSearchEstimates = (
   data: { [key: string]: IEstimateItems } | undefined,
@@ -19,11 +22,12 @@ export const transformAdvancedSearchEstimates = (
     if (data.hasOwnProperty(tab)) {
       const { totalItems } = data[tab]
       // assign the current tab its estimate from the data returned
-      estimates[tab] = totalItems
+      estimates[tab] = `${totalItems} results`
     }
     for (const key of Object.keys(searchScope)) {
       if (key !== tab) {
-        estimates[key] = '-'
+        // estimates[key] = '- results'
+        estimates[key] = ''
       }
     }
   }
@@ -41,10 +45,10 @@ export const transformSimpleSearchEstimates = (
       Object.keys(d).map((key: string) => {
         // Check if results have an error
         if (d[key].hasOwnProperty('errorMessage')) {
-          estimates[key] = '-'
+          // estimates[key] = '- results'
         } else {
           const estimatesResults = d[key] as IEstimateItems
-          estimates[key] = estimatesResults.totalItems
+          estimates[key] = `${estimatesResults.totalItems} results`
         }
         return null
       })
@@ -130,14 +134,16 @@ export const defaultEstimates = (
   isSuccess: boolean,
   data: any,
 ): Record<string, number | string> => {
+  const defaultValue = ''
   return isSuccess && data
     ? data
     : {
-        objects: '-',
-        works: '-',
-        people: '-',
-        places: '-',
-        concepts: '-',
-        events: '-',
+        objects: defaultValue,
+        works: defaultValue,
+        collections: defaultValue,
+        people: defaultValue,
+        places: defaultValue,
+        concepts: defaultValue,
+        events: defaultValue,
       }
 }

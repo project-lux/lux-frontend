@@ -25,6 +25,7 @@ export const numInstances = getInt(process.env.NUM_INSTANCES) || -1
 export const version = getString(process.env.TAG_TO_DEPLOY)
 export const dataApiBaseUrl = getString(process.env.DATA_API_BASE_URL)
 export const cmsApiBaseUrl = getString(process.env.CMS_API_BASE_URL)
+
 export const wikidataImagePathname = getString(
   process.env.WIKIDATA_IMAGE_PATHNAME,
 )
@@ -38,3 +39,9 @@ export const maintenanceMessage = getString(process.env.MAINTENANCE_MESSAGE)
 export const cacheViewerMode = getBool(process.env.CACHE_VIEWER_MODE)
 
 export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
+
+// Comma-separated list of origins permitted to request search broadcasts.
+// Defaults to an empty string rather than null so /env never emits null and
+// an unset variable disables the feature.
+export const broadcastSearchAllowedOrigins =
+  getString(process.env.BROADCAST_SEARCH_ALLOWED_ORIGINS) || ''

@@ -44,6 +44,7 @@ jobs:
           echo "MAINTENANCE_MODE=${{ vars.MAINTENANCE_MODE }}" >> _env
           echo "MAINTENANCE_MESSAGE=${{ vars.MAINTENANCE_MESSAGE }}" >> _env
           echo "BUGHERD_API_KEY=${{ vars.BUGHERD_API_KEY }}" >> _env
+          echo "BROADCAST_SEARCH_ALLOWED_ORIGINS=${{ vars.BROADCAST_SEARCH_ALLOWED_ORIGINS }}" >> _env
           set -x
           env-to-json.py _env config.json
       - name: Deploy Docker Image
