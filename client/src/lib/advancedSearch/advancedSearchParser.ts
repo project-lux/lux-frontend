@@ -33,11 +33,12 @@ export const getProperty = (obj: IAdvancedSearchState): string => {
 
 /**
  * Returns if the object does not contain needed data
+ * The highest level object can contain both _stateId and _scope keys but nested objects will only contain _stateId
  * @param stateKeys Array<string>; the keys of the current state object
  * @returns boolean
  */
 export const isEmptyObj = (stateKeys: Array<string>): boolean =>
-  stateKeys.length === 1 && stateKeys[0] === '_stateId'
+  stateKeys.every((key) => key.startsWith('_'))
 
 /**
  * Determines if the provided search term is a group/conditional
@@ -111,6 +112,9 @@ export const isChildAGroup = (obj: IAdvancedSearchState): boolean => {
     return false
   }
   const property = getProperty(obj)
+  if (property === '') {
+    return false
+  }
   const childObj = obj[property] as IAdvancedSearchState
   const childProperty = getProperty(childObj)
   return Array.isArray(childObj[childProperty])
@@ -228,7 +232,10 @@ export const validateAdvancedSearch = (
  * @param state IAdvancedSearchState; current state
  * @returns boolean
  */
-export const filterAdvancedSearch = (scope: string, state: any): any => {
+export const filterAdvancedSearch = (scope: string | null, state: any): any => {
+  if (scope === null) {
+    return state
+  }
   const currentState = _.cloneDeep(state)
 
   // remove _stateId as it is only used on the frontend and is not valid in the backend

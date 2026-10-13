@@ -60,9 +60,7 @@ const MobileTabButton: React.FC<IProps> = ({
               {isLoading || isFetching ? (
                 <LoadingSpinner size="sm" className="mt-2" />
               ) : (
-                <p className={showArrow ? 'mb-2' : 'mb-3'}>
-                  {estimate} results
-                </p>
+                <p className={showArrow ? 'mb-2' : 'mb-3'}>{estimate}</p>
               )}{' '}
             </Col>
           </Row>

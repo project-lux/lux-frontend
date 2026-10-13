@@ -21,17 +21,18 @@ import {
 } from '../../config/searchTypes'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { ISearchResults } from '../../types/ISearchResults'
+import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
 
-const StyledDiv = styled.div`
-  display: none;
-
-  @media (min-width: ${theme.breakpoints.md}px) {
-    display: inline;
+const StyledDescriptiveText = styled.div`
+  p {
+    margin-bottom: 0px;
   }
 `
-
 interface IResultsHeader {
   total: number
   resultsData?: ISearchResults
@@ -56,6 +57,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
+
   useEffect(() => {
     if (redirect !== false) {
       setRedirect(false)
@@ -74,6 +80,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
     ? (queryString.get(sortName)?.split(':')[1] as string)
     : undefined
   const descriptiveText = EntityResultsDescription(overlay) || ''
+  const isRefineSearch = queryString.has(AI_REFINEMENT_PARAM)
+    ? queryString.get(AI_REFINEMENT_PARAM) === 'true'
+    : false
 
   // toggle view between list and image view
   const changeView = (selectedView: string): void => {
@@ -92,17 +101,15 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
 
   return (
     <div>
-      <Row className="resultsHeaderTitleRow">
-        <Col className="resultsHeaderTitleCol">
+      <Row className="px-2 resultsHeaderTitleRow">
+        <Col className="resultsHeaderTitleCol d-inline-flex align-items-center">
           <StyledResultsHeader
             className="mb-0 resultsHeaderTitle"
             data-testid="results-header-title"
           >
-            <StyledDiv>
-              {total} {label} results
-            </StyledDiv>
-            {(tab === 'objects' || tab === 'works') && <LuxOverlay />}
+            {total} {label} results
           </StyledResultsHeader>
+          {(tab === 'objects' || tab === 'works') && <LuxOverlay />}
         </Col>
       </Row>
       <Row className="px-2 resultsHeaderControlsRow">
@@ -114,7 +121,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           lg={7}
           xl={7}
         >
-          <div
+          <StyledDescriptiveText
             className="descriptiveText"
             dangerouslySetInnerHTML={{
               __html: sanitizeHtml(descriptiveText),
@@ -122,16 +129,34 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
             data-testid="results-page-cms-descriptor"
           />
         </Col>
+        {/* If the search is an AI assisted search and the user is on a mobile device, show the interpretation container at this location */}
+        {isAiSearch && isMobile && (
+          <Col
+            xs={12}
+            sm={12}
+            md={12}
+            lg={12}
+            xl={12}
+            className="my-2 aiAssistedSearchRefinementRow"
+          >
+            <InterpretationContainer
+              className="refineSearchWithAiButton"
+              showRefineButton={!isMobile}
+            />
+          </Col>
+        )}
         <Col
           xs={12}
           sm={12}
           md={5}
           lg={5}
           xl={5}
-          className="d-flex align-items-end resultsHeaderOptionsCol"
+          className={`d-flex align-items-end justify-content-end resultsHeaderOptionsCol ${width < theme.breakpoints.sm ? 'px-0' : ''}`}
           data-testid="results-header-options"
         >
-          <Row className="w-100 d-flex justify-content-end resultsHeaderOptionsRow">
+          <Row
+            className={`w-100 h-100 d-flex justify-content-end resultsHeaderOptionsRow ${width < theme.breakpoints.sm ? 'mx-0' : ''}`}
+          >
             <Col
               xs={12}
               sm={12}
@@ -195,6 +220,17 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           />
         )}
       </Row>
+      {/* If the search is an AI assisted search and the user is NOT on a mobile device, show the interpretation container at this location */}
+      {isAiSearch && !isRefineSearch && !isMobile && (
+        <Row className="aiAssistedSearchRefinementRow px-2">
+          <Col xs={12} sm={12} md={12} lg={12} xl={12} className="my-2">
+            <InterpretationContainer
+              className="refineSearchWithAiButton"
+              showRefineButton
+            />
+          </Col>
+        </Row>
+      )}
       <StyledHr width="100%" className="my-2 resultsHeaderHr" />
     </div>
   )

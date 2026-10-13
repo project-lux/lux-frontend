@@ -1,12 +1,16 @@
-import React, { useEffect, useRef, useState } from 'react'
-import { Row } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import React, {
+  RefObject,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react'
+import { Col, Row } from 'react-bootstrap'
+import { useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { isNull } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
-import { DEFAULT_PAGE_LENGTH, searchScope } from '../../config/searchTypes'
-import { checkForStopWords, translate } from '../../lib/util/translate'
 import {
   addSimpleSearchInput,
   ISimpleSearchState,
@@ -14,10 +18,19 @@ import {
 } from '../../redux/slices/simpleSearchSlice'
 import theme from '../../styles/theme'
 import LoadingSpinner from '../common/LoadingSpinner'
-import { pushClientEvent } from '../../lib/pushClientEvent'
+import Disambiguation from '../aiAssistedSearch/Disambiguation'
+import {
+  countWords,
+  validateInput,
+} from '../../lib/parse/search/searchBoxHelper'
+import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
+
+import { MAX_WORDS } from './SearchContainer'
 
 const StyledSearchBox = styled.div`
   display: flex;
+  position: relative;
+  z-index: 1001;
   width: ${theme.searchBox.width};
   border: solid 1px #979797;
   border-radius: ${theme.searchBox.borderRadiusMobile};
@@ -55,6 +68,7 @@ const StyledSearchBox = styled.div`
   }
 
   .submitButton {
+    border: none;
     background-color: ${theme.color.white};
     height: 50px;
     font-size: 1.5rem;
@@ -80,27 +94,46 @@ const StyledSearchBox = styled.div`
       height: 72px;
     }
   }
+
+  .submitAiButton {
+    border: none;
+    background-color: ${theme.color.white};
+    height: 72px;
+    font-size: inherit;
+  }
+
+  .submitSearch {
+    &:hover {
+      background-color: ${theme.color.lightGray};
+    }
+  }
 `
 
-const MAX_WORDS = 100
-
 const SearchBox: React.FC<{
-  unselectable?: boolean
-  closeSearchBox?: () => void
   id: string
+  submitForm: (event: React.FormEvent<HTMLFormElement>) => void
+  isSearchLoading: boolean
+  inputRef: RefObject<HTMLInputElement | null>
+  aiDisambiguation: Array<IAiDisambiguation>
+  setAiDisambiguation: (value: Array<IAiDisambiguation>) => void
+  unselectable?: boolean
   isResults?: boolean
   setIsError: (x: boolean) => void
   isSearchOpen?: boolean
 }> = ({
-  unselectable: isUnselectable,
-  closeSearchBox,
   id,
+  submitForm,
+  isSearchLoading,
+  inputRef,
+  aiDisambiguation,
+  setAiDisambiguation,
+  unselectable: isUnselectable,
   isResults,
   setIsError,
   isSearchOpen = false,
 }) => {
   const [isValid, setIsValid] = useState<boolean>(true)
-  const [isLoading, setIsLoading] = useState(false)
+  const [searchBoxWidth, setSearchBoxWidth] = useState<number>()
   const currentState = useAppSelector(
     (state) => state.simpleSearch as ISimpleSearchState,
   )
@@ -108,7 +141,6 @@ const SearchBox: React.FC<{
 
   let simpleQuery: string | null = null
   const { search } = useLocation()
-  const tab = useParams<{ tab: string }>().tab || 'objects'
   const queryString = new URLSearchParams(search)
   simpleQuery = queryString.get('sq') || ''
 
@@ -127,17 +159,28 @@ const SearchBox: React.FC<{
     }
   }, [isResults, simpleQuery])
 
-  const navigate = useNavigate()
+  const disambiguationRef = useRef<HTMLDivElement>(null)
+  const searchBoxRef = useRef<HTMLDivElement>(null)
 
-  const inputRef = useRef<HTMLInputElement>(null)
+  useLayoutEffect(() => {
+    const searchBox = searchBoxRef.current
+    if (searchBox === null) {
+      return undefined
+    }
 
-  // Helper to count words
-  const countWords = (str: string): number => {
-    return str
-      .trim()
-      .split(/\s+/)
-      .filter((word) => word.length > 0).length
-  }
+    const updateSearchBoxWidth = (): void => {
+      const width = searchBox.getBoundingClientRect().width
+      if (width > 0) {
+        setSearchBoxWidth(width)
+      }
+    }
+
+    updateSearchBoxWidth()
+    const resizeObserver = new ResizeObserver(updateSearchBoxWidth)
+    resizeObserver.observe(searchBox)
+
+    return () => resizeObserver.disconnect()
+  }, [])
 
   const handleInputChange = (
     event: React.FormEvent<HTMLInputElement>,
@@ -164,59 +207,6 @@ const SearchBox: React.FC<{
     inputRef.current?.focus()
   }
 
-  const validateInput = (): boolean => {
-    const { value } = currentState
-    if (value === null || value.trim() === '') {
-      return false
-    }
-    if (countWords(value) > MAX_WORDS) {
-      return false
-    }
-    return true
-  }
-
-  const submitHandler = (event: React.FormEvent<HTMLFormElement>): void => {
-    event.preventDefault()
-    if (validateInput()) {
-      const valueToSubmit = checkForStopWords(currentState.value!)
-      translate({
-        query: valueToSubmit,
-        scope: searchScope[tab],
-        onSuccess: (translatedString) => {
-          const newUrlParams = new URLSearchParams()
-          const query = JSON.parse(translatedString)
-          delete query._scope
-          newUrlParams.set('q', JSON.stringify(query))
-          newUrlParams.set('sq', valueToSubmit)
-          newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
-          if (closeSearchBox) {
-            closeSearchBox()
-          }
-          inputRef.current!.value = ''
-          setIsError(false)
-          setIsLoading(false)
-          pushClientEvent('Search Button', 'Submit', 'Simple Search')
-          navigate(
-            {
-              pathname: `/view/results/${tab}`,
-              search: `${newUrlParams.toString()}`,
-            },
-            {
-              state: {
-                fromNonResultsPage: !isResults,
-              },
-            },
-          )
-        },
-        onError: () => {
-          setIsLoading(false)
-          setIsError(true)
-        },
-        onLoading: () => setIsLoading(true),
-      })
-    }
-  }
-
   useEffect(() => {
     if (inputRef.current !== null) {
       inputRef.current.focus()
@@ -227,16 +217,47 @@ const SearchBox: React.FC<{
     }
   }, [isSearchOpen])
 
+  useEffect(() => {
+    if (aiDisambiguation.length === 0) {
+      return undefined
+    }
+
+    // Close the Disambiguation dropdown on any click outside of it
+    const handleClickOutside = (event: MouseEvent): void => {
+      if (
+        disambiguationRef.current &&
+        !disambiguationRef.current.contains(event.target as Node)
+      ) {
+        setAiDisambiguation([])
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [aiDisambiguation])
+
+  const handleDisambiguationLinkSelection = (): void => {
+    setAiDisambiguation([])
+  }
+
   const hasInputValue =
     !isNull(currentState.value) && currentState.value.length > 0
 
   return (
     <Row className={`${isResults ? 'py-3' : ''} mx-0`}>
-      <div className="col-12 d-flex justify-content-center">
-        <StyledSearchBox>
+      <Col
+        xs={12}
+        sm={12}
+        md={12}
+        lg={12}
+        xl={12}
+        xxl={12}
+        className="d-flex justify-content-center px-0"
+      >
+        <StyledSearchBox ref={searchBoxRef}>
           <form
             className="w-100"
-            onSubmit={submitHandler}
+            onSubmit={submitForm}
             data-testid={`${id}-simple-search-form`}
           >
             <div className="input-group">
@@ -269,13 +290,13 @@ const SearchBox: React.FC<{
               )}
               <div className="input-group-append submitButtonDiv">
                 <button
-                  disabled={!validateInput()}
+                  disabled={!validateInput(currentState)}
                   type="submit"
-                  className="btn submitButton"
+                  className="btn submitButton submitSearch"
                   aria-label="submit search input"
                   data-testid={`${id}-search-submit-button`}
                 >
-                  {isLoading ? (
+                  {isSearchLoading ? (
                     <LoadingSpinner />
                   ) : (
                     <i className="bi bi-search" />
@@ -285,7 +306,27 @@ const SearchBox: React.FC<{
             </div>
           </form>
         </StyledSearchBox>
-      </div>
+      </Col>
+      {aiDisambiguation.length > 0 && (
+        <Col
+          ref={disambiguationRef}
+          xs={12}
+          sm={12}
+          md={12}
+          lg={12}
+          xl={12}
+          xxl={12}
+          className="d-flex justify-content-center"
+        >
+          <Disambiguation
+            aiDisambiguation={aiDisambiguation}
+            className="searchBoxDisambiguation"
+            width={searchBoxWidth}
+            resetDisambiguation={handleDisambiguationLinkSelection}
+            generateNewSuggestions={submitForm}
+          />
+        </Col>
+      )}
     </Row>
   )
 }

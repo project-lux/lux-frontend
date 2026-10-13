@@ -11,6 +11,12 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { searchScope } from '../../config/searchTypes'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import config from '../../config/config'
+import {
+  AI_REFINEMENT_PARAM,
+  SEARCH_TYPE_PARAM,
+} from '../../config/aiAssistedSearch/variables'
+import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
+import { useAppSelector } from '../../app/hooks'
 
 import ResultSnippet from './ResultSnippet'
 
@@ -41,6 +47,10 @@ export const resultsData = (
  * @returns {JSX.Element}
  */
 const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
+  const asSearchState = useAppSelector(
+    (searchState) => searchState.currentSearch as ICurrentSearchState,
+  )
+  const isAiSearch = asSearchState.isAiSearch
   // get relationship data
   const { data, isSuccess, isLoading, isError } = useGetSearchRelationshipQuery(
     {
@@ -72,7 +82,7 @@ const ObjectsContainer: React.FC<IObjectsBy> = ({ uri, tab, title }) => {
                 href={`/view/results/${tab}?${formatHalLink(
                   uri,
                   searchScope[tab],
-                )}&searchLink=true`}
+                )}&searchLink=true&${SEARCH_TYPE_PARAM}=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`}
                 onClick={() =>
                   pushClientEvent('Search Link', 'Selected', `Tab ${title}`)
                 }
