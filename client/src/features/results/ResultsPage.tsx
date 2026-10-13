@@ -55,9 +55,6 @@ const ResultsPage: React.FC = () => {
   const isAdvancedSearch =
     urlParams.has(SEARCH_TYPE_PARAM) &&
     urlParams.get(SEARCH_TYPE_PARAM) === 'advanced'
-  const isKeywordSearch =
-    urlParams.has('isKeywordSearch') &&
-    urlParams.get('isKeywordSearch') === 'true'
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
@@ -145,7 +142,7 @@ const ResultsPage: React.FC = () => {
             />
           </ResponsiveCol>
         )}
-        {tab !== queryTab && !isKeywordSearch ? (
+        {tab !== queryTab && isAdvancedSearch ? (
           <Col>
             <Alert
               variant="info"

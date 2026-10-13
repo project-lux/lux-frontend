@@ -8,6 +8,7 @@ export const countWords = (str: string): number => {
     .filter((word) => word.length > 0).length
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const validateInput = (state: any): boolean => {
   const { value } = state
   if (value === null || value.trim() === '') {
