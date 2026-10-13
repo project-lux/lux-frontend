@@ -24,6 +24,7 @@ import { ISearchResults } from '../../types/ISearchResults'
 import InterpretationContainer from '../aiAssistedSearch/InterpretationContainer'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { useAppSelector } from '../../app/hooks'
+import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
 
@@ -79,6 +80,9 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
     ? (queryString.get(sortName)?.split(':')[1] as string)
     : undefined
   const descriptiveText = EntityResultsDescription(overlay) || ''
+  const isRefineSearch = queryString.has(AI_REFINEMENT_PARAM)
+    ? queryString.get(AI_REFINEMENT_PARAM) === 'true'
+    : false
 
   // toggle view between list and image view
   const changeView = (selectedView: string): void => {
@@ -217,7 +221,7 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
         )}
       </Row>
       {/* If the search is an AI assisted search and the user is NOT on a mobile device, show the interpretation container at this location */}
-      {isAiSearch && !isMobile && (
+      {isAiSearch && !isRefineSearch && !isMobile && (
         <Row className="aiAssistedSearchRefinementRow px-2">
           <Col xs={12} sm={12} md={12} lg={12} xl={12} className="my-2">
             <InterpretationContainer

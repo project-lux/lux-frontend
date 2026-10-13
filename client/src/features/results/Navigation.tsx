@@ -151,14 +151,11 @@ const Navigation: React.FC<INavigation> = ({
                           {advancedSearchTitles[key]}
                         </Col>
                         <Col xs={12} className="linkSubtext d-flex text-start">
-                          {(simpleSearch && isLoading) ||
-                          isFetching ||
-                          (advancedSearch && isLoading) ? (
+                          {isLoading || isFetching ? (
                             <LoadingSpinner size="sm" />
                           ) : (
                             estimates[key]
-                          )}{' '}
-                          results
+                          )}
                         </Col>
                       </Row>
                     </Col>

@@ -44,45 +44,53 @@ const ResultsSearchContainer: React.FC<IProps> = ({
   const isRefineSearch = urlParams.has(AI_REFINEMENT_PARAM)
     ? urlParams.get(AI_REFINEMENT_PARAM) === 'true'
     : false
-  const showAdvancedSearch = isAdvancedSearch
 
   return (
     <React.Fragment>
-      {(showAdvancedSearch || isRefineSearch) && !isMobile ? (
-        <ErrorBoundary FallbackComponent={ErrorFallback}>
-          <Header />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-          {isAiSearch && isRefineSearch ? (
+      <ErrorBoundary FallbackComponent={ErrorFallback}>
+        {isAiSearch && isRefineSearch && !isMobile ? (
+          <React.Fragment>
+            <Header />
+            <Navigation
+              urlParams={urlParams}
+              criteria={queryString !== '' ? JSON.parse(queryString) : null}
+              search={search}
+              isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            />
             <RefinementContainer key={search} />
-          ) : (
+          </React.Fragment>
+        ) : !isAiSearch && isAdvancedSearch && !isMobile ? (
+          <React.Fragment>
+            <Header />
+            <Navigation
+              urlParams={urlParams}
+              criteria={queryString !== '' ? JSON.parse(queryString) : null}
+              search={search}
+              isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            />
             <AdvancedSearchFormContainer
               key={tab}
               formClassName="advancedSearchBody"
               helpTextClassName="helpText"
             />
-          )}
-        </ErrorBoundary>
-      ) : (
-        <React.Fragment>
-          <SearchContainer
-            className="resultsSearchContainer"
-            bgColor="transparent"
-            id="results-search-container"
-            isResultsPage
-          />
-          <Navigation
-            urlParams={urlParams}
-            criteria={queryString !== '' ? JSON.parse(queryString) : null}
-            search={search}
-            isSwitchToSimpleSearch={isSwitchToSimpleSearch}
-          />
-        </React.Fragment>
-      )}
+          </React.Fragment>
+        ) : (
+          <React.Fragment>
+            <SearchContainer
+              className="resultsSearchContainer"
+              bgColor="transparent"
+              id="results-search-container"
+              isResultsPage
+            />
+            <Navigation
+              urlParams={urlParams}
+              criteria={queryString !== '' ? JSON.parse(queryString) : null}
+              search={search}
+              isSwitchToSimpleSearch={isSwitchToSimpleSearch}
+            />
+          </React.Fragment>
+        )}
+      </ErrorBoundary>
     </React.Fragment>
   )
 }
