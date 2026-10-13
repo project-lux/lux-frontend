@@ -156,7 +156,7 @@ export const faqGroupKeys = [
 export const faqGroupLabels: { [key in FaqGroupKey]: string } = {
   [FaqGroupKey.NO_GROUP]: 'Default',
   [FaqGroupKey.GENERAL_INFO]: 'General Information',
-  [FaqGroupKey.SIMPLE_SEARCH]: 'Simple Search',
+  [FaqGroupKey.SIMPLE_SEARCH]: 'Search Tips',
   [FaqGroupKey.ADVANCED_SEARCH]: 'Advanced Search Information',
   [FaqGroupKey.ADVANCED_SEARCH_TERMS]: 'Advanced Search Terms',
   [FaqGroupKey.RESULT_VIEWS]: 'Result Views',

@@ -52,8 +52,7 @@ const InterpretationContainer: React.FC<IProps> = ({
   const urlSearchParams = new URLSearchParams(search)
   const currentQueryTab = urlSearchParams.get('qt')
   const isKeywordSearch = urlSearchParams.get('isKeywordSearch') === 'true'
-  urlSearchParams.set('qt', tab)
-  urlSearchParams.set(AI_REFINEMENT_PARAM, 'true')
+
   // set a default empty object for query if 'q' parameter is not present
   let query = {}
   if (
@@ -71,6 +70,8 @@ const InterpretationContainer: React.FC<IProps> = ({
   )
 
   urlSearchParams.set(SEARCH_TYPE_PARAM, 'advanced')
+  urlSearchParams.set('qt', tab)
+  urlSearchParams.set(AI_REFINEMENT_PARAM, 'true')
 
   if (isMobile) {
     return (

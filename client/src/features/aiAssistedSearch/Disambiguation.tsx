@@ -107,7 +107,7 @@ const Disambiguation: React.FC<{
               queryData.natural,
               newTab,
               false,
-              urlParams.get(SEARCH_TYPE_PARAM) || 'simple',
+              urlParams.get(SEARCH_TYPE_PARAM) || 'advanced',
               urlParams.get(AI_REFINEMENT_PARAM) === 'true',
             )
             return (
