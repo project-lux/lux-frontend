@@ -44,6 +44,7 @@ const SortDropdown: React.FC<IDropdown> = ({
           <Dropdown.Item
             key={key}
             as="button"
+            type="button"
             eventKey={key}
             aria-label={`Sort by ${value}`}
             data-testid="search-results-sorting-option"

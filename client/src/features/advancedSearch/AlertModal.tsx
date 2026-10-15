@@ -1,13 +1,9 @@
 import React from 'react'
-import { Button, Modal } from 'react-bootstrap'
-// import { useNavigate, useLocation } from 'react-router-dom'
-// import { isNull } from 'lodash'
+import { Modal } from 'react-bootstrap'
 
-// import { resetState } from '../../redux/slices/advancedSearchSlice'
-// import { useAppDispatch, useAppSelector } from '../../app/hooks'
-// import { addSelectedHelpText } from '../../redux/slices/helpTextSlice'
-// import { pushClientEvent } from '../../lib/pushClientEvent'
-// import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
+import PrimaryButton from '../../styles/shared/PrimaryButton'
+import SecondaryButton from '../../styles/shared/SecondaryButton'
+import theme from '../../styles/theme'
 
 interface IAlertModal {
   showModal: boolean
@@ -44,11 +40,13 @@ const AlertModal: React.FC<IAlertModal> = ({
     show={showModal}
     onHide={() => onClose()}
     backdrop="static"
+    size="lg"
     keyboard={false}
     animation={false}
     aria-describedby="modalBody"
     aria-labelledby="modalTitle"
     data-testid={modalDataTestId}
+    centered
   >
     <Modal.Dialog className="m-0">
       <Modal.Header closeButton>
@@ -56,20 +54,25 @@ const AlertModal: React.FC<IAlertModal> = ({
       </Modal.Header>
       <Modal.Body id="modalBody">{text}</Modal.Body>
       <Modal.Footer>
-        <Button
-          variant="secondary"
+        <SecondaryButton
+          type="button"
+          textColor={theme.color.black65}
+          actionBgColor={theme.color.black65}
+          className="p-2"
           onClick={() => onClose()}
           data-testid={cancelButtonDataTestId}
         >
           {cancelButtonText}
-        </Button>
-        <Button
-          variant="primary"
+        </SecondaryButton>
+        <PrimaryButton
+          type="button"
+          padding="0.5rem"
+          borderRadius="6px"
           onClick={() => onConfirm()}
           data-testid={confirmButtonDataTestId}
         >
           {confirmButtonText}
-        </Button>
+        </PrimaryButton>
       </Modal.Footer>
     </Modal.Dialog>
   </Modal>

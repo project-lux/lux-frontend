@@ -22,6 +22,7 @@ import InterpretationContainer from './InterpretationContainer'
 const StyledAccordionHeader = styled(Accordion.Header)`
   .accordion-button {
     font-weight: 700;
+    background-color: ${theme.color.offWhite};
   }
 
   :after {
@@ -160,14 +161,14 @@ const RefinementContainer: React.FC = () => {
           <div
             className="p-3 my-3"
             style={{
-              borderColor: theme.color.lightGray,
+              borderColor: theme.color.black65,
               borderWidth: '1px',
               borderStyle: 'solid',
               borderRadius: theme.border.radius,
               backgroundColor: theme.color.lightBabyBlue,
             }}
           >
-            <div className="d-flex align-items-end gap-2">
+            <Form className="d-flex align-items-end gap-2">
               <Form.Group
                 className="mb-0 flex-grow-1"
                 controlId="formBasicEmail"
@@ -203,7 +204,7 @@ const RefinementContainer: React.FC = () => {
                     <Form.Control
                       ref={refinementInputRef}
                       type="text"
-                      placeholder={originalSearchString || ''}
+                      placeholder="Search LUX"
                       value={newQuery}
                       style={{
                         borderLeftStyle: 'none',
@@ -241,7 +242,7 @@ const RefinementContainer: React.FC = () => {
                         aiDisambiguation={aiDisambiguation}
                         className="refinementDisambiguation"
                         resetDisambiguation={handleDisambiguationLinkSelection}
-                        generateNewSuggestions={handleAiSearchSubmit}
+                        // generateNewSuggestions={handleAiSearchSubmit}
                       />
                     </div>
                   )}
@@ -258,10 +259,13 @@ const RefinementContainer: React.FC = () => {
                     : 'refine-search-submit-button'
                 }
               >
-                <i className="bi bi-stars" />
+                <i
+                  className="bi bi-stars"
+                  style={{ color: theme.color.primary.blue }}
+                />
                 Search&nbsp;{isLoading && <LoadingSpinner size="sm" />}
               </StyledSearchButton>
-            </div>
+            </Form>
           </div>
         </Col>
         <Col xs={12}>
@@ -271,7 +275,10 @@ const RefinementContainer: React.FC = () => {
             onSelect={(eventKey) => handleAccordionSelect(eventKey)}
             data-testid="query-builder-accordion"
           >
-            <Accordion.Item eventKey="0">
+            <Accordion.Item
+              eventKey="0"
+              style={{ borderColor: theme.color.black65 }}
+            >
               <StyledAccordionHeader className="d-flex align-items-center">
                 {accordionLabel}&nbsp;
                 <p className="mb-0">

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { Button, Col, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import {
@@ -50,26 +50,25 @@ const Disambiguation: React.FC<{
   aiDisambiguation: Array<IAiDisambiguation>
   className: string
   resetDisambiguation: () => void
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  generateNewSuggestions: (event: any) => void
+  // generateNewSuggestions: (event: any) => void
   width?: number
 }> = ({
   aiDisambiguation,
   className,
   resetDisambiguation,
   width,
-  generateNewSuggestions,
+  // generateNewSuggestions,
 }) => {
   const { search } = useLocation()
   const urlParams = new URLSearchParams(search)
   const lineHeight = { lineHeight: '1.5rem' }
 
-  const handleGenerateNewSuggestions = (
-    event: React.FormEvent<HTMLFormElement>,
-  ): void => {
-    generateNewSuggestions(event)
-    resetDisambiguation()
-  }
+  // const handleGenerateNewSuggestions = (
+  //   event: React.FormEvent<HTMLFormElement>,
+  // ): void => {
+  //   generateNewSuggestions(event)
+  //   resetDisambiguation()
+  // }
 
   const handleDisambiguationLinkClick = (): void => {
     pushClientEvent('Search Link', 'Selected', 'Disambiguation')
@@ -135,7 +134,7 @@ const Disambiguation: React.FC<{
           })}
         </Row>
       </Col>
-      <Col
+      {/* <Col
         xs={12}
         className="py-2 d-flex justify-content-center"
         style={{ borderTop: `2px solid ${theme.color.lightGray}` }}
@@ -148,7 +147,7 @@ const Disambiguation: React.FC<{
         >
           Generate New Suggestions
         </Button>
-      </Col>
+      </Col> */}
     </StyledDisambiguation>
   )
 }

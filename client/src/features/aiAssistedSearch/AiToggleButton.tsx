@@ -60,23 +60,10 @@ const StyledSwitchSlider = styled.span<{
   inset: 0;
   border-radius: 24px;
   border: ${(props): string => {
-    return `1px solid ${props.$color}`
+    return `1px solid ${props.$isActive ? `${props.$color}` : `${theme.color.gray}`}`
   }};
-  background-color: ${(props): string => {
-    if (props.$isActive && props.isStickyHeaderActive) {
-      return props.$color
-    }
-    if (!props.$isActive && props.isStickyHeaderActive) {
-      return 'transparent'
-    }
-    if (props.$isActive && !props.isStickyHeaderActive) {
-      return props.$color
-    }
-    if (!props.$isActive && !props.isStickyHeaderActive) {
-      return 'transparent'
-    }
-    return 'transparent'
-  }};
+  background-color: ${(props): string =>
+    props.$isActive ? `${props.$color}` : `${theme.color.gray}`};
   transition: background-color 0.2s ease-in-out;
 
   &::before {
@@ -98,7 +85,7 @@ const StyledSwitchSlider = styled.span<{
         return theme.color.white
       }
       if (!props.$isActive && !props.isStickyHeaderActive) {
-        return props.$color
+        return theme.color.white
       }
       return props.$color
     }};
@@ -132,6 +119,7 @@ const AiToggleButton: React.FC<IToggleButtonProps> = ({
           type="checkbox"
           checked={isAiSearch}
           onChange={handleToggleClick}
+          aria-label={`Turn AI-Assisted Search ${isAiSearch ? 'Off' : 'On'}`}
           data-testid="toggle-ai-assisted-search-button"
         />
         <StyledSwitchSlider

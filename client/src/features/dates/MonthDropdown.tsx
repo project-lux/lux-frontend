@@ -64,6 +64,7 @@ const MonthDropdown: React.FC<IDropdown> = ({
           <Dropdown.Item
             key={key}
             as="button"
+            type="button"
             eventKey={key}
             id={key}
             aria-label={value}

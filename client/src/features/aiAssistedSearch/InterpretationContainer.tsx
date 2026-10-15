@@ -73,6 +73,10 @@ const InterpretationContainer: React.FC<IProps> = ({
   urlSearchParams.set('qt', tab)
   urlSearchParams.set(AI_REFINEMENT_PARAM, 'true')
 
+  if (Object.keys(query).length === 0) {
+    return null
+  }
+
   if (isMobile) {
     return (
       <StyledAccordion className="bg-light">
