@@ -151,7 +151,9 @@ const FormHeader: React.FC<{
         )}
         {isAiSearch ? (
           <span className="d-flex justify-content-start align-items-center">
-            <StyledH3>Searching for:&nbsp;</StyledH3>
+            <StyledH3 className="text-nowrap">
+              {isUndefined(tab) ? 'Search' : 'Searching for:'}&nbsp;
+            </StyledH3>
             {originalSearchString && (
               <StyledOriginalQuery data-testid="natural-language-text">
                 "{originalSearchString}"

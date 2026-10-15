@@ -3,14 +3,19 @@ import styled from 'styled-components'
 
 import theme from '../theme'
 
-const PrimaryButton = styled(Button)`
+interface IProps {
+  padding?: string
+  borderRadius?: string
+}
+
+const PrimaryButton = styled(Button)<IProps>`
   background-color: ${theme.color.primary.teal};
   color: ${theme.color.white};
-  border-radius: 10px;
+  border-radius: ${({ borderRadius }) => borderRadius || '10px'};
   border-color: ${theme.color.primary.teal};
   font-size: 16px;
   font-weight: ${theme.font.weight.bold};
-  padding: 1rem;
+  padding: ${({ padding }) => padding || '1rem'};
   text-decoration: none;
 
   &:disabled {
@@ -19,10 +24,11 @@ const PrimaryButton = styled(Button)`
     border-color: ${theme.color.primary.teal};
   }
 
-  &:hover {
-    background-color: ${theme.color.primary.teal};
+  &:hover,
+  &:focus {
+    background-color: ${theme.color.white};
     border-color: ${theme.color.primary.teal};
-    color: ${theme.color.white};
+    color: ${theme.color.primary.teal};
   }
 
   &.btn:active {

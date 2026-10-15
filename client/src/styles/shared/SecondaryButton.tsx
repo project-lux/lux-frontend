@@ -24,7 +24,8 @@ const SecondaryButton = styled(Button)<IProps>`
     border-color: ${theme.color.white};
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background-color: ${(props) => props.actionBgColor || theme.color.black};
     border-color: ${theme.color.white};
     color: ${theme.color.white};

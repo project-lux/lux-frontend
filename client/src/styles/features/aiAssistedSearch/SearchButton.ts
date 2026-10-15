@@ -33,7 +33,8 @@ const SearchButton = styled(Button)`
     border-color: transparent;
   }
 
-  &:hover {
+  &:hover,
+  &:focus {
     background:
       linear-gradient(${theme.color.white}, ${theme.color.white}) padding-box,
       linear-gradient(

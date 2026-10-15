@@ -68,6 +68,7 @@ const DayDropdown: React.FC<IDropdown> = ({
           <Dropdown.Item
             key={option}
             as="button"
+            type="button"
             eventKey={option}
             id={option}
             aria-label={option}

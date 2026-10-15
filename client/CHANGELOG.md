@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## Unreleased
+## v2.0.1 - 2026-10-14
+
+### Fixed
+
+- Fixed refine search when user hits the Enter key ([#1016](https://github.com/project-lux/lux-frontend/issues/1016)).
+
+## v2.0.0 - 2026-10-13
 
 ### Added
 

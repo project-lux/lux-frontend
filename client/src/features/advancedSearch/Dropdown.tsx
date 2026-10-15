@@ -133,6 +133,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
                         key={`${scopeName}-${term}`}
                         className="ps-5"
                         as="button"
+                        type="button"
                         eventKey={term}
                         id={term}
                         aria-label={label}
@@ -163,6 +164,7 @@ const AdvancedSearchDropdown: React.FC<IDropdown> = ({
               <Dropdown.Item
                 key={key}
                 as="button"
+                type="button"
                 eventKey={key}
                 id={key}
                 aria-label={value as string}

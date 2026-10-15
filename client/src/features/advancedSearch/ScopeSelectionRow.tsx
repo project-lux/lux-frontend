@@ -123,6 +123,7 @@ const ScopeSelectionRow: React.FC = () => {
                   <Dropdown.Item
                     key={key}
                     as="button"
+                    type="button"
                     eventKey={key}
                     id={key}
                     aria-label={value}
