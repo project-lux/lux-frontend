@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file.
 
+## v2.1.0 - Unreleased
+
+### Added
+
+### Changed
+
+### Fixed
+
+### Removed
+
 ## v2.0.1 - 2026-10-14
 
 ### Fixed
