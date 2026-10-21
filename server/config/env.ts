@@ -45,3 +45,15 @@ export const bugherdApiKey = getString(process.env.BUGHERD_API_KEY)
 // an unset variable disables the feature.
 export const broadcastSearchAllowedOrigins =
   getString(process.env.BROADCAST_SEARCH_ALLOWED_ORIGINS) || ''
+
+// Public AWS WAF integration settings; never put credentials here.
+export const wafChallengeScriptUrl =
+  getString(process.env.WAF_CHALLENGE_SCRIPT_URL) || ''
+export const wafContactUrl =
+  getString(process.env.WAF_CONTACT_URL) || luxFeedbackUrl || ''
+export const wafProtectedOrigins = (
+  getString(process.env.WAF_PROTECTED_ORIGINS) || ''
+)
+  .split(',')
+  .map((origin) => origin.trim())
+  .filter(Boolean)
