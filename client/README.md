@@ -136,3 +136,56 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+
+### AWS WAF silent browser verification
+
+The `BrowserVerification` gate loads public settings before mounting App (including
+its `/env` request), loads AWS's `challenge.js`, and waits for a token. Axios,
+configuration fetches, and `fetchWithToken` acquire/refresh tokens before requests.
+Concurrent token requests share one operation. Failures or timeouts show the
+custom Retry/Contact us screen; Retry reloads the page without replaying mutations.
+Tokens are only attached to same-origin and explicitly configured API origins.
+
+Runtime server variables (public, not secrets):
+
+- `WAF_CHALLENGE_SCRIPT_URL`: exact HTTPS `challenge.js` URL issued by the
+  environment's AWS WAF application integration. Empty disables verification.
+- `WAF_CONTACT_URL`: HTTPS contact form or `mailto:` destination reachable without
+  a challenge. Falls back to `LUX_FEEDBACK_URL`. Required when verification is enabled.
+- `WAF_PROTECTED_ORIGINS`: optional comma-separated additional protected API
+  origins, e.g. `https://api.example.org`. Same-origin is included automatically.
+
+For Vite local development use the corresponding `REACT_APP_WAF_*` variables in
+`.env.template`; production reads `/waf-config.json` from the frontend server.
+This endpoint returns no secrets and sends `Cache-Control: no-store`. Configure
+CloudFront not to cache it and deploy server and client together. Do not place a
+static file with that name in `public/`. Integration defaults to disabled.
+
+Deployment order:
+
+1. Obtain the script URL from the intended ACL's application integration; configure
+   its token domain list for the frontend and any protected API domains. Configure
+   CSP to permit the AWS integration resources according to AWS documentation.
+2. Set the contact destination and script URL. For cross-origin APIs, allow the
+   `x-aws-waf-token` request header in CORS/preflight handling. WAF's own challenge
+   responses omit CORS headers, so they cannot be reliably inspected cross-origin.
+3. Deploy this frontend and server first. Ensure `/waf-config.json`, frontend HTML,
+   JS/CSS assets, and the contact destination remain accessible without Challenge.
+   Use narrowly scoped WAF rules on selected API/data routes; frontend recovery
+   cannot display if WAF intercepts the initial HTML or JS before the app runs.
+   Do not use a broad terminating Allow to exempt assets from unrelated security rules.
+4. Verify token acquisition, API calls, expired tokens, disabled JavaScript/script
+   blocking, the failure screen, Retry, and contact access in a test environment.
+5. Evaluate the proposed UA + exact JA4 + path rule in Count, then activate Challenge
+   for the reviewed scope. This code does not enable any production WAF rules.
+   Non-browser research clients need a separate authenticated/quota-managed option.
+
+Focused transport tests: `pnpm exec vitest run --config waf-test.config.ts`.
+They cover disabled mode, production bootstrap, concurrent token acquisition,
+origin restrictions, script/token failure, timeout, and Challenge responses.
+Builds also require the existing site-specific `index.html` and
+`src/lib/pushClientEvent.ts` setup described above.
+
+AWS references: https://docs.aws.amazon.com/waf/latest/developerguide/waf-js-challenge-api-get-token.html
+and https://docs.aws.amazon.com/waf/latest/developerguide/waf-captcha-and-challenge-actions.html.
