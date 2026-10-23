@@ -54,13 +54,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for Objects that are similar to the specified Objects.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for Objects that are similar to the specified Objects.',
+        //   relation: 'text',
+        // },
         subjectOfSet: {
           label: 'are the subject of',
           aiInterpretationLabel: 'Subject Of',
@@ -327,12 +327,12 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText: 'Search for Works that are similar to the specified Works.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText: 'Search for Works that are similar to the specified Works.',
+        //   relation: 'text',
+        // },
         subjectOfSet: {
           label: 'are the subject of',
           aiInterpretationLabel: 'Subject Of',
@@ -574,13 +574,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for Collections that are similar to the specified Collections.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for Collections that are similar to the specified Collections.',
+        //   relation: 'text',
+        // },
         containingItem: {
           label: 'contain',
           aiInterpretationLabel: 'Contain',
@@ -735,13 +735,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for People & Groups that are similar to the specified People & Groups.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for People & Groups that are similar to the specified People & Groups.',
+        //   relation: 'text',
+        // },
         subjectOfSet: {
           label: 'are the subject of',
           aiInterpretationLabel: 'Subject Of',
@@ -1016,13 +1016,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for Places that are similar to the specified Places.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for Places that are similar to the specified Places.',
+        //   relation: 'text',
+        // },
         placeOfEvent: {
           label: 'are the location of',
           aiInterpretationLabel: 'Location Of',
@@ -1188,13 +1188,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for Concept & Type that are similar to the specified Concept & Type.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for Concept & Type that are similar to the specified Concept & Type.',
+        //   relation: 'text',
+        // },
         classificationOfAgent: {
           label: 'are the category of',
           aiInterpretationLabel: 'Category Of',
@@ -1418,13 +1418,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
-        similar: {
-          label: 'are similar to',
-          aiInterpretationLabel: 'Similar To',
-          helpText:
-            'Search for Events that are similar to the specified Events.',
-          relation: 'text',
-        },
+        // similar: {
+        //   label: 'are similar to',
+        //   aiInterpretationLabel: 'Similar To',
+        //   helpText:
+        //     'Search for Events that are similar to the specified Events.',
+        //   relation: 'text',
+        // },
         subjectOfSet: {
           label: 'are the subject of',
           aiInterpretationLabel: 'Subject Of',
