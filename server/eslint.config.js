@@ -20,6 +20,14 @@ const compat = new FlatCompat({
 
 // eslint.config.js
 export default [
+  {
+    ignores: [
+      'build/',
+      'coverage/',
+      'node_modules/',
+      'eslint.config.js',
+    ],
+  },
   ...fixupConfigRules(compat.extends(
     "plugin:import/errors",
     "plugin:import/warnings",
@@ -44,17 +52,7 @@ export default [
       prettier,
       "@stylistic": stylistic,
     },
-    files: ["src/**/*.ts", "src/**/*.tsx"],
-    ignores: [
-      'dist/',
-      'coverage/',
-      'node_modules/',
-      'pnpm-lock.yaml',
-      'package.json',
-      '/src/serviceWorker.ts',
-      'eslint.config.js',
-      'public/'
-    ],
+    files: ["**/*.ts"],
     rules: {
       "@typescript-eslint/consistent-type-assertions": [2],
       "@typescript-eslint/camelcase": 0,
@@ -92,7 +90,7 @@ export default [
         "error",
         "always",
         {
-          js: "never",
+          ignorePackages: true,
           jsx: "never",
           ts: "never",
           tsx: "never"
@@ -111,6 +109,9 @@ export default [
         }
       ],
       "import/no-named-as-default": 0,
+      // nodenext requires relative imports to use the emitted .js extension,
+      // which the node resolver can't map back to the .ts source; tsc checks these
+      "import/no-unresolved": ["error", { ignore: ["^\\.{1,2}/.*\\.js$"] }],
       "import/order": [
         "error",
         {
