@@ -47,13 +47,12 @@ export const broadcastSearchAllowedOrigins =
   getString(process.env.BROADCAST_SEARCH_ALLOWED_ORIGINS) || ''
 
 // Public AWS WAF integration settings; never put credentials here.
+// Verification only runs when USE_WAF_CHALLENGE is "true".
+export const useWafChallenge = getBool(process.env.USE_WAF_CHALLENGE) || false
 export const wafChallengeScriptUrl =
   getString(process.env.WAF_CHALLENGE_SCRIPT_URL) || ''
 export const wafContactUrl =
   getString(process.env.WAF_CONTACT_URL) || luxFeedbackUrl || ''
-export const wafProtectedOrigins = (
+// Comma-separated; parsed by the client like broadcastSearchAllowedOrigins.
+export const wafProtectedOrigins =
   getString(process.env.WAF_PROTECTED_ORIGINS) || ''
-)
-  .split(',')
-  .map((origin) => origin.trim())
-  .filter(Boolean)

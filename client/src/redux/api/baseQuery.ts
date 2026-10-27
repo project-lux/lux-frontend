@@ -1,11 +1,11 @@
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react'
-import axios from 'axios'
+import axios, { isAxiosError } from 'axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 
 import {
-  checkWafResponse,
-  getWafToken,
-  isWafProtectedUrl,
+  isWafChallenge,
+  WafChallengeError,
+  withWafRetry,
 } from '../../lib/wafChallenge'
 
 export const baseQuery =
@@ -23,24 +23,29 @@ export const baseQuery =
   > =>
   async ({ url, method, data, params }) => {
     try {
-      const baseUrl = getBaseUrl()
-      const targetUrl = baseUrl + url
-      const token = isWafProtectedUrl(targetUrl)
-        ? await getWafToken()
-        : undefined
-      const result = await axios({
-        headers: token ? { 'x-aws-waf-token': token } : undefined,
-        url: baseUrl + url,
-        method,
-        data,
-        params,
-      })
-      checkWafResponse(
-        result.status,
-        result.headers['x-amzn-waf-action'] ?? null,
+      const targetUrl = getBaseUrl() + url
+      const result = await withWafRetry(
+        targetUrl,
+        (token) =>
+          axios({
+            headers: token ? { 'x-aws-waf-token': token } : undefined,
+            url: targetUrl,
+            method,
+            data,
+            params,
+          }),
+        (response) =>
+          isWafChallenge(
+            response.status,
+            response.headers['x-amzn-waf-action'],
+          ),
+        (error) => isAxiosError(error) && error.response === undefined,
       )
       return { data: result.data }
     } catch (axiosError) {
+      if (axiosError instanceof WafChallengeError) {
+        return { error: { status: 'WAF_CHALLENGE', data: axiosError.message } }
+      }
       const err = axiosError as AxiosError
       return {
         error: {

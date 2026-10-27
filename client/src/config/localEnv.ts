@@ -48,3 +48,15 @@ export const bugherdApiKey = getString(
 export const broadcastSearchAllowedOrigins = getString(
   import.meta.env.REACT_APP_BROADCAST_SEARCH_ALLOWED_ORIGINS,
 )
+export const useWafChallenge = getBoolean(
+  import.meta.env.REACT_APP_USE_WAF_CHALLENGE,
+)
+export const wafChallengeScriptUrl = getString(
+  import.meta.env.REACT_APP_WAF_CHALLENGE_SCRIPT_URL,
+)
+export const wafContactUrl = getString(
+  import.meta.env.REACT_APP_WAF_CONTACT_URL,
+)
+export const wafProtectedOrigins = getString(
+  import.meta.env.REACT_APP_WAF_PROTECTED_ORIGINS,
+)
