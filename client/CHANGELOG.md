@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added transitive query support ([#1044](https://github.com/project-lux/lux-frontend/issues/1044)).
+
 ### Changed
 
 ### Fixed
