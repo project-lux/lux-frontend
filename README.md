@@ -20,7 +20,7 @@ Make sure the file `client/.env` defines required environment variables -- see `
 
 ```bash
 cd client/
-yarn start
+pnpm start
 ```
 
 The AJAX call to /env will fail, but the application will work because it will use the values from the local .env (or .env.development.local) file instead.
@@ -28,21 +28,21 @@ The AJAX call to /env will fail, but the application will work because it will u
 ### Run with node server
 
 1. Make sure that all requirements in the [client folder README](https://github.com/project-lux/lux-frontend/blob/main/client/README.md) have been met.
-2. client/.env file, if exists,  will be complied into the build and will interfere with the server side setup. To have the node server to serve the client code, it has to be removed before build. Actually, step 3 below takes care of it because package.json defines "yarn build" so that it will move .env to _env before the build and restore it to .env after.
+2. client/.env file, if exists,  will be complied into the build and will interfere with the server side setup. To have the node server to serve the client code, it has to be removed before build. Actually, step 3 below takes care of it because package.json defines "pnpm build" so that it will move .env to _env before the build and restore it to .env after.
 3. Build the client first by running the following commands:
 
 ```bash
 cd client/
-yarn build
+pnpm build
 ```
 
 4. Make sure the file `server/.env` defines required environment variables -- see `server/.env.template`.
 
 ```
 cd server/
-yarn install
-yarn dev-prep
-yarn dev
+pnpm install
+pnpm dev-prep
+pnpm dev
 ```
 
 ### Running Docker container locally

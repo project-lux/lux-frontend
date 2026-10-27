@@ -13,6 +13,8 @@ All notable changes to this project will be documented in this file.
 - Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
 ### Fixed
 
+- Fixed documentation from yarn to pnpm ([1021](https://github.com/project-lux/lux-frontend/issues/1021)).
+
 ### Removed
 
 - Removed similar to from the local advanced serch config ([#1074](https://github.com/project-lux/lux-frontend/issues/1074)).
