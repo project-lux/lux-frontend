@@ -11,6 +11,7 @@ import ScrollRestoration from './features/common/ScrollRestoration'
 import ClearRedux from './features/common/ClearRedux'
 import NoResultsAlert from './features/results/NoResultsAlert'
 import { activateSearchBroadcast } from './lib/searchBroadcast'
+import { initializeWafChallenge } from './lib/wafChallenge'
 import { AI_ASSISTED_SEARCH_STORAGE_KEY } from './config/aiAssistedSearch/variables'
 
 const Maintenance = styled.div`
@@ -63,6 +64,8 @@ const App: React.FC = () => {
     if (hasRemoteEnv) {
       config.setServerConfig(envResult.data)
     }
+    // No-op unless enabled; API requests wait for it before attaching tokens
+    void initializeWafChallenge(config.env)
     setEnvLoaded(true)
   }
 

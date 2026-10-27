@@ -42,18 +42,8 @@ class App {
       })
     })
 
-    // Must be reachable without a challenge to avoid a bootstrap dependency loop.
-    exp.get(
-      '/waf-config.json',
-      (req: express.Request, res: express.Response) => {
-        res.set('Cache-Control', 'no-store').json({
-          challengeScriptUrl: env.wafChallengeScriptUrl,
-          contactUrl: env.wafContactUrl,
-          protectedOrigins: env.wafProtectedOrigins,
-        })
-      },
-    )
-
+    // /env is fetched before WAF verification starts, so it must never be
+    // challenged.
     exp.get('/env', (req: express.Request, res: express.Response) => {
       res.json({
         version: env.version,
@@ -68,6 +58,10 @@ class App {
         cacheViewerMode: env.cacheViewerMode,
         bugherdApiKey: env.bugherdApiKey,
         broadcastSearchAllowedOrigins: env.broadcastSearchAllowedOrigins,
+        useWafChallenge: env.useWafChallenge,
+        wafChallengeScriptUrl: env.wafChallengeScriptUrl,
+        wafContactUrl: env.wafContactUrl,
+        wafProtectedOrigins: env.wafProtectedOrigins,
       })
     })
 

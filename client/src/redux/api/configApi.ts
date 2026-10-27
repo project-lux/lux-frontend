@@ -1,13 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 
-import { wafFetch } from '../../lib/wafChallenge'
 import { IServerConfig } from '../../config/IServerConfig'
 
 export const configApi = createApi({
   reducerPath: 'configApi',
   baseQuery: fetchBaseQuery({
+    // /env loads before WAF verification starts and must not be challenged
     baseUrl: '/',
-    fetchFn: wafFetch,
   }),
   tagTypes: [],
   endpoints: (builder) => ({

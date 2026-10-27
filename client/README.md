@@ -140,52 +140,57 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 
 ### AWS WAF silent browser verification
 
-The `BrowserVerification` gate loads public settings before mounting App (including
-its `/env` request), loads AWS's `challenge.js`, and waits for a token. Axios,
-configuration fetches, and `fetchWithToken` acquire/refresh tokens before requests.
-Concurrent token requests share one operation. Failures or timeouts show the
-custom Retry/Contact us screen; Retry reloads the page without replaying mutations.
-Tokens are only attached to same-origin and explicitly configured API origins.
+Disabled unless `USE_WAF_CHALLENGE` is `true`; otherwise the app behaves as if
+the integration did not exist. When enabled, App starts verification as soon as
+`/env` has loaded: it loads AWS's `challenge.js` and primes a token. Axios
+(`baseQuery`) and `fetchWithToken` wait for that, attach the token, and, if the
+token can't be obtained or a response is a WAF challenge, refresh the token and
+retry once. Only a second failure shows the Retry/Contact us screen
+(`BrowserVerification`). Concurrent token requests share one operation. Tokens
+are only attached to same-origin and explicitly configured API origins.
 
-Runtime server variables (public, not secrets):
+Configuration problems (missing or non-AWS script URL, invalid origin entries,
+missing contact URL) are logged to the console and do not block the app.
 
+Runtime server variables, served through `/env` (public, not secrets):
+
+- `USE_WAF_CHALLENGE`: `true` to enable verification. Defaults to `false`.
 - `WAF_CHALLENGE_SCRIPT_URL`: exact HTTPS `challenge.js` URL issued by the
-  environment's AWS WAF application integration. Empty disables verification.
-- `WAF_CONTACT_URL`: HTTPS contact form or `mailto:` destination reachable without
-  a challenge. Falls back to `LUX_FEEDBACK_URL`. Required when verification is enabled.
+  environment's AWS WAF application integration. Required when enabled.
+- `WAF_CONTACT_URL`: optional HTTPS contact form or `mailto:` destination
+  reachable without a challenge. Falls back to `LUX_FEEDBACK_URL`; the Contact
+  us button is hidden if neither is a valid HTTPS/mailto URL.
 - `WAF_PROTECTED_ORIGINS`: optional comma-separated additional protected API
   origins, e.g. `https://api.example.org`. Same-origin is included automatically.
 
-For Vite local development use the corresponding `REACT_APP_WAF_*` variables in
-`.env.template`; production reads `/waf-config.json` from the frontend server.
-This endpoint returns no secrets and sends `Cache-Control: no-store`. Configure
-CloudFront not to cache it and deploy server and client together. Do not place a
-static file with that name in `public/`. Integration defaults to disabled.
+For Vite local development use the corresponding `REACT_APP_USE_WAF_CHALLENGE`
+and `REACT_APP_WAF_*` variables in `.env.template`.
 
 Deployment order:
 
 1. Obtain the script URL from the intended ACL's application integration; configure
    its token domain list for the frontend and any protected API domains. Configure
    CSP to permit the AWS integration resources according to AWS documentation.
-2. Set the contact destination and script URL. For cross-origin APIs, allow the
-   `x-aws-waf-token` request header in CORS/preflight handling. WAF's own challenge
-   responses omit CORS headers, so they cannot be reliably inspected cross-origin.
-3. Deploy this frontend and server first. Ensure `/waf-config.json`, frontend HTML,
-   JS/CSS assets, and the contact destination remain accessible without Challenge.
-   Use narrowly scoped WAF rules on selected API/data routes; frontend recovery
-   cannot display if WAF intercepts the initial HTML or JS before the app runs.
-   Do not use a broad terminating Allow to exempt assets from unrelated security rules.
+2. For each origin in `WAF_PROTECTED_ORIGINS`, CORS must allow the
+   `x-aws-waf-token` request header (preflight) and expose `x-amzn-waf-action`.
+   Check with:
+   `curl -si -X OPTIONS https://api.example.org/api/search -H 'Origin: https://lux.example.org' -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: x-aws-waf-token'`
+   WAF's own challenge responses omit CORS headers, so cross-origin challenges
+   surface as network errors; these are retried once with a fresh token and
+   then reported as ordinary request errors.
+3. Deploy this frontend and server, then set `USE_WAF_CHALLENGE=true` with the
+   script URL. Ensure `/env`, frontend HTML, JS/CSS assets, and the contact
+   destination remain accessible without Challenge — verification cannot start
+   until `/env` has loaded. Use narrowly scoped WAF rules on selected API/data
+   routes. Do not use a broad terminating Allow to exempt assets from unrelated
+   security rules.
 4. Verify token acquisition, API calls, expired tokens, disabled JavaScript/script
    blocking, the failure screen, Retry, and contact access in a test environment.
 5. Evaluate the proposed UA + exact JA4 + path rule in Count, then activate Challenge
    for the reviewed scope. This code does not enable any production WAF rules.
    Non-browser research clients need a separate authenticated/quota-managed option.
 
-Focused transport tests: `pnpm exec vitest run --config waf-test.config.ts`.
-They cover disabled mode, production bootstrap, concurrent token acquisition,
-origin restrictions, script/token failure, timeout, and Challenge responses.
-Builds also require the existing site-specific `index.html` and
-`src/lib/pushClientEvent.ts` setup described above.
+Unit tests: `pnpm vitest run src/test/unit/lib/wafChallenge.spec.ts`.
 
 AWS references: https://docs.aws.amazon.com/waf/latest/developerguide/waf-js-challenge-api-get-token.html
 and https://docs.aws.amazon.com/waf/latest/developerguide/waf-captcha-and-challenge-actions.html.

@@ -48,6 +48,10 @@
     "value": ""
   },
   {
+    "key": "USE_WAF_CHALLENGE",
+    "value": false
+  },
+  {
     "key": "WAF_CHALLENGE_SCRIPT_URL",
     "value": ""
   },

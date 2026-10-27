@@ -1,31 +1,19 @@
-import React, { useEffect, useState, useSyncExternalStore } from 'react'
+import React, { useSyncExternalStore } from 'react'
 
 import {
   getWafContactUrl,
   hasWafFailure,
-  initializeWafChallenge,
   subscribeToWafFailure,
 } from '../../lib/wafChallenge'
 
-/** Kept outside App so configuration/API failures cannot hide the recovery UI. */
+/**
+ * Kept outside App so configuration/API failures cannot hide the recovery UI.
+ * Verification itself is started by App once the runtime config has loaded.
+ */
 const BrowserVerification: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
-  const [ready, setReady] = useState(false)
   const failed = useSyncExternalStore(subscribeToWafFailure, hasWafFailure)
-  useEffect(() => {
-    let mounted = true
-    initializeWafChallenge()
-      .then(() => {
-        if (mounted) setReady(true)
-      })
-      .catch(() => {
-        /* Failure is displayed by the external store. */
-      })
-    return () => {
-      mounted = false
-    }
-  }, [])
 
   if (failed) {
     const contactUrl = getWafContactUrl()
@@ -61,12 +49,6 @@ const BrowserVerification: React.FC<React.PropsWithChildren> = ({
       </main>
     )
   }
-  if (!ready)
-    return (
-      <p role="status" className="container py-4">
-        Preparing secure access to LUX…
-      </p>
-    )
   return <React.Fragment>{children}</React.Fragment>
 }
 
