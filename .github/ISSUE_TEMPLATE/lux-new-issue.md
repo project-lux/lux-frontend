@@ -3,7 +3,7 @@ name: LUX New Issue
 about: When completed, an issue will be ready for development. If sections are NOT
   needed, then can be removed.
 title: ''
-labels: ''
+labels: important, maintenance
 assignees: ''
 
 ---
@@ -25,7 +25,7 @@ If an item on the list is not needed, it should be crossed off but not removed.
 - [ ] Feasibility/Team discussion - Sarah
 - [ ] Backend requirements - TBD
 - [ ] Frontend requirements- TBD
-- [ ] Are new regression tests required for QA - Amy
+- [ ] Are new regression tests required for QA - Zach
 - [ ] Questions
 - List of questions for discussions. Answers should be documented within the issue.
 

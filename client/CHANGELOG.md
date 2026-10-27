@@ -14,6 +14,12 @@ All notable changes to this project will be documented in this file.
 
 - Removed similar to from the local advanced serch config ([#1074](https://github.com/project-lux/lux-frontend/issues/1074)).
 
+## v2.0.2 - 2026-10-23
+
+### Security
+
+- Updated Node version to default to the latest of v24
+
 ## v2.0.1 - 2026-10-14
 
 ### Fixed

@@ -1,4 +1,4 @@
-FROM node:22.21.0-bookworm-slim
+FROM node:24-bookworm-slim
 
 RUN mkdir /src
 ADD . /src
@@ -34,5 +34,7 @@ RUN apt-get update && \
 ADD docker/import-config-start.sh /app/
 
 WORKDIR /app
+
+RUN node --version
 
 CMD ["./import-config-start.sh"]
