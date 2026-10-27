@@ -114,6 +114,7 @@ export const dropdownGroupings: Array<string> = [
 ]
 
 export const DEFAULT_PAGE_LENGTH = 20
+export const MAX_PAGE_LENGTH = 100
 
 /**
  * Used in advanced search for aria-labels based on the current advanced search row's scope.
