@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { JSX } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 
 import {
   QueryOption,

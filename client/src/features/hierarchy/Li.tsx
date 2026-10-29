@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation } from 'react-router'
 
 import useApiText from '../../lib/hooks/useApiText'
 import { stripYaleIdPrefix } from '../../lib/parse/data/helper'

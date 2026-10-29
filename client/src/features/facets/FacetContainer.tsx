@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router'
 import { Col, Row } from 'react-bootstrap'
 
 import { ResultsTab } from '../../types/ResultsTab'
