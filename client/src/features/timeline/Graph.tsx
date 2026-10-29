@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState, ReactElement, useEffect } from 'react'
+import React, { useMemo, useState, ReactElement } from 'react'
 import {
   BarChart,
   Bar,
@@ -70,7 +70,6 @@ const Graph: React.FC<IProps> = ({
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const [graphData, setGraphData] = useState<Array<IGraphTimelineData>>([])
   const [hoveredLegend, setHoveredLegend] = useState<string | null>(null)
   const [selectedLegend, setSelectedLegend] = useState<string | null>(null)
   // Get the relationships that are used in the timeline data to determine which relationships to show in the legend
@@ -86,25 +85,25 @@ const Graph: React.FC<IProps> = ({
     setSelectedLegend((currentValue) => (currentValue === value ? null : value))
   }
 
-  useEffect(() => {
+  // Memoized so the chart only receives new data when the timeline data changes.
+  // Recharts resets the Brush range whenever the chart data changes.
+  const graphData = useMemo<Array<IGraphTimelineData>>(() => {
     const showEras = TimelineParser.showYearEra(yearsArray)
-    setGraphData(
-      yearsArray.map((year) => {
-        const barData = timelineData.hasOwnProperty(year)
-          ? timelineData[year]
-          : { total: 0 }
-        let yearLabel = year
-        // If any of the years are negative, set the year, display the era (BCE/CE) in the label
-        if (showEras) {
-          yearLabel = TimelineParser.getYearWithLabel(year)
-        }
-        return {
-          year: yearLabel,
-          yearKey: year,
-          ...barData,
-        }
-      }),
-    )
+    return yearsArray.map((year) => {
+      const barData = timelineData.hasOwnProperty(year)
+        ? timelineData[year]
+        : { total: 0 }
+      let yearLabel = year
+      // If any of the years are negative, set the year, display the era (BCE/CE) in the label
+      if (showEras) {
+        yearLabel = TimelineParser.getYearWithLabel(year)
+      }
+      return {
+        year: yearLabel,
+        yearKey: year,
+        ...barData,
+      }
+    })
   }, [yearsArray, timelineData])
 
   useResizeableWindow(setIsMobile)
@@ -125,11 +124,14 @@ const Graph: React.FC<IProps> = ({
 
   return (
     <div
-      className="highlight-bar-charts"
+      className="highlight-bar-charts p-3"
       style={{ userSelect: 'none', width: '100%' }}
       data-testid="timeline-graph-container"
     >
-      <ResponsiveContainer width="100%" height={500} className="p-3">
+      {/* Padding is on the wrapper because Recharts 3 draws the chart at the
+      full container height, so padding on ResponsiveContainer pushes the
+      legend outside the container. */}
+      <ResponsiveContainer width="100%" height={500}>
         <BarChart
           data={graphData}
           margin={{

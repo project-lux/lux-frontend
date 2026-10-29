@@ -9,6 +9,8 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
+- Changed Recharts from v2 to the latest v3 and fixed the Brush functionality ([#1071](https://github.com/project-lux/lux-frontend/issues/#1071)).
+
 ### Fixed
 
 ### Removed
