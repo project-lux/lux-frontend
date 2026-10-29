@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
 import StyledSideBar from '../../styles/features/cms/ContentPageSideBar'

@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Col, Form, InputGroup, Pagination, Row } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 
