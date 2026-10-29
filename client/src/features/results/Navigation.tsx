@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import { Row, Col, Nav } from 'react-bootstrap'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'

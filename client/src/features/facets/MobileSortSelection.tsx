@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 import styled from 'styled-components'
 
 import { ResultsTab } from '../../types/ResultsTab'

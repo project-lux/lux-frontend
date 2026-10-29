@@ -1,6 +1,6 @@
 import React, { useRef, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { Link, useLocation, useNavigate, useParams } from 'react-router'
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import theme from '../../styles/theme'

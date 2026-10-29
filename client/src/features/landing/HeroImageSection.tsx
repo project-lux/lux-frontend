@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { ICmsResponse, CmsResponseParser } from '../../lib/parse/cms/Parser'
 import {

@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 import sanitizeHtml from 'sanitize-html'
 import Button from 'react-bootstrap/Button'
 import Overlay from 'react-bootstrap/Overlay'

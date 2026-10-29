@@ -1,5 +1,5 @@
 import React, { useState, type JSX } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 import StyledHr from '../../styles/shared/Hr'
 import StyledDataRow from '../../styles/shared/DataRow'

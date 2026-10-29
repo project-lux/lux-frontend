@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react'
 import React from 'react'
-import { BrowserRouter } from 'react-router'
+import { BrowserRouter } from 'react-router-dom'
 
 import { physicalObject as mockObject } from '../../../data/object'
 import PreviewImageOrIcon from '../../../../features/common/PreviewImageOrIcon'

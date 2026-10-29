@@ -1,5 +1,5 @@
 import React from 'react'
-import { NavLink } from 'react-router'
+import { NavLink } from 'react-router-dom'
 
 import StyledSideBar from '../../styles/features/cms/ContentPageSideBar'
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { scopeToTabTranslation } from '../../config/searchTypes'
 import { IAdvancedSearchState } from '../../redux/slices/advancedSearchSlice'

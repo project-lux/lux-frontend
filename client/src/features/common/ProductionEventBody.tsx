@@ -1,5 +1,5 @@
 import React, { type JSX } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import { Row } from 'react-bootstrap'
 
 import useApiText from '../../lib/hooks/useApiText'
