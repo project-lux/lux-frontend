@@ -116,6 +116,14 @@ export default [
         }
       ],
       "import/no-named-as-default": 0,
+      // react-router v8 only publishes an "exports" map, which the node
+      // resolver cannot read. TypeScript still verifies these imports.
+      "import/no-unresolved": [
+        2,
+        {
+          ignore: ["^react-router$"]
+        }
+      ],
       "import/order": [
         "error",
         {

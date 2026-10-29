@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { Col, Row } from 'react-bootstrap'
 
 import StyledHr from '../../styles/shared/Hr'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation, Link } from 'react-router-dom'
+import { useLocation, Link } from 'react-router'
 import { isNull, isUndefined } from 'lodash'
 import { Col } from 'react-bootstrap'
 
