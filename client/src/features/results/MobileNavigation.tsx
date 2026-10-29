@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
 import { searchScope, advancedSearchTitles } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'

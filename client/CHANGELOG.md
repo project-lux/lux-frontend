@@ -8,6 +8,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 
+- Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
 ### Fixed
 
 ### Removed

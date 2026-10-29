@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { Route, Routes, useLocation } from 'react-router-dom'
+import { Route, Routes, useLocation } from 'react-router'
 
 import { getRouteNames } from '../../config/routerPages'
 import { pushClientPageEvent } from '../../lib/pushClientEvent'
