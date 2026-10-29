@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { BrowserRouter as Router } from 'react-router'
+import { BrowserRouter as Router } from 'react-router-dom'
 import styled from 'styled-components'
 
 import config from './config/config'

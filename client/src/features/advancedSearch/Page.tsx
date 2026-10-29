@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 import { ErrorBoundary } from 'react-error-boundary'
 
 import ResultsSearchContainer from '../results/ResultsSearchContainer'

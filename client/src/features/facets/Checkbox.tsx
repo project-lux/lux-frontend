@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router'
+import { useNavigate, useLocation, useParams } from 'react-router-dom'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import config from '../../config/config'

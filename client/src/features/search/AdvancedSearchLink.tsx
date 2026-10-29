@@ -1,4 +1,4 @@
-import { Link, useLocation, useParams } from 'react-router'
+import { Link, useLocation, useParams } from 'react-router-dom'
 
 import { useAppSelector } from '../../app/hooks'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'

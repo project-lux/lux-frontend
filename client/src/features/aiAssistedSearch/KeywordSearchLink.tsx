@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useParams, useLocation } from 'react-router'
+import { Link, useParams, useLocation } from 'react-router-dom'
 
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import { pushClientEvent } from '../../lib/pushClientEvent'

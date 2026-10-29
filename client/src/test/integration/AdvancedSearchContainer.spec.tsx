@@ -1,6 +1,6 @@
 import { act, cleanup, fireEvent, render, screen } from '@testing-library/react'
 import React from 'react'
-import * as ReactRouterDom from 'react-router'
+import * as ReactRouterDom from 'react-router-dom'
 import { vi } from 'vitest'
 
 import { advancedSearch } from '../../config/advancedSearch/advancedSearch'

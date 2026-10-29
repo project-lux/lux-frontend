@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router'
+import { Link } from 'react-router-dom'
 
 import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 import { formatHalLink } from '../../lib/parse/search/queryParser'

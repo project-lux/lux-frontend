@@ -1,7 +1,7 @@
 import React, { MouseEvent } from 'react'
 import styled from 'styled-components'
 import { Row, Col, Dropdown } from 'react-bootstrap'
-import { useParams } from 'react-router'
+import { useParams } from 'react-router-dom'
 import { isUndefined } from 'lodash'
 
 import StyledDropdown from '../../styles/shared/Dropdown'

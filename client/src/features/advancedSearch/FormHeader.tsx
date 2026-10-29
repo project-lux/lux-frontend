@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useNavigate, useLocation } from 'react-router'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { Col, Row } from 'react-bootstrap'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'

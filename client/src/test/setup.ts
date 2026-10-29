@@ -9,9 +9,9 @@ import {
 } from './utils/mockUseGetEstimatesQuery'
 import { mockUseLocation, resetMockLocation } from './utils/mockUseLocation'
 
-// Mock useLocation from react-router. It does not need to return anything specific.
-vi.mock('react-router', async () => {
-  const actual = await vi.importActual('react-router')
+// Mock useLocation from react-router-dom. It does not need to return anything specific.
+vi.mock('react-router-dom', async () => {
+  const actual = await vi.importActual('react-router-dom')
   return {
     ...actual,
     useLocation: mockUseLocation,

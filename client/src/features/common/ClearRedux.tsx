@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router'
+import { useLocation } from 'react-router-dom'
 
 import { useAppDispatch } from '../../app/hooks'
 import { resetState } from '../../redux/slices/advancedSearchSlice'
