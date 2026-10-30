@@ -19,7 +19,8 @@ import {
   OPT_OUT_MODAL_CANCEL_BUTTON_TEXT,
 } from '../../config/aiAssistedSearch/variables'
 import AlertModal from '../advancedSearch/AlertModal'
-import { DEFAULT_PAGE_LENGTH, searchScope } from '../../config/searchTypes'
+import { searchScope } from '../../config/searchTypes'
+import { getPageLength } from '../../lib/util/params'
 import { checkForStopWords, translate } from '../../lib/util/translate'
 import { ISimpleSearchState } from '../../redux/slices/simpleSearchSlice'
 import { validateInput } from '../../lib/parse/search/searchBoxHelper'
@@ -181,7 +182,11 @@ const SearchContainer: React.FC<IProps> = ({
             const query = JSON.parse(translatedString)
             delete query._scope
             newUrlParams.set('q', JSON.stringify(query))
-            newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+            // keep the user's chosen page length for the new search
+            newUrlParams.set(
+              'pageLength',
+              getPageLength(new URLSearchParams(search)).toString(),
+            )
             newUrlParams.set('sq', valueToSubmit)
             navigate(
               {

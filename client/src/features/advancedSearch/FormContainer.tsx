@@ -6,6 +6,7 @@ import { isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
+import { getPageLength } from '../../lib/util/params'
 import {
   filterAdvancedSearch,
   getAdvancedSearchDepth,
@@ -139,6 +140,10 @@ const FormContainer: React.FC<IProps> = ({
     newUrlParams.set(`${newScope.slice(0, 1)}p`, '1')
     newUrlParams.set('qt', newResultTab)
     newUrlParams.set('openQB', 'true')
+    // keep the user's chosen page length for the new search
+    if (urlParams.has('pageLength')) {
+      newUrlParams.set('pageLength', getPageLength(urlParams).toString())
+    }
     newUrlParams.set(
       AI_REFINEMENT_PARAM,
       isAiSearchWithRefinement ? 'true' : 'false',
