@@ -493,6 +493,15 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
+        'memberOf+': {
+          label: 'are anywhere within',
+          aiInterpretationLabel: 'Anywhere Within',
+          helpText:
+            'Search for all Collections that are anywhere within the specified Collection.',
+          relation: 'set',
+          allowedOptionsName: 'keyword',
+          defaultOptionsName: 'keyword',
+        },
         aboutAgent: {
           label: 'are about',
           aiInterpretationLabel: 'About',
@@ -593,6 +602,13 @@ export function advancedSearch(): IAdvancedSearchConfig {
           aiInterpretationLabel: 'Contain',
           helpText:
             'Search for Collections that contain the specified Collections.',
+          relation: 'set',
+        },
+        'containingSet+': {
+          label: 'contain anywhere',
+          aiInterpretationLabel: 'Contain Anywhere',
+          helpText:
+            'Search for all Collections that contain the specified Collections.',
           relation: 'set',
         },
         text: {
@@ -1106,9 +1122,24 @@ export function advancedSearch(): IAdvancedSearchConfig {
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
         },
+        'partOf+': {
+          label: 'are anywhere within',
+          aiInterpretationLabel: 'Anywhere Within',
+          helpText:
+            'Search for Places that are anywhere within the specified Place.',
+          relation: 'place',
+          allowedOptionsName: 'keyword',
+          defaultOptionsName: 'keyword',
+        },
         contains: {
           label: 'contain',
           aiInterpretationLabel: 'Contain',
+          helpText: 'Search for Places that contain the specified Places.',
+          relation: 'place',
+        },
+        'contains+': {
+          label: 'contain anywhere',
+          aiInterpretationLabel: 'Contain Anywhere',
           helpText: 'Search for Places that contain the specified Places.',
           relation: 'place',
         },
@@ -1184,6 +1215,24 @@ export function advancedSearch(): IAdvancedSearchConfig {
           aiInterpretationLabel: 'Narrower In Scope Than',
           helpText:
             'Search for Concept terms that are hierarchically narrower than the specified broader term.',
+          relation: 'concept',
+          allowedOptionsName: 'keyword',
+          defaultOptionsName: 'keyword',
+        },
+        'broader+': {
+          label: 'are descendants of',
+          helpText:
+            'Search for all Concept terms that are descendants of the specified broader term.',
+          aiInterpretationLabel: 'Ancestors',
+          relation: 'concept',
+          allowedOptionsName: 'keyword',
+          defaultOptionsName: 'keyword',
+        },
+        'narrower+': {
+          label: 'are descendants of',
+          aiInterpretationLabel: 'Descendants Of',
+          helpText:
+            'Search for all Concept terms that are ancestors of the specified narrower term.',
           relation: 'concept',
           allowedOptionsName: 'keyword',
           defaultOptionsName: 'keyword',
