@@ -6,6 +6,8 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Added page length selection to results page ([#927](https://github.com/project-lux/lux-frontend/issues/927)).
+
 ### Changed
 
 ### Fixed

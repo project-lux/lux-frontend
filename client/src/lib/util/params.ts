@@ -1,9 +1,28 @@
 import { isUndefined } from 'lodash'
 
-import { searchScope } from '../../config/searchTypes'
+import {
+  DEFAULT_PAGE_LENGTH,
+  MAX_PAGE_LENGTH,
+  searchScope,
+} from '../../config/searchTypes'
 
 export const getParamPrefix = (tab: string): string =>
   searchScope[tab].slice(0, 1)
+
+/**
+ * Returns the pageLength param from the url, falling back to the default
+ * page length if it is missing or not a positive whole number, and capping
+ * it at the max page length
+ * @param {URLSearchParams} urlParams the current url params
+ * @returns {number}
+ */
+export const getPageLength = (urlParams: URLSearchParams): number => {
+  const pageLength = Number(urlParams.get('pageLength'))
+  if (!Number.isInteger(pageLength) || pageLength <= 0) {
+    return DEFAULT_PAGE_LENGTH
+  }
+  return Math.min(pageLength, MAX_PAGE_LENGTH)
+}
 
 /**
  * Function to format the requests for search estimates on each tab.

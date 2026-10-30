@@ -1,22 +1,21 @@
-import React, { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { Alert, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
+import { isPageOutOfRange } from '../../lib/parse/search/searchResultParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
-import { getParamPrefix } from '../../lib/util/params'
+import { getPageLength, getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import {
-  advancedSearchTitles,
-  DEFAULT_PAGE_LENGTH,
-} from '../../config/searchTypes'
+import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
 import { ICurrentSearchState } from '../../redux/slices/currentSearchSlice'
 import { useAppSelector } from '../../app/hooks'
+import PageLoading from '../common/PageLoading'
 
 import ResultsSearchContainer from './ResultsSearchContainer'
 import MobileNavigation from './MobileNavigation'
@@ -39,7 +38,9 @@ const ResultsPage: React.FC = () => {
     window.innerWidth < theme.breakpoints.md,
   )
 
-  const { search, state } = useLocation() as {
+  const navigate = useNavigate()
+  const { pathname, search, state } = useLocation() as {
+    pathname: string
     search: string
     state: { [key: string]: boolean }
   }
@@ -58,9 +59,7 @@ const ResultsPage: React.FC = () => {
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
-  const pageLength = urlParams.has('pageLength')
-    ? parseInt(urlParams.get('pageLength')!, 10)
-    : DEFAULT_PAGE_LENGTH
+  const pageLength = getPageLength(urlParams)
   const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
@@ -106,6 +105,20 @@ const ResultsPage: React.FC = () => {
       skip: searchStringWithFacets === '' || fromLandingPage || skipSearchQuery,
     },
   )
+
+  // Each tab keeps its own page, so after the page length changes another tab's
+  // page may no longer exist. Return that tab to its first page.
+  const pageOutOfRange = isPageOutOfRange(searchResponse, page, pageLength)
+  useEffect(() => {
+    if (pageOutOfRange) {
+      const newUrlParams = new URLSearchParams(search)
+      newUrlParams.delete(`${paramPrefix}p`)
+      navigate(
+        { pathname, search: `?${newUrlParams.toString()}` },
+        { replace: true, state },
+      )
+    }
+  }, [pageOutOfRange, search, pathname, paramPrefix, navigate, state])
 
   // Get width of window
   useResizeableWindow(setIsMobile)
@@ -159,10 +172,15 @@ const ResultsPage: React.FC = () => {
             className={isMobile ? '' : 'px-0'}
             data-testid="results-page-search-results-container"
           >
-            <ResultsPageContent
-              searchResponse={searchResponse}
-              isMobile={isMobile}
-            />
+            {pageOutOfRange ? (
+              // shown briefly while returning to the first page
+              <PageLoading />
+            ) : (
+              <ResultsPageContent
+                searchResponse={searchResponse}
+                isMobile={isMobile}
+              />
+            )}
           </Col>
         )}
       </StyledEntityPageSection>

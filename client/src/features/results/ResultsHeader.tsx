@@ -27,6 +27,7 @@ import { useAppSelector } from '../../app/hooks'
 import { AI_REFINEMENT_PARAM } from '../../config/aiAssistedSearch/variables'
 
 import Sort from './Sort'
+import PageLengthDropdown from './PageLengthDropdown'
 
 const StyledDescriptiveText = styled.div`
   p {
@@ -181,6 +182,11 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
                     paddingBottom:
                       width < theme.breakpoints.md ? '1em' : '0.5em',
                   }}
+                  aria-label={
+                    currentView === 'list'
+                      ? 'Switch to grid view'
+                      : 'Switch to list view'
+                  }
                   data-testid={
                     currentView === 'list'
                       ? 'switch-to-grid-view-button'
@@ -188,26 +194,28 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
                   }
                 >
                   {currentView === 'list' ? (
-                    <React.Fragment>
-                      <i
-                        className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block"
-                        style={{ color: theme.color.link }}
-                      />
-                      Grid View
-                    </React.Fragment>
+                    <i
+                      className="bi bi-grid-3x3-gap-fill mx-2 d-inline-block"
+                      style={{ color: theme.color.link }}
+                    />
                   ) : (
-                    <React.Fragment>
-                      <i
-                        className="bi bi-list-ul mx-2 d-inline-block"
-                        style={{ color: theme.color.link }}
-                      />
-                      List View
-                    </React.Fragment>
+                    <i
+                      className="bi bi-list-ul mx-2 d-inline-block fw-bold"
+                      style={{ color: theme.color.link }}
+                    />
                   )}
                 </Button>
               </div>
               <Sort />
+              {width >= theme.breakpoints.sm && (
+                <PageLengthDropdown className="ms-2 order-4" />
+              )}
             </Col>
+            {width < theme.breakpoints.sm && (
+              <Col xs={12} className="mt-2 resultsHeaderPageLengthCol">
+                <PageLengthDropdown className="w-100" />
+              </Col>
+            )}
           </Row>
         </Col>
         {isMobile && (
