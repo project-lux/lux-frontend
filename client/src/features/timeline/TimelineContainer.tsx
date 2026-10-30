@@ -119,7 +119,7 @@ const TimelineContainer: React.FC<{
                   setDisplay(display === 'graph' ? 'list' : 'graph')
                 }
                 role="button"
-                aria-label={`View the hierarchy ${
+                aria-label={`Switch to timeline ${
                   display === 'graph' ? 'list' : 'graph'
                 }`}
                 data-testid={`view-${display === 'graph' ? 'list' : 'graph'}-button`}

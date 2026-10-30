@@ -22,6 +22,7 @@ import {
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { halLinkMapToLegendName } from '../../config/timeline'
+import { toggleRelationship } from '../../lib/parse/timeline/timelineGraphHelper'
 
 import CustomTooltip from './CustomTooltip'
 import CustomLegend from './CustomLegend'
@@ -33,6 +34,8 @@ interface IProps {
   handleRangeChange: (start: number, end: number) => void
   startIndex: number
   endIndex: number
+  selectedRelationships: Array<string>
+  handleRelationshipsChange: (relationships: Array<string>) => void
 }
 
 export interface IZoomState {
@@ -66,29 +69,45 @@ const Graph: React.FC<IProps> = ({
   handleRangeChange,
   startIndex,
   endIndex,
+  selectedRelationships,
+  handleRelationshipsChange,
 }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
+  // Hovering only emphasizes a series; the selection is shared with the list view
   const [hoveredLegend, setHoveredLegend] = useState<string | null>(null)
-  const [selectedLegend, setSelectedLegend] = useState<string | null>(null)
   // Get the relationships that are used in the timeline data to determine which relationships to show in the legend
   const relationshipsToShowInLegend =
     TimelineParser.getHalLinksUsedForLegend(timelineData)
-  const activeLegend = hoveredLegend || selectedLegend
+  const activeLegend =
+    hoveredLegend !== null && selectedRelationships.includes(hoveredLegend)
+      ? hoveredLegend
+      : null
 
   const handleOnHover = (value: string | null): void => {
     setHoveredLegend(value)
   }
 
-  const handleOnClick = (value: string | null): void => {
-    setSelectedLegend((currentValue) => (currentValue === value ? null : value))
+  const handleOnClick = (value: string): void => {
+    handleRelationshipsChange(
+      toggleRelationship(
+        relationshipsToShowInLegend,
+        selectedRelationships,
+        value,
+      ),
+    )
   }
+
+  const showEras = TimelineParser.showYearEra(yearsArray)
+  const getYearLabel = (year: string | undefined): string =>
+    year !== undefined && showEras
+      ? TimelineParser.getYearWithLabel(year)
+      : (year ?? '')
 
   // Memoized so the chart only receives new data when the timeline data changes.
   // Recharts resets the Brush range whenever the chart data changes.
   const graphData = useMemo<Array<IGraphTimelineData>>(() => {
-    const showEras = TimelineParser.showYearEra(yearsArray)
     return yearsArray.map((year) => {
       const barData = timelineData.hasOwnProperty(year)
         ? timelineData[year]
@@ -157,11 +176,13 @@ const Graph: React.FC<IProps> = ({
           />
           <Legend
             layout={isMobile ? 'vertical' : 'horizontal'}
+            // keep the bar order so the legend matches the filter checkboxes
+            itemSorter={null}
             content={
               <CustomLegend
                 payload={undefined}
                 activeLegend={activeLegend}
-                selectedLegend={selectedLegend}
+                selectedRelationships={selectedRelationships}
                 isMobile={isMobile}
                 handleOnHover={handleOnHover}
                 handleOnClick={handleOnClick}
@@ -194,6 +215,8 @@ const Graph: React.FC<IProps> = ({
                   }
                   name={label || halLinkKey}
                   yAxisId="total"
+                  // hidden series keep their legend entry so they can be shown again
+                  hide={!selectedRelationships.includes(halLinkKey)}
                   shape={(p: any) => getShape(p)}
                 />
               )
@@ -205,10 +228,16 @@ const Graph: React.FC<IProps> = ({
               stroke={theme.color.primary.blue}
               startIndex={startIndex}
               endIndex={endIndex}
-              onDragEnd={(e: any) => {
-                const start = e.startIndex
-                const end = e.endIndex
-                handleRangeChange(start, end)
+              ariaLabel={`Year range ${getYearLabel(yearsArray[startIndex])} to ${getYearLabel(yearsArray[endIndex])}`}
+              // onChange also fires for arrow key changes, which onDragEnd does not
+              onChange={({ startIndex: start, endIndex: end }) => {
+                if (
+                  start !== undefined &&
+                  end !== undefined &&
+                  (start !== startIndex || end !== endIndex)
+                ) {
+                  handleRangeChange(start, end)
+                }
               }}
             />
           )}

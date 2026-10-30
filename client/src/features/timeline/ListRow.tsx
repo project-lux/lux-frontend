@@ -44,7 +44,7 @@ const ListRow: React.FC<{
   const { searchParams, totalItems } = data[year][halLink] as ITimelineCriteria
   const label = halLinkMapToLegendName.get(halLink)
   return (
-    <HoverableRow key={`${halLink}-${year}`} role="option" tabIndex={-1}>
+    <HoverableRow key={`${halLink}-${year}`}>
       <Col xs={12} sm={12} md={6} lg={12} xl={6}>
         <StyledDt data-testid={`${year}-${halLink}-relationship`}>
           {label}
@@ -58,7 +58,6 @@ const ListRow: React.FC<{
               search: `${searchParams}&searchLink=true&searchType=advanced&qt=${tab}${isAiSearch ? `&${AI_REFINEMENT_PARAM}=true` : ''}`,
             }}
             aria-label={`Show all ${totalItems} result${totalItems !== 1 ? 's' : ''} for ${label} in ${year}`}
-            tabIndex={-1}
             ref={(el) => {
               linkRefs.current[linkIndex] = el
             }}

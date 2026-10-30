@@ -6,6 +6,7 @@ import theme from '../../styles/theme'
 import TimelineParser from '../../lib/parse/timeline/TimelineParser'
 import {
   calculateRowIndexes,
+  getFilteredYearTotal,
   getRenderedHalLinks,
 } from '../../lib/parse/timeline/timelineGraphHelper'
 import StyledDd from '../../styles/shared/DescriptionDetail'
@@ -23,6 +24,7 @@ interface IProps {
   yearsArray: Array<string>
   transformedData: ITimelinesTransformed
   halLinkConfig: ITimelineHalLinks
+  selectedRelationships: Array<string>
 }
 
 const HoverableRow = styled(Row)`
@@ -48,15 +50,14 @@ const List: React.FC<IProps> = ({
   yearsArray,
   transformedData,
   halLinkConfig,
+  selectedRelationships,
 }) => {
-  // set the years to render based on user filtering
-  const sortedYearsRange: Array<string> = []
-
-  yearsArray.map((y) => {
-    if (sortedKeys.includes(y)) {
-      sortedYearsRange.push(y)
-    }
-  })
+  // set the years to render based on user filtering, skipping years with no items for the selected relationships
+  const sortedYearsRange = yearsArray.filter(
+    (y) =>
+      sortedKeys.includes(y) &&
+      getFilteredYearTotal(transformedData, y, selectedRelationships) > 0,
+  )
 
   const unitLength = 20
   const [displayLength, setDisplayLength] = useState<number>(unitLength)
@@ -74,6 +75,7 @@ const List: React.FC<IProps> = ({
   const { totalLinks, yearRows } = calculateRowIndexes(
     sortedYears,
     transformedData,
+    selectedRelationships,
   )
 
   const handleShowMore = (): void => {
@@ -88,6 +90,7 @@ const List: React.FC<IProps> = ({
     const { totalLinks: nextTotalLinks } = calculateRowIndexes(
       nextSortedYears,
       transformedData,
+      selectedRelationships,
     )
 
     lastVisibleLinkIndexRef.current =
@@ -165,14 +168,21 @@ const List: React.FC<IProps> = ({
   }
 
   linkRefs.current = linkRefs.current.slice(0, totalLinks)
+
+  if (sortedYearsRange.length === 0) {
+    return (
+      <p data-testid="timeline-list-no-results">
+        No related items match these filters.
+      </p>
+    )
+  }
+
   return (
-    <div
-      tabIndex={0}
-      role="listbox"
-      aria-label="Timeline list. Use up and down arrow keys to navigate between links."
-      onKeyDown={handleListKeyDown}
-    >
-      <dl data-testid="timeline-list-container" role="presentation">
+    // The links are normal tab stops. The arrow keys are an optional shortcut
+    // between them, so the handler sits on the wrapper and receives their key events.
+    // eslint-disable-next-line jsx-a11y/no-static-element-interactions
+    <div onKeyDown={handleListKeyDown}>
+      <dl data-testid="timeline-list-container">
         {sortedYears.map((year) => (
           <StyledDiv key={year} className="mb-2">
             <HoverableRow>
@@ -183,11 +193,20 @@ const List: React.FC<IProps> = ({
               </Col>
               <StyledResponsiveCol xs={12} sm={12} md={6} lg={12} xl={6}>
                 <StyledDd data-testid={`${year}-total`}>
-                  Total: {transformedData[year].total}
+                  Total:{' '}
+                  {getFilteredYearTotal(
+                    transformedData,
+                    year,
+                    selectedRelationships,
+                  )}
                 </StyledDd>
               </StyledResponsiveCol>
             </HoverableRow>
-            {getRenderedHalLinks(transformedData, year).map((halLink, ind) => (
+            {getRenderedHalLinks(
+              transformedData,
+              year,
+              selectedRelationships,
+            ).map((halLink, ind) => (
               <dl className="my-0" key={`${year}-${halLink}-${ind}`}>
                 <ListRow
                   halLinkConfig={halLinkConfig}
@@ -206,7 +225,6 @@ const List: React.FC<IProps> = ({
         <button
           ref={showMoreButtonRef}
           type="button"
-          tabIndex={-1}
           className="btn btn-link show-more ps-0 text-decoration-none"
           onClick={() => handleShowMore()}
         >
@@ -217,7 +235,6 @@ const List: React.FC<IProps> = ({
         <button
           ref={showLessButtonRef}
           type="button"
-          tabIndex={-1}
           className="btn btn-link show-less ps-0 text-decoration-none"
           onClick={() => handleShowLess()}
         >

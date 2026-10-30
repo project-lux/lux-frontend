@@ -4,16 +4,16 @@ import React from 'react'
 interface IProps {
   payload: any
   activeLegend: string | null
-  selectedLegend: string | null
+  selectedRelationships: Array<string>
   isMobile: boolean
-  handleOnClick: (value: string | null) => void
+  handleOnClick: (value: string) => void
   handleOnHover: (value: string | null) => void
 }
 
 const CustomLegend: React.FC<IProps> = ({
   payload,
   activeLegend,
-  selectedLegend,
+  selectedRelationships,
   isMobile,
   handleOnClick,
   handleOnHover,
@@ -33,9 +33,10 @@ const CustomLegend: React.FC<IProps> = ({
             index: any,
           ) => {
             const legendValue = entry.dataKey.split('.')[0]
+            const isSelected = selectedRelationships.includes(legendValue)
             const isActive =
-              activeLegend === null || activeLegend === legendValue
-            const isSelected = selectedLegend === legendValue
+              isSelected &&
+              (activeLegend === null || activeLegend === legendValue)
 
             return (
               <button
@@ -51,15 +52,22 @@ const CustomLegend: React.FC<IProps> = ({
                 onKeyDown={() => handleOnHover(legendValue)}
                 style={{
                   color: 'black',
-                  fontWeight: isSelected ? '600' : '300',
                   opacity: isActive ? 1 : 0.45,
                 }}
               >
+                {/* hidden series use an outline and strikethrough as well as fading, so the state is not shown by color alone */}
                 <i
-                  className="bi bi-square-fill mx-2"
+                  className={`bi ${isSelected ? 'bi-square-fill' : 'bi-square'} mx-2`}
                   style={{ color: entry.color }}
+                  aria-hidden="true"
                 />
-                <span style={{ color: 'black', fontWeight: '300' }}>
+                <span
+                  style={{
+                    color: 'black',
+                    fontWeight: '300',
+                    textDecoration: isSelected ? 'none' : 'line-through',
+                  }}
+                >
                   {entry.value}
                 </span>
               </button>
