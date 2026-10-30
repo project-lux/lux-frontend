@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 import { Provider } from 'react-redux'
 
 import App from './App'
+import BrowserVerification from './features/common/BrowserVerification'
 import { store } from './app/store'
 import { installSearchBroadcastListener } from './lib/searchBroadcast'
 
@@ -19,7 +20,9 @@ const root = createRoot(container!)
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <BrowserVerification>
+        <App />
+      </BrowserVerification>
     </Provider>
   </React.StrictMode>,
 )

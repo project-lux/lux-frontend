@@ -5,7 +5,7 @@
     <!-- Place your <title>, <style>, <meta>, <link>, and <script> tags here -->
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <noscript>Please enable JavaScript to access LUX and complete browser verification. If you still cannot access LUX, contact the LUX support team.</noscript>
     <!-- Place your optional additional elements here -->
     <!-- div with id="root" is necessary for React -->
     <div id="root"></div>

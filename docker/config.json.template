@@ -46,5 +46,21 @@
   {
     "key": "BROADCAST_SEARCH_ALLOWED_ORIGINS",
     "value": ""
+  },
+  {
+    "key": "USE_WAF_CHALLENGE",
+    "value": false
+  },
+  {
+    "key": "WAF_CHALLENGE_SCRIPT_URL",
+    "value": ""
+  },
+  {
+    "key": "WAF_CONTACT_URL",
+    "value": ""
+  },
+  {
+    "key": "WAF_PROTECTED_ORIGINS",
+    "value": ""
   }
 ]

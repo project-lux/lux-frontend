@@ -42,6 +42,8 @@ class App {
       })
     })
 
+    // /env is fetched before WAF verification starts, so it must never be
+    // challenged.
     exp.get('/env', (req: express.Request, res: express.Response) => {
       res.json({
         version: env.version,
@@ -56,6 +58,10 @@ class App {
         cacheViewerMode: env.cacheViewerMode,
         bugherdApiKey: env.bugherdApiKey,
         broadcastSearchAllowedOrigins: env.broadcastSearchAllowedOrigins,
+        useWafChallenge: env.useWafChallenge,
+        wafChallengeScriptUrl: env.wafChallengeScriptUrl,
+        wafContactUrl: env.wafContactUrl,
+        wafProtectedOrigins: env.wafProtectedOrigins,
       })
     })
 
