@@ -11,7 +11,7 @@ import {
   AI_REFINEMENT_PARAM,
   SEARCH_TYPE_PARAM,
 } from '../../config/aiAssistedSearch/variables'
-import { DEFAULT_PAGE_LENGTH } from '../../config/searchTypes'
+import { getPageLength } from '../util/params'
 
 export default class AiDisambigationParser {
   aiDisambiguation: Array<IAiDisambiguation>
@@ -103,7 +103,8 @@ export default class AiDisambigationParser {
   ): URLSearchParams => {
     const newUrlParams = new URLSearchParams(search)
     newUrlParams.set('q', JSON.stringify(queryData))
-    newUrlParams.set('pageLength', DEFAULT_PAGE_LENGTH.toString())
+    // keep the user's chosen page length for the new search
+    newUrlParams.set('pageLength', getPageLength(newUrlParams).toString())
     newUrlParams.set('sq', sq)
     newUrlParams.set('qt', qt)
     newUrlParams.set(SEARCH_TYPE_PARAM, searchType)

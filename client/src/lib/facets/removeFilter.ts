@@ -97,7 +97,7 @@ export const removeFacet = (
   } else {
     searchParams.set(`${paramPrefix}f`, JSON.stringify(newQuery))
   }
-  searchParams.set(`${paramPrefix}p`, '1')
+  searchParams.set('page', '1')
   return searchParams.toString()
 }
 

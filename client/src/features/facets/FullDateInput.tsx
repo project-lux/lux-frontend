@@ -215,7 +215,7 @@ const FullDateInput: React.FC<IFacets> = ({
     searchParams.set(`${paramPrefix}f`, JSON.stringify(newFacetQuery))
     searchParams.set('q', JSON.stringify(criteria))
     searchParams.set('facetRequest', 'true')
-    searchParams.set(`${paramPrefix}p`, '1')
+    searchParams.set('page', '1')
     const searchQ = searchParams.toString()
     navigate(`${pathname}?${searchQ}`)
   }

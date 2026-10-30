@@ -37,6 +37,7 @@ const ResultsPage: React.FC = () => {
   )
 
   const { search, state } = useLocation() as {
+    pathname: string
     search: string
     state: { [key: string]: boolean }
   }
@@ -67,10 +68,10 @@ const ResultsPage: React.FC = () => {
     ? `{"AND":[${queryString},${facetSearchString}]}`
     : queryString
 
-  let page = parseInt(urlParams.get(`${paramPrefix}p`) || '', 10)
-  if (Number.isNaN(page)) {
-    page = 1
-  }
+  const page = urlParams.has('page')
+    ? parseInt(urlParams.get('page') || '', 10)
+    : 1
+
   const sort = urlParams.has(`${paramPrefix}s`)
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined
