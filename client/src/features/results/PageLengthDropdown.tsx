@@ -1,10 +1,9 @@
 import React from 'react'
 import Dropdown from 'react-bootstrap/Dropdown'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router'
 
-import { getPageLength, getParamPrefix } from '../../lib/util/params'
+import { getPageLength } from '../../lib/util/params'
 import { pushClientEvent } from '../../lib/pushClientEvent'
-import { ResultsTab } from '../../types/ResultsTab'
 import StyledDropdown from '../../styles/shared/Dropdown'
 
 const pageLengthOptions = [20, 60, 100]
@@ -16,7 +15,6 @@ interface IPageLengthDropdown {
 const PageLengthDropdown: React.FC<IPageLengthDropdown> = ({ className }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
   const queryString = new URLSearchParams(search)
   const selected = getPageLength(queryString)
 
@@ -26,8 +24,7 @@ const PageLengthDropdown: React.FC<IPageLengthDropdown> = ({ className }) => {
     }
     pushClientEvent('Page Length', 'Selected', `Page Length ${value}`)
     queryString.set('pageLength', value)
-    // return to the first page so the current page is not out of range
-    queryString.delete(`${getParamPrefix(tab)}p`)
+    queryString.set('page', '1')
     navigate(`${pathname}?${queryString.toString()}`)
   }
 
