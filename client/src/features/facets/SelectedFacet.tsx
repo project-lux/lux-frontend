@@ -1,5 +1,5 @@
 import React from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 import styled from 'styled-components'
 

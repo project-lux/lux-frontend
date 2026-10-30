@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Container } from 'react-bootstrap'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 
 import StyledFooter from '../../styles/features/common/Footer'
 import theme from '../../styles/theme'

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row, Form } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 import { ErrorBoundary } from 'react-error-boundary'
 import { isUndefined } from 'lodash'
 

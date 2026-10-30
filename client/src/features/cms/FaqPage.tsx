@@ -1,6 +1,6 @@
 import React, { type JSX } from 'react'
 import { Col, Row } from 'react-bootstrap'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 
 import { FaqGroupKey, faqGroupLabels } from '../../config/cms'
 import { IFaq, IFaqGroup } from '../../lib/parse/cms/Faqs'
