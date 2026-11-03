@@ -8,9 +8,10 @@ export type Placement = 'top' | 'bottom' | 'left' | 'right'
 
 interface IProps {
   buttonColor: string
+  popoverText: string
 }
 
-const AiInfoPopover: React.FC<IProps> = ({ buttonColor }) => {
+const AiInfoPopover: React.FC<IProps> = ({ buttonColor, popoverText }) => {
   const popover = (
     <Popover
       id="popover-basic"
@@ -19,10 +20,7 @@ const AiInfoPopover: React.FC<IProps> = ({ buttonColor }) => {
       title="Access details popover"
     >
       <Popover.Body>
-        <p className="mb-0">
-          Enables the LUX AI to interpret and provide suggestions for your
-          search.
-        </p>
+        <p className="mb-0">{popoverText}</p>
       </Popover.Body>
     </Popover>
   )

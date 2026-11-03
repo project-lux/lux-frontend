@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added transitive query support ([#1044](https://github.com/project-lux/lux-frontend/issues/1044)).
+- Added tooltips to Keyword Search and AI Search Suggestions in disambiguation ([#1049](https://github.com/project-lux/lux-frontend/issues/1049)).
 
 ### Changed
 

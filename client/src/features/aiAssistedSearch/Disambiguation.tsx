@@ -15,6 +15,7 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import KeywordSearchLink from './KeywordSearchLink'
 import InterpretationRow from './InterpretationRow'
+import AiInfoPopover from './AiInfoPopover'
 
 const StyledDisambiguation = styled(Row)<{ $width?: number }>`
   width: ${(props): string =>
@@ -78,7 +79,11 @@ const Disambiguation: React.FC<{
   return (
     <StyledDisambiguation className={className} $width={width}>
       <Col xs={12} className="mt-3 d-flex justify-content-start">
-        <p className="mb-0 fw-semibold">Keyword Search</p>
+        <p className="mb-0 me-1 fw-semibold">Keyword Search</p>{' '}
+        <AiInfoPopover
+          buttonColor={theme.color.link}
+          popoverText="Select for a broad set of results"
+        />
       </Col>
       <Col xs={12} className="mb-3 d-flex justify-content-start">
         <KeywordSearchLink
@@ -86,14 +91,18 @@ const Disambiguation: React.FC<{
           resetDisambiguation={resetDisambiguation}
         />
       </Col>
-      <Col xs={12}>
-        <p className="mb-0 fw-semibold">
+      <Col xs={12} className="d-flex justify-content-start">
+        <p className="mb-0 me-1 fw-semibold">
           <i
             className="bi bi-stars"
             style={{ color: theme.color.primary.blue }}
           />
           AI-Assisted Suggestions
-        </p>
+        </p>{' '}
+        <AiInfoPopover
+          buttonColor={theme.color.link}
+          popoverText="Select a suggestion to run that search. Suggestions may return zero results."
+        />
       </Col>
       <Col xs={12} className="mt-2 d-flex justify-content-start">
         <Row as="ul" className="list-unstyled mb-0">
