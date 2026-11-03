@@ -14,6 +14,8 @@ All notable changes to this project will be documented in this file.
 
 - Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
 - Changed Recharts from v2 to the latest v3 and fixed the Brush functionality ([#1071](https://github.com/project-lux/lux-frontend/issues/#1071)).
+- Changed the AI tooltips to be an X when open ([#1073](https://github.com/project-lux/lux-frontend/issues/1073)).
+- Changed the search container buttons to be centered on the results page ([#1073](https://github.com/project-lux/lux-frontend/issues/1073)).
 
 ### Fixed
 

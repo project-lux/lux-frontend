@@ -83,6 +83,8 @@ const Disambiguation: React.FC<{
         <AiInfoPopover
           buttonColor={theme.color.link}
           popoverText="Select for a broad set of results"
+          id="keyword-search-popover"
+          ariaLabel="Learn more about Keyword Search"
         />
       </Col>
       <Col xs={12} className="mb-3 d-flex justify-content-start">
@@ -102,6 +104,8 @@ const Disambiguation: React.FC<{
         <AiInfoPopover
           buttonColor={theme.color.link}
           popoverText="Select a suggestion to run that search. Suggestions may return zero results."
+          id="ai-assisted-suggestions-popover"
+          ariaLabel="Learn more about AI-Assisted Suggestions"
         />
       </Col>
       <Col xs={12} className="mt-2 d-flex justify-content-start">
