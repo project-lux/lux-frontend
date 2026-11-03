@@ -12,6 +12,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 
 - Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
+- Changed the AI tooltips to be an X when open ([#1073](https://github.com/project-lux/lux-frontend/issues/1073)).
+- Changed the search container buttons to be centered on the results page ([#1073](https://github.com/project-lux/lux-frontend/issues/1073)).
+
 ### Fixed
 
 - Fixed documentation from yarn to pnpm ([1021](https://github.com/project-lux/lux-frontend/issues/1021)).
