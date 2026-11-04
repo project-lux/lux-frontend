@@ -1,15 +1,13 @@
 import React, { useRef, useState } from 'react'
 import { Col, Form, InputGroup, Pagination, Row } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router'
+import { useNavigate, useLocation } from 'react-router'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 
 import theme from '../../styles/theme'
-import { getParamPrefix } from '../../lib/util/params'
 import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { DOTS } from '../../lib/util/paginationHelper'
-import { ResultsTab } from '../../types/ResultsTab'
 import { pushClientEvent } from '../../lib/pushClientEvent'
 
 import { Paginator } from './Paginator'
@@ -91,11 +89,6 @@ const Paginate: React.FC<IPagination> = ({
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const URL = new URLSearchParams(search)
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const paramPrefix = isUndefined(tab) ? 'i' : getParamPrefix(tab)
-  const pageParam = `${paramPrefix}p`
-  // remove page so that the paginator can assign the page number
-  URL.delete(pageParam)
   const newURL = URL.toString()
 
   // Push analytics
@@ -110,7 +103,7 @@ const Paginate: React.FC<IPagination> = ({
     } else {
       navigate({
         pathname: `${pathname}`,
-        search: `?${newURL}&${pageParam}=${pageNumber}`,
+        search: `?${newURL}&page=${pageNumber}`,
       })
     }
   }
