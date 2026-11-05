@@ -1,6 +1,32 @@
 # Changelog
 
 All notable changes to this project will be documented in this file.
+## v1.76.2 - 2026-08-19
+
+### Added
+
+- Added Responsible Unit and Collection facets to Collection results ([#1033](https://github.com/project-lux/lux-frontend/issues/1033)).
+
+### Removed
+
+- Removed Part Of facet from Collection results ([#1033](https://github.com/project-lux/lux-frontend/issues/1033)).
+
+## v2.1.0 - Unreleased
+
+### Added
+
+- Added transitive query support ([#1044](https://github.com/project-lux/lux-frontend/issues/1044)).
+
+### Changed
+
+- Maintenance tasks for 11/9/2026 deployment ([#1071](https://github.com/project-lux/lux-frontend/issues/1071)).
+### Fixed
+
+- Fixed documentation from yarn to pnpm ([1021](https://github.com/project-lux/lux-frontend/issues/1021)).
+
+### Removed
+
+- Removed similar to from the local advanced serch config ([#1074](https://github.com/project-lux/lux-frontend/issues/1074)).
 
 ## v2.0.2 - 2026-10-23
 

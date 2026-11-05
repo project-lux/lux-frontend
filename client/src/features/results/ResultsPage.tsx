@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router'
 import { Alert, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 

@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react'
 import { Accordion, Col, Form, InputGroup, Row } from 'react-bootstrap'
-import { useLocation, useParams } from 'react-router-dom'
+import { useLocation, useParams } from 'react-router'
 import styled from 'styled-components'
 
 import StyledSearchButton from '../../styles/features/aiAssistedSearch/SearchButton'

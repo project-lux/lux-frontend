@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { Card, Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'

@@ -1,5 +1,5 @@
 import React, { useState, type JSX } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { Col } from 'react-bootstrap'
 
 import { getColumnWidth } from '../../lib/util/ui'

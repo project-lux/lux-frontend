@@ -1,6 +1,6 @@
 import React from 'react'
 import { Provider } from 'react-redux'
-import { MemoryRouter as Router } from 'react-router-dom'
+import { MemoryRouter as Router } from 'react-router'
 
 import Routes from '../../../features/common/LuxRoutes'
 import { store } from '../../../app/store'

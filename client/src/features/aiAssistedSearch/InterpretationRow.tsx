@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 
 import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
