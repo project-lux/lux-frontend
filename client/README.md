@@ -3,13 +3,13 @@
 ## Requirements
 
 1. Server
-    - If choosing to run with the local server, see the local server configuration in the [server folder](https://github.com/project-lux/lux-frontend#running-server-locally).
+   - If choosing to run with the local server, see the local server configuration in the [server folder](https://github.com/project-lux/lux-frontend#running-server-locally).
 2. Content mangament service (CMS) server (the application can run without this step)
-2. IDE
-3. [Node](https://nodejs.org/en)
-    - Minimum required Node version is 14.18.1, however, it is recommended to have the latest version of Node installed.
-4. npm (for installing pnpm)
-5. [pnpm](https://pnpm.io/)
+3. IDE
+4. [Node](https://nodejs.org/en)
+   - Minimum required Node version is 14.18.1, however, it is recommended to have the latest version of Node installed.
+5. npm (for installing pnpm)
+6. [pnpm](https://pnpm.io/)
 
 ## Steps
 
@@ -26,10 +26,12 @@
 2. Copy the contents of [.env.template](https://github.com/project-lux/lux-frontend/blob/main/client/.env.template) and add the appropriate environment variable values based on the documentation in .env.template.
 
 ### Configure index.html file
+
 1. Create an index.html file in the [/client](https://github.com/project-lux/lux-frontend/tree/main/client) folder
 2. Copy the contents of [index.html.template](https://github.com/project-lux/lux-frontend/blob/main/client/public/index.html.template) and add any additional tags deemed necessary.
 
 ### Configure pushClientEvent.ts file
+
 1. Create an pushClientEvent.ts file in the [/src/lib](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts) folder
 2. Copy the contents of [pushClientEvent.ts.template](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts.template) and add any functions required for site analytics.
 
@@ -77,11 +79,17 @@ feature is disabled.
 ### Example embedder
 
 ```html
-<iframe id="lux" src="https://lux.example.edu/view/results/objects?q=..."></iframe>
+<iframe
+  id="lux"
+  src="https://lux.example.edu/view/results/objects?q=..."
+></iframe>
 <script>
   const frame = document.getElementById('lux')
   frame.addEventListener('load', () => {
-    frame.contentWindow.postMessage({ type: 'BROADCAST_SEARCH' }, 'https://lux.example.edu')
+    frame.contentWindow.postMessage(
+      { type: 'BROADCAST_SEARCH' },
+      'https://lux.example.edu',
+    )
   })
   window.addEventListener('message', (event) => {
     if (event.origin !== 'https://lux.example.edu') return
@@ -126,7 +134,6 @@ See the section about [deployment](https://facebook.github.io/create-react-app/d
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 To learn React, check out the [React documentation](https://reactjs.org/).
-
 
 ### AWS WAF silent browser verification
 

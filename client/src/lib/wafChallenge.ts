@@ -187,16 +187,6 @@ export function initializeWafChallenge(env: IWafEnv): Promise<void> {
   return initialization
 }
 
-/** Returns undefined when verification is disabled. */
-export async function getWafToken(
-  forceRefresh = false,
-): Promise<string | undefined> {
-  await initialization
-  if (failed) throw new WafChallengeError()
-  if (!enabled) return undefined
-  return acquireToken(forceRefresh)
-}
-
 export const isWafProtectedUrl = (url: string): boolean =>
   new URL(url, window.location.href).origin === window.location.origin
 

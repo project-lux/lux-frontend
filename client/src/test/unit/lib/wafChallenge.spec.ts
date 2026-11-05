@@ -121,32 +121,63 @@ describe('wafChallenge', () => {
   it('shares concurrent token acquisition and sends tokens only to the same origin', async () => {
     const waf = await load()
     getToken.mockClear()
-    await Promise.all([waf.getWafToken(), waf.getWafToken()])
+    await Promise.all([
+      waf.wafFetch(`${ORIGIN}/api/search`),
+      waf.wafFetch(`${ORIGIN}/api/facets`),
+      waf.wafFetch(`${API}/data/object`),
+    ])
     expect(getToken).toHaveBeenCalledTimes(1)
-    await waf.wafFetch(`${ORIGIN}/api/search`)
-    await waf.wafFetch(`${API}/data/object`)
-    const [sameOrigin, external] = sentRequests()
-    expect(sameOrigin.headers.get('x-aws-waf-token')).toBe('test-token')
-    expect(external.headers.has('x-aws-waf-token')).toBe(false)
+    const tokenFor = (url: string): string | null =>
+      sentRequests()
+        .find((request) => request.url === url)!
+        .headers.get('x-aws-waf-token')
+    expect(tokenFor(`${ORIGIN}/api/search`)).toBe('test-token')
+    expect(tokenFor(`${ORIGIN}/api/facets`)).toBe('test-token')
+    expect(tokenFor(`${API}/data/object`)).toBeNull()
   })
 
-  it('does not let a forced refresh reuse a pending unforced token request', async () => {
+  it('does not let a challenged retry reuse a pending unforced token request', async () => {
     const waf = await load()
     getToken.mockClear()
-    let release: (token: string) => void = () => {}
-    getToken.mockReturnValueOnce(
-      new Promise<string>((resolve) => {
-        release = resolve
-      }),
+
+    // Request A is sent with a token, then held until we challenge it
+    let respondToA: (response: Response) => void = () => {}
+    vi.mocked(fetch).mockImplementationOnce(
+      () =>
+        new Promise<Response>((resolve) => {
+          respondToA = resolve
+        }),
     )
-    const stale = waf.getWafToken()
-    const forced = waf.getWafToken(true)
+    const a = waf.wafFetch(`${ORIGIN}/api/a`)
+    await vi.waitFor(() => expect(fetch).toHaveBeenCalledTimes(1))
+
+    // Request B starts an unforced token request that stays pending
+    let releaseStale: (token: string) => void = () => {}
+    getToken
+      .mockReturnValueOnce(
+        new Promise<string>((resolve) => {
+          releaseStale = resolve
+        }),
+      )
+      .mockResolvedValue('fresh-token')
+    const b = waf.wafFetch(`${ORIGIN}/api/b`)
+    await vi.waitFor(() => expect(getToken).toHaveBeenCalledTimes(2))
+
+    // A is challenged; its forced refresh must wait for B's request, not join it
+    respondToA(challengeResponse())
     await new Promise((resolve) => setTimeout(resolve, 0))
-    release('stale-token')
-    await expect(stale).resolves.toBe('stale-token')
-    await expect(forced).resolves.toBe('test-token')
+    expect(forceRefreshToken).not.toHaveBeenCalled()
+
+    releaseStale('stale-token')
+    await Promise.all([a, b])
+
     expect(forceRefreshToken).toHaveBeenCalledTimes(1)
-    expect(getToken).toHaveBeenCalledTimes(2)
+    const tokenFor = (path: string): (string | null)[] =>
+      sentRequests()
+        .filter((request) => new URL(request.url).pathname === path)
+        .map((request) => request.headers.get('x-aws-waf-token'))
+    expect(tokenFor('/api/a')).toEqual(['test-token', 'fresh-token'])
+    expect(tokenFor('/api/b')).toEqual(['stale-token'])
   })
 
   it('refreshes the token and retries once after a challenge', async () => {
@@ -232,6 +263,9 @@ describe('wafChallenge', () => {
     scriptError = true
     const waf = await load()
     expect(waf.hasWafFailure()).toBe(true)
-    await expect(waf.getWafToken()).rejects.toThrow(waf.WafChallengeError)
+    // Verification never became enabled, so requests go out without a token
+    await waf.wafFetch(`${ORIGIN}/api/search`)
+    expect(getToken).not.toHaveBeenCalled()
+    expect(sentRequests()[0].headers.has('x-aws-waf-token')).toBe(false)
   })
 })

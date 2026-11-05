@@ -58,9 +58,5 @@
   {
     "key": "WAF_CONTACT_URL",
     "value": ""
-  },
-  {
-    "key": "WAF_PROTECTED_ORIGINS",
-    "value": ""
   }
 ]
