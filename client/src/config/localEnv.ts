@@ -57,6 +57,3 @@ export const wafChallengeScriptUrl = getString(
 export const wafContactUrl = getString(
   import.meta.env.REACT_APP_WAF_CONTACT_URL,
 )
-export const wafProtectedOrigins = getString(
-  import.meta.env.REACT_APP_WAF_PROTECTED_ORIGINS,
-)

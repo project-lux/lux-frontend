@@ -36,8 +36,8 @@ class Config {
       broadcastSearchAllowedOrigins: localEnv.broadcastSearchAllowedOrigins,
       useWafChallenge: localEnv.useWafChallenge,
       wafChallengeScriptUrl: localEnv.wafChallengeScriptUrl,
-      wafContactUrl: localEnv.wafContactUrl,
-      wafProtectedOrigins: localEnv.wafProtectedOrigins,
+      // Same fallback as the server's /env
+      wafContactUrl: localEnv.wafContactUrl || localEnv.luxFeedbackUrl,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -62,7 +62,6 @@ class Config {
       useWafChallenge: data.useWafChallenge ?? false,
       wafChallengeScriptUrl: data.wafChallengeScriptUrl ?? '',
       wafContactUrl: data.wafContactUrl ?? '',
-      wafProtectedOrigins: data.wafProtectedOrigins ?? '',
     }
   }
 

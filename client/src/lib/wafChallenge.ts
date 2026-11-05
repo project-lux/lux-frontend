@@ -2,14 +2,13 @@
  * AWS WAF silent challenge integration. Disabled unless useWafChallenge is
  * true. Configuration problems are logged and leave verification disabled;
  * only runtime verification failures (after one retry) show the failure UI.
- * No token is sent to an unlisted origin.
+ * Tokens are only sent to this site's own origin; challenged APIs must be
+ * served from it.
  */
 export interface IWafEnv {
   useWafChallenge: boolean
   wafChallengeScriptUrl: string
   wafContactUrl: string
-  /** Comma-separated cross-origin API origins; same-origin is automatic. */
-  wafProtectedOrigins: string
 }
 
 interface IWafIntegration {
@@ -30,9 +29,8 @@ const TOKEN_TIMEOUT_MS = 10000
 
 let enabled = false
 let contactUrl = ''
-let protectedOrigins: string[] = []
 let initialization: Promise<void> | undefined
-let pendingToken: Promise<string> | undefined
+let pendingToken: { forced: boolean; promise: Promise<string> } | undefined
 let failed = false
 const listeners = new Set<() => void>()
 
@@ -115,21 +113,6 @@ function trustedScriptUrl(value: string): URL | undefined {
   return undefined
 }
 
-function parseOrigins(value: string): string[] {
-  return value
-    .split(',')
-    .map((entry) => entry.trim())
-    .filter(Boolean)
-    .flatMap((entry) => {
-      try {
-        return [new URL(entry).origin]
-      } catch {
-        console.warn(`Ignoring invalid WAF protected origin: ${entry}`)
-        return []
-      }
-    })
-}
-
 function loadScript(url: URL): Promise<void> {
   return new Promise((resolve, reject) => {
     const script = document.createElement('script')
@@ -141,27 +124,37 @@ function loadScript(url: URL): Promise<void> {
   })
 }
 
-/** Single-flight acquisition; the AWS SDK also refreshes expired tokens. */
+/**
+ * Single-flight acquisition; the AWS SDK also refreshes expired tokens. A
+ * forced refresh never joins an unforced request, which could return the
+ * token that was just challenged; it runs after that request settles.
+ */
 function acquireToken(forceRefresh: boolean): Promise<string> {
-  if (!pendingToken) {
-    pendingToken = withTimeout(
-      Promise.resolve().then(async () => {
-        const sdk = window.AwsWafIntegration
-        if (!sdk) throw new WafChallengeError()
-        if (forceRefresh && sdk.forceRefreshToken) await sdk.forceRefreshToken()
-        return sdk.getToken()
-      }),
-      TOKEN_TIMEOUT_MS,
+  if (pendingToken && (pendingToken.forced || !forceRefresh))
+    return pendingToken.promise
+  const previous = pendingToken?.promise.catch(() => undefined)
+  const promise = Promise.resolve(previous)
+    .then(() =>
+      withTimeout(
+        Promise.resolve().then(async () => {
+          const sdk = window.AwsWafIntegration
+          if (!sdk) throw new WafChallengeError()
+          if (forceRefresh && sdk.forceRefreshToken)
+            await sdk.forceRefreshToken()
+          return sdk.getToken()
+        }),
+        TOKEN_TIMEOUT_MS,
+      ),
     )
-      .then((token) => {
-        if (!token) throw new WafChallengeError()
-        return token
-      })
-      .finally(() => {
-        pendingToken = undefined
-      })
-  }
-  return pendingToken
+    .then((token) => {
+      if (!token) throw new WafChallengeError()
+      return token
+    })
+    .finally(() => {
+      if (pendingToken?.promise === promise) pendingToken = undefined
+    })
+  pendingToken = { forced: forceRefresh, promise }
+  return promise
 }
 
 /**
@@ -180,7 +173,6 @@ export function initializeWafChallenge(env: IWafEnv): Promise<void> {
         return
       }
       contactUrl = safeContactUrl(env.wafContactUrl)
-      protectedOrigins = parseOrigins(env.wafProtectedOrigins)
       try {
         await withTimeout(loadScript(scriptUrl), SCRIPT_TIMEOUT_MS)
       } catch {
@@ -205,65 +197,39 @@ export async function getWafToken(
   return acquireToken(forceRefresh)
 }
 
-export function isWafProtectedUrl(url: string): boolean {
-  const target = new URL(url, window.location.href)
-  return (
-    target.origin === window.location.origin ||
-    protectedOrigins.includes(target.origin)
-  )
-}
+export const isWafProtectedUrl = (url: string): boolean =>
+  new URL(url, window.location.href).origin === window.location.origin
 
 /** Does not mistake other HTTP 202 responses, 403s, or errors for challenges. */
 export const isWafChallenge = (status: number, action: unknown): boolean =>
   status === 202 && action === 'challenge'
 
-type AttemptOutcome<T> =
-  | { kind: 'ok'; result: T }
-  | { kind: 'challenge' }
-  | { kind: 'networkError'; error: unknown }
-
 /**
- * Runs a request with a WAF token, refreshing the token and retrying once if
- * the token can't be obtained or the response is a challenge. Cross-origin
- * challenge responses usually lack CORS headers and surface as network
- * errors, so those are retried too but reported as ordinary errors.
+ * Runs a same-origin request with a WAF token, refreshing the token and
+ * retrying once if the token can't be obtained or the response is a challenge.
  */
 export async function withWafRetry<T>(
   url: string,
   attempt: (token: string | undefined) => Promise<T>,
   isChallenge: (result: T) => boolean,
-  isNetworkError: (error: unknown) => boolean,
 ): Promise<T> {
   await initialization
-  if (failed) throw new WafChallengeError()
   if (!enabled || !isWafProtectedUrl(url)) return attempt(undefined)
-  const crossOrigin =
-    new URL(url, window.location.href).origin !== window.location.origin
+  if (failed) throw new WafChallengeError()
 
-  const run = async (forceRefresh: boolean): Promise<AttemptOutcome<T>> => {
-    let token: string | undefined
+  const run = async (forceRefresh: boolean): Promise<{ result: T } | null> => {
+    let token: string
     try {
-      token = await getWafToken(forceRefresh)
+      token = await acquireToken(forceRefresh)
     } catch {
-      return { kind: 'challenge' }
+      return null
     }
-    try {
-      const result = await attempt(token)
-      return isChallenge(result)
-        ? { kind: 'challenge' }
-        : { kind: 'ok', result }
-    } catch (error) {
-      if (crossOrigin && isNetworkError(error))
-        return { kind: 'networkError', error }
-      throw error
-    }
+    const result = await attempt(token)
+    return isChallenge(result) ? null : { result }
   }
 
-  const first = await run(false)
-  if (first.kind === 'ok') return first.result
-  const second = await run(true)
-  if (second.kind === 'ok') return second.result
-  if (second.kind === 'networkError') throw second.error
+  const outcome = (await run(false)) ?? (await run(true))
+  if (outcome) return outcome.result
   throw fail()
 }
 
@@ -284,6 +250,5 @@ export function wafFetch(
         response.status,
         response.headers.get('x-amzn-waf-action'),
       ),
-    (error) => error instanceof TypeError,
   )
 }

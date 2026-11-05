@@ -61,7 +61,6 @@ class App {
         useWafChallenge: env.useWafChallenge,
         wafChallengeScriptUrl: env.wafChallengeScriptUrl,
         wafContactUrl: env.wafContactUrl,
-        wafProtectedOrigins: env.wafProtectedOrigins,
       })
     })
 

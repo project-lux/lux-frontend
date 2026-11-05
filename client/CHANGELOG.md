@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added transitive query support ([#1044](https://github.com/project-lux/lux-frontend/issues/1044)).
+- Added client side handling of silent browser challenge ([#1072](https://github.com/project-lux/lux-frontend/issues/1072)).
 
 ### Changed
 
@@ -59,6 +60,7 @@ All notable changes to this project will be documented in this file.
 ### Removed
 
 - Removed features specific to My Collections, which is no longer part of LUX's roadmap ([#1031](https://github.com/project-lux/lux-frontend/issues/1031)).
+
 ### Added
 
 ## v1.76.2 - 2026-08-19

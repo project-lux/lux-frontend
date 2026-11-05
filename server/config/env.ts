@@ -53,6 +53,3 @@ export const wafChallengeScriptUrl =
   getString(process.env.WAF_CHALLENGE_SCRIPT_URL) || ''
 export const wafContactUrl =
   getString(process.env.WAF_CONTACT_URL) || luxFeedbackUrl || ''
-// Comma-separated; parsed by the client like broadcastSearchAllowedOrigins.
-export const wafProtectedOrigins =
-  getString(process.env.WAF_PROTECTED_ORIGINS) || ''

@@ -15,6 +15,4 @@ export interface IServerConfig {
   useWafChallenge: boolean
   wafChallengeScriptUrl: string
   wafContactUrl: string
-  /** Comma-separated cross-origin API origins that receive WAF tokens. */
-  wafProtectedOrigins: string
 }

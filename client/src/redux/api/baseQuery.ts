@@ -1,5 +1,5 @@
 import type { BaseQueryFn } from '@reduxjs/toolkit/query/react'
-import axios, { isAxiosError } from 'axios'
+import axios from 'axios'
 import type { AxiosRequestConfig, AxiosError } from 'axios'
 
 import {
@@ -39,7 +39,6 @@ export const baseQuery =
             response.status,
             response.headers['x-amzn-waf-action'],
           ),
-        (error) => isAxiosError(error) && error.response === undefined,
       )
       return { data: result.data }
     } catch (axiosError) {

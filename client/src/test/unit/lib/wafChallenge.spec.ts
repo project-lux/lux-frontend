@@ -12,7 +12,6 @@ const enabledEnv: IWafEnv = {
   useWafChallenge: true,
   wafChallengeScriptUrl: SCRIPT_URL,
   wafContactUrl: 'https://support.example.org/contact',
-  wafProtectedOrigins: API,
 }
 
 const getToken = vi.fn()
@@ -94,15 +93,11 @@ describe('wafChallenge', () => {
     },
   )
 
-  it('skips invalid protected origins and tolerates a missing contact URL', async () => {
-    const waf = await load({
-      wafContactUrl: '',
-      wafProtectedOrigins: `api.example.org, ${API}`,
-    })
-    expect(console.warn).toHaveBeenCalled()
-    expect(waf.hasWafFailure()).toBe(false)
-    expect(waf.getWafContactUrl()).toBe('')
-    expect(waf.isWafProtectedUrl(`${API}/data/object`)).toBe(true)
+  it('protects only same-origin URLs', async () => {
+    const waf = await load()
+    expect(waf.isWafProtectedUrl('/api/search')).toBe(true)
+    expect(waf.isWafProtectedUrl(`${ORIGIN}/api/search`)).toBe(true)
+    expect(waf.isWafProtectedUrl(`${API}/data/object`)).toBe(false)
   })
 
   it.each(['', 'http://support.example.org/contact', 'javascript:alert(1)'])(
@@ -123,16 +118,35 @@ describe('wafChallenge', () => {
     expect(waf.getWafContactUrl()).toBe('mailto:help@example.org')
   })
 
-  it('shares concurrent token acquisition and sends tokens only to trusted origins', async () => {
+  it('shares concurrent token acquisition and sends tokens only to the same origin', async () => {
     const waf = await load()
     getToken.mockClear()
     await Promise.all([waf.getWafToken(), waf.getWafToken()])
     expect(getToken).toHaveBeenCalledTimes(1)
+    await waf.wafFetch(`${ORIGIN}/api/search`)
     await waf.wafFetch(`${API}/data/object`)
-    await waf.wafFetch('https://external.example.org/image')
-    const [trusted, external] = sentRequests()
-    expect(trusted.headers.get('x-aws-waf-token')).toBe('test-token')
+    const [sameOrigin, external] = sentRequests()
+    expect(sameOrigin.headers.get('x-aws-waf-token')).toBe('test-token')
     expect(external.headers.has('x-aws-waf-token')).toBe(false)
+  })
+
+  it('does not let a forced refresh reuse a pending unforced token request', async () => {
+    const waf = await load()
+    getToken.mockClear()
+    let release: (token: string) => void = () => {}
+    getToken.mockReturnValueOnce(
+      new Promise<string>((resolve) => {
+        release = resolve
+      }),
+    )
+    const stale = waf.getWafToken()
+    const forced = waf.getWafToken(true)
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    release('stale-token')
+    await expect(stale).resolves.toBe('stale-token')
+    await expect(forced).resolves.toBe('test-token')
+    expect(forceRefreshToken).toHaveBeenCalledTimes(1)
+    expect(getToken).toHaveBeenCalledTimes(2)
   })
 
   it('refreshes the token and retries once after a challenge', async () => {
@@ -166,6 +180,18 @@ describe('wafChallenge', () => {
     expect(waf.getWafContactUrl()).toBe('https://support.example.org/contact')
   })
 
+  it('still sends unprotected requests after a failure', async () => {
+    const waf = await load()
+    vi.mocked(fetch)
+      .mockResolvedValueOnce(challengeResponse())
+      .mockResolvedValueOnce(challengeResponse())
+    await expect(waf.wafFetch(`${ORIGIN}/api/search`)).rejects.toThrow(
+      waf.WafChallengeError,
+    )
+    await waf.wafFetch(`${API}/cms/page`)
+    expect(sentRequests()[2].headers.has('x-aws-waf-token')).toBe(false)
+  })
+
   it('does not treat ordinary 202 or 403 responses as challenges', async () => {
     const waf = await import('../../../lib/wafChallenge')
     expect(waf.isWafChallenge(202, null)).toBe(false)
@@ -192,11 +218,13 @@ describe('wafChallenge', () => {
     }
   })
 
-  it('retries cross-origin network errors without showing the failure screen', async () => {
+  it('passes network errors through without retrying or showing the failure screen', async () => {
     const waf = await load()
     vi.mocked(fetch).mockRejectedValue(new TypeError('Failed to fetch'))
-    await expect(waf.wafFetch(`${API}/data/object`)).rejects.toThrow(TypeError)
-    expect(fetch).toHaveBeenCalledTimes(2)
+    await expect(waf.wafFetch(`${ORIGIN}/api/search`)).rejects.toThrow(
+      TypeError,
+    )
+    expect(fetch).toHaveBeenCalledTimes(1)
     expect(waf.hasWafFailure()).toBe(false)
   })
 
