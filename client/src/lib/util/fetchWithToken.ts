@@ -1,3 +1,5 @@
+import { wafFetch } from '../wafChallenge'
+
 export function fetchWithToken(uri: string): Promise<Response> {
-  return fetch(uri)
+  return wafFetch(new URL(uri, window.location.href))
 }

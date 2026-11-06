@@ -34,6 +34,10 @@ class Config {
       luxFeedbackUrl: localEnv.luxFeedbackUrl,
       bugherdApiKey: localEnv.bugherdApiKey,
       broadcastSearchAllowedOrigins: localEnv.broadcastSearchAllowedOrigins,
+      useWafChallenge: localEnv.useWafChallenge,
+      wafChallengeScriptUrl: localEnv.wafChallengeScriptUrl,
+      // Same fallback as the server's /env
+      wafContactUrl: localEnv.wafContactUrl || localEnv.luxFeedbackUrl,
     }
     this.hasLocalEnv =
       localEnv.dataApiBaseUrl !== '' && localEnv.cmsApiBaseUrl !== ''
@@ -54,6 +58,10 @@ class Config {
       bugherdApiKey: data.bugherdApiKey,
       // Defaulted because a server predating this feature omits the key
       broadcastSearchAllowedOrigins: data.broadcastSearchAllowedOrigins ?? '',
+      // Defaulted so a server predating WAF support leaves it disabled
+      useWafChallenge: data.useWafChallenge ?? false,
+      wafChallengeScriptUrl: data.wafChallengeScriptUrl ?? '',
+      wafContactUrl: data.wafContactUrl ?? '',
     }
   }
 

@@ -5,6 +5,7 @@ import { IServerConfig } from '../../config/IServerConfig'
 export const configApi = createApi({
   reducerPath: 'configApi',
   baseQuery: fetchBaseQuery({
+    // /env loads before WAF verification starts and must not be challenged
     baseUrl: '/',
   }),
   tagTypes: [],
