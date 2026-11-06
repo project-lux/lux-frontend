@@ -135,7 +135,12 @@ const AiToggleButton: React.FC<IToggleButtonProps> = ({
       >
         AI-Assisted Search
       </StyledLabel>
-      <AiInfoPopover buttonColor={linkStyle.color} />
+      <AiInfoPopover
+        buttonColor={linkStyle.color}
+        popoverText="Enables the LUX AI to interpret and provide suggestions for your search."
+        id="ai-toggle-button-popover"
+        ariaLabel="Learn more about AI-Assisted Search"
+      />
     </StyledWrapper>
   )
 }

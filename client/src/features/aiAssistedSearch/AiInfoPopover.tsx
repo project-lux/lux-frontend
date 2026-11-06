@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger'
 import { Popover } from 'react-bootstrap'
 
@@ -8,45 +8,58 @@ export type Placement = 'top' | 'bottom' | 'left' | 'right'
 
 interface IProps {
   buttonColor: string
+  popoverText: string
+  id: string
+  ariaLabel: string
 }
 
-const AiInfoPopover: React.FC<IProps> = ({ buttonColor }) => {
+const AiInfoPopover: React.FC<IProps> = ({
+  buttonColor,
+  popoverText,
+  id,
+  ariaLabel,
+}) => {
+  const [isOpen, setIsOpen] = useState<boolean>(false)
+
   const popover = (
-    <Popover
-      id="popover-basic"
-      data-testid="access-details-popover"
-      style={{ maxWidth: '300px' }}
-      title="Access details popover"
-    >
+    <Popover id={id} data-testid={id} style={{ maxWidth: '300px' }}>
       <Popover.Body>
-        <p className="mb-0">
-          Enables the LUX AI to interpret and provide suggestions for your
-          search.
-        </p>
+        <p className="mb-0">{popoverText}</p>
       </Popover.Body>
     </Popover>
   )
 
   return (
-    <OverlayTrigger placement="bottom" trigger={['click']} overlay={popover}>
+    <OverlayTrigger
+      placement="bottom"
+      trigger={['click']}
+      overlay={popover}
+      rootClose={true}
+      show={isOpen}
+      onToggle={setIsOpen}
+    >
       <StyledButton
         variant="info"
         className="p-0 ms-0"
-        data-testid="ai-assisted-search-popover-button"
+        data-testid={`${id}-button`}
         style={{
           border: 'none',
           background: 'none',
           color: buttonColor,
         }}
-        aria-label="Learn more about AI-Assisted Search"
+        aria-label={ariaLabel}
+        aria-expanded={isOpen}
+        aria-controls={isOpen ? id : undefined}
+        aria-describedby={isOpen ? id : undefined}
       >
         <i
-          className="bi bi-info-circle"
+          className={`bi ${isOpen ? 'bi-x-circle' : 'bi-info-circle'}`}
           style={{
             fontSize: '1rem',
             marginRight: '0.2rem',
           }}
-          data-testid="ai-assisted-search-popover-icon"
+          data-testid={`${id}-button-icon`}
+          aria-hidden={true}
         />
       </StyledButton>
     </OverlayTrigger>

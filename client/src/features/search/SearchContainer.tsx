@@ -261,7 +261,7 @@ const SearchContainer: React.FC<IProps> = ({
         className={`d-flex justify-content-center ${isResultsPage ? '' : 'mt-3'}`}
       >
         <div
-          className={`d-inline-flex justify-content-${isResultsPage ? 'end' : 'center'} align-items-center`}
+          className={`d-inline-flex justify-content-center align-items-center`}
           style={{ width: theme.searchBox.width }}
         >
           {!isMobile && (
