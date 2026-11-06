@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import {
@@ -16,8 +16,12 @@ const TimelineData: React.FC<{
   transformedData: ITimelinesTransformed | null
   halLinkConfig: ITimelineHalLinks
 }> = ({ display, sortedKeys, transformedData, halLinkConfig }) => {
-  // Add additional years that were not returned with the data
-  const yearsRange = TimelineParser.addYearsWithNoData(sortedKeys)
+  // Add additional years that were not returned with the data.
+  // Memoized so that changing the Brush range does not pass the graph a new array.
+  const yearsRange = useMemo(
+    () => TimelineParser.addYearsWithNoData(sortedKeys),
+    [sortedKeys],
+  )
 
   const { initialStart, initialEnd } = TimelineParser.getStartAndEndIndex(
     sortedKeys,
