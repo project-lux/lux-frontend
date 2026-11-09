@@ -74,7 +74,7 @@ const SelectionContainer: React.FC<IProps> = ({
   // Removes all URL params that are facet related
   const handleClearAll = (): void => {
     // Set page to 1 so that the current page is not set as default
-    params.set(`${paramPrefix}p`, '1')
+    params.set('page', '1')
     params.delete('facetRequest')
     params.delete(`${paramPrefix}f`)
     const updatedQuery = params.toString()

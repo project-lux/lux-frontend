@@ -115,6 +115,8 @@ const MobileNavigation: React.FC<IProps> = ({
       dispatch(resetHelpTextState())
     }
     setShow(false)
+    // Page should always default to 1 when switching tabs
+    urlParams.set('page', '1')
     navigate(
       `/view/results/${key}?${
         (advancedSearch && !urlParams.has('qt') && key !== qt) ||

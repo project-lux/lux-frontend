@@ -5,13 +5,10 @@ import styled from 'styled-components'
 
 import { isFromLandingPage } from '../../lib/parse/search/queryParser'
 import { useSearchQuery } from '../../redux/api/ml_api'
-import { getParamPrefix } from '../../lib/util/params'
+import { getPageLength, getParamPrefix } from '../../lib/util/params'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledEntityPageSection from '../../styles/shared/EntityPageSection'
-import {
-  advancedSearchTitles,
-  DEFAULT_PAGE_LENGTH,
-} from '../../config/searchTypes'
+import { advancedSearchTitles } from '../../config/searchTypes'
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import { SEARCH_TYPE_PARAM } from '../../config/aiAssistedSearch/variables'
@@ -40,6 +37,7 @@ const ResultsPage: React.FC = () => {
   )
 
   const { search, state } = useLocation() as {
+    pathname: string
     search: string
     state: { [key: string]: boolean }
   }
@@ -58,9 +56,7 @@ const ResultsPage: React.FC = () => {
   // Setting as empty strings
   const queryString = urlParams.get('q') || ''
   const queryTab = urlParams.get('qt') || tab
-  const pageLength = urlParams.has('pageLength')
-    ? parseInt(urlParams.get('pageLength')!, 10)
-    : DEFAULT_PAGE_LENGTH
+  const pageLength = getPageLength(urlParams)
   const filterResults = urlParams.get('filterResults')
   const rnd = urlParams.get('rnd') || undefined
   const isSwitchToSimpleSearch =
@@ -72,10 +68,10 @@ const ResultsPage: React.FC = () => {
     ? `{"AND":[${queryString},${facetSearchString}]}`
     : queryString
 
-  let page = parseInt(urlParams.get(`${paramPrefix}p`) || '', 10)
-  if (Number.isNaN(page)) {
-    page = 1
-  }
+  const page = urlParams.has('page')
+    ? parseInt(urlParams.get('page') || '', 10)
+    : 1
+
   const sort = urlParams.has(`${paramPrefix}s`)
     ? (urlParams.get(`${paramPrefix}s`) as string)
     : undefined

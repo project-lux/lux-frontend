@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 - Added transitive query support ([#1044](https://github.com/project-lux/lux-frontend/issues/1044)).
 - Added client side handling of silent browser challenge ([#1072](https://github.com/project-lux/lux-frontend/issues/1072)).
 - Added tooltips to Keyword Search and AI Search Suggestions in disambiguation ([#1049](https://github.com/project-lux/lux-frontend/issues/1049)).
+- Added page length selection to results page ([#927](https://github.com/project-lux/lux-frontend/issues/927)).
 
 ### Changed
 
