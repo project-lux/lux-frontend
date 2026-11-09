@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Modal } from 'react-bootstrap'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router'
 
 import { searchScope, advancedSearchTitles } from '../../config/searchTypes'
 import { ResultsTab } from '../../types/ResultsTab'
@@ -115,6 +115,8 @@ const MobileNavigation: React.FC<IProps> = ({
       dispatch(resetHelpTextState())
     }
     setShow(false)
+    // Page should always default to 1 when switching tabs
+    urlParams.set('page', '1')
     navigate(
       `/view/results/${key}?${
         (advancedSearch && !urlParams.has('qt') && key !== qt) ||

@@ -11,4 +11,8 @@ export interface IServerConfig {
   bugherdApiKey: string
   /** Comma-separated origins allowed to request search broadcasts. */
   broadcastSearchAllowedOrigins: string
+  /** Enables AWS WAF silent browser verification when true. */
+  useWafChallenge: boolean
+  wafChallengeScriptUrl: string
+  wafContactUrl: string
 }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Container, Nav, Navbar } from 'react-bootstrap'
 import styled from 'styled-components'
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router'
 
 import StyledHeader from '../../styles/features/header/Header'
 import theme from '../../styles/theme'

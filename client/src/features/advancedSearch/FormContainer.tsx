@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Col, Row, Form } from 'react-bootstrap'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 import { ErrorBoundary } from 'react-error-boundary'
 import { isUndefined } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import { scopeToTabTranslation, searchScope } from '../../config/searchTypes'
+import { getPageLength } from '../../lib/util/params'
 import {
   filterAdvancedSearch,
   getAdvancedSearchDepth,
@@ -136,9 +137,13 @@ const FormContainer: React.FC<IProps> = ({
     const newUrlParams = new URLSearchParams()
     newUrlParams.set('q', JSON.stringify(filteredSearch))
     newUrlParams.set(SEARCH_TYPE_PARAM, 'advanced')
-    newUrlParams.set(`${newScope.slice(0, 1)}p`, '1')
+    newUrlParams.set('page', '1')
     newUrlParams.set('qt', newResultTab)
     newUrlParams.set('openQB', 'true')
+    // keep the user's chosen page length for the new search
+    if (urlParams.has('pageLength')) {
+      newUrlParams.set('pageLength', getPageLength(urlParams).toString())
+    }
     newUrlParams.set(
       AI_REFINEMENT_PARAM,
       isAiSearchWithRefinement ? 'true' : 'false',

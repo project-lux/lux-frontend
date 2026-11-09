@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Accordion, Col, Modal, Row } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
+import { useParams } from 'react-router'
 import styled from 'styled-components'
 import { isUndefined } from 'lodash'
 

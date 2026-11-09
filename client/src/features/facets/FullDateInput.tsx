@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React, { useState, useEffect } from 'react'
-import { useLocation, useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router'
 import styled from 'styled-components'
 import { isUndefined, isNull } from 'lodash'
 
@@ -215,7 +215,7 @@ const FullDateInput: React.FC<IFacets> = ({
     searchParams.set(`${paramPrefix}f`, JSON.stringify(newFacetQuery))
     searchParams.set('q', JSON.stringify(criteria))
     searchParams.set('facetRequest', 'true')
-    searchParams.set(`${paramPrefix}p`, '1')
+    searchParams.set('page', '1')
     const searchQ = searchParams.toString()
     navigate(`${pathname}?${searchQ}`)
   }

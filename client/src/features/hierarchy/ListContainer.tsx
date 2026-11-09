@@ -1,6 +1,6 @@
 import React, { type JSX } from 'react'
 // import { isNull } from 'lodash'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 import { Col } from 'react-bootstrap'
 
 import StyledExploreHierarchy from '../../styles/features/common/ExploreHierarchy'

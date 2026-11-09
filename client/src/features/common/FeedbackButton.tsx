@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation } from 'react-router'
 
 import config from '../../config/config'
 import PrimaryButton from '../../styles/shared/PrimaryButton'

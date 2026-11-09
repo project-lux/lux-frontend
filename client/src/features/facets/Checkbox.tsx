@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import config from '../../config/config'
@@ -106,7 +106,7 @@ const Checkbox: React.FC<IProps> = ({
       Number.isNaN(numValue) ? strValue : numValue,
     )
     // Set the page number to 1, otherwise it will default to current page
-    params.set(`${paramPrefix}p`, '1')
+    params.set('page', '1')
     params.set(`${paramPrefix}f`, JSON.stringify(newFacetQuery))
     params.set('q', JSON.stringify(criteria))
     params.set('facetRequest', 'true')

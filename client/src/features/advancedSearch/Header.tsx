@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { ErrorBoundary } from 'react-error-boundary'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router'
 
 import StyledTitleHeader from '../../styles/features/advancedSearch/TitleHeader'
 import { ErrorFallback } from '../error/ErrorFallback'

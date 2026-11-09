@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState } from 'react'
-import { useNavigate, useLocation, useParams } from 'react-router-dom'
+import { useNavigate, useLocation, useParams } from 'react-router'
 import { Row, Col, Nav } from 'react-bootstrap'
 
 import { useGetEstimatesQuery } from '../../redux/api/ml_api'
@@ -117,68 +117,75 @@ const Navigation: React.FC<INavigation> = ({
           <StyledNavbar data-testid="results-page-navbar">
             <Nav className="w-100 h-100 justify-content-between flex-row">
               {/* iterating over searchScopes to ensure the order the buttons are rendered */}
-              {Object.entries(searchScope).map(([key, value]) => (
-                <StyledNavLink
-                  key={key}
-                  to={`/view/results/${key}?${
-                    (advancedSearch && !urlParams.has('qt') && key !== qt) ||
-                    isSwitchToSimpleSearch
-                      ? `${urlParams.toString()}${!urlParams.has('qt') ? `&qt=${tab || key}` : ''}`
-                      : urlParams.toString()
-                  }`}
-                  className={getClassNameOfNavLink(key)}
-                  onClick={() => {
-                    pushClientEvent(
-                      'Results Tab',
-                      'Selected',
-                      advancedSearchTitles[key],
-                    )
-                    if (advancedSearch && key !== tab) {
-                      dispatch(resetState())
-                      dispatch(resetHelpTextState())
-                    }
-                  }}
-                  style={{
-                    marginRight: key !== 'events' ? '10px' : '0px',
-                  }}
-                  id={key}
-                  data-testid={`${key}-results-tab-button`}
-                >
-                  <Row className="pe-3">
-                    <Col xs={12} sm={12} md={12} lg={12} xl={9}>
-                      <Row className="d-flex float-start">
-                        <Col xs={12} className="linkTitle d-flex text-start">
-                          {advancedSearchTitles[key]}
-                        </Col>
-                        <Col xs={12} className="linkSubtext d-flex text-start">
-                          {isLoading || isFetching ? (
-                            <LoadingSpinner size="sm" />
-                          ) : (
-                            estimates[key]
-                          )}
-                        </Col>
-                      </Row>
-                    </Col>
-                    <Col
-                      xs={12}
-                      sm={12}
-                      md={12}
-                      lg={12}
-                      xl={3}
-                      className="d-flex float-end"
-                    >
-                      <img
-                        className="float-end navIcon"
-                        src={getIcon(value)}
-                        alt="icon"
-                        aria-label="icon"
-                        height={45}
-                        width={45}
-                      />
-                    </Col>
-                  </Row>
-                </StyledNavLink>
-              ))}
+              {Object.entries(searchScope).map(([key, value]) => {
+                // Page should always default to 1 when switching tabs
+                urlParams.set('page', '1')
+                return (
+                  <StyledNavLink
+                    key={key}
+                    to={`/view/results/${key}?${
+                      (advancedSearch && !urlParams.has('qt') && key !== qt) ||
+                      isSwitchToSimpleSearch
+                        ? `${urlParams.toString()}${!urlParams.has('qt') ? `&qt=${tab || key}` : ''}`
+                        : urlParams.toString()
+                    }`}
+                    className={getClassNameOfNavLink(key)}
+                    onClick={() => {
+                      pushClientEvent(
+                        'Results Tab',
+                        'Selected',
+                        advancedSearchTitles[key],
+                      )
+                      if (advancedSearch && key !== tab) {
+                        dispatch(resetState())
+                        dispatch(resetHelpTextState())
+                      }
+                    }}
+                    style={{
+                      marginRight: key !== 'events' ? '10px' : '0px',
+                    }}
+                    id={key}
+                    data-testid={`${key}-results-tab-button`}
+                  >
+                    <Row className="pe-3">
+                      <Col xs={12} sm={12} md={12} lg={12} xl={9}>
+                        <Row className="d-flex float-start">
+                          <Col xs={12} className="linkTitle d-flex text-start">
+                            {advancedSearchTitles[key]}
+                          </Col>
+                          <Col
+                            xs={12}
+                            className="linkSubtext d-flex text-start"
+                          >
+                            {isLoading || isFetching ? (
+                              <LoadingSpinner size="sm" />
+                            ) : (
+                              estimates[key]
+                            )}
+                          </Col>
+                        </Row>
+                      </Col>
+                      <Col
+                        xs={12}
+                        sm={12}
+                        md={12}
+                        lg={12}
+                        xl={3}
+                        className="d-flex float-end"
+                      >
+                        <img
+                          className="float-end navIcon"
+                          src={getIcon(value)}
+                          alt="icon"
+                          aria-label="icon"
+                          height={45}
+                          width={45}
+                        />
+                      </Col>
+                    </Row>
+                  </StyledNavLink>
+                )
+              })}
             </Nav>
           </StyledNavbar>
         </Col>
