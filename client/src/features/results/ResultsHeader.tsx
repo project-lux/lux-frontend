@@ -37,9 +37,10 @@ const StyledDescriptiveText = styled.div`
 interface IResultsHeader {
   total: number
   resultsData?: ISearchResults
+  headingRef?: React.Ref<HTMLHeadingElement>
 }
 
-const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
+const ResultsHeader: React.FC<IResultsHeader> = ({ total, headingRef }) => {
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
     pathname: string
@@ -107,6 +108,10 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total }) => {
           <StyledResultsHeader
             className="mb-0 resultsHeaderTitle"
             data-testid="results-header-title"
+            ref={headingRef}
+            // focusable by script (after an advanced search is submitted) but not a tab stop
+            tabIndex={-1}
+            aria-label={`Results header: ${total} ${label} results`}
           >
             {total} {label} results
           </StyledResultsHeader>

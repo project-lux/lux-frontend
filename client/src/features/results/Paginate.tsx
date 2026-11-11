@@ -9,6 +9,8 @@ import PrimaryButton from '../../styles/shared/PrimaryButton'
 import { useWindowWidth } from '../../lib/hooks/useWindowWidth'
 import { DOTS } from '../../lib/util/paginationHelper'
 import { pushClientEvent } from '../../lib/pushClientEvent'
+import { useAppDispatch } from '../../app/hooks'
+import { changeFocusResultsHeader } from '../../redux/slices/currentSearchSlice'
 
 import { Paginator } from './Paginator'
 
@@ -87,6 +89,7 @@ const Paginate: React.FC<IPagination> = ({
   const { width } = useWindowWidth()
 
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
   const { pathname, search } = useLocation()
   const URL = new URLSearchParams(search)
 
@@ -101,6 +104,9 @@ const Paginate: React.FC<IPagination> = ({
       handleSelectionOfPage(pageNumber)
     } else {
       URL.set('page', pageNumber.toString())
+      // ScrollRestoration does not reset the scroll within the results page, so move the user
+      // to the results heading once the new page of results has loaded
+      dispatch(changeFocusResultsHeader({ value: true }))
       navigate({
         pathname: `${pathname}`,
         search: `?${URL.toString()}`,
