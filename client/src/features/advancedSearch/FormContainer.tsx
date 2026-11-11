@@ -29,7 +29,9 @@ import { pushClientEvent } from '../../lib/pushClientEvent'
 import StyledAddButton from '../../styles/features/advancedSearch/AddButton'
 import {
   ICurrentSearchState,
+  changeAutoFocusNextInput,
   changeClearedAdvancedSearch,
+  changeFocusResultsHeader,
 } from '../../redux/slices/currentSearchSlice'
 import theme from '../../styles/theme'
 import {
@@ -125,6 +127,10 @@ const FormContainer: React.FC<IProps> = ({
   // Handle the form submission action
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>): void => {
     event.preventDefault()
+    // the form is rebuilt from the URL after navigating, so no input should grab focus
+    dispatch(changeAutoFocusNextInput({ value: false }))
+    // move focus to the results heading once the new results have loaded
+    dispatch(changeFocusResultsHeader({ value: true }))
 
     const filteredSearch = filterAdvancedSearch(
       scope || (currentState._scope as string | null),
