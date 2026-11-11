@@ -2,7 +2,13 @@
 
 All notable changes to this project will be documented in this file.
 
-## v2.1.0 - Unreleased
+## v2.2.0 - Unreleased
+
+### Added
+
+- Added scroll to top of results functionality ([#1070](https://github.com/project-lux/lux-frontend/issues/1070)).
+
+## v2.1.0 - 2026-11-09
 
 ### Added
 
