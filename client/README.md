@@ -34,6 +34,9 @@
 
 1. Create an pushClientEvent.ts file in the [/src/lib](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts) folder
 2. Copy the contents of [pushClientEvent.ts.template](https://github.com/project-lux/lux-frontend/blob/main/client/src/lib/pushClientEvent.ts.template) and add any functions required for site analytics.
+3. The file must export both `pushClientEvent` and `pushClientPageEvent`. The template's default implementation sends events to SiteImprove only when its script has been loaded (`window._sz` exists), and is otherwise a no-op, so it can be used as-is by deployments without any analytics service.
+
+Bugherd is likewise optional: the sidebar is only embedded in non-production environments when `REACT_APP_BUGHERD_API_KEY` (or the server's `BUGHERD_API_KEY`) is set.
 
 ## Search broadcasting
 

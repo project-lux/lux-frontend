@@ -27,6 +27,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed documentation from yarn to pnpm ([1021](https://github.com/project-lux/lux-frontend/issues/1021)).
+- Fixed the client failing when SiteImprove and/or Bugherd are not configured: pushClientEvent.ts.template now exports pushClientPageEvent and only sends events when SiteImprove is loaded, Bugherd is only embedded when an API key is set, and unset server values for the environment and Bugherd key no longer cause errors ([#1113](https://github.com/project-lux/lux-frontend/issues/1113)).
 
 ### Removed
 
