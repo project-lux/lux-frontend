@@ -1,6 +1,38 @@
 // This is a template to add custom site tracking for analytics.
-// The pushClientEvent function is implemented on most actionable features within LUX
-// and can be configured with any site analytics services.
+// Copy this file to pushClientEvent.ts (which is gitignored) and adapt it to
+// the analytics service used by your deployment.
+//
+// Both exported functions are required: pushClientEvent is called from most
+// actionable features within LUX, and pushClientPageEvent is called by the
+// router on every page change.
+//
+// This default implementation sends events to SiteImprove if (and only if) the
+// SiteImprove script has been loaded on the page (it defines window._sz). When
+// no analytics service is present, both functions are safe no-ops. Analytics
+// failures are never allowed to propagate into the application.
+
+declare global {
+  // Augments the built-in Window type, so its name cannot follow the I-prefix rule
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  interface Window {
+    _sz?: { push: (args: unknown[]) => void }
+  }
+}
+
+const pushToAnalytics = (args: unknown[]): void => {
+  if (typeof window === 'undefined') {
+    return
+  }
+  const sz = window._sz
+  if (sz === undefined || sz === null || typeof sz.push !== 'function') {
+    return
+  }
+  try {
+    sz.push(args)
+  } catch (e) {
+    console.warn('Unable to push analytics event', e)
+  }
+}
 
 export const pushClientEvent = (
   category: string,
@@ -10,5 +42,13 @@ export const pushClientEvent = (
   const args = label
     ? ['event', category, action, label]
     : ['event', category, action]
-  window._sz.push(args)
+  pushToAnalytics(args)
+}
+
+export const pushClientPageEvent = (
+  url: string,
+  referrer: string,
+  title: string,
+): void => {
+  pushToAnalytics(['trackdynamic', { url, ref: referrer, title }])
 }
