@@ -2,6 +2,7 @@ import React from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
+import { changeAutoFocusNextInput } from '../../redux/slices/currentSearchSlice'
 import {
   isBooleanInput,
   isDateInput,
@@ -61,6 +62,7 @@ const InputFieldSet: React.FC<IFieldSelectRow> = ({
   const dispatch = useAppDispatch()
 
   const addOption = (selected: string): void => {
+    dispatch(changeAutoFocusNextInput({ value: true }))
     dispatch(addFieldSelection({ scope, selected, stateId }))
   }
 
