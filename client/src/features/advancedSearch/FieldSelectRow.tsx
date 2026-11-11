@@ -8,6 +8,7 @@ import { scopeToAriaLabel } from '../../config/searchTypes'
 import { getProperty } from '../../lib/advancedSearch/advancedSearchParser'
 import { getSingleFieldDropdownOptions } from '../../lib/advancedSearch/stateManager'
 import { addFieldSelection } from '../../redux/slices/advancedSearchSlice'
+import { changeAutoFocusNextInput } from '../../redux/slices/currentSearchSlice'
 import StyledInputGroupDiv from '../../styles/features/advancedSearch/InputGroup'
 
 import AdvancedSearchDropdown from './Dropdown'
@@ -48,6 +49,7 @@ const FieldSelectRow: React.FC<IFieldSelectRow> = ({
 }) => {
   const dispatch = useAppDispatch()
   const addOption = (selected: string): void => {
+    dispatch(changeAutoFocusNextInput({ value: true }))
     dispatch(addFieldSelection({ scope, selected, stateId, parentBgColor }))
   }
 
