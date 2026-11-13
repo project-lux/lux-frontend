@@ -274,5 +274,26 @@ describe('EventParser', () => {
         `${config.env.dataApiBaseUrl}data/concept/production`,
       )
     })
+
+    it('returns null if no classified_as entry has an id', () => {
+      const event = new EventParser({
+        type: 'Activity',
+        classified_as: [{ type: 'Type', _label: 'Publishing' }],
+      } as any)
+      expect(event.getEventLabel()).toBeNull()
+    })
+
+    it('skips classified_as entries without an id', () => {
+      const event = new EventParser({
+        type: 'Activity',
+        classified_as: [
+          { type: 'Type' },
+          { id: 'https://example.org/concept/publishing', type: 'Type' },
+        ],
+      } as any)
+      expect(event.getEventLabel()).toEqual(
+        'https://example.org/concept/publishing',
+      )
+    })
   })
 })

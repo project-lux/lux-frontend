@@ -136,7 +136,7 @@ export default class EntityParser {
     const data: IContentWithLanguage = {}
 
     identifiedBy
-      .filter((identifier) => identifier.type === 'Name')
+      .filter((identifier) => identifier?.type === 'Name')
       .map((identifier) => {
         const classifiedAs = forceArray(identifier.classified_as)
         const identifiedByChild = forceArray(identifier.identified_by)
