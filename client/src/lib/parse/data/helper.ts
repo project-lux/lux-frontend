@@ -34,17 +34,17 @@ export const capitalizeLabels = (text: string): string => {
 }
 
 /**
- * Returns an array containing the content passed
+ * Returns an array containing the content passed.
+ * Null or undefined entries within an array are removed.
  * @param {any} x the content to wrap in an array
  * @returns {Array<any>}
  */
-
 export const forceArray = (x: any): Array<any> => {
   if (x === null || x === undefined) {
     return []
   }
   if (Array.isArray(x)) {
-    return x
+    return x.filter((item) => item !== null && item !== undefined)
   }
   return [x]
 }
@@ -395,7 +395,7 @@ export const getName = (
   const unclassifiedNames: Array<string> = []
 
   identifiers.map((identifier: IIdentifier) => {
-    if (identifier.type === 'Name') {
+    if (identifier?.type === 'Name') {
       const hasClassifiedAs = identifier.classified_as !== undefined
       const equivalentIds = hasClassifiedAs
         ? getEquivalentFromClassifiedAsArray(

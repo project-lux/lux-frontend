@@ -372,7 +372,8 @@ export default class EventParser extends EntityParser {
    */
   getEventLabel(): string | null {
     const classifiedAs = forceArray(this.event.classified_as)
-    return classifiedAs.length > 0 ? classifiedAs[0].id : null
+    const withId = classifiedAs.find((cl) => typeof cl.id === 'string')
+    return withId !== undefined ? withId.id : null
   }
 
   /**
