@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Added
 
 - Added scroll to top of results functionality ([#1070](https://github.com/project-lux/lux-frontend/issues/1070)).
+- Added keys on arrays without keys ([#1091](https://github.com/project-lux/lux-frontend/issues/1091)).
 
 ### Fixed
 
