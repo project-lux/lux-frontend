@@ -60,8 +60,8 @@ const AgentsRow: React.FC<{
         />
       </div>
       {references.length > 0 &&
-        references.map((ref) => (
-          <React.Fragment>
+        references.map((ref, ind) => (
+          <React.Fragment key={`${ref.type}-${ind}`}>
             <div className={changeColumnWidths ? rightPanelKeyClass : keyClass}>
               <dt />
             </div>
