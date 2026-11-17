@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
-import config from '../../config/config'
+import config, { getDataApiBaseUrl } from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { useGetNameQuery } from '../../redux/api/ml_api'
 import { addTextValue } from '../../redux/slices/advancedSearchSlice'
@@ -10,6 +10,13 @@ import {
   addHoverHelpText,
   addSelectedHelpText,
 } from '../../redux/slices/helpTextSlice'
+
+const LUX_DATA_PREFIX = `${getDataApiBaseUrl()}data/`
+const ID_VALIDATION_MESSAGE = `Input must start with '${LUX_DATA_PREFIX}'`
+
+// Only the 'id' field requires validation; it must be a LUX data URI
+const isValidInput = (field: string, value: string | undefined): boolean =>
+  field !== 'id' || !value || value.startsWith(LUX_DATA_PREFIX)
 
 interface IInputType {
   label: string
@@ -44,21 +51,18 @@ const TextInput: React.FC<IInputType> = ({
 
   const dispatch = useAppDispatch()
 
+  // Keep the input's validity in sync with the current field and value so a
+  // custom validity message does not persist after switching away from 'id'
+  useEffect(() => {
+    const invalid = !isValidInput(field, currentValue)
+    inputRef.current?.setCustomValidity(invalid ? ID_VALIDATION_MESSAGE : '')
+    setIsValid(!invalid)
+  }, [field, currentValue])
+
   const handleOnChange = (userInput: string): void => {
-    // Validate that the input starts with the correct URL prefix if the field is 'id'
-    if (
-      field === 'id' &&
-      userInput &&
-      !userInput.startsWith('https://lux.collections.yale.edu/data/')
-    ) {
-      inputRef.current?.setCustomValidity(
-        "Input must start with 'https://lux.collections.yale.edu/data/'",
-      )
+    if (!isValidInput(field, userInput)) {
+      inputRef.current?.setCustomValidity(ID_VALIDATION_MESSAGE)
       inputRef.current?.reportValidity()
-      setIsValid(false)
-    } else {
-      inputRef.current?.setCustomValidity('')
-      setIsValid(true)
     }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
@@ -70,9 +74,7 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
-  const uri = currentValue
-    ? currentValue.replace('https://lux.collections.yale.edu/data/', '')
-    : ''
+  const uri = currentValue ? currentValue.replace(LUX_DATA_PREFIX, '') : ''
   const { data, isSuccess } = useGetNameQuery(
     { uri },
     { skip: field !== 'id' || currentValue === undefined },
