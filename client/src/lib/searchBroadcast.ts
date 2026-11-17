@@ -113,10 +113,10 @@ const registerTarget = (origin: string, source: Window): void => {
 
 export const handleBroadcastSearchMessage = (event: MessageEvent): void => {
   const { data, origin, source } = event
-  console.dir(
-    { LUX_POST_MESSAGE_RECEIVED: { data, origin, source } },
-    { depth: null },
-  )
+  // console.dir(
+  //   { LUX_POST_MESSAGE_RECEIVED: { data, origin, source } },
+  //   { depth: null },
+  // )
 
   if (data === null || typeof data !== 'object') {
     return

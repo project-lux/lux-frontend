@@ -1,0 +1,2453 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "LUX Middle Tier API",
+    "version": "1.14.0",
+    "description": "HTTP API exposed by the LUX middle tier (lux-middletier). The middle tier sits\nbetween the LUX frontend and the MarkLogic backend: it relays requests to the\nbackend, rewrites entity URIs from the search host to the result host, and adds\nHAL links to entity documents.\n\nMost endpoints pass their parameters through to the backend. For full details\nof backend parameters and response formats, see the\n[backend API documentation](https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md).\n\nAll routes accept CORS preflight (`OPTIONS`) requests on any path, answered with\n`200` and permissive `Access-Control-Allow-*` headers.\n",
+    "license": {
+      "name": "UNLICENSED"
+    }
+  },
+  "externalDocs": {
+    "description": "LUX backend API usage",
+    "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md"
+  },
+  "servers": [
+    {
+      "url": "https://lux.collections.yale.edu",
+      "description": "Production"
+    },
+    {
+      "url": "https://lux-front-tst.collections.yale.edu",
+      "description": "Test"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Document",
+      "description": "Retrieve single entity Linked Art JSON documents."
+    },
+    {
+      "name": "Search",
+      "description": "Search the LUX backend and related helpers."
+    },
+    {
+      "name": "Configuration",
+      "description": "Configuration used by the frontend to build search UIs."
+    },
+    {
+      "name": "System",
+      "description": "Health, status, and version information."
+    }
+  ],
+  "paths": {
+    "/data/{scope}/{uuid}": {
+      "get": {
+        "tags": [
+          "Document"
+        ],
+        "operationId": "getDocument",
+        "summary": "Retrieve an entity document",
+        "description": "Returns the Linked Art JSON document for a single entity. The entity URI is\nbuilt as `https://lux.collections.yale.edu/data/{scope}/{uuid}`. If no `profile`\nis given, the response includes [HAL links](./hal-links.md) under `_links`\nbased on the entity type.\n",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#read-document"
+        },
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "path",
+            "required": true,
+            "description": "Scope segment of the URI.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "object"
+          },
+          {
+            "name": "uuid",
+            "in": "path",
+            "required": true,
+            "description": "Entity identifier segment of the URI.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "fbe069b3-4d30-4406-a4a0-47303d4fae22"
+          },
+          {
+            "name": "profile",
+            "in": "query",
+            "required": false,
+            "description": "Backend profile name. When specified, the response is a filtered (smaller) document and HAL links are not added.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "lang",
+            "in": "query",
+            "required": false,
+            "description": "Language code.",
+            "schema": {
+              "type": "string",
+              "default": "en"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Linked Art document, with `_links` when no profile is specified.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/LinkedArtDocument"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No document exists for the URI. The body is JSON `null`.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "notFound": {
+                    "summary": "Document not found",
+                    "value": {
+                      "statusCode": 404,
+                      "errorMessage": "Document 'https://lux.collections.yale.edu/data/object/1234' not found"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/search/{scope}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "search",
+        "summary": "Search",
+        "description": "The primary means to search the LUX backend.",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#search"
+        },
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "path",
+            "required": true,
+            "description": "Search scope. `multi` searches across scopes.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "agent",
+                "concept",
+                "event",
+                "item",
+                "multi",
+                "place",
+                "set",
+                "work"
+              ]
+            }
+          },
+          {
+            "$ref": "#/components/parameters/QueryRequired"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageLength",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 20
+            }
+          },
+          {
+            "name": "pageWith",
+            "in": "query",
+            "required": false,
+            "description": "URI of a record; returns the page of results that contains it.",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
+          },
+          {
+            "$ref": "#/components/parameters/FilterResults"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, for example, there is no query string.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "unconfiguredFacet": {
+                    "summary": "There is no criteria in the query parameter.",
+                    "value": {
+                      "statusCode": 400,
+                      "errorMessage": "more search criteria is required."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/search-estimate/{scope}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchEstimate",
+        "description": "Returns the estimated number of search results for the given query.",
+        "summary": "Estimate the number of search results",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#search-estimate"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Scope"
+          },
+          {
+            "$ref": "#/components/parameters/QueryRequired"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Estimated number of results for the search, with links to the first and last pages of results.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchEstimate"
+                },
+                "examples": {
+                  "searchEstimate": {
+                    "summary": "Estimated results for a keyword search",
+                    "value": {
+                      "@context": "https://linked.art/ns/v1/search.json",
+                      "id": "https://lux.collections.yale.edu/api/search-estimate/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D",
+                      "type": "OrderedCollection",
+                      "label": {
+                        "en": [
+                          "Objects"
+                        ]
+                      },
+                      "summary": {
+                        "en": [
+                          "Objects"
+                        ]
+                      },
+                      "totalItems": 803,
+                      "first": {
+                        "id": "https://lux.collections.yale.edu/api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=1&pageLength=20",
+                        "type": "OrderedCollectionPage"
+                      },
+                      "last": {
+                        "id": "https://lux.collections.yale.edu/api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%22%2C%22_lang%22%3A%22en%22%7D%2C%7B%22text%22%3A%22warhol%22%2C%22_lang%22%3A%22en%22%7D%5D%7D&page=41&pageLength=20",
+                        "type": "OrderedCollectionPage"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/search-will-match": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "searchWillMatch",
+        "summary": "Check whether a search returns at least one result",
+        "description": "More efficient than `search-estimate` for this purpose.",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#search-will-match"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/QueryRequired"
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/BackendJson"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/facets/{scope}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "facets",
+        "description": "Returns the facet values for the given query and facet name.",
+        "summary": "Get facet values for a search",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#facets"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Scope"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "Facet name.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "responsibleUnits"
+          },
+          {
+            "$ref": "#/components/parameters/QueryRequired"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          },
+          {
+            "name": "pageLength",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "$ref": "#/components/parameters/Sort"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Values of the requested facet for the search, one entry per facet value, with the number of matching records. If there are no results, the orderedItems array will be empty.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                },
+                "examples": {
+                  "responsibleUnitsFacet": {
+                    "summary": "Responsible units facet values for a keyword search",
+                    "value": {
+                      "@context": "https://linked.art/ns/v1/search.json",
+                      "id": "https://lux.collections.yale.edu/api/facets/item?name=responsibleUnits&q=%7B%22text%22%3A%22andy%20warhol%22%7D",
+                      "type": "OrderedCollectionPage",
+                      "orderedItems": [
+                        {
+                          "id": "https://lux.collections.yale.edu/api/search-estimate/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%20warhol%22%7D%2C%7B%22memberOf%22%3A%7B%22curatedBy%22%3A%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fgroup%2Fd07b9b86-0a1e-4026-aa4c-8ecba8bbd9c9%22%7D%7D%7D%7D%5D%7D",
+                          "type": "OrderedCollection",
+                          "value": "https://lux.collections.yale.edu/data/group/d07b9b86-0a1e-4026-aa4c-8ecba8bbd9c9",
+                          "totalItems": 612,
+                          "first": {
+                            "id": "https://lux.collections.yale.edu/api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%20warhol%22%7D%2C%7B%22memberOf%22%3A%7B%22curatedBy%22%3A%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fgroup%2Fd07b9b86-0a1e-4026-aa4c-8ecba8bbd9c9%22%7D%7D%7D%7D%5D%7D",
+                            "type": "OrderedCollectionPage"
+                          }
+                        },
+                        {
+                          "id": "https://lux.collections.yale.edu/api/search-estimate/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%20warhol%22%7D%2C%7B%22memberOf%22%3A%7B%22curatedBy%22%3A%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fgroup%2F0b7e2c5e-6a4b-4d69-9a2f-1f6f8c7f3e21%22%7D%7D%7D%7D%5D%7D",
+                          "type": "OrderedCollection",
+                          "value": "https://lux.collections.yale.edu/data/group/0b7e2c5e-6a4b-4d69-9a2f-1f6f8c7f3e21",
+                          "totalItems": 191,
+                          "first": {
+                            "id": "https://lux.collections.yale.edu/api/search/item?q=%7B%22AND%22%3A%5B%7B%22text%22%3A%22andy%20warhol%22%7D%2C%7B%22memberOf%22%3A%7B%22curatedBy%22%3A%7B%22memberOf%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fgroup%2F0b7e2c5e-6a4b-4d69-9a2f-1f6f8c7f3e21%22%7D%7D%7D%7D%5D%7D",
+                            "type": "OrderedCollectionPage"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, for example a facet name that is not configured.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "unconfiguredFacet": {
+                    "summary": "Facet name is not configured",
+                    "value": {
+                      "statusCode": 400,
+                      "errorMessage": "'invalidSearchTerm' is not a configured facet."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/related-list/{scope}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "relatedList",
+        "description": "Returns the semantic facet values for the given query and related list name.",
+        "summary": "List records related to an entity",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#related-list"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Scope"
+          },
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "description": "Related list name.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "relatedToAgent"
+          },
+          {
+            "name": "uri",
+            "in": "query",
+            "required": true,
+            "description": "URI of the entity to find related records for.",
+            "schema": {
+              "type": "string",
+              "format": "uri"
+            },
+            "example": "https://lux.collections.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83"
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageLength",
+            "in": "query",
+            "required": false,
+            "description": "Uses the backend default when omitted.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100
+            }
+          },
+          {
+            "$ref": "#/components/parameters/FilterResults"
+          },
+          {
+            "name": "relationshipsPerRelation",
+            "in": "query",
+            "required": false,
+            "description": "Uses the backend default when omitted.",
+            "schema": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Relationships between the entity and records in the requested scope, one entry per relationship.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchResults"
+                },
+                "examples": {
+                  "relatedList": {
+                    "summary": "Related records for an entity",
+                    "value": {
+                      "@context": "https://linked.art/ns/v1/search.json",
+                      "id": "https://lux.collections.yale.edu/api/related-list/concept?name=relatedToAgent&uri=https://lux.collections.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83&page=1",
+                      "type": "OrderedCollectionPage",
+                      "orderedItems": [
+                        {
+                          "id": "https://lux.collections.yale.edu/api/search/work?q=%7B%22AND%22%3A%5B%7B%22classification%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fconcept%2Fmock-concept-1%22%7D%7D%5D%7D",
+                          "type": "OrderedCollection",
+                          "value": "https://lux.collections.yale.edu/data/concept/mock-concept-1",
+                          "name": "Is the Category of Works Created By",
+                          "totalItems": 276,
+                          "first": {
+                            "id": "https://lux.collections.yale.edu/api/search/work?q=%7B%22AND%22%3A%5B%7B%22classification%22%3A%7B%22id%22%3A%22https%3A%2F%2Flux.collections.yale.edu%2Fdata%2Fconcept%2Fmock-concept-1%22%7D%7D%5D%7D",
+                            "type": "OrderedCollectionPage"
+                          }
+                        }
+                      ],
+                      "next": {
+                        "id": "https://lux.collections.yale.edu/api/related-list/concept?name=relatedToAgent&uri=https://lux.collections.yale.edu/data/person/783e7e6f-6863-4978-8aa3-9e6cd8cd8e83&page=2",
+                        "type": "OrderedCollectionPage"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request, for example a related list term that is not configured.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "unconfiguredFacet": {
+                    "summary": "Related list term is not configured",
+                    "value": {
+                      "statusCode": 400,
+                      "errorMessage": "No configuration for the 'relatedTAgent' related list in the 'place' scope."
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/translate/{scope}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "translate",
+        "description": "Returns the LUX JSON search grammar translation of the given search string.",
+        "summary": "Translate a search string to LUX JSON search grammar",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#translate"
+        },
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/Scope"
+          },
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Plain-text search string.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "andy warhol"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The search string translated to the LUX JSON search grammar, with `_scope` set to the requested scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdvancedSearchState"
+                },
+                "examples": {
+                  "translatedSearch": {
+                    "summary": "Translated keyword search",
+                    "value": {
+                      "_scope": "item",
+                      "AND": [
+                        {
+                          "text": "andy"
+                        },
+                        {
+                          "text": "warhol"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/ai-translate": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "aiTranslate",
+        "summary": "Translate a natural-language query to LUX JSON search grammar using AI",
+        "description": "Uses a generative AI model to translate a natural-language request into a LUX\nJSON search query. Only available when the server is configured with Google\nCloud credentials otherwise every request returns `404`.\n",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "required": true,
+            "description": "Natural-language query.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "paintings by andy warhol"
+          },
+          {
+            "name": "prevQuery",
+            "in": "query",
+            "required": false,
+            "description": "A previous LUX JSON search query to refine, allowing follow-up requests such as \"only the ones from the 1960s\".",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Search options generated from the request. The first option returned is a keyword search; the rest are structured searches.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "description": "A list of objects containing the translated query and the natural-language description.",
+                  "items": {
+                    "type": "object",
+                    "description": "One search option (`IAiDisambiguation` in the frontend).",
+                    "required": [
+                      "natural",
+                      "query"
+                    ],
+                    "properties": {
+                      "natural": {
+                        "type": "string",
+                        "description": "Plain-language description of the search, for showing to the user.",
+                        "example": "Keyword search for 'andy warhol'"
+                      },
+                      "query": {
+                        "allOf": [
+                          {
+                            "$ref": "#/components/schemas/AdvancedSearchState"
+                          }
+                        ],
+                        "description": "The search for this option, in the LUX JSON search grammar."
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "aiTranslatedSearch": {
+                    "summary": "AI-generated search options",
+                    "value": [
+                      {
+                        "natural": "Keyword search for 'andy warhol'",
+                        "query": {
+                          "_scope": "item",
+                          "AND": [
+                            {
+                              "text": "andy"
+                            },
+                            {
+                              "text": "warhol"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "natural": "Objects classified as paintings and produced by Andy Warhol",
+                        "query": {
+                          "_scope": "item",
+                          "AND": [
+                            {
+                              "classification": {
+                                "name": "painting"
+                              }
+                            },
+                            {
+                              "producedBy": {
+                                "name": "andy warhol"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "AI translation is not enabled on this server or a request to the endpoint has failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                },
+                "examples": {
+                  "aiTranslateUnavailable": {
+                    "summary": "AI translation unavailable",
+                    "value": {
+                      "statusCode": 404,
+                      "errorMessage": "AI translation is not enabled"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/auto-complete": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "autoComplete",
+        "summary": "Auto-complete a search term",
+        "description": "Experimental; not currently used by LUX in production.",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#auto-complete"
+        },
+        "parameters": [
+          {
+            "name": "text",
+            "in": "query",
+            "required": true,
+            "description": "Text to complete.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "oil"
+          },
+          {
+            "name": "context",
+            "in": "query",
+            "required": true,
+            "description": "Search term context, in the form `scope.term`.",
+            "schema": {
+              "type": "string"
+            },
+            "example": "item.material"
+          },
+          {
+            "name": "fullyHonorContext",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "onlyMatchOnPrimaryNames",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          {
+            "name": "onlyReturnPrimaryNames",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "default": false
+            }
+          },
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1
+            }
+          },
+          {
+            "name": "pageLength",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 100,
+              "default": 10
+            }
+          },
+          {
+            "name": "filterIndex",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          },
+          {
+            "name": "previouslyFiltered",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 1
+            }
+          },
+          {
+            "name": "timeoutInMilliseconds",
+            "in": "query",
+            "required": false,
+            "description": "0 means use the backend default.",
+            "schema": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "$ref": "#/components/responses/BackendJson"
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/resolve/{scope}/{unit}/{identifier}": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "operationId": "resolve",
+        "summary": "Redirect from a unit identifier to a LUX record",
+        "description": "Finds the LUX record with the given identifier and redirects to its view page.\nIf the identifier alone matches more than one record, the search is narrowed to\nrecords held by the given unit.\n",
+        "parameters": [
+          {
+            "name": "scope",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "enum": [
+                "objects",
+                "works"
+              ]
+            }
+          },
+          {
+            "name": "unit",
+            "in": "path",
+            "required": true,
+            "description": "Yale unit that holds the record.",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "lml",
+                "pmc",
+                "ycba",
+                "ypm",
+                "yuag",
+                "yul"
+              ]
+            }
+          },
+          {
+            "name": "identifier",
+            "in": "path",
+            "required": true,
+            "description": "Identifier assigned by the unit.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "302": {
+            "description": "A unique record was found. Redirects to its view page.",
+            "headers": {
+              "Location": {
+                "description": "URL of the record's view page, e.g. `https://lux.collections.yale.edu/view/object/{uuid}`.",
+                "schema": {
+                  "type": "string",
+                  "format": "uri"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid scope or unit, or the identifier and unit don't resolve to a unique record.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "No record matches the identifier and unit.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/advanced-search-config": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "operationId": "advancedSearchConfig",
+        "summary": "Get the advanced search configuration",
+        "description": "Returns the configuration the frontend uses to build the advanced search UI, such as search fields, labels, and help text.",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#advanced-search-configuration"
+        },
+        "responses": {
+          "200": {
+            "description": "Advanced search configuration.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "terms"
+                  ],
+                  "additionalProperties": true,
+                  "properties": {
+                    "terms": {
+                      "type": "object",
+                      "description": "Search terms available in each search scope, keyed by scope name.",
+                      "additionalProperties": {
+                        "type": "object",
+                        "description": "Search terms in one scope, keyed by search term name.",
+                        "additionalProperties": {
+                          "type": "object",
+                          "description": "Configuration for one search term.",
+                          "required": [
+                            "label",
+                            "helpText",
+                            "relation"
+                          ],
+                          "properties": {
+                            "label": {
+                              "type": "string",
+                              "description": "Label shown in the advanced search UI.",
+                              "example": "are a member of"
+                            },
+                            "helpText": {
+                              "type": "string",
+                              "description": "Help text shown in the advanced search UI."
+                            },
+                            "relation": {
+                              "type": "string",
+                              "description": "For terms that take a nested query, the scope that query searches (for example `set`). Otherwise, the type of value the term takes (for example `text`, `float`, or `boolean`).",
+                              "example": "set"
+                            },
+                            "allowedOptionsName": {
+                              "type": "string",
+                              "description": "Name of the set of search options the term allows.",
+                              "example": "keyword"
+                            },
+                            "defaultOptionsName": {
+                              "type": "string",
+                              "description": "Name of the set of search options the term uses by default.",
+                              "example": "keyword"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "advancedSearchConfig": {
+                    "summary": "Advanced search configuration",
+                    "value": {
+                      "terms": {
+                        "item": {
+                          "memberOf": {
+                            "label": "are a member of",
+                            "helpText": "Search for Objects that are members of the specified Collection, Exhibition or Archive.",
+                            "relation": "set",
+                            "allowedOptionsName": "keyword",
+                            "defaultOptionsName": "keyword"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/search-info": {
+      "get": {
+        "tags": [
+          "Configuration"
+        ],
+        "operationId": "searchInfo",
+        "description": "Returns a comprehensive overview of the search scopes, search terms, facets, and sort options available in the LUX backend.",
+        "summary": "Get search scopes and terms",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#search-info"
+        },
+        "responses": {
+          "200": {
+            "description": "Search terms, facets, and sort options.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "searchBy",
+                    "facetBy",
+                    "sortBy"
+                  ],
+                  "properties": {
+                    "searchBy": {
+                      "type": "object",
+                      "description": "Search terms available in each search scope, keyed by scope name. The set of scopes comes from the backend, so other keys may appear.",
+                      "properties": {
+                        "agent": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "activeDate"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "agent"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "concept": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "broader"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "concept"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "event": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "carriedOutBy"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "agent"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "item": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "carries"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "work"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "place": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "contains"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "place"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "reference": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "id"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "reference"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "set": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "aboutAgent"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "agent"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        },
+                        "work": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "required": [
+                              "name",
+                              "targetScope",
+                              "acceptsGroup",
+                              "acceptsTerm",
+                              "acceptsIdTerm",
+                              "acceptsAtomicValue"
+                            ],
+                            "properties": {
+                              "name": {
+                                "type": "string",
+                                "description": "Search term name.",
+                                "example": "containsWork"
+                              },
+                              "targetScope": {
+                                "type": "string",
+                                "description": "Scope of the records the term searches.",
+                                "example": "work"
+                              },
+                              "acceptsGroup": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a group of criteria (such as `AND` or `OR`)."
+                              },
+                              "acceptsTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a nested search term."
+                              },
+                              "acceptsIdTerm": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a record ID."
+                              },
+                              "acceptsAtomicValue": {
+                                "type": "boolean",
+                                "description": "Whether the term accepts a single value, such as text or a date."
+                              },
+                              "scalarType": {
+                                "type": "string",
+                                "description": "Type of single value the term accepts.",
+                                "example": "dateTime"
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "facetBy": {
+                      "type": "array",
+                      "description": "Available facets.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "searchTermName",
+                          "idFacet"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Facet name.",
+                            "example": "itemEncounteredPlaceId"
+                          },
+                          "searchTermName": {
+                            "type": "string",
+                            "description": "Search term used to filter by a value of this facet.",
+                            "example": "encounteredAt"
+                          },
+                          "idFacet": {
+                            "type": "boolean",
+                            "description": "Whether the facet's values are record IDs."
+                          }
+                        }
+                      }
+                    },
+                    "sortBy": {
+                      "type": "array",
+                      "description": "Available sort options.",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "type"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string",
+                            "description": "Sort option name.",
+                            "example": "workRecordType"
+                          },
+                          "type": {
+                            "type": "string",
+                            "description": "Sort type.",
+                            "example": "nonSemantic"
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "searchInfo": {
+                    "summary": "Search terms, facets, and sort options",
+                    "value": {
+                      "searchBy": {
+                        "agent": [
+                          {
+                            "name": "activeDate",
+                            "targetScope": "agent",
+                            "acceptsGroup": false,
+                            "acceptsTerm": false,
+                            "acceptsIdTerm": false,
+                            "acceptsAtomicValue": true,
+                            "scalarType": "dateTime"
+                          }
+                        ]
+                      },
+                      "facetBy": [
+                        {
+                          "name": "itemEncounteredPlaceId",
+                          "searchTermName": "encounteredAt",
+                          "idFacet": true
+                        }
+                      ],
+                      "sortBy": [
+                        {
+                          "name": "workRecordType",
+                          "type": "nonSemantic"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/stats": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "operationId": "stats",
+        "description": "Returns the total number of records for each scope.",
+        "summary": "Get estimated record counts per scope",
+        "externalDocs": {
+          "url": "https://github.com/project-lux/lux-marklogic/blob/main/docs/lux-backend-api-usage.md#stats"
+        },
+        "responses": {
+          "200": {
+            "description": "Estimated record counts per search scope.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "estimates",
+                    "metadata"
+                  ],
+                  "properties": {
+                    "estimates": {
+                      "type": "object",
+                      "required": [
+                        "searchScopes"
+                      ],
+                      "properties": {
+                        "searchScopes": {
+                          "type": "object",
+                          "description": "Estimated number of records in each search scope. The set of scopes comes from the backend, so other keys may appear.",
+                          "properties": {
+                            "agent": {
+                              "type": "integer"
+                            },
+                            "concept": {
+                              "type": "integer"
+                            },
+                            "event": {
+                              "type": "integer"
+                            },
+                            "item": {
+                              "type": "integer"
+                            },
+                            "place": {
+                              "type": "integer"
+                            },
+                            "reference": {
+                              "type": "integer"
+                            },
+                            "set": {
+                              "type": "integer"
+                            },
+                            "work": {
+                              "type": "integer"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "metadata": {
+                      "type": "object",
+                      "required": [
+                        "timestamp",
+                        "milliseconds"
+                      ],
+                      "properties": {
+                        "timestamp": {
+                          "type": "string",
+                          "description": "When the estimates were calculated, in ISO 8601 format without a time zone.",
+                          "example": "2026-11-13T14:12:28.38"
+                        },
+                        "milliseconds": {
+                          "type": "integer",
+                          "description": "Time the backend took to calculate the estimates.",
+                          "example": 0
+                        }
+                      }
+                    }
+                  }
+                },
+                "examples": {
+                  "stats": {
+                    "summary": "Record counts per scope",
+                    "value": {
+                      "estimates": {
+                        "searchScopes": {
+                          "agent": 6473995,
+                          "concept": 610971,
+                          "event": 190008,
+                          "item": 20202996,
+                          "place": 657618,
+                          "reference": 7932341,
+                          "set": 318677,
+                          "work": 15794822
+                        }
+                      },
+                      "metadata": {
+                        "timestamp": "2026-11-13T14:12:28.38",
+                        "milliseconds": 0
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/version-info": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "operationId": "versionInfo",
+        "summary": "Get backend version information",
+        "description": "Returns version information reported by the MarkLogic backend.",
+        "responses": {
+          "200": {
+            "description": "Backend version information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "codeVersion",
+                    "dataVersion",
+                    "mlVersion",
+                    "databaseName"
+                  ],
+                  "properties": {
+                    "codeVersion": {
+                      "type": "string",
+                      "description": "Version of the LUX backend code (lux-marklogic).",
+                      "example": "v4.5.0"
+                    },
+                    "dataVersion": {
+                      "type": "string",
+                      "description": "Timestamp identifying the loaded data set, in ISO 8601 format without a time zone.",
+                      "example": "2026-10-20T02:08:03.564481"
+                    },
+                    "mlVersion": {
+                      "type": "string",
+                      "description": "MarkLogic server version.",
+                      "example": "12.0.1"
+                    },
+                    "databaseName": {
+                      "type": "string",
+                      "description": "Name of the MarkLogic content database.",
+                      "example": "lux-content"
+                    }
+                  }
+                },
+                "examples": {
+                  "versionInfo": {
+                    "summary": "Backend version information",
+                    "value": {
+                      "codeVersion": "v4.5.0",
+                      "dataVersion": "2026-10-20T02:08:03.564481",
+                      "mlVersion": "12.0.1",
+                      "databaseName": "lux-content"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "default": {
+            "$ref": "#/components/responses/Error"
+          }
+        }
+      }
+    },
+    "/api/_info": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "operationId": "info",
+        "description": "Returns configuration and system settings for the LUX middle tier.",
+        "summary": "Get middle tier configuration and resource status",
+        "responses": {
+          "200": {
+            "description": "Middle tier status.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "version",
+                    "backend",
+                    "backendAlt",
+                    "altRouteTypes",
+                    "numInstances",
+                    "relayTargets",
+                    "mem",
+                    "rsrc",
+                    "node",
+                    "arch",
+                    "platform",
+                    "pid"
+                  ],
+                  "properties": {
+                    "version": {
+                      "type": "string",
+                      "description": "Deployed middle tier version (`TAG_TO_DEPLOY`). Empty if not set.",
+                      "example": "v1.13.0"
+                    },
+                    "backend": {
+                      "type": "string",
+                      "description": "Primary MarkLogic host and port.",
+                      "example": "lux-ml-blueb.collections.yale.edu:8003"
+                    },
+                    "backendAlt": {
+                      "type": "string",
+                      "description": "Alternate MarkLogic host and port.",
+                      "example": "lux-ml-blueb.collections.yale.edu:8006"
+                    },
+                    "altRouteTypes": {
+                      "type": "array",
+                      "description": "Request types routed to the alternate backend (`ALT_ROUTE_REQ_TYPES`).",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": [
+                        "data",
+                        "translate"
+                      ]
+                    },
+                    "numInstances": {
+                      "type": "integer",
+                      "description": "Number of middle tier instances (`NUM_INSTANCES`). -1 if not set.",
+                      "example": 16
+                    },
+                    "relayTargets": {
+                      "type": "array",
+                      "description": "Hosts that receive copies of incoming requests (`RELAY_AND_FORGET_TARGETS`).",
+                      "items": {
+                        "type": "string"
+                      },
+                      "example": []
+                    },
+                    "mem": {
+                      "type": "object",
+                      "description": "Memory usage in bytes, from Node's `process.memoryUsage()`.",
+                      "required": [
+                        "rss",
+                        "heapTotal",
+                        "heapUsed",
+                        "external",
+                        "arrayBuffers"
+                      ],
+                      "properties": {
+                        "rss": {
+                          "type": "integer",
+                          "description": "Resident set size."
+                        },
+                        "heapTotal": {
+                          "type": "integer"
+                        },
+                        "heapUsed": {
+                          "type": "integer"
+                        },
+                        "external": {
+                          "type": "integer"
+                        },
+                        "arrayBuffers": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "rsrc": {
+                      "type": "object",
+                      "description": "Resource usage from Node's `process.resourceUsage()`. CPU times are in microseconds and `maxRSS` is in kilobytes.",
+                      "required": [
+                        "userCPUTime",
+                        "systemCPUTime",
+                        "maxRSS",
+                        "sharedMemorySize",
+                        "unsharedDataSize",
+                        "unsharedStackSize",
+                        "minorPageFault",
+                        "majorPageFault",
+                        "swappedOut",
+                        "fsRead",
+                        "fsWrite",
+                        "ipcSent",
+                        "ipcReceived",
+                        "signalsCount",
+                        "voluntaryContextSwitches",
+                        "involuntaryContextSwitches"
+                      ],
+                      "properties": {
+                        "userCPUTime": {
+                          "type": "integer"
+                        },
+                        "systemCPUTime": {
+                          "type": "integer"
+                        },
+                        "maxRSS": {
+                          "type": "integer"
+                        },
+                        "sharedMemorySize": {
+                          "type": "integer"
+                        },
+                        "unsharedDataSize": {
+                          "type": "integer"
+                        },
+                        "unsharedStackSize": {
+                          "type": "integer"
+                        },
+                        "minorPageFault": {
+                          "type": "integer"
+                        },
+                        "majorPageFault": {
+                          "type": "integer"
+                        },
+                        "swappedOut": {
+                          "type": "integer"
+                        },
+                        "fsRead": {
+                          "type": "integer"
+                        },
+                        "fsWrite": {
+                          "type": "integer"
+                        },
+                        "ipcSent": {
+                          "type": "integer"
+                        },
+                        "ipcReceived": {
+                          "type": "integer"
+                        },
+                        "signalsCount": {
+                          "type": "integer"
+                        },
+                        "voluntaryContextSwitches": {
+                          "type": "integer"
+                        },
+                        "involuntaryContextSwitches": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "node": {
+                      "type": "string",
+                      "description": "Node.js version.",
+                      "example": "v24.22.1"
+                    },
+                    "arch": {
+                      "type": "string",
+                      "description": "CPU architecture.",
+                      "example": "x64"
+                    },
+                    "platform": {
+                      "type": "string",
+                      "description": "Operating system platform.",
+                      "example": "linux"
+                    },
+                    "pid": {
+                      "type": "integer",
+                      "description": "Process ID.",
+                      "example": 129
+                    }
+                  }
+                },
+                "examples": {
+                  "middleTierInfo": {
+                    "summary": "Middle tier status",
+                    "value": {
+                      "version": "v1.13.0",
+                      "backend": "lux-ml-blueb.collections.yale.edu:8003",
+                      "backendAlt": "lux-ml-blueb.collections.yale.edu:8006",
+                      "altRouteTypes": [
+                        "data",
+                        "translate"
+                      ],
+                      "numInstances": 16,
+                      "relayTargets": [],
+                      "mem": {
+                        "rss": 90284032,
+                        "heapTotal": 21032960,
+                        "heapUsed": 18741656,
+                        "external": 3183010,
+                        "arrayBuffers": 277367
+                      },
+                      "rsrc": {
+                        "userCPUTime": 746389,
+                        "systemCPUTime": 82515,
+                        "maxRSS": 95620,
+                        "sharedMemorySize": 0,
+                        "unsharedDataSize": 0,
+                        "unsharedStackSize": 0,
+                        "minorPageFault": 12985,
+                        "majorPageFault": 0,
+                        "swappedOut": 0,
+                        "fsRead": 0,
+                        "fsWrite": 0,
+                        "ipcSent": 0,
+                        "ipcReceived": 0,
+                        "signalsCount": 0,
+                        "voluntaryContextSwitches": 1413,
+                        "involuntaryContextSwitches": 517
+                      },
+                      "node": "v24.22.1",
+                      "arch": "x64",
+                      "platform": "linux",
+                      "pid": 129
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "System"
+        ],
+        "operationId": "health",
+        "summary": "Health check",
+        "description": "Health check for load balancers. Doesn't contact the backend.",
+        "responses": {
+          "200": {
+            "description": "The server is running.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "status"
+                  ],
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "enum": [
+                        "ok"
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "parameters": {
+      "Scope": {
+        "name": "scope",
+        "in": "path",
+        "required": true,
+        "description": "Search scope.",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "agent",
+            "concept",
+            "event",
+            "item",
+            "place",
+            "set",
+            "work"
+          ]
+        }
+      },
+      "QueryRequired": {
+        "name": "q",
+        "in": "query",
+        "required": true,
+        "description": "Search query in the LUX JSON search grammar, URL-encoded.",
+        "schema": {
+          "type": "string"
+        },
+        "example": "{\"_scope\":\"item\",\"text\":\"warhol\",\"_lang\":\"en\"}"
+      },
+      "Sort": {
+        "name": "sort",
+        "in": "query",
+        "required": false,
+        "description": "Sort specification, passed through to the backend.",
+        "schema": {
+          "type": "string"
+        }
+      },
+      "FilterResults": {
+        "name": "filterResults",
+        "in": "query",
+        "required": false,
+        "description": "Any value other than `false` is treated as `true`.",
+        "schema": {
+          "type": "boolean",
+          "default": true
+        }
+      }
+    },
+    "responses": {
+      "BackendJson": {
+        "description": "Response from the backend, with entity URIs rewritten to the result host. See the backend documentation for the format.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "additionalProperties": true
+            }
+          }
+        }
+      },
+      "Error": {
+        "description": "Error from the middle tier or the backend.",
+        "content": {
+          "application/json": {
+            "schema": {
+              "$ref": "#/components/schemas/Error"
+            }
+          }
+        }
+      }
+    },
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "statusCode",
+          "errorMessage"
+        ],
+        "properties": {
+          "statusCode": {
+            "type": "integer",
+            "example": 500
+          },
+          "errorMessage": {
+            "type": "string",
+            "example": "failed search"
+          }
+        }
+      },
+      "LinkedArtDocument": {
+        "type": "object",
+        "description": "A Linked Art JSON-LD document.",
+        "additionalProperties": true,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string"
+          },
+          "_links": {
+            "type": "object",
+            "description": "HAL links, present only when no `profile` is specified. Contains `self`, a `curies` array, and one entry per relation with `href` and `_estimate`. See docs/hal-links.md.",
+            "additionalProperties": true
+          }
+        }
+      },
+      "Reference": {
+        "type": "object",
+        "description": "A reference to another resource.",
+        "required": [
+          "id"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      },
+      "PartOf": {
+        "type": "object",
+        "description": "A collection that the results page is part of. May itself be part of another collection.",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uri"
+          },
+          "type": {
+            "type": "string"
+          },
+          "label": {
+            "type": "object",
+            "description": "Language-keyed values, for example `{\"en\": [\"...\"]}`.",
+            "properties": {
+              "en": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "summary": {
+            "type": "object",
+            "description": "Language-keyed values, for example `{\"en\": [\"...\"]}`.",
+            "properties": {
+              "en": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "totalItems": {
+            "type": "integer"
+          },
+          "partOf": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PartOf"
+                }
+              },
+              {
+                "$ref": "#/components/schemas/PartOf"
+              }
+            ]
+          }
+        }
+      },
+      "OrderedItem": {
+        "type": "object",
+        "description": "An entry in a results page. For facets, each entry is one facet value; for a related list, each entry is one relationship. `totalItems` counts the matching records and `first` links to the search that returns them.",
+        "required": [
+          "id",
+          "type"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "example": "OrderedCollection"
+          },
+          "value": {
+            "description": "The value this entry represents: a facet value (an entity URI, a string, or a number), or the URI of the related entity in a related list.",
+            "oneOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              }
+            ]
+          },
+          "totalItems": {
+            "type": "integer",
+            "description": "Number of records matching this entry."
+          },
+          "first": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Reference"
+              }
+            ],
+            "description": "Search that returns the records matching this entry."
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the relationship. Present in related lists."
+          }
+        }
+      },
+      "SearchResults": {
+        "type": "object",
+        "description": "A page of results, as an ActivityStreams OrderedCollectionPage.",
+        "required": [
+          "id",
+          "type",
+          "orderedItems"
+        ],
+        "properties": {
+          "@context": {
+            "type": "string",
+            "example": "https://linked.art/ns/v1/search.json"
+          },
+          "id": {
+            "type": "string",
+            "description": "URL of this results page."
+          },
+          "type": {
+            "type": "string",
+            "example": "OrderedCollectionPage"
+          },
+          "orderedItems": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OrderedItem"
+            }
+          },
+          "next": {
+            "type": "object",
+            "description": "Next results page. Absent on the last page.",
+            "required": [
+              "id",
+              "type"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "format": "uri"
+              },
+              "type": {
+                "type": "string",
+                "example": "OrderedCollectionPage"
+              }
+            }
+          },
+          "partOf": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "$ref": "#/components/schemas/PartOf"
+                }
+              },
+              {
+                "$ref": "#/components/schemas/PartOf"
+              }
+            ]
+          }
+        }
+      },
+      "EnglishText": {
+        "type": "object",
+        "description": "English-language values.",
+        "required": [
+          "en"
+        ],
+        "properties": {
+          "en": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SearchEstimate": {
+        "type": "object",
+        "description": "Estimated number of results for a search, as an ActivityStreams OrderedCollection. It contains no results; `first` and `last` link to the first and last pages of results.",
+        "required": [
+          "@context",
+          "id",
+          "type",
+          "label",
+          "summary",
+          "totalItems",
+          "first",
+          "last"
+        ],
+        "properties": {
+          "@context": {
+            "type": "string",
+            "example": "https://linked.art/ns/v1/search.json"
+          },
+          "id": {
+            "type": "string",
+            "description": "URL of this estimate request."
+          },
+          "type": {
+            "type": "string",
+            "example": "OrderedCollection"
+          },
+          "label": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EnglishText"
+              }
+            ],
+            "description": "Display name of the search scope."
+          },
+          "summary": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/EnglishText"
+              }
+            ],
+            "description": "Description of the search scope."
+          },
+          "totalItems": {
+            "type": "integer",
+            "description": "Estimated number of results."
+          },
+          "first": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Reference"
+              }
+            ],
+            "description": "First page of results."
+          },
+          "last": {
+            "allOf": [
+              {
+                "$ref": "#/components/schemas/Reference"
+              }
+            ],
+            "description": "Last page of results."
+          }
+        }
+      },
+      "AdvancedSearchState": {
+        "type": "object",
+        "description": "A search query in the LUX JSON search grammar (`IAdvancedSearchState` in the frontend). `_scope` is the scope to search; the other keys are search terms or operators such as `AND`, `OR` and `NOT`, whose values are an array of objects, a string, a number, or an object.",
+        "required": [
+          "_scope"
+        ],
+        "properties": {
+          "_scope": {
+            "type": "string",
+            "description": "Scope the query searches. The frontend uses it to choose the results tab and removes it before sending the rest as the `q` parameter of a search.",
+            "enum": [
+              "agent",
+              "concept",
+              "event",
+              "item",
+              "place",
+              "set",
+              "work"
+            ],
+            "example": "item"
+          }
+        },
+        "additionalProperties": {
+          "anyOf": [
+            {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            {
+              "type": "string"
+            },
+            {
+              "type": "number"
+            },
+            {
+              "type": "object",
+              "additionalProperties": true
+            }
+          ]
+        },
+        "example": {
+          "_scope": "item",
+          "AND": [
+            {
+              "text": "andy"
+            },
+            {
+              "text": "warhol"
+            }
+          ]
+        }
+      }
+    }
+  }
+}
