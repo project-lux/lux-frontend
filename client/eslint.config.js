@@ -5,6 +5,7 @@ import _import from "eslint-plugin-import"
 import jsxA11Y from "eslint-plugin-jsx-a11y"
 import prettier from "eslint-plugin-prettier"
 import react from "eslint-plugin-react"
+import reactHooks from "eslint-plugin-react-hooks"
 import tsParser from "@typescript-eslint/parser"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
@@ -22,12 +23,26 @@ const compat = new FlatCompat({
 
 // eslint.config.js
 export default [
+  // global ignores: this object must contain only "ignores" to apply to every config below
+  {
+    ignores: [
+      'dist/',
+      'coverage/',
+      'node_modules/',
+      'pnpm-lock.yaml',
+      'package.json',
+      'src/serviceWorker.ts',
+      'eslint.config.js',
+      'public/'
+    ],
+  },
   ...fixupConfigRules(compat.extends(
     "plugin:import/errors",
     "plugin:import/warnings",
     "plugin:jsx-a11y/strict",
     "prettier",
   )),
+  reactHooks.configs.flat.recommended,
   {
     languageOptions: {
       parser: tsParser,
@@ -50,16 +65,6 @@ export default [
       "@stylistic": stylistic,
     },
     files: ["src/**/*.ts", "src/**/*.tsx"],
-    ignores: [
-      'dist/',
-      'coverage/',
-      'node_modules/',
-      'pnpm-lock.yaml',
-      'package.json',
-      '/src/serviceWorker.ts',
-      'eslint.config.js',
-      'public/'
-    ],
     rules: {
       "@typescript-eslint/consistent-type-assertions": [2],
       "@typescript-eslint/camelcase": 0,
@@ -167,6 +172,13 @@ export default [
         }
       ],
       "react/jsx-fragments": [2, "element"],
+      "react/jsx-key": [
+        2,
+        {
+          checkFragmentShorthand: true,
+          warnOnDuplicates: true
+        }
+      ],
       "no-console": 0,
       "react/jsx-one-expression-per-line": 0,
       "react/require-default-props": 0
