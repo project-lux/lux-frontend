@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import { useAppSelector } from '../../app/hooks'
 import { booleanFacetNames, facetLabels } from '../../config/facets'
@@ -73,7 +73,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
   })
   const combinedQuery = facetQuery ? { AND: [criteria, facetQuery] } : criteria
 
-  const { data, isSuccess, isLoading } = useGetFacetsSearchQuery({
+  const { data, isSuccess, isLoading, isError } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
     facets: {},
     facetNames: facetName,
@@ -85,7 +85,43 @@ const FacetAccordionItem: React.FC<IProps> = ({
   const facetsState = useAppSelector(
     (state) => state.facetSelection as IFacetsSelected,
   )
-  let isFacetOpen = facetName === facetsState.lastSelectedFacetName
+  const [isFacetOpen, setIsFacetOpen] = useState<boolean>(
+    facetName === facetsState.lastSelectedFacetName,
+  )
+
+  // Bootstrap opens and closes the accordion item, including closing it when another item opens,
+  // so keep isFacetOpen in sync with Bootstrap's collapse events
+  const collapseRef = useCallback((element: HTMLDivElement | null) => {
+    if (element === null) {
+      return undefined
+    }
+    const handleShow = (e: Event): void => {
+      if (e.target === element) {
+        setIsFacetOpen(true)
+      }
+    }
+    const handleHide = (e: Event): void => {
+      if (e.target === element) {
+        setIsFacetOpen(false)
+      }
+    }
+    element.addEventListener('show.bs.collapse', handleShow)
+    element.addEventListener('hide.bs.collapse', handleHide)
+    return () => {
+      element.removeEventListener('show.bs.collapse', handleShow)
+      element.removeEventListener('hide.bs.collapse', handleHide)
+    }
+  }, [])
+
+  // let the parent know when this facet has no values to display
+  const facetResults = data as ISearchResults | undefined
+  const hasNoFacetValues =
+    isError || (isSuccess && !facetResults?.orderedItems?.length)
+  useEffect(() => {
+    if (hasNoFacetValues) {
+      handleCallback(facetName)
+    }
+  }, [facetName, handleCallback, hasNoFacetValues])
 
   useEffect(() => {
     if (isSuccess && data) {
@@ -132,7 +168,6 @@ const FacetAccordionItem: React.FC<IProps> = ({
             <button
               onClick={() => {
                 const action = isFacetOpen ? 'Close' : 'Open'
-                isFacetOpen = !isFacetOpen
                 pushClientEvent(
                   'Facets Accordion Item',
                   action,
@@ -151,6 +186,7 @@ const FacetAccordionItem: React.FC<IProps> = ({
             </button>
           </p>
           <div
+            ref={collapseRef}
             id={`collapse-${index}`}
             className={`accordion-collapse collapse ${
               facetName === facetsState.lastSelectedFacetName ? 'show' : ''
@@ -200,7 +236,6 @@ const FacetAccordionItem: React.FC<IProps> = ({
     return null
   }
 
-  handleCallback(facetName)
   return null
 }
 

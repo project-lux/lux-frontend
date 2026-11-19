@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { useParams } from 'react-router'
 import { ErrorBoundary } from 'react-error-boundary'
 import styled from 'styled-components'
@@ -36,18 +36,17 @@ const FacetAccordion: React.FC<IProps> = ({
   selectedFacets,
 }) => {
   const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const [hasOnlyNullValues, setHasOnlyNullValues] = useState<boolean>(false)
-  const nullFacets: { [key: string]: boolean } = {}
-  requestedFacets.forEach((facet) => {
-    nullFacets[facet] = false
-  })
+  // names of the facets that have no values for the current search
+  const [nullFacets, setNullFacets] = useState<Set<string>>(new Set())
+  const hasOnlyNullValues =
+    requestedFacets.length > 0 &&
+    requestedFacets.every((facet) => nullFacets.has(facet))
 
-  const setFacetIsNull = (facetName: string): void => {
-    nullFacets[facetName] = true
-    if (Object.values(nullFacets).every((value) => value)) {
-      setHasOnlyNullValues(true)
-    }
-  }
+  const setFacetIsNull = useCallback((facetName: string): void => {
+    setNullFacets((previous) =>
+      previous.has(facetName) ? previous : new Set(previous).add(facetName),
+    )
+  }, [])
 
   const elems = requestedFacets.map((facetName, ind) => (
     <ErrorBoundary FallbackComponent={ErrorFallback} key={facetName}>
