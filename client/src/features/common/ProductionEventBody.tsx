@@ -42,7 +42,7 @@ const AgentsRow: React.FC<{
   })
 
   return (
-    <StyledAgents className="mb-2 pb-2" key={uri}>
+    <StyledAgents className="mb-2 pb-2">
       <div className={changeColumnWidths ? rightPanelKeyClass : keyClass}>
         <dt>
           {agentLabelIsReady &&
@@ -103,30 +103,29 @@ const agentRow = (
   return agentViews
 }
 
-const referenceRow = (
-  refs: IEventReference[],
-  showReferenceLabel: boolean,
-): JSX.Element[] =>
-  refs.map((ref) => {
-    const { type, content } = ref
-    const loc = useLocation()
-    const { value: typeLabel, isReady: typeLabelIsReady } = useApiText({
-      textOrUri: type,
-      pageUri: loc.pathname,
-    })
-
-    const refLabel = showReferenceLabel && typeLabelIsReady ? typeLabel : null
-    return (
-      <Row key={content}>
-        <div className={keyClass}>
-          <dt>{refLabel !== null && capitalizeLabels(refLabel)}</dt>
-        </div>
-        <div className={valueClass}>
-          <dd>{content}</dd>
-        </div>
-      </Row>
-    )
+const ReferenceRow: React.FC<{
+  reference: IEventReference
+  showReferenceLabel: boolean
+}> = ({ reference, showReferenceLabel }) => {
+  const { type, content } = reference
+  const loc = useLocation()
+  const { value: typeLabel, isReady: typeLabelIsReady } = useApiText({
+    textOrUri: type,
+    pageUri: loc.pathname,
   })
+
+  const refLabel = showReferenceLabel && typeLabelIsReady ? typeLabel : null
+  return (
+    <Row>
+      <div className={keyClass}>
+        <dt>{refLabel !== null && capitalizeLabels(refLabel)}</dt>
+      </div>
+      <div className={valueClass}>
+        <dd>{content}</dd>
+      </div>
+    </Row>
+  )
+}
 
 const ProductionEventBody: React.FC<IProps> = ({
   event,
@@ -190,7 +189,14 @@ const ProductionEventBody: React.FC<IProps> = ({
           </div>
         </Row>
       )}
-      {references.length > 0 && referenceRow(references, showReferenceLabel)}
+      {references.length > 0 &&
+        references.map((ref, ind) => (
+          <ReferenceRow
+            key={`${ref.type}-${ref.content}-${ind}`}
+            reference={ref}
+            showReferenceLabel={showReferenceLabel}
+          />
+        ))}
     </React.Fragment>
   )
 }
