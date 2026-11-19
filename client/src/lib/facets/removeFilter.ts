@@ -1,7 +1,14 @@
+import { cloneDeep } from 'lodash'
+
 import { facetSearchTerms } from '../../config/facets'
 import { ICriteria } from '../../types/ISearchResults'
 import { getParamPrefix } from '../util/params'
 
+/**
+ * Returns a copy of the facet query with the target facet removed.
+ * The given facetQuery is not modified, as it is passed in from component props.
+ * @returns {ICriteria | null} the updated copy, or null if no facets remain
+ */
 export const removeFacetFromQuery = (
   targetFacet: string,
   targetValue: string | number,
@@ -9,7 +16,8 @@ export const removeFacetFromQuery = (
   scope: string,
 ): ICriteria | null => {
   if (Object.keys(facetQuery).includes('AND')) {
-    const newQuery = facetQuery
+    // deep copy so removing facets below does not modify the caller's object
+    const newQuery = cloneDeep(facetQuery)
     const facetToSearchTerm =
       facetSearchTerms[scope as keyof typeof facetSearchTerms]
 

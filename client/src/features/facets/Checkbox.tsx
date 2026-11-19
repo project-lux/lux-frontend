@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
 import React from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router'
+import { cloneDeep } from 'lodash'
 
 import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import config from '../../config/config'
@@ -119,7 +120,8 @@ const Checkbox: React.FC<IProps> = ({
   }
 
   function updateFacetQuery(value: number | string): ICriteria {
-    let query = facetQuery || {}
+    // deep copy so adding the facet below does not modify the facetQuery prop
+    let query = cloneDeep(facetQuery || {})
     // TODO: get rid of keyof typeof
     const searchTerms = facetSearchTerms[scope as keyof typeof facetSearchTerms]
     const { searchTermName, idFacet } = searchTerms.hasOwnProperty(facetSection)
