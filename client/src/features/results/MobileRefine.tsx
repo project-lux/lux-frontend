@@ -93,6 +93,7 @@ const MobileRefine: React.FC<IProps> = ({
                   <div className="px-4">
                     {Object.entries(sortByOptions).map(([key, value]) => (
                       <SortCheckbox
+                        key={key}
                         value={value}
                         option={key}
                         name="By"
@@ -118,6 +119,7 @@ const MobileRefine: React.FC<IProps> = ({
                   <div className="px-4">
                     {Object.entries(sortDirection).map(([key, value]) => (
                       <SortCheckbox
+                        key={key}
                         value={value}
                         option={key}
                         name="Direction"

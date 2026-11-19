@@ -43,8 +43,11 @@ const AboutSubsection: React.FC<ILinkData> = ({
   })
   const searchResultsTab = scopeToTabTranslation[halLinkScope]
 
-  const values = content.map((c: Array<string> | string) => (
-    <SubjectHeadingsList subjectHeadings={c} />
+  const values = content.map((c: Array<string> | string, ind: number) => (
+    <SubjectHeadingsList
+      key={`${Array.isArray(c) ? c.join('-') : c}-${ind}`}
+      subjectHeadings={c}
+    />
   ))
 
   if (content && content.length > 0) {
