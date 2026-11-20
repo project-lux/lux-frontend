@@ -14,7 +14,7 @@ import {
   getLuxDataPrefix,
   getLuxProdDataPrefix,
   PROD_LUX_BASE_URL,
-} from '../../lib/util/uri'
+} from '../../lib/util/prefix'
 
 // Resolved at call time because the data API base URL is only known once the
 // server config has loaded, which happens after this module is evaluated

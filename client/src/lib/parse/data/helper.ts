@@ -14,7 +14,7 @@ import {
 import IIdentifier from '../../../types/data/IIdentifier'
 import { IImages } from '../../../types/IImages'
 import IConcept from '../../../types/data/IConcept'
-import { PROD_LUX_BASE_URL } from '../../util/uri'
+import { PROD_LUX_BASE_URL } from '../../util/prefix'
 
 import EntityParser from './EntityParser'
 
