@@ -5,7 +5,7 @@ import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
 import { searchScope } from '../../config/searchTypes'
 import useApiText from '../../lib/hooks/useApiText'
-import { getLuxDataPrefix, getLuxProdDataPrefix } from '../../lib/util/uri'
+import { getLuxDataPrefix, getLuxProdDataPrefix } from '../../lib/util/prefix'
 
 interface IProps {
   disambiguation: IAiDisambiguation

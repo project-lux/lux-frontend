@@ -1,7 +1,7 @@
 import { isUndefined } from 'lodash'
 
 import EntityParser from '../parse/data/EntityParser'
-import config, { getDataApiBaseUrl } from '../../config/config'
+import config from '../../config/config'
 import IEntity from '../../types/data/IEntity'
 
 export function getPath(uri: string): string {
@@ -47,7 +47,3 @@ export const isObjectOrWork = (pathname: string): boolean => {
   }
   return false
 }
-
-export const PROD_LUX_BASE_URL = 'https://lux.collections.yale.edu/'
-export const getLuxDataPrefix = (): string => `${getDataApiBaseUrl()}data/`
-export const getLuxProdDataPrefix = (): string => `${PROD_LUX_BASE_URL}data/`
