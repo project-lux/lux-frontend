@@ -10,13 +10,37 @@ import {
   addHoverHelpText,
   addSelectedHelpText,
 } from '../../redux/slices/helpTextSlice'
+import {
+  getLuxDataPrefix,
+  getLuxProdDataPrefix,
+  PROD_LUX_BASE_URL,
+} from '../../lib/util/uri'
 
-const LUX_DATA_PREFIX = `${getDataApiBaseUrl()}data/`
-const ID_VALIDATION_MESSAGE = `Input must start with '${LUX_DATA_PREFIX}'`
+// Resolved at call time because the data API base URL is only known once the
+// server config has loaded, which happens after this module is evaluated
+const getIdValidationMessage = (): string => {
+  if (getDataApiBaseUrl() === PROD_LUX_BASE_URL) {
+    return `Input must start with '${getLuxDataPrefix()}'`
+  }
+  return `Input must start with '${getLuxProdDataPrefix()}' or '${getLuxDataPrefix()}'`
+}
 
 // Only the 'id' field requires validation; it must be a LUX data URI
 const isValidInput = (field: string, value: string | undefined): boolean =>
-  field !== 'id' || !value || value.startsWith(LUX_DATA_PREFIX)
+  field !== 'id' ||
+  !value ||
+  value.startsWith(getLuxDataPrefix()) ||
+  value.startsWith(getLuxProdDataPrefix())
+
+const stripLuxDataPrefix = (value: string): string => {
+  const luxDataPrefix = getLuxDataPrefix()
+  const luxProdDataPrefix = getLuxProdDataPrefix()
+  return value.startsWith(luxDataPrefix)
+    ? value.slice(luxDataPrefix.length)
+    : value.startsWith(luxProdDataPrefix)
+      ? value.slice(luxProdDataPrefix.length)
+      : value
+}
 
 interface IInputType {
   label: string
@@ -55,13 +79,13 @@ const TextInput: React.FC<IInputType> = ({
   // custom validity message does not persist after switching away from 'id'
   useEffect(() => {
     const invalid = !isValidInput(field, currentValue)
-    inputRef.current?.setCustomValidity(invalid ? ID_VALIDATION_MESSAGE : '')
+    inputRef.current?.setCustomValidity(invalid ? getIdValidationMessage() : '')
     setIsValid(!invalid)
   }, [field, currentValue])
 
   const handleOnChange = (userInput: string): void => {
     if (!isValidInput(field, userInput)) {
-      inputRef.current?.setCustomValidity(ID_VALIDATION_MESSAGE)
+      inputRef.current?.setCustomValidity(getIdValidationMessage())
       inputRef.current?.reportValidity()
     }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
@@ -74,7 +98,7 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
-  const uri = currentValue ? currentValue.replace(LUX_DATA_PREFIX, '') : ''
+  const uri = currentValue ? stripLuxDataPrefix(currentValue) : ''
   const { data, isSuccess } = useGetNameQuery(
     { uri },
     { skip: field !== 'id' || currentValue === undefined },

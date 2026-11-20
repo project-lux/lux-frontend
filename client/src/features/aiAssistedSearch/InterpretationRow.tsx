@@ -5,7 +5,7 @@ import IAiDisambiguation from '../../types/ai/IAiDisambiguation'
 import AiDisambigationParser from '../../lib/ai/AiDisambigationParser'
 import { searchScope } from '../../config/searchTypes'
 import useApiText from '../../lib/hooks/useApiText'
-import { getDataApiBaseUrl } from '../../config/config'
+import { getLuxDataPrefix, getLuxProdDataPrefix } from '../../lib/util/uri'
 
 interface IProps {
   disambiguation: IAiDisambiguation
@@ -14,10 +14,7 @@ interface IProps {
 
 const InterpretationValue: React.FC<{ value: string }> = ({ value }) => {
   const location = useLocation()
-  const updatedUri = value.replace(
-    'https://lux.collections.yale.edu/data/',
-    `${getDataApiBaseUrl()}data/`,
-  )
+  const updatedUri = value.replace(getLuxProdDataPrefix(), getLuxDataPrefix())
   const { value: interpretedValue, isReady } = useApiText({
     textOrUri: updatedUri,
     pageUri: location.pathname,
