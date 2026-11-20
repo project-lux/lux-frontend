@@ -14,6 +14,7 @@ import {
 import IIdentifier from '../../../types/data/IIdentifier'
 import { IImages } from '../../../types/IImages'
 import IConcept from '../../../types/data/IConcept'
+import { PROD_LUX_BASE_URL } from '../../util/uri'
 
 import EntityParser from './EntityParser'
 
@@ -368,10 +369,7 @@ export const getSubjectHeadingObject = (uri: string): Record<string, any> => {
 
   return {
     [searchTerm]: {
-      id: uri.replace(
-        `${config.env.dataApiBaseUrl}`,
-        'https://lux.collections.yale.edu/',
-      ),
+      id: uri.replace(`${config.env.dataApiBaseUrl}`, `${PROD_LUX_BASE_URL}`),
     },
   }
 }
