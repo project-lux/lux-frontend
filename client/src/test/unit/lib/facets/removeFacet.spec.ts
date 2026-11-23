@@ -278,6 +278,33 @@ describe('removeFacet exported functions', () => {
       })
     })
 
+    it('does not modify the facetQuery it is given', () => {
+      const targetValue = 'https://endpoint.yale.edu/data/test-id-1'
+      const facetQuery = {
+        AND: [
+          {
+            classification: {
+              id: targetValue,
+            },
+          },
+          {
+            producedBy: {
+              id: 'https://endpoint.yale.edu/data/test-id-2',
+            },
+          },
+        ],
+      }
+      const original = structuredClone(facetQuery)
+      const removeFromQuery = removeFacetFromQuery(
+        'itemTypeId',
+        targetValue,
+        facetQuery,
+        'item',
+      )
+      expect(facetQuery).toEqual(original)
+      expect(removeFromQuery).not.toBe(facetQuery)
+    })
+
     it('returns null', () => {
       const targetFacet = 'itemProductionDate'
       const targetValue = ''

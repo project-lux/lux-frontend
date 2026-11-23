@@ -49,10 +49,10 @@ const FacetsRelatedList: React.FC<IProps> = ({
 
   const handleShowLess = (): void => {
     const currentRequest = `call${page}`
-    if (data.requests[currentRequest]) {
-      delete data.requests[currentRequest]
-    }
-    setFacets(data)
+    // build a new object without the last page of facets rather than modifying the data prop
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [currentRequest]: removed, ...remainingRequests } = data.requests
+    setFacets({ ...data, requests: remainingRequests })
     setPage(page - 1)
   }
 

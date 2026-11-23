@@ -50,12 +50,14 @@ class Config {
       cmsApiBaseUrl: data.cmsApiBaseUrl,
       maintenanceMode: data.maintenanceMode,
       maintenanceMessage: data.maintenanceMessage,
-      luxEnv: data.luxEnv,
+      // Defaulted because the server sends null when LUX_ENV is unset
+      luxEnv: data.luxEnv ?? '',
       cacheViewerMode: data.cacheViewerMode,
       wikidataImagePathname: data.wikidataImagePathname,
       luxWikidataManifestPrefix: data.luxWikidataManifestPrefix,
       luxFeedbackUrl: data.luxFeedbackUrl,
-      bugherdApiKey: data.bugherdApiKey,
+      // Defaulted because the server sends null when BUGHERD_API_KEY is unset
+      bugherdApiKey: data.bugherdApiKey ?? '',
       // Defaulted because a server predating this feature omits the key
       broadcastSearchAllowedOrigins: data.broadcastSearchAllowedOrigins ?? '',
       // Defaulted so a server predating WAF support leaves it disabled

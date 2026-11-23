@@ -41,10 +41,11 @@ const Checklist: React.FC<IFacets> = ({
 
   const handleShowLess = (): void => {
     const currentRequest = `call${page}`
-    if (facetValues.requests[currentRequest]) {
-      delete facetValues.requests[currentRequest]
-    }
-    setFacets(facetValues)
+    // build a new object without the last page of facets rather than modifying the facetValues prop
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { [currentRequest]: removed, ...remainingRequests } =
+      facetValues.requests
+    setFacets({ ...facetValues, requests: remainingRequests })
     setPage(page - 1)
   }
 

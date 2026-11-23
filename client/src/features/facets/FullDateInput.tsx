@@ -221,9 +221,10 @@ const FullDateInput: React.FC<IFacets> = ({
   }
 
   function getUpdatedFacetQuery(): ICriteria {
-    // criteria is immutable so we have to create a deep-copy of it
-    let query = facetQuery || {}
-    query = removeFacetFromQuery(facetSection, '', query, scope) || {}
+    // facetQuery is a prop and must not be modified. removeFacetFromQuery returns a deep copy
+    // (or null), so the facets added to query below do not change facetQuery.
+    let query =
+      removeFacetFromQuery(facetSection, '', facetQuery || {}, scope) || {}
     // TODO: get rid of keyof typeof
     const searchTerms = facetSearchTerms[scope as keyof typeof facetSearchTerms]
     const { searchTermName } =

@@ -27,10 +27,16 @@ const Error = styled.div`
 `
 
 function embedBugherdScript(): void {
+  // Bugherd is optional; only embed it when an API key has been configured
+  const apiKey = (config.env.bugherdApiKey ?? '').trim()
+  if (apiKey === '') {
+    return
+  }
+
   const script = document.createElement('script')
 
   script.type = 'text/javascript'
-  script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${config.env.bugherdApiKey}`
+  script.src = `https://www.bugherd.com/sidebarv2.js?apikey=${encodeURIComponent(apiKey)}`
   script.async = true
 
   document.body.appendChild(script)

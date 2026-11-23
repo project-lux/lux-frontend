@@ -1,6 +1,7 @@
 import React, { type JSX } from 'react'
 
 import { StyledTextValue } from '../../styles/features/common/TextValue'
+import { getListItemKey } from '../../lib/util/ui'
 
 interface ITextValue {
   className?: string
@@ -23,7 +24,10 @@ const TextValue: React.FC<ITextValue> = ({
     data-testid="text-value"
   >
     {values.map((value: string | JSX.Element, ind: number) => (
-      <dd key={`${value}-${ind}`} data-testid="text-value-detail-description">
+      <dd
+        key={getListItemKey(value, ind)}
+        data-testid="text-value-detail-description"
+      >
         {value}
       </dd>
     ))}

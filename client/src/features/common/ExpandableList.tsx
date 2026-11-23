@@ -1,12 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-// TODO refactor the code for iterated items have unique keys without using array indexes
-
 import React, { useState } from 'react'
 
 import theme from '../../styles/theme'
 import useResizeableWindow from '../../lib/hooks/useResizeableWindow'
 import StyledHr from '../../styles/shared/Hr'
+import { getListItemKey } from '../../lib/util/ui'
 
 interface IList {
   children: any
@@ -60,9 +59,9 @@ const ExpandableList: React.FC<IList> = ({
     <div className={`${className} col-sm-12`} data-testid="expandable-list">
       {children.props.values
         .slice(0, displayLength)
-        .map((value: string, ind: number) => (
+        .map((value: string | React.JSX.Element, ind: number) => (
           <div
-            key={`${value}-${ind}`}
+            key={getListItemKey(value, ind)}
             className={`${children.props.className || 'col-md-12'} col-sm-12`}
             style={rowStyle}
           >

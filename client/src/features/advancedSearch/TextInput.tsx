@@ -1,7 +1,7 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { useAppDispatch } from '../../app/hooks'
-import config from '../../config/config'
+import config, { getDataApiBaseUrl } from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { useGetNameQuery } from '../../redux/api/ml_api'
 import { addTextValue } from '../../redux/slices/advancedSearchSlice'
@@ -10,6 +10,37 @@ import {
   addHoverHelpText,
   addSelectedHelpText,
 } from '../../redux/slices/helpTextSlice'
+import {
+  getLuxDataPrefix,
+  getLuxProdDataPrefix,
+  PROD_LUX_BASE_URL,
+} from '../../lib/util/prefix'
+
+// Resolved at call time because the data API base URL is only known once the
+// server config has loaded, which happens after this module is evaluated
+const getIdValidationMessage = (): string => {
+  if (getDataApiBaseUrl() === PROD_LUX_BASE_URL) {
+    return `Input must start with '${getLuxDataPrefix()}'`
+  }
+  return `Input must start with '${getLuxProdDataPrefix()}' or '${getLuxDataPrefix()}'`
+}
+
+// Only the 'id' field requires validation; it must be a LUX data URI
+const isValidInput = (field: string, value: string | undefined): boolean =>
+  field !== 'id' ||
+  !value ||
+  value.startsWith(getLuxDataPrefix()) ||
+  value.startsWith(getLuxProdDataPrefix())
+
+const stripLuxDataPrefix = (value: string): string => {
+  const luxDataPrefix = getLuxDataPrefix()
+  const luxProdDataPrefix = getLuxProdDataPrefix()
+  return value.startsWith(luxDataPrefix)
+    ? value.slice(luxDataPrefix.length)
+    : value.startsWith(luxProdDataPrefix)
+      ? value.slice(luxProdDataPrefix.length)
+      : value
+}
 
 interface IInputType {
   label: string
@@ -44,21 +75,18 @@ const TextInput: React.FC<IInputType> = ({
 
   const dispatch = useAppDispatch()
 
+  // Keep the input's validity in sync with the current field and value so a
+  // custom validity message does not persist after switching away from 'id'
+  useEffect(() => {
+    const invalid = !isValidInput(field, currentValue)
+    inputRef.current?.setCustomValidity(invalid ? getIdValidationMessage() : '')
+    setIsValid(!invalid)
+  }, [field, currentValue])
+
   const handleOnChange = (userInput: string): void => {
-    // Validate that the input starts with the correct URL prefix if the field is 'id'
-    if (
-      field === 'id' &&
-      userInput &&
-      !userInput.startsWith('https://lux.collections.yale.edu/data/')
-    ) {
-      inputRef.current?.setCustomValidity(
-        "Input must start with 'https://lux.collections.yale.edu/data/'",
-      )
+    if (!isValidInput(field, userInput)) {
+      inputRef.current?.setCustomValidity(getIdValidationMessage())
       inputRef.current?.reportValidity()
-      setIsValid(false)
-    } else {
-      inputRef.current?.setCustomValidity('')
-      setIsValid(true)
     }
     dispatch(addTextValue({ field, value: userInput, stateId, scope }))
   }
@@ -70,9 +98,7 @@ const TextInput: React.FC<IInputType> = ({
     }
   }
 
-  const uri = currentValue
-    ? currentValue.replace('https://lux.collections.yale.edu/data/', '')
-    : ''
+  const uri = currentValue ? stripLuxDataPrefix(currentValue) : ''
   const { data, isSuccess } = useGetNameQuery(
     { uri },
     { skip: field !== 'id' || currentValue === undefined },

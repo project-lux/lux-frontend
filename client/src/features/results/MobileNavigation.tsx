@@ -159,6 +159,7 @@ const MobileNavigation: React.FC<IProps> = ({
         <Modal.Body>
           {Object.entries(searchScope).map(([key, value]) => (
             <MobileTabButton
+              key={key}
               role="link"
               requestState={{
                 isLoading,
