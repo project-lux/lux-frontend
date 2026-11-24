@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react'
 
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import config, { getDataApiBaseUrl } from '../../config/config'
 import EntityParser from '../../lib/parse/data/EntityParser'
 import { useGetNameQuery } from '../../redux/api/ml_api'
@@ -15,6 +15,10 @@ import {
   getLuxProdDataPrefix,
   PROD_LUX_BASE_URL,
 } from '../../lib/util/prefix'
+import {
+  ICurrentSearchState,
+  changeAutoFocusNextInput,
+} from '../../redux/slices/currentSearchSlice'
 
 // Resolved at call time because the data API base URL is only known once the
 // server config has loaded, which happens after this module is evaluated
@@ -58,7 +62,7 @@ interface IInputType {
  * @param {string} parentScope the scope of the parent object
  * @param {string} stateId id of the current object within the advanced search state
  * @param {string} scope optional; the scope of the row for updating the help text
- * @param {boolean} autoFocus optional; move keyboard focus onto the input field
+ * @param {boolean} autoFocus optional; move keyboard focus onto the input field when it was just added by the user
  * @returns {JSX.Element}
  */
 const TextInput: React.FC<IInputType> = ({
@@ -74,6 +78,19 @@ const TextInput: React.FC<IInputType> = ({
   const [isValid, setIsValid] = React.useState(true)
 
   const dispatch = useAppDispatch()
+  const { autoFocusNextInput } = useAppSelector(
+    (state) => state.currentSearch as ICurrentSearchState,
+  )
+
+  // Only focus the input on mount when the user has just selected its field.
+  // Inputs remounted from the URL (e.g. after submitting a search) should not take focus and scroll the page.
+  useEffect(() => {
+    if (autoFocus && autoFocusNextInput) {
+      inputRef.current?.focus()
+      dispatch(changeAutoFocusNextInput({ value: false }))
+    }
+    // run on mount only
+  }, [])
 
   // Keep the input's validity in sync with the current field and value so a
   // custom validity message does not persist after switching away from 'id'
@@ -137,8 +154,6 @@ const TextInput: React.FC<IInputType> = ({
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           aria-invalid={!isValid}
-          // eslint-disable-next-line jsx-a11y/no-autofocus
-          autoFocus={autoFocus}
         />
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { JSX } from 'react'
+import React, { JSX, useEffect, useRef } from 'react'
 import { useLocation, useParams } from 'react-router'
 import { Col, Row } from 'react-bootstrap'
 
@@ -11,6 +11,11 @@ import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import { ResultsTab } from '../../types/ResultsTab'
 import StyledResultsCol from '../../styles/features/results/ResultsCol'
 import StyledEntityResultsRow from '../../styles/features/results/EntityResultsRow'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
+import {
+  ICurrentSearchState,
+  changeFocusResultsHeader,
+} from '../../redux/slices/currentSearchSlice'
 
 import Paginate from './Paginate'
 import ResultsHeader from './ResultsHeader'
@@ -42,6 +47,46 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     : 'list'
   const { data, isFetching, isSuccess, isError, error, isLoading, status } =
     searchResponse
+
+  const dispatch = useAppDispatch()
+  const headingRef = useRef<HTMLHeadingElement>(null)
+  const { focusResultsHeader } = useAppSelector(
+    (state) => state.currentSearch as ICurrentSearchState,
+  )
+
+  // After an advanced search is submitted or a new page of results is selected, scroll to and focus the
+  // results heading so sighted users see the new results, screen reader users hear the result count,
+  // and keyboard users start at the new results.
+  // Checking status (not just isFetching) avoids focusing while the previous search's results are still shown:
+  // when the query changes, RTK Query briefly reports isFetching false with the old data and an 'uninitialized' status.
+  const hasSettled =
+    !isFetching && (status === 'fulfilled' || status === 'rejected')
+  useEffect(() => {
+    if (!focusResultsHeader || !hasSettled) {
+      return undefined
+    }
+    // Wait a frame so this runs after ScrollRestoration (in App) when arriving from another page,
+    // which scrolls to the top on the route change. Parent effects run after child effects, so without
+    // this the scroll to the heading would be undone when the results are already cached.
+    const frame = window.requestAnimationFrame(() => {
+      // cleared inside the callback: clearing it earlier would re-run this effect and cancel the frame
+      dispatch(changeFocusResultsHeader({ value: false }))
+      const heading = headingRef.current
+      const prefersReducedMotion = window.matchMedia(
+        '(prefers-reduced-motion: reduce)',
+      ).matches
+      const behavior = prefersReducedMotion ? 'auto' : 'smooth'
+      // The heading is hidden on small screens (display: none), so fall back to the top of the page
+      if (heading === null || heading.getClientRects().length === 0) {
+        window.scrollTo({ top: 0, behavior })
+        return
+      }
+      heading.scrollIntoView({ behavior, block: 'start' })
+      // the scroll is handled above so focusing does not cause a second jump
+      heading.focus({ preventScroll: true })
+    })
+    return () => window.cancelAnimationFrame(frame)
+  }, [focusResultsHeader, hasSettled, dispatch])
 
   let errorMessage: string | null = null
 
@@ -148,7 +193,12 @@ const ResultsPageContent: React.FC<IProps> = ({ searchResponse, isMobile }) => {
     <StyledEntityResultsRow>
       {(isSuccess || isError) && (
         <Col xs={12}>
-          <ResultsHeader key={sort} total={estimate} resultsData={data} />
+          <ResultsHeader
+            key={sort}
+            total={estimate}
+            resultsData={data}
+            headingRef={headingRef}
+          />
         </Col>
       )}
       <Col xs={12}>
