@@ -99,7 +99,7 @@ const LuxRoutes: React.FC = () => {
     const storedIsActive = localStorage.getItem(AI_ASSISTED_SEARCH_STORAGE_KEY)
     const isAiActive = storedIsActive ? JSON.parse(storedIsActive) : false
     dispatch(changeIsAiSearch({ value: isAiActive }))
-  }, [])
+  }, [dispatch])
 
   return (
     <React.Fragment>

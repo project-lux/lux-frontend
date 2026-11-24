@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import styled from 'styled-components'
 import { isNull, isUndefined } from 'lodash'
@@ -33,11 +33,14 @@ const MobileNavigation: React.FC<{
     setShow(!show)
   }
 
-  const handleModalStateOnWindowResize = (isMobile: boolean): void => {
-    if (!isMobile) {
-      setShow(false)
-    }
-  }
+  const handleModalStateOnWindowResize = useCallback(
+    (isMobile: boolean): void => {
+      if (!isMobile) {
+        setShow(false)
+      }
+    },
+    [],
+  )
 
   useResizeableWindow(handleModalStateOnWindowResize)
 

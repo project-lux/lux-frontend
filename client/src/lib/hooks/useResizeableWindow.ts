@@ -18,5 +18,5 @@ export default function useResizeableWindow(
     window.addEventListener('resize', listenResizeEvent)
 
     return () => window.removeEventListener('resize', listenResizeEvent)
-  }, [])
+  }, [setIsMobileState])
 }

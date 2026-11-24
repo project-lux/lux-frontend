@@ -62,6 +62,7 @@ export default [
       "jsx-a11y": fixupPluginRules(jsxA11Y),
       prettier,
       react: fixupPluginRules(react),
+      "react-hooks": reactHooks,
       "@stylistic": stylistic,
     },
     files: ["src/**/*.ts", "src/**/*.tsx"],
@@ -165,6 +166,7 @@ export default [
       "no-use-before-define": [0],
       "prettier/prettier": 2,
       "react/forbid-prop-types": 0,
+      "react-hooks/exhaustive-deps": 2,
       "react/jsx-filename-extension": [
         1,
         {

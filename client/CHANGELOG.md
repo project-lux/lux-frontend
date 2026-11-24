@@ -7,6 +7,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 
 - Fixed the advanced search options scope ([#1125](https://github.com/project-lux/lux-frontend/issues/1125)).
+- Fixed useEffect instances with missing dependencies ([#1095](https://github.com/project-lux/lux-frontend/issues/1095)).
 
 ## v2.2.0 - 2026-11-23
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import { Modal } from 'react-bootstrap'
 import { useLocation, useNavigate, useParams } from 'react-router'
 
@@ -127,11 +127,14 @@ const MobileNavigation: React.FC<IProps> = ({
     )
   }
 
-  const handleModalStateOnWindowResize = (isMobile: boolean): void => {
-    if (!isMobile) {
-      setShow(false)
-    }
-  }
+  const handleModalStateOnWindowResize = useCallback(
+    (isMobile: boolean): void => {
+      if (!isMobile) {
+        setShow(false)
+      }
+    },
+    [],
+  )
 
   useResizeableWindow(handleModalStateOnWindowResize)
 

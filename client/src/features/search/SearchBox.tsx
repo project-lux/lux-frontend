@@ -157,7 +157,9 @@ const SearchBox: React.FC<{
         dispatch(addSimpleSearchInput({ value: simpleQuery }))
       }
     }
-  }, [isResults, simpleQuery])
+    // currentState.value is intentionally excluded: re-running when the user clears the input would restore the old query.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [dispatch, isResults, simpleQuery])
 
   const disambiguationRef = useRef<HTMLDivElement>(null)
   const searchBoxRef = useRef<HTMLDivElement>(null)
@@ -215,7 +217,7 @@ const SearchBox: React.FC<{
     if (isSearchOpen) {
       inputRef.current!.focus()
     }
-  }, [isSearchOpen])
+  }, [inputRef, isSearchOpen])
 
   useEffect(() => {
     if (aiDisambiguation.length === 0) {
@@ -234,7 +236,7 @@ const SearchBox: React.FC<{
 
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [aiDisambiguation])
+  }, [aiDisambiguation, setAiDisambiguation])
 
   const handleDisambiguationLinkSelection = (): void => {
     setAiDisambiguation([])

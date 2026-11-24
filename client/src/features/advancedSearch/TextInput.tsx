@@ -89,7 +89,8 @@ const TextInput: React.FC<IInputType> = ({
       inputRef.current?.focus()
       dispatch(changeAutoFocusNextInput({ value: false }))
     }
-    // run on mount only
+    // Run on mount only: re-running when autoFocus/autoFocusNextInput change would steal focus from other inputs.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Keep the input's validity in sync with the current field and value so a
