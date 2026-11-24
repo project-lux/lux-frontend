@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 
 ## v2.3.0 - 2026-12-07
 
+### Fixed
+
+- Fixed the advanced search options scope ([#1125](https://github.com/project-lux/lux-frontend/issues/1125)).
+
 ## v2.2.0 - 2026-11-23
 
 ### Added

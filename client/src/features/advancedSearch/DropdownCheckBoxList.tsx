@@ -1,22 +1,20 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { JSX } from 'react'
-import { useParams } from 'react-router'
 
 import {
   QueryOption,
   getAllowedSearchOptions,
 } from '../../config/advancedSearch/options'
-import { useAppDispatch } from '../../app/hooks'
+import { useAppDispatch, useAppSelector } from '../../app/hooks'
 import {
   addBoost,
   addComplete,
   removeBoost,
   removeComplete,
   updateOptions,
+  IAdvancedSearchState,
 } from '../../redux/slices/advancedSearchSlice'
-import { searchScope } from '../../config/searchTypes'
 import { conditionals } from '../../config/advancedSearch/conditionals'
-import { ResultsTab } from '../../types/ResultsTab'
 
 import DropdownCheckbox from './DropdownCheckbox'
 
@@ -28,8 +26,10 @@ interface IProps {
 
 const DropdownCheckboxList = ({ state, stateId }: IProps): JSX.Element => {
   const dispatch = useAppDispatch()
-  const { tab } = useParams<keyof ResultsTab>() as ResultsTab
-  const scope = searchScope[tab]
+  const currentState = useAppSelector(
+    (asState) => asState.advancedSearch as IAdvancedSearchState,
+  )
+  const scope = currentState._scope as string
   const keys = Object.keys(state)
   let allowedOptions: QueryOption[] = []
   for (const key of keys) {
