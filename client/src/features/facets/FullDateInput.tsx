@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
-import React, { useState, useEffect } from 'react'
+import React, { useMemo, useState } from 'react'
 import { useLocation, useNavigate, useParams } from 'react-router'
 import styled from 'styled-components'
 import { isUndefined, isNull } from 'lodash'
@@ -113,8 +113,6 @@ const FullDateInput: React.FC<IFacets> = ({
   const dispatch = useAppDispatch()
   const [earliest, setEarliest] = useState<IDateObj>(earliestFacet)
   const [latest, setLatest] = useState<IDateObj>(defaultLatestFacet)
-  // This will only change upon retrieving the last date year
-  const [maxDate, setMaxDate] = useState<IDateObj>(defaultLatestFacet)
   const { data, isSuccess } = useGetFacetsSearchQuery({
     q: JSON.stringify(combinedQuery),
     facets: {},
@@ -126,16 +124,28 @@ const FullDateInput: React.FC<IFacets> = ({
   const earliestDateId = 'earliest-date'
   const latestDateId = 'latest-date'
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      const { orderedItems } = data as ISearchResults
-      const yearsOfLastPage = getDatesFromFacetValues(orderedItems)
-      const yearsOfLastPageLength = yearsOfLastPage.length
-      const lastYearOfRange = yearsOfLastPage[yearsOfLastPageLength - 1]
-      setLatest(lastYearOfRange)
-      setMaxDate(lastYearOfRange)
+  // The last year of the facet range; memoized so it keeps the same reference until new data arrives
+  const lastYearOfRange = useMemo<IDateObj | null>(() => {
+    if (!isSuccess || !data) {
+      return null
     }
+    const { orderedItems } = data as ISearchResults
+    const yearsOfLastPage = getDatesFromFacetValues(orderedItems)
+    return yearsOfLastPage[yearsOfLastPage.length - 1] ?? null
   }, [data, isSuccess])
+  // This will only change upon retrieving the last date year
+  const maxDate = lastYearOfRange ?? defaultLatestFacet
+
+  // Reset the latest date when new data arrives, without overwriting user edits on every render.
+  // Starts as null so cached data on the first render is still applied.
+  const [prevLastYearOfRange, setPrevLastYearOfRange] =
+    useState<IDateObj | null>(null)
+  if (lastYearOfRange !== prevLastYearOfRange) {
+    setPrevLastYearOfRange(lastYearOfRange)
+    if (lastYearOfRange !== null) {
+      setLatest(lastYearOfRange)
+    }
+  }
 
   // Earliest date functions
   const handleEarliestMonthChange = (selected: string): void => {

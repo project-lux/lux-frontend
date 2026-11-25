@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -52,13 +52,22 @@ const TimelineContainer: React.FC<{
   const timelineRef = useRef<HTMLDivElement>(null)
   const [display, setDisplay] = useState<'list' | 'graph'>('graph')
 
-  const [timelineData, setTimelineData] =
-    useState<ITimelinesTransformed | null>(null)
-  const [sortedTimelineYears, setSortedTimelineYears] = useState<Array<string>>(
-    [],
-  )
-
   const { data, isSuccess, isError } = useGetTimelineQuery(links)
+
+  // Derived from the query result, so it is memoized rather than stored in state
+  const { timelineData, sortedTimelineYears } = useMemo<{
+    timelineData: ITimelinesTransformed | null
+    sortedTimelineYears: Array<string>
+  }>(() => {
+    if (!isSuccess || !data) {
+      return { timelineData: null, sortedTimelineYears: [] }
+    }
+    const timeline = new TimelineParser(data)
+    return {
+      timelineData: timeline.getTransformedTimelineData(),
+      sortedTimelineYears: timeline.getSortedTimelineYears(),
+    }
+  }, [data, isSuccess])
   // Checks if the element is in fullscreen
   useEffect(() => {
     const handleFullscreenChange = (): void => {
@@ -83,16 +92,6 @@ const TimelineContainer: React.FC<{
       }
     }
   }
-
-  useEffect(() => {
-    if (isSuccess && data) {
-      const timeline = new TimelineParser(data)
-      const transformedData = timeline.getTransformedTimelineData()
-      const sortedKeys = timeline.getSortedTimelineYears()
-      setTimelineData(transformedData)
-      setSortedTimelineYears(sortedKeys)
-    }
-  }, [data, isSuccess])
 
   if (isSuccess && data) {
     if (sortedTimelineYears.length !== 0) {

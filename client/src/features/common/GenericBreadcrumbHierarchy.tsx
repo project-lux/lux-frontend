@@ -1,4 +1,4 @@
-import React, { useEffect, useState, type JSX } from 'react'
+import React, { useState, type JSX } from 'react'
 import { Col, Row } from 'react-bootstrap'
 
 import config from '../../config/config'
@@ -42,16 +42,24 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
 }) => {
   const [done, setDone] = useState(false)
   const [entities, setEntities] = useState([entity])
+  const [prevEntity, setPrevEntity] = useState(entity)
 
-  useEffect(() => {
-    // Reset done and entities when props.entity changes.
-    // Otherwise the state remains the same when the component is
-    // refreshed under new react route.
+  // Reset done and entities when props.entity changes.
+  // Otherwise the state remains the same when the component is
+  // refreshed under new react route.
+  // This is done during render rather than in an effect to avoid an extra render with stale state.
+  // The reset values are also used for the rest of this render, so the parent lookup below does not
+  // append to the previous entity's hierarchy.
+  const entityChanged = entity !== prevEntity
+  if (entityChanged) {
+    setPrevEntity(entity)
     setDone(false)
     setEntities([entity])
-  }, [entity])
+  }
+  const currentEntities = entityChanged ? [entity] : entities
+  const currentDone = entityChanged ? false : done
 
-  const uris = getNextEntityUri(entities[0])
+  const uris = getNextEntityUri(currentEntities[0])
   const skip = uris.length > 0 ? false : true
 
   const { data, isSuccess, isError, isLoading } = useGetItemsQuery(
@@ -65,29 +73,29 @@ const GenericBreadcrumbHierarchy: React.FC<IProps> = ({
   )
 
   // Add the returned data to the current list of parents/entities and set done to true to stop retrieving items
-  if (isSuccess && !done) {
+  if (isSuccess && !currentDone) {
     const entityAsParent = getParentData(data, linkFilter)
     // Determine if the parent has ancestors
     if (
       entityAsParent === null ||
       getNextEntityUri(entityAsParent).length === 0 ||
-      entities.length > maxLength
+      currentEntities.length > maxLength
     ) {
       setDone(true)
     }
 
     if (entityAsParent !== null) {
-      setEntities([entityAsParent, ...entities])
+      setEntities([entityAsParent, ...currentEntities])
     }
   }
 
   // All ancestors have been retrieved
-  if (isSuccess || isError || done) {
+  if (isSuccess || isError || currentDone) {
     const record = new EntityParser(entity)
     const entityName = record.getPrimaryName(config.aat.langen)
 
-    const links = entities
-      .slice(0, entities.length - 1)
+    const links = currentEntities
+      .slice(0, currentEntities.length - 1)
       .reduce<JSX.Element[]>((linkArr, currentEntity, currentIndex) => {
         // if we don't have a filter, or the filter is true, then add the link to the array
         if (linkFilter === undefined || linkFilter(currentEntity)) {

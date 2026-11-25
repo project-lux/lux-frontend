@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import { pushClientEvent } from '../../lib/pushClientEvent'
 import { useGetSearchRelationshipQuery } from '../../redux/api/ml_api'
@@ -6,7 +6,7 @@ import { IHalLink } from '../../types/IHalLink'
 import StyledHr from '../../styles/shared/Hr'
 import theme from '../../styles/theme'
 import { IFacetsPagination } from '../../types/IFacets'
-import { IOrderedItems, ISearchResults } from '../../types/ISearchResults'
+import { ISearchResults } from '../../types/ISearchResults'
 import { getEstimates } from '../../lib/parse/search/searchResultParser'
 import StyledAccordionButton from '../../styles/features/relatedLists/AccordionButton'
 
@@ -47,33 +47,40 @@ const FacetedListAccordionItem: React.FC<IProps> = ({
     },
   )
 
-  useEffect(() => {
-    if (isSuccess && data) {
-      let totalResults = 0
-      const children: Array<IOrderedItems> = []
-      totalResults += getEstimates(data as ISearchResults)
-
-      const { orderedItems } = data as ISearchResults
-      for (const item of orderedItems) {
-        children.push(item)
-      }
-
-      const requestProperty = `call${page}`
-      if (
-        !facets.requests.hasOwnProperty(requestProperty) &&
-        data.id.includes(`page=${page}`)
-      ) {
-        setFacets({
-          requests: {
-            ...facets.requests,
-            [requestProperty]: children,
-          },
-          total: totalResults,
-          numberOfPages: Math.ceil(totalResults / 20),
-        })
-      }
+  // Store each page of results as it arrives. This runs during render whenever data or page changes,
+  // rather than in an effect, so the new page is shown without an extra render.
+  // prevDeps starts as null so cached data is still stored on the first render.
+  const [prevDeps, setPrevDeps] = useState<{
+    data: typeof data
+    isSuccess: boolean
+    page: number
+  } | null>(null)
+  if (
+    prevDeps === null ||
+    prevDeps.data !== data ||
+    prevDeps.isSuccess !== isSuccess ||
+    prevDeps.page !== page
+  ) {
+    setPrevDeps({ data, isSuccess, page })
+    const requestProperty = `call${page}`
+    // While the next page is loading, data still holds the previous page, so check the page in data.id
+    if (
+      isSuccess &&
+      data &&
+      !facets.requests.hasOwnProperty(requestProperty) &&
+      data.id.includes(`page=${page}`)
+    ) {
+      const totalResults = getEstimates(data as ISearchResults)
+      setFacets({
+        requests: {
+          ...facets.requests,
+          [requestProperty]: [...(data as ISearchResults).orderedItems],
+        },
+        total: totalResults,
+        numberOfPages: Math.ceil(totalResults / 20),
+      })
     }
-  }, [data, facets, halLinkFromData, isSuccess, page])
+  }
 
   if (isSuccess && data) {
     // Check if the results contain any data

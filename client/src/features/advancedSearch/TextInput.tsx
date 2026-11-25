@@ -75,7 +75,7 @@ const TextInput: React.FC<IInputType> = ({
 }) => {
   const [isFocused, setIsFocused] = React.useState(false)
   const inputRef = useRef<HTMLInputElement>(null)
-  const [isValid, setIsValid] = React.useState(true)
+  const isValid = isValidInput(field, currentValue)
 
   const dispatch = useAppDispatch()
   const { autoFocusNextInput } = useAppSelector(
@@ -96,10 +96,10 @@ const TextInput: React.FC<IInputType> = ({
   // Keep the input's validity in sync with the current field and value so a
   // custom validity message does not persist after switching away from 'id'
   useEffect(() => {
-    const invalid = !isValidInput(field, currentValue)
-    inputRef.current?.setCustomValidity(invalid ? getIdValidationMessage() : '')
-    setIsValid(!invalid)
-  }, [field, currentValue])
+    inputRef.current?.setCustomValidity(
+      !isValid ? getIdValidationMessage() : '',
+    )
+  }, [field, currentValue, isValid])
 
   const handleOnChange = (userInput: string): void => {
     if (!isValidInput(field, userInput)) {

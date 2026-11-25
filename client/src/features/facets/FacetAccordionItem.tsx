@@ -123,33 +123,43 @@ const FacetAccordionItem: React.FC<IProps> = ({
     }
   }, [facetName, handleCallback, hasNoFacetValues])
 
-  useEffect(() => {
+  // Store each page of facet values as it arrives. This runs during render whenever data, page, or
+  // facetName changes, rather than in an effect, so the new page is shown without an extra render.
+  // prevDeps starts as null so cached data is still stored on the first render.
+  const [prevDeps, setPrevDeps] = useState<{
+    data: typeof data
+    isSuccess: boolean
+    page: number
+    facetName: string
+  } | null>(null)
+  if (
+    prevDeps === null ||
+    prevDeps.data !== data ||
+    prevDeps.isSuccess !== isSuccess ||
+    prevDeps.page !== page ||
+    prevDeps.facetName !== facetName
+  ) {
+    setPrevDeps({ data, isSuccess, page, facetName })
+    const requestProperty = `call${page}`
+    // While the next page is loading, data still holds the previous page, so check the page in the id
     if (isSuccess && data) {
-      let totalResults = 0
-      const children: Array<IOrderedItems> = []
-      totalResults += getEstimates(data as ISearchResults)
-
       const { orderedItems, id } = data as ISearchResults
-      for (const item of orderedItems) {
-        children.push(item)
-      }
-
-      const requestProperty = `call${page}`
       if (
         !facets.requests.hasOwnProperty(requestProperty) &&
         id.includes(`page=${page}`)
       ) {
+        const totalResults = getEstimates(data as ISearchResults)
         setFacets({
           requests: {
             ...facets.requests,
-            [requestProperty]: filterFacetValues(children, facetName),
+            [requestProperty]: filterFacetValues([...orderedItems], facetName),
           },
           total: totalResults,
           numberOfPages: Math.ceil(totalResults / 20),
         })
       }
     }
-  }, [data, facetName, facets, isSuccess, page])
+  }
 
   if (isLoading) {
     return <p className="px-2 py-1">Loading facet...</p>

@@ -1,11 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router'
 
 import { ICmsResponse, CmsResponseParser } from '../../lib/parse/cms/Parser'
-import {
-  IImageData,
-  LandingPageImageParser,
-} from '../../lib/parse/cms/LandingPageImageParser'
+import { LandingPageImageParser } from '../../lib/parse/cms/LandingPageImageParser'
 import { UnitCode } from '../../config/cms'
 import StyledHeroImageSection from '../../styles/features/landing/HeroImageSection'
 import { pushClientEvent } from '../../lib/pushClientEvent'
@@ -18,15 +15,12 @@ interface IProps {
 }
 
 const HeroImageSection: React.FC<IProps> = ({ data, unit }) => {
-  const [imageData, setImageData] = useState<IImageData | null>(null)
-
-  useEffect(() => {
+  // Pick the random hero image once so it stays the same across re-renders
+  const [imageData] = useState(() => {
     const parser = new CmsResponseParser(data)
     const content = parser.getLandingPageImages()
-    const landingPageImageParser = new LandingPageImageParser(content)
-
-    setImageData(landingPageImageParser.getHeroImage(unit))
-  }, [data, unit])
+    return new LandingPageImageParser(content).getHeroImage(unit)
+  })
 
   return (
     <StyledHeroImageSection className="hero">

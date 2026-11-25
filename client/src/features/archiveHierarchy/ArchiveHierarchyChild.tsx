@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Col, Row } from 'react-bootstrap'
 import { useLocation } from 'react-router'
 import styled from 'styled-components'
@@ -55,8 +55,25 @@ const ArchiveHierarchyChild: React.FC<{
     { skip: skipApiCalls },
   )
 
-  // set the collapsible container to open if the data being parsed is within the current hierarchy
-  useEffect(() => {
+  // set the collapsible container to open if the data being parsed is within the current hierarchy.
+  // This re-runs whenever data, isSuccess, pathname, or ancestors change (compared by reference, like effect dependencies).
+  // It is done during render rather than in an effect to avoid an extra render with the wrong open state.
+  // prevDeps starts as null so it also runs on the first render, as the effect did on mount.
+  const [prevDeps, setPrevDeps] = useState<{
+    data: typeof data
+    isSuccess: boolean
+    pathname: string
+    ancestors: typeof ancestors
+  } | null>(null)
+
+  if (
+    prevDeps === null ||
+    prevDeps.data !== data ||
+    prevDeps.isSuccess !== isSuccess ||
+    prevDeps.pathname !== pathname ||
+    prevDeps.ancestors !== ancestors
+  ) {
+    setPrevDeps({ data, isSuccess, pathname, ancestors })
     // set the dropdown to open if the entity is in the current hierarchy
     if (isSuccess && data && !currentUriInHierarchy(data.id, pathname)) {
       setOpen(
@@ -66,7 +83,7 @@ const ArchiveHierarchyChild: React.FC<{
         ),
       )
     }
-  }, [data, isSuccess, pathname, ancestors])
+  }
 
   if (isSuccess && data) {
     const entity = new EntityParser(data)

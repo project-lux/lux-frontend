@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { skipToken } from '@reduxjs/toolkit/query/react'
 
 import config from '../../config/config'
@@ -24,16 +24,24 @@ function getNextMemberOfUri(entity: IEntity): string | null {
 const CollectionHierarchy: React.FC<IProps> = ({ entity }) => {
   const [done, setDone] = useState(false)
   const [members, setMembers] = useState([entity])
+  const [prevEntity, setPrevEntity] = useState(entity)
 
-  useEffect(() => {
-    // Reset done and members when props.entity changes.
-    // Otherwise the state remains the same when the component is
-    // refreshed under new react route.
+  // Reset done and members when props.entity changes.
+  // Otherwise the state remains the same when the component is
+  // refreshed under new react route.
+  // This is done during render rather than in an effect to avoid an extra render with stale state.
+  // The reset values are also used for the rest of this render, so the parent lookup below does not
+  // append to the previous entity's hierarchy.
+  const entityChanged = entity !== prevEntity
+  if (entityChanged) {
+    setPrevEntity(entity)
     setDone(false)
     setMembers([entity])
-  }, [entity])
+  }
+  const currentMembers = entityChanged ? [entity] : members
+  const currentDone = entityChanged ? false : done
 
-  const uri = getNextMemberOfUri(members[0])
+  const uri = getNextMemberOfUri(currentMembers[0])
   const queryInput =
     uri !== null
       ? {
@@ -44,28 +52,30 @@ const CollectionHierarchy: React.FC<IProps> = ({ entity }) => {
 
   const { data, isSuccess, isError, isLoading } = useGetItemQuery(queryInput)
 
-  if (isSuccess && !done) {
-    if (getNextMemberOfUri(data) === null || members.length > 8) {
+  if (isSuccess && !currentDone) {
+    if (getNextMemberOfUri(data) === null || currentMembers.length > 8) {
       setDone(true)
     }
-    setMembers([data, ...members])
+    setMembers([data, ...currentMembers])
   }
 
-  if (isSuccess || isError || done) {
+  if (isSuccess || isError || currentDone) {
     const memberOfName = new EntityParser(entity).getPrimaryName(
       config.aat.langen,
     )
 
-    const links = members.slice(0, members.length - 1).map((p, ix) => {
-      const key = `${p.id}-${ix}`
+    const links = currentMembers
+      .slice(0, currentMembers.length - 1)
+      .map((p, ix) => {
+        const key = `${p.id}-${ix}`
 
-      return (
-        <span key={key} data-testid={`collections-hierarchy-${ix}`}>
-          {ix !== 0 && ' > '}
-          <RecordLink url={p.id ?? ''} linkCategory="Breadcrumb" />
-        </span>
-      )
-    })
+        return (
+          <span key={key} data-testid={`collections-hierarchy-${ix}`}>
+            {ix !== 0 && ' > '}
+            <RecordLink url={p.id ?? ''} linkCategory="Breadcrumb" />
+          </span>
+        )
+      })
 
     if (links.length === 0) {
       return null // don't show the hierarchy is there's no parent
