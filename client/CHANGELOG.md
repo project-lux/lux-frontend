@@ -4,10 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## v2.3.0 - 2026-12-07
 
+### Added
+
+- Added eslint-plugin-react-hooks to the eslint config file ([#1092](https://github.com/project-lux/lux-frontend/issues/1092)).
+
 ### Fixed
 
 - Fixed the advanced search options scope ([#1125](https://github.com/project-lux/lux-frontend/issues/1125)).
 - Fixed useEffect instances with missing dependencies ([#1095](https://github.com/project-lux/lux-frontend/issues/1095)).
+- Fixed eslint issues associated with eslint-plugin-react-hooks ([#1092](https://github.com/project-lux/lux-frontend/issues/1092)).
 
 ## v2.2.0 - 2026-11-23
 
@@ -15,7 +20,6 @@ All notable changes to this project will be documented in this file.
 
 - Added scroll to top of results functionality ([#1070](https://github.com/project-lux/lux-frontend/issues/1070)).
 - Added keys on arrays without keys ([#1091](https://github.com/project-lux/lux-frontend/issues/1091)).
-- Added eslint-plugin-react-hooks to the eslint config file ([#1092](https://github.com/project-lux/lux-frontend/issues/1092)).
 
 ### Fixed
 

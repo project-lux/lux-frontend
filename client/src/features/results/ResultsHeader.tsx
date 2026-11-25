@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router'
 import sanitizeHtml from 'sanitize-html'
 import { Button, Col, Row } from 'react-bootstrap'
@@ -55,7 +55,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, headingRef }) => {
   const [isMobile, setIsMobile] = useState<boolean>(
     window.innerWidth < theme.breakpoints.md,
   )
-  const [redirect, setRedirect] = useState<boolean>(false)
   const { width } = useWindowWidth()
   useResizeableWindow(setIsMobile)
 
@@ -63,12 +62,6 @@ const ResultsHeader: React.FC<IResultsHeader> = ({ total, headingRef }) => {
     (searchState) => searchState.currentSearch as ICurrentSearchState,
   )
   const isAiSearch = asSearchState.isAiSearch
-
-  useEffect(() => {
-    if (redirect !== false) {
-      setRedirect(false)
-    }
-  }, [redirect])
 
   // set list vs grid view
   const currentView = queryString.has('view') ? queryString.get('view') : 'list'

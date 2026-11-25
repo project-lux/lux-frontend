@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useNavigate, useLocation, useParams } from 'react-router'
 
 import theme from '../../styles/theme'
@@ -20,14 +20,6 @@ const Sort: React.FC = () => {
   )
 
   useResizeableWindow(setIsMobile)
-
-  const [redirect, setRedirect] = useState<boolean>(false)
-
-  useEffect(() => {
-    if (redirect !== false) {
-      setRedirect(false)
-    }
-  }, [redirect])
 
   const navigate = useNavigate()
   const { pathname, search } = useLocation() as {
