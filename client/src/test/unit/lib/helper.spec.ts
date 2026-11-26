@@ -101,6 +101,11 @@ describe('helper functions', () => {
       const arr = forceArray(text)
       expect(arr).toEqual(text)
     })
+
+    it('removes null and undefined entries from an array', () => {
+      const arr = forceArray([null, 'a', undefined, 'b'])
+      expect(arr).toEqual(['a', 'b'])
+    })
   })
 
   describe('getNestedCarriedOutBy', () => {
@@ -346,6 +351,20 @@ describe('helper functions', () => {
   })
 
   describe('getName', () => {
+    it('ignores null entries in identified_by', () => {
+      const obj = [
+        null,
+        {
+          type: 'Name',
+          content: 'Alfred Stieglitz',
+          language: englishLanguage,
+          classified_as: primaryName,
+        },
+      ]
+      const name = getName(obj, config.aat.langen)
+      expect(name).toEqual('Alfred Stieglitz')
+    })
+
     it('returns name matching the language and is a primary name', () => {
       const obj = [
         {
